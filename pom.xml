@@ -11,12 +11,12 @@
 
   <groupId>uk.co.jemos.podam</groupId>
   <artifactId>podam</artifactId>
-  <version>1.0.0.RELEASE</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>podam</name>
-  <description>PODAM is a tool to automatically fill POJO with dummy data</description>
-  <url>http://www.jemos.co.uk/projects/podam/index.html</url>
+  <description>PODAM is a tool to automatically fill POJO with data</description>
+  <url>http://www.jemos.eu/projects/podam/index.html</url>
   
   <licenses>
     <license>
@@ -44,8 +44,8 @@
   </mailingLists>
   
   <scm>
-    <url>http://www.jemos.eu/viewgit/?a=summary&amp;p=podam</url>
-    <connection>scm:http://www.jemos.eu/viewgit/?a=summary&amp;p=podam</connection>
+    <url>scm:git clone git://github.com/mtedone/podam.git</url>
+    <connection>scm:git clone git://github.com/mtedone/podam.git</connection>
   </scm>  
   
   <developers>
@@ -113,27 +113,74 @@
             </goals>
           </execution>
         </executions>
-      </plugin>           
+      </plugin>  
+      <plugin>  
+      	<groupId>org.apache.maven.plugins</groupId>    
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>assembly-project</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <outputDirectory>${project.build.directory}/site/downloads</outputDirectory>
+          <descriptors>
+            <descriptor>src/main/assembly/project.xml</descriptor>
+            <descriptor>src/main/assembly/bin.xml</descriptor>
+          </descriptors>
+        </configuration>         
+       </plugin>
     </plugins>
   </build>
 
-  <dependencies> 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>      
-      <version>4.5</version>
-      <scope>test</scope>
-    </dependency>    
+  <dependencies>
     <dependency>
       <groupId>net.jcip</groupId>
       <artifactId>jcip-annotations</artifactId>
-      <version>1.0</version>     
+      <version>1.0</version>
     </dependency>    
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.8</version>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>      
+      <version>4.5</version>
+      <scope>test</scope>
+    </dependency>    
+    
+    <!-- Spring dependencies; Spring is used in integration tests -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>3.0.5.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>3.0.5.RELEASE</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>3.0.5.RELEASE</version>
+      <scope>test</scope>
+    </dependency>    
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>3.0.5.RELEASE</version>
+      <scope>test</scope>
+    </dependency>    
   </dependencies>
   
   <reporting>

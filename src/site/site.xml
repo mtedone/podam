@@ -16,6 +16,11 @@
       
       <links>     
         
+          <item name="Download the source from GitHub"
+        	href="https://github.com/mtedone/podam"
+        	alt="Download PODAM source from GitHub"
+        	target="_blank" />
+        
 		 <item name="Join PODAM Group!"
         	href="http://groups.google.com/group/podam"
         	alt="Join PODAM Group on Google"

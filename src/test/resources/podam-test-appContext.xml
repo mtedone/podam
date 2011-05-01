@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- The definition of the default strategy -->
+	<bean id="randomDataProviderStrategy"
+		class="uk.co.jemos.podam.api.RandomDataProviderStrategy"
+		factory-method="getInstance" />
+		
+	<!-- The definition of PODAM factory -->
+	<bean id="podamFactory" class="uk.co.jemos.podam.api.PodamFactoryImpl">
+	  <constructor-arg index="0" ref="randomDataProviderStrategy" />
+	</bean>
+
+</beans>

@@ -17,9 +17,12 @@ import java.util.concurrent.ConcurrentMap;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.CollectionsPojo;
@@ -54,11 +57,21 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  */
 public class PodamMockerUnitTest {
 
+	/** The podam factory */
+	private PodamFactory factory;
+
+	@Before
+	public void init() {
+
+		factory = new PodamFactoryImpl(RandomDataProviderStrategy.getInstance());
+
+	}
+
 	@Test(expected = PodamMockeryException.class)
 	public void testMockerForClassWithoutDefaultConstructor() {
 
 		// With a no-arg constructor, an instantiation exception will be thrown
-		PodamFactory.manufacturePojo(NoDefaultConstructorPojo.class);
+		factory.manufacturePojo(NoDefaultConstructorPojo.class);
 
 	}
 
@@ -66,32 +79,32 @@ public class PodamMockerUnitTest {
 	public void testMockerForAbstractClass() {
 		// Trying to create an abstract class should thrown an instantiation
 		// exception
-		PodamFactory.manufacturePojo(AbstractTestPojo.class);
+		factory.manufacturePojo(AbstractTestPojo.class);
 	}
 
 	@Test(expected = PodamMockeryException.class)
 	public void testMockerForInterface() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
-		PodamFactory.manufacturePojo(InterfacePojo.class);
+		factory.manufacturePojo(InterfacePojo.class);
 	}
 
 	@Test(expected = PodamMockeryException.class)
 	public void testMockerForPrimitiveType() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
-		PodamFactory.manufacturePojo(int.class);
+		factory.manufacturePojo(int.class);
 	}
 
 	@Test(expected = PodamMockeryException.class)
 	public void testMockerForPojoWithPrivateNoArgConstructor() {
-		PodamFactory.manufacturePojo(PrivateNoArgConstructorPojo.class);
+		factory.manufacturePojo(PrivateNoArgConstructorPojo.class);
 	}
 
 	@Test
 	public void testOneDimensionalTestPojo() {
 
-		OneDimensionalTestPojo dto = PodamFactory
+		OneDimensionalTestPojo dto = factory
 				.manufacturePojo(OneDimensionalTestPojo.class);
 		Assert.assertNotNull("The object cannot be null!", dto);
 
@@ -187,7 +200,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testRecursiveHierarchyPojo() {
 
-		RecursivePojo pojo = PodamFactory.manufacturePojo(RecursivePojo.class);
+		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
 		Assert.assertNotNull("The recursive pojo cannot be null!", pojo);
 		Assert.assertTrue("The integer value in the pojo should not be zero!",
 				pojo.getIntField() != 0);
@@ -206,7 +219,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutableNoHierarchicalAnnotatedPojo() {
 
-		ImmutableNoHierarchicalAnnotatedPojo pojo = PodamFactory
+		ImmutableNoHierarchicalAnnotatedPojo pojo = factory
 				.manufacturePojo(ImmutableNoHierarchicalAnnotatedPojo.class);
 		Assert.assertNotNull("The Immutable Simple Pojo cannot be null!", pojo);
 		int intField = pojo.getIntField();
@@ -231,7 +244,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutableNonAnnotatedPojo() {
 
-		ImmutableNonAnnotatedPojo pojo = PodamFactory
+		ImmutableNonAnnotatedPojo pojo = factory
 				.manufacturePojo(ImmutableNonAnnotatedPojo.class);
 		Assert.assertNull(
 				"The Immutable non annotated POJO instance should return as null",
@@ -242,7 +255,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutablePojoWithSelfReferencesInConstructor() {
 
-		ConstructorWithSelfReferencesPojo pojo = PodamFactory
+		ConstructorWithSelfReferencesPojo pojo = factory
 				.manufacturePojo(ConstructorWithSelfReferencesPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		Assert.assertNotNull("The first self-reference cannot be null!",
@@ -255,7 +268,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testPodamExcludeAnnotation() {
 
-		ExcludeAnnotationPojo pojo = PodamFactory
+		ExcludeAnnotationPojo pojo = factory
 				.manufacturePojo(ExcludeAnnotationPojo.class);
 		Assert.assertNotNull("The pojo should not be null!", pojo);
 		int intField = pojo.getIntField();
@@ -269,7 +282,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testIntegerValueAnnotation() {
 
-		IntegerRangeValuesPojo pojo = PodamFactory
+		IntegerRangeValuesPojo pojo = factory
 				.manufacturePojo(IntegerRangeValuesPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		int intFieldWithMinValueOnly = pojo.getIntFieldWithMinValueOnly();
@@ -316,7 +329,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testLongPojoWithRangeValues() {
 
-		LongRangeValuesPojo pojo = PodamFactory
+		LongRangeValuesPojo pojo = factory
 				.manufacturePojo(LongRangeValuesPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		long longFieldWithMinValueOnly = pojo.getLongFieldWithMinValueOnly();
@@ -367,7 +380,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testInheritance() {
 
-		OneDimensionalChildPojo pojo = PodamFactory
+		OneDimensionalChildPojo pojo = factory
 				.manufacturePojo(OneDimensionalChildPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		int parentIntField = pojo.getParentIntField();
@@ -388,8 +401,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testCollectionsPojo() {
 
-		CollectionsPojo pojo = PodamFactory
-				.manufacturePojo(CollectionsPojo.class);
+		CollectionsPojo pojo = factory.manufacturePojo(CollectionsPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		List<String> strList = pojo.getStrList();
 		this.validateReturnedList(strList);
@@ -446,7 +458,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testPojoWithNoSettersAndCollectionInConstructor() {
 
-		NoSetterWithCollectionInConstructorPojo pojo = PodamFactory
+		NoSetterWithCollectionInConstructorPojo pojo = factory
 				.manufacturePojo(NoSetterWithCollectionInConstructorPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		List<String> strList = pojo.getStrList();
@@ -470,7 +482,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testByteValueAnnotation() {
 
-		ByteRangeValuesPojo pojo = PodamFactory
+		ByteRangeValuesPojo pojo = factory
 				.manufacturePojo(ByteRangeValuesPojo.class);
 		Assert.assertNotNull("The Pojo cannot be null!", pojo);
 		byte byteFieldWithMinValueOnly = pojo.getByteFieldWithMinValueOnly();
@@ -525,7 +537,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testShortValueAnnotation() {
 
-		ShortRangeValuesPojo pojo = PodamFactory
+		ShortRangeValuesPojo pojo = factory
 				.manufacturePojo(ShortRangeValuesPojo.class);
 		Assert.assertNotNull("The Pojo cannot be null!", pojo);
 
@@ -587,7 +599,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testCharacterValueAnnotation() {
 
-		CharRangeValuesPojo pojo = PodamFactory
+		CharRangeValuesPojo pojo = factory
 				.manufacturePojo(CharRangeValuesPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -649,7 +661,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testFloatValueAnnotation() {
 
-		FloatRangeValuesPojo pojo = PodamFactory
+		FloatRangeValuesPojo pojo = factory
 				.manufacturePojo(FloatRangeValuesPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -712,7 +724,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testDoubleValueAnnotation() {
 
-		DoubleRangeValuesPojo pojo = PodamFactory
+		DoubleRangeValuesPojo pojo = factory
 				.manufacturePojo(DoubleRangeValuesPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -744,8 +756,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testStringValueAnnotation() {
 
-		StringValuesPojo pojo = PodamFactory
-				.manufacturePojo(StringValuesPojo.class);
+		StringValuesPojo pojo = factory.manufacturePojo(StringValuesPojo.class);
 		String twentyLengthString = pojo.getTwentyLengthString();
 		Assert.assertNotNull("The twentyLengthString cannot be null!",
 				twentyLengthString);
@@ -769,7 +780,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testCollectionAnnotation() {
 
-		CollectionAnnotationPojo pojo = PodamFactory
+		CollectionAnnotationPojo pojo = factory
 				.manufacturePojo(CollectionAnnotationPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -807,7 +818,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutablePojoWithNonGenericCollections() {
 
-		ImmutableWithNonGenericCollectionsPojo pojo = PodamFactory
+		ImmutableWithNonGenericCollectionsPojo pojo = factory
 				.manufacturePojo(ImmutableWithNonGenericCollectionsPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -854,7 +865,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutablePojoWithGenerifiedCollectionsInConstructor() {
 
-		ImmutableWithGenericCollectionsPojo pojo = PodamFactory
+		ImmutableWithGenericCollectionsPojo pojo = factory
 				.manufacturePojo(ImmutableWithGenericCollectionsPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
@@ -901,7 +912,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testSingletonWithParametersInPublicStaticMethod() {
 
-		SingletonWithParametersInStaticFactoryPojo pojo = PodamFactory
+		SingletonWithParametersInStaticFactoryPojo pojo = factory
 				.manufacturePojo(SingletonWithParametersInStaticFactoryPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 

@@ -14,9 +14,11 @@ import uk.co.jemos.podam.annotations.PodamExclude;
 import uk.co.jemos.podam.dto.ClassInfo;
 
 /**
- * PODAM Utility class.
+ * PODAM Utilities class.
  * 
  * @author mtedone
+ * 
+ * @since 1.0.0
  * 
  */
 

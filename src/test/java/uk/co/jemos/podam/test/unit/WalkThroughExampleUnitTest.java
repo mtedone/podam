@@ -8,9 +8,12 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.test.dto.docs.example.Address;
 import uk.co.jemos.podam.test.dto.docs.example.Article;
 import uk.co.jemos.podam.test.dto.docs.example.BankAccount;
@@ -32,14 +35,22 @@ public class WalkThroughExampleUnitTest {
 
 	// ------------------->> Instance / Static variables
 
+	/** The Podam Factory */
+	private PodamFactory factory;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
 
+	@Before
+	public void init() {
+		factory = new PodamFactoryImpl(RandomDataProviderStrategy.getInstance());
+	}
+
 	@Test
 	public void testCountrySetup() {
 
-		Country pojo = PodamFactory.manufacturePojo(Country.class);
+		Country pojo = factory.manufacturePojo(Country.class);
 		this.validateCountry(pojo);
 
 	}
@@ -47,14 +58,14 @@ public class WalkThroughExampleUnitTest {
 	@Test
 	public void testArticleSetup() {
 
-		Article pojo = PodamFactory.manufacturePojo(Article.class);
+		Article pojo = factory.manufacturePojo(Article.class);
 		this.validateArticle(pojo);
 	}
 
 	@Test
 	public void testOrderItemSetup() {
 
-		OrderItem pojo = PodamFactory.manufacturePojo(OrderItem.class);
+		OrderItem pojo = factory.manufacturePojo(OrderItem.class);
 
 		this.validateOrderItem(pojo);
 
@@ -63,7 +74,7 @@ public class WalkThroughExampleUnitTest {
 	@Test
 	public void testOrderSetup() {
 
-		Order pojo = PodamFactory.manufacturePojo(Order.class);
+		Order pojo = factory.manufacturePojo(Order.class);
 
 		this.validateOrder(pojo);
 
@@ -72,7 +83,7 @@ public class WalkThroughExampleUnitTest {
 	@Test
 	public void testAddressSetup() {
 
-		Address pojo = PodamFactory.manufacturePojo(Address.class);
+		Address pojo = factory.manufacturePojo(Address.class);
 
 		this.validateAddress(pojo);
 
@@ -81,7 +92,7 @@ public class WalkThroughExampleUnitTest {
 	@Test
 	public void testBankAccountSetup() {
 
-		BankAccount pojo = PodamFactory.manufacturePojo(BankAccount.class);
+		BankAccount pojo = factory.manufacturePojo(BankAccount.class);
 		this.validateBankAccount(pojo);
 
 	}
@@ -89,7 +100,7 @@ public class WalkThroughExampleUnitTest {
 	@Test
 	public void testClientSetup() {
 
-		Client pojo = PodamFactory.manufacturePojo(Client.class);
+		Client pojo = factory.manufacturePojo(Client.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
 		Assert.assertNotNull("The client's first name cannot be null!",

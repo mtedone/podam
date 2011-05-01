@@ -20,6 +20,8 @@ import net.jcip.annotations.Immutable;
  * 
  * @author mtedone
  * 
+ * @since 1.0.0
+ * 
  */
 @Immutable
 public class ClassInfo implements Serializable {

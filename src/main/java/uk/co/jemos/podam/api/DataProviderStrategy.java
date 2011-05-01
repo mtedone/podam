@@ -9,14 +9,15 @@ package uk.co.jemos.podam.api;
  * PODAM is a tool to fill POJOs with data. There are different requirements
  * when it comes to which data POJOs should be filled with. The default strategy
  * adopted by PODAM is to fill POJOs with random data. However other
- * requirements (e.g. http://www.jemos.eu/jira/browse/PDM-19) might want to
- * assign deterministic data using sequences, or other predictable sources of
- * data. In order to do so, all clients of PODAM will have to do is to provide
- * an implementation of this interface and pass it to the {@link PodamFactory}
- * method which manufactures a POJO.
+ * requirements might dictate to assign deterministic data using sequences, or
+ * other predictable sources of data. In order to do so, clients of PODAM will
+ * have to provide an implementation of this interface and pass it to the
+ * constructor of the {@link PodamFactoryImpl} class.
  * </p>
  * 
  * @author mtedone
+ * 
+ * @since 1.0.0
  * 
  */
 public interface DataProviderStrategy {

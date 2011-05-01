@@ -4,14 +4,35 @@
 	Marco Tedone
 	---------------------
 
-Quick Introduction
+Introduction
 
   Podam is a tool to help developers with their unit tests by auto-filling Plain Old Java Objects (POJOs) 
-  with dummy data. It offers a one liner to achieve this goal: 
+  with dummy data.
+
+* How to use the API in version 1.0.0
+
+  <<Please note that the API has changed starting from version 2.0.0>>. 
+  If you are using version 1.0.0 the use of PodamFactory looks like this (version 1.0.0): 
   
 +-----------------------------------
+Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class); //It uses the default data provider strategy
++-----------------------------------
 
-Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class);
+  Or, if you are using your own DataProviderStrategy (version 1.0.0)
+
++-----------------------------------
+DataProviderStrategy strategy = new MyDataProviderStrategy();
+Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class, strategy);
++-----------------------------------
+
+* How to use the API starting from version 2.0.0
+
+  Starting from version 2.0.0 the PodamFactory has been made an instantiable class so that it can be easily used as a Spring
+  bean.    
+  
++-----------------------------------
+PodamFactory factory = new PodamFactoryImpl(); //This will use the default Random Data Provider Strategy
+Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
 
@@ -20,12 +41,15 @@ Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class);
 +-----------------------------------
 
 DataProviderStrategy strategy = new MyDataProviderStrategy();
+PodamFactory factory = new PodamFactoryImpl(strategy);
 
-Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class, strategy);
+Pojo myPojo = factory.manufacturePojo(Pojo.class, strategy);
 
 +-----------------------------------
 
-  That's it! 
+  Please note that the data provider strategy cannot be changed upon instantiation. If you want to use a different data provider
+  strategy, you'll need to create a new instance of PodamFactory. This has been decided to preserve thread-safety and immutability
+  of PodamFactory.  
   
 * How PODAM assigns values
   
@@ -85,14 +109,17 @@ mvn clean javadoc:jar
   
   * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
   
+  []
+  
   To use Podam from within your Maven project, declare the following dependency:
   
 +-------------------------------------------
 <dependency>
   <groupId>uk.co.jemos.podam</groupId>
   <artifactId>podam</artifactId>
-  <version>0.0.1-RC3</version>
+  <version>2.0.0</version>
   <!-- <scope>test</scope> -->
 </dependency>
++-------------------------------------------
   
     

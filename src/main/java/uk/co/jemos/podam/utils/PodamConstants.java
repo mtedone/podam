@@ -4,7 +4,11 @@
 package uk.co.jemos.podam.utils;
 
 /**
+ * PODAM constants.
+ * 
  * @author mtedone
+ * 
+ * @since 1.0.0
  * 
  */
 public class PodamConstants {

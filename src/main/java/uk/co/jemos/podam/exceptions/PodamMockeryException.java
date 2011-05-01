@@ -4,7 +4,11 @@
 package uk.co.jemos.podam.exceptions;
 
 /**
+ * The exception which occurs while PODAM is filling a POJO.
+ * 
  * @author mtedone
+ * 
+ * @since 1.0.0
  * 
  */
 public class PodamMockeryException extends RuntimeException {
