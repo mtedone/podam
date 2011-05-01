@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+    
+    <publishDate position="bottom" format="dd-MM-yyyy"/>
+    
+    <version position="left" />
+    
+    <poweredBy>
+      <logo name="Jemos" img="images/logo.gif" 
+      		href="http://www.jemos.eu/projects/podam/index.html"
+      		alt="Jemos Podam" />
+    </poweredBy>
+    
+    <body>
+      
+      <links>     
+        
+		 <item name="Join PODAM Group!"
+        	href="http://groups.google.com/group/podam"
+        	alt="Join PODAM Group on Google"
+        	target="_blank" />
+        	 	
+        <item name="Follow Jemos on Twitter"
+        	href="http://twitter.com/#!/jemos_releases"
+        	alt="Follow Jemos releases on Twitter"
+        	target="_blank" />
+        	
+        <item name="Follow Me on Twitter"
+        	href="http://twitter.com/#!/marcotedone"
+        	alt="Follow Marco Tedone on Twitter"
+        	target="_blank" />
+        	
+        <item name="Jemos Homepage" href="http://www.jemos.co.uk"
+        	 	alt="Visit Jemos homepage"
+        	 	target="_blank" />
+        	 				        
+      </links>
+      
+      <menu name="Getting Started">
+      	<item name="Home" href="./index.html" />
+      	<item name="Downloads" href="./downloads.html" />		
+      	<item name="How to contribute" href="./how-to-contribute.html" />
+      </menu>
+      
+      <menu name="Technical Reference">
+      	<item name="Custom Annotations" href="./annotations.html" />
+      	<item name="A Walk-through example" href="./walk-through-example.html" />
+      	<item name="Corner Cases" href="./corner-cases.html" />
+      	<item name="Known Limitations" href="./known_limitations.html" />	
+      	<item name="FAQS" href="./faqs.html" />
+      	<item name="Release Notes" href="./release-notes/release-notes.html" />
+      </menu>
+      
+
+      
+      <menu ref="reports" />
+      
+    </body>
+      
+    
+    
+</project>

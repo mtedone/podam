@@ -1,0 +1,26 @@
+How to contribute
+
+  There are various ways you could contribute to PODAM: 
+  
+  * First, please join our {{{http://groups.google.com/group/podam} Google group}}
+  
+  * By submitting a bug. In this case, please submit a bug at {{http://www.jemos.eu/jira}}. When submitting a bug, please
+  ensure the following is attached to the JIRA issue: 
+   
+    * The failing POJO 
+    
+    * A description of the problem (e.g. why you think PODAM didn't work properly)
+    
+  * By submitting new feature requests at {{http://www.jemos.eu/jira}}. When submitting a feature request, 
+  please attach the POJO the request is about.
+  
+  * By submitting feedbacks. This can be done directly by {{{mailto:marco.tedone@gmail.com} sending me an email}} or by 
+  starting a discussion on our {{{http://groups.google.com/group/podam} Google group}}
+  
+  
+  In general, if there is anything you would like to ask, feel free to {{{mailto:marco.tedone@gmail.com} send me an email}}.
+  
+  Happy technology!
+    
+    
+      

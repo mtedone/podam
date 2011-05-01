@@ -1,0 +1,311 @@
+Corner Cases
+
+  In the {{{./walk-through-example.html} Walk-through page}} I showed the most common scenarios where you would want to 
+  use PODAM. These include: 
+  
+  * Normal one-level POJO
+  
+  * (Complex) graph of POJOs
+  
+  * Immutable-like POJOs 
+  
+  []
+  
+  In this page I will show how PODAM handles some corner cases, such as: 
+  
+  * Inheritance (e.g. when a POJO extends a class, either abstract or non-abstract)
+  
+  * Singleton-like classes (e.g. when a public, no-arg constructor is not present but a series of static factory
+  methods exist (such as getInstance())
+  
+  []
+  
+Inheritance
+
+  PODAM support inheritance. It will fill parent attributes provided an accessible setter is available to the POJOs which
+  you are filling with data. 
+  
+* Example 
+
+  The following example illustrates a parent class, <uk.co.jemos.podam.test.dto.AbstractOneDimensionalPojo> which is extended
+  by another POJO, <uk.co.jemos.podam.test.dto.OneDimensionalChildPojo>. 
+  
++-----------------------------------------------------------
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.dto;
+
+import java.util.Calendar;
+
+import uk.co.jemos.podam.annotations.PodamIntValue;
+
+/**
+ * Abstract POJO to test inheritance.
+ * 
+ * @author mtedone
+ * 
+ */
+public abstract class AbstractOneDimensionalPojo {
+
+	@PodamIntValue(maxValue = 10)
+	private int parentIntField;
+	
+	private Calendar parentCalendarField;
+	
+	public int getParentIntField() {
+		return parentIntField;
+	}
+
+	protected void setParentIntField(int parentIntField) {
+		this.parentIntField = parentIntField;
+	}
+	
+	public Calendar getParentCalendarField() {
+		return parentCalendarField;
+	}
+	
+	protected void setParentCalendarField(Calendar parentCalendarField) {
+		this.parentCalendarField = parentCalendarField;
+	}
+
+	@Override
+	public String toString() {
+		final String TAB = "    ";
+
+		StringBuilder retValue = new StringBuilder();
+
+		retValue.append("AbstractOneDimensionalPojo ( ")
+				.append("parentIntField = ").append(parentIntField).append(TAB)
+				.append("parentCalendarField = ").append(parentCalendarField.getTime())
+				.append(TAB).append(" )");
+
+		return retValue.toString();
+	}
+}
+
++-----------------------------------------------------------
+
+  The class above defines two private attributes, <parentIntField> and <parentCalendarField>. It also provides two protected
+  setters which are available to sub-classes. The presence of accessible setter methods is a pre-requisite
+  for this inheritance to be handled properly by PODAM.
+  
+  This is the child class: 
+  
++-----------------------------------------------------------
+
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.dto;
+
+/**
+ * A child class to test inheritance
+ * @author mtedone
+ * 
+ */
+public class OneDimensionalChildPojo extends AbstractOneDimensionalPojo {
+	
+	private int intField;
+	
+	private String strField;	
+
+	public OneDimensionalChildPojo() {
+		super();
+	}
+
+	public int getIntField() {
+		return intField;
+	}
+
+	public void setIntField(int intField) {
+		this.intField = intField;
+	}
+
+	public String getStrField() {
+		return strField;
+	}
+
+	public void setStrField(String strField) {
+		this.strField = strField;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes in name = value
+	 * format.
+	 * 
+	 * @return a <code>String</code> representation of this object.
+	 */
+	@Override
+	public String toString() {
+		final String TAB = "    ";
+
+		StringBuilder retValue = new StringBuilder();
+		retValue.append(super.toString()).append(TAB);
+
+		retValue.append("OneDimensionalChildPojo ( ").append("intField = ")
+				.append(intField).append(TAB).append("strField = ")
+				.append(strField).append(TAB).append(" )");
+
+		return retValue.toString();
+	}	
+
+}
+
+
++-----------------------------------------------------------
+  
+  Running PODAM on the OneDimensionalChildPojo class will produce the following <toString()> result: 
+  
++-----------------------------------------------------------
+AbstractOneDimensionalPojo ( parentIntField = 3    parentCalendarField = Sat Apr 30 13:49:49 BST 2011     )    
+  OneDimensionalChildPojo ( intField = -516418302    strField = ﶖ藾冋荬馫콈愁㵼藙酬     )
++-----------------------------------------------------------
+
+  As you can see Podam has set both the parent attributes values. 
+  
+  
+Singleton-like classes
+
+  A Singleton is a class which provides only an instance of itself. One of the implementation details of a Singleton is that, unless
+  one used an Enum, the class should forbid clients from creating new instances. This is typically achieved by declaring the 
+  constructor private and by providing a public static method (e.g. getInstance()) which returns a singleton instance of the class. 
+  
+  PODAM handles Singleton-like classes, as the following example demonstrates: 
+  
+* Example
+
++-----------------------------------------------------------
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.dto;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A POJO to test a Singleton-like scenario where the public static Singleton
+ * method contains parameters.
+ * 
+ * @author mtedone
+ * 
+ */
+public class SingletonWithParametersInStaticFactoryPojo implements Serializable {	
+
+	private static final long serialVersionUID = 1L;	
+
+	private final Calendar createDate;
+
+	private final List<OneDimensionalTestPojo> pojoList;
+
+	private final Map<String, OneDimensionalTestPojo> pojoMap;
+
+	private final String firstName;
+
+	private static SingletonWithParametersInStaticFactoryPojo singleton;
+
+	// ------------------->> Constructors
+
+	/**
+	 * A private constructor to enforce the Singleton pattern
+	 * 
+	 * @param createDate
+	 *            The creation date
+	 * @param pojoList
+	 *            A list
+	 * @param pojoMap
+	 *            A map
+	 * @param firstName
+	 *            The first name
+	 */
+	private SingletonWithParametersInStaticFactoryPojo(Calendar createDate,
+			List<OneDimensionalTestPojo> pojoList,
+			Map<String, OneDimensionalTestPojo> pojoMap, String firstName) {
+		super();
+		this.createDate = createDate;
+		this.pojoList = pojoList;
+		this.pojoMap = pojoMap;
+		this.firstName = firstName;
+	}
+	
+
+	/**
+	 * Singleton method
+	 * 
+	 * @param createDate
+	 *            The creation date
+	 * @param pojoList
+	 *            A list
+	 * @param pojoMap
+	 *            A map
+	 * @param firstName
+	 *            The first name
+	 * @return a singleton instance of this class
+	 */
+	public static SingletonWithParametersInStaticFactoryPojo getInstance(
+			Calendar createDate, List<OneDimensionalTestPojo> pojoList,
+			Map<String, OneDimensionalTestPojo> pojoMap, String firstName) {
+		if (null == singleton) {
+			singleton = new SingletonWithParametersInStaticFactoryPojo(
+					createDate, pojoList, pojoMap, firstName);
+		}
+
+		return singleton;
+	}
+	
+	public Calendar getCreateDate() {
+		return createDate;
+	}
+
+	public List<OneDimensionalTestPojo> getPojoList() {
+		return pojoList;
+	}
+
+	public Map<String, OneDimensionalTestPojo> getPojoMap() {
+		return pojoMap;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+}
+
++-----------------------------------------------------------
+
+  The class above shows an interesting scenario: a Singleton-like class with the Singleton method which accepts parameters. 
+  To make the example even more palatable, some arguments are container-like (collections, maps). 
+  
+  Running the test on the class above produces the following result:
+  
++-----------------------------------------------------------
+SingletonWithParametersInStaticFactoryPojo ( 
+	createDate = Sat Apr 30 14:05:21 BST 2011    
+	pojoList = [
+		OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 116    
+								 byteObjectField = 10    shortField = 77    shortObjectField = 4    charField = 㐘    
+								 charObjectField = ꪁ    intField = 1339494839    intObjectField = 980291811    
+								 longField = -3119222069530856219    longObjectField = 4260197822662475631    
+								 floatField = 0.24369287    floatObjectField = 0.7073253    doubleField = 0.7151146071422815    
+								 doubleObjectField = 0.8253745751884359    stringField = ౠ᮷᳃┸㯪쭵Ὼాꎐᆫ    
+								 objectField = java.lang.Object@57a7ddcf    calendarField = Sat Apr 30 14:05:21 BST 2011    
+								 dateField = Sat Apr 30 14:05:21 BST 2011    randomArray = [Ljava.util.Random;@4dd36dfe     )]    
+	pojoMap = {
+		研䷢쫗㛗á룸ꁧ╝楫=OneDimensionalTestPojo ( booleanField = false    booleanObjectField = true    byteField = 8    
+												byteObjectField = 39    shortField = 17    shortObjectField = 24    
+												charField = 끰    charObjectField = 뿩    intField = 1412793167    
+												intObjectField = -1521479114    longField = -5054977360881301041    
+												longObjectField = 8252315121779248953    floatField = 0.13922673    
+												floatObjectField = 0.6835188    doubleField = 0.7345653869074095    
+												doubleObjectField = 0.7172732709165366    
+												stringField = 英訆ฤ뭧㜲펮憷ᮻ焜懪    objectField = java.lang.Object@73da669c    
+												calendarField = Sat Apr 30 14:05:21 BST 2011    
+												dateField = Sat Apr 30 14:05:21 BST 2011    
+												randomArray = [Ljava.util.Random;@786c730     )}    
+	firstName = 㪜됰찄狇브穊厣텾ꧠ     )
++-----------------------------------------------------------
+  
+  All three arguments to the Singleton method have been filled with data.

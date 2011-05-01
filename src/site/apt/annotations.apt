@@ -1,0 +1,80 @@
+Podam Custom Annotations
+
+For the full syntax of PODAM annotations, please refer to the Javadocs
+
+* @PodamConstructor
+
+  This annotation is used to identify a non-default constructor in an immutable-like POJO.
+  
+  Example: 
+  
++-----------------------------------------------------------------------
+
+/**
+ * Full constructor
+ * 
+ * @param intField
+ * @param dateCreated
+ * @param longArray
+ */
+@PodamConstructor
+public ImmutableNoHierarchicalAnnotatedPojo(int intField, Calendar dateCreated,
+		long[] longArray) {
+	super();
+	this.intField = intField;
+	this.dateCreated = dateCreated;
+	this.longArray = longArray;
+}
+
++-----------------------------------------------------------------------
+
+* @PodamExclude
+
+  This annotation is used to tell Podam to skip a certain attribute.
+  
+* @PodamByteValue
+
+  This annotation is used to provide Podam with indications of a byte value range to assign to the 
+  annotated attribute.   
+  
+* @PodamShortValue
+
+  This annotation is used to provide Podam with indications of a short value range to assign to the 
+  annotated attribute. 
+  
+* @PodamCharValue
+
+  This annotation is used to provide Podam with indications of a character value range to assign to the 
+  annotated attribute.       
+
+* @PodamIntValue
+
+  This annotation is used to provide Podam with indications of an integer value range to assign to the 
+  annotated attribute. 
+
+* @PodamLongValue
+
+  This annotation is used to provide Podam with indications of a long value range to assign to the 
+  annotated attribute.
+  
+* @PodamFloatValue
+
+  This annotation is used to provide Podam with indications of a float value range to assign to the 
+  annotated attribute.   
+  
+* @PodamDoubleValue
+
+  This annotation is used to provide Podam with indications of a double value range to assign to the 
+  annotated attribute.   
+  
+* @PodamStringValue
+
+  This annotation allows users to specify either a precise value for the String (e.g. "ABD234332") or the length
+  of the annotated string attribute. The precise value takes precedence over the length. The default length
+  of the String is specified by the constant PodamConstants.STR_DEFAULT_LENGTH = 10. Please refer to the Javadoc
+  documentation for more details.   
+  
+* @PodamCollection
+
+  This annotation allows users to customise the number of elements to set in a container-type attribute (e.g. 
+  collections, arrays, maps)

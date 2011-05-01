@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faqs xmlns="http://maven.apache.org/FML/1.0.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+  title="Frequently Asked Questions"
+  toplink="false">
+
+  <part id="general">
+    <title>PODAM FAQs</title>
+
+    <faq id="podam-faqs">
+      <question>
+        What if I want to change PODAM behaviour between invocations and I have used a custom annotation? 
+      </question>
+      <answer>
+        <p>
+        Ok, so you have set a property <i>firstName</i> with the annotation @PodamStringValue(strValue = "Michael").
+        This means that PODAM will fill every instance of the annotated POJO attribute with the value "Michael". 
+        Unfortunately, there is no easy way around this: when you use a PODAM custom annotation, the values driven by the 
+        annotation are assigned to every instance of the annotated POJO. There is an acceptable solution though: 
+        you can have PODAM to fill the POJO for you and then manually change the attributes for which a particular
+        run needs particular values. This is obviously possible if the POJO allows for changes in state. For 
+        immutable-like POJOs there is no easy way to get around this issue and ultimately you might want to 
+        manufacture an immutable-like POJO by hand.
+        </p>
+
+        <source>
+          
+          ...In Client.java
+          
+          @PodamStringValue(strValue = "Michael")
+          private String firstName;
+          
+          [etc.]
+          
+          ...In your client
+          
+          Client client = PodamFactory.manufacturePojo(Client.class);
+          
+          //firstName is now set with the value "Michael" but you can change it
+          //with the value of your choice (provided the POJO is not immutable)
+          pojo.setFirstName("MyOtherValue");
+          
+        </source>
+        
+      </answer>
+    </faq>
+    
+  </part>
+
+</faqs>

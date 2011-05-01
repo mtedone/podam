@@ -1,0 +1,98 @@
+	---------------------
+ 	Welcome to Jemos PODAM (POjo DAta Mocker)
+	---------------------
+	Marco Tedone
+	---------------------
+
+Quick Introduction
+
+  Podam is a tool to help developers with their unit tests by auto-filling Plain Old Java Objects (POJOs) 
+  with dummy data. It offers a one liner to achieve this goal: 
+  
++-----------------------------------
+
+Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class);
+
++-----------------------------------
+
+  Alternatively, if you want to define your own Strategy to assign values (see below), you can use the following version: 
+  
++-----------------------------------
+
+DataProviderStrategy strategy = new MyDataProviderStrategy();
+
+Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class, strategy);
+
++-----------------------------------
+
+  That's it! 
+  
+* How PODAM assigns values
+  
+  By default PODAM assigns random values to all its types. However, PODAM can be extended by providing a custom implementation
+  of the <uk.co.jemos.podam.api.DataProviderStrategy> interface. 
+  Please note that methods which return a numeric value between ranges should consider the ranges inclusive, as documented
+  in the interface Javadoc. 
+  
+  PODAM uses the <uk.co.jemos.podam.api.RandomDataProviderStrategy> class as default Data Provider implementation.   
+  
+  
+  To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
+  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
+  
+Using PODAM
+
+  Using PODAM is easy. You can either {{{./downloads.html} download the source}} and build it yourself or you declare PODAM
+  as a Maven dependency.
+  
+* Building PODAM from the source
+
+  The following pre-requisites must be satisfied in order to build PODAM: 
+  
+  * The <mvn> command must be available from the command line
+  
+  * Java 5 or later version must be available
+  
+  * You must have access to Maven central repository (at the time of writing {{http://repo1.maven.org/maven2/}}) and you must
+  be able to download artifacts from the internet. The {{{./dependencies.html} dependencies}} page on the left menu shows 
+  the dependencies PODAM relies on. At the time of writing these are very simple: 
+  
+    * JUnit
+    
+    * Log4j
+    
+    * jcip (a library of annotations to document thread-safety)
+  
+  Once the pre-requisites have been satisfied, extract the source jar to a folder of your choice. 
+  Then, to build PODAM simply execute the following command:
+  
++-----------------------------------------
+
+# To build PODAM jar and execute the tests
+mvn clean install   
+
+# To build this documentation
+mvn clean site:site
+
+# To build javadocs
+mvn clean javadoc:jar
+
++-----------------------------------------
+
+* Declaring PODAM as a Maven dependency 
+
+  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
+  
+  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
+  
+  To use Podam from within your Maven project, declare the following dependency:
+  
++-------------------------------------------
+<dependency>
+  <groupId>uk.co.jemos.podam</groupId>
+  <artifactId>podam</artifactId>
+  <version>0.0.1-RC3</version>
+  <!-- <scope>test</scope> -->
+</dependency>
+  
+    
