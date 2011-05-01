@@ -79,13 +79,7 @@ Using PODAM
   
   * You must have access to Maven central repository (at the time of writing {{http://repo1.maven.org/maven2/}}) and you must
   be able to download artifacts from the internet. The {{{./dependencies.html} dependencies}} page on the left menu shows 
-  the dependencies PODAM relies on. At the time of writing these are very simple: 
-  
-    * JUnit
-    
-    * Log4j
-    
-    * jcip (a library of annotations to document thread-safety)
+  the dependencies PODAM relies on. 
   
   Once the pre-requisites have been satisfied, extract the source jar to a folder of your choice. 
   Then, to build PODAM simply execute the following command:
