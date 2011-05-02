@@ -9,10 +9,18 @@ import uk.co.jemos.podam.annotations.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
+ * Immutable-like POJO with constructor which receives self-types but no default
+ * constructor.
+ * <p>
+ * This POJO cannot be reliably built due to infinite loop, so PODAM will throw
+ * a {@link PodamMockeryException}
+ * </p>
+ * 
  * @author mtedone
  * 
  */
-public class ConstructorWithSelfReferencesPojo implements Serializable {
+public class ConstructorWithSelfReferencesButNoDefaultConstructorPojo implements
+		Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,22 +32,12 @@ public class ConstructorWithSelfReferencesPojo implements Serializable {
 	private int intField;
 
 	/** Parent instance */
-	private ConstructorWithSelfReferencesPojo parent;
+	private ConstructorWithSelfReferencesButNoDefaultConstructorPojo parent;
 
 	/** Another parent instance */
-	private ConstructorWithSelfReferencesPojo anotherParent;
+	private ConstructorWithSelfReferencesButNoDefaultConstructorPojo anotherParent;
 
 	// ------------------->> Constructors
-
-	/**
-	 * No-args constructor
-	 * <p>
-	 * This is a pre-requisite for this type of POJOs or a
-	 * {@link PodamMockeryException} will be thrown
-	 * </p>
-	 */
-	public ConstructorWithSelfReferencesPojo() {
-	}
 
 	/**
 	 * @param intField
@@ -47,9 +45,10 @@ public class ConstructorWithSelfReferencesPojo implements Serializable {
 	 * @param anotherParent
 	 */
 	@PodamConstructor
-	public ConstructorWithSelfReferencesPojo(int intField,
-			ConstructorWithSelfReferencesPojo parent,
-			ConstructorWithSelfReferencesPojo anotherParent) {
+	public ConstructorWithSelfReferencesButNoDefaultConstructorPojo(
+			int intField,
+			ConstructorWithSelfReferencesButNoDefaultConstructorPojo parent,
+			ConstructorWithSelfReferencesButNoDefaultConstructorPojo anotherParent) {
 		super();
 		this.intField = intField;
 		this.parent = parent;
@@ -70,14 +69,14 @@ public class ConstructorWithSelfReferencesPojo implements Serializable {
 	/**
 	 * @return the parent
 	 */
-	public ConstructorWithSelfReferencesPojo getParent() {
+	public ConstructorWithSelfReferencesButNoDefaultConstructorPojo getParent() {
 		return parent;
 	}
 
 	/**
 	 * @return the anotherParent
 	 */
-	public ConstructorWithSelfReferencesPojo getAnotherParent() {
+	public ConstructorWithSelfReferencesButNoDefaultConstructorPojo getAnotherParent() {
 		return anotherParent;
 	}
 

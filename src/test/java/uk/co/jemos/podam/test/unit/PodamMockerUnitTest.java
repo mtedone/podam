@@ -27,6 +27,7 @@ import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.CollectionsPojo;
+import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojo;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
@@ -197,8 +198,8 @@ public class PodamMockerUnitTest {
 				booleanArray.length == 1);
 
 		BigDecimal bigDecimalField = pojo.getBigDecimalField();
-		// Assert.assertNotNull("The BigDecimal field cannot be null!",
-		// bigDecimalField);
+		Assert.assertNotNull("The BigDecimal field cannot be null!",
+				bigDecimalField);
 
 	}
 
@@ -258,7 +259,7 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testImmutablePojoWithSelfReferencesInConstructor() {
+	public void testPojoWithSelfReferencesInConstructor() {
 
 		ConstructorWithSelfReferencesPojo pojo = factory
 				.manufacturePojo(ConstructorWithSelfReferencesPojo.class);
@@ -267,6 +268,13 @@ public class PodamMockerUnitTest {
 				pojo.getParent());
 		Assert.assertNotNull("The second self-reference cannot be null!",
 				pojo.getAnotherParent());
+
+	}
+
+	@Test(expected = PodamMockeryException.class)
+	public void testPojoWithSelfReferenceInConstructorButNoDefaultConstructor() {
+
+		factory.manufacturePojo(ConstructorWithSelfReferencesButNoDefaultConstructorPojo.class);
 
 	}
 

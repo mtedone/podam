@@ -325,6 +325,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					resolved = true;
 
+					LOG.info("For class: " + clazz.getName()
+							+ " a valid constructor: " + constructor
+							+ " was found.");
+
 					break;
 
 				} catch (Throwable t) {
@@ -1811,8 +1815,11 @@ public class PodamFactoryImpl implements PodamFactory {
 					noArgConstructor = declaringClass
 							.getConstructor(new Class<?>[] {});
 				} catch (NoSuchMethodException e) {
-					throw new IllegalArgumentException(
-							"A constructor with its own type as argument does not have a no-arg constructor. Impossible to create an instance of this argument.");
+					String errorMsg = "For class: "
+							+ declaringClass
+							+ " a constructor with its own type as argument does not have a no-arg constructor. Impossible to create an instance of this argument.";
+					LOG.error(errorMsg);
+					throw new IllegalArgumentException(errorMsg);
 				}
 
 				parameterValues[idx] = noArgConstructor
