@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
@@ -52,6 +53,7 @@ import uk.co.jemos.podam.utils.PodamUtils;
  * 
  */
 @ThreadSafe
+@Immutable
 public class PodamFactoryImpl implements PodamFactory {
 
 	// ------------------->> Constants

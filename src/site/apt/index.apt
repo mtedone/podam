@@ -172,14 +172,14 @@ private double doubleFieldWithMinAndMaxValue;
   
 Using PODAM
 
-  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} checkout the code from GitHub}} and build it yourself 
+  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself 
   or you declare PODAM as a Maven dependency.
   
 * Building PODAM from the source
 
   The following pre-requisites must be satisfied in order to build PODAM:
   
-  * You must have git installed on your machine 
+  * You must have <git> installed on your machine (only if you are forking code from GitHub)
   
   * The <mvn> command must be available from the command line
   
@@ -193,7 +193,7 @@ Using PODAM
   
   Once the pre-requisites have been satisfied, do the following: 
   
-  * Fork PODAM from {{{https://github.com/mtedone/podam} GitHub}}
+  * Fork PODAM from {{{https://github.com/mtedone/podam} GitHub}} or {{{./downloads} download the project distribution}}
   
   * Point your command prompt to the <podam> folder
   
@@ -206,7 +206,7 @@ Using PODAM
 # To build PODAM jar and execute the tests
 mvn clean install   
 
-# To build this documentation
+# To build this documentation and Javadocs
 mvn clean site:site
 
 +-----------------------------------------
