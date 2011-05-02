@@ -1,24 +1,24 @@
 Podam Downloads
 
 
-* Binaries files distribution: Version 2.0.0-SNAPSHOT - TBD
+* Binaries files distribution: Version 2.0.0.RELEASE - 2nd May 2011
 
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries zip | {{{./downloads/podam-2.0.0-SNAPSHOT-bin.zip} podam-2.0.0-SNAPSHOT-bin.zip}} |
+| Binaries zip | {{{./downloads/podam-2.0.0.RELEASE-bin.zip} podam-2.0.0.RELEASE-bin.zip}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries tag.gz | {{{./downloads/podam-2.0.0-SNAPSHOT-bin.tar.gz} podam-2.0.0-SNAPSHOT-bin.tar.gz}} |
+| Binaries tag.gz | {{{./downloads/podam-2.0.0.RELEASE-bin.tar.gz} podam-2.0.0.RELEASE-bin.tar.gz}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries bz2 | {{{./downloads/podam-2.0.0-SNAPSHOT-bin.bz2}podam-2.0.0-SNAPSHOT-bin.bz2}} |
+| Binaries bz2 | {{{./downloads/podam-2.0.0.RELEASE-bin.bz2}podam-2.0.0.RELEASE-bin.bz2}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
 
-* Project files distribution: Version 2.0.0-SNAPSHOT - TBD
+* Project files distribution: Version 2.0.0.RELEASE - TBD
 
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Project zip | {{{./downloads/podam-2.0.0-SNAPSHOT-project.zip} podam-2.0.0-SNAPSHOT-project.zip}} |
+| Project zip | {{{./downloads/podam-2.0.0.RELEASE-project.zip} podam-2.0.0.RELEASE-project.zip}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Project tag.gz | {{{./downloads/podam-2.0.0-SNAPSHOT-project.tar.gz} podam-2.0.0-SNAPSHOT-project.tar.gz}} |
+| Project tag.gz | {{{./downloads/podam-2.0.0.RELEASE-project.tar.gz} podam-2.0.0.RELEASE-project.tar.gz}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
-| Project bz2 | {{{./downloads/podam-2.0.0-SNAPSHOT-project.bz2}podam-2.0.0-SNAPSHOT-project.bz2}} |
+| Project bz2 | {{{./downloads/podam-2.0.0.RELEASE-project.bz2}podam-2.0.0.RELEASE-project.bz2}} |
 *----------------+-------------------------------------------------------------------------------------------------------+
 
 * Version 1.0.0.RELEASE - 30th April 2011
