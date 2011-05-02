@@ -141,10 +141,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object createNewInstanceForClassWithoutSetters(Class<?> clazz)
-			throws IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			ClassNotFoundException {
+	private Object createNewInstanceForClassWithoutSetters(Class<?> pojoClass,
+			Class<?> clazz) throws IllegalArgumentException,
+			InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		Object retValue = null;
 
@@ -307,17 +307,40 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
-			// TODO To provide support for constructors with argument types
-
 			// There are public constructors. We need the no-arg
 			// one for now.
+			boolean resolved = false;
 			for (Constructor<?> constructor : constructors) {
-				if (constructor.getParameterTypes().length != 0) {
-					continue;
+				// if (constructor.getParameterTypes().length != 0) {
+				// continue;
+				// }
+
+				try {
+
+					Object[] constructorArgs = this
+							.getParameterValuesForConstructor(constructor,
+									pojoClass);
+
+					retValue = constructor.newInstance(constructorArgs);
+
+					resolved = true;
+
+					break;
+
+				} catch (Throwable t) {
+
+					LOG.warn("Couldn't create attribute with constructor: "
+							+ constructor
+							+ ". Will check if other constructors are available");
+
 				}
 
-				retValue = constructor.newInstance(new Object[] {});
+			}
 
+			if (!resolved) {
+				LOG.warn("For class: "
+						+ clazz.getName()
+						+ " PODAM could not possibly create a value. This attribute will be returned as null.");
 			}
 
 		}
@@ -869,8 +892,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
-			retValue = (T) this
-					.createNewInstanceForClassWithoutSetters(pojoClass);
+			retValue = (T) this.createNewInstanceForClassWithoutSetters(
+					pojoClass, pojoClass);
 		} else {
 			for (Constructor<?> constructor : constructors) {
 
@@ -878,130 +901,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					continue;
 				}
 
-				Annotation[][] parameterAnnotations = constructor
-						.getParameterAnnotations();
-
-				Object[] parameterValues = new Object[constructor
-						.getParameterTypes().length];
-
-				// Found a constructor with @PodamConstructor annotation
-				Class<?>[] parameterTypes = constructor.getParameterTypes();
-
-				int idx = 0;
-				for (Class<?> parameterType : parameterTypes) {
-
-					List<Annotation> annotations = Arrays
-							.asList(parameterAnnotations[idx]);
-
-					// Recursive hierarchy in the constructor?
-					if (parameterType.equals(pojoClass)) {
-
-						if (depth < PodamConstants.MAX_DEPTH) {
-							depth++;
-							parameterValues[idx++] = this
-									.manufacturePojoInternal(parameterType,
-											depth);
-							continue;
-						} else {
-							parameterValues[idx++] = this
-									.createNewInstanceForClassWithoutSetters(parameterType);
-							continue;
-						}
-
-					} else {
-
-						String attributeName = null;
-
-						if (Collection.class.isAssignableFrom(parameterType)) {
-
-							Collection<? super Object> listType = this
-									.resolveCollectionType(parameterType);
-
-							Type type = constructor.getGenericParameterTypes()[idx];
-
-							String typeStr = type.toString();
-
-							Class<?> elementType = this
-									.retrieveClassFromCollectionTypeInConstructor(typeStr);
-
-							int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
-
-							for (Annotation annotation : annotations) {
-								if (annotation.annotationType().equals(
-										PodamCollection.class)) {
-
-									PodamCollection ann = (PodamCollection) annotation;
-
-									nbrElements = ann.nbrElements();
-
-								}
-							}
-
-							for (int i = 0; i < nbrElements; i++) {
-								Object attributeValue = this
-										.manufactureAttributeValue(pojoClass,
-												elementType, annotations,
-												attributeName);
-
-								listType.add(attributeValue);
-							}
-
-							parameterValues[idx] = listType;
-
-						} else if (Map.class.isAssignableFrom(parameterType)) {
-
-							Map<? super Object, ? super Object> mapType = this
-									.resolveMapType(parameterType);
-
-							Type type = constructor.getGenericParameterTypes()[idx];
-
-							Class<?>[] keyValueClasses = this
-									.retrieveClassFromMapTypeInConstructor(type
-											.toString());
-
-							int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
-
-							for (Annotation annotation : annotations) {
-								if (annotation.annotationType().equals(
-										PodamCollection.class)) {
-
-									PodamCollection ann = (PodamCollection) annotation;
-
-									nbrElements = ann.nbrElements();
-
-								}
-							}
-
-							for (int i = 0; i < nbrElements; i++) {
-								Object keyValue = this
-										.manufactureAttributeValue(pojoClass,
-												keyValueClasses[0],
-												annotations, attributeName);
-
-								Object elementValue = this
-										.manufactureAttributeValue(pojoClass,
-												keyValueClasses[1],
-												annotations, attributeName);
-
-								mapType.put(keyValue, elementValue);
-							}
-
-							parameterValues[idx] = mapType;
-
-						} else {
-
-							parameterValues[idx] = this
-									.manufactureAttributeValue(pojoClass,
-											parameterType, annotations,
-											attributeName);
-
-						}
-
-					}
-
-					idx++;
-
-				}
+				Object[] parameterValues = this
+						.getParameterValuesForConstructor(constructor,
+								pojoClass);
 
 				// Being a generic method we cannot be sure on the identify of
 				// T,
@@ -1010,6 +912,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				// annotation
 
 				retValue = (T) constructor.newInstance(parameterValues);
+
+				break;
 			}
 		}
 
@@ -1179,7 +1083,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					} else {
 
 						setterArg = this
-								.createNewInstanceForClassWithoutSetters(pojoClass);
+								.createNewInstanceForClassWithoutSetters(
+										pojoClass, pojoClass);
 
 						setter.invoke(retValue, setterArg);
 						depth = 0;
@@ -1301,8 +1206,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			// For classes in the Java namespace we attempt the no-args or the
 			// factory constructor strategy
 
-			attributeValue = this
-					.createNewInstanceForClassWithoutSetters(attributeType);
+			attributeValue = this.createNewInstanceForClassWithoutSetters(
+					pojoClass, attributeType);
 
 		} else {
 
@@ -1851,6 +1756,161 @@ public class PodamFactoryImpl implements PodamFactory {
 			nbrElements = podamAnnotation.nbrElements();
 		}
 		return nbrElements;
+	}
+
+	/**
+	 * Given a constructor it manufactures and returns the parameter values
+	 * required to invoke it
+	 * 
+	 * @param constructor
+	 *            The constructor for which parameter values are required
+	 * @param pojoClass
+	 *            The POJO class containing the constructor
+	 * 
+	 * @return The parameter values required to invoke the constructor
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object[] getParameterValuesForConstructor(
+			Constructor<?> constructor, Class<?> pojoClass)
+			throws IllegalArgumentException, InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
+
+		Annotation[][] parameterAnnotations = constructor
+				.getParameterAnnotations();
+
+		Object[] parameterValues = new Object[constructor.getParameterTypes().length];
+
+		// Found a constructor with @PodamConstructor annotation
+		Class<?>[] parameterTypes = constructor.getParameterTypes();
+
+		int idx = 0;
+		for (Class<?> parameterType : parameterTypes) {
+
+			List<Annotation> annotations = Arrays
+					.asList(parameterAnnotations[idx]);
+
+			if (parameterType.equals(pojoClass)) {
+				// Recursive hierarchy in the constructor? If so the POJO should
+				// also have a no-arg constructor
+				// to avoid infinite looping
+
+				Class<?> declaringClass = constructor.getDeclaringClass();
+				Constructor<?> noArgConstructor = null;
+				try {
+					noArgConstructor = declaringClass
+							.getConstructor(new Class<?>[] {});
+				} catch (NoSuchMethodException e) {
+					throw new IllegalArgumentException(
+							"A constructor with its own type as argument does not have a no-arg constructor. Impossible to create an instance of this argument.");
+				}
+
+				parameterValues[idx] = noArgConstructor
+						.newInstance(new Object[] {});
+
+			} else {
+
+				String attributeName = null;
+
+				if (Collection.class.isAssignableFrom(parameterType)) {
+
+					Collection<? super Object> listType = this
+							.resolveCollectionType(parameterType);
+
+					Type type = constructor.getGenericParameterTypes()[idx];
+
+					String typeStr = type.toString();
+
+					Class<?> elementType = this
+							.retrieveClassFromCollectionTypeInConstructor(typeStr);
+
+					int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+
+					for (Annotation annotation : annotations) {
+						if (annotation.annotationType().equals(
+								PodamCollection.class)) {
+
+							PodamCollection ann = (PodamCollection) annotation;
+
+							nbrElements = ann.nbrElements();
+
+						}
+					}
+
+					for (int i = 0; i < nbrElements; i++) {
+						Object attributeValue = this.manufactureAttributeValue(
+								pojoClass, elementType, annotations,
+								attributeName);
+
+						listType.add(attributeValue);
+					}
+
+					parameterValues[idx] = listType;
+
+				} else if (Map.class.isAssignableFrom(parameterType)) {
+
+					Map<? super Object, ? super Object> mapType = this
+							.resolveMapType(parameterType);
+
+					Type type = constructor.getGenericParameterTypes()[idx];
+
+					Class<?>[] keyValueClasses = this
+							.retrieveClassFromMapTypeInConstructor(type
+									.toString());
+
+					int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+
+					for (Annotation annotation : annotations) {
+						if (annotation.annotationType().equals(
+								PodamCollection.class)) {
+
+							PodamCollection ann = (PodamCollection) annotation;
+
+							nbrElements = ann.nbrElements();
+
+						}
+					}
+
+					for (int i = 0; i < nbrElements; i++) {
+						Object keyValue = this.manufactureAttributeValue(
+								pojoClass, keyValueClasses[0], annotations,
+								attributeName);
+
+						Object elementValue = this.manufactureAttributeValue(
+								pojoClass, keyValueClasses[1], annotations,
+								attributeName);
+
+						mapType.put(keyValue, elementValue);
+					}
+
+					parameterValues[idx] = mapType;
+
+				} else {
+
+					parameterValues[idx] = this.manufactureAttributeValue(
+							pojoClass, parameterType, annotations,
+							attributeName);
+
+				}
+
+			}
+
+			idx++;
+
+		}
+
+		return parameterValues;
+
 	}
 
 	// ------------------->> equals() / hashcode() / toString()

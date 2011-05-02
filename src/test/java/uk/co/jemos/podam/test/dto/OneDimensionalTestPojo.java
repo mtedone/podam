@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.test.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -86,6 +87,9 @@ public class OneDimensionalTestPojo implements Serializable {
 
 	/** An array of booleans */
 	private boolean[] booleanArray;
+
+	/** A BigDecimal attribute */
+	private BigDecimal bigDecimalField;
 
 	/** No-args constructor */
 	public OneDimensionalTestPojo() {
@@ -438,6 +442,21 @@ public class OneDimensionalTestPojo implements Serializable {
 	}
 
 	/**
+	 * @return the bigDecimalField
+	 */
+	public BigDecimal getBigDecimalField() {
+		return bigDecimalField;
+	}
+
+	/**
+	 * @param bigDecimalField
+	 *            the bigDecimalField to set
+	 */
+	public void setBigDecimalField(BigDecimal bigDecimalField) {
+		this.bigDecimalField = bigDecimalField;
+	}
+
+	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
 	 * 
@@ -472,7 +491,10 @@ public class OneDimensionalTestPojo implements Serializable {
 				.append(calendarField.getTime()).append(TAB)
 				.append("dateField = ").append(dateField).append(TAB)
 				.append("randomArray = ").append(randomArray).append(TAB)
-				.append(" )");
+				.append("intArray = ").append(intArray).append(TAB)
+				.append("booleanArray = ").append(booleanArray).append(TAB)
+				.append("bigDecimalField = ").append(bigDecimalField)
+				.append(TAB).append(" )");
 
 		return retValue.toString();
 	}
