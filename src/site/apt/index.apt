@@ -7,7 +7,13 @@
 Introduction
 
   Podam is a tool to help developers with their unit tests by auto-filling Plain Old Java Objects (POJOs) 
-  with dummy data.
+  with manufactured data. The first release of PODAM was 1.0.0 and it used a static service class, as 
+  defined by {{{http://www.amazon.co.uk/Effective-Java-Second-Joshua-Bloch/dp/0321356683} Effective Java 2nd Edition, Item 4}}.
+  
+  I then realised that it would have more useful (not to mention it would have helped in increasing code coverage) for 
+  the <PodamFactory> to be an instantiable class, ready to be used as a Spring bean. So I made this change in version
+  2.0.0. You are encourage to use version 2.x of PODAM. If you want to use version 1.0.0 , you should checkout
+  the {{{https://github.com/mtedone/podam/tree/1.0.0.RELEASE} 1.0.0 TAG in GitHub}}.
 
 * How to use the API in version 1.0.0
 
@@ -36,20 +42,121 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
 
-  Alternatively, if you want to define your own Strategy to assign values (see below), you can use the following version: 
+  Alternatively, if you want to define your own Strategy to assign values, you can use the following version: 
   
 +-----------------------------------
 
 DataProviderStrategy strategy = new MyDataProviderStrategy();
 PodamFactory factory = new PodamFactoryImpl(strategy);
 
-Pojo myPojo = factory.manufacturePojo(Pojo.class, strategy);
+Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
+
+  You can easily use PODAM with Spring too: 
+  
+  * Define the Data Provider Strategy as a bean
+  
+  * Define PodamFactory bean, initialised with the Data Provider Strategy
+  
+  * Use the PodamFactory bean in your code
+  
+  []
+  
++-----------------------------------
+
+# Define your Spring app context
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- The definition of the default strategy -->
+	<bean id="randomDataProviderStrategy"
+		class="uk.co.jemos.podam.api.RandomDataProviderStrategy"
+		factory-method="getInstance" />
+		
+	<!-- The definition of PODAM factory -->
+	<bean id="podamFactory" class="uk.co.jemos.podam.api.PodamFactoryImpl">
+	  <constructor-arg index="0" ref="randomDataProviderStrategy" />
+	</bean>
+
+</beans>
++-----------------------------------
+
++-----------------------------------
+
+# Use Podam Factory in your code
+
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.unit.integration;
+
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
+
+/**
+ * @author mtedone
+ * 
+ */
+@ContextConfiguration(locations = { "classpath:podam-test-appContext.xml" })
+public class PodamFactoryInjectionIntegrationTest extends
+		AbstractJUnit4SpringContextTests {	
+
+	/** The Podam Factory */
+	@Autowired
+	private PodamFactory factory;	
+
+	@Before
+	public void init() {
+		Assert.assertNotNull("The PODAM factory cannot be null!", factory);
+		Assert.assertNotNull("The factory strategy cannot be null!",
+				factory.getStrategy());
+	}
+
+	@Test
+	public void testSimplePojo() {
+
+		SimplePojoToTestSetters pojo = factory
+				.manufacturePojo(SimplePojoToTestSetters.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+		...etc
+	}
+}
++-----------------------------------
+
 
   Please note that the data provider strategy cannot be changed upon instantiation. If you want to use a different data provider
   strategy, you'll need to create a new instance of PodamFactory. This has been decided to preserve thread-safety and immutability
   of PodamFactory.  
+
+* Customising PODAM behaviour
+
+  Numeric and String values in PODAM can be customised through annotations. 
+  
++-----------------------------------
+@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
+private double doubleFieldWithMinAndMaxValue;
++-----------------------------------
+  
+  Please note that by contract (DataProviderStrategy) min and max values are inclusive. Also, as one would expect, when min and
+  max value are the same this value is returned. 
+  
+  To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
+  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
+
   
 * How PODAM assigns values
   
@@ -58,20 +165,21 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class, strategy);
   Please note that methods which return a numeric value between ranges should consider the ranges inclusive, as documented
   in the interface Javadoc. 
   
-  PODAM uses the <uk.co.jemos.podam.api.RandomDataProviderStrategy> class as default Data Provider implementation.   
-  
+  PODAM uses the <uk.co.jemos.podam.api.RandomDataProviderStrategy> class as default Data Provider implementation.
   
   To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
   or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
   
 Using PODAM
 
-  Using PODAM is easy. You can either {{{./downloads.html} download the source}} and build it yourself or you declare PODAM
-  as a Maven dependency.
+  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} checkout the code from GitHub}} and build it yourself 
+  or you declare PODAM as a Maven dependency.
   
 * Building PODAM from the source
 
-  The following pre-requisites must be satisfied in order to build PODAM: 
+  The following pre-requisites must be satisfied in order to build PODAM:
+  
+  * You must have git installed on your machine 
   
   * The <mvn> command must be available from the command line
   
@@ -81,8 +189,17 @@ Using PODAM
   be able to download artifacts from the internet. The {{{./dependencies.html} dependencies}} page on the left menu shows 
   the dependencies PODAM relies on. 
   
-  Once the pre-requisites have been satisfied, extract the source jar to a folder of your choice. 
-  Then, to build PODAM simply execute the following command:
+  []
+  
+  Once the pre-requisites have been satisfied, do the following: 
+  
+  * Fork PODAM from {{{https://github.com/mtedone/podam} GitHub}}
+  
+  * Point your command prompt to the <podam> folder
+  
+  * Build PODAM using Maven as follows: 
+  
+  [] 
   
 +-----------------------------------------
 
@@ -92,20 +209,13 @@ mvn clean install
 # To build this documentation
 mvn clean site:site
 
-# To build javadocs
-mvn clean javadoc:jar
-
 +-----------------------------------------
 
 * Declaring PODAM as a Maven dependency 
 
-  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
-  
-  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
-  
-  []
-  
-  To use Podam from within your Maven project, declare the following dependency:
+  If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
+  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
+  from version to version):
   
 +-------------------------------------------
 <dependency>
@@ -115,5 +225,13 @@ mvn clean javadoc:jar
   <!-- <scope>test</scope> -->
 </dependency>
 +-------------------------------------------
+
+  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
+  
+  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
+  
+  []
+
+
   
     

@@ -22,22 +22,22 @@ public class DoubleRangeValuesPojo implements Serializable {
 
 	// ------------------->> Instance / Static variables
 
-	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
+	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE)
 	private double doubleFieldWithMinValueOnly;
 
-	@PodamDoubleValue(maxValue = PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED)
+	@PodamDoubleValue(maxValue = PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED)
 	private double doubleFieldWithMaxValueOnly;
 
-	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_FLOAT_MAX_VALUE)
+	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
 	private double doubleFieldWithMinAndMaxValue;
 
-	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
+	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE)
 	private Double doubleObjectFieldWithMinValueOnly;
 
-	@PodamDoubleValue(maxValue = PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED)
+	@PodamDoubleValue(maxValue = PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED)
 	private Double doubleObjectFieldWithMaxValueOnly;
 
-	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_FLOAT_MAX_VALUE)
+	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
 	private Double doubleObjectFieldWithMinAndMaxValue;
 
 	// ------------------->> Constructors
