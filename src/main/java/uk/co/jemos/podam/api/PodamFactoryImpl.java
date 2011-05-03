@@ -1213,6 +1213,14 @@ public class PodamFactoryImpl implements PodamFactory {
 			attributeValue = this.createNewInstanceForClassWithoutSetters(
 					pojoClass, attributeType);
 
+		} else if (attributeType.isEnum()) {
+
+			int enumConstantsLength = attributeType.getEnumConstants().length;
+
+			if (enumConstantsLength > 0) {
+				attributeValue = attributeType.getEnumConstants()[0];
+			}
+
 		} else {
 
 			// For any class not in the Java namespace, we try the PODAM

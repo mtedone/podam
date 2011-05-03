@@ -29,6 +29,8 @@ import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.CollectionsPojo;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojo;
+import uk.co.jemos.podam.test.dto.EnumsPojo;
+import uk.co.jemos.podam.test.dto.EnumsPojo.RatePodamInternal;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNonAnnotatedPojo;
@@ -52,6 +54,7 @@ import uk.co.jemos.podam.test.dto.annotations.IntegerRangeValuesPojo;
 import uk.co.jemos.podam.test.dto.annotations.LongRangeValuesPojo;
 import uk.co.jemos.podam.test.dto.annotations.ShortRangeValuesPojo;
 import uk.co.jemos.podam.test.dto.annotations.StringValuesPojo;
+import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
 /**
@@ -942,6 +945,27 @@ public class PodamMockerUnitTest {
 		Map<String, OneDimensionalTestPojo> pojoMap = pojo.getPojoMap();
 		Assert.assertNotNull("The pojo map cannot be null!", pojoMap);
 		Assert.assertFalse("The pojo map cannot be empty!", pojoMap.isEmpty());
+
+	}
+
+	@Test
+	public void testEnumsPojo() {
+
+		EnumsPojo pojo = factory.manufacturePojo(EnumsPojo.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+		ExternalRatePodamEnum ratePodamExternal = pojo.getRatePodamExternal();
+		Assert.assertNotNull("The external enum attribute cannot be null!",
+				ratePodamExternal);
+
+		RatePodamInternal ratePodamInternal = pojo.getRatePodamInternal();
+
+		// Can't test for equality since internal enum is not visible
+		Assert.assertNotNull("The internal enum cannot be null!",
+				ratePodamInternal);
+		Assert.assertEquals(
+				"The internal enum does not match the expected value!",
+				RatePodamInternal.values()[0], ratePodamInternal);
 
 	}
 
