@@ -3,6 +3,7 @@
  */
 package uk.co.jemos.podam.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,6 +22,7 @@ import uk.co.jemos.podam.utils.PodamConstants;
  * @author mtedone
  * 
  */
+@Documented
 @Target(value = { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamStringValue {
