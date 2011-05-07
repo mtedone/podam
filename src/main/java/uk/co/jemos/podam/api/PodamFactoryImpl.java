@@ -667,6 +667,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @return Either a customised int value if a {@link PodamIntValue}
 	 *         annotation was provided or a random integer if this was not the
 	 *         case
+	 * 
+	 * @throws IllegalArgumentException
+	 *             If it was not possible to convert the
+	 *             {@link PodamIntValue#numValue()} to an Integer
 	 */
 	private Integer getIntegerValueWithinRange(List<Annotation> annotations) {
 
@@ -676,15 +680,33 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamIntValue intStrategy = (PodamIntValue) annotation;
-				int minValue = intStrategy.minValue();
-				int maxValue = intStrategy.maxValue();
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				String numValueStr = intStrategy.numValue();
+				if (null != numValueStr && !"".equals(numValueStr)) {
+					try {
+						retValue = Integer.valueOf(numValueStr);
+					} catch (NumberFormatException nfe) {
+						String errMsg = "The annotation value: "
+								+ numValueStr
+								+ " could not be converted to an Integer. An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg, nfe);
+
+					}
+
+				} else {
+
+					int minValue = intStrategy.minValue();
+					int maxValue = intStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getIntegerInRange(minValue, maxValue);
+
 				}
-
-				retValue = strategy.getIntegerInRange(minValue, maxValue);
 
 				break;
 

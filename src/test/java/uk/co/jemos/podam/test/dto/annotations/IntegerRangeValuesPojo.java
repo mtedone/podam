@@ -40,6 +40,9 @@ public class IntegerRangeValuesPojo implements Serializable {
 	@PodamIntValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE)
 	private Integer integerObjectFieldWithMinAndMaxValue;
 
+	@PodamIntValue(numValue = PodamTestConstants.INTEGER_PRECISE_VALUE)
+	private int intFieldWithPreciseValue;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
@@ -140,33 +143,44 @@ public class IntegerRangeValuesPojo implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * @return the intFieldWithPreciseValue
 	 */
-	@Override
-	public String toString() {
-		final String TAB = "    ";
+	public int getIntFieldWithPreciseValue() {
+		return intFieldWithPreciseValue;
+	}
 
-		StringBuilder retValue = new StringBuilder();
+	/**
+	 * @param intFieldWithPreciseValue
+	 *            the intFieldWithPreciseValue to set
+	 */
+	public void setIntFieldWithPreciseValue(int intFieldWithPreciseValue) {
+		this.intFieldWithPreciseValue = intFieldWithPreciseValue;
+	}
 
-		retValue.append("IntegerRangeValuesPojo ( ")
-				.append("intFieldWithMinValueOnly = ")
-				.append(intFieldWithMinValueOnly).append(TAB)
-				.append("intFieldWithMaxValueOnly = ")
-				.append(intFieldWithMaxValueOnly).append(TAB)
-				.append("intFieldWithMinAndMaxValue = ")
-				.append(intFieldWithMinAndMaxValue).append(TAB)
-				.append("integerObjectFieldWithMinValueOnly = ")
-				.append(integerObjectFieldWithMinValueOnly).append(TAB)
-				.append("integerObjectFieldWithMaxValueOnly = ")
-				.append(integerObjectFieldWithMaxValueOnly).append(TAB)
-				.append("integerObjectFieldWithMinAndMaxValue = ")
-				.append(integerObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
-
-		return retValue.toString();
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString()
+	{
+	    final String TAB = "    ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IntegerRangeValuesPojo ( ")        
+	        .append("intFieldWithMinValueOnly = ").append(this.intFieldWithMinValueOnly).append(TAB)
+	        .append("intFieldWithMaxValueOnly = ").append(this.intFieldWithMaxValueOnly).append(TAB)
+	        .append("intFieldWithMinAndMaxValue = ").append(this.intFieldWithMinAndMaxValue).append(TAB)
+	        .append("integerObjectFieldWithMinValueOnly = ").append(this.integerObjectFieldWithMinValueOnly).append(TAB)
+	        .append("integerObjectFieldWithMaxValueOnly = ").append(this.integerObjectFieldWithMaxValueOnly).append(TAB)
+	        .append("integerObjectFieldWithMinAndMaxValue = ").append(this.integerObjectFieldWithMinAndMaxValue).append(TAB)
+	        .append("intFieldWithPreciseValue = ").append(this.intFieldWithPreciseValue).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 	// ------------------->> Private methods

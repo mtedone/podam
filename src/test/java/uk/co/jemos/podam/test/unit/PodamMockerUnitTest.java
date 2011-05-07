@@ -341,6 +341,13 @@ public class PodamMockerUnitTest {
 				integerObjectFieldWithMinAndMaxValue.intValue() >= 0
 						&& integerObjectFieldWithMinAndMaxValue.intValue() <= 1000);
 
+		int intFieldWithPreciseValue = pojo.getIntFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The integer field with precise value must have a value of: "
+						+ PodamTestConstants.INTEGER_PRECISE_VALUE,
+				intFieldWithPreciseValue == Integer
+						.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE));
+
 	}
 
 	@Test
