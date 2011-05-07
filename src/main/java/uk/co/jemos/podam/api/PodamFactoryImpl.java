@@ -534,6 +534,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @return A random short if the attribute was annotated with
 	 *         {@link PodamShortValue} or {@code null} otherwise
+	 * @throws IllegalArgumentException
+	 *             If {@link PodamShortValue#numValue()} was set and its value
+	 *             could not be converted to a Short type
 	 */
 	private Short getShortValueWithinRange(List<Annotation> annotations) {
 
@@ -542,16 +545,32 @@ public class PodamFactoryImpl implements PodamFactory {
 		for (Annotation annotation : annotations) {
 
 			if (annotation.annotationType().equals(PodamShortValue.class)) {
-				PodamShortValue intStrategy = (PodamShortValue) annotation;
-				short minValue = intStrategy.minValue();
-				short maxValue = intStrategy.maxValue();
+				PodamShortValue shortStrategy = (PodamShortValue) annotation;
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				String numValueStr = shortStrategy.numValue();
+				if (null != numValueStr && !"".equals(numValueStr)) {
+					try {
+						retValue = Short.valueOf(numValueStr);
+					} catch (NumberFormatException nfe) {
+						String errMsg = "The precise value: "
+								+ numValueStr
+								+ " cannot be converted to a short type. An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg, nfe);
+					}
+				} else {
+
+					short minValue = shortStrategy.minValue();
+					short maxValue = shortStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getShortInRange(minValue, maxValue);
+
 				}
-
-				retValue = strategy.getShortInRange(minValue, maxValue);
 
 				break;
 

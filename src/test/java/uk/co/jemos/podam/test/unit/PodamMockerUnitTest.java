@@ -615,6 +615,13 @@ public class PodamMockerUnitTest {
 				shortObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& shortObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
+		short shortFieldWithPreciseValue = pojo.getShortFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The short attribute with precise value should have a value of "
+						+ PodamTestConstants.SHORT_PRECISE_VALUE,
+				shortFieldWithPreciseValue == Short
+						.valueOf(PodamTestConstants.SHORT_PRECISE_VALUE));
+
 	}
 
 	@Test

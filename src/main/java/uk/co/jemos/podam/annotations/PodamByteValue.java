@@ -25,6 +25,9 @@ public @interface PodamByteValue {
 	/**
 	 * A precise value for the annotated attribute.
 	 * <p>
+	 * This attribute defaults to an empty string.
+	 * </p>
+	 * <p>
 	 * Please note that the format should be String to allow for null values for
 	 * this annotation attribute. If we set the type to be byte, then to allow
 	 * for {@code null} values we should have set something arbitrary as

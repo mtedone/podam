@@ -140,10 +140,6 @@ public class ByteRangeValuesPojo implements Serializable {
 		this.byteObjectFieldWithMinAndMaxValue = byteObjectFieldWithMinAndMaxValue;
 	}
 
-	// ------------------->> Private methods
-
-	// ------------------->> equals() / hashcode() / toString()
-
 	public byte getByteFieldWithPreciseValue() {
 		return byteFieldWithPreciseValue;
 	}
@@ -152,30 +148,39 @@ public class ByteRangeValuesPojo implements Serializable {
 		this.byteFieldWithPreciseValue = byteFieldWithPreciseValue;
 	}
 
+	// ------------------->> Private methods
+
+	// ------------------->> equals() / hashcode() / toString()
+
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	 * Constructs a <code>String</code> with all attributes in name = value
+	 * format.
+	 * 
+	 * @return a <code>String</code> representation of this object.
 	 */
-	public String toString()
-	{
-	    final String TAB = "    ";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("ByteRangeValuesPojo ( ")        
-	        .append("byteFieldWithMinValueOnly = ").append(this.byteFieldWithMinValueOnly).append(TAB)
-	        .append("byteFieldWithMaxValueOnly = ").append(this.byteFieldWithMaxValueOnly).append(TAB)
-	        .append("byteFieldWithMinAndMaxValue = ").append(this.byteFieldWithMinAndMaxValue).append(TAB)
-	        .append("byteObjectFieldWithMinValueOnly = ").append(this.byteObjectFieldWithMinValueOnly).append(TAB)
-	        .append("byteObjectFieldWithMaxValueOnly = ").append(this.byteObjectFieldWithMaxValueOnly).append(TAB)
-	        .append("byteObjectFieldWithMinAndMaxValue = ").append(this.byteObjectFieldWithMinAndMaxValue).append(TAB)
-	        .append("byteFieldWithPreciseValue = ").append(this.byteFieldWithPreciseValue).append(TAB)
-	        .append(" )");
-	    
-	    return retValue.toString();
+	@Override
+	public String toString() {
+		final String TAB = "    ";
+
+		StringBuilder retValue = new StringBuilder();
+
+		retValue.append("ByteRangeValuesPojo ( ")
+				.append("byteFieldWithMinValueOnly = ")
+				.append(byteFieldWithMinValueOnly).append(TAB)
+				.append("byteFieldWithMaxValueOnly = ")
+				.append(byteFieldWithMaxValueOnly).append(TAB)
+				.append("byteFieldWithMinAndMaxValue = ")
+				.append(byteFieldWithMinAndMaxValue).append(TAB)
+				.append("byteObjectFieldWithMinValueOnly = ")
+				.append(byteObjectFieldWithMinValueOnly).append(TAB)
+				.append("byteObjectFieldWithMaxValueOnly = ")
+				.append(byteObjectFieldWithMaxValueOnly).append(TAB)
+				.append("byteObjectFieldWithMinAndMaxValue = ")
+				.append(byteObjectFieldWithMinAndMaxValue).append(TAB)
+				.append("byteFieldWithPreciseValue = ")
+				.append(byteFieldWithPreciseValue).append(TAB).append(" )");
+
+		return retValue.toString();
 	}
 
 	// ------------------->> Inner classes

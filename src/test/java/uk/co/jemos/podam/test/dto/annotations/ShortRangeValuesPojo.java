@@ -40,6 +40,9 @@ public class ShortRangeValuesPojo implements Serializable {
 	@PodamShortValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private Short shortObjectFieldWithMinAndMaxValue;
 
+	@PodamShortValue(numValue = PodamTestConstants.SHORT_PRECISE_VALUE)
+	private short shortFieldWithPreciseValue;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
@@ -140,6 +143,14 @@ public class ShortRangeValuesPojo implements Serializable {
 		this.shortObjectFieldWithMinAndMaxValue = shortObjectFieldWithMinAndMaxValue;
 	}
 
+	public short getShortFieldWithPreciseValue() {
+		return shortFieldWithPreciseValue;
+	}
+
+	public void setShortFieldWithPreciseValue(short shortFieldWithPreciseValue) {
+		this.shortFieldWithPreciseValue = shortFieldWithPreciseValue;
+	}
+
 	// ------------------->> Private methods
 
 	// ------------------->> equals() / hashcode() / toString()
@@ -157,19 +168,20 @@ public class ShortRangeValuesPojo implements Serializable {
 		StringBuilder retValue = new StringBuilder();
 
 		retValue.append("ShortRangeValuesPojo ( ")
-				.append("intFieldWithMinValueOnly = ")
+				.append("shortFieldWithMinValueOnly = ")
 				.append(shortFieldWithMinValueOnly).append(TAB)
-				.append("intFieldWithMaxValueOnly = ")
+				.append("shortFieldWithMaxValueOnly = ")
 				.append(shortFieldWithMaxValueOnly).append(TAB)
-				.append("intFieldWithMinAndMaxValue = ")
+				.append("shortFieldWithMinAndMaxValue = ")
 				.append(shortFieldWithMinAndMaxValue).append(TAB)
-				.append("integerObjectFieldWithMinValueOnly = ")
+				.append("shortObjectFieldWithMinValueOnly = ")
 				.append(shortObjectFieldWithMinValueOnly).append(TAB)
-				.append("integerObjectFieldWithMaxValueOnly = ")
+				.append("shortObjectFieldWithMaxValueOnly = ")
 				.append(shortObjectFieldWithMaxValueOnly).append(TAB)
-				.append("integerObjectFieldWithMinAndMaxValue = ")
+				.append("shortObjectFieldWithMinAndMaxValue = ")
 				.append(shortObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
+				.append("shortFieldWithPreciseValue = ")
+				.append(shortFieldWithPreciseValue).append(TAB).append(" )");
 
 		return retValue.toString();
 	}
