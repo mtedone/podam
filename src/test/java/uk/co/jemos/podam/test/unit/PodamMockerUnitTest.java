@@ -172,7 +172,7 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The Object field cannot be null", objectField);
 
 		Calendar calendarField = pojo.getCalendarField();
-		this.checkCalendarIsValid(calendarField);
+		checkCalendarIsValid(calendarField);
 
 		Date dateField = pojo.getDateField();
 		Assert.assertNotNull("The date field is not valid", dateField);
@@ -312,8 +312,8 @@ public class PodamMockerUnitTest {
 				.getIntFieldWithMinAndMaxValue();
 		Assert.assertTrue(
 				"The int field with both min and max value should have a value comprised between",
-				(intObjectFieldWithMinAndMaxValue >= 0)
-						&& (intObjectFieldWithMinAndMaxValue <= 1000));
+				intObjectFieldWithMinAndMaxValue >= 0
+						&& intObjectFieldWithMinAndMaxValue <= 1000);
 		Integer integerObjectFieldWithMinValueOnly = pojo
 				.getIntegerObjectFieldWithMinValueOnly();
 		Assert.assertNotNull(
@@ -337,8 +337,8 @@ public class PodamMockerUnitTest {
 				integerObjectFieldWithMinAndMaxValue);
 		Assert.assertTrue(
 				"The integer field with minimum and maximum value should have value comprised between 0 and 1000",
-				(integerObjectFieldWithMinAndMaxValue.intValue() >= 0)
-						&& (integerObjectFieldWithMinAndMaxValue.intValue() <= 1000));
+				integerObjectFieldWithMinAndMaxValue.intValue() >= 0
+						&& integerObjectFieldWithMinAndMaxValue.intValue() <= 1000);
 
 	}
 
@@ -360,8 +360,8 @@ public class PodamMockerUnitTest {
 				.getLongFieldWithMinAndMaxValue();
 		Assert.assertTrue(
 				"The long field with both min and max value should have a value comprised between 0 and 1000!",
-				(longFieldWithMinAndMaxValue >= 0)
-						&& (longFieldWithMinAndMaxValue <= 1000));
+				longFieldWithMinAndMaxValue >= 0
+						&& longFieldWithMinAndMaxValue <= 1000);
 
 		Long longObjectFieldWithMinValueOnly = pojo
 				.getLongObjectFieldWithMinValueOnly();
@@ -388,8 +388,8 @@ public class PodamMockerUnitTest {
 				longObjectFieldWithMinAndMaxValue);
 		Assert.assertTrue(
 				"The Long object field with min and max value should have a value comprised between 0 and 1000",
-				(longObjectFieldWithMinAndMaxValue >= 0L)
-						&& (longObjectFieldWithMinAndMaxValue <= 1000L));
+				longObjectFieldWithMinAndMaxValue >= 0L
+						&& longObjectFieldWithMinAndMaxValue <= 1000L);
 
 	}
 
@@ -403,7 +403,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue("The super int field must be <= 10",
 				parentIntField <= 10);
 		Calendar parentCalendarField = pojo.getParentCalendarField();
-		this.checkCalendarIsValid(parentCalendarField);
+		checkCalendarIsValid(parentCalendarField);
 		int intField = pojo.getIntField();
 		Assert.assertTrue("The int field must be different from zero!",
 				intField != 0);
@@ -420,31 +420,31 @@ public class PodamMockerUnitTest {
 		CollectionsPojo pojo = factory.manufacturePojo(CollectionsPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		List<String> strList = pojo.getStrList();
-		this.validateReturnedList(strList);
+		validateReturnedList(strList);
 		ArrayList<String> arrayListStr = pojo.getArrayListStr();
-		this.validateReturnedList(arrayListStr);
+		validateReturnedList(arrayListStr);
 		List<String> copyOnWriteList = pojo.getCopyOnWriteList();
-		this.validateReturnedList(copyOnWriteList);
+		validateReturnedList(copyOnWriteList);
 		HashSet<String> hashSetStr = pojo.getHashSetStr();
-		this.validateReturnedSet(hashSetStr);
+		validateReturnedSet(hashSetStr);
 		List<String> listStrCollection = new ArrayList<String>(
 				pojo.getStrCollection());
-		this.validateReturnedList(listStrCollection);
+		validateReturnedList(listStrCollection);
 		Set<String> setStrCollection = new HashSet<String>(
 				pojo.getStrCollection());
-		this.validateReturnedSet(setStrCollection);
+		validateReturnedSet(setStrCollection);
 		Set<String> strSet = pojo.getStrSet();
-		this.validateReturnedSet(strSet);
+		validateReturnedSet(strSet);
 		Map<String, OneDimensionalTestPojo> map = pojo.getMap();
-		this.validateHashMap(map);
+		validateHashMap(map);
 		HashMap<String, OneDimensionalTestPojo> hashMap = pojo.getHashMap();
-		this.validateHashMap(hashMap);
+		validateHashMap(hashMap);
 		ConcurrentMap<String, OneDimensionalTestPojo> concurrentHashMap = pojo
 				.getConcurrentHashMap();
-		this.validateConcurrentHashMap(concurrentHashMap);
+		validateConcurrentHashMap(concurrentHashMap);
 		ConcurrentHashMap<String, OneDimensionalTestPojo> concurrentHashMapImpl = pojo
 				.getConcurrentHashMapImpl();
-		this.validateConcurrentHashMap(concurrentHashMapImpl);
+		validateConcurrentHashMap(concurrentHashMapImpl);
 		Queue<SimplePojoToTestSetters> queue = pojo.getQueue();
 		Assert.assertNotNull("The queue cannot be null!", queue);
 		Assert.assertTrue("The queue must be an instance of LinkedList",
@@ -516,8 +516,8 @@ public class PodamMockerUnitTest {
 				"The byte field value must be between: "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				(byteFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (byteFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED));
+				byteFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& byteFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 		Byte byteObjectFieldWithMinValueOnly = pojo
 				.getByteObjectFieldWithMinValueOnly();
 		Assert.assertNotNull(
@@ -545,8 +545,13 @@ public class PodamMockerUnitTest {
 				"The byte object must have a value between: "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_MAX_VALUE,
-				(byteObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (byteObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_MAX_VALUE));
+				byteObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& byteObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_MAX_VALUE);
+		byte byteFieldWithPreciseValue = pojo.getByteFieldWithPreciseValue();
+		Assert.assertTrue("The byte with precise value should have value: "
+				+ PodamTestConstants.BYTE_PRECISE_VALUE,
+				byteFieldWithPreciseValue == Byte
+						.valueOf(PodamTestConstants.BYTE_PRECISE_VALUE));
 
 	}
 
@@ -575,8 +580,8 @@ public class PodamMockerUnitTest {
 				"The short field with min and max values should have a value beetween "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_MAX_VALUE,
-				(shortFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (shortFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED));
+				shortFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& shortFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Short shortObjectFieldWithMinValueOnly = pojo
 				.getShortObjectFieldWithMinValueOnly();
@@ -607,8 +612,8 @@ public class PodamMockerUnitTest {
 				"The short object field with min and max values should have a value beetween "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				(shortObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (shortObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED));
+				shortObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& shortObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 	}
 
@@ -637,8 +642,8 @@ public class PodamMockerUnitTest {
 				"The char attribute with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				(charFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (charFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED));
+				charFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& charFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Character charObjectFieldWithMinValueOnly = pojo
 				.getCharObjectFieldWithMinValueOnly();
@@ -669,8 +674,8 @@ public class PodamMockerUnitTest {
 				"The char object attribute with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				(charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE)
-						&& (charObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED));
+				charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						&& charObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 	}
 
@@ -699,8 +704,8 @@ public class PodamMockerUnitTest {
 				"The float field with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
-				(floatFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
-						&& (floatFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE));
+				floatFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+						&& floatFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
 
 		Float floatObjectFieldWithMinValueOnly = pojo
 				.getFloatObjectFieldWithMinValueOnly();
@@ -732,8 +737,8 @@ public class PodamMockerUnitTest {
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
 						+ " and "
 						+ PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
-				(floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
-						&& (floatObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE));
+				floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+						&& floatObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
 
 	}
 
@@ -764,8 +769,8 @@ public class PodamMockerUnitTest {
 				"The double attribute with min and mx value must have a value between "
 						+ PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE,
-				(doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE)
-						&& (doubleFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE));
+				doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE
+						&& doubleFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE);
 
 	}
 
@@ -1029,7 +1034,7 @@ public class PodamMockerUnitTest {
 		Set<String> keySet = map.keySet();
 		Assert.assertNotNull("The Map must have at least one element", keySet);
 
-		this.validateMapElement(map, keySet);
+		validateMapElement(map, keySet);
 	}
 
 	/**
@@ -1047,7 +1052,7 @@ public class PodamMockerUnitTest {
 		Set<String> keySet = map.keySet();
 		Assert.assertNotNull("The Map must have at least one element", keySet);
 
-		this.validateMapElement(map, keySet);
+		validateMapElement(map, keySet);
 	}
 
 	/**

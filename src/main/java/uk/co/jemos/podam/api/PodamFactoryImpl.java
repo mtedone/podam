@@ -215,12 +215,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 						if (Collection.class.isAssignableFrom(parameterType)) {
 
-							Collection<? super Object> listType = this
-									.resolveCollectionType(parameterType);
+							Collection<? super Object> listType = resolveCollectionType(parameterType);
 
-							Class<?> elementType = this
-									.retrieveClassFromCollectionTypeInConstructor(paramType
-											.toString());
+							Class<?> elementType = retrieveClassFromCollectionTypeInConstructor(paramType
+									.toString());
 
 							int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
@@ -236,10 +234,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							for (int i = 0; i < nbrElements; i++) {
-								Object attributeValue = this
-										.manufactureAttributeValue(clazz,
-												elementType, annotations,
-												attributeName);
+								Object attributeValue = manufactureAttributeValue(
+										clazz, elementType, annotations,
+										attributeName);
 
 								listType.add(attributeValue);
 							}
@@ -248,12 +245,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 						} else if (Map.class.isAssignableFrom(parameterType)) {
 
-							Map<? super Object, ? super Object> mapType = this
-									.resolveMapType(parameterType);
+							Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
 
-							Class<?>[] keyValueClasses = this
-									.retrieveClassFromMapTypeInConstructor(paramType
-											.toString());
+							Class<?>[] keyValueClasses = retrieveClassFromMapTypeInConstructor(paramType
+									.toString());
 
 							int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
@@ -269,15 +264,13 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							for (int i = 0; i < nbrElements; i++) {
-								Object keyValue = this
-										.manufactureAttributeValue(clazz,
-												keyValueClasses[0],
-												annotations, attributeName);
+								Object keyValue = manufactureAttributeValue(
+										clazz, keyValueClasses[0], annotations,
+										attributeName);
 
-								Object elementValue = this
-										.manufactureAttributeValue(clazz,
-												keyValueClasses[1],
-												annotations, attributeName);
+								Object elementValue = manufactureAttributeValue(
+										clazz, keyValueClasses[1], annotations,
+										attributeName);
 
 								mapType.put(keyValue, elementValue);
 							}
@@ -286,10 +279,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 						} else {
 
-							parameterValues[idx] = this
-									.manufactureAttributeValue(clazz,
-											parameterType, annotations,
-											attributeName);
+							parameterValues[idx] = manufactureAttributeValue(
+									clazz, parameterType, annotations,
+									attributeName);
 
 						}
 
@@ -317,9 +309,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				try {
 
-					Object[] constructorArgs = this
-							.getParameterValuesForConstructor(constructor,
-									pojoClass);
+					Object[] constructorArgs = getParameterValuesForConstructor(
+							constructor, pojoClass);
 
 					retValue = constructor.newInstance(constructorArgs);
 
@@ -376,7 +367,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getIntegerValueWithinRange(annotations);
+				retValue = getIntegerValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getInteger();
@@ -391,7 +382,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getLongValueWithinRange(annotations);
+				retValue = getLongValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getLong();
@@ -406,7 +397,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getFloatValueWithinRange(annotations);
+				retValue = getFloatValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getFloat();
@@ -421,7 +412,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getDoubleValueWithinRange(annotations);
+				retValue = getDoubleValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getDouble();
@@ -440,7 +431,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getByteValueWithinRange(annotations);
+				retValue = getByteValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getByte();
@@ -455,7 +446,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getShortValueWithinRange(annotations);
+				retValue = getShortValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getShort();
@@ -470,7 +461,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getCharacterValueWithinRange(annotations);
+				retValue = getCharacterValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getCharacter();
@@ -488,6 +479,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The list of annotations for this attribute
 	 * @return A random byte if the attribute was annotated with
+	 * @throws IllegalArgumentException
+	 *             If the {@link PodamByteValue#numValue()} value has been set
+	 *             and it is not convertible to a byte type
 	 */
 	private Byte getByteValueWithinRange(List<Annotation> annotations) {
 		Byte retValue = null;
@@ -496,15 +490,31 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotation.annotationType().equals(PodamByteValue.class)) {
 				PodamByteValue intStrategy = (PodamByteValue) annotation;
-				byte minValue = intStrategy.minValue();
-				byte maxValue = intStrategy.maxValue();
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				String numValueStr = intStrategy.numValue();
+				if (null != numValueStr && !"".equals(numValueStr)) {
+					try {
+
+						retValue = Byte.valueOf(numValueStr);
+
+					} catch (NumberFormatException nfe) {
+						String errMsg = "The precise value: "
+								+ numValueStr
+								+ " cannot be converted to a byte type. An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg, nfe);
+					}
+				} else {
+					byte minValue = intStrategy.minValue();
+					byte maxValue = intStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getByteInRange(minValue, maxValue);
 				}
-
-				retValue = strategy.getByteInRange(minValue, maxValue);
 
 				break;
 
@@ -755,7 +765,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getIntegerValueWithinRange(annotations);
+				retValue = getIntegerValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getInteger();
@@ -770,7 +780,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getLongValueWithinRange(annotations);
+				retValue = getLongValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getLong();
@@ -785,7 +795,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getFloatValueWithinRange(annotations);
+				retValue = getFloatValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getFloat();
@@ -800,7 +810,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getDoubleValueWithinRange(annotations);
+				retValue = getDoubleValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getDouble();
@@ -819,7 +829,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getByteValueWithinRange(annotations);
+				retValue = getByteValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getByte();
@@ -834,7 +844,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getShortValueWithinRange(annotations);
+				retValue = getShortValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getShort();
@@ -849,7 +859,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				retValue = this.getCharacterValueWithinRange(annotations);
+				retValue = getCharacterValueWithinRange(annotations);
 
 				if (retValue == null) {
 					retValue = strategy.getCharacter();
@@ -896,8 +906,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
-			retValue = (T) this.createNewInstanceForClassWithoutSetters(
-					pojoClass, pojoClass);
+			retValue = (T) createNewInstanceForClassWithoutSetters(pojoClass,
+					pojoClass);
 		} else {
 			for (Constructor<?> constructor : constructors) {
 
@@ -905,9 +915,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					continue;
 				}
 
-				Object[] parameterValues = this
-						.getParameterValuesForConstructor(constructor,
-								pojoClass);
+				Object[] parameterValues = getParameterValuesForConstructor(
+						constructor, pojoClass);
 
 				// Being a generic method we cannot be sure on the identify of
 				// T,
@@ -938,7 +947,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> retValue = null;
 
-		if (!typeStr.contains("<") && !(typeStr.contains(">"))) {
+		if (!typeStr.contains("<") && !typeStr.contains(">")) {
 
 			LOG.warn("The Collection type in the constructor: "
 					+ typeStr
@@ -1061,8 +1070,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			Object setterArg = null;
 			for (Method setter : classInfo.getClassSetters()) {
 
-				List<Annotation> pojoAttributeAnnotations = this
-						.retrieveFieldAnnotations(pojoClass, setter);
+				List<Annotation> pojoAttributeAnnotations = retrieveFieldAnnotations(
+						pojoClass, setter);
 
 				String attributeName = PodamUtils
 						.extractFieldNameFromSetterMethod(setter);
@@ -1086,9 +1095,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					} else {
 
-						setterArg = this
-								.createNewInstanceForClassWithoutSetters(
-										pojoClass, pojoClass);
+						setterArg = createNewInstanceForClassWithoutSetters(
+								pojoClass, pojoClass);
 
 						setter.invoke(retValue, setterArg);
 						depth = 0;
@@ -1098,8 +1106,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				}
 
-				setterArg = this.manufactureAttributeValue(pojoClass,
-						attributeType, pojoAttributeAnnotations, attributeName);
+				setterArg = manufactureAttributeValue(pojoClass, attributeType,
+						pojoAttributeAnnotations, attributeName);
 
 				if (setterArg != null) {
 					// If the setter is not public we set it to accessible or
@@ -1172,37 +1180,33 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (attributeType.isPrimitive()) {
 
-			attributeValue = this.resolvePrimitiveValue(attributeType,
-					annotations);
+			attributeValue = resolvePrimitiveValue(attributeType, annotations);
 
-		} else if (this.isWrapper(attributeType)) {
+		} else if (isWrapper(attributeType)) {
 
-			attributeValue = this.resolveWrapperValue(attributeType,
-					annotations);
+			attributeValue = resolveWrapperValue(attributeType, annotations);
 
 		} else if (attributeType.equals(String.class)) {
 
-			attributeValue = this.resolveStringValue(annotations);
+			attributeValue = resolveStringValue(annotations);
 
 			// Is this an array?
 		} else if (attributeType.getName().startsWith("[")) {
 
-			attributeValue = this.resolveArrayElementValue(attributeType,
+			attributeValue = resolveArrayElementValue(attributeType,
 					annotations, pojoClass, attributeName);
 
 			// Otherwise it's a different type of Object (including
 			// the Object class)
 		} else if (Collection.class.isAssignableFrom(attributeType)) {
 
-			attributeValue = this
-					.resolveCollectionValueWhenCollectionIsPojoAttribute(
-							pojoClass, attributeType, attributeName,
-							annotations);
+			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
+					pojoClass, attributeType, attributeName, annotations);
 
 		} else if (Map.class.isAssignableFrom(attributeType)) {
 
-			attributeValue = this.resolveMapValueWhenMapIsPojoAttribute(
-					pojoClass, attributeType, attributeName, annotations);
+			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
+					attributeType, attributeName, annotations);
 
 		} else if (attributeType.getName().startsWith("java.")
 				|| attributeType.getName().startsWith("javax.")) {
@@ -1210,8 +1214,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			// For classes in the Java namespace we attempt the no-args or the
 			// factory constructor strategy
 
-			attributeValue = this.createNewInstanceForClassWithoutSetters(
-					pojoClass, attributeType);
+			attributeValue = createNewInstanceForClassWithoutSetters(pojoClass,
+					attributeType);
 
 		} else if (attributeType.isEnum()) {
 
@@ -1245,7 +1249,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		String retValue = null;
 
-		if ((annotations == null) || annotations.isEmpty()) {
+		if (annotations == null || annotations.isEmpty()) {
 
 			retValue = strategy.getStringValue();
 
@@ -1260,8 +1264,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				// A specific value takes precedence over the length
 				PodamStringValue podamAnnotation = (PodamStringValue) annotation;
 
-				if ((podamAnnotation.strValue() != null)
-						&& (podamAnnotation.strValue().length() > 0)) {
+				if (podamAnnotation.strValue() != null
+						&& podamAnnotation.strValue().length() > 0) {
 
 					retValue = podamAnnotation.strValue();
 
@@ -1349,7 +1353,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (setterField != null) {
 			Annotation[] annotations = setterField.getAnnotations();
 
-			if ((annotations != null) && (annotations.length != 0)) {
+			if (annotations != null && annotations.length != 0) {
 				retValue = Arrays.asList(annotations);
 			}
 		}
@@ -1382,7 +1386,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> pojoClass, Class<?> collectionType, String attributeName,
 			List<Annotation> annotations) {
 
-		this.validateAttributeName(attributeName);
+		validateAttributeName(attributeName);
 
 		// This needs to be generic because collections can be of any type
 		Collection<? super Object> retValue = null;
@@ -1405,7 +1409,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != coll) {
 				retValue = coll;
 			} else {
-				retValue = this.resolveCollectionType(collectionType);
+				retValue = resolveCollectionType(collectionType);
 			}
 
 			Class<?> typeClass = null;
@@ -1427,12 +1431,11 @@ public class PodamFactoryImpl implements PodamFactory {
 								.extractClassNameFromParameterisedTypeInField(actualTypeArguments));
 			}
 
-			int nbrElements = this
-					.resolveCollectionNbrElementsFromAnnotations(annotations);
+			int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
 
 			for (int i = 0; i < nbrElements; i++) {
-				retValue.add(this.manufactureAttributeValue(pojoClass,
-						typeClass, annotations, attributeName));
+				retValue.add(manufactureAttributeValue(pojoClass, typeClass,
+						annotations, attributeName));
 			}
 
 		} catch (SecurityException e) {
@@ -1488,7 +1491,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> pojoClass, Class<?> attributeType, String attributeName,
 			List<Annotation> annotations) {
 
-		this.validateAttributeName(attributeName);
+		validateAttributeName(attributeName);
 
 		Map<? super Object, ? super Object> retValue = null;
 
@@ -1510,7 +1513,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != coll) {
 				retValue = coll;
 			} else {
-				retValue = this.resolveMapType(attributeType);
+				retValue = resolveMapType(attributeType);
 			}
 
 			Type genericType = field.getGenericType();
@@ -1519,8 +1522,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Class<?> elementClass = null;
 
-			if ((null != genericType)
-					&& (genericType instanceof ParameterizedType)) {
+			if (null != genericType && genericType instanceof ParameterizedType) {
 
 				ParameterizedType pType = (ParameterizedType) genericType;
 				Type[] actualTypeArguments = pType.getActualTypeArguments();
@@ -1552,15 +1554,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			int nbrElements = this
-					.resolveCollectionNbrElementsFromAnnotations(annotations);
+			int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
 
 			for (int i = 0; i < nbrElements; i++) {
 
-				Object keyValue = this.manufactureAttributeValue(pojoClass,
+				Object keyValue = manufactureAttributeValue(pojoClass,
 						keyClass, annotations, attributeName);
 
-				Object elementValue = this.manufactureAttributeValue(pojoClass,
+				Object elementValue = manufactureAttributeValue(pojoClass,
 						elementClass, annotations, attributeName);
 
 				retValue.put(keyValue, elementValue);
@@ -1622,8 +1623,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> componentType = attributeType.getComponentType();
 
 		// Checks if the number of elements has been customised
-		int nbrElements = this
-				.resolveCollectionNbrElementsFromAnnotations(annotations);
+		int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
 
 		Object array = Array.newInstance(componentType, nbrElements);
 
@@ -1631,8 +1631,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (int i = 0; i < nbrElements; i++) {
 
-			arrayElement = this.manufactureAttributeValue(pojoClass,
-					componentType, annotations, attributeName);
+			arrayElement = manufactureAttributeValue(pojoClass, componentType,
+					annotations, attributeName);
 
 			Array.set(array, i, arrayElement);
 
@@ -1733,7 +1733,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If the attribute name is null or empty
 	 */
 	private void validateAttributeName(String attributeName) {
-		if ((attributeName == null) || "".equals(attributeName)) {
+		if (attributeName == null || "".equals(attributeName)) {
 			throw new IllegalArgumentException(
 					"The field name must not be null or empty!");
 		}
@@ -1839,15 +1839,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				if (Collection.class.isAssignableFrom(parameterType)) {
 
-					Collection<? super Object> listType = this
-							.resolveCollectionType(parameterType);
+					Collection<? super Object> listType = resolveCollectionType(parameterType);
 
 					Type type = constructor.getGenericParameterTypes()[idx];
 
 					String typeStr = type.toString();
 
-					Class<?> elementType = this
-							.retrieveClassFromCollectionTypeInConstructor(typeStr);
+					Class<?> elementType = retrieveClassFromCollectionTypeInConstructor(typeStr);
 
 					int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
@@ -1863,7 +1861,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 
 					for (int i = 0; i < nbrElements; i++) {
-						Object attributeValue = this.manufactureAttributeValue(
+						Object attributeValue = manufactureAttributeValue(
 								pojoClass, elementType, annotations,
 								attributeName);
 
@@ -1874,14 +1872,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				} else if (Map.class.isAssignableFrom(parameterType)) {
 
-					Map<? super Object, ? super Object> mapType = this
-							.resolveMapType(parameterType);
+					Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
 
 					Type type = constructor.getGenericParameterTypes()[idx];
 
-					Class<?>[] keyValueClasses = this
-							.retrieveClassFromMapTypeInConstructor(type
-									.toString());
+					Class<?>[] keyValueClasses = retrieveClassFromMapTypeInConstructor(type
+							.toString());
 
 					int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
@@ -1897,11 +1893,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 
 					for (int i = 0; i < nbrElements; i++) {
-						Object keyValue = this.manufactureAttributeValue(
-								pojoClass, keyValueClasses[0], annotations,
-								attributeName);
+						Object keyValue = manufactureAttributeValue(pojoClass,
+								keyValueClasses[0], annotations, attributeName);
 
-						Object elementValue = this.manufactureAttributeValue(
+						Object elementValue = manufactureAttributeValue(
 								pojoClass, keyValueClasses[1], annotations,
 								attributeName);
 
@@ -1912,9 +1907,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				} else {
 
-					parameterValues[idx] = this.manufactureAttributeValue(
-							pojoClass, parameterType, annotations,
-							attributeName);
+					parameterValues[idx] = manufactureAttributeValue(pojoClass,
+							parameterType, annotations, attributeName);
 
 				}
 

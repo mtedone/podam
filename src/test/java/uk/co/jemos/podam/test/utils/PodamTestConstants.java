@@ -49,6 +49,9 @@ public class PodamTestConstants {
 	/** The number of elements in an annotated collection */
 	public static final int ANNOTATION_COLLECTION_NBR_ELEMENTS = 5;
 
+	/** A precise byte value to test annotations */
+	public static final String BYTE_PRECISE_VALUE = "12";
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
