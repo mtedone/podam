@@ -31,4 +31,20 @@ public @interface PodamCharValue {
 	/** It allows clients to make comments */
 	String comment() default "";
 
+	/**
+	 * A precise char value to assign to the annotated attribute.
+	 * <p>
+	 * If set, it will take precedence over all other annotation attributes
+	 * (e.g. min/max). It is assumed that if the value of {@code charValue} is
+	 * the default, the user didn't set it and therefore this value will not
+	 * take precedence over {@code minValue} and {@code maxValue}.
+	 * </p>
+	 * <p>
+	 * This attribute defaults to an empty char.
+	 * </p>
+	 * 
+	 * @return A precise char value to assign to the annotated attribute.
+	 */
+	char charValue() default ' ';
+
 }

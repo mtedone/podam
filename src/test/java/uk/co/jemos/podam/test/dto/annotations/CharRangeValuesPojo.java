@@ -40,6 +40,9 @@ public class CharRangeValuesPojo implements Serializable {
 	@PodamCharValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private Character charObjectFieldWithMinAndMaxValue;
 
+	@PodamCharValue(charValue = PodamTestConstants.CHAR_PRECISE_VALUE)
+	private char charFieldWithPreciseValue;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
@@ -144,6 +147,21 @@ public class CharRangeValuesPojo implements Serializable {
 	// ------------------->> equals() / hashcode() / toString()
 
 	/**
+	 * @return the charFieldWithPreciseValue
+	 */
+	public char getCharFieldWithPreciseValue() {
+		return charFieldWithPreciseValue;
+	}
+
+	/**
+	 * @param charFieldWithPreciseValue
+	 *            the charFieldWithPreciseValue to set
+	 */
+	public void setCharFieldWithPreciseValue(char charFieldWithPreciseValue) {
+		this.charFieldWithPreciseValue = charFieldWithPreciseValue;
+	}
+
+	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
 	 * 
@@ -156,19 +174,20 @@ public class CharRangeValuesPojo implements Serializable {
 		StringBuilder retValue = new StringBuilder();
 
 		retValue.append("CharRangeValuesPojo ( ")
-				.append("intFieldWithMinValueOnly = ")
+				.append("charFieldWithMinValueOnly = ")
 				.append(charFieldWithMinValueOnly).append(TAB)
-				.append("intFieldWithMaxValueOnly = ")
+				.append("charFieldWithMaxValueOnly = ")
 				.append(charFieldWithMaxValueOnly).append(TAB)
-				.append("intFieldWithMinAndMaxValue = ")
+				.append("charFieldWithMinAndMaxValue = ")
 				.append(charFieldWithMinAndMaxValue).append(TAB)
-				.append("integerObjectFieldWithMinValueOnly = ")
+				.append("charObjectFieldWithMinValueOnly = ")
 				.append(charObjectFieldWithMinValueOnly).append(TAB)
-				.append("integerObjectFieldWithMaxValueOnly = ")
+				.append("charObjectFieldWithMaxValueOnly = ")
 				.append(charObjectFieldWithMaxValueOnly).append(TAB)
-				.append("integerObjectFieldWithMinAndMaxValue = ")
+				.append("charObjectFieldWithMinAndMaxValue = ")
 				.append(charObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
+				.append("charFieldWithPreciseValue = ")
+				.append(charFieldWithPreciseValue).append(TAB).append(" )");
 
 		return retValue.toString();
 	}

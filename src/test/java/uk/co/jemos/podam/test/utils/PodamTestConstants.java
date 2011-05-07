@@ -55,6 +55,8 @@ public class PodamTestConstants {
 	/** A precise short value to test annotations */
 	public static final String SHORT_PRECISE_VALUE = "17";
 
+	public static final char CHAR_PRECISE_VALUE = 'a';
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors

@@ -596,15 +596,24 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotation.annotationType().equals(PodamCharValue.class)) {
 				PodamCharValue annotationStrategy = (PodamCharValue) annotation;
-				char minValue = annotationStrategy.minValue();
-				char maxValue = annotationStrategy.maxValue();
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				char charValue = annotationStrategy.charValue();
+				if (charValue != ' ') {
+					retValue = charValue;
+
+				} else {
+
+					char minValue = annotationStrategy.minValue();
+					char maxValue = annotationStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getCharacterInRange(minValue, maxValue);
+
 				}
-
-				retValue = strategy.getCharacterInRange(minValue, maxValue);
 
 				break;
 

@@ -684,6 +684,11 @@ public class PodamMockerUnitTest {
 				charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& charObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
+		char charFieldWithPreciseValue = pojo.getCharFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The character field with precise value should have a value of "
+						+ PodamTestConstants.CHAR_PRECISE_VALUE,
+				charFieldWithPreciseValue == PodamTestConstants.CHAR_PRECISE_VALUE);
 	}
 
 	@Test
