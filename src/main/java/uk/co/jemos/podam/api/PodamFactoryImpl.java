@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+import uk.co.jemos.podam.annotations.PodamBooleanValue;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
 import uk.co.jemos.podam.annotations.PodamCollection;
@@ -421,7 +422,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (primitiveClass.equals(boolean.class)) {
 
-			retValue = strategy.getBoolean();
+			if (annotations.isEmpty()) {
+
+				retValue = strategy.getBoolean();
+
+			} else {
+
+				retValue = getBooleanValueForAnnotation(annotations);
+
+			}
 
 		} else if (primitiveClass.equals(byte.class)) {
 
@@ -473,6 +482,31 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
+	 * It returns the boolean value indicated in the annotation.
+	 * 
+	 * @param annotations
+	 *            The collection of annotations for the annotated attribute
+	 * @return The boolean value indicated in the annotation
+	 */
+	private Boolean getBooleanValueForAnnotation(List<Annotation> annotations) {
+
+		Boolean retValue = null;
+
+		for (Annotation annotation : annotations) {
+
+			if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {
+				PodamBooleanValue strategy = (PodamBooleanValue) annotation;
+				retValue = strategy.boolValue();
+
+				break;
+			}
+
+		}
+
+		return retValue;
+	}
+
+	/**
 	 * It returns a random byte if the attribute was annotated with
 	 * {@link PodamByteValue} or {@code null} otherwise
 	 * 
@@ -488,7 +522,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamByteValue.class)) {
+			if (PodamByteValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamByteValue intStrategy = (PodamByteValue) annotation;
 
 				String numValueStr = intStrategy.numValue();
@@ -544,7 +578,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamShortValue.class)) {
+			if (PodamShortValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamShortValue shortStrategy = (PodamShortValue) annotation;
 
 				String numValueStr = shortStrategy.numValue();
@@ -594,7 +628,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamCharValue.class)) {
+			if (PodamCharValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamCharValue annotationStrategy = (PodamCharValue) annotation;
 
 				char charValue = annotationStrategy.charValue();
@@ -640,7 +674,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamIntValue.class)) {
+			if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamIntValue intStrategy = (PodamIntValue) annotation;
 				int minValue = intStrategy.minValue();
 				int maxValue = intStrategy.maxValue();
@@ -678,7 +712,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamFloatValue.class)) {
+			if (PodamFloatValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamFloatValue intStrategy = (PodamFloatValue) annotation;
 				float minValue = intStrategy.minValue();
 				float maxValue = intStrategy.maxValue();
@@ -713,7 +747,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamDoubleValue.class)) {
+			if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamDoubleValue intStrategy = (PodamDoubleValue) annotation;
 				double minValue = intStrategy.minValue();
 				double maxValue = intStrategy.maxValue();
@@ -750,7 +784,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Annotation annotation : annotations) {
 
-			if (annotation.annotationType().equals(PodamLongValue.class)) {
+			if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
 				PodamLongValue intStrategy = (PodamLongValue) annotation;
 				long minValue = intStrategy.minValue();
 				long maxValue = intStrategy.maxValue();
@@ -847,7 +881,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (candidateWrapperClass.equals(Boolean.class)) {
 
-			retValue = Boolean.TRUE;
+			if (annotations.isEmpty()) {
+
+				retValue = strategy.getBoolean();
+
+			} else {
+
+				retValue = getBooleanValueForAnnotation(annotations);
+
+			}
 
 		} else if (candidateWrapperClass.equals(Byte.class)) {
 
