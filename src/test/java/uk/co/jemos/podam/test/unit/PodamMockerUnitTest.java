@@ -348,6 +348,17 @@ public class PodamMockerUnitTest {
 				intFieldWithPreciseValue == Integer
 						.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE));
 
+		Integer integerObjectFieldWithPreciseValue = pojo
+				.getIntegerObjectFieldWithPreciseValue();
+		Assert.assertNotNull(
+				"The integer object field with precise value cannot be null!",
+				integerObjectFieldWithPreciseValue);
+		Assert.assertTrue(
+				"The integer object field with precise value should have a value of "
+						+ PodamTestConstants.INTEGER_PRECISE_VALUE,
+				integerObjectFieldWithPreciseValue.intValue() == Integer
+						.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE));
+
 	}
 
 	@Test

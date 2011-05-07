@@ -25,6 +25,9 @@ public class IntegerRangeValuesPojo implements Serializable {
 	@PodamIntValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
 	private int intFieldWithMinValueOnly;
 
+	@PodamIntValue(numValue = PodamTestConstants.INTEGER_PRECISE_VALUE)
+	private int intFieldWithPreciseValue;
+
 	@PodamIntValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private int intFieldWithMaxValueOnly;
 
@@ -41,7 +44,7 @@ public class IntegerRangeValuesPojo implements Serializable {
 	private Integer integerObjectFieldWithMinAndMaxValue;
 
 	@PodamIntValue(numValue = PodamTestConstants.INTEGER_PRECISE_VALUE)
-	private int intFieldWithPreciseValue;
+	private Integer integerObjectFieldWithPreciseValue;
 
 	// ------------------->> Constructors
 
@@ -158,6 +161,22 @@ public class IntegerRangeValuesPojo implements Serializable {
 	}
 
 	/**
+	 * @return the integerObjectFieldWithPreciseValue
+	 */
+	public Integer getIntegerObjectFieldWithPreciseValue() {
+		return integerObjectFieldWithPreciseValue;
+	}
+
+	/**
+	 * @param integerObjectFieldWithPreciseValue
+	 *            the integerObjectFieldWithPreciseValue to set
+	 */
+	public void setIntegerObjectFieldWithPreciseValue(
+			Integer integerObjectFieldWithPreciseValue) {
+		this.integerObjectFieldWithPreciseValue = integerObjectFieldWithPreciseValue;
+	}
+
+	/**
 	 * Constructs a <code>String</code> with all attributes
 	 * in name = value format.
 	 *
@@ -172,12 +191,13 @@ public class IntegerRangeValuesPojo implements Serializable {
 	    
 	    retValue.append("IntegerRangeValuesPojo ( ")        
 	        .append("intFieldWithMinValueOnly = ").append(this.intFieldWithMinValueOnly).append(TAB)
+	        .append("intFieldWithPreciseValue = ").append(this.intFieldWithPreciseValue).append(TAB)
 	        .append("intFieldWithMaxValueOnly = ").append(this.intFieldWithMaxValueOnly).append(TAB)
 	        .append("intFieldWithMinAndMaxValue = ").append(this.intFieldWithMinAndMaxValue).append(TAB)
 	        .append("integerObjectFieldWithMinValueOnly = ").append(this.integerObjectFieldWithMinValueOnly).append(TAB)
 	        .append("integerObjectFieldWithMaxValueOnly = ").append(this.integerObjectFieldWithMaxValueOnly).append(TAB)
 	        .append("integerObjectFieldWithMinAndMaxValue = ").append(this.integerObjectFieldWithMinAndMaxValue).append(TAB)
-	        .append("intFieldWithPreciseValue = ").append(this.intFieldWithPreciseValue).append(TAB)
+	        .append("integerObjectFieldWithPreciseValue = ").append(this.integerObjectFieldWithPreciseValue).append(TAB)
 	        .append(" )");
 	    
 	    return retValue.toString();

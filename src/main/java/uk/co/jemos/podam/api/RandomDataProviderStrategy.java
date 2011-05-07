@@ -67,7 +67,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	public Boolean getBoolean() {
-		return ((this.getInteger() % 2) == 0 ? true : false);
+		return Boolean.TRUE;
 	}
 
 	/**
@@ -89,9 +89,11 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		byte retValue = (byte) (minValue + (byte) (Math.random() * ((maxValue - minValue) + 1)));
-		while ((retValue < minValue) || (retValue > maxValue)) {
-			retValue = (byte) (minValue + (byte) (Math.random() * ((maxValue - minValue) + 1)));
+		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
+				- minValue + 1)));
+		while (retValue < minValue || retValue > maxValue) {
+			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 		return retValue;
 	}
@@ -100,7 +102,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	public Character getCharacter() {
-		return (char) this.getInteger().intValue();
+		return (char) getInteger().intValue();
 
 	}
 
@@ -112,9 +114,11 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		char retValue = (char) (minValue + (char) (Math.random() * ((maxValue - minValue) + 1)));
-		while ((retValue < minValue) || (retValue > maxValue)) {
-			retValue = (char) (minValue + (char) (Math.random() * ((maxValue - minValue) + 1)));
+		char retValue = (char) (minValue + (char) (Math.random() * (maxValue
+				- minValue + 1)));
+		while (retValue < minValue || retValue > maxValue) {
+			retValue = (char) (minValue + (char) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 
 		return retValue;
@@ -139,10 +143,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		double retValue = minValue
-				+ (Math.random() * ((maxValue - minValue) + 1));
-		while ((retValue < minValue) || (retValue > maxValue)) {
-			retValue = minValue + (Math.random() * ((maxValue - minValue) + 1));
+		double retValue = minValue + Math.random() * (maxValue - minValue + 1);
+		while (retValue < minValue || retValue > maxValue) {
+			retValue = minValue + Math.random() * (maxValue - minValue + 1);
 		}
 		return retValue;
 	}
@@ -167,10 +170,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			return minValue;
 		}
 		float retValue = minValue
-				+ (float) (Math.random() * ((maxValue - minValue) + 1));
-		while ((retValue < minValue) || (retValue > maxValue)) {
+				+ (float) (Math.random() * (maxValue - minValue + 1));
+		while (retValue < minValue || retValue > maxValue) {
 			retValue = minValue
-					+ (float) (Math.random() * ((maxValue - minValue) + 1));
+					+ (float) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -195,10 +198,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			return minValue;
 		}
 		int retValue = minValue
-				+ (int) (Math.random() * ((maxValue - minValue) + 1));
-		while ((retValue < minValue) || (retValue > maxValue)) {
+				+ (int) (Math.random() * (maxValue - minValue + 1));
+		while (retValue < minValue || retValue > maxValue) {
 			retValue = minValue
-					+ (int) (Math.random() * ((maxValue - minValue) + 1));
+					+ (int) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -223,10 +226,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			return minValue;
 		}
 		long retValue = minValue
-				+ (long) (Math.random() * ((maxValue - minValue) + 1));
-		while ((retValue < minValue) || (retValue > maxValue)) {
+				+ (long) (Math.random() * (maxValue - minValue + 1));
+		while (retValue < minValue || retValue > maxValue) {
 			retValue = minValue
-					+ (long) (Math.random() * ((maxValue - minValue) + 1));
+					+ (long) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -250,9 +253,11 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		short retValue = (short) (minValue + (short) (Math.random() * ((maxValue - minValue) + 1)));
-		while ((retValue < minValue) || (retValue > maxValue)) {
-			retValue = (short) (minValue + (short) (Math.random() * ((maxValue - minValue) + 1)));
+		short retValue = (short) (minValue + (short) (Math.random() * (maxValue
+				- minValue + 1)));
+		while (retValue < minValue || retValue > maxValue) {
+			retValue = (short) (minValue + (short) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 		return retValue;
 	}
@@ -261,7 +266,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	public String getStringValue() {
-		return this.getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH);
+		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH);
 	}
 
 	/**
@@ -275,7 +280,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		buff.setLength(0);
 
 		while (buff.length() < length) {
-			buff.append(this.getCharacter());
+			buff.append(getCharacter());
 		}
 
 		if (LOG.isDebugEnabled()) {
