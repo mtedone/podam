@@ -142,7 +142,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object createNewInstanceForClassWithoutSetters(Class<?> pojoClass,
+	private Object createNewInstanceForClassWithoutConstructors(Class<?> pojoClass,
 			Class<?> clazz) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
@@ -1050,8 +1050,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	@SuppressWarnings("unchecked")
-	private <T> T resolvePojoWithoutDefaultConstructor(Class<T> pojoClass,
-			int depth) throws IllegalArgumentException, InstantiationException,
+	private <T> T resolvePojoWithoutSetters(Class<T> pojoClass, int depth)
+			throws IllegalArgumentException, InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
 
@@ -1059,12 +1059,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
-			retValue = (T) createNewInstanceForClassWithoutSetters(pojoClass,
+			retValue = (T) createNewInstanceForClassWithoutConstructors(pojoClass,
 					pojoClass);
 		} else {
+
+			// Not terribly efficient but necessary
+			boolean podamConstructorAnnotationFound = checkIfConstructorAnnotationPresent(constructors);
+
 			for (Constructor<?> constructor : constructors) {
 
-				if (constructor.getAnnotation(PodamConstructor.class) == null) {
+				// If we know at least one constructor has been annotated with
+				// PodamConstructor, we use it, otherwise we take our best shot
+				if (constructor.getAnnotation(PodamConstructor.class) == null
+						&& podamConstructorAnnotationFound) {
 					continue;
 				}
 
@@ -1081,6 +1088,32 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				break;
 			}
+		}
+
+		return retValue;
+	}
+
+	/**
+	 * It checks whether at least one constructor has got a
+	 * {@link PodamConstructor} annotation.
+	 * 
+	 * @param constructors
+	 *            The array of constructors
+	 * @return {@code true} if at least one constructor contains a
+	 *         {@link PodamConstructor} annotation, {@code false} otherwise.
+	 */
+	private boolean checkIfConstructorAnnotationPresent(
+			Constructor<?>[] constructors) {
+
+		boolean retValue = false;
+
+		for (Constructor<?> constructor : constructors) {
+
+			if (constructor.getAnnotation(PodamConstructor.class) != null) {
+				retValue = true;
+				break;
+			}
+
 		}
 
 		return retValue;
@@ -1206,8 +1239,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				// A rudimentary attempt to manage immutable classes (e.g. with
 				// constructor only and final fields - no setters)
-				return this.resolvePojoWithoutDefaultConstructor(pojoClass,
-						depth);
+				return this.resolvePojoWithoutSetters(pojoClass, depth);
 
 			}
 
@@ -1248,7 +1280,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					} else {
 
-						setterArg = createNewInstanceForClassWithoutSetters(
+						setterArg = createNewInstanceForClassWithoutConstructors(
 								pojoClass, pojoClass);
 
 						setter.invoke(retValue, setterArg);
@@ -1373,7 +1405,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// For classes in the Java namespace we attempt the no-args or the
 			// factory constructor strategy
 
-			attributeValue = createNewInstanceForClassWithoutSetters(pojoClass,
+			attributeValue = createNewInstanceForClassWithoutConstructors(pojoClass,
 					attributeType);
 
 		} else if (attributeType.isEnum()) {

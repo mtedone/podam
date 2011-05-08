@@ -12,10 +12,9 @@ import uk.co.jemos.podam.annotations.PodamConstructor;
 
 /**
  * This is an immutable POJO which is not annotated with
- * {@link PodamConstructor} hasn't got setters
+ * {@link PodamConstructor}.
  * <p>
- * PODAM should not be able to build an instance of this class and the returned
- * value from the factory method should be null.
+ * PODAM should guess how to create an instance.
  * </p>
  * 
  * @author mtedone
@@ -92,7 +91,7 @@ public class ImmutableNonAnnotatedPojo implements Serializable {
 	@Override
 	public String toString() {
 		return "ImmutableNoHierarchicalPojo [intField=" + intField
-				+ ", dateCreated=" + dateCreated + ", longArray="
+				+ ", dateCreated=" + dateCreated.getTime() + ", longArray="
 				+ Arrays.toString(longArray) + "]";
 	}
 

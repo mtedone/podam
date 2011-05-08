@@ -256,9 +256,8 @@ public class PodamMockerUnitTest {
 
 		ImmutableNonAnnotatedPojo pojo = factory
 				.manufacturePojo(ImmutableNonAnnotatedPojo.class);
-		Assert.assertNull(
-				"The Immutable non annotated POJO instance should return as null",
-				pojo);
+		Assert.assertNotNull(
+				"The immutable non annotated POJO should not be null!", pojo);
 
 	}
 
