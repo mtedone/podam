@@ -12,7 +12,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  * @author mtedone
  * 
  */
-public class LongRangeValuesPojo implements Serializable {
+public class LongValuePojo implements Serializable {
 
 	// ------------------->> Constants
 

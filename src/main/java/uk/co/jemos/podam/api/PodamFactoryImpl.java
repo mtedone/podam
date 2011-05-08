@@ -142,10 +142,11 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object createNewInstanceForClassWithoutConstructors(Class<?> pojoClass,
-			Class<?> clazz) throws IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
+	private Object createNewInstanceForClassWithoutConstructors(
+			Class<?> pojoClass, Class<?> clazz)
+			throws IllegalArgumentException, InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
 
 		Object retValue = null;
 
@@ -1059,8 +1060,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
-			retValue = (T) createNewInstanceForClassWithoutConstructors(pojoClass,
-					pojoClass);
+			retValue = (T) createNewInstanceForClassWithoutConstructors(
+					pojoClass, pojoClass);
 		} else {
 
 			// Not terribly efficient but necessary
@@ -1405,8 +1406,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			// For classes in the Java namespace we attempt the no-args or the
 			// factory constructor strategy
 
-			attributeValue = createNewInstanceForClassWithoutConstructors(pojoClass,
-					attributeType);
+			attributeValue = createNewInstanceForClassWithoutConstructors(
+					pojoClass, attributeType);
 
 		} else if (attributeType.isEnum()) {
 

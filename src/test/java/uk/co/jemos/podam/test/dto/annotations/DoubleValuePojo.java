@@ -14,7 +14,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  * @author mtedone
  * 
  */
-public class DoubleRangeValuesPojo implements Serializable {
+public class DoubleValuePojo implements Serializable {
 
 	// ------------------->> Constants
 

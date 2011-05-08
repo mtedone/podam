@@ -14,7 +14,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  * @author mtedone
  * 
  */
-public class ShortRangeValuesPojo implements Serializable {
+public class ShortValuePojo implements Serializable {
 
 	// ------------------->> Constants
 

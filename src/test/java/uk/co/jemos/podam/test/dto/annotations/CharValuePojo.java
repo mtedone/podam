@@ -14,7 +14,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  * @author mtedone
  * 
  */
-public class CharRangeValuesPojo implements Serializable {
+public class CharValuePojo implements Serializable {
 
 	// ------------------->> Constants
 
@@ -30,6 +30,9 @@ public class CharRangeValuesPojo implements Serializable {
 
 	@PodamCharValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private char charFieldWithMinAndMaxValue;
+
+	@PodamCharValue(charValue = ' ')
+	private char charFieldWithBlankInPreciseValue;
 
 	@PodamCharValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
 	private Character charObjectFieldWithMinValueOnly;
@@ -142,10 +145,6 @@ public class CharRangeValuesPojo implements Serializable {
 		this.charObjectFieldWithMinAndMaxValue = charObjectFieldWithMinAndMaxValue;
 	}
 
-	// ------------------->> Private methods
-
-	// ------------------->> equals() / hashcode() / toString()
-
 	/**
 	 * @return the charFieldWithPreciseValue
 	 */
@@ -161,35 +160,51 @@ public class CharRangeValuesPojo implements Serializable {
 		this.charFieldWithPreciseValue = charFieldWithPreciseValue;
 	}
 
+	// ------------------->> Private methods
+
+	// ------------------->> equals() / hashcode() / toString()
+
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * @return the charFieldWithBlankInPreciseValue
 	 */
-	@Override
-	public String toString() {
-		final String TAB = "    ";
+	public char getCharFieldWithBlankInPreciseValue() {
+		return charFieldWithBlankInPreciseValue;
+	}
 
-		StringBuilder retValue = new StringBuilder();
+	/**
+	 * @param charFieldWithBlankInPreciseValue
+	 *            the charFieldWithBlankInPreciseValue to set
+	 */
+	public void setCharFieldWithBlankInPreciseValue(
+			char charFieldWithBlankInPreciseValue) {
+		this.charFieldWithBlankInPreciseValue = charFieldWithBlankInPreciseValue;
+	}
 
-		retValue.append("CharRangeValuesPojo ( ")
-				.append("charFieldWithMinValueOnly = ")
-				.append(charFieldWithMinValueOnly).append(TAB)
-				.append("charFieldWithMaxValueOnly = ")
-				.append(charFieldWithMaxValueOnly).append(TAB)
-				.append("charFieldWithMinAndMaxValue = ")
-				.append(charFieldWithMinAndMaxValue).append(TAB)
-				.append("charObjectFieldWithMinValueOnly = ")
-				.append(charObjectFieldWithMinValueOnly).append(TAB)
-				.append("charObjectFieldWithMaxValueOnly = ")
-				.append(charObjectFieldWithMaxValueOnly).append(TAB)
-				.append("charObjectFieldWithMinAndMaxValue = ")
-				.append(charObjectFieldWithMinAndMaxValue).append(TAB)
-				.append("charFieldWithPreciseValue = ")
-				.append(charFieldWithPreciseValue).append(TAB).append(" )");
-
-		return retValue.toString();
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString()
+	{
+	    final String TAB = "    ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("CharValuePojo ( ")        
+	        .append("charFieldWithMinValueOnly = ").append(this.charFieldWithMinValueOnly).append(TAB)
+	        .append("charFieldWithMaxValueOnly = ").append(this.charFieldWithMaxValueOnly).append(TAB)
+	        .append("charFieldWithMinAndMaxValue = ").append(this.charFieldWithMinAndMaxValue).append(TAB)
+	        .append("charFieldWithBlankInPreciseValue = ").append(this.charFieldWithBlankInPreciseValue).append(TAB)
+	        .append("charObjectFieldWithMinValueOnly = ").append(this.charObjectFieldWithMinValueOnly).append(TAB)
+	        .append("charObjectFieldWithMaxValueOnly = ").append(this.charObjectFieldWithMaxValueOnly).append(TAB)
+	        .append("charObjectFieldWithMinAndMaxValue = ").append(this.charObjectFieldWithMinAndMaxValue).append(TAB)
+	        .append("charFieldWithPreciseValue = ").append(this.charFieldWithPreciseValue).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 	// ------------------->> Inner classes

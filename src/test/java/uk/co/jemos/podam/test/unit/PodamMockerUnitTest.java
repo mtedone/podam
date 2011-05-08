@@ -46,15 +46,21 @@ import uk.co.jemos.podam.test.dto.RecursivePojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.dto.SingletonWithParametersInStaticFactoryPojo;
 import uk.co.jemos.podam.test.dto.annotations.BooleanValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.ByteRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.CharRangeValuesPojo;
+import uk.co.jemos.podam.test.dto.annotations.ByteValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.ByteValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.CharValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo;
-import uk.co.jemos.podam.test.dto.annotations.DoubleRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.FloatRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.IntegerRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.LongRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.ShortRangeValuesPojo;
-import uk.co.jemos.podam.test.dto.annotations.StringValuesPojo;
+import uk.co.jemos.podam.test.dto.annotations.DoubleValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.DoubleValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.FloatValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.FloatValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.ShortValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.ShortValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.StringValuePojo;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -259,6 +265,17 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull(
 				"The immutable non annotated POJO should not be null!", pojo);
 
+		Assert.assertNotNull("The date created cannot be null!",
+				pojo.getDateCreated());
+
+		Assert.assertTrue("The int field cannot be zero!",
+				pojo.getIntField() != 0);
+
+		long[] longArray = pojo.getLongArray();
+		Assert.assertNotNull("The array of longs cannot be null!", longArray);
+		Assert.assertTrue("The array of longs must have 1 element!",
+				longArray.length == 1);
+
 	}
 
 	@Test
@@ -298,8 +315,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testIntegerValueAnnotation() {
 
-		IntegerRangeValuesPojo pojo = factory
-				.manufacturePojo(IntegerRangeValuesPojo.class);
+		IntegerValuePojo pojo = factory.manufacturePojo(IntegerValuePojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		int intFieldWithMinValueOnly = pojo.getIntFieldWithMinValueOnly();
 		Assert.assertTrue("The int field with only minValue should be >= 0",
@@ -360,11 +376,15 @@ public class PodamMockerUnitTest {
 
 	}
 
+	@Test(expected = PodamMockeryException.class)
+	public void testIntegerValueAnnotationWithNumberFormatError() {
+		factory.manufacturePojo(IntegerValueWithErrorPojo.class);
+	}
+
 	@Test
 	public void testLongValueAnnotation() {
 
-		LongRangeValuesPojo pojo = factory
-				.manufacturePojo(LongRangeValuesPojo.class);
+		LongValuePojo pojo = factory.manufacturePojo(LongValuePojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		long longFieldWithMinValueOnly = pojo.getLongFieldWithMinValueOnly();
 		Assert.assertTrue(
@@ -427,6 +447,11 @@ public class PodamMockerUnitTest {
 				longObjectFieldWithPreciseValue.longValue() == Long.valueOf(
 						PodamTestConstants.LONG_PRECISE_VALUE).longValue());
 
+	}
+
+	@Test(expected = PodamMockeryException.class)
+	public void testLongValueAnnotationWithNumberFormatException() {
+		factory.manufacturePojo(LongValueWithErrorPojo.class);
 	}
 
 	@Test
@@ -534,8 +559,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testByteValueAnnotation() {
 
-		ByteRangeValuesPojo pojo = factory
-				.manufacturePojo(ByteRangeValuesPojo.class);
+		ByteValuePojo pojo = factory.manufacturePojo(ByteValuePojo.class);
 		Assert.assertNotNull("The Pojo cannot be null!", pojo);
 		byte byteFieldWithMinValueOnly = pojo.getByteFieldWithMinValueOnly();
 		Assert.assertTrue(
@@ -591,11 +615,15 @@ public class PodamMockerUnitTest {
 
 	}
 
+	@Test(expected = PodamMockeryException.class)
+	public void testByteAnnotationWithNumberFormatError() {
+		factory.manufacturePojo(ByteValueWithErrorPojo.class);
+	}
+
 	@Test
 	public void testShortValueAnnotation() {
 
-		ShortRangeValuesPojo pojo = factory
-				.manufacturePojo(ShortRangeValuesPojo.class);
+		ShortValuePojo pojo = factory.manufacturePojo(ShortValuePojo.class);
 		Assert.assertNotNull("The Pojo cannot be null!", pojo);
 
 		short shortFieldWithMinValueOnly = pojo.getShortFieldWithMinValueOnly();
@@ -660,11 +688,15 @@ public class PodamMockerUnitTest {
 
 	}
 
+	@Test(expected = PodamMockeryException.class)
+	public void testShortValueAnnotationWithNumberFormatException() {
+		factory.manufacturePojo(ShortValueWithErrorPojo.class);
+	}
+
 	@Test
 	public void testCharacterValueAnnotation() {
 
-		CharRangeValuesPojo pojo = factory
-				.manufacturePojo(CharRangeValuesPojo.class);
+		CharValuePojo pojo = factory.manufacturePojo(CharValuePojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
 		char charFieldWithMinValueOnly = pojo.getCharFieldWithMinValueOnly();
@@ -725,6 +757,13 @@ public class PodamMockerUnitTest {
 				"The character field with precise value should have a value of "
 						+ PodamTestConstants.CHAR_PRECISE_VALUE,
 				charFieldWithPreciseValue == PodamTestConstants.CHAR_PRECISE_VALUE);
+
+		char charFieldWithBlankInPreciseValue = pojo
+				.getCharFieldWithBlankInPreciseValue();
+
+		Assert.assertTrue(
+				"The value for the char field with an empty char in the precise value and no other annotation attributes should be zero",
+				charFieldWithBlankInPreciseValue == 0);
 	}
 
 	@Test
@@ -764,8 +803,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testFloatValueAnnotation() {
 
-		FloatRangeValuesPojo pojo = factory
-				.manufacturePojo(FloatRangeValuesPojo.class);
+		FloatValuePojo pojo = factory.manufacturePojo(FloatValuePojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
 		float floatFieldWithMinValueOnly = pojo.getFloatFieldWithMinValueOnly();
@@ -842,11 +880,15 @@ public class PodamMockerUnitTest {
 
 	}
 
+	@Test(expected = PodamMockeryException.class)
+	public void testFloatValueAnnotationWithNumberFormatError() {
+		factory.manufacturePojo(FloatValueWithErrorPojo.class);
+	}
+
 	@Test
 	public void testDoubleValueAnnotation() {
 
-		DoubleRangeValuesPojo pojo = factory
-				.manufacturePojo(DoubleRangeValuesPojo.class);
+		DoubleValuePojo pojo = factory.manufacturePojo(DoubleValuePojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 
 		double doubleFieldWithMinValueOnly = pojo
@@ -894,10 +936,17 @@ public class PodamMockerUnitTest {
 
 	}
 
+	@Test(expected = PodamMockeryException.class)
+	public void testDoubleValueAnnotationWithError() {
+
+		factory.manufacturePojo(DoubleValueWithErrorPojo.class);
+
+	}
+
 	@Test
 	public void testStringValueAnnotation() {
 
-		StringValuesPojo pojo = factory.manufacturePojo(StringValuesPojo.class);
+		StringValuePojo pojo = factory.manufacturePojo(StringValuePojo.class);
 		String twentyLengthString = pojo.getTwentyLengthString();
 		Assert.assertNotNull("The twentyLengthString cannot be null!",
 				twentyLengthString);

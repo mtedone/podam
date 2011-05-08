@@ -12,7 +12,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
  * @author mtedone
  * 
  */
-public class ByteRangeValuesPojo implements Serializable {
+public class ByteValuePojo implements Serializable {
 
 	// ------------------->> Constants
 

@@ -156,13 +156,6 @@
       <scope>test</scope>
     </dependency>  
     
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>1.6.2</version>
-      <scope>test</scope>
-    </dependency>  
-    
     <!-- Spring dependencies; Spring is used in integration tests -->
     <dependency>
       <groupId>org.springframework</groupId>
