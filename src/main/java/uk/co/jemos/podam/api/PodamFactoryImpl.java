@@ -354,6 +354,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The annotations to consider for this attribute
 	 * @return the primitive value depending on the type
+	 * 
+	 * @throws IllegalArgumentException
+	 *             If a specific value was set in an annotation but it was not
+	 *             possible to convert such value in the desired type
 	 */
 	private Object resolvePrimitiveValue(Class<?> primitiveClass,
 			List<Annotation> annotations) {
@@ -799,6 +803,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @return Either a customised long value if a {@link PodamLongValue}
 	 *         annotation was provided or a random long if this was not the case
+	 * 
+	 * @throws IllegalArgumentException
+	 *             If it was not possible to convert
+	 *             {@link PodamLongValue#numValue()} to a Long
 	 */
 	private Long getLongValueWithinRange(List<Annotation> annotations) {
 
@@ -807,16 +815,32 @@ public class PodamFactoryImpl implements PodamFactory {
 		for (Annotation annotation : annotations) {
 
 			if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamLongValue intStrategy = (PodamLongValue) annotation;
-				long minValue = intStrategy.minValue();
-				long maxValue = intStrategy.maxValue();
+				PodamLongValue longStrategy = (PodamLongValue) annotation;
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				String numValueStr = longStrategy.numValue();
+				if (null != numValueStr && !"".equals(numValueStr)) {
+					try {
+						retValue = Long.valueOf(numValueStr);
+					} catch (NumberFormatException nfe) {
+						String errMsg = "The annotation value: "
+								+ numValueStr
+								+ " could not be converted to a Long. An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg, nfe);
+					}
+				} else {
+
+					long minValue = longStrategy.minValue();
+					long maxValue = longStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getLongInRange(minValue, maxValue);
+
 				}
-
-				retValue = strategy.getLongInRange(minValue, maxValue);
 
 				break;
 
@@ -1261,7 +1285,13 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 * @throws IllegalArgumentException
-	 *             If an illegal argument was passed
+	 *             <ul>
+	 *             <li>If an illegal argument was passed</li>
+	 *             <li>If an invalid value was set for a precise value in an
+	 *             annotation and such value could not be converted to the
+	 *             desired type</li>
+	 *             </ul>
+	 * 
 	 */
 	private Object manufactureAttributeValue(Class<?> pojoClass,
 			Class<?> attributeType, List<Annotation> annotations,

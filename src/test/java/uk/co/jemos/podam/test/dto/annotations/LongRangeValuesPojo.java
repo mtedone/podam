@@ -6,6 +6,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 import java.io.Serializable;
 
 import uk.co.jemos.podam.annotations.PodamLongValue;
+import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
 /**
  * @author mtedone
@@ -28,6 +29,9 @@ public class LongRangeValuesPojo implements Serializable {
 	@PodamLongValue(minValue = 0, maxValue = 1000)
 	private long longFieldWithMinAndMaxValue;
 
+	@PodamLongValue(numValue = PodamTestConstants.LONG_PRECISE_VALUE)
+	private long longFieldWithPreciseValue;
+
 	@PodamLongValue(minValue = 0)
 	private Long longObjectFieldWithMinValueOnly;
 
@@ -36,6 +40,9 @@ public class LongRangeValuesPojo implements Serializable {
 
 	@PodamLongValue(minValue = 0, maxValue = 1000)
 	private Long longObjectFieldWithMinAndMaxValue;
+
+	@PodamLongValue(numValue = PodamTestConstants.LONG_PRECISE_VALUE)
+	private Long longObjectFieldWithPreciseValue;
 
 	// ------------------->> Constructors
 
@@ -137,33 +144,61 @@ public class LongRangeValuesPojo implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * @return the longFieldWithPreciseValue
 	 */
-	@Override
-	public String toString() {
-		final String TAB = "    ";
+	public long getLongFieldWithPreciseValue() {
+		return longFieldWithPreciseValue;
+	}
 
-		StringBuilder retValue = new StringBuilder();
+	/**
+	 * @param longFieldWithPreciseValue
+	 *            the longFieldWithPreciseValue to set
+	 */
+	public void setLongFieldWithPreciseValue(long longFieldWithPreciseValue) {
+		this.longFieldWithPreciseValue = longFieldWithPreciseValue;
+	}
 
-		retValue.append("LongRangeValuesPojo ( ")
-				.append("longFieldWithMinValueOnly = ")
-				.append(longFieldWithMinValueOnly).append(TAB)
-				.append("longFieldWithMaxValueOnly = ")
-				.append(longFieldWithMaxValueOnly).append(TAB)
-				.append("longFieldWithMinAndMaxValue = ")
-				.append(longFieldWithMinAndMaxValue).append(TAB)
-				.append("longObjectFieldWithMinValueOnly = ")
-				.append(longObjectFieldWithMinValueOnly).append(TAB)
-				.append("longObjectFieldWithMaxValueOnly = ")
-				.append(longObjectFieldWithMaxValueOnly).append(TAB)
-				.append("longObjectFieldWithMinAndMaxValue = ")
-				.append(longObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
+	/**
+	 * @return the longObjectFieldWithPreciseValue
+	 */
+	public Long getLongObjectFieldWithPreciseValue() {
+		return longObjectFieldWithPreciseValue;
+	}
 
-		return retValue.toString();
+	/**
+	 * @param longObjectFieldWithPreciseValue
+	 *            the longObjectFieldWithPreciseValue to set
+	 */
+	public void setLongObjectFieldWithPreciseValue(
+			Long longObjectFieldWithPreciseValue) {
+		this.longObjectFieldWithPreciseValue = longObjectFieldWithPreciseValue;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString()
+	{
+	    final String TAB = "    ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("LongRangeValuesPojo ( ")        
+	        .append("longFieldWithMinValueOnly = ").append(this.longFieldWithMinValueOnly).append(TAB)
+	        .append("longFieldWithMaxValueOnly = ").append(this.longFieldWithMaxValueOnly).append(TAB)
+	        .append("longFieldWithMinAndMaxValue = ").append(this.longFieldWithMinAndMaxValue).append(TAB)
+	        .append("longFieldWithPreciseValue = ").append(this.longFieldWithPreciseValue).append(TAB)
+	        .append("longObjectFieldWithMinValueOnly = ").append(this.longObjectFieldWithMinValueOnly).append(TAB)
+	        .append("longObjectFieldWithMaxValueOnly = ").append(this.longObjectFieldWithMaxValueOnly).append(TAB)
+	        .append("longObjectFieldWithMinAndMaxValue = ").append(this.longObjectFieldWithMinAndMaxValue).append(TAB)
+	        .append("longObjectFieldWithPreciseValue = ").append(this.longObjectFieldWithPreciseValue).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 	// ------------------->> Private methods

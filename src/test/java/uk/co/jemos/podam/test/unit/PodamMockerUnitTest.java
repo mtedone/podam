@@ -362,7 +362,7 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testLongPojoWithRangeValues() {
+	public void testLongValueAnnotation() {
 
 		LongRangeValuesPojo pojo = factory
 				.manufacturePojo(LongRangeValuesPojo.class);
@@ -409,6 +409,24 @@ public class PodamMockerUnitTest {
 				"The Long object field with min and max value should have a value comprised between 0 and 1000",
 				longObjectFieldWithMinAndMaxValue >= 0L
 						&& longObjectFieldWithMinAndMaxValue <= 1000L);
+
+		long longFieldWithPreciseValue = pojo.getLongFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The long field with precise value must have a value of "
+						+ PodamTestConstants.LONG_PRECISE_VALUE,
+				longFieldWithPreciseValue == Long
+						.valueOf(PodamTestConstants.LONG_PRECISE_VALUE));
+
+		Long longObjectFieldWithPreciseValue = pojo
+				.getLongObjectFieldWithPreciseValue();
+		Assert.assertNotNull(
+				"The long object with precise value should not be null!",
+				longObjectFieldWithPreciseValue);
+		Assert.assertTrue(
+				"The long object field with precise value must have a value of "
+						+ PodamTestConstants.LONG_PRECISE_VALUE,
+				longObjectFieldWithPreciseValue.longValue() == Long.valueOf(
+						PodamTestConstants.LONG_PRECISE_VALUE).longValue());
 
 	}
 

@@ -61,6 +61,9 @@ public class PodamTestConstants {
 	/** A precise integer value for testing */
 	public static final String INTEGER_PRECISE_VALUE = "145241";
 
+	/** A precise long value for testing */
+	public static final String LONG_PRECISE_VALUE = "12345678912";
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
