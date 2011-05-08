@@ -873,6 +873,26 @@ public class PodamMockerUnitTest {
 				doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE
 						&& doubleFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE);
 
+		double doubleFieldWithPreciseValue = pojo
+				.getDoubleFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The double field with precise value should have a value of: "
+						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
+				doubleFieldWithPreciseValue == Double
+						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE));
+
+		Double doubleObjectFieldWithPreciseValue = pojo
+				.getDoubleObjectFieldWithPreciseValue();
+		Assert.assertNotNull(
+				"The double object field with precise value cannot be null!",
+				doubleObjectFieldWithPreciseValue);
+		Assert.assertTrue(
+				"The double object field with precise value should have a value of: "
+						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
+				doubleObjectFieldWithPreciseValue.doubleValue() == Double
+						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE)
+						.doubleValue());
+
 	}
 
 	@Test

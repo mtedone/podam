@@ -794,16 +794,33 @@ public class PodamFactoryImpl implements PodamFactory {
 		for (Annotation annotation : annotations) {
 
 			if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamDoubleValue intStrategy = (PodamDoubleValue) annotation;
-				double minValue = intStrategy.minValue();
-				double maxValue = intStrategy.maxValue();
+				PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;
 
-				// Sanity check
-				if (minValue > maxValue) {
-					maxValue = minValue;
+				String numValueStr = doubleStrategy.numValue();
+				if (null != numValueStr && !"".equals(numValueStr)) {
+
+					try {
+						retValue = Double.valueOf(numValueStr);
+					} catch (NumberFormatException nfe) {
+						String errMsg = "The annotation value: "
+								+ numValueStr
+								+ " could not be converted to a Double. An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg, nfe);
+					}
+
+				} else {
+
+					double minValue = doubleStrategy.minValue();
+					double maxValue = doubleStrategy.maxValue();
+
+					// Sanity check
+					if (minValue > maxValue) {
+						maxValue = minValue;
+					}
+
+					retValue = strategy.getDoubleInRange(minValue, maxValue);
 				}
-
-				retValue = strategy.getDoubleInRange(minValue, maxValue);
 
 				break;
 

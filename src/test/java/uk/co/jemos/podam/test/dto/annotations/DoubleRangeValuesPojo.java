@@ -31,6 +31,9 @@ public class DoubleRangeValuesPojo implements Serializable {
 	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
 	private double doubleFieldWithMinAndMaxValue;
 
+	@PodamDoubleValue(numValue = PodamTestConstants.DOUBLE_PRECISE_VALUE)
+	private double doubleFieldWithPreciseValue;
+
 	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE)
 	private Double doubleObjectFieldWithMinValueOnly;
 
@@ -39,6 +42,9 @@ public class DoubleRangeValuesPojo implements Serializable {
 
 	@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
 	private Double doubleObjectFieldWithMinAndMaxValue;
+
+	@PodamDoubleValue(numValue = PodamTestConstants.DOUBLE_PRECISE_VALUE)
+	private Double doubleObjectFieldWithPreciseValue;
 
 	// ------------------->> Constructors
 
@@ -143,33 +149,62 @@ public class DoubleRangeValuesPojo implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * @return the doubleFieldWithPreciseValue
 	 */
-	@Override
-	public String toString() {
-		final String TAB = "    ";
+	public double getDoubleFieldWithPreciseValue() {
+		return doubleFieldWithPreciseValue;
+	}
 
-		StringBuilder retValue = new StringBuilder();
+	/**
+	 * @param doubleFieldWithPreciseValue
+	 *            the doubleFieldWithPreciseValue to set
+	 */
+	public void setDoubleFieldWithPreciseValue(
+			double doubleFieldWithPreciseValue) {
+		this.doubleFieldWithPreciseValue = doubleFieldWithPreciseValue;
+	}
 
-		retValue.append("DoubleRangeValuesPojo ( ")
-				.append("doubleFieldWithMinValueOnly = ")
-				.append(doubleFieldWithMinValueOnly).append(TAB)
-				.append("doubleFieldWithMaxValueOnly = ")
-				.append(doubleFieldWithMaxValueOnly).append(TAB)
-				.append("doubleFieldWithMinAndMaxValue = ")
-				.append(doubleFieldWithMinAndMaxValue).append(TAB)
-				.append("doubleObjectFieldWithMinValueOnly = ")
-				.append(doubleObjectFieldWithMinValueOnly).append(TAB)
-				.append("doubleObjectFieldWithMaxValueOnly = ")
-				.append(doubleObjectFieldWithMaxValueOnly).append(TAB)
-				.append("doubleObjectFieldWithMinAndMaxValue = ")
-				.append(doubleObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
+	/**
+	 * @return the doubleObjectFieldWithPreciseValue
+	 */
+	public Double getDoubleObjectFieldWithPreciseValue() {
+		return doubleObjectFieldWithPreciseValue;
+	}
 
-		return retValue.toString();
+	/**
+	 * @param doubleObjectFieldWithPreciseValue
+	 *            the doubleObjectFieldWithPreciseValue to set
+	 */
+	public void setDoubleObjectFieldWithPreciseValue(
+			Double doubleObjectFieldWithPreciseValue) {
+		this.doubleObjectFieldWithPreciseValue = doubleObjectFieldWithPreciseValue;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString()
+	{
+	    final String TAB = "    ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("DoubleRangeValuesPojo ( ")        
+	        .append("doubleFieldWithMinValueOnly = ").append(this.doubleFieldWithMinValueOnly).append(TAB)
+	        .append("doubleFieldWithMaxValueOnly = ").append(this.doubleFieldWithMaxValueOnly).append(TAB)
+	        .append("doubleFieldWithMinAndMaxValue = ").append(this.doubleFieldWithMinAndMaxValue).append(TAB)
+	        .append("doubleFieldWithPreciseValue = ").append(this.doubleFieldWithPreciseValue).append(TAB)
+	        .append("doubleObjectFieldWithMinValueOnly = ").append(this.doubleObjectFieldWithMinValueOnly).append(TAB)
+	        .append("doubleObjectFieldWithMaxValueOnly = ").append(this.doubleObjectFieldWithMaxValueOnly).append(TAB)
+	        .append("doubleObjectFieldWithMinAndMaxValue = ").append(this.doubleObjectFieldWithMinAndMaxValue).append(TAB)
+	        .append("doubleObjectFieldWithPreciseValue = ").append(this.doubleObjectFieldWithPreciseValue).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 	// ------------------->> Private methods
