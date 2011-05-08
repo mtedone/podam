@@ -64,6 +64,9 @@ public class PodamTestConstants {
 	/** A precise long value for testing */
 	public static final String LONG_PRECISE_VALUE = "12345678912";
 
+	/** A precise float value for testing */
+	public static final String FLOAT_PRECISE_VALUE = "123456f";
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors

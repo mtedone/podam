@@ -823,6 +823,24 @@ public class PodamMockerUnitTest {
 				floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
 						&& floatObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
 
+		float floatFieldWithPreciseValue = pojo.getFloatFieldWithPreciseValue();
+		Assert.assertTrue(
+				"The float field with precise value should have a value of "
+						+ PodamTestConstants.FLOAT_PRECISE_VALUE,
+				floatFieldWithPreciseValue == Float
+						.valueOf(PodamTestConstants.FLOAT_PRECISE_VALUE));
+
+		Float floatObjectFieldWithPreciseValue = pojo
+				.getFloatObjectFieldWithPreciseValue();
+		Assert.assertNotNull(
+				"The float object field with precise value cannot be null!",
+				floatObjectFieldWithPreciseValue);
+		Assert.assertTrue(
+				"The float object field with precise value should have a value of "
+						+ PodamTestConstants.FLOAT_PRECISE_VALUE,
+				floatObjectFieldWithPreciseValue.floatValue() == Float.valueOf(
+						PodamTestConstants.FLOAT_PRECISE_VALUE).floatValue());
+
 	}
 
 	@Test

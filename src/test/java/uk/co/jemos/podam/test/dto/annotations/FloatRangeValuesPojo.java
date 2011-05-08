@@ -31,6 +31,9 @@ public class FloatRangeValuesPojo implements Serializable {
 	@PodamFloatValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_FLOAT_MAX_VALUE)
 	private float floatFieldWithMinAndMaxValue;
 
+	@PodamFloatValue(numValue = PodamTestConstants.FLOAT_PRECISE_VALUE)
+	private float floatFieldWithPreciseValue;
+
 	@PodamFloatValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
 	private Float floatObjectFieldWithMinValueOnly;
 
@@ -39,6 +42,9 @@ public class FloatRangeValuesPojo implements Serializable {
 
 	@PodamFloatValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_FLOAT_MAX_VALUE)
 	private Float floatObjectFieldWithMinAndMaxValue;
+
+	@PodamFloatValue(numValue = PodamTestConstants.FLOAT_PRECISE_VALUE)
+	private Float floatObjectFieldWithPreciseValue;
 
 	// ------------------->> Constructors
 
@@ -141,33 +147,61 @@ public class FloatRangeValuesPojo implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * @return the floatFieldWithPreciseValue
 	 */
-	@Override
-	public String toString() {
-		final String TAB = "    ";
+	public float getFloatFieldWithPreciseValue() {
+		return floatFieldWithPreciseValue;
+	}
 
-		StringBuilder retValue = new StringBuilder();
+	/**
+	 * @param floatFieldWithPreciseValue
+	 *            the floatFieldWithPreciseValue to set
+	 */
+	public void setFloatFieldWithPreciseValue(float floatFieldWithPreciseValue) {
+		this.floatFieldWithPreciseValue = floatFieldWithPreciseValue;
+	}
 
-		retValue.append("FloatRangeValuesPojo ( ")
-				.append("floatFieldWithMinValueOnly = ")
-				.append(floatFieldWithMinValueOnly).append(TAB)
-				.append("floatFieldWithMaxValueOnly = ")
-				.append(floatFieldWithMaxValueOnly).append(TAB)
-				.append("floatFieldWithMinAndMaxValue = ")
-				.append(floatFieldWithMinAndMaxValue).append(TAB)
-				.append("floatObjectFieldWithMinValueOnly = ")
-				.append(floatObjectFieldWithMinValueOnly).append(TAB)
-				.append("floatObjectFieldWithMaxValueOnly = ")
-				.append(floatObjectFieldWithMaxValueOnly).append(TAB)
-				.append("floatObjectFieldWithMinAndMaxValue = ")
-				.append(floatObjectFieldWithMinAndMaxValue).append(TAB)
-				.append(" )");
+	/**
+	 * @return the floatObjectFieldWithPreciseValue
+	 */
+	public Float getFloatObjectFieldWithPreciseValue() {
+		return floatObjectFieldWithPreciseValue;
+	}
 
-		return retValue.toString();
+	/**
+	 * @param floatObjectFieldWithPreciseValue
+	 *            the floatObjectFieldWithPreciseValue to set
+	 */
+	public void setFloatObjectFieldWithPreciseValue(
+			Float floatObjectFieldWithPreciseValue) {
+		this.floatObjectFieldWithPreciseValue = floatObjectFieldWithPreciseValue;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString()
+	{
+	    final String TAB = "    ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("FloatRangeValuesPojo ( ")        
+	        .append("floatFieldWithMinValueOnly = ").append(this.floatFieldWithMinValueOnly).append(TAB)
+	        .append("floatFieldWithMaxValueOnly = ").append(this.floatFieldWithMaxValueOnly).append(TAB)
+	        .append("floatFieldWithMinAndMaxValue = ").append(this.floatFieldWithMinAndMaxValue).append(TAB)
+	        .append("floatFieldWithPreciseValue = ").append(this.floatFieldWithPreciseValue).append(TAB)
+	        .append("floatObjectFieldWithMinValueOnly = ").append(this.floatObjectFieldWithMinValueOnly).append(TAB)
+	        .append("floatObjectFieldWithMaxValueOnly = ").append(this.floatObjectFieldWithMaxValueOnly).append(TAB)
+	        .append("floatObjectFieldWithMinAndMaxValue = ").append(this.floatObjectFieldWithMinAndMaxValue).append(TAB)
+	        .append("floatObjectFieldWithPreciseValue = ").append(this.floatObjectFieldWithPreciseValue).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 	// ------------------->> Private methods
