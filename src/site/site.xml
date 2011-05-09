@@ -46,6 +46,8 @@
       	<item name="Home" href="./index.html" />
       	<item name="Downloads" href="./downloads.html" />		
       	<item name="How to contribute" href="./how-to-contribute.html" />
+      	<item name="Sponsors" href="./sponsors/sponsors.html" />
+      	<item name="News" href="./news.html" />
       </menu>
       
       <menu name="Technical Reference">
@@ -57,7 +59,7 @@
       	<item name="Release Notes" href="./release-notes/release-notes.html" />
       </menu>
       
-
+		
       
       <menu ref="reports" />
       
