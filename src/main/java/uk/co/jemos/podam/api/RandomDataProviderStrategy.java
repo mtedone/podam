@@ -207,14 +207,16 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * This implementation returns the current time in milliseconds.
+	 * <p>
+	 * This can be useful for Date-like constructors which accept a long as
+	 * argument. A complete random number would cause the instantiation of such
+	 * classes to fail on a non-deterministic basis, e.g. when the random long
+	 * would not be an acceptable value for, say, a YEAR field.
+	 * </p> {@inheritDoc}
 	 */
 	public Long getLong() {
-		Long retValue = RANDOM.nextLong();
-		while (retValue.longValue() == 0L) {
-			retValue = RANDOM.nextLong();
-		}
-		return retValue;
+		return System.currentTimeMillis();
 	}
 
 	/**
