@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+import uk.co.jemos.podam.annotations.PodamAttributeStrategy;
 import uk.co.jemos.podam.annotations.PodamBooleanValue;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
@@ -179,7 +180,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						continue;
 					}
 
-					return candidateConstructor.invoke(clazz, new Object[] {});
+					return candidateConstructor.invoke(clazz, new Object[]{});
 
 				}
 
@@ -193,7 +194,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					// There is a factory method with no arguments
 					retValue = candidateConstructor.invoke(clazz,
-							new Object[] {});
+							new Object[]{});
 
 				} else {
 
@@ -1436,8 +1437,19 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The list of annotations used to customise the String value, if
 	 *            any
 	 * @return a String value, eventually customised by annotations
+	 * @throws IllegalAccessException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy
+	 * @throws InstantiationException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy
+	 * 
+	 * @throws IllegalArgumentException
+	 *             If {@link PodamAttributeStrategy} was specified but the type
+	 *             was not correct for the attribute being set
 	 */
-	private String resolveStringValue(List<Annotation> annotations) {
+	private String resolveStringValue(List<Annotation> annotations)
+			throws InstantiationException, IllegalAccessException {
 
 		String retValue = null;
 
@@ -1447,9 +1459,56 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
+			// If a Podam attribute strategy has been defined, this takes
+			// precedence and supersedes all other strategies
+			PodamAttributeStrategy attributeStrategyAnnotation = containsAttributeStrategyAnnotation(annotations);
+
+			if (attributeStrategyAnnotation != null) {
+
+				@SuppressWarnings("unchecked")
+				AttributeDataStrategy<String> attributeStrategy = (AttributeDataStrategy<String>) attributeStrategyAnnotation
+						.value().newInstance();
+
+				Method attributeStrategyMethod = null;
+
+				try {
+					attributeStrategyMethod = attributeStrategy
+							.getClass()
+							.getMethod(
+									PodamConstants.PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME,
+									new Class<?>[]{});
+
+					if (!String.class.isAssignableFrom(attributeStrategyMethod
+							.getReturnType())) {
+						String errMsg = "The type of the Podam Attribute Strategy is not String but "
+								+ attributeStrategyMethod.getReturnType()
+										.getName()
+								+ ". An exception will be thrown.";
+						LOG.error(errMsg);
+						throw new IllegalArgumentException(errMsg);
+					}
+
+					retValue = attributeStrategy.getValue();
+
+					return retValue;
+
+				} catch (SecurityException e) {
+					throw new IllegalStateException(
+							"A security issue occurred while retrieving the Podam Attribute Strategy details",
+							e);
+				} catch (NoSuchMethodException e) {
+					throw new IllegalStateException(
+							"It seems the Podam Attribute Annotation is of the wrong type",
+							e);
+				}
+
+			}
+
+			// Otherwise we proceed as normal
 			for (Annotation annotation : annotations) {
 
-				if (!annotation.annotationType().equals(PodamStringValue.class)) {
+				if (!PodamStringValue.class.isAssignableFrom(annotation
+						.getClass())) {
 					continue;
 				}
 
@@ -1478,6 +1537,29 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 	}
+	/**
+	 * It returns a {@link PodamAttributeStrategy} if one was specified, or
+	 * {@code null} otherwise.
+	 * 
+	 * @param annotations
+	 *            The list of annotations
+	 * @return {@code true} if the list of annotations contains at least one
+	 *         {@link PodamAttributeStrategy} annotation.
+	 */
+	private PodamAttributeStrategy containsAttributeStrategyAnnotation(
+			List<Annotation> annotations) {
+		PodamAttributeStrategy retValue = null;
+
+		for (Annotation annotation : annotations) {
+			if (PodamAttributeStrategy.class.isAssignableFrom(annotation
+					.getClass())) {
+				retValue = (PodamAttributeStrategy) annotation;
+				break;
+			}
+		}
+
+		return retValue;
+	}
 
 	/**
 	 * It returns {@code true} if this class is a wrapper class, {@code false}
@@ -1490,18 +1572,26 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private boolean isWrapper(Class<?> candidateWrapperClass) {
 
-		return candidateWrapperClass.equals(Byte.class) ? true
-				: candidateWrapperClass.equals(Boolean.class) ? true
-						: candidateWrapperClass.equals(Character.class) ? true
-								: candidateWrapperClass.equals(Short.class) ? true
+		return candidateWrapperClass.equals(Byte.class)
+				? true
+				: candidateWrapperClass.equals(Boolean.class)
+						? true
+						: candidateWrapperClass.equals(Character.class)
+								? true
+								: candidateWrapperClass.equals(Short.class)
+										? true
 										: candidateWrapperClass
-												.equals(Integer.class) ? true
+												.equals(Integer.class)
+												? true
 												: candidateWrapperClass
-														.equals(Long.class) ? true
+														.equals(Long.class)
+														? true
 														: candidateWrapperClass
-																.equals(Float.class) ? true
+																.equals(Float.class)
+																? true
 																: candidateWrapperClass
-																		.equals(Double.class) ? true
+																		.equals(Double.class)
+																		? true
 																		: false;
 	}
 
@@ -1573,7 +1663,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws IllegalArgumentException
 	 *             If the field name is null or empty
 	 */
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({"unchecked"})
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
 			Class<?> pojoClass, Class<?> collectionType, String attributeName,
 			List<Annotation> annotations) {
@@ -1848,7 +1938,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The collection type *
 	 * @return an instance of the collection type
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	private Collection<? super Object> resolveCollectionType(
 			Class<?> collectionType) {
 
@@ -1892,7 +1982,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @return A default instance for each map type
 	 * 
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private Map<? super Object, ? super Object> resolveMapType(
 			Class<?> attributeType) {
 
@@ -2013,7 +2103,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				Constructor<?> noArgConstructor = null;
 				try {
 					noArgConstructor = declaringClass
-							.getConstructor(new Class<?>[] {});
+							.getConstructor(new Class<?>[]{});
 				} catch (NoSuchMethodException e) {
 					String errorMsg = "For class: "
 							+ declaringClass
@@ -2023,7 +2113,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				parameterValues[idx] = noArgConstructor
-						.newInstance(new Object[] {});
+						.newInstance(new Object[]{});
 
 			} else {
 

@@ -70,6 +70,9 @@ public class PodamTestConstants {
 	/** A precise double value for testing */
 	public static final String DOUBLE_PRECISE_VALUE = "10.1245";
 
+	/** A post code value for testing. */
+	public static final String POST_CODE = "W1E X9P";
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors

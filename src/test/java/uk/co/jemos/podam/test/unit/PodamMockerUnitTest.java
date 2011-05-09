@@ -58,9 +58,11 @@ import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
 import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.PostCodePojo;
 import uk.co.jemos.podam.test.dto.annotations.ShortValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.ShortValueWithErrorPojo;
 import uk.co.jemos.podam.test.dto.annotations.StringValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.StringWithWrongStrategyTypePojo;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -1140,6 +1142,26 @@ public class PodamMockerUnitTest {
 		Assert.assertEquals(
 				"The internal enum does not match the expected value!",
 				RatePodamInternal.values()[0], ratePodamInternal);
+
+	}
+
+	@Test
+	public void testPostCodeAnnotationDataStrategy() {
+
+		PostCodePojo pojo = factory.manufacturePojo(PostCodePojo.class);
+		Assert.assertNotNull("The post code pojo cannot be null!", pojo);
+
+		String postCode = pojo.getPostCode();
+		Assert.assertNotNull("The post code cannot be null!", postCode);
+		Assert.assertEquals("The post code does not match the expected value",
+				PodamTestConstants.POST_CODE, postCode);
+
+	}
+
+	@Test(expected = PodamMockeryException.class)
+	public void testStringPojoWithWrongTypeForAnnotationStrategy() {
+
+		factory.manufacturePojo(StringWithWrongStrategyTypePojo.class);
 
 	}
 
