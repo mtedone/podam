@@ -1272,29 +1272,51 @@ public class PodamFactoryImpl implements PodamFactory {
 				// A class which has got an attribute to itself (e.g.
 				// recursive hierarchies)
 				attributeType = parameterTypes[0];
-				if (attributeType.equals(pojoClass)) {
-					if (depth < PodamConstants.MAX_DEPTH) {
-						depth++;
-						setterArg = this.manufacturePojoInternal(attributeType,
-								depth);
-						setter.invoke(retValue, setterArg);
-						continue;
 
-					} else {
+				// If an attribute has been annotated with
+				// PodamAttributeStrategy, it takes the precedence over any
+				// other strategy
+				PodamAttributeStrategy attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
+				if (null != attributeStrategyAnnotation) {
+					if (LOG.isDebugEnabled()) {
 
-						setterArg = createNewInstanceForClassWithoutConstructors(
-								pojoClass, pojoClass);
-
-						setter.invoke(retValue, setterArg);
-						depth = 0;
-						continue;
+						LOG.debug("The attribute: " + attributeName
+								+ " has been annotated with "
+								+ PodamAttributeStrategy.class.getName());
 
 					}
 
-				}
+					setterArg = returnAttributeDataStrategyValue(attributeType,
+							attributeStrategyAnnotation);
 
-				setterArg = manufactureAttributeValue(pojoClass, attributeType,
-						pojoAttributeAnnotations, attributeName);
+				} else {
+
+					if (attributeType.equals(pojoClass)) {
+						if (depth < PodamConstants.MAX_DEPTH) {
+							depth++;
+							setterArg = this.manufacturePojoInternal(
+									attributeType, depth);
+							setter.invoke(retValue, setterArg);
+							continue;
+
+						} else {
+
+							setterArg = createNewInstanceForClassWithoutConstructors(
+									pojoClass, pojoClass);
+
+							setter.invoke(retValue, setterArg);
+							depth = 0;
+							continue;
+
+						}
+
+					}
+
+					setterArg = manufactureAttributeValue(pojoClass,
+							attributeType, pojoAttributeAnnotations,
+							attributeName);
+
+				}
 
 				if (setterArg != null) {
 					// If the setter is not public we set it to accessible or
@@ -1459,52 +1481,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
-			// If a Podam attribute strategy has been defined, this takes
-			// precedence and supersedes all other strategies
-			PodamAttributeStrategy attributeStrategyAnnotation = containsAttributeStrategyAnnotation(annotations);
-
-			if (attributeStrategyAnnotation != null) {
-
-				@SuppressWarnings("unchecked")
-				AttributeDataStrategy<String> attributeStrategy = (AttributeDataStrategy<String>) attributeStrategyAnnotation
-						.value().newInstance();
-
-				Method attributeStrategyMethod = null;
-
-				try {
-					attributeStrategyMethod = attributeStrategy
-							.getClass()
-							.getMethod(
-									PodamConstants.PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME,
-									new Class<?>[]{});
-
-					if (!String.class.isAssignableFrom(attributeStrategyMethod
-							.getReturnType())) {
-						String errMsg = "The type of the Podam Attribute Strategy is not String but "
-								+ attributeStrategyMethod.getReturnType()
-										.getName()
-								+ ". An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg);
-					}
-
-					retValue = attributeStrategy.getValue();
-
-					return retValue;
-
-				} catch (SecurityException e) {
-					throw new IllegalStateException(
-							"A security issue occurred while retrieving the Podam Attribute Strategy details",
-							e);
-				} catch (NoSuchMethodException e) {
-					throw new IllegalStateException(
-							"It seems the Podam Attribute Annotation is of the wrong type",
-							e);
-				}
-
-			}
-
-			// Otherwise we proceed as normal
 			for (Annotation annotation : annotations) {
 
 				if (!PodamStringValue.class.isAssignableFrom(annotation
@@ -2201,6 +2177,75 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return parameterValues;
+
+	}
+
+	/**
+	 * It retrieves the value for the {@link PodamAttributeStrategy} annotation
+	 * with which the attribute was annotated
+	 * 
+	 * @param attributeType
+	 *            The attribute type, used for type checking
+	 * @param attributeStrategyAnnotation
+	 *            The {@link PodamAttributeStrategy} annotation for the
+	 *            annotated attribute
+	 * @return The value for the {@link PodamAttributeStrategy} annotation with
+	 *         which the attribute was annotated
+	 * @throws InstantiationException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy contained within the {@link PodamAttributeStrategy}
+	 *             annotation
+	 * @throws IllegalAccessException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy contained within the {@link PodamAttributeStrategy}
+	 *             annotation
+	 * 
+	 * @throws IllegalArgumentException
+	 *             If the type of the data strategy defined for the
+	 *             {@link PodamAttributeStrategy} annotation is not assignable
+	 *             to the annotated attribute. This de facto guarantees type
+	 *             safety.
+	 */
+	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
+			PodamAttributeStrategy attributeStrategyAnnotation)
+			throws InstantiationException, IllegalAccessException {
+
+		Object retValue = null;
+
+		AttributeDataStrategy<?> attributeStrategy = attributeStrategyAnnotation
+				.value().newInstance();
+
+		Method attributeStrategyMethod = null;
+
+		try {
+			attributeStrategyMethod = attributeStrategy.getClass().getMethod(
+					PodamConstants.PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME,
+					new Class<?>[]{});
+
+			if (!attributeType.isAssignableFrom(attributeStrategyMethod
+					.getReturnType())) {
+				String errMsg = "The type of the Podam Attribute Strategy is not "
+						+ attributeType.getName()
+						+ " but "
+						+ attributeStrategyMethod.getReturnType().getName()
+						+ ". An exception will be thrown.";
+				LOG.error(errMsg);
+				throw new IllegalArgumentException(errMsg);
+			}
+
+			retValue = attributeStrategy.getValue();
+
+		} catch (SecurityException e) {
+			throw new IllegalStateException(
+					"A security issue occurred while retrieving the Podam Attribute Strategy details",
+					e);
+		} catch (NoSuchMethodException e) {
+			throw new IllegalStateException(
+					"It seems the Podam Attribute Annotation is of the wrong type",
+					e);
+		}
+
+		return retValue;
 
 	}
 
