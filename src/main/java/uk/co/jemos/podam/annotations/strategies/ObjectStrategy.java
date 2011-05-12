@@ -4,7 +4,7 @@
 package uk.co.jemos.podam.annotations.strategies;
 
 import uk.co.jemos.podam.annotations.PodamCollection;
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
@@ -14,7 +14,7 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
  * @author mtedone
  * 
  */
-public class ObjectStrategy implements AttributeDataStrategy<Object> {
+public class ObjectStrategy implements AttributeStrategy<Object> {
 
 	/**
 	 * {@inheritDoc}

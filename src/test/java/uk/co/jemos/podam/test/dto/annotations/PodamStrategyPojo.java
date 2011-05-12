@@ -10,13 +10,13 @@ import java.util.List;
 
 import uk.co.jemos.podam.annotations.PodamCollection;
 import uk.co.jemos.podam.annotations.PodamStrategyValue;
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 import uk.co.jemos.podam.test.strategies.MyBirthdayStrategy;
 import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 
 /**
  * POJO to test the attribute-level data strategy, through the use of
- * {@link AttributeDataStrategy} implementations.
+ * {@link AttributeStrategy} implementations.
  * 
  * @author mtedone
  * 

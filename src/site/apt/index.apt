@@ -15,7 +15,7 @@ Introduction
   2.0.0. You are encourage to use version 2.x of PODAM. If you want to use version 1.0.0 , you should checkout
   the {{{https://github.com/mtedone/podam/tree/1.0.0.RELEASE} 1.0.0 TAG in GitHub}}.
 
-* How to use the API in version 1.0.0
+* How to use the API in version 1.0.0 (Deprecated)
 
   <<Please note that the API has changed starting from version 2.0.0>>. 
   If you are using version 1.0.0 the use of PodamFactory looks like this (version 1.0.0): 
@@ -42,7 +42,22 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
 
-  Alternatively, if you want to define your own Strategy to assign values, you can use the following version: 
+  PODAM allows users to customise the way data are assigned in several ways: 
+  
+  * By defining a global strategy
+  
+  * By defining strategies at the attribute level
+  
+  * For primitive and wrapper types, to customise the numeric value through annotations
+  
+  * For String to customise the string value and length through annotation
+  
+  * To skip a certain attribute by using the <@PodamExclude> annotation
+  
+** Defining a global data provider strategy
+
+   The default strategy for PODAM is Random values. However users can define their own global strategy by providing an
+   implementation of the <<DataProviderStrategy>> interface, as follows: 
   
 +-----------------------------------
 
@@ -53,7 +68,132 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
 
-  You can easily use PODAM with Spring too: 
+** Defining an attribute-level strategy
+
+  PODAM allows also users to define data strategies at the attribute level. Not only; users can define strategies on how to
+  fill collection and array elements. In order to define an attribute-level strategy, users will need to: 
+  
+  * Provide an implementation of the <<AttributeStrategy>> interface
+  
+  * Use the <<@PodamStrategyValue>> annotation
+  
+  Example: 
+  
++-----------------------------------
+
+@PodamStrategyValue(PostCodeStrategy.class)
+private String postCode;
+
+@PodamStrategyValue(MyBirthdayStrategy.class)
+private Calendar myBirthday;
+
++-----------------------------------
+
+  In this example I defined two attribute-level strategies: 
+  
+  * PostCodeStrategy to create a UK-like postcode
+  
+  * MyBirthdayStrategy to create a Calendar which contains the exact time of my birth
+  
+  The <PostCodeStrategy> class looks like the following:
+  
++-----------------------------------
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.strategies;
+
+import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.test.utils.PodamTestConstants;
+
+/**
+ * A test strategy to manufacture UK-like post codes.
+ * 
+ * @author mtedone
+ * 
+ */
+public class PostCodeStrategy implements AttributeStrategy<String> {
+	
+	/**
+	 * It returns an English post code.
+	 * <p>
+	 * This is just an example. More elaborated code could the implemented by
+	 * this method. This is just to proof the point.
+	 * </p>
+	 * 
+	 * {@inheritDoc}
+	 */
+	public String getValue() throws PodamMockeryException {
+		return PodamTestConstants.POST_CODE;
+	}
+	
+}
+
++-----------------------------------
+
+  There is nothing special about the above class: it's job is just to provide a value of the right type.
+  
+  The <MyBirthdayStrategy> class looks like the following: 
+  
++-----------------------------------
+
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.strategies;
+
+import java.util.Calendar;
+
+import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
+
+/**
+ * An attribute strategy which returns a Calendar object set with my DOB.
+ *
+ * @author mtedone
+ * 
+ */
+public class MyBirthdayStrategy implements AttributeStrategy<Calendar> {
+
+	/**
+	 * It returns a {@link Calendar} object set with the exact date of my
+	 * birthday.
+	 * 
+	 * {@inheritDoc}
+	 */
+	public Calendar getValue() throws PodamMockeryException {
+
+		Calendar myBirthday = PodamTestUtils.getMyBirthday();
+
+		return myBirthday;
+	}
+		
+}
+
+
++-----------------------------------
+
+** Customising PODAM behaviour for primitives and wrapper types
+
+  Primitive and Wrapper type values can be customised through annotations. 
+  
++-----------------------------------
+@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
+private double doubleFieldWithMinAndMaxValue;
++-----------------------------------
+  
+  Please note that by contract (DataProviderStrategy) min and max values are inclusive. 
+  
+  For a full list of supported annotations, please refer to the {{{./annotations.html} Annotations}} page.
+  
+  To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
+  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
+  
+** Using PODAM with Spring
+
+  You can also use PODAM with Spring: 
   
   * Define the Data Provider Strategy as a bean
   
@@ -141,22 +281,6 @@ public class PodamFactoryInjectionIntegrationTest extends
   Please note that the data provider strategy cannot be changed upon instantiation. If you want to use a different data provider
   strategy, you'll need to create a new instance of PodamFactory. This has been decided to preserve thread-safety and immutability
   of PodamFactory.  
-
-* Customising PODAM behaviour
-
-  Numeric and String values in PODAM can be customised through annotations. 
-  
-+-----------------------------------
-@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
-private double doubleFieldWithMinAndMaxValue;
-+-----------------------------------
-  
-  Please note that by contract (DataProviderStrategy) min and max values are inclusive. Also, as one would expect, when min and
-  max value are the same this value is returned. 
-  
-  To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
-  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
-
   
 * How PODAM assigns values
   

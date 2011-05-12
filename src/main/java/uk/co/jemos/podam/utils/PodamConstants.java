@@ -3,7 +3,7 @@
  */
 package uk.co.jemos.podam.utils;
 
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 
 /**
  * PODAM constants.
@@ -39,7 +39,7 @@ public class PodamConstants {
 	/** The default encoding for Strings */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
 
-	/** The name of the {@link AttributeDataStrategy} interface */
+	/** The name of the {@link AttributeStrategy} interface */
 	public static final String PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME = "getValue";
 
 	/** Non-instantiable constructor */

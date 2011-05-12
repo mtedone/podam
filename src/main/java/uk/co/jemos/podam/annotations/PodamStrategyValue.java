@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 
 /**
  * Annotation to drive the value of the annotated attribute.
@@ -32,7 +32,7 @@ public @interface PodamStrategyValue {
 	 * 
 	 * @return The strategy that will populate the annotated attribute
 	 */
-	Class<? extends AttributeDataStrategy<?>> value();
+	Class<? extends AttributeStrategy<?>> value();
 
 	/**
 	 * It allows clients to write a comment on the usage of this annotation

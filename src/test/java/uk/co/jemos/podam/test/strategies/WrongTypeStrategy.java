@@ -4,7 +4,7 @@
 package uk.co.jemos.podam.test.strategies;
 
 import uk.co.jemos.podam.annotations.PodamStrategyValue;
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
 
@@ -17,7 +17,7 @@ import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
  */
 public class WrongTypeStrategy
 		implements
-			AttributeDataStrategy<OneDimensionalTestPojo> {
+			AttributeStrategy<OneDimensionalTestPojo> {
 
 	/**
 	 * {@inheritDoc}

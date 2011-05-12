@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 import uk.co.jemos.podam.utils.PodamConstants;
 
 /**
@@ -50,7 +50,7 @@ public @interface PodamCollection {
 	 * 
 	 * @return The strategy that will populate the annotated attribute
 	 */
-	Class<? extends AttributeDataStrategy<?>> elementStrategy() default ObjectStrategy.class;
+	Class<? extends AttributeStrategy<?>> elementStrategy() default ObjectStrategy.class;
 
 	/** It allows clients to specify a comment on this annotation */
 	String comment() default "";

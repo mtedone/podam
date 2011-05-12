@@ -11,7 +11,7 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
  * @author mtedone
  * 
  */
-public interface AttributeDataStrategy<T> {
+public interface AttributeStrategy<T> {
 
 	/**
 	 * It returns a value of the given type

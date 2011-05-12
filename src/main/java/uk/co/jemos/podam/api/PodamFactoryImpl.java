@@ -1282,7 +1282,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				PodamStrategyValue attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
 				if (null != attributeStrategyAnnotation) {
 
-					AttributeDataStrategy<?> attributeStrategy = attributeStrategyAnnotation
+					AttributeStrategy<?> attributeStrategy = attributeStrategyAnnotation
 							.value().newInstance();
 
 					if (LOG.isDebugEnabled()) {
@@ -1701,7 +1701,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// If the user defined a strategy to fill the collection elements,
 			// we use it
 			PodamCollection collectionAnnotation = null;
-			AttributeDataStrategy<?> elementStrategy = null;
+			AttributeStrategy<?> elementStrategy = null;
 			for (Annotation annotation : annotations) {
 				if (PodamCollection.class.isAssignableFrom(annotation
 						.getClass())) {
@@ -1936,7 +1936,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
 		PodamCollection collectionAnnotation = null;
-		AttributeDataStrategy<?> elementStrategy = null;
+		AttributeStrategy<?> elementStrategy = null;
 		for (Annotation annotation : annotations) {
 			if (PodamCollection.class.isAssignableFrom(annotation.getClass())) {
 				collectionAnnotation = (PodamCollection) annotation;
@@ -2273,9 +2273,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param attributeType
 	 *            The attribute type, used for type checking
-	 * @param attributeStrategyAnnotation
-	 *            The {@link PodamStrategyValue} annotation for the annotated
-	 *            attribute
+	 * @param attributeStrategy
+	 *            The {@link AttributeStrategy} to use
 	 * @return The value for the {@link PodamStrategyValue} annotation with
 	 *         which the attribute was annotated
 	 * @throws InstantiationException
@@ -2294,7 +2293,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             safety.
 	 */
 	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
-			AttributeDataStrategy<?> attributeStrategy)
+			AttributeStrategy<?> attributeStrategy)
 			throws InstantiationException, IllegalAccessException {
 
 		Object retValue = null;

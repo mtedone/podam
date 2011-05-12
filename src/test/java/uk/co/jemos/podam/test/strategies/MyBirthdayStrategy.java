@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.strategies;
 
 import java.util.Calendar;
 
-import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.api.AttributeStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
@@ -13,9 +13,12 @@ import uk.co.jemos.podam.test.utils.PodamTestUtils;
  * @author mtedone
  * 
  */
-public class MyBirthdayStrategy implements AttributeDataStrategy<Calendar> {
+public class MyBirthdayStrategy implements AttributeStrategy<Calendar> {
 
 	/**
+	 * It returns a {@link Calendar} object set with the exact date of my
+	 * birthday.
+	 * 
 	 * {@inheritDoc}
 	 */
 	public Calendar getValue() throws PodamMockeryException {
