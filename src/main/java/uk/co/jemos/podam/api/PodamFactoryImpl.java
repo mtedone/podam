@@ -320,9 +320,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					resolved = true;
 
-					LOG.info("For class: " + clazz.getName()
-							+ " a valid constructor: " + constructor
-							+ " was found.");
+					LOG.info("For class: "
+							+ clazz.getName()
+							+ " a valid constructor: "
+							+ constructor
+							+ " was found. PODAM will use it to create an instance.");
 
 					break;
 
@@ -1679,6 +1681,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type genericType = field.getGenericType();
 			if (!(genericType instanceof ParameterizedType)) {
 
+				LOG.warn("The collection attribute: "
+						+ attributeName
+						+ " does not have a type. We will assume Object for you");
 				// Support for non-generified collections
 				typeClass = Object.class;
 
@@ -1924,17 +1929,56 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> componentType = attributeType.getComponentType();
 
-		// Checks if the number of elements has been customised
-		int nbrElements = resolveNumberOfElements(annotations);
-
-		Object array = Array.newInstance(componentType, nbrElements);
+		int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
 		Object arrayElement = null;
 
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+		PodamCollection collectionAnnotation = null;
+		AttributeDataStrategy<?> elementStrategy = null;
+		for (Annotation annotation : annotations) {
+			if (PodamCollection.class.isAssignableFrom(annotation.getClass())) {
+				collectionAnnotation = (PodamCollection) annotation;
+				break;
+			}
+
+		}
+
+		if (null != collectionAnnotation) {
+
+			nbrElements = collectionAnnotation.nbrElements();
+			elementStrategy = collectionAnnotation.elementStrategy()
+					.newInstance();
+		}
+
+		Object array = Array.newInstance(componentType, nbrElements);
+
 		for (int i = 0; i < nbrElements; i++) {
 
-			arrayElement = manufactureAttributeValue(pojoClass, componentType,
-					annotations, attributeName);
+			// The default
+			if (null != elementStrategy
+					&& ObjectStrategy.class
+							.isAssignableFrom(collectionAnnotation
+									.elementStrategy())
+					&& Object.class.equals(componentType)) {
+				LOG.debug("Element strategy is ObjectStrategy and array element is of type Object: using the ObjectStrategy strategy");
+				arrayElement = elementStrategy.getValue();
+			} else if (null != elementStrategy
+					&& !ObjectStrategy.class
+							.isAssignableFrom(collectionAnnotation
+									.elementStrategy())) {
+				LOG.debug("Array elements will be filled using the following strategy: "
+						+ elementStrategy);
+				arrayElement = returnAttributeDataStrategyValue(componentType,
+						elementStrategy);
+
+			} else {
+
+				arrayElement = manufactureAttributeValue(pojoClass,
+						componentType, annotations, attributeName);
+
+			}
 
 			Array.set(array, i, arrayElement);
 

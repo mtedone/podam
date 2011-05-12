@@ -36,6 +36,19 @@ public class PodamStrategyPojo implements Serializable {
 	@PodamCollection(nbrElements = 2, elementStrategy = MyBirthdayStrategy.class)
 	private List<Calendar> myBirthdays = new ArrayList<Calendar>();
 
+	@PodamCollection(nbrElements = 2)
+	private List<Object> objectList = new ArrayList<Object>();
+
+	@SuppressWarnings("rawtypes")
+	// This is intentional
+	private List nonGenericObjectList = new ArrayList();
+
+	@PodamCollection(nbrElements = 2, elementStrategy = MyBirthdayStrategy.class)
+	private Calendar[] myBirthdaysArray;
+
+	@PodamCollection(nbrElements = 2)
+	private Object[] myObjectArray;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
@@ -92,6 +105,66 @@ public class PodamStrategyPojo implements Serializable {
 	}
 
 	/**
+	 * @return the myBirthdaysArray
+	 */
+	public Calendar[] getMyBirthdaysArray() {
+		return myBirthdaysArray;
+	}
+
+	/**
+	 * @param myBirthdaysArray
+	 *            the myBirthdaysArray to set
+	 */
+	public void setMyBirthdaysArray(Calendar[] myBirthdaysArray) {
+		this.myBirthdaysArray = myBirthdaysArray;
+	}
+
+	/**
+	 * @return the objectList
+	 */
+	public List<Object> getObjectList() {
+		return objectList;
+	}
+
+	/**
+	 * @param objectList
+	 *            the objectList to set
+	 */
+	public void setObjectList(List<Object> objectList) {
+		this.objectList = objectList;
+	}
+
+	/**
+	 * @return the myObjectArray
+	 */
+	public Object[] getMyObjectArray() {
+		return myObjectArray;
+	}
+
+	/**
+	 * @param myObjectArray
+	 *            the myObjectArray to set
+	 */
+	public void setMyObjectArray(Object[] myObjectArray) {
+		this.myObjectArray = myObjectArray;
+	}
+
+	/**
+	 * @return the nonGenericObjectList
+	 */
+	public List getNonGenericObjectList() {
+		return nonGenericObjectList;
+	}
+
+	/**
+	 * @param nonGenericObjectList
+	 *            the nonGenericObjectList to set
+	 */
+	public void setNonGenericObjectList(List nonGenericObjectList) {
+		this.nonGenericObjectList = nonGenericObjectList;
+	}
+
+	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
 	 * 
@@ -106,7 +179,11 @@ public class PodamStrategyPojo implements Serializable {
 		retValue.append("PodamStrategyPojo ( ").append("postCode = ")
 				.append(postCode).append(TAB).append("myBirthday = ")
 				.append(myBirthday).append(TAB).append("myBirthdays = ")
-				.append(myBirthdays).append(TAB).append(" )");
+				.append(myBirthdays).append(TAB).append("objectList = ")
+				.append(objectList).append(TAB).append("myBirthdaysArray = ")
+				.append(myBirthdaysArray).append(TAB)
+				.append("myObjectArray = ").append(myObjectArray).append(TAB)
+				.append(" )");
 
 		return retValue.toString();
 	}

@@ -1178,6 +1178,36 @@ public class PodamMockerUnitTest {
 					expectedBirthday.getTime(), birthday.getTime());
 		}
 
+		Calendar[] myBirthdaysArray = pojo.getMyBirthdaysArray();
+		Assert.assertNotNull("The birthdays array cannot be null!",
+				myBirthdaysArray);
+		Assert.assertFalse("The birthdays array cannot be empty!",
+				myBirthdaysArray.length == 0);
+
+		for (Calendar birthday : myBirthdaysArray) {
+			Assert.assertEquals(
+					"The expected birthday element does not match the actual",
+					expectedBirthday.getTime(), birthday.getTime());
+		}
+
+		List<Object> objectList = pojo.getObjectList();
+		Assert.assertNotNull("The list of objects cannot be null!", objectList);
+		Assert.assertFalse("The list of objects cannot be empty!",
+				objectList.isEmpty());
+
+		Object[] myObjectArray = pojo.getMyObjectArray();
+		Assert.assertNotNull("The array of objects cannot be null!",
+				myObjectArray);
+		Assert.assertTrue("The array of objects cannot be empty",
+				myObjectArray.length > 0);
+
+		@SuppressWarnings("rawtypes")
+		List nonGenericObjectList = pojo.getNonGenericObjectList();
+		Assert.assertNotNull("The non generified object list cannot be null!",
+				nonGenericObjectList);
+		Assert.assertFalse("The non generified object list cannot be empty!",
+				nonGenericObjectList.isEmpty());
+
 	}
 
 	@Test(expected = PodamMockeryException.class)
