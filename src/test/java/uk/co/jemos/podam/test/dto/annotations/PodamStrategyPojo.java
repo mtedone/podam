@@ -6,7 +6,9 @@ package uk.co.jemos.podam.test.dto.annotations;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.co.jemos.podam.annotations.PodamCollection;
 import uk.co.jemos.podam.annotations.PodamStrategyValue;
@@ -33,17 +35,20 @@ public class PodamStrategyPojo implements Serializable {
 	@PodamStrategyValue(MyBirthdayStrategy.class)
 	private Calendar myBirthday;
 
-	@PodamCollection(nbrElements = 2, elementStrategy = MyBirthdayStrategy.class)
+	@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
 	private List<Calendar> myBirthdays = new ArrayList<Calendar>();
 
 	@PodamCollection(nbrElements = 2)
 	private List<Object> objectList = new ArrayList<Object>();
 
+	@PodamCollection(nbrElements = 2, mapElementStrategy = MyBirthdayStrategy.class)
+	private Map<String, Calendar> myBirthdaysMap = new HashMap<String, Calendar>();
+
 	@SuppressWarnings("rawtypes")
 	// This is intentional
 	private List nonGenericObjectList = new ArrayList();
 
-	@PodamCollection(nbrElements = 2, elementStrategy = MyBirthdayStrategy.class)
+	@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
 	private Calendar[] myBirthdaysArray;
 
 	@PodamCollection(nbrElements = 2)
@@ -152,6 +157,7 @@ public class PodamStrategyPojo implements Serializable {
 	/**
 	 * @return the nonGenericObjectList
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getNonGenericObjectList() {
 		return nonGenericObjectList;
 	}
@@ -160,8 +166,24 @@ public class PodamStrategyPojo implements Serializable {
 	 * @param nonGenericObjectList
 	 *            the nonGenericObjectList to set
 	 */
-	public void setNonGenericObjectList(List nonGenericObjectList) {
+	public void setNonGenericObjectList(
+			@SuppressWarnings("rawtypes") List nonGenericObjectList) {
 		this.nonGenericObjectList = nonGenericObjectList;
+	}
+
+	/**
+	 * @return the myBirthdaysMap
+	 */
+	public Map<String, Calendar> getMyBirthdaysMap() {
+		return myBirthdaysMap;
+	}
+
+	/**
+	 * @param myBirthdaysMap
+	 *            the myBirthdaysMap to set
+	 */
+	public void setMyBirthdaysMap(Map<String, Calendar> myBirthdaysMap) {
+		this.myBirthdaysMap = myBirthdaysMap;
 	}
 
 	/**
@@ -180,7 +202,10 @@ public class PodamStrategyPojo implements Serializable {
 				.append(postCode).append(TAB).append("myBirthday = ")
 				.append(myBirthday).append(TAB).append("myBirthdays = ")
 				.append(myBirthdays).append(TAB).append("objectList = ")
-				.append(objectList).append(TAB).append("myBirthdaysArray = ")
+				.append(objectList).append(TAB).append("myBirthdaysMap = ")
+				.append(myBirthdaysMap).append(TAB)
+				.append("nonGenericObjectList = ").append(nonGenericObjectList)
+				.append(TAB).append("myBirthdaysArray = ")
 				.append(myBirthdaysArray).append(TAB)
 				.append("myObjectArray = ").append(myObjectArray).append(TAB)
 				.append(" )");

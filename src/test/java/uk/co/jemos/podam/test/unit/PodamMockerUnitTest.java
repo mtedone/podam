@@ -1208,6 +1208,20 @@ public class PodamMockerUnitTest {
 		Assert.assertFalse("The non generified object list cannot be empty!",
 				nonGenericObjectList.isEmpty());
 
+		Map<String, Calendar> myBirthdaysMap = pojo.getMyBirthdaysMap();
+		Assert.assertNotNull("The birthday map cannot be null!", myBirthdaysMap);
+		Assert.assertFalse("The birthday map cannot be empty!",
+				myBirthdaysMap.isEmpty());
+
+		Set<String> keySet = myBirthdaysMap.keySet();
+		for (String key : keySet) {
+
+			Assert.assertEquals("The map element is not my birthday!",
+					expectedBirthday.getTime(), myBirthdaysMap.get(key)
+							.getTime());
+
+		}
+
 	}
 
 	@Test(expected = PodamMockeryException.class)

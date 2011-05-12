@@ -1716,8 +1716,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != collectionAnnotation) {
 
 				nbrElements = collectionAnnotation.nbrElements();
-				elementStrategy = collectionAnnotation.elementStrategy()
-						.newInstance();
+				elementStrategy = collectionAnnotation
+						.collectionElementStrategy().newInstance();
 			}
 
 			for (int i = 0; i < nbrElements; i++) {
@@ -1725,15 +1725,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				// The default
 				if (null != elementStrategy
 						&& ObjectStrategy.class
-								.isAssignableFrom(collectionAnnotation
-										.elementStrategy())
+								.isAssignableFrom(elementStrategy.getClass())
 						&& Object.class.equals(typeClass)) {
 					LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
 					retValue.add(elementStrategy.getValue());
 				} else if (null != elementStrategy
 						&& !ObjectStrategy.class
-								.isAssignableFrom(collectionAnnotation
-										.elementStrategy())) {
+								.isAssignableFrom(elementStrategy.getClass())) {
 					LOG.debug("Collection elements will be filled using the following strategy: "
 							+ elementStrategy);
 					Object strategyValue = returnAttributeDataStrategyValue(
@@ -1861,15 +1859,45 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			int nbrElements = resolveNumberOfElements(annotations);
+			// If the user defined a strategy to fill the collection elements,
+			// we use it
+			PodamCollection collectionAnnotation = null;
+			AttributeStrategy<?> keyStrategy = null;
+			AttributeStrategy<?> elementStrategy = null;
+			for (Annotation annotation : annotations) {
+				if (PodamCollection.class.isAssignableFrom(annotation
+						.getClass())) {
+					collectionAnnotation = (PodamCollection) annotation;
+					break;
+				}
+
+			}
+
+			int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+
+			if (null != collectionAnnotation) {
+
+				nbrElements = collectionAnnotation.nbrElements();
+				keyStrategy = collectionAnnotation.mapKeyStrategy()
+						.newInstance();
+				elementStrategy = collectionAnnotation.mapElementStrategy()
+						.newInstance();
+
+			}
 
 			for (int i = 0; i < nbrElements; i++) {
 
-				Object keyValue = manufactureAttributeValue(pojoClass,
-						keyClass, annotations, attributeName);
+				Object keyValue = null;
 
-				Object elementValue = manufactureAttributeValue(pojoClass,
-						elementClass, annotations, attributeName);
+				Object elementValue = null;
+
+				keyValue = getMapKeyOrElementValue(pojoClass, attributeName,
+						annotations, keyClass, collectionAnnotation,
+						keyStrategy);
+
+				elementValue = getMapKeyOrElementValue(pojoClass,
+						attributeName, annotations, elementClass,
+						collectionAnnotation, elementStrategy);
 
 				retValue.put(keyValue, elementValue);
 
@@ -1895,6 +1923,58 @@ public class PodamFactoryImpl implements PodamFactory {
 					"An exception occurred while creating a Map object", e);
 		}
 
+		return retValue;
+	}
+
+	/**
+	 * It fills a Map key or value with the appropriate value, considering
+	 * attribute-level customisation.
+	 * 
+	 * @param pojoClass
+	 *            The class containing the annotated attribute
+	 * @param attributeName
+	 *            The attribute name
+	 * @param annotations
+	 *            The list of annotations for this attribute
+	 * @param keyOrValueType
+	 *            The Map key / element type
+	 * @param collectionAnnotation
+	 *            The {@link PodamCollection} annotation
+	 * @param elementStrategy
+	 *            The strategy to use to fill the Map key or value element
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws ClassNotFoundException
+	 */
+	private Object getMapKeyOrElementValue(Class<?> pojoClass,
+			String attributeName, List<Annotation> annotations,
+			Class<?> keyOrValueType, PodamCollection collectionAnnotation,
+			AttributeStrategy<?> elementStrategy)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		Object retValue = null;
+
+		if (null != elementStrategy
+				&& ObjectStrategy.class.isAssignableFrom(elementStrategy
+						.getClass()) && Object.class.equals(keyOrValueType)) {
+			LOG.debug("Element strategy is ObjectStrategy and Map key or value type is of type Object: using the ObjectStrategy strategy");
+			retValue = elementStrategy.getValue();
+		} else if (null != elementStrategy
+				&& !ObjectStrategy.class.isAssignableFrom(elementStrategy
+						.getClass())) {
+			LOG.debug("Map key or value will be filled using the following strategy: "
+					+ elementStrategy);
+			retValue = returnAttributeDataStrategyValue(keyOrValueType,
+					elementStrategy);
+
+		} else {
+
+			retValue = manufactureAttributeValue(pojoClass, keyOrValueType,
+					annotations, attributeName);
+		}
 		return retValue;
 	}
 
@@ -1948,7 +2028,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (null != collectionAnnotation) {
 
 			nbrElements = collectionAnnotation.nbrElements();
-			elementStrategy = collectionAnnotation.elementStrategy()
+			elementStrategy = collectionAnnotation.collectionElementStrategy()
 					.newInstance();
 		}
 
@@ -1960,14 +2040,14 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != elementStrategy
 					&& ObjectStrategy.class
 							.isAssignableFrom(collectionAnnotation
-									.elementStrategy())
+									.collectionElementStrategy())
 					&& Object.class.equals(componentType)) {
 				LOG.debug("Element strategy is ObjectStrategy and array element is of type Object: using the ObjectStrategy strategy");
 				arrayElement = elementStrategy.getValue();
 			} else if (null != elementStrategy
 					&& !ObjectStrategy.class
 							.isAssignableFrom(collectionAnnotation
-									.elementStrategy())) {
+									.collectionElementStrategy())) {
 				LOG.debug("Array elements will be filled using the following strategy: "
 						+ elementStrategy);
 				arrayElement = returnAttributeDataStrategyValue(componentType,
@@ -2083,36 +2163,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			throw new IllegalArgumentException(
 					"The field name must not be null or empty!");
 		}
-	}
-
-	/**
-	 * Given a list of annotations, it scans whether there is one to customise
-	 * the number of elements in a collection
-	 * 
-	 * <p>
-	 * The number of elements defaults to
-	 * {@link PodamConstants#ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS}
-	 * </p>
-	 * 
-	 * @param annotations
-	 *            The list of annotations to scan for {@link PodamCollection}
-	 * @return The number of elements to add to the collection
-	 */
-	private int resolveNumberOfElements(List<Annotation> annotations) {
-
-		int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
-
-		// Checks whether the user customised the number of elements in the
-		// collection
-		for (Annotation annotation : annotations) {
-			if (!annotation.annotationType().equals(PodamCollection.class)) {
-				continue;
-			}
-
-			PodamCollection podamAnnotation = (PodamCollection) annotation;
-			nbrElements = podamAnnotation.nbrElements();
-		}
-		return nbrElements;
 	}
 
 	/**

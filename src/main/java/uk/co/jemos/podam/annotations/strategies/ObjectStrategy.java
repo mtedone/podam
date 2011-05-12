@@ -9,7 +9,7 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * A default Object strategy, just to provide a default to
- * {@link PodamCollection#elementStrategy()}.
+ * {@link PodamCollection#collectionElementStrategy()}.
  * 
  * @author mtedone
  * 
