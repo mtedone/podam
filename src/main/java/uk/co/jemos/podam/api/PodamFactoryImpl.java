@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
-import uk.co.jemos.podam.annotations.PodamAttributeStrategy;
+import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.annotations.PodamBooleanValue;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
@@ -1276,13 +1276,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				// If an attribute has been annotated with
 				// PodamAttributeStrategy, it takes the precedence over any
 				// other strategy
-				PodamAttributeStrategy attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
+				PodamStrategyValue attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
 				if (null != attributeStrategyAnnotation) {
 					if (LOG.isDebugEnabled()) {
 
 						LOG.debug("The attribute: " + attributeName
 								+ " has been annotated with "
-								+ PodamAttributeStrategy.class.getName());
+								+ PodamStrategyValue.class.getName());
 
 					}
 
@@ -1467,7 +1467,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             strategy
 	 * 
 	 * @throws IllegalArgumentException
-	 *             If {@link PodamAttributeStrategy} was specified but the type
+	 *             If {@link PodamStrategyValue} was specified but the type
 	 *             was not correct for the attribute being set
 	 */
 	private String resolveStringValue(List<Annotation> annotations)
@@ -1514,22 +1514,22 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 	}
 	/**
-	 * It returns a {@link PodamAttributeStrategy} if one was specified, or
+	 * It returns a {@link PodamStrategyValue} if one was specified, or
 	 * {@code null} otherwise.
 	 * 
 	 * @param annotations
 	 *            The list of annotations
 	 * @return {@code true} if the list of annotations contains at least one
-	 *         {@link PodamAttributeStrategy} annotation.
+	 *         {@link PodamStrategyValue} annotation.
 	 */
-	private PodamAttributeStrategy containsAttributeStrategyAnnotation(
+	private PodamStrategyValue containsAttributeStrategyAnnotation(
 			List<Annotation> annotations) {
-		PodamAttributeStrategy retValue = null;
+		PodamStrategyValue retValue = null;
 
 		for (Annotation annotation : annotations) {
-			if (PodamAttributeStrategy.class.isAssignableFrom(annotation
+			if (PodamStrategyValue.class.isAssignableFrom(annotation
 					.getClass())) {
-				retValue = (PodamAttributeStrategy) annotation;
+				retValue = (PodamStrategyValue) annotation;
 				break;
 			}
 		}
@@ -2181,33 +2181,33 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It retrieves the value for the {@link PodamAttributeStrategy} annotation
+	 * It retrieves the value for the {@link PodamStrategyValue} annotation
 	 * with which the attribute was annotated
 	 * 
 	 * @param attributeType
 	 *            The attribute type, used for type checking
 	 * @param attributeStrategyAnnotation
-	 *            The {@link PodamAttributeStrategy} annotation for the
+	 *            The {@link PodamStrategyValue} annotation for the
 	 *            annotated attribute
-	 * @return The value for the {@link PodamAttributeStrategy} annotation with
+	 * @return The value for the {@link PodamStrategyValue} annotation with
 	 *         which the attribute was annotated
 	 * @throws InstantiationException
 	 *             If an exception occurred while creating an instance of the
-	 *             strategy contained within the {@link PodamAttributeStrategy}
+	 *             strategy contained within the {@link PodamStrategyValue}
 	 *             annotation
 	 * @throws IllegalAccessException
 	 *             If an exception occurred while creating an instance of the
-	 *             strategy contained within the {@link PodamAttributeStrategy}
+	 *             strategy contained within the {@link PodamStrategyValue}
 	 *             annotation
 	 * 
 	 * @throws IllegalArgumentException
 	 *             If the type of the data strategy defined for the
-	 *             {@link PodamAttributeStrategy} annotation is not assignable
+	 *             {@link PodamStrategyValue} annotation is not assignable
 	 *             to the annotated attribute. This de facto guarantees type
 	 *             safety.
 	 */
 	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
-			PodamAttributeStrategy attributeStrategyAnnotation)
+			PodamStrategyValue attributeStrategyAnnotation)
 			throws InstantiationException, IllegalAccessException {
 
 		Object retValue = null;

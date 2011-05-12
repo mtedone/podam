@@ -5,12 +5,12 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamAttributeStrategy;
+import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.test.strategies.WrongTypeStrategy;
 
 /**
  * POJO to test that when a wrong type is given to
- * {@link PodamAttributeStrategy} an exception will be thrown.
+ * {@link PodamStrategyValue} an exception will be thrown.
  * 
  * @author mtedone
  * 
@@ -21,7 +21,7 @@ public class StringWithWrongStrategyTypePojo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// ------------------->> Instance / Static variables
 
-	@PodamAttributeStrategy(value = WrongTypeStrategy.class)
+	@PodamStrategyValue(value = WrongTypeStrategy.class)
 	private String postCodeDestinedToFail;
 
 	// ------------------->> Constructors

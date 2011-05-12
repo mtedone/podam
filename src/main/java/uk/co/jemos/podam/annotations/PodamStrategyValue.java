@@ -25,7 +25,7 @@ import uk.co.jemos.podam.api.AttributeDataStrategy;
 @Documented
 @Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PodamAttributeStrategy {
+public @interface PodamStrategyValue {
 
 	/**
 	 * The strategy that will populate the annotated attribute

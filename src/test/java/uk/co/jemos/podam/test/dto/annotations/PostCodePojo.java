@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamAttributeStrategy;
+import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.api.AttributeDataStrategy;
 import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 
@@ -22,7 +22,7 @@ public class PostCodePojo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	// ------------------->> Instance / Static variables
 
-	@PodamAttributeStrategy(PostCodeStrategy.class)
+	@PodamStrategyValue(PostCodeStrategy.class)
 	private String postCode;
 
 	// ------------------->> Constructors
