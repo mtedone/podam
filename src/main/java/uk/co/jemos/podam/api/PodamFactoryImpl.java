@@ -29,7 +29,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
-import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.annotations.PodamBooleanValue;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
@@ -40,7 +39,9 @@ import uk.co.jemos.podam.annotations.PodamFloatValue;
 import uk.co.jemos.podam.annotations.PodamIntValue;
 import uk.co.jemos.podam.annotations.PodamLongValue;
 import uk.co.jemos.podam.annotations.PodamShortValue;
+import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.annotations.PodamStringValue;
+import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
 import uk.co.jemos.podam.dto.ClassInfo;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.utils.PodamConstants;
@@ -1278,16 +1279,19 @@ public class PodamFactoryImpl implements PodamFactory {
 				// other strategy
 				PodamStrategyValue attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
 				if (null != attributeStrategyAnnotation) {
+
+					AttributeDataStrategy<?> attributeStrategy = attributeStrategyAnnotation
+							.value().newInstance();
+
 					if (LOG.isDebugEnabled()) {
-
-						LOG.debug("The attribute: " + attributeName
-								+ " has been annotated with "
-								+ PodamStrategyValue.class.getName());
-
+						LOG.debug("The attribute: "
+								+ attributeName
+								+ " will be filled using the following strategy: "
+								+ attributeStrategy);
 					}
 
 					setterArg = returnAttributeDataStrategyValue(attributeType,
-							attributeStrategyAnnotation);
+							attributeStrategy);
 
 				} else {
 
@@ -1467,8 +1471,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             strategy
 	 * 
 	 * @throws IllegalArgumentException
-	 *             If {@link PodamStrategyValue} was specified but the type
-	 *             was not correct for the attribute being set
+	 *             If {@link PodamStrategyValue} was specified but the type was
+	 *             not correct for the attribute being set
 	 */
 	private String resolveStringValue(List<Annotation> annotations)
 			throws InstantiationException, IllegalAccessException {
@@ -1527,8 +1531,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		PodamStrategyValue retValue = null;
 
 		for (Annotation annotation : annotations) {
-			if (PodamStrategyValue.class.isAssignableFrom(annotation
-					.getClass())) {
+			if (PodamStrategyValue.class
+					.isAssignableFrom(annotation.getClass())) {
 				retValue = (PodamStrategyValue) annotation;
 				break;
 			}
@@ -1689,11 +1693,52 @@ public class PodamFactoryImpl implements PodamFactory {
 								.extractClassNameFromParameterisedTypeInField(actualTypeArguments));
 			}
 
-			int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
+			// If the user defined a strategy to fill the collection elements,
+			// we use it
+			PodamCollection collectionAnnotation = null;
+			AttributeDataStrategy<?> elementStrategy = null;
+			for (Annotation annotation : annotations) {
+				if (PodamCollection.class.isAssignableFrom(annotation
+						.getClass())) {
+					collectionAnnotation = (PodamCollection) annotation;
+					break;
+				}
+
+			}
+
+			int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+
+			if (null != collectionAnnotation) {
+
+				nbrElements = collectionAnnotation.nbrElements();
+				elementStrategy = collectionAnnotation.elementStrategy()
+						.newInstance();
+			}
 
 			for (int i = 0; i < nbrElements; i++) {
-				retValue.add(manufactureAttributeValue(pojoClass, typeClass,
-						annotations, attributeName));
+
+				// The default
+				if (null != elementStrategy
+						&& ObjectStrategy.class
+								.isAssignableFrom(collectionAnnotation
+										.elementStrategy())
+						&& Object.class.equals(typeClass)) {
+					LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
+					retValue.add(elementStrategy.getValue());
+				} else if (null != elementStrategy
+						&& !ObjectStrategy.class
+								.isAssignableFrom(collectionAnnotation
+										.elementStrategy())) {
+					LOG.debug("Collection elements will be filled using the following strategy: "
+							+ elementStrategy);
+					Object strategyValue = returnAttributeDataStrategyValue(
+							typeClass, elementStrategy);
+					retValue.add(strategyValue);
+				} else {
+					retValue.add(manufactureAttributeValue(pojoClass,
+							typeClass, annotations, attributeName));
+				}
+
 			}
 
 		} catch (SecurityException e) {
@@ -1721,7 +1766,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 	}
-
 	/**
 	 * It manufactures and returns a Map with at least one element in it
 	 * 
@@ -1812,7 +1856,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
+			int nbrElements = resolveNumberOfElements(annotations);
 
 			for (int i = 0; i < nbrElements; i++) {
 
@@ -1881,7 +1925,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> componentType = attributeType.getComponentType();
 
 		// Checks if the number of elements has been customised
-		int nbrElements = resolveCollectionNbrElementsFromAnnotations(annotations);
+		int nbrElements = resolveNumberOfElements(annotations);
 
 		Object array = Array.newInstance(componentType, nbrElements);
 
@@ -2010,8 +2054,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The list of annotations to scan for {@link PodamCollection}
 	 * @return The number of elements to add to the collection
 	 */
-	private int resolveCollectionNbrElementsFromAnnotations(
-			List<Annotation> annotations) {
+	private int resolveNumberOfElements(List<Annotation> annotations) {
 
 		int nbrElements = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
 
@@ -2181,14 +2224,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It retrieves the value for the {@link PodamStrategyValue} annotation
-	 * with which the attribute was annotated
+	 * It retrieves the value for the {@link PodamStrategyValue} annotation with
+	 * which the attribute was annotated
 	 * 
 	 * @param attributeType
 	 *            The attribute type, used for type checking
 	 * @param attributeStrategyAnnotation
-	 *            The {@link PodamStrategyValue} annotation for the
-	 *            annotated attribute
+	 *            The {@link PodamStrategyValue} annotation for the annotated
+	 *            attribute
 	 * @return The value for the {@link PodamStrategyValue} annotation with
 	 *         which the attribute was annotated
 	 * @throws InstantiationException
@@ -2202,18 +2245,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @throws IllegalArgumentException
 	 *             If the type of the data strategy defined for the
-	 *             {@link PodamStrategyValue} annotation is not assignable
-	 *             to the annotated attribute. This de facto guarantees type
+	 *             {@link PodamStrategyValue} annotation is not assignable to
+	 *             the annotated attribute. This de facto guarantees type
 	 *             safety.
 	 */
 	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
-			PodamStrategyValue attributeStrategyAnnotation)
+			AttributeDataStrategy<?> attributeStrategy)
 			throws InstantiationException, IllegalAccessException {
 
 		Object retValue = null;
-
-		AttributeDataStrategy<?> attributeStrategy = attributeStrategyAnnotation
-				.value().newInstance();
 
 		Method attributeStrategyMethod = null;
 

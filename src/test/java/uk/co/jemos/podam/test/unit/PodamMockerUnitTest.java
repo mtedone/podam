@@ -58,13 +58,14 @@ import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
 import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.PostCodePojo;
+import uk.co.jemos.podam.test.dto.annotations.PodamStrategyPojo;
 import uk.co.jemos.podam.test.dto.annotations.ShortValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.ShortValueWithErrorPojo;
 import uk.co.jemos.podam.test.dto.annotations.StringValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.StringWithWrongStrategyTypePojo;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 /**
  * Unit test for simple App.
@@ -1146,15 +1147,36 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testPostCodeAnnotationDataStrategy() {
+	public void testPodamStrategyValueAnnotation() {
 
-		PostCodePojo pojo = factory.manufacturePojo(PostCodePojo.class);
+		PodamStrategyPojo pojo = factory
+				.manufacturePojo(PodamStrategyPojo.class);
 		Assert.assertNotNull("The post code pojo cannot be null!", pojo);
 
 		String postCode = pojo.getPostCode();
 		Assert.assertNotNull("The post code cannot be null!", postCode);
 		Assert.assertEquals("The post code does not match the expected value",
 				PodamTestConstants.POST_CODE, postCode);
+
+		Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
+
+		Calendar myBirthday = pojo.getMyBirthday();
+
+		Assert.assertEquals(
+				"The expected and actual calendar objects are not the same",
+				expectedBirthday.getTime(), myBirthday.getTime());
+
+		List<Calendar> myBirthdays = pojo.getMyBirthdays();
+		Assert.assertNotNull("The birthdays collection cannot be null!",
+				myBirthdays);
+		Assert.assertFalse("The birthdays collection cannot be empty!",
+				myBirthdays.isEmpty());
+
+		for (Calendar birthday : myBirthdays) {
+			Assert.assertEquals(
+					"The expected birthday element does not match the actual",
+					expectedBirthday.getTime(), birthday.getTime());
+		}
 
 	}
 

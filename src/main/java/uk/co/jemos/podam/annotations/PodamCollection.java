@@ -9,6 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
+import uk.co.jemos.podam.api.AttributeDataStrategy;
 import uk.co.jemos.podam.utils.PodamConstants;
 
 /**
@@ -28,7 +30,7 @@ import uk.co.jemos.podam.utils.PodamConstants;
  * 
  */
 @Documented
-@Target(value = { ElementType.FIELD, ElementType.PARAMETER })
+@Target(value = {ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamCollection {
 
@@ -36,6 +38,19 @@ public @interface PodamCollection {
 	 * The number of elements to create for the collection
 	 */
 	int nbrElements() default PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+
+	/**
+	 * The strategy that will populate the annotated attribute.
+	 * <p>
+	 * The default, in order to make the strategy actually <i>optional</i> is
+	 * type Object. At runtime, only if both the value of this annotation and
+	 * the collection element type are Objects, then the collection will be set
+	 * with type {@link Object}, otherwise the collection element type will win.
+	 * </p>
+	 * 
+	 * @return The strategy that will populate the annotated attribute
+	 */
+	Class<? extends AttributeDataStrategy<?>> elementStrategy() default ObjectStrategy.class;
 
 	/** It allows clients to specify a comment on this annotation */
 	String comment() default "";

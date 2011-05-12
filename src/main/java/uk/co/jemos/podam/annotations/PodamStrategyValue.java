@@ -23,7 +23,7 @@ import uk.co.jemos.podam.api.AttributeDataStrategy;
  * 
  */
 @Documented
-@Target({ ElementType.FIELD, ElementType.PARAMETER })
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamStrategyValue {
 

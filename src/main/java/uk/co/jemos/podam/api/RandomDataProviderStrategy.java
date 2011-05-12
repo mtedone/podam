@@ -285,10 +285,6 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			buff.append(getCharacter());
 		}
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Length of returned string: " + buff.toString().length());
-		}
-
 		return buff.toString();
 
 	}

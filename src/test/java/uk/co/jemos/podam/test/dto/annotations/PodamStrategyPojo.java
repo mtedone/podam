@@ -4,9 +4,14 @@
 package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import uk.co.jemos.podam.annotations.PodamCollection;
 import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.api.AttributeDataStrategy;
+import uk.co.jemos.podam.test.strategies.MyBirthdayStrategy;
 import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 
 /**
@@ -16,7 +21,7 @@ import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
  * @author mtedone
  * 
  */
-public class PostCodePojo implements Serializable {
+public class PodamStrategyPojo implements Serializable {
 
 	// ------------------->> Constants
 	private static final long serialVersionUID = 1L;
@@ -24,6 +29,12 @@ public class PostCodePojo implements Serializable {
 
 	@PodamStrategyValue(PostCodeStrategy.class)
 	private String postCode;
+
+	@PodamStrategyValue(MyBirthdayStrategy.class)
+	private Calendar myBirthday;
+
+	@PodamCollection(nbrElements = 2, elementStrategy = MyBirthdayStrategy.class)
+	private List<Calendar> myBirthdays = new ArrayList<Calendar>();
 
 	// ------------------->> Constructors
 
@@ -51,6 +62,36 @@ public class PostCodePojo implements Serializable {
 	// ------------------->> equals() / hashcode() / toString()
 
 	/**
+	 * @return the myBirthday
+	 */
+	public Calendar getMyBirthday() {
+		return myBirthday;
+	}
+
+	/**
+	 * @param myBirthday
+	 *            the myBirthday to set
+	 */
+	public void setMyBirthday(Calendar myBirthday) {
+		this.myBirthday = myBirthday;
+	}
+
+	/**
+	 * @return the myBirthdays
+	 */
+	public List<Calendar> getMyBirthdays() {
+		return myBirthdays;
+	}
+
+	/**
+	 * @param myBirthdays
+	 *            the myBirthdays to set
+	 */
+	public void setMyBirthdays(List<Calendar> myBirthdays) {
+		this.myBirthdays = myBirthdays;
+	}
+
+	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
 	 * 
@@ -62,8 +103,10 @@ public class PostCodePojo implements Serializable {
 
 		StringBuilder retValue = new StringBuilder();
 
-		retValue.append("PostCodePojo ( ").append("postCode = ")
-				.append(postCode).append(TAB).append(" )");
+		retValue.append("PodamStrategyPojo ( ").append("postCode = ")
+				.append(postCode).append(TAB).append("myBirthday = ")
+				.append(myBirthday).append(TAB).append("myBirthdays = ")
+				.append(myBirthdays).append(TAB).append(" )");
 
 		return retValue.toString();
 	}
