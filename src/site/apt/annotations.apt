@@ -2,35 +2,352 @@ Podam Custom Annotations
 
   For the full syntax of PODAM annotations, please refer to the {{{./apidocs/index.html}Javadocs}}
  
-*------------+---------------------+--------------+
-| Annotation | Description | Supported Attributes |
-*------------+---------------------+--------------+
-| @PodamBooleanValue | It allows the customisation of boolean / Boolean attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamByteValue | It allows the customisation of byte / Byte attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamShortValue | It allows the customisation of short / Short attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamCharValue | It allows the customisation of char / Character attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamShortValue | It allows the customisation of short / Short attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamIntValue | It allows the customisation of int / Integer attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamLongValue | It allows the customisation of long / Long attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamFloatValue | It allows the customisation of float / Float attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamDoubleValue | It allows the customisation of double / Double attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamStringValue | It allows the customisation of String attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamCollection | It allows the customisation of Collection and array attributes | TBD |
-*------------+---------------------+--------------+
-| @PodamConstructor | Required for immutable-like POJOs | TBD |
-*------------+---------------------+--------------+
-| @PodamExclude | It allows users to define attributes to skip while PODAM is running | TBD |
-*------------+---------------------+--------------+ 
-| @PodamStrategyValue | It allows the definition of a data strategy at the attribute level | TBD |
-*------------+---------------------+--------------+
+
+
+* @PodamBooleanValue 
+
+  It allows the customisation of boolean / Boolean attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| boolValue | It dictates the value that will be assigned to the annotated attribute. Can only be <true> or <false> |
+*------------+---------------------+
+
+  Example: 
   
++-----------------------------------
+
+/** A boolean field with value forced to true */
+@PodamBooleanValue(boolValue = true)
+private boolean boolDefaultToTrue;
+
+/** A boolean field with value forced to false */
+@PodamBooleanValue(boolValue = false)
+private boolean boolDefaultToFalse = true;
+
++-----------------------------------
+
+* @PodamByteValue 
+
+  It allows the customisation of byte / Byte attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamByteValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
+private byte byteFieldWithMinValueOnly;
+
+@PodamByteValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private byte byteFieldWithMaxValueOnly;
+
+@PodamByteValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private byte byteFieldWithMinAndMaxValue;  
+
+@PodamByteValue(numValue = PodamTestConstants.BYTE_PRECISE_VALUE)
+private byte byteFieldWithPreciseValue;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamShortValue 
+
+  It allows the customisation of short / Short attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamShortValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
+private short shortFieldWithMinValueOnly;
+
+@PodamShortValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private short shortFieldWithMaxValueOnly;
+
+@PodamShortValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private short shortFieldWithMinAndMaxValue;
+
+@PodamShortValue(numValue = PodamTestConstants.SHORT_PRECISE_VALUE)
+private short shortFieldWithPreciseValue;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamCharValue 
+
+  It allows the customisation of char / Character attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| charValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamCharValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
+private char charFieldWithMinValueOnly;
+
+@PodamCharValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private char charFieldWithMaxValueOnly;
+
+@PodamCharValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private char charFieldWithMinAndMaxValue;
+
+@PodamCharValue(charValue = PodamTestConstants.CHAR_PRECISE_VALUE)
+private char charFieldWithPreciseValue;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamIntValue 
+
+  It allows the customisation of int / Integer attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamIntValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
+private int intFieldWithMinValueOnly;
+
+@PodamIntValue(numValue = PodamTestConstants.INTEGER_PRECISE_VALUE)
+private int intFieldWithPreciseValue;
+
+@PodamIntValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
+private int intFieldWithMaxValueOnly;
+
+@PodamIntValue(numValue = PodamTestConstants.INTEGER_PRECISE_VALUE)
+private Integer integerObjectFieldWithPreciseValue;
+
++-----------------------------------
+
+
+  {{{./annotations.html} Top }}
+
+* @PodamLongValue 
+
+  It allows the customisation of long / Long attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamLongValue(minValue = 0)
+private long longFieldWithMinValueOnly;
+
+@PodamLongValue(maxValue = 100)
+private long longFieldWithMaxValueOnly;
+
+@PodamLongValue(minValue = 0, maxValue = 1000)
+private long longFieldWithMinAndMaxValue;
+
+@PodamLongValue(numValue = PodamTestConstants.LONG_PRECISE_VALUE)
+private Long longObjectFieldWithPreciseValue;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamFloatValue 
+
+  It allows the customisation of float / Float attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamFloatValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE)
+private float floatFieldWithMinValueOnly;
+
+@PodamFloatValue(maxValue = PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED)
+private float floatFieldWithMaxValueOnly;
+
+@PodamFloatValue(minValue = PodamTestConstants.NUMBER_FLOAT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_FLOAT_MAX_VALUE)
+private float floatFieldWithMinAndMaxValue;
+
+@PodamFloatValue(numValue = PodamTestConstants.FLOAT_PRECISE_VALUE)
+private Float floatObjectFieldWithPreciseValue;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamDoubleValue 
+
+  It allows the customisation of double / Double attributes.    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| numValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| minValue | It identifies the minimum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+| maxValue | It identifies the maximum value (inclusive) that the annotated attribute will be assigned. |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE)
+private double doubleFieldWithMinValueOnly;
+
+@PodamDoubleValue(maxValue = PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED)
+private double doubleFieldWithMaxValueOnly;
+
+@PodamDoubleValue(minValue = PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE)
+private double doubleFieldWithMinAndMaxValue;
+
+@PodamDoubleValue(numValue = PodamTestConstants.DOUBLE_PRECISE_VALUE)
+private Double doubleObjectFieldWithPreciseValue;
+
++-----------------------------------
+
+
+  {{{./annotations.html} Top }}
+
+* @PodamStringValue 
+
+  It allows the customisation of String attributes    
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| strValue | Takes precedence over all other attributes. It dictates the value that will be assigned to the annotated attribute |
+*------------+---------------------+
+| length | It defines how long the string shall be. This attribute will be taken into consideration only if <strValue> has not been defined. |
+*------------+---------------------+
+
+
+  Example: 
+  
++-----------------------------------
+
+@PodamStringValue(length = PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH)
+/** A String attribute with length 20 */
+private String twentyLengthString;
+
+@PodamStringValue(strValue = PodamTestConstants.STR_ANNOTATION_PRECISE_VALUE)
+private String preciseValueString;
+
++-----------------------------------
+
+  {{{./annotations.html} Top }}
+
+* @PodamCollection 
+
+  It allows the customisation of container-like data structures, such as Collections, Maps and Arrays. The default
+  strategy for all container-like data structure is <uk.co.jemos.podam.annotations.strategies.ObjectStrategy> whose
+  behaviour is to return a new Object instance. This strategy will be used only if the container element type is
+  Object itself. Otherwise the element type wins.
+
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| nbrElements | It defines how many elements should be created for the container-like data structure |
+*------------+---------------------+
+| collectionElementStrategy | It defines which AttributeStrategy\<T\> should be used to fill each element in the collection. Used for Collections and Arrays. Not used for Maps. |
+*------------+---------------------+
+| mapKeyStrategy | It defines which AttributeStrategy\<T\> should be used to fill keys of a Map. Used only for Maps |
+*------------+---------------------+
+| mapElementStrategy | It defines which AttributeStrategy\<T\> should be used to fill elements of a Map. Used only for Maps |
+*------------+---------------------+
+
+
+  Example for a Collection. It will fill a List<Calendar> with two elements. Each element will be filled according to
+  the <MyBirthdayStrategy> strategy. 
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
+private List<Calendar> myBirthdays = new ArrayList<Calendar>();
+
++-----------------------------------
+
+  Example for a Map. It will fill a Map<String, Calendar> with two elements. Each Map element will be filled according to
+  the <MyBirthdayStrategy> strategy. 
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, mapElementStrategy = MyBirthdayStrategy.class)
+private Map<String, Calendar> myBirthdaysMap = new HashMap<String, Calendar>();
+
++-----------------------------------
+
+  Example for an Array. It will fill an array of Calendars. Each array element will be filled according to
+  the <MyBirthdayStrategy> strategy. 
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
+private Calendar[] myBirthdaysArray;
+
++-----------------------------------
+
+
+  {{{./annotations.html} Top }}
+
+* @PodamConstructor 
+

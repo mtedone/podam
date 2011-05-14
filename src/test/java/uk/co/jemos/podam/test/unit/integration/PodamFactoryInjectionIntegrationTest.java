@@ -3,11 +3,12 @@
  */
 package uk.co.jemos.podam.test.unit.integration;
 
+import javax.annotation.Resource;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -18,16 +19,17 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
  * @author mtedone
  * 
  */
-@ContextConfiguration(locations = { "classpath:podam-test-appContext.xml" })
-public class PodamFactoryInjectionIntegrationTest extends
-		AbstractJUnit4SpringContextTests {
+@ContextConfiguration(locations = {"classpath:podam-test-appContext.xml"})
+public class PodamFactoryInjectionIntegrationTest
+		extends
+			AbstractJUnit4SpringContextTests {
 
 	// ------------------->> Constants
 
 	// ------------------->> Instance / Static variables
 
 	/** The Podam Factory */
-	@Autowired
+	@Resource
 	private PodamFactory factory;
 
 	// ------------------->> Constructors

@@ -70,10 +70,11 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 ** Defining an attribute-level strategy
 
-  PODAM allows also users to define data strategies at the attribute level. Not only; users can define strategies on how to
-  fill collection and array elements. In order to define an attribute-level strategy, users will need to: 
+  PODAM allows also users to define data strategies at the attribute level: this includes the capability to define
+  custom strategies for elements and keys in collections, maps and arrays. 
+  In order to define an attribute-level strategy, users will need to: 
   
-  * Provide an implementation of the <<AttributeStrategy>> interface
+  * Provide an implementation of the <<AttributeStrategy\<T\>>> interface
   
   * Use the <<@PodamStrategyValue>> annotation
   
@@ -175,6 +176,42 @@ public class MyBirthdayStrategy implements AttributeStrategy<Calendar> {
 
 +-----------------------------------
 
+  The capability to customise the strategy PODAM uses to fill attribute data is extended to container-like data
+  structures, such as Collections, Maps and Arrays; however for these data structures use the <@PodamCollection>
+  annotation. Please refer to {{{./annotations.html} The annotation}} page for more details.
+  
+  Defining which strategy PODAM should use to fill collection elements: 
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
+private List<Calendar> myBirthdays = new ArrayList<Calendar>();
+
++-----------------------------------
+
+  Defining which strategy PODAM should use to fill Map keys and elements. Please note that <@PodamCollection> offers 
+  also the possibility to define a strategy to set the values for Map keys, through the <mapKeyStrategy> attribute:  
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, mapElementStrategy = MyBirthdayStrategy.class)
+private Map<String, Calendar> myBirthdaysMap = new HashMap<String, Calendar>();
+
++-----------------------------------     
+
+  Defining which strategy PODAM should use to fill array elements:
+  
++-----------------------------------
+
+@PodamCollection(nbrElements = 2, collectionElementStrategy = MyBirthdayStrategy.class)
+private Calendar[] myBirthdaysArray;
+
++-----------------------------------     
+  
+  PODAM will use the MyBirthdayStrategy to set the value for the two array elements. 
+  
+  
+
 ** Customising PODAM behaviour for primitives and wrapper types
 
   Primitive and Wrapper type values can be customised through annotations. 
@@ -195,7 +232,7 @@ private double doubleFieldWithMinAndMaxValue;
 
   You can also use PODAM with Spring: 
   
-  * Define the Data Provider Strategy as a bean
+  * Define the Data Provider Strategy as a bean if you don't want the default (Random data)
   
   * Define PodamFactory bean, initialised with the Data Provider Strategy
   
@@ -214,13 +251,13 @@ private double doubleFieldWithMinAndMaxValue;
 
 
 	<!-- The definition of the default strategy -->
-	<bean id="randomDataProviderStrategy"
-		class="uk.co.jemos.podam.api.RandomDataProviderStrategy"
+	<bean id="myDataProviderStrategy"
+		class="uk.co.jemos.podam.api.MyDataProviderStrategy"
 		factory-method="getInstance" />
 		
 	<!-- The definition of PODAM factory -->
 	<bean id="podamFactory" class="uk.co.jemos.podam.api.PodamFactoryImpl">
-	  <constructor-arg index="0" ref="randomDataProviderStrategy" />
+	  <constructor-arg index="0" ref="myDataProviderStrategy" />
 	</bean>
 
 </beans>
@@ -235,11 +272,12 @@ private double doubleFieldWithMinAndMaxValue;
  */
 package uk.co.jemos.podam.test.unit.integration;
 
+import javax.annotation.Resource;
+
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -250,14 +288,14 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
  * @author mtedone
  * 
  */
-@ContextConfiguration(locations = { "classpath:podam-test-appContext.xml" })
-public class PodamFactoryInjectionIntegrationTest extends
-		AbstractJUnit4SpringContextTests {	
-
+@ContextConfiguration(locations = {"classpath:podam-test-appContext.xml"})
+public class PodamFactoryInjectionIntegrationTest
+		extends	AbstractJUnit4SpringContextTests {
+	
 	/** The Podam Factory */
-	@Autowired
-	private PodamFactory factory;	
-
+	@Resource
+	private PodamFactory factory;
+	
 	@Before
 	public void init() {
 		Assert.assertNotNull("The PODAM factory cannot be null!", factory);
