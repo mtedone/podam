@@ -3,6 +3,24 @@ Podam Custom Annotations
   For the full syntax of PODAM annotations, please refer to the {{{./apidocs/index.html}Javadocs}}
  
 
+* @PodamStrategyValue
+
+  This is probably the most valuable annotation of all. It allows users to define the strategy PODAM should use at the
+  attribute level. To create a custom strategy, create an implementation of 
+  the <AttributeStrategy\<T\>> interface and use it in the <value> attribute of this annotation.
+  
+  Example: 
+  
++-----------------------------------
+
+@PodamStrategyValue(PostCodeStrategy.class)
+private String postCode;
+
+@PodamStrategyValue(MyBirthdayStrategy.class)
+private Calendar myBirthday;
+
++-----------------------------------  
+
 
 * @PodamBooleanValue 
 
@@ -27,6 +45,8 @@ private boolean boolDefaultToTrue;
 private boolean boolDefaultToFalse = true;
 
 +-----------------------------------
+
+  {{{./annotations.html} Top }}
 
 * @PodamByteValue 
 
@@ -349,5 +369,118 @@ private Calendar[] myBirthdaysArray;
 
   {{{./annotations.html} Top }}
 
-* @PodamConstructor 
+* @PodamConstructor
 
+  Allows a constructor to be identified in a setter-less POJO. This is a PODAM requirement: for those POJOs without setters
+  (e.g. immutable classes) a constructor annotated with this annotations is required.
+  <@PodamConstructor> can be used as a marker interface.
+  
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| comment | It allows users to write a comment on the use of this annotation |
+*------------+---------------------+
+
+  Example: 
+  
++-----------------------------------
+/**
+ * 
+ */
+package uk.co.jemos.podam.test.dto;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Calendar;
+
+import net.jcip.annotations.Immutable;
+import uk.co.jemos.podam.annotations.PodamConstructor;
+
+/**
+ * This is an immutable POJO to test PODAM's ability to create an instance which
+ * hasn't got setters
+ * 
+ * @author mtedone
+ * 
+ */
+@Immutable
+public class ImmutableNoHierarchicalAnnotatedPojo implements Serializable {	
+
+	private static final long serialVersionUID = 1L;
+	
+
+	/** An int field */
+	private final int intField;
+
+	/** A Calendar field */
+	private final Calendar dateCreated;
+
+	/** An array of longs */
+	private final long[] longArray;	
+
+	/**
+	 * Full constructor
+	 * 
+	 * @param intField
+	 * @param dateCreated
+	 * @param longArray
+	 */
+	@PodamConstructor
+	public ImmutableNoHierarchicalAnnotatedPojo(int intField, Calendar dateCreated,
+			long[] longArray) {
+		super();
+		this.intField = intField;
+		this.dateCreated = dateCreated;
+		this.longArray = longArray;
+	}
+
+	
+	/**
+	 * @return the intField
+	 */
+	public int getIntField() {
+		return intField;
+	}
+
+	/**
+	 * @return the dateCreated
+	 */
+	public Calendar getDateCreated() {
+		return dateCreated;
+	}
+
+	/**
+	 * @return the longArray
+	 */
+	public long[] getLongArray() {
+		return longArray;
+	}
+
+
+}
+
++-----------------------------------
+
+
+  {{{./annotations.html} Top }}
+
+* @PodamExclude
+
+  This annotation is used to instruct PODAM to skip the initialisation of a certain attribute. 
+  
+*------------+---------------------+
+| Attribute | Description |
+*------------+---------------------+
+| comment | It allows users to write a comment on the use of this annotation |
+
+  Example: 
+  
++-----------------------------------
+
+/** PODAM will not fill this attribute */
+@PodamExclude
+private SimplePojoToTestSetters somePojo;
+
++----------------------------------- 
+
+  
