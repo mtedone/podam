@@ -90,18 +90,21 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testMockerForAbstractClass() {
 		// Trying to create an abstract class should thrown an instantiation
 		// exception
-		factory.manufacturePojo(AbstractTestPojo.class);
+		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
+		Assert.assertNull("The abstract pojo should be null!", pojo);
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testMockerForInterface() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
-		factory.manufacturePojo(InterfacePojo.class);
+		InterfacePojo pojo = factory.manufacturePojo(InterfacePojo.class);
+		Assert.assertNull("The interface pojo should be null!", pojo);
+
 	}
 
 	@Test(expected = PodamMockeryException.class)
@@ -111,9 +114,13 @@ public class PodamMockerUnitTest {
 		factory.manufacturePojo(int.class);
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testMockerForPojoWithPrivateNoArgConstructor() {
-		factory.manufacturePojo(PrivateNoArgConstructorPojo.class);
+		PrivateNoArgConstructorPojo pojo = factory
+				.manufacturePojo(PrivateNoArgConstructorPojo.class);
+		Assert.assertNotNull(
+				"The pojo with private default constructor cannot be null!",
+				pojo);
 	}
 
 	@Test

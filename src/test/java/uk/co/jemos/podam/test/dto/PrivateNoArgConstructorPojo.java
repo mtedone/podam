@@ -22,7 +22,7 @@ public class PrivateNoArgConstructorPojo implements Serializable {
 	// ------------------->> Constructors
 
 	private PrivateNoArgConstructorPojo() {
-		throw new AssertionError();
+
 	}
 
 	// ------------------->> Public methods

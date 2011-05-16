@@ -1233,9 +1233,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	private <T> T manufacturePojoInternal(Class<T> pojoClass, int depth) {
 		try {
 
-			if (pojoClass.isInterface() || pojoClass.isPrimitive()) {
+			if (pojoClass.isPrimitive()) {
 				throw new PodamMockeryException(
 						"It's not possible to instantiate an interface or a primitive type.");
+			}
+
+			if (pojoClass.isInterface()
+					|| Modifier.isAbstract(pojoClass.getModifiers())) {
+				LOG.warn("Cannot instantiate an interface or abstract class. Returning null.");
+				return null;
 			}
 
 			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass);
@@ -1248,9 +1254,38 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			// Key PODAM requirement: POJO with setters must have a no-arguments
-			// constructor
-			T retValue = pojoClass.newInstance();
+			// If a public no-arg constructor can be found we use that,
+			// otherwise we try to find a non-public one and we use that. If the
+			// class does not have a no-arg constructor for now we throw
+			// exception. This will change and we'll search for a suitable
+			// constructor.
+
+			Constructor<T> defaultConstructor = null;
+			try {
+				defaultConstructor = pojoClass.getConstructor(new Class[]{});
+
+			} catch (SecurityException e) {
+				throw new PodamMockeryException(
+						"Security exception while applying introspection.", e);
+			} catch (NoSuchMethodException e) {
+				try {
+					defaultConstructor = pojoClass
+							.getDeclaredConstructor(new Class[]{});
+				} catch (SecurityException e1) {
+					throw new PodamMockeryException(
+							"Security exception while applying introspection.",
+							e);
+				} catch (NoSuchMethodException e1) {
+					String errMsg = "The class: "
+							+ pojoClass.getName()
+							+ " does not have a no-arg constructor. Will try to find a suitable one. For now throwing an exception";
+					LOG.warn(errMsg);
+					throw new PodamMockeryException(errMsg);
+				}
+			}
+
+			defaultConstructor.setAccessible(true);
+			T retValue = defaultConstructor.newInstance();
 
 			Class<?>[] parameterTypes = null;
 			Class<?> attributeType = null;
@@ -1958,10 +1993,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private void fillMap(Class<?> pojoClass, String attributeName,
 			List<Annotation> annotations,
-			Map<? super Object, ? super Object> mapToBeFilled, Class<?> keyClass,
-			Class<?> elementClass) throws InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			ClassNotFoundException {
+			Map<? super Object, ? super Object> mapToBeFilled,
+			Class<?> keyClass, Class<?> elementClass)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
