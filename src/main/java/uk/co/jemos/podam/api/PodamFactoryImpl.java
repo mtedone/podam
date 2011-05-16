@@ -1276,11 +1276,23 @@ public class PodamFactoryImpl implements PodamFactory {
 							"Security exception while applying introspection.",
 							e);
 				} catch (NoSuchMethodException e1) {
-					String errMsg = "The class: "
-							+ pojoClass.getName()
-							+ " does not have a no-arg constructor. Will try to find a suitable one. For now throwing an exception";
-					LOG.warn(errMsg);
-					throw new PodamMockeryException(errMsg);
+					// String errMsg = "The class: "
+					// + pojoClass.getName()
+					// +
+					// " does not have a no-arg constructor. Will try to find a suitable one. For now throwing an exception";
+					// LOG.warn(errMsg);
+					// throw new PodamMockeryException(errMsg);
+					Constructor<?>[] constructors = pojoClass.getConstructors();
+					if (constructors == null || constructors.length == 0) {
+						throw new IllegalArgumentException(
+								"The class must at least have one constructor");
+					}
+					// It uses the first constructor
+					Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
+							constructors[0], pojoClass);
+					constructors[0].setAccessible(true);
+					return (T) constructors[0]
+							.newInstance(parameterValuesForConstructor);
 				}
 			}
 
@@ -1393,7 +1405,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			throw new PodamMockeryException("Invocation Target Exception", e);
 		}
 	}
-
 	/**
 	 * It manufactures and returns the value for a POJO attribute.
 	 * 

@@ -82,11 +82,14 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testMockerForClassWithoutDefaultConstructor() {
 
 		// With a no-arg constructor, an instantiation exception will be thrown
-		factory.manufacturePojo(NoDefaultConstructorPojo.class);
+		NoDefaultConstructorPojo pojo = factory
+				.manufacturePojo(NoDefaultConstructorPojo.class);
+		Assert.assertNotNull(
+				"The pojo with no default constructors must not be null!", pojo);
 
 	}
 
