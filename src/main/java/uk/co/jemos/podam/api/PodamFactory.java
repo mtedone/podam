@@ -35,11 +35,13 @@ public interface PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
-	public abstract <T> T manufacturePojo(Class<T> pojoClass);
+	public <T> T manufacturePojo(Class<T> pojoClass);
 
 	/**
+	 * It returns the strategy for this factory.
+	 * 
 	 * @return the strategy
 	 */
-	public abstract DataProviderStrategy getStrategy();
+	public DataProviderStrategy getStrategy();
 
 }
