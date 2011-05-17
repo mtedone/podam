@@ -122,7 +122,7 @@
 				<executions>
 					<execution>
 						<id>assembly-project</id>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
