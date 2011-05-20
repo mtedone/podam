@@ -89,11 +89,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
-				- minValue + 1)));
+		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue - minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
-					- minValue + 1)));
+			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue - minValue + 1)));
 		}
 		return retValue;
 	}
@@ -102,7 +100,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	public Character getCharacter() {
-		return (char) getInteger().intValue();
+		return (char) getIntegerInRange(48, 126); //Significant ASCII chars from 0 to 127
 
 	}
 
@@ -114,11 +112,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		char retValue = (char) (minValue + (char) (Math.random() * (maxValue
-				- minValue + 1)));
+		char retValue = (char) (minValue + (char) (Math.random() * (maxValue - minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (char) (minValue + (char) (Math.random() * (maxValue
-					- minValue + 1)));
+			retValue = (char) (minValue + (char) (Math.random() * (maxValue - minValue + 1)));
 		}
 
 		return retValue;
@@ -169,11 +165,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		float retValue = minValue
-				+ (float) (Math.random() * (maxValue - minValue + 1));
+		float retValue = minValue + (float) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (float) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue + (float) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -197,11 +191,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		int retValue = minValue
-				+ (int) (Math.random() * (maxValue - minValue + 1));
+		int retValue = minValue + (int) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (int) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue + (int) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -227,11 +219,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		long retValue = minValue
-				+ (long) (Math.random() * (maxValue - minValue + 1));
+		long retValue = minValue + (long) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (long) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue + (long) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -255,11 +245,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		short retValue = (short) (minValue + (short) (Math.random() * (maxValue
-				- minValue + 1)));
+		short retValue = (short) (minValue + (short) (Math.random() * (maxValue - minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (short) (minValue + (short) (Math.random() * (maxValue
-					- minValue + 1)));
+			retValue = (short) (minValue + (short) (Math.random() * (maxValue - minValue + 1)));
 		}
 		return retValue;
 	}
@@ -276,8 +264,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	public String getStringOfLength(int length) {
 
-		StringBuilder buff = new StringBuilder(
-				PodamConstants.STR_DEFAULT_ENCODING);
+		StringBuilder buff = new StringBuilder(PodamConstants.STR_DEFAULT_ENCODING);
 		// Default length was 5 for some reason
 		buff.setLength(0);
 
