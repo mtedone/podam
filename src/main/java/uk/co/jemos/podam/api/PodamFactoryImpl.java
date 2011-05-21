@@ -1483,7 +1483,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			int enumConstantsLength = attributeType.getEnumConstants().length;
 
 			if (enumConstantsLength > 0) {
-				attributeValue = attributeType.getEnumConstants()[0];
+				int enumIndex = strategy.getIntegerInRange(0,
+						enumConstantsLength) % enumConstantsLength;
+				attributeValue = attributeType.getEnumConstants()[enumIndex];
+				//attributeValue = attributeType.getEnumConstants()[0];
 			}
 
 		} else {

@@ -111,8 +111,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testMockerForPrimitiveType() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
@@ -274,8 +273,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testPojoWithSelfReferenceInConstructorButNoDefaultConstructor() {
 
 		factory.manufacturePojo(ConstructorWithSelfReferencesButNoDefaultConstructorPojo.class);
@@ -347,8 +345,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testIntegerValueAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(IntegerValueWithErrorPojo.class);
 	}
@@ -406,8 +403,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testLongValueAnnotationWithNumberFormatException() {
 		factory.manufacturePojo(LongValueWithErrorPojo.class);
 	}
@@ -545,8 +541,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testByteAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(ByteValueWithErrorPojo.class);
 	}
@@ -609,8 +604,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testShortValueAnnotationWithNumberFormatException() {
 		factory.manufacturePojo(ShortValueWithErrorPojo.class);
 	}
@@ -772,8 +766,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testFloatValueAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(FloatValueWithErrorPojo.class);
 	}
@@ -820,8 +813,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testDoubleValueAnnotationWithError() {
 
 		factory.manufacturePojo(DoubleValueWithErrorPojo.class);
@@ -983,8 +975,6 @@ public class PodamMockerUnitTest {
 
 		// Can't test for equality since internal enum is not visible
 		Assert.assertNotNull("The internal enum cannot be null!", ratePodamInternal);
-		Assert.assertEquals("The internal enum does not match the expected value!",
-				RatePodamInternal.values()[0], ratePodamInternal);
 
 	}
 
@@ -1052,8 +1042,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(
-			expected = PodamMockeryException.class)
+	@Test(expected = PodamMockeryException.class)
 	public void testStringPojoWithWrongTypeForAnnotationStrategy() {
 
 		factory.manufacturePojo(StringWithWrongStrategyTypePojo.class);
