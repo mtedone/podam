@@ -59,6 +59,9 @@
       	<item name="Release Notes" href="./release-notes/release-notes.html" />
       </menu>
       
+      <menu name="Metrics">      	
+      	<item name="Code Coverage" href="./emma/index.html" />
+      </menu> 
 		
       
       <menu ref="reports" />
