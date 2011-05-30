@@ -1060,12 +1060,16 @@ public class PodamFactoryImpl implements PodamFactory {
 				Object[] parameterValues = getParameterValuesForConstructor(constructor, pojoClass);
 
 				// Being a generic method we cannot be sure on the identify of
-				// T,
-				// therefore the mismatch between the newInstance() return value
+				// T, therefore the mismatch between the newInstance() return value
 				// (Object) and T is acceptable, thus the SuppressWarning
 				// annotation
 
-				retValue = (T) constructor.newInstance(parameterValues);
+				try {
+					retValue = (T) constructor.newInstance(parameterValues);
+				} catch (Throwable t) {
+					LOG.warn("We couldn't create an instance for pojo: " + pojoClass
+							+ " for constructor: " + constructor + ". Will try with another one.");
+				}
 
 				break;
 			}
@@ -1483,8 +1487,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			int enumConstantsLength = attributeType.getEnumConstants().length;
 
 			if (enumConstantsLength > 0) {
-				int enumIndex = strategy.getIntegerInRange(0,
-						enumConstantsLength) % enumConstantsLength;
+				int enumIndex = strategy.getIntegerInRange(0, enumConstantsLength)
+						% enumConstantsLength;
 				attributeValue = attributeType.getEnumConstants()[enumIndex];
 				//attributeValue = attributeType.getEnumConstants()[0];
 			}
