@@ -1211,8 +1211,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			T retValue = null;
 
 			if (pojoClass.isPrimitive()) {
-				throw new PodamMockeryException(
-						"It's not possible to instantiate an interface or a primitive type.");
+				return (T) resolvePrimitiveValue(pojoClass, new ArrayList<Annotation>());
 			}
 
 			if (pojoClass.isInterface() || Modifier.isAbstract(pojoClass.getModifiers())) {

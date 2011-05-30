@@ -111,11 +111,12 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testMockerForPrimitiveType() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
-		factory.manufacturePojo(int.class);
+		int intValue = factory.manufacturePojo(int.class);
+		Assert.assertTrue("The int value should not be zero!", intValue != 0);
 	}
 
 	@Test
