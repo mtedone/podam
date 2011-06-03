@@ -1080,6 +1080,16 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue("The int field cannot be zero!", pojo.getIntField() != 0);
 	}
 
+	@Test
+	public void testJavaNativeClassCreation() {
+		String pojo = factory.manufacturePojo(String.class);
+		Assert.assertNotNull("The generated String object cannot be null!", pojo);
+
+		Integer integerPojo = factory.manufacturePojo(Integer.class);
+		Assert.assertNotNull("The integer pojo cannot be null!", integerPojo);
+
+	}
+
 	// -----------------------------> Private methods
 
 	/**

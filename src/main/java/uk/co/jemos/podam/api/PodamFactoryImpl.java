@@ -1066,12 +1066,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				try {
 					retValue = (T) constructor.newInstance(parameterValues);
+					LOG.info("We could create an instance with constructor: " + constructor);
+					break;
 				} catch (Throwable t) {
 					LOG.warn("We couldn't create an instance for pojo: " + pojoClass
 							+ " for constructor: " + constructor + ". Will try with another one.");
 				}
 
-				break;
 			}
 		}
 
@@ -1205,6 +1206,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
+	@SuppressWarnings("unchecked")
 	private <T> T manufacturePojoInternal(Class<T> pojoClass, int depth) {
 		try {
 
