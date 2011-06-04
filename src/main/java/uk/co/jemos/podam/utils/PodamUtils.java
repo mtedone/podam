@@ -26,6 +26,10 @@ public class PodamUtils {
 
 	// ---------------------->> Constants
 
+	/** The application logger. */
+	public static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+			.getLogger(PodamUtils.class);
+
 	/** Non instantiable constructor */
 	private PodamUtils() {
 		throw new AssertionError();
@@ -93,8 +97,7 @@ public class PodamUtils {
 	 * @return A Set of setters matching the class declared field names
 	 * 
 	 */
-	public static Set<Method> getPojoSetters(Class<?> clazz,
-			Set<String> classFields) {
+	public static Set<Method> getPojoSetters(Class<?> clazz, Set<String> classFields) {
 
 		Set<Method> classSetters = new HashSet<Method>();
 
@@ -137,10 +140,15 @@ public class PodamUtils {
 	 * @return The field name corresponding to the setter
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
-		String candidateField;
+		String candidateField = null;
 		candidateField = method.getName().substring(3);
-		candidateField = Character.toLowerCase(candidateField.charAt(0))
-				+ candidateField.substring(1);
+		if (!candidateField.equals("")) {
+			candidateField = Character.toLowerCase(candidateField.charAt(0))
+					+ candidateField.substring(1);
+		} else {
+			LOG.warn("Encountered method set. This will be ignored.");
+		}
+
 		return candidateField;
 	}
 

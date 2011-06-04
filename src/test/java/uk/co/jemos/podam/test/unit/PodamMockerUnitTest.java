@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1081,12 +1082,21 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testJavaNativeClassCreation() {
+	public void testSomeJavaNativeClasses() {
 		String pojo = factory.manufacturePojo(String.class);
 		Assert.assertNotNull("The generated String object cannot be null!", pojo);
 
 		Integer integerPojo = factory.manufacturePojo(Integer.class);
 		Assert.assertNotNull("The integer pojo cannot be null!", integerPojo);
+
+		Calendar calendarPojo = factory.manufacturePojo(GregorianCalendar.class);
+		Assert.assertNotNull("The calendar pojo cannot be null", calendarPojo);
+
+		Date datePojo = factory.manufacturePojo(Date.class);
+		Assert.assertNotNull("The date pojo cannot be null!", datePojo);
+
+		BigDecimal bigDecimalPojo = factory.manufacturePojo(BigDecimal.class);
+		Assert.assertNotNull("The Big decimal pojo cannot be null!", bigDecimalPojo);
 
 	}
 

@@ -173,14 +173,14 @@ public class PodamFactoryImpl implements PodamFactory {
 					continue;
 				}
 
-				if (clazz.getName().startsWith("java.") || clazz.getName().startsWith("javax.")) {
-					if (candidateConstructor.getParameterTypes().length != 0) {
-						continue;
-					}
-
-					return candidateConstructor.invoke(clazz, new Object[] {});
-
-				}
+				//				if (clazz.getName().startsWith("java.") || clazz.getName().startsWith("javax.")) {
+				//					if (candidateConstructor.getParameterTypes().length != 0) {
+				//						continue;
+				//					}
+				//
+				//					return candidateConstructor.invoke(clazz, new Object[] {});
+				//
+				//				}
 
 				parameterValues = new Object[candidateConstructor.getParameterTypes().length];
 
@@ -281,9 +281,18 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				}
 
-				retValue = candidateConstructor.invoke(clazz, parameterValues);
+				try {
 
-				break;
+					retValue = candidateConstructor.invoke(clazz, parameterValues);
+					LOG.info("Could create an instance using " + candidateConstructor);
+
+					break;
+				} catch (Throwable t) {
+
+					LOG.warn("PODAM could not create an instance for constructor: "
+							+ candidateConstructor + ". Will try another one...");
+
+				}
 
 			}
 
