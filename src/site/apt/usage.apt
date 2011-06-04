@@ -1,0 +1,62 @@
+Using PODAM
+
+  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself 
+  with Maven or you declare PODAM as a Maven dependency.
+  
+* Building PODAM from the source
+
+  The following pre-requisites must be satisfied in order to build PODAM:
+  
+  * Git must be installed on your machine and the <git> command must be available from the command line
+    (only if you are forking code from GitHub)
+  
+  * Maven must be installed on your machine and the <mvn> command must be available from the command line
+  
+  * Java 5 or later version must be installed on your machine and the environment variable <JAVA_HOME> must be
+    set to the JDK/JRE installation root folder.
+  
+  * Your computer should be capable of connecting to the Internet to download Maven dependencies and your Maven
+    settings should list, as one of the download repositories, {{{http://repo2.maven.org/maven2} Maven Central}}. 
+  
+  []
+  
+  Once the pre-requisites have been satisfied, do the following: 
+  
+  * Fork PODAM from {{{https://github.com/mtedone/podam} GitHub}} or {{{./downloads.html} download the project distribution}}
+  
+  * Point your command prompt to the <podam> folder
+  
+  * Build PODAM using Maven as follows: 
+  
+  [] 
+  
++-----------------------------------------
+
+# To build PODAM jar and execute the tests
+mvn clean install   
+
+# To build this documentation and Javadocs
+mvn clean site:site
+
++-----------------------------------------
+
+* Declaring PODAM as a Maven dependency 
+
+  If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
+  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
+  from version to version):
+  
++-------------------------------------------
+<dependency>
+  <groupId>uk.co.jemos.podam</groupId>
+  <artifactId>podam</artifactId>
+  <version>2.3.8</version>
+  <!-- <scope>test</scope> -->
+</dependency>
++-------------------------------------------
+
+  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
+  
+  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
+  
+  []

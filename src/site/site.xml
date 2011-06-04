@@ -15,20 +15,20 @@
     <body>
       
       <links>     
+         
+          <item name="My Blog"
+        	href="http://tedone.typepad.com/blog"
+        	alt="Follow My Blog"
+        	target="_blank" />
         
-          <item name="Download the source from GitHub"
+          <item name="Podam @ GitHub"
         	href="https://github.com/mtedone/podam"
         	alt="Download PODAM source from GitHub"
         	target="_blank" />
         
-		 <item name="Join PODAM Group!"
+		 <item name="PODAM Google Group"
         	href="http://groups.google.com/group/podam"
         	alt="Join PODAM Group on Google"
-        	target="_blank" />
-        	 	
-        <item name="Follow Jemos on Twitter"
-        	href="http://twitter.com/#!/jemos_releases"
-        	alt="Follow Jemos releases on Twitter"
         	target="_blank" />
         	
         <item name="Follow Me on Twitter"
@@ -36,8 +36,17 @@
         	alt="Follow Marco Tedone on Twitter"
         	target="_blank" />
         	
+        <item name="Jemos Releases on Twitter"
+        	href="http://twitter.com/#!/jemos_releases"
+        	alt="Follow Jemos releases on Twitter"
+        	target="_blank" />
+        	
         <item name="Jemos Homepage" href="http://www.jemos.co.uk"
         	 	alt="Visit Jemos homepage"
+        	 	target="_blank" />
+        	 	
+        <item name="My CV" href="http://www.jemos.co.uk/personal/cv/marco-cv-new.doc"
+        	 	alt="Download my CV"
         	 	target="_blank" />
         	 				        
       </links>
@@ -45,6 +54,7 @@
       <menu name="Getting Started">
       	<item name="Home" href="./index.html" />
       	<item name="Downloads" href="./downloads.html" />		
+      	<item name="Usage" href="./usage.html" />
       	<item name="How to contribute" href="./how-to-contribute.html" />
       	<item name="Sponsors" href="./sponsors/sponsors.html" />
       	<item name="News" href="./news.html" />

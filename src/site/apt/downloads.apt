@@ -1,58 +1,25 @@
 Podam Downloads
 
-* Latest Developers' SNAPSHOT (Current development)
-
-  The latest developers' SNAPSHOT can be downloaded from {{{https://github.com/mtedone/podam} GitHub}}
+  All code, including the latest development SNAPSHOT, can be downloaded from {{{https://github.com/mtedone/podam} GitHub}}
   
+* Latest release - 2.3.8.RELEASE - 04th June 2011
+
+  
+
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Binaries zip | {{{./downloads/podam-2.3.8.RELEASE-bin.zip} podam-2.3.8.RELEASE-bin.zip}} |
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Binaries tag.gz | {{{./downloads/podam-2.3.8.RELEASE-bin.tar.gz} podam-2.3.8.RELEASE-bin.tar.gz}} |
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Binaries bz2 | {{{./downloads/podam-2.3.8.RELEASE-bin.bz2}podam-2.3.8.RELEASE-bin.bz2}} |
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Project zip | {{{./downloads/podam-2.3.8.RELEASE-project.zip} podam-2.3.8.RELEASE-project.zip}} |
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Project tag.gz | {{{./downloads/podam-2.3.8.RELEASE-project.tar.gz} podam-2.3.8.RELEASE-project.tar.gz}} |
+*----------------+-------------------------------------------------------------------------------------------------------+
+| Project bz2 | {{{./downloads/podam-2.3.8.RELEASE-project.bz2}podam-2.3.8.RELEASE-project.bz2}} |
+*----------------+-------------------------------------------------------------------------------------------------------+    
+  
+* Download older releases
+
   {{{./downloads/} For older releases click here}}
-  
-* Distribution files for version 2.3.7.RELEASE - 30th May 2011
-
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries zip | {{{./downloads/podam-2.3.7.RELEASE-bin.zip} podam-2.3.7.RELEASE-bin.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries tag.gz | {{{./downloads/podam-2.3.7.RELEASE-bin.tar.gz} podam-2.3.7.RELEASE-bin.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries bz2 | {{{./downloads/podam-2.3.7.RELEASE-bin.bz2}podam-2.3.7.RELEASE-bin.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project zip | {{{./downloads/podam-2.3.7.RELEASE-project.zip} podam-2.3.7.RELEASE-project.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project tag.gz | {{{./downloads/podam-2.3.7.RELEASE-project.tar.gz} podam-2.3.7.RELEASE-project.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project bz2 | {{{./downloads/podam-2.3.7.RELEASE-project.bz2}podam-2.3.7.RELEASE-project.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+  
-  
-  
-* Distribution files for version 2.3.6.RELEASE - 21th May 2011
-
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries zip | {{{./downloads/podam-2.3.6.RELEASE-bin.zip} podam-2.3.6.RELEASE-bin.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries tag.gz | {{{./downloads/podam-2.3.6.RELEASE-bin.tar.gz} podam-2.3.6.RELEASE-bin.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries bz2 | {{{./downloads/podam-2.3.6.RELEASE-bin.bz2}podam-2.3.6.RELEASE-bin.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project zip | {{{./downloads/podam-2.3.6.RELEASE-project.zip} podam-2.3.6.RELEASE-project.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project tag.gz | {{{./downloads/podam-2.3.6.RELEASE-project.tar.gz} podam-2.3.6.RELEASE-project.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project bz2 | {{{./downloads/podam-2.3.6.RELEASE-project.bz2}podam-2.3.6.RELEASE-project.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-
-
-* Distribution files for version 2.3.5.RELEASE - 20th May 2011
-
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries zip | {{{./downloads/podam-2.3.5.RELEASE-bin.zip} podam-2.3.5.RELEASE-bin.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries tag.gz | {{{./downloads/podam-2.3.5.RELEASE-bin.tar.gz} podam-2.3.5.RELEASE-bin.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries bz2 | {{{./downloads/podam-2.3.5.RELEASE-bin.bz2}podam-2.3.5.RELEASE-bin.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project zip | {{{./downloads/podam-2.3.5.RELEASE-project.zip} podam-2.3.5.RELEASE-project.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project tag.gz | {{{./downloads/podam-2.3.5.RELEASE-project.tar.gz} podam-2.3.5.RELEASE-project.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project bz2 | {{{./downloads/podam-2.3.5.RELEASE-project.bz2}podam-2.3.5.RELEASE-project.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-

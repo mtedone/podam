@@ -4,42 +4,17 @@
 	Marco Tedone
 	---------------------
 
-Introduction
+Introduction  
 
-  Podam is a tool to help developers with their unit tests by auto-filling Plain Old Java Objects (POJOs) 
-  with manufactured data. The first release of PODAM was 1.0.0 and it used a static service class, as 
-  defined by {{{http://www.amazon.co.uk/Effective-Java-Second-Joshua-Bloch/dp/0321356683} Effective Java 2nd Edition, Item 4}}.
-  
-  I then realised that it would have more useful (not to mention it would have helped in increasing code coverage) for 
-  the <PodamFactory> to be an instantiable class, ready to be used as a Spring bean. So I made this change in version
-  2.0.0. You are encourage to use version 2.x of PODAM. If you want to use version 1.0.0 , you should checkout
-  the {{{https://github.com/mtedone/podam/tree/1.0.0.RELEASE} 1.0.0 TAG in GitHub}}.
+* Using PODAM in your project
 
-* How to use the API in version 1.0.0 (Deprecated)
+  To see how you could start using PODAM straight away, please refer to {{{./usage.html} the usage page}}.
 
-  <<Please note that the API has changed starting from version 2.0.0>>. 
-  If you are using version 1.0.0 the use of PodamFactory looks like this (version 1.0.0): 
-  
-+-----------------------------------
-Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class); //It uses the default data provider strategy
-+-----------------------------------
-
-  Or, if you are using your own DataProviderStrategy (version 1.0.0)
-
-+-----------------------------------
-DataProviderStrategy strategy = new MyDataProviderStrategy();
-Pojo myPojo = PodamFactory.manufacturePojo(Pojo.class, strategy);
-+-----------------------------------
-
-* How to use the API starting from version 2.0.0
-
-  Starting from version 2.0.0 the PodamFactory has been made an instantiable class so that it can be easily used as a Spring
-  bean.    
+* How to use PODAM API        
   
 +-----------------------------------
 PodamFactory factory = new PodamFactoryImpl(); //This will use the default Random Data Provider Strategy
 Pojo myPojo = factory.manufacturePojo(Pojo.class);
-
 +-----------------------------------
 
   PODAM allows users to customise the way data are assigned in several ways: 
@@ -180,7 +155,7 @@ public class MyBirthdayStrategy implements AttributeStrategy<Calendar> {
   structures, such as Collections, Maps and Arrays; however for these data structures use the <@PodamCollection>
   annotation. Please refer to {{{./annotations.html} The annotation}} page for more details.
   
-  Defining which strategy PODAM should use to fill collection elements: 
+  Example on how to use PODAM custom attribute strategy to fill collection elements: 
   
 +-----------------------------------
 
@@ -189,8 +164,8 @@ private List<Calendar> myBirthdays = new ArrayList<Calendar>();
 
 +-----------------------------------
 
-  Defining which strategy PODAM should use to fill Map keys and elements. Please note that <@PodamCollection> offers 
-  also the possibility to define a strategy to set the values for Map keys, through the <mapKeyStrategy> attribute:  
+  Example on how to use PODAM custom attribute strategy to fill Map keys and elements. Please note that <@PodamCollection> offers 
+  also the possibility to define a strategy to set the values for keys in a Map, through the <mapKeyStrategy> attribute:  
   
 +-----------------------------------
 
@@ -199,7 +174,7 @@ private Map<String, Calendar> myBirthdaysMap = new HashMap<String, Calendar>();
 
 +-----------------------------------     
 
-  Defining which strategy PODAM should use to fill array elements:
+  Example on how to use PODAM custom attribute strategy to fill array elements:
   
 +-----------------------------------
 
@@ -330,70 +305,5 @@ public class PodamFactoryInjectionIntegrationTest
   PODAM uses the <uk.co.jemos.podam.api.RandomDataProviderStrategy> class as default Data Provider implementation.
   
   To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
-  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
-  
-Using PODAM
-
-  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself 
-  or you declare PODAM as a Maven dependency.
-  
-* Building PODAM from the source
-
-  The following pre-requisites must be satisfied in order to build PODAM:
-  
-  * You must have <git> installed on your machine (only if you are forking code from GitHub)
-  
-  * The <mvn> command must be available from the command line
-  
-  * Java 5 or later version must be available
-  
-  * You must have access to Maven central repository (at the time of writing {{http://repo1.maven.org/maven2/}}) and you must
-  be able to download artifacts from the internet. The {{{./dependencies.html} dependencies}} page on the left menu shows 
-  the dependencies PODAM relies on. 
-  
-  []
-  
-  Once the pre-requisites have been satisfied, do the following: 
-  
-  * Fork PODAM from {{{https://github.com/mtedone/podam} GitHub}} or {{{./downloads} download the project distribution}}
-  
-  * Point your command prompt to the <podam> folder
-  
-  * Build PODAM using Maven as follows: 
-  
-  [] 
-  
-+-----------------------------------------
-
-# To build PODAM jar and execute the tests
-mvn clean install   
-
-# To build this documentation and Javadocs
-mvn clean site:site
-
-+-----------------------------------------
-
-* Declaring PODAM as a Maven dependency 
-
-  If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
-  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
-  from version to version):
-  
-+-------------------------------------------
-<dependency>
-  <groupId>uk.co.jemos.podam</groupId>
-  <artifactId>podam</artifactId>
-  <version>2.0.0</version>
-  <!-- <scope>test</scope> -->
-</dependency>
-+-------------------------------------------
-
-  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
-  
-  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
-  
-  []
-
-
-  
+  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.  
     
