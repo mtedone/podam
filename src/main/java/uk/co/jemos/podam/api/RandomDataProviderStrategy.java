@@ -32,15 +32,22 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Constants
 
+	/** Application logger */
+	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+			.getLogger(RandomDataProviderStrategy.class.getName());
+
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	/** The singleton instance of this implementation */
 	private static final RandomDataProviderStrategy SINGLETON = new RandomDataProviderStrategy();
 
-	/** Application logger */
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
-			.getLogger(RandomDataProviderStrategy.class.getName());
+	/** An array of valid String characters */
+	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b', 'c', 'd', 'e', 'f',
+			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
+			'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4',
+			'5', '6', '7', '8', '9', '_' };
 
 	// ------------------->> Instance / Static variables
 
@@ -100,7 +107,12 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	public Character getCharacter() {
-		return (char) getIntegerInRange(48, 126); //Significant ASCII chars from 0 to 127
+
+		int randomCharIdx = getIntegerInRange(0, (NICE_ASCII_CHARACTERS.length - 1));
+
+		int charToReturnIdx = randomCharIdx % (NICE_ASCII_CHARACTERS.length - 1);
+
+		return NICE_ASCII_CHARACTERS[charToReturnIdx];
 
 	}
 
