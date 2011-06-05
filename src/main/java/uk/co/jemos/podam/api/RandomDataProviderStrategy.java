@@ -110,7 +110,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 		int randomCharIdx = getIntegerInRange(0, (NICE_ASCII_CHARACTERS.length - 1));
 
-		int charToReturnIdx = randomCharIdx % (NICE_ASCII_CHARACTERS.length - 1);
+		int charToReturnIdx = randomCharIdx % NICE_ASCII_CHARACTERS.length;
 
 		return NICE_ASCII_CHARACTERS[charToReturnIdx];
 
