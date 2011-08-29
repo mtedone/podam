@@ -42,6 +42,7 @@ import uk.co.jemos.podam.annotations.PodamShortValue;
 import uk.co.jemos.podam.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.annotations.PodamStringValue;
 import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
+import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.dto.ClassInfo;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.utils.PodamConstants;
@@ -100,6 +101,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass) {
 
 		return this.manufacturePojoInternal(pojoClass, 0);
@@ -110,6 +112,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public DataProviderStrategy getStrategy() {
 		return strategy;
 	}
@@ -379,6 +382,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The primitive type class
 	 * @param annotations
 	 *            The annotations to consider for this attribute
+	 * @param attributeMetadata
 	 * @return the primitive value depending on the type
 	 * 
 	 * @throws IllegalArgumentException
@@ -386,7 +390,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             possible to convert such value in the desired type
 	 */
 	private Object resolvePrimitiveValue(Class<?> primitiveClass,
-			List<Annotation> annotations) {
+			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
 
 		Object retValue = null;
 
@@ -394,14 +398,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getInteger();
+				retValue = strategy.getInteger(attributeMetadata);
 
 			} else {
 
-				retValue = this.getIntegerValueWithinRange(annotations);
+				retValue = this.getIntegerValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getInteger();
+					retValue = strategy.getInteger(attributeMetadata);
 				}
 			}
 
@@ -409,14 +414,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getLong();
+				retValue = strategy.getLong(attributeMetadata);
 
 			} else {
 
-				retValue = this.getLongValueWithinRange(annotations);
+				retValue = this.getLongValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getLong();
+					retValue = strategy.getLong(attributeMetadata);
 				}
 			}
 
@@ -424,14 +430,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getFloat();
+				retValue = strategy.getFloat(attributeMetadata);
 
 			} else {
 
-				retValue = this.getFloatValueWithinRange(annotations);
+				retValue = this.getFloatValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getFloat();
+					retValue = strategy.getFloat(attributeMetadata);
 				}
 			}
 
@@ -439,14 +446,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getDouble();
+				retValue = strategy.getDouble(attributeMetadata);
 
 			} else {
 
-				retValue = this.getDoubleValueWithinRange(annotations);
+				retValue = this.getDoubleValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getDouble();
+					retValue = strategy.getDouble(attributeMetadata);
 				}
 			}
 
@@ -454,7 +462,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getBoolean();
+				retValue = strategy.getBoolean(attributeMetadata);
 
 			} else {
 
@@ -466,14 +474,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getByte();
+				retValue = strategy.getByte(attributeMetadata);
 
 			} else {
 
-				retValue = this.getByteValueWithinRange(annotations);
+				retValue = this.getByteValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getByte();
+					retValue = strategy.getByte(attributeMetadata);
 				}
 			}
 
@@ -481,14 +490,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getShort();
+				retValue = strategy.getShort(attributeMetadata);
 
 			} else {
 
-				retValue = this.getShortValueWithinRange(annotations);
+				retValue = this.getShortValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getShort();
+					retValue = strategy.getShort(attributeMetadata);
 				}
 			}
 
@@ -496,14 +506,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getCharacter();
+				retValue = strategy.getCharacter(attributeMetadata);
 
 			} else {
 
-				retValue = this.getCharacterValueWithinRange(annotations);
+				retValue = this.getCharacterValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getCharacter();
+					retValue = strategy.getCharacter(attributeMetadata);
 				}
 			}
 
@@ -542,12 +553,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations for this attribute
+	 * @param attributeMetadata
 	 * @return A random byte if the attribute was annotated with
 	 * @throws IllegalArgumentException
 	 *             If the {@link PodamByteValue#numValue()} value has been set
 	 *             and it is not convertible to a byte type
 	 */
-	private Byte getByteValueWithinRange(List<Annotation> annotations) {
+	private Byte getByteValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 		Byte retValue = null;
 
 		for (Annotation annotation : annotations) {
@@ -577,7 +590,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getByteInRange(minValue, maxValue);
+					retValue = strategy.getByteInRange(minValue, maxValue,
+							attributeMetadata);
 				}
 
 				break;
@@ -594,6 +608,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The annotations with which the attribute was annotated
+	 * @param attributeMetadata
 	 * 
 	 * 
 	 * @return A random short if the attribute was annotated with
@@ -602,7 +617,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If {@link PodamShortValue#numValue()} was set and its value
 	 *             could not be converted to a Short type
 	 */
-	private Short getShortValueWithinRange(List<Annotation> annotations) {
+	private Short getShortValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Short retValue = null;
 
@@ -632,7 +648,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getShortInRange(minValue, maxValue);
+					retValue = strategy.getShortInRange(minValue, maxValue,
+							attributeMetadata);
 
 				}
 
@@ -649,10 +666,12 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations which might customise the return value
+	 * @param attributeMetadata
 	 * 
 	 * @return A random {@link Character} value
 	 */
-	private Character getCharacterValueWithinRange(List<Annotation> annotations) {
+	private Character getCharacterValueWithinRange(
+			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
 
 		Character retValue = null;
 
@@ -675,7 +694,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getCharacterInRange(minValue, maxValue);
+					retValue = strategy.getCharacterInRange(minValue, maxValue,
+							attributeMetadata);
 
 				}
 
@@ -693,6 +713,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations for the int attribute
+	 * @param attributeMetadata
 	 * 
 	 * @return Either a customised int value if a {@link PodamIntValue}
 	 *         annotation was provided or a random integer if this was not the
@@ -702,7 +723,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to convert the
 	 *             {@link PodamIntValue#numValue()} to an Integer
 	 */
-	private Integer getIntegerValueWithinRange(List<Annotation> annotations) {
+	private Integer getIntegerValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Integer retValue = null;
 
@@ -734,7 +756,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getIntegerInRange(minValue, maxValue);
+					retValue = strategy.getIntegerInRange(minValue, maxValue,
+							attributeMetadata);
 
 				}
 
@@ -752,6 +775,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations for the int attribute
+	 * @param attributeMetadata
 	 * 
 	 * 
 	 * @return Either a customised float value if a {@link PodamFloatValue}
@@ -762,7 +786,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If {@link PodamFloatValue#numValue()} contained a value not
 	 *             convertible to a Float type
 	 */
-	private Float getFloatValueWithinRange(List<Annotation> annotations) {
+	private Float getFloatValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Float retValue = null;
 
@@ -792,7 +817,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getFloatInRange(minValue, maxValue);
+					retValue = strategy.getFloatInRange(minValue, maxValue,
+							attributeMetadata);
 
 				}
 
@@ -809,11 +835,13 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations which might customise the return value
+	 * @param attributeMetadata
 	 * 
 	 * 
 	 * @return a random {@link Double} value
 	 */
-	private Double getDoubleValueWithinRange(List<Annotation> annotations) {
+	private Double getDoubleValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Double retValue = null;
 
@@ -845,7 +873,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getDoubleInRange(minValue, maxValue);
+					retValue = strategy.getDoubleInRange(minValue, maxValue,
+							attributeMetadata);
 				}
 
 				break;
@@ -863,6 +892,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param annotations
 	 *            The list of annotations for the int attribute
+	 * @param attributeMetadata
 	 * 
 	 * @return Either a customised long value if a {@link PodamLongValue}
 	 *         annotation was provided or a random long if this was not the case
@@ -871,7 +901,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to convert
 	 *             {@link PodamLongValue#numValue()} to a Long
 	 */
-	private Long getLongValueWithinRange(List<Annotation> annotations) {
+	private Long getLongValueWithinRange(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Long retValue = null;
 
@@ -901,7 +932,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						maxValue = minValue;
 					}
 
-					retValue = strategy.getLongInRange(minValue, maxValue);
+					retValue = strategy.getLongInRange(minValue, maxValue,
+							attributeMetadata);
 
 				}
 
@@ -920,11 +952,12 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param candidateWrapperClass
 	 *            The class which might be a wrapper class
+	 * @param attributeMetadata
 	 * @return {@code null} if this is not a wrapper class, otherwise an Object
 	 *         with the value for the wrapper class
 	 */
 	private Object resolveWrapperValue(Class<?> candidateWrapperClass,
-			List<Annotation> annotations) {
+			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
 
 		Object retValue = null;
 
@@ -932,14 +965,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getInteger();
+				retValue = strategy.getInteger(attributeMetadata);
 
 			} else {
 
-				retValue = this.getIntegerValueWithinRange(annotations);
+				retValue = this.getIntegerValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getInteger();
+					retValue = strategy.getInteger(attributeMetadata);
 				}
 			}
 
@@ -947,14 +981,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getLong();
+				retValue = strategy.getLong(attributeMetadata);
 
 			} else {
 
-				retValue = this.getLongValueWithinRange(annotations);
+				retValue = this.getLongValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getLong();
+					retValue = strategy.getLong(attributeMetadata);
 				}
 			}
 
@@ -962,14 +997,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getFloat();
+				retValue = strategy.getFloat(attributeMetadata);
 
 			} else {
 
-				retValue = this.getFloatValueWithinRange(annotations);
+				retValue = this.getFloatValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getFloat();
+					retValue = strategy.getFloat(attributeMetadata);
 				}
 			}
 
@@ -977,14 +1013,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getDouble();
+				retValue = strategy.getDouble(attributeMetadata);
 
 			} else {
 
-				retValue = this.getDoubleValueWithinRange(annotations);
+				retValue = this.getDoubleValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getDouble();
+					retValue = strategy.getDouble(attributeMetadata);
 				}
 			}
 
@@ -992,7 +1029,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getBoolean();
+				retValue = strategy.getBoolean(attributeMetadata);
 
 			} else {
 
@@ -1004,14 +1041,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getByte();
+				retValue = strategy.getByte(attributeMetadata);
 
 			} else {
 
-				retValue = this.getByteValueWithinRange(annotations);
+				retValue = this.getByteValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getByte();
+					retValue = strategy.getByte(attributeMetadata);
 				}
 			}
 
@@ -1019,14 +1057,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getShort();
+				retValue = strategy.getShort(attributeMetadata);
 
 			} else {
 
-				retValue = this.getShortValueWithinRange(annotations);
+				retValue = this.getShortValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getShort();
+					retValue = strategy.getShort(attributeMetadata);
 				}
 			}
 
@@ -1034,14 +1073,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (annotations.isEmpty()) {
 
-				retValue = strategy.getCharacter();
+				retValue = strategy.getCharacter(attributeMetadata);
 
 			} else {
 
-				retValue = this.getCharacterValueWithinRange(annotations);
+				retValue = this.getCharacterValueWithinRange(annotations,
+						attributeMetadata);
 
 				if (retValue == null) {
-					retValue = strategy.getCharacter();
+					retValue = strategy.getCharacter(attributeMetadata);
 				}
 			}
 
@@ -1268,8 +1308,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			T retValue = null;
 
 			if (pojoClass.isPrimitive()) {
-				return (T) this.resolvePrimitiveValue(pojoClass,
-						new ArrayList<Annotation>());
+				// For JDK POJOs we can't retrieve attribute name
+				ArrayList<Annotation> annotations = new ArrayList<Annotation>();
+				return (T) this.resolvePrimitiveValue(pojoClass, annotations,
+						new AttributeMetadata(null, pojoClass, annotations));
 			}
 
 			if (pojoClass.isInterface()
@@ -1413,6 +1455,7 @@ public class PodamFactoryImpl implements PodamFactory {
 								+ attributeStrategy);
 					}
 
+					// TODO To pass the AttributeMetadata
 					setterArg = this.returnAttributeDataStrategyValue(
 							attributeType, attributeStrategy);
 
@@ -1521,19 +1564,23 @@ public class PodamFactoryImpl implements PodamFactory {
 			IllegalArgumentException, ClassNotFoundException {
 		Object attributeValue = null;
 
+		AttributeMetadata attributeMetadata = new AttributeMetadata(
+				attributeName, attributeType, annotations);
+
 		if (attributeType.isPrimitive()) {
 
 			attributeValue = this.resolvePrimitiveValue(attributeType,
-					annotations);
+					annotations, attributeMetadata);
 
 		} else if (this.isWrapper(attributeType)) {
 
 			attributeValue = this.resolveWrapperValue(attributeType,
-					annotations);
+					annotations, attributeMetadata);
 
 		} else if (attributeType.equals(String.class)) {
 
-			attributeValue = this.resolveStringValue(annotations);
+			attributeValue = this.resolveStringValue(annotations,
+					attributeMetadata);
 
 			// Is this an array?
 		} else if (attributeType.getName().startsWith("[")) {
@@ -1570,7 +1617,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (enumConstantsLength > 0) {
 				int enumIndex = strategy.getIntegerInRange(0,
-						enumConstantsLength) % enumConstantsLength;
+						enumConstantsLength, attributeMetadata)
+						% enumConstantsLength;
 				attributeValue = attributeType.getEnumConstants()[enumIndex];
 				// attributeValue = attributeType.getEnumConstants()[0];
 			}
@@ -1593,6 +1641,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The list of annotations used to customise the String value, if
 	 *            any
+	 * @param attributeMetadata
 	 * @return a String value, eventually customised by annotations
 	 * @throws IllegalAccessException
 	 *             If an exception occurred while creating an instance of the
@@ -1605,14 +1654,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If {@link PodamStrategyValue} was specified but the type was
 	 *             not correct for the attribute being set
 	 */
-	private String resolveStringValue(List<Annotation> annotations)
-			throws InstantiationException, IllegalAccessException {
+	private String resolveStringValue(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) throws InstantiationException,
+			IllegalAccessException {
 
 		String retValue = null;
 
 		if (annotations == null || annotations.isEmpty()) {
 
-			retValue = strategy.getStringValue();
+			retValue = strategy.getStringValue(attributeMetadata);
 
 		} else {
 
@@ -1633,15 +1683,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				} else {
 
-					retValue = strategy.getStringOfLength(podamAnnotation
-							.length());
+					retValue = strategy.getStringOfLength(
+							podamAnnotation.length(), attributeMetadata);
 
 				}
 
 			}
 
 			if (retValue == null) {
-				retValue = strategy.getStringValue();
+				retValue = strategy.getStringValue(attributeMetadata);
 			}
 
 		}

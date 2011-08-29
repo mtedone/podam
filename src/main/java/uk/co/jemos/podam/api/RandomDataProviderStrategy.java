@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.util.Random;
 
+import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.utils.PodamConstants;
 
 /**
@@ -43,11 +44,12 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	private static final RandomDataProviderStrategy SINGLETON = new RandomDataProviderStrategy();
 
 	/** An array of valid String characters */
-	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b', 'c', 'd', 'e', 'f',
-			'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
-			'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4',
-			'5', '6', '7', '8', '9', '_' };
+	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',
+			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B',
+			'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
+			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
 	// ------------------->> Instance / Static variables
 
@@ -73,14 +75,16 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Boolean getBoolean() {
+	@Override
+	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
 		return Boolean.TRUE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Byte getByte() {
+	@Override
+	public Byte getByte(AttributeMetadata attributeMetadata) {
 		byte nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (nextByte == 0) {
 			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
@@ -91,14 +95,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Byte getByteInRange(byte minValue, byte maxValue) {
+	@Override
+	public Byte getByteInRange(byte minValue, byte maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue - minValue + 1)));
+		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
+				- minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue - minValue + 1)));
+			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 		return retValue;
 	}
@@ -106,9 +114,11 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Character getCharacter() {
+	@Override
+	public Character getCharacter(AttributeMetadata attributeMetadata) {
 
-		int randomCharIdx = getIntegerInRange(0, (NICE_ASCII_CHARACTERS.length - 1));
+		int randomCharIdx = this.getIntegerInRange(0,
+				NICE_ASCII_CHARACTERS.length - 1, attributeMetadata);
 
 		int charToReturnIdx = randomCharIdx % NICE_ASCII_CHARACTERS.length;
 
@@ -119,14 +129,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Character getCharacterInRange(char minValue, char maxValue) {
+	@Override
+	public Character getCharacterInRange(char minValue, char maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		char retValue = (char) (minValue + (char) (Math.random() * (maxValue - minValue + 1)));
+		char retValue = (char) (minValue + (char) (Math.random() * (maxValue
+				- minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (char) (minValue + (char) (Math.random() * (maxValue - minValue + 1)));
+			retValue = (char) (minValue + (char) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 
 		return retValue;
@@ -135,7 +149,8 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Double getDouble() {
+	@Override
+	public Double getDouble(AttributeMetadata attributeMetadata) {
 		double retValue = RANDOM.nextDouble();
 		while (retValue == 0.0) {
 			retValue = RANDOM.nextDouble();
@@ -146,7 +161,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Double getDoubleInRange(double minValue, double maxValue) {
+	@Override
+	public Double getDoubleInRange(double minValue, double maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
@@ -161,7 +178,8 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Float getFloat() {
+	@Override
+	public Float getFloat(AttributeMetadata attributeMetadata) {
 		float retValue = RANDOM.nextFloat();
 		while (retValue == 0.0f) {
 			retValue = RANDOM.nextFloat();
@@ -172,14 +190,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Float getFloatInRange(float minValue, float maxValue) {
+	@Override
+	public Float getFloatInRange(float minValue, float maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		float retValue = minValue + (float) (Math.random() * (maxValue - minValue + 1));
+		float retValue = minValue
+				+ (float) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue + (float) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue
+					+ (float) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -187,7 +209,8 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Integer getInteger() {
+	@Override
+	public Integer getInteger(AttributeMetadata attributeMetadata) {
 		Integer retValue = RANDOM.nextInt();
 		while (retValue.intValue() == 0) {
 			retValue = RANDOM.nextInt();
@@ -198,14 +221,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getIntegerInRange(int minValue, int maxValue) {
+	@Override
+	public int getIntegerInRange(int minValue, int maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		int retValue = minValue + (int) (Math.random() * (maxValue - minValue + 1));
+		int retValue = minValue
+				+ (int) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue + (int) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue
+					+ (int) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -217,23 +244,29 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * argument. A complete random number would cause the instantiation of such
 	 * classes to fail on a non-deterministic basis, e.g. when the random long
 	 * would not be an acceptable value for, say, a YEAR field.
-	 * </p> {@inheritDoc}
+	 * </p>
+	 * {@inheritDoc}
 	 */
-	public Long getLong() {
+	@Override
+	public Long getLong(AttributeMetadata attributeMetadata) {
 		return System.currentTimeMillis();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Long getLongInRange(long minValue, long maxValue) {
+	@Override
+	public Long getLongInRange(long minValue, long maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		long retValue = minValue + (long) (Math.random() * (maxValue - minValue + 1));
+		long retValue = minValue
+				+ (long) (Math.random() * (maxValue - minValue + 1));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue + (long) (Math.random() * (maxValue - minValue + 1));
+			retValue = minValue
+					+ (long) (Math.random() * (maxValue - minValue + 1));
 		}
 		return retValue;
 	}
@@ -241,7 +274,8 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Short getShort() {
+	@Override
+	public Short getShort(AttributeMetadata attributeMetadata) {
 		short retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (retValue == 0) {
 			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
@@ -252,14 +286,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Short getShortInRange(short minValue, short maxValue) {
+	@Override
+	public Short getShortInRange(short minValue, short maxValue,
+			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		short retValue = (short) (minValue + (short) (Math.random() * (maxValue - minValue + 1)));
+		short retValue = (short) (minValue + (short) (Math.random() * (maxValue
+				- minValue + 1)));
 		while (retValue < minValue || retValue > maxValue) {
-			retValue = (short) (minValue + (short) (Math.random() * (maxValue - minValue + 1)));
+			retValue = (short) (minValue + (short) (Math.random() * (maxValue
+					- minValue + 1)));
 		}
 		return retValue;
 	}
@@ -267,27 +305,31 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getStringValue() {
-		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH);
+	@Override
+	public String getStringValue(AttributeMetadata attributeMetadata) {
+		return this.getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
+				attributeMetadata);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getStringOfLength(int length) {
+	@Override
+	public String getStringOfLength(int length,
+			AttributeMetadata attributeMetadata) {
 
-		StringBuilder buff = new StringBuilder(PodamConstants.STR_DEFAULT_ENCODING);
+		StringBuilder buff = new StringBuilder(
+				PodamConstants.STR_DEFAULT_ENCODING);
 		// Default length was 5 for some reason
 		buff.setLength(0);
 
 		while (buff.length() < length) {
-			buff.append(getCharacter());
+			buff.append(this.getCharacter(attributeMetadata));
 		}
 
 		return buff.toString();
 
 	}
-
 	// ------------------->> Getters / Setters
 
 	// ------------------->> Private methods
