@@ -143,6 +143,10 @@ public class PodamMockerUnitTest {
 				"The boolean object field should have a value of TRUE",
 				booleanObjectField);
 
+		boolean booleanField = pojo.isBooleanField();
+		Assert.assertTrue("The boolean field should have a value of TRUE",
+				booleanField);
+
 		byte byteField = pojo.getByteField();
 		Assert.assertTrue("The byte field should not be zero", byteField != 0);
 
