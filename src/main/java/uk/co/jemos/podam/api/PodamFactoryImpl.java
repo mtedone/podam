@@ -1440,7 +1440,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				// If an attribute has been annotated with
 				// PodamAttributeStrategy, it takes the precedence over any
-				// other strategy
+				// other strategy. Additionally we don't pass the attribute
+				// metadata for value customisation; if user went to the extent
+				// of specifying a PodamAttributeStrategy annotation for an
+				// attribute they are already customising the value assigned to
+				// that attribute.
+
 				PodamStrategyValue attributeStrategyAnnotation = this
 						.containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
 				if (null != attributeStrategyAnnotation) {
