@@ -1838,8 +1838,24 @@ public class PodamFactoryImpl implements PodamFactory {
 			// definition
 			Object newInstance = pojoClass.newInstance();
 
-			// Will throw exception if invalid
-			Field field = pojoClass.getDeclaredField(attributeName);
+			Field field = null;
+
+			Class<?> clazz = pojoClass;
+
+			while (clazz != null) {
+				try {
+					field = clazz.getDeclaredField(attributeName);
+					break;
+				} catch (NoSuchFieldException e) {
+					clazz = clazz.getSuperclass();
+				} catch (SecurityException e) {
+					throw e;
+				}
+
+			}
+			if (field == null) {
+				throw new NoSuchFieldException();
+			}
 
 			// It allows to invoke Field.get on private fields
 			field.setAccessible(true);
