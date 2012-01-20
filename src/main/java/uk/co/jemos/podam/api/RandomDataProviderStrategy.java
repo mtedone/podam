@@ -75,7 +75,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
 		return Boolean.TRUE;
 	}
@@ -83,7 +83,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Byte getByte(AttributeMetadata attributeMetadata) {
 		byte nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (nextByte == 0) {
@@ -95,7 +95,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Byte getByteInRange(byte minValue, byte maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -114,10 +114,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Character getCharacter(AttributeMetadata attributeMetadata) {
 
-		int randomCharIdx = this.getIntegerInRange(0,
+		int randomCharIdx = getIntegerInRange(0,
 				NICE_ASCII_CHARACTERS.length - 1, attributeMetadata);
 
 		int charToReturnIdx = randomCharIdx % NICE_ASCII_CHARACTERS.length;
@@ -129,7 +129,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -149,7 +149,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Double getDouble(AttributeMetadata attributeMetadata) {
 		double retValue = RANDOM.nextDouble();
 		while (retValue == 0.0) {
@@ -161,7 +161,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -178,7 +178,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Float getFloat(AttributeMetadata attributeMetadata) {
 		float retValue = RANDOM.nextFloat();
 		while (retValue == 0.0f) {
@@ -190,7 +190,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -209,7 +209,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Integer getInteger(AttributeMetadata attributeMetadata) {
 		Integer retValue = RANDOM.nextInt();
 		while (retValue.intValue() == 0) {
@@ -221,7 +221,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public int getIntegerInRange(int minValue, int maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -247,7 +247,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * </p>
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Long getLong(AttributeMetadata attributeMetadata) {
 		return System.currentTimeMillis();
 	}
@@ -255,7 +255,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Long getLongInRange(long minValue, long maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -274,7 +274,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Short getShort(AttributeMetadata attributeMetadata) {
 		short retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (retValue == 0) {
@@ -286,7 +286,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -305,16 +305,16 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public String getStringValue(AttributeMetadata attributeMetadata) {
-		return this.getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
+		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
 				attributeMetadata);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
+
 	public String getStringOfLength(int length,
 			AttributeMetadata attributeMetadata) {
 
@@ -324,7 +324,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		buff.setLength(0);
 
 		while (buff.length() < length) {
-			buff.append(this.getCharacter(attributeMetadata));
+			buff.append(getCharacter(attributeMetadata));
 		}
 
 		return buff.toString();
