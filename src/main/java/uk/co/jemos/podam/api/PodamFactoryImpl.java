@@ -27,6 +27,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import junit.framework.Assert;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 import uk.co.jemos.podam.annotations.PodamBooleanValue;
@@ -104,8 +105,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	public <T> T manufacturePojo(Class<T> pojoClass) {
 
-		return this.manufacturePojoInternal(pojoClass, 0);
+		return this.manufacturePojoInternal(pojoClass, 0, false);
 	}
+	
+	public <T> T manufacturePojoAndTest(Class<T> pojoClass) {
+
+		return this.manufacturePojoInternal(pojoClass, 0, true);
+	}
+
 
 	// ------------------->> Getters / Setters
 
@@ -1291,7 +1298,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             setting its state
 	 */
 	@SuppressWarnings("unchecked")
-	private <T> T manufacturePojoInternal(Class<T> pojoClass, int depth) {
+	private <T> T manufacturePojoInternal(Class<T> pojoClass, int depth, boolean testPOJO) {
 		try {
 
 			T retValue = null;
@@ -1456,8 +1463,21 @@ public class PodamFactoryImpl implements PodamFactory {
 						if (depth < PodamConstants.MAX_DEPTH) {
 							depth++;
 							setterArg = this.manufacturePojoInternal(
-									attributeType, depth);
+									attributeType, depth,testPOJO);
 							setter.invoke(retValue, setterArg);
+							if(testPOJO)
+							{
+								/**
+								 * This can be extracted to a separate method
+								 */
+								Method getter = getGetMethodForTheSet(setter);
+								if(getter!=null)
+								{
+									Object returnValue = getter.invoke(retValue, null);
+									Assert.assertEquals(setterArg, returnValue);
+								}
+							}
+
 							continue;
 
 						} else {
@@ -1466,6 +1486,20 @@ public class PodamFactoryImpl implements PodamFactory {
 									pojoClass, pojoClass);
 
 							setter.invoke(retValue, setterArg);
+							if(testPOJO)
+							{
+								/**
+								 * This can be extracted to a separate method
+								 */
+								
+								Method getter = getGetMethodForTheSet(setter);
+								if(getter!=null)
+								{
+									Object returnValue = getter.invoke(retValue, null);
+									Assert.assertEquals(setterArg, returnValue);
+								}
+							}
+
 							depth = 0;
 							continue;
 
@@ -1490,6 +1524,16 @@ public class PodamFactoryImpl implements PodamFactory {
 						setter.setAccessible(true);
 					}
 					setter.invoke(retValue, setterArg);
+					if(testPOJO)
+					{
+						Method getter = getGetMethodForTheSet(setter);
+						if(getter!=null)
+						{
+							Object returnValue = getter.invoke(retValue, null);
+							Assert.assertEquals(setterArg, returnValue);
+						}
+					}
+	
 				} else {
 					LOG.warn("Couldn't find a suitable value for attribute: "
 							+ attributeName
@@ -1513,6 +1557,46 @@ public class PodamFactoryImpl implements PodamFactory {
 			throw new PodamMockeryException("Invocation Target Exception", e);
 		}
 	}
+	
+
+	
+	/**
+	 * For the given setter method instance, this method returns corresponding Getter method.  If getter is not found this method returns null.
+	 * 
+	 * @param method
+	 * @return
+	 */
+	private Method getGetMethodForTheSet(Method setterMethod)
+	{
+		Method getMethod = null;
+		String setMethodName = setterMethod.getName();
+		
+		String getMethodName = "get"+setMethodName.substring(3);
+		
+	
+		Class<?> methodClass = setterMethod.getDeclaringClass();
+		Method[] methodArray = methodClass.getMethods();
+		for(int i=0; i<methodArray.length;i++)
+		{
+			Method m = methodArray[i];
+			Class<?>[] paramArray = m.getParameterTypes();
+			//if method has any parameters no further processing is required.
+			if(paramArray.length>0)
+			{
+				continue;
+			}
+			String methodName = m.getName();
+			if(methodName.equalsIgnoreCase(getMethodName))
+			{
+				getMethod = m;
+				break;
+			}
+			
+		}
+		
+		return getMethod;
+	}
+
 
 	/**
 	 * It manufactures and returns the value for a POJO attribute.
