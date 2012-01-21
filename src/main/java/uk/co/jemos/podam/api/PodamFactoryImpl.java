@@ -1468,13 +1468,13 @@ public class PodamFactoryImpl implements PodamFactory {
 							if(testPOJO)
 							{
 								/**
-								 * This can be extracted to a separate method
+								 * FIXME This can be extracted to a separate method
 								 */
 								Method getter = getGetMethodForTheSet(setter);
 								if(getter!=null)
 								{
 									Object returnValue = getter.invoke(retValue, null);
-									Assert.assertEquals(setterArg, returnValue);
+									Assert.assertEquals(getter.getName()+" method did not return expected value.",setterArg, returnValue);
 								}
 							}
 
@@ -1489,14 +1489,14 @@ public class PodamFactoryImpl implements PodamFactory {
 							if(testPOJO)
 							{
 								/**
-								 * This can be extracted to a separate method
+								 * FIXME: This can be extracted to a separate method
 								 */
 								
 								Method getter = getGetMethodForTheSet(setter);
 								if(getter!=null)
 								{
 									Object returnValue = getter.invoke(retValue, null);
-									Assert.assertEquals(setterArg, returnValue);
+									Assert.assertEquals(getter.getName()+" method did not return expected value.",setterArg, returnValue);
 								}
 							}
 
@@ -1530,7 +1530,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						if(getter!=null)
 						{
 							Object returnValue = getter.invoke(retValue, null);
-							Assert.assertEquals(setterArg, returnValue);
+							Assert.assertEquals(getter.getName()+" method did not return expected value.",setterArg, returnValue);
 						}
 					}
 	
