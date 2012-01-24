@@ -51,7 +51,9 @@ public class WalkThroughExampleUnitTest {
 	public void testCountrySetup() {
 
 		Country pojo = factory.manufacturePojo(Country.class);
+		Country pojo1 = factory.manufacturePojoAndTest(Country.class);
 		this.validateCountry(pojo);
+		this.validateCountry(pojo1);
 
 	}
 
@@ -59,15 +61,18 @@ public class WalkThroughExampleUnitTest {
 	public void testArticleSetup() {
 
 		Article pojo = factory.manufacturePojo(Article.class);
+		Article pojo1 = factory.manufacturePojoAndTest(Article.class);
 		this.validateArticle(pojo);
+		this.validateArticle(pojo1);
 	}
 
 	@Test
 	public void testOrderItemSetup() {
 
 		OrderItem pojo = factory.manufacturePojo(OrderItem.class);
-
+		OrderItem pojo1 = factory.manufacturePojoAndTest(OrderItem.class);
 		this.validateOrderItem(pojo);
+		this.validateOrderItem(pojo1);
 
 	}
 
@@ -75,17 +80,18 @@ public class WalkThroughExampleUnitTest {
 	public void testOrderSetup() {
 
 		Order pojo = factory.manufacturePojo(Order.class);
-
+		Order pojo1 = factory.manufacturePojoAndTest(Order.class);
 		this.validateOrder(pojo);
-
+		this.validateOrder(pojo1);
 	}
 
 	@Test
 	public void testAddressSetup() {
 
 		Address pojo = factory.manufacturePojo(Address.class);
-
+		Address pojo1 = factory.manufacturePojoAndTest(Address.class);
 		this.validateAddress(pojo);
+		this.validateAddress(pojo1);
 
 	}
 
@@ -93,8 +99,9 @@ public class WalkThroughExampleUnitTest {
 	public void testBankAccountSetup() {
 
 		BankAccount pojo = factory.manufacturePojo(BankAccount.class);
+		BankAccount pojo1 = factory.manufacturePojoAndTest(BankAccount.class);
 		this.validateBankAccount(pojo);
-
+		this.validateBankAccount(pojo1);
 	}
 
 	@Test
