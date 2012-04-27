@@ -11,6 +11,7 @@ import java.util.Set;
 import net.jcip.annotations.Immutable;
 import uk.co.jemos.podam.annotations.PodamCollection;
 import uk.co.jemos.podam.annotations.PodamConstructor;
+import uk.co.jemos.podam.annotations.PodamExclude;
 
 /**
  * @author mtedone
@@ -35,6 +36,7 @@ public class ImmutableWithNonGenericCollectionsPojo implements Serializable {
 	// This is actually intentional
 	private final Map nonGenerifiedMap;
 
+	@SuppressWarnings("rawtypes")
 	private final Set nonGenerifiedSet;
 
 	// ------------------->> Constructors

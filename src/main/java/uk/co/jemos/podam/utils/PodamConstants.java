@@ -42,6 +42,14 @@ public class PodamConstants {
 	/** The name of the {@link AttributeStrategy} interface */
 	public static final String PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME = "getValue";
 
+    /**
+     * How do we decide whether all fields should be assigned values, or just 
+     * fields which have Podam annotations.  Should unannotated fields be 
+     * automatically excluded, as if they had PodamExclude on them?  true means 
+     * skip such fields, false means don't skip any such fields.
+     */
+    public static final boolean EXCLUDE_UNANNOTATED_FIELDS = true;
+    
 	/** Non-instantiable constructor */
 	private PodamConstants() {
 		throw new AssertionError();

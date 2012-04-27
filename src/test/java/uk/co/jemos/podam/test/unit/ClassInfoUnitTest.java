@@ -3,8 +3,11 @@
  */
 package uk.co.jemos.podam.test.unit;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -28,9 +31,11 @@ public class ClassInfoUnitTest {
 		Set<String> pojoDeclaredFields = new HashSet<String>();
 
 		Set<Method> pojoSetters = new HashSet<Method>();
+        
+        Map<String,Field> pojoFields = new HashMap<String,Field>();
 
 		ClassInfo expectedClassInfo = new ClassInfo(EmptyTestPojo.class,
-				pojoDeclaredFields, pojoSetters);
+				pojoDeclaredFields, pojoSetters, pojoFields);
 
 		ClassInfo actualClassInfo = PodamUtils
 				.getClassInfo(EmptyTestPojo.class);
@@ -51,8 +56,10 @@ public class ClassInfoUnitTest {
 		Set<Method> pojoSetters = PodamUtils.getPojoSetters(
 				SimplePojoToTestSetters.class, pojoFields);
 
+        Map<String,Field> fieldToFieldType = new HashMap<String,Field>();
+
 		ClassInfo expectedClassInfo = new ClassInfo(
-				SimplePojoToTestSetters.class, pojoFields, pojoSetters);
+				SimplePojoToTestSetters.class, pojoFields, pojoSetters, fieldToFieldType);
 
 		ClassInfo actualClassInfo = PodamUtils
 				.getClassInfo(SimplePojoToTestSetters.class);
