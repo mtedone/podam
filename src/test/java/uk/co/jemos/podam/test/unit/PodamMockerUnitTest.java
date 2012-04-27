@@ -1292,6 +1292,7 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The generated String object cannot be null!",
 				pojo);
 
+        // The Integer() class has a String constructor and an int constructor.
 		Integer integerPojo = factory.manufacturePojo(Integer.class);
 		Assert.assertNotNull("The integer pojo cannot be null!", integerPojo);
 

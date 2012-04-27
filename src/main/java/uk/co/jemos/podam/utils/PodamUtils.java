@@ -7,7 +7,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import uk.co.jemos.podam.annotations.PodamExclude;
@@ -43,12 +45,13 @@ public class PodamUtils {
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz) {
-
-		Set<String> classFields = getDeclaredInstanceFields(clazz);
+        Map<String,Field> fieldToType = new HashMap<String,Field>();
+        
+		Set<String> classFields = getDeclaredInstanceFields(clazz, fieldToType);
 
 		Set<Method> classSetters = getPojoSetters(clazz, classFields);
 
-		return new ClassInfo(clazz, classFields, classSetters);
+		return new ClassInfo(clazz, classFields, classSetters, fieldToType);
 	}
 
 	/**
@@ -56,9 +59,10 @@ public class PodamUtils {
 	 * 
 	 * @param clazz
 	 *            The class to analyse to retrieve declared fields
-	 * @return Set of a class declared field names.
+     * @param fieldToType mapping from field names to Type of the field
+     * @return Set of a class declared field names.
 	 */
-	public static Set<String> getDeclaredInstanceFields(Class<?> clazz) {
+	public static Set<String> getDeclaredInstanceFields(Class<?> clazz, Map<String,Field> fieldToType) {
 		Set<String> classFields = new HashSet<String>();
 
 		while (clazz != null) {
@@ -71,8 +75,9 @@ public class PodamUtils {
 				int modifiers = field.getModifiers();
 				if (!Modifier.isStatic(modifiers)) {
 
-					classFields.add(field.getName());
-				}
+                    classFields.add(field.getName());
+                    fieldToType.put(field.getName(), field);
+                }
 
 			}
 			clazz = clazz.getSuperclass();
@@ -116,6 +121,17 @@ public class PodamUtils {
 				if (!classFields.contains(candidateField)) {
 					continue;
 				}
+                
+                // According to JavaBeans standards, setters should have only
+                // one argument
+                // check that setter has one argument
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length != 1) {
+                    continue;
+                }
+                
+                // TODO: check that one argument is the same type as the field
+                
 				classSetters.add(method);
 
 			}
