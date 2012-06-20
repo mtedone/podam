@@ -152,31 +152,4 @@ public class PodamUtils {
 		return candidateField;
 	}
 
-	/**
-	 * Given a {@link Type} object, it extracts and returns the class name
-	 * <p>
-	 * If a {@link Type} was extracted from a {@link Field} object, it has the
-	 * form: {@code class <classname>}, e.g. {@code class java.lang.String}.
-	 * This method returns the {@code java.lang.String} part of the {@link Type}
-	 * </p>
-	 * 
-	 * @param type
-	 *            The type from which the class name must be extracted
-	 * @return The class part of the Type format
-	 */
-	public static String extractClassNameFromParameterisedTypeInField(Type type) {
-		String typeStr = type.toString();
-		if (typeStr.startsWith("class")) {
-			return typeStr.substring(6);
-		} else if (typeStr.startsWith("interface")) {
-			return typeStr.substring(10);
-		} else if (typeStr.contains("<")) {
-			int idx = typeStr.indexOf("<");
-			return typeStr.substring(0, idx).trim();
-		} else {
-			throw new IllegalArgumentException("Type is not recognised");
-		}
-
-	}
-
 }

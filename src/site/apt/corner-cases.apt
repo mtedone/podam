@@ -309,3 +309,149 @@ SingletonWithParametersInStaticFactoryPojo (
 +-----------------------------------------------------------
   
   All three arguments to the Singleton method have been filled with data.
+  
+  []
+  
+Generic classes
+
+  PODAM support classes with generic attributes by solving its currently generic types by the owner setter declaration.
+  
+* Example
+
+  The following example illustrates a generic class, <uk.co.jemos.podam.test.dto.pdm45.GenericPojo<F, S>>, which is used
+  several times as attributes of another POJO, <uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo>.
+  
++-----------------------------------------------------------
+package uk.co.jemos.podam.test.dto.pdm45;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Generic Pojo.
+ * 
+ * @author marciocarmona
+ * 
+ * @param <F>
+ *            the first generic type
+ * @param <S>
+ *            the second generic type
+ */
+public class GenericPojo<F, S> {
+
+	private F firstValue;
+	private S secondValue;
+	@PodamCollection(nbrElements = 2)
+	private List<F> firstList;
+	@PodamCollection(nbrElements = 2)
+	private S[] secondArray;
+	@PodamCollection(nbrElements = 2)
+	private Map<F, S> firstSecondMap;
+
+	public F getFirstValue() {
+		return firstValue;
+	}
+
+	public void setFirstValue(F firstValue) {
+		this.firstValue = firstValue;
+	}
+
+	public S getSecondValue() {
+		return secondValue;
+	}
+
+	public void setSecondValue(S secondValue) {
+		this.secondValue = secondValue;
+	}
+
+	public List<F> getFirstList() {
+		return firstList;
+	}
+
+	public void setFirstList(List<F> firstList) {
+		this.firstList = firstList;
+	}
+
+	public S[] getSecondArray() {
+		return secondArray;
+	}
+
+	public void setSecondArray(S[] secondArray) {
+		this.secondArray = secondArray;
+	}
+
+	public Map<F, S> getFirstSecondMap() {
+		return firstSecondMap;
+	}
+
+	public void setFirstSecondMap(Map<F, S> firstSecondMap) {
+		this.firstSecondMap = firstSecondMap;
+	}
+
+	@Override
+	public String toString() {
+		return "GenericPojo [firstValue=" + firstValue + ", secondValue="
+				+ secondValue + ", firstList=" + firstList + ", secondArray="
+				+ Arrays.toString(secondArray) + ", firstSecondMap="
+				+ firstSecondMap + "]";
+	}
+}
+
++-----------------------------------------------------------
+  Notice all the generic types (<F> and <S>) used by the class attributes, for each instance of this class we may use
+  different types. It is very important to use the generic notation on the setters because this is where the current types
+  are solved to create the instance that will be supplied for the setter.
+  
+  Now this is a POJO using the generic class as an attribute, defining <F> and <S> as <String> and <Long> respectively.
+  
++-----------------------------------------------------------
+package uk.co.jemos.podam.test.dto.pdm45;
+
+/**
+ * Pojo with generic attribute.
+ * 
+ * @author marciocarmona
+ *
+ */
+public class GenericAttributePojo {
+
+	private GenericPojo<String, Long> genericPojo;
+
+	public GenericPojo<String, Long> getGenericPojo() {
+		return genericPojo;
+	}
+
+	public void setGenericPojo(GenericPojo<String, Long> genericPojo) {
+		this.genericPojo = genericPojo;
+	}
+
+	@Override
+	public String toString() {
+		return "GenericAttributePojo [genericPojo=" + genericPojo + "]";
+	}
+}
++-----------------------------------------------------------
+
+  As before, it is necessary to specify the types to be used on the setter, because these will be the types used during
+  the generic class instantiation.
+  
+  Running the test on the class above produces the following result:
+  
++-----------------------------------------------------------
+GenericAttributePojo [
+    genericPojo=GenericPojo [
+        firstValue=mJdAWTgzkv,
+        secondValue=1340162143705,
+        firstList=[EMZeLCj8qf, VJZbWl8Xyo],
+        secondArray=[1340162143705, 1340162143705],
+        firstSecondMap={sSb8TCcOZB=1340162143700, EqVTVO78RR=1340162143700}
+    ]
+]
++-----------------------------------------------------------
+  As you can notice all the generic types have been solved properly as <String> or <Long> according to the types
+  defined on <GenericAttributePojo> class. Also the collections, the array and the map have 2 items as specified
+  by the <@PodamCollection> annotation.
+  
+  If you want to manufacture a generic class directly, i.e., that is not wrapped by a non-generic class like on the example
+  above, please refer to "Manufacturing generic types" section in the {{{./index.html} Introduction}} page.
