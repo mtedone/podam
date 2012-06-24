@@ -11,7 +11,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>3.0.2-SNAPSHOT</version> 
+	<version>3.0.2.RELEASE</version> 
 	<packaging>jar</packaging>
 
 	<name>podam</name>
@@ -74,6 +74,15 @@
 	    </roles>
 	    <timezone>CST</timezone>
 	  </contributor>
+	  <contributor>
+	    <name>Márcio Carmona</name>
+	    <email>marciocarmona@gmail.com</email>	    
+	    <organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
+	    <roles>
+	      <role>Developer</role>
+	    </roles>
+	    <timezone>UTC-4</timezone>
+	  </contributor>	  
 	</contributors>
 
 	<properties>
