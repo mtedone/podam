@@ -202,7 +202,119 @@ private double doubleFieldWithMinAndMaxValue;
   
   To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
   or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
+
+** Manufacturing generic types
+
+  Sometimes you may want to manufacture a generic type directly without a wrapper class or a subclass.
   
+  As you should have noticed, the <manufacturePojo> method of the <PodamFactory> interface can take some additional
+  parameters through varargs. This is a way to allow the definition of the generic types for a given class.
+  
+  The following class is an example of a generic POJO:
+  
++-----------------------------------
+public class GenericPojo<F, S> {
+
+	private F firstValue;
+	private S secondValue;
+	@PodamCollection(nbrElements = 2)
+	private List<F> firstList;
+	@PodamCollection(nbrElements = 2)
+	private S[] secondArray;
+	@PodamCollection(nbrElements = 2)
+	private Map<F, S> firstSecondMap;
+	
+	... getter, setters and toString
+}
++-----------------------------------
+
+  Now imagine that you want an instance of this class defining <F> and <S> as <Double> and <String> respectively.
+  This is how it should be done:
+  
++-----------------------------------
+GenericPojo pojo = factory.manufacturePojo(GenericPojo.class, Double.class, String.class);
++-----------------------------------
+
+  As you can see, the first class is the POJO to be manufactured (<GenericPojo>), and the subsequent classes are the
+  type parameters to be used for this <GenericPojo> instance.
+  
+  This is the result of the call above:
+  
++-----------------------------------
+GenericPojo [
+    firstValue=0.03181392348712919,
+    secondValue=L4OicBAhKY,
+    firstList=[0.770082469177622, 0.7924208229673068],
+    secondArray=[8EsGFHtwwE, Zqz8B_4oAr],
+    firstSecondMap={0.778926356384843=sl4FxQIEYe, 0.2909259461070528=j8mlZshNsv}
+]
++-----------------------------------
+
+  It is also possible to specify some complex nested generic types like
+  <GenericPojo<GenericPojo<String, Long>>, <Map<Integer, List<Boolean>>>> using the
+  <uk.co.jemos.podam.api.PodamParameterizedType> class as in the following example:
+  
++-----------------------------------
+ParameterizedType stringLongGenericPojoType =
+		new PodamParameterizedType(GenericPojo.class, String.class, Long.class);
+
+ParameterizedType IntegerBooleanListMapType =
+		new PodamParameterizedType(Map.class,
+				Integer.class,
+				new PodamParameterizedType(List.class, Boolean.class));
+
+GenericPojo<GenericPojo<String, Long>, Map<Integer, List<Boolean>>> pojo =
+		factory.manufacturePojo(GenericPojo.class, stringLongGenericPojoType, IntegerBooleanListMapType);
++-----------------------------------
+  
+  Running the code above the following result is produced:
+  
++-----------------------------------
+GenericPojo [
+    firstValue=GenericPojo [
+        firstValue=e0NI7ZnKfW,
+        secondValue=1340165351073,
+        firstList=[2UlUwNJdOS, bZ7X0KZWtV],
+        secondArray=[1340165351073, 1340165351073],
+        firstSecondMap={QiB36seL99=1340165351072, Dk_KwHCGOq=1340165351072}
+    ],
+    secondValue={2081811337=[true]},
+    firstList=[
+        GenericPojo [
+            firstValue=ECNfFuF6WM,
+            secondValue=1340165351067,
+            firstList=[QfZXnqOk1N, HDAGfxdat0],
+            secondArray=[1340165351067, 1340165351067],
+            firstSecondMap={UgJ4VNvro_=1340165351067, 5NGtW0hH0h=1340165351067}
+        ],
+        GenericPojo [
+            firstValue=kHryFVavEn,
+            secondValue=1340165351070,
+            firstList=[wAKe40d3zO, OH8q03P9Cw],
+            secondArray=[1340165351070, 1340165351070],
+            firstSecondMap={LhRoWR2DNX=1340165351068, zg0IAN4ZZ5=1340165351068}
+        ]
+    ],
+    secondArray=[{2115657799=[true, true], -1507554610=[true, true]}, {1990372468=[true, true], -340173617=[true, true]}],
+    firstSecondMap={
+        GenericPojo [
+            firstValue=WeEDkbr2pc,
+            secondValue=1340165351058,
+            firstList=[0TRSKWur8n, vbIptzObXA],
+            secondArray=[1340165351057, 1340165351057],
+            firstSecondMap={49wLsEiuip=1340165351056, LGIUi7CptX=1340165351056}
+        ] = {1126207473=[true, true], -1973087621=[true, true]},
+        GenericPojo [
+            firstValue=2RtNOrjgjZ,
+            secondValue=1340165351064,
+            firstList=[l1S7URCgFT, ntoKQnI1Kj],
+            secondArray=[1340165351064, 1340165351064],
+            firstSecondMap={F0gqzGJMZL=1340165351061, vXdlU9NCfR=1340165351061}
+        ] = {-485029362=[true, true], 609129754=[true, true]}
+    }
+]
++-----------------------------------
+
 ** Using PODAM with Spring
 
   You can also use PODAM with Spring: 
