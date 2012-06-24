@@ -11,13 +11,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>3.0.2.RELEASE</version> 
-	<packaging>jar</packaging>
-
-	<name>podam</name>
-	<description>PODAM is a tool to automatically fill POJO with data</description>
-	<url>http://www.jemos.eu/projects/podam/index.html</url>
-
+	<version>3.0.3-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
