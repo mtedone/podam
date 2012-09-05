@@ -23,9 +23,9 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
   
   * By defining strategies at the attribute level
   
-  * For primitive and wrapper types, to customise the numeric value through annotations
+  * For primitive and wrapper types, by customising the numeric value through annotations
   
-  * For String to customise the string value and length through annotation
+  * For strings by customising the string value and length through annotation
   
   * To skip a certain attribute by using the <@PodamExclude> annotation
   
@@ -42,6 +42,11 @@ PodamFactory factory = new PodamFactoryImpl(strategy);
 Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 +-----------------------------------
+
+  Please note that annotations are not required to use PODAM. The tool will automatically introspect
+  and fill your tree of POJOs out-of-the-box. The preferred way to customise the way PODAM fills your data
+  is through a custom <DataProviderStrategy>, as shown above. However one can annotate Java classes to 
+  provide custom values, as shown below.
 
 ** Defining an attribute-level strategy
 
