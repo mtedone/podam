@@ -51,6 +51,12 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
+	/** The default number of collection elements for this strategy */
+	private static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
+
+	/** The number of collection elements. */
+	private int nbrOfCollectionElements;
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
@@ -59,6 +65,11 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * Implementation of the Singleton pattern
 	 */
 	private RandomDataProviderStrategy() {
+		this(DEFAULT_NBR_COLLECTION_ELEMENTS);
+	}
+
+	private RandomDataProviderStrategy(int nbrOfCollectionElements) {
+		this.nbrOfCollectionElements = nbrOfCollectionElements;
 	}
 
 	// ------------------->> Public methods
@@ -330,7 +341,22 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 		return buff.toString();
 
 	}
+
 	// ------------------->> Getters / Setters
+
+	public int getNumberOfCollectionElements() {
+		return nbrOfCollectionElements;
+	}
+
+	/**
+	 * Sets the new number of default collection elements.
+	 * 
+	 * @param newNumberOfCollectionElements
+	 *            The new number of collection elements.
+	 */
+	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
+		nbrOfCollectionElements = newNumberOfCollectionElements;
+	}
 
 	// ------------------->> Private methods
 

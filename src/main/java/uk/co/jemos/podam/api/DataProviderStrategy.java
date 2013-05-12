@@ -145,4 +145,14 @@ public interface DataProviderStrategy {
 	public String getStringOfLength(int length,
 			AttributeMetadata attributeMetadata);
 
+	/**
+	 * Returns the number of default collection elements.
+	 * <p>
+	 * Implementations of this interface need to provide this value.
+	 * </p>
+	 * 
+	 * @return The number of default collection elements
+	 */
+	public int getNumberOfCollectionElements();
+
 }
