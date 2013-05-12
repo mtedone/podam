@@ -11,6 +11,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
@@ -21,7 +22,6 @@ import uk.co.jemos.podam.test.dto.docs.example.Client;
 import uk.co.jemos.podam.test.dto.docs.example.Country;
 import uk.co.jemos.podam.test.dto.docs.example.Order;
 import uk.co.jemos.podam.test.dto.docs.example.OrderItem;
-import uk.co.jemos.podam.utils.PodamConstants;
 
 /**
  * A set of tests to check the Walk-through example
@@ -38,20 +38,25 @@ public class WalkThroughExampleUnitTest {
 	/** The Podam Factory */
 	private PodamFactory factory;
 
+	/** The default data provider strategy */
+	private final DataProviderStrategy strategy = RandomDataProviderStrategy
+			.getInstance();
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
 
 	@Before
 	public void init() {
-		factory = new PodamFactoryImpl(RandomDataProviderStrategy.getInstance());
+
+		factory = new PodamFactoryImpl(strategy);
 	}
 
 	@Test
 	public void testCountrySetup() {
 
 		Country pojo = factory.manufacturePojo(Country.class);
-		this.validateCountry(pojo);
+		validateCountry(pojo);
 
 	}
 
@@ -59,7 +64,7 @@ public class WalkThroughExampleUnitTest {
 	public void testArticleSetup() {
 
 		Article pojo = factory.manufacturePojo(Article.class);
-		this.validateArticle(pojo);
+		validateArticle(pojo);
 	}
 
 	@Test
@@ -67,7 +72,7 @@ public class WalkThroughExampleUnitTest {
 
 		OrderItem pojo = factory.manufacturePojo(OrderItem.class);
 
-		this.validateOrderItem(pojo);
+		validateOrderItem(pojo);
 
 	}
 
@@ -76,7 +81,7 @@ public class WalkThroughExampleUnitTest {
 
 		Order pojo = factory.manufacturePojo(Order.class);
 
-		this.validateOrder(pojo);
+		validateOrder(pojo);
 
 	}
 
@@ -85,7 +90,7 @@ public class WalkThroughExampleUnitTest {
 
 		Address pojo = factory.manufacturePojo(Address.class);
 
-		this.validateAddress(pojo);
+		validateAddress(pojo);
 
 	}
 
@@ -93,7 +98,7 @@ public class WalkThroughExampleUnitTest {
 	public void testBankAccountSetup() {
 
 		BankAccount pojo = factory.manufacturePojo(BankAccount.class);
-		this.validateBankAccount(pojo);
+		validateBankAccount(pojo);
 
 	}
 
@@ -127,7 +132,7 @@ public class WalkThroughExampleUnitTest {
 				+ expectedOrdersNbr, orders.size() == expectedOrdersNbr);
 
 		for (Order order : orders) {
-			this.validateOrder(order);
+			validateOrder(order);
 		}
 
 		List<Address> addresses = pojo.getAddresses();
@@ -138,18 +143,18 @@ public class WalkThroughExampleUnitTest {
 				addresses.size() == expectedAddressesNbr);
 
 		for (Address address : addresses) {
-			this.validateAddress(address);
+			validateAddress(address);
 		}
 
 		List<BankAccount> bankAccounts = pojo.getBankAccounts();
 		Assert.assertNotNull("The bank accounts cannot be null!", bankAccounts);
-		int expectedBankAccountsNbr = PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+		int expectedBankAccountsNbr = strategy.getNumberOfCollectionElements();
 		Assert.assertTrue("The expected number of addresses is "
 				+ expectedBankAccountsNbr,
 				bankAccounts.size() == expectedBankAccountsNbr);
 
 		for (BankAccount bankAccount : bankAccounts) {
-			this.validateBankAccount(bankAccount);
+			validateBankAccount(bankAccount);
 		}
 
 	}
@@ -194,7 +199,7 @@ public class WalkThroughExampleUnitTest {
 		Assert.assertNotNull("The city cannot be null!", pojo.getCity());
 		Assert.assertNotNull("The zipCode cannot be null!", pojo.getZipCode());
 
-		this.validateCountry(pojo.getCountry());
+		validateCountry(pojo.getCountry());
 
 	}
 
@@ -226,7 +231,7 @@ public class WalkThroughExampleUnitTest {
 
 		for (OrderItem orderItem : orderItems) {
 
-			this.validateOrderItem(orderItem);
+			validateOrderItem(orderItem);
 
 		}
 
@@ -251,7 +256,7 @@ public class WalkThroughExampleUnitTest {
 				"The Order Item note must be null because of @PodamExclude annotation",
 				pojo.getNote());
 
-		this.validateArticle(pojo.getArticle());
+		validateArticle(pojo.getArticle());
 
 	}
 

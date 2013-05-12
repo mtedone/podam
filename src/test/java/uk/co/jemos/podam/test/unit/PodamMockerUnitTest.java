@@ -79,10 +79,14 @@ public class PodamMockerUnitTest {
 	/** The podam factory */
 	private PodamFactory factory;
 
+	/** The default data strategy */
+	private final RandomDataProviderStrategy strategy = RandomDataProviderStrategy
+			.getInstance();
+
 	@Before
 	public void init() {
 
-		factory = new PodamFactoryImpl(RandomDataProviderStrategy.getInstance());
+		factory = new PodamFactoryImpl(strategy);
 
 	}
 
@@ -201,7 +205,7 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The Object field cannot be null", objectField);
 
 		Calendar calendarField = pojo.getCalendarField();
-		this.checkCalendarIsValid(calendarField);
+		checkCalendarIsValid(calendarField);
 
 		Date dateField = pojo.getDateField();
 		Assert.assertNotNull("The date field is not valid", dateField);
@@ -210,15 +214,16 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The array of Random objects cannot be null!",
 				randomArray);
 		Assert.assertTrue("The array of Random length should be one!",
-				randomArray.length == 1);
+				randomArray.length == strategy.getNumberOfCollectionElements());
 		Random random = randomArray[0];
 		Assert.assertNotNull(
 				"The Random array element at [0] should not be null", random);
 
 		int[] intArray = pojo.getIntArray();
 		Assert.assertNotNull("The array of ints cannot be null!", intArray);
-		Assert.assertTrue("The array of ints length should be one!",
-				intArray.length == 1);
+		Assert.assertTrue(
+				"The array of ints length should be the same as defined in the strategy!",
+				intArray.length == strategy.getNumberOfCollectionElements());
 		Assert.assertTrue(
 				"The first element in the array of ints must be different from zero!",
 				intArray[0] != 0);
@@ -226,8 +231,9 @@ public class PodamMockerUnitTest {
 		boolean[] booleanArray = pojo.getBooleanArray();
 		Assert.assertNotNull("The array of booleans cannot be null!",
 				booleanArray);
-		Assert.assertTrue("The array of boolean length should be one!",
-				booleanArray.length == 1);
+		Assert.assertTrue(
+				"The array of boolean length should be the same as the one set in the strategy!",
+				booleanArray.length == strategy.getNumberOfCollectionElements());
 
 		BigDecimal bigDecimalField = pojo.getBigDecimalField();
 		Assert.assertNotNull("The BigDecimal field cannot be null!",
@@ -296,7 +302,7 @@ public class PodamMockerUnitTest {
 		long[] longArray = pojo.getLongArray();
 		Assert.assertNotNull("The array of longs cannot be null!", longArray);
 		Assert.assertTrue("The array of longs must have 1 element!",
-				longArray.length == 1);
+				longArray.length == strategy.getNumberOfCollectionElements());
 
 	}
 
@@ -486,7 +492,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue("The super int field must be <= 10",
 				parentIntField <= 10);
 		Calendar parentCalendarField = pojo.getParentCalendarField();
-		this.checkCalendarIsValid(parentCalendarField);
+		checkCalendarIsValid(parentCalendarField);
 		int intField = pojo.getIntField();
 		Assert.assertTrue("The int field must be different from zero!",
 				intField != 0);
@@ -503,31 +509,31 @@ public class PodamMockerUnitTest {
 		CollectionsPojo pojo = factory.manufacturePojo(CollectionsPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		List<String> strList = pojo.getStrList();
-		this.validateReturnedList(strList);
+		validateReturnedList(strList);
 		ArrayList<String> arrayListStr = pojo.getArrayListStr();
-		this.validateReturnedList(arrayListStr);
+		validateReturnedList(arrayListStr);
 		List<String> copyOnWriteList = pojo.getCopyOnWriteList();
-		this.validateReturnedList(copyOnWriteList);
+		validateReturnedList(copyOnWriteList);
 		HashSet<String> hashSetStr = pojo.getHashSetStr();
-		this.validateReturnedSet(hashSetStr);
+		validateReturnedSet(hashSetStr);
 		List<String> listStrCollection = new ArrayList<String>(
 				pojo.getStrCollection());
-		this.validateReturnedList(listStrCollection);
+		validateReturnedList(listStrCollection);
 		Set<String> setStrCollection = new HashSet<String>(
 				pojo.getStrCollection());
-		this.validateReturnedSet(setStrCollection);
+		validateReturnedSet(setStrCollection);
 		Set<String> strSet = pojo.getStrSet();
-		this.validateReturnedSet(strSet);
+		validateReturnedSet(strSet);
 		Map<String, OneDimensionalTestPojo> map = pojo.getMap();
-		this.validateHashMap(map);
+		validateHashMap(map);
 		HashMap<String, OneDimensionalTestPojo> hashMap = pojo.getHashMap();
-		this.validateHashMap(hashMap);
+		validateHashMap(hashMap);
 		ConcurrentMap<String, OneDimensionalTestPojo> concurrentHashMap = pojo
 				.getConcurrentHashMap();
-		this.validateConcurrentHashMap(concurrentHashMap);
+		validateConcurrentHashMap(concurrentHashMap);
 		ConcurrentHashMap<String, OneDimensionalTestPojo> concurrentHashMapImpl = pojo
 				.getConcurrentHashMapImpl();
-		this.validateConcurrentHashMap(concurrentHashMapImpl);
+		validateConcurrentHashMap(concurrentHashMapImpl);
 		Queue<SimplePojoToTestSetters> queue = pojo.getQueue();
 		Assert.assertNotNull("The queue cannot be null!", queue);
 		Assert.assertTrue("The queue must be an instance of LinkedList",
@@ -1368,7 +1374,7 @@ public class PodamMockerUnitTest {
 		Set<String> keySet = map.keySet();
 		Assert.assertNotNull("The Map must have at least one element", keySet);
 
-		this.validateMapElement(map, keySet);
+		validateMapElement(map, keySet);
 	}
 
 	/**
@@ -1386,7 +1392,7 @@ public class PodamMockerUnitTest {
 		Set<String> keySet = map.keySet();
 		Assert.assertNotNull("The Map must have at least one element", keySet);
 
-		this.validateMapElement(map, keySet);
+		validateMapElement(map, keySet);
 	}
 
 	/**
