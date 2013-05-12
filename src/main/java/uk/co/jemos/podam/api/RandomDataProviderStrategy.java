@@ -52,7 +52,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
 	/** The default number of collection elements for this strategy */
-	private static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
+	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
@@ -81,6 +81,23 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	public static RandomDataProviderStrategy getInstance() {
 		return SINGLETON;
+	}
+
+	/**
+	 * Other factory method which assigns a default number of collection
+	 * elements before returning the singleton.
+	 * 
+	 * @param nbrCollectionElements
+	 *            The number of collection elements
+	 * @return The Singleton, set with the number of collection elements set as
+	 *         parameter
+	 */
+	public static RandomDataProviderStrategy getInstance(
+			int nbrCollectionElements) {
+
+		SINGLETON.setNumberOfCollectionElements(nbrCollectionElements);
+		return SINGLETON;
+
 	}
 
 	/**
