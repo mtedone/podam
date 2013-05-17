@@ -14,6 +14,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1963,6 +1964,19 @@ public class PodamFactoryImpl implements PodamFactory {
 					ParameterizedType pType = (ParameterizedType) actualTypeArgument;
 					typeClass = (Class<?>) pType.getRawType();
 					elementGenericTypeArgs = pType.getActualTypeArguments();
+				} else if (actualTypeArgument instanceof WildcardType) {
+					WildcardType wType = (WildcardType) actualTypeArgument;
+					Type[] lowerBounds = wType.getLowerBounds();
+					Type[] upperBounds = wType.getUpperBounds();
+					if (lowerBounds != null && lowerBounds.length > 0) {
+						LOG.debug(Arrays.toString(lowerBounds));
+					}
+					if (upperBounds != null && upperBounds.length > 0) {
+						String upperBoundStr = upperBounds[0].toString();
+						LOG.debug("Upper bound: " + upperBoundStr);
+						String[] boundTokens = upperBoundStr.split(" ");
+						typeClass = Class.forName(boundTokens[1]);
+					}
 				} else {
 
 					// Assume the type is actually a class
