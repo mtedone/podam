@@ -1977,10 +1977,13 @@ public class PodamFactoryImpl implements PodamFactory {
 						String[] boundTokens = upperBoundStr.split(" ");
 						typeClass = Class.forName(boundTokens[1]);
 					}
-				} else {
-
-					// Assume the type is actually a class
+				} else if (actualTypeArgument instanceof Class) {
 					typeClass = (Class<?>) actualTypeArgument;
+				} else {
+					LOG.warn("Unrecognized argument type"
+						+ actualTypeArgument.getClass().getSimpleName()
+						+ ". Will use Object intead");
+					typeClass = Object.class;
 				}
 			}
 
