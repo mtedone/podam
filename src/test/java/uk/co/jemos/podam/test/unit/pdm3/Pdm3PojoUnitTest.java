@@ -3,8 +3,6 @@
  */
 package uk.co.jemos.podam.test.unit.pdm3;
 
-import java.util.Collection;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -26,9 +24,10 @@ public class Pdm3PojoUnitTest {
 		PodamFactory factory = new PodamFactoryImpl();
 		Pdm3Pojo pojo = factory.manufacturePojo(Pdm3Pojo.class);
 		Assert.assertNotNull(pojo);
-		assertCollection(pojo.getSomething());
-		assertCollection(pojo.getDescendants());
-		assertCollection(pojo.getAncestors());
+		Assert.assertNotNull("The collection element should not be null!",
+				pojo.getObjs());
+		Assert.assertFalse("The collection attribute should not be empty", pojo
+				.getObjs().isEmpty());
 
 	}
 
@@ -42,15 +41,6 @@ public class Pdm3PojoUnitTest {
 				pojo.getObjs());
 		Assert.assertFalse("The collection attribute should not be empty", pojo
 				.getObjs().isEmpty());
-
-	}
-
-	private void assertCollection(Collection<?> collection) {
-
-		Assert.assertNotNull("The collection element should not be null!",
-				collection);
-		Assert.assertFalse("The collection attribute should not be empty",
-				collection.isEmpty());
 
 	}
 
