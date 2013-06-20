@@ -10,18 +10,40 @@ import java.util.List;
  */
 public class Pdm3Pojo {
 
-	private List<? extends Object> objs;
+	private List<?> something;
 
-	public List<? extends Object> getObjs() {
-		return objs;
+	private List<? extends Object> descendants;
+
+	private List<? super String> ancestors;
+
+	public List<?> getSomething() {
+		return something;
 	}
 
-	public void setObjs(List<? extends Object> objs) {
-		this.objs = objs;
+	public void setSomething(List<?> something) {
+		this.something = something;
+	}
+
+	public List<? extends Object> getDescendants() {
+		return descendants;
+	}
+
+	public void setDescendants(List<? extends Object> descendants) {
+		this.descendants = descendants;
+	}
+
+	public List<? super String> getAncestors() {
+		return ancestors;
+	}
+
+	public void setAncestors(List<? super String> ancestors) {
+		this.ancestors = ancestors;
 	}
 
 	@Override
 	public String toString() {
-		return "{objs: '" + objs + "'}";
+		return String.format(
+				"{something: '%s'} {descendants: '%s'} {ancestors: '%s'}",
+				something, descendants, ancestors);
 	}
 }

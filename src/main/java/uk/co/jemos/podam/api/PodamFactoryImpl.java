@@ -1967,22 +1967,29 @@ public class PodamFactoryImpl implements PodamFactory {
 				} else if (actualTypeArgument instanceof WildcardType) {
 					WildcardType wType = (WildcardType) actualTypeArgument;
 					Type[] lowerBounds = wType.getLowerBounds();
-					Type[] upperBounds = wType.getUpperBounds();
 					if (lowerBounds != null && lowerBounds.length > 0) {
-						LOG.debug(Arrays.toString(lowerBounds));
-					}
-					if (upperBounds != null && upperBounds.length > 0) {
-						String upperBoundStr = upperBounds[0].toString();
-						LOG.debug("Upper bound: " + upperBoundStr);
-						String[] boundTokens = upperBoundStr.split(" ");
-						typeClass = Class.forName(boundTokens[1]);
+						LOG.debug("Lower bounds:"
+								+ Arrays.toString(lowerBounds));
+						typeClass = (Class<?>) lowerBounds[0];
+					} else {
+						Type[] upperBounds = wType.getUpperBounds();
+						if (upperBounds != null && upperBounds.length > 0) {
+							LOG.debug("Upper bounds:"
+									+ Arrays.toString(upperBounds));
+							typeClass = (Class<?>) upperBounds[0];
+						} else {
+							LOG.warn("Unrecognized argument type"
+									+ wType.toString()
+									+ ". Will use Object intead");
+							typeClass = Object.class;
+						}
 					}
 				} else if (actualTypeArgument instanceof Class) {
 					typeClass = (Class<?>) actualTypeArgument;
 				} else {
 					LOG.warn("Unrecognized argument type"
-						+ actualTypeArgument.getClass().getSimpleName()
-						+ ". Will use Object intead");
+							+ actualTypeArgument.getClass().getSimpleName()
+							+ ". Will use Object intead");
 					typeClass = Object.class;
 				}
 			}
