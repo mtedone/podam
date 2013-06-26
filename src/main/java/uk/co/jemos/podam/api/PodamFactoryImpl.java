@@ -29,6 +29,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
@@ -230,20 +231,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					for (Type paramType : parameterTypes) {
 
-						Class<?> parameterType;
-						Type[] methodGenericTypeArgs = new Type[] {};
-						if (paramType instanceof ParameterizedType) {
-							ParameterizedType pType = (ParameterizedType) paramType;
-							parameterType = (Class<?>) pType.getRawType();
-							methodGenericTypeArgs = pType
-									.getActualTypeArguments();
-						} else if (paramType instanceof TypeVariable<?>) {
-							parameterType = (Class<?>) typeArgsMap
-									.get(((TypeVariable<?>) paramType)
-											.getName());
-						} else {
-							parameterType = (Class<?>) paramType;
-						}
+						AtomicReference<Type[]> methodGenericTypeArgs = new AtomicReference<Type[]>();
+						Class<?> parameterType = resolveGenericParameter(paramType,
+								typeArgsMap, methodGenericTypeArgs);
 
 						List<Annotation> annotations = Arrays
 								.asList(parameterAnnotations[idx]);
@@ -256,7 +246,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 							Class<?> elementType;
 							if (paramType instanceof ParameterizedType) {
-								elementType = (Class<?>) methodGenericTypeArgs[0];
+								elementType = (Class<?>) methodGenericTypeArgs.get()[0];
 							} else {
 								elementType = Object.class;
 							}
@@ -292,8 +282,8 @@ public class PodamFactoryImpl implements PodamFactory {
 							Class<?> keyClass;
 							Class<?> valueClass;
 							if (paramType instanceof ParameterizedType) {
-								keyClass = (Class<?>) methodGenericTypeArgs[0];
-								valueClass = (Class<?>) methodGenericTypeArgs[1];
+								keyClass = (Class<?>) methodGenericTypeArgs.get()[0];
+								valueClass = (Class<?>) methodGenericTypeArgs.get()[1];
 							} else {
 								keyClass = Object.class;
 								valueClass = Object.class;
@@ -406,6 +396,63 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
+	}
+
+	/**
+	 * It resolves generic parameter type
+	 * 
+	 * 
+	 * @param paramType
+	 *            The generic parameter type
+	 * @param typeArgsMap
+	 *            A map of resolved types
+	 * @param methodGenericTypeArgs
+	 *            Return value posible generic types of the generic parameter type
+	 * @return value for class representing the generic parameter type
+	 */
+	private Class<?> resolveGenericParameter(Type paramType, Map<String, Type> typeArgsMap,
+			AtomicReference<Type[]> methodGenericTypeArgs) {
+
+		Class<?> parameterType;
+		methodGenericTypeArgs.set(new Type[] {});
+		if (paramType instanceof TypeVariable<?>) {
+			final String typeName = ((TypeVariable<?>) paramType).getName();
+			final Type type = typeArgsMap.get(typeName);
+			parameterType = resolveGenericParameter(type, typeArgsMap,
+					methodGenericTypeArgs);
+		} else if (paramType instanceof ParameterizedType) {
+			ParameterizedType pType = (ParameterizedType) paramType;
+			parameterType = (Class<?>) pType.getRawType();
+			methodGenericTypeArgs.set(pType.getActualTypeArguments());
+		} else if (paramType instanceof WildcardType) {
+			WildcardType wType = (WildcardType) paramType;
+			Type[] lowerBounds = wType.getLowerBounds();
+			if (lowerBounds != null && lowerBounds.length > 0) {
+				LOG.debug("Lower bounds:"
+						+ Arrays.toString(lowerBounds));
+				parameterType = (Class<?>) lowerBounds[0];
+			} else {
+				Type[] upperBounds = wType.getUpperBounds();
+				if (upperBounds != null && upperBounds.length > 0) {
+					LOG.debug("Upper bounds:"
+							+ Arrays.toString(upperBounds));
+					parameterType = (Class<?>) upperBounds[0];
+				} else {
+					LOG.warn("Unrecognized argument type"
+							+ wType.toString()
+							+ ". Will use Object intead");
+					parameterType = Object.class;
+				}
+			}
+		} else if (paramType instanceof Class) {
+			parameterType = (Class<?>) paramType;
+		} else {
+			LOG.warn("Unrecognized argument type"
+					+ paramType.getClass().getSimpleName()
+					+ ". Will use Object intead");
+			parameterType = Object.class;
+		}
+		return parameterType;
 	}
 
 	/**
@@ -1933,7 +1980,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Class<?> typeClass = null;
 
-			Type[] elementGenericTypeArgs = new Type[] {};
+			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(new Type[] {});
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
 				LOG.warn("The collection attribute: "
@@ -1945,57 +1992,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 				Type actualTypeArgument = genericTypeArgs[0];
 
-				if (actualTypeArgument instanceof TypeVariable<?>) {
-					// If the Collection is of a generic type get
-					// the type from the type arguments map
-					final String typeName = ((TypeVariable<?>) actualTypeArgument)
-							.getName();
-
-					final Type type = typeArgsMap.get(typeName);
-					if (type instanceof ParameterizedType) {
-						final ParameterizedType pType = (ParameterizedType) type;
-						typeClass = (Class<?>) pType.getRawType();
-						elementGenericTypeArgs = pType.getActualTypeArguments();
-					} else {
-						typeClass = (Class<?>) typeArgsMap.get(typeName);
-					}
-
-				} else if (actualTypeArgument instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) actualTypeArgument;
-					typeClass = (Class<?>) pType.getRawType();
-					elementGenericTypeArgs = pType.getActualTypeArguments();
-				} else if (actualTypeArgument instanceof WildcardType) {
-					WildcardType wType = (WildcardType) actualTypeArgument;
-					Type[] lowerBounds = wType.getLowerBounds();
-					if (lowerBounds != null && lowerBounds.length > 0) {
-						LOG.debug("Lower bounds:"
-								+ Arrays.toString(lowerBounds));
-						typeClass = (Class<?>) lowerBounds[0];
-					} else {
-						Type[] upperBounds = wType.getUpperBounds();
-						if (upperBounds != null && upperBounds.length > 0) {
-							LOG.debug("Upper bounds:"
-									+ Arrays.toString(upperBounds));
-							typeClass = (Class<?>) upperBounds[0];
-						} else {
-							LOG.warn("Unrecognized argument type"
-									+ wType.toString()
-									+ ". Will use Object intead");
-							typeClass = Object.class;
-						}
-					}
-				} else if (actualTypeArgument instanceof Class) {
-					typeClass = (Class<?>) actualTypeArgument;
-				} else {
-					LOG.warn("Unrecognized argument type"
-							+ actualTypeArgument.getClass().getSimpleName()
-							+ ". Will use Object intead");
-					typeClass = Object.class;
-				}
+				typeClass = resolveGenericParameter(actualTypeArgument,
+						typeArgsMap, elementGenericTypeArgs);
 			}
 
 			fillCollection(pojoClass, attributeName, annotations, retValue,
-					typeClass, elementGenericTypeArgs);
+					typeClass, elementGenericTypeArgs.get());
 
 		} catch (SecurityException e) {
 			throw new PodamMockeryException(
@@ -2481,8 +2483,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			ClassNotFoundException {
 
 		Class<?> componentType = attributeType.getComponentType();
-
-		Type[] genericTypeArgs = new Type[] {};
+		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(new Type[] {});
 		if (null != attributeName) {
 			try {
 				final Type genericType = pojoClass.getDeclaredField(
@@ -2493,13 +2494,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					if (type instanceof TypeVariable<?>) {
 						final Type typeVarType = typeArgsMap
 								.get(((TypeVariable<?>) type).getName());
-						if (typeVarType instanceof ParameterizedType) {
-							final ParameterizedType pType = (ParameterizedType) typeVarType;
-							componentType = (Class<?>) pType.getRawType();
-							genericTypeArgs = pType.getActualTypeArguments();
-						} else {
-							componentType = (Class<?>) typeVarType;
-						}
+						componentType = resolveGenericParameter(typeVarType,
+								typeArgsMap, genericTypeArgs);
 					}
 				}
 			} catch (NoSuchFieldException e) {
@@ -2556,7 +2552,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				arrayElement = manufactureAttributeValue(pojoClass,
 						componentType, annotations, attributeName, typeArgsMap,
-						genericTypeArgs);
+						genericTypeArgs.get());
 
 			}
 
