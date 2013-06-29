@@ -2708,37 +2708,22 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					Type type = constructor.getGenericParameterTypes()[idx];
 					Class<?> collectionElementType;
-					Type[] collectionGenericTypeArgs = new Type[] {};
+					AtomicReference<Type[]> collectionGenericTypeArgs =
+						new AtomicReference<Type[]>(new Type[] {});
 					if (type instanceof ParameterizedType) {
 						ParameterizedType pType = (ParameterizedType) type;
 						Type actualTypeArgument = pType
 								.getActualTypeArguments()[0];
 
-						if (actualTypeArgument instanceof TypeVariable<?>) {
-							// If the Map key is of a generic type get
-							// the type from the type arguments map
-							final String typeName = ((TypeVariable<?>) actualTypeArgument)
-									.getName();
-							collectionElementType = (Class<?>) typeArgsMap
-									.get(typeName);
-
-						} else if (actualTypeArgument instanceof ParameterizedType) {
-							pType = (ParameterizedType) actualTypeArgument;
-							collectionElementType = (Class<?>) pType
-									.getRawType();
-							collectionGenericTypeArgs = pType
-									.getActualTypeArguments();
-						} else {
-							// Assume the type is actually a class
-							collectionElementType = (Class<?>) actualTypeArgument;
-						}
+						collectionElementType = resolveGenericParameter(actualTypeArgument,
+							typeArgsMap, collectionGenericTypeArgs);
 					} else {
 						collectionElementType = Object.class;
 					}
 
 					fillCollection(pojoClass, attributeName, annotations,
 							collection, collectionElementType,
-							collectionGenericTypeArgs);
+							collectionGenericTypeArgs.get());
 
 					parameterValues[idx] = collection;
 
@@ -2750,55 +2735,27 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					Class<?> keyClass;
 					Class<?> elementClass;
-					Type[] keyGenericTypeArgs = new Type[] {};
-					Type[] elementGenericTypeArgs = new Type[] {};
+					AtomicReference<Type[]> keyGenericTypeArgs =
+						new AtomicReference<Type[]>(new Type[] {});
+					AtomicReference<Type[]> elementGenericTypeArgs =
+						new AtomicReference<Type[]>(new Type[] {});
 					if (type instanceof ParameterizedType) {
 						ParameterizedType pType = (ParameterizedType) type;
 						Type[] actualTypeArguments = pType
 								.getActualTypeArguments();
 
-						if (actualTypeArguments[0] instanceof TypeVariable<?>) {
-							// If the Map key is of a generic type get
-							// the type from the type arguments map
-							final String typeName = ((TypeVariable<?>) actualTypeArguments[0])
-									.getName();
-							keyClass = (Class<?>) typeArgsMap.get(typeName);
-
-						} else if (actualTypeArguments[0] instanceof ParameterizedType) {
-							pType = (ParameterizedType) actualTypeArguments[0];
-							keyClass = (Class<?>) pType.getRawType();
-							keyGenericTypeArgs = pType.getActualTypeArguments();
-						} else {
-
-							// Assume the type is actually a class
-							keyClass = (Class<?>) actualTypeArguments[0];
-						}
-
-						if (actualTypeArguments[1] instanceof TypeVariable<?>) {
-							// If the Map key is of a generic type get
-							// the type from the type arguments map
-							final String typeName = ((TypeVariable<?>) actualTypeArguments[1])
-									.getName();
-							elementClass = (Class<?>) typeArgsMap.get(typeName);
-
-						} else if (actualTypeArguments[1] instanceof ParameterizedType) {
-							pType = (ParameterizedType) actualTypeArguments[1];
-							elementClass = (Class<?>) pType.getRawType();
-							elementGenericTypeArgs = pType
-									.getActualTypeArguments();
-						} else {
-
-							// Assume the type is actually a class
-							elementClass = (Class<?>) actualTypeArguments[1];
-						}
+						keyClass = resolveGenericParameter(actualTypeArguments[0],
+							typeArgsMap, keyGenericTypeArgs);
+						elementClass = resolveGenericParameter(actualTypeArguments[1],
+							typeArgsMap, elementGenericTypeArgs);
 					} else {
 						keyClass = Object.class;
 						elementClass = Object.class;
 					}
 
 					fillMap(pojoClass, attributeName, annotations, mapType,
-							keyClass, elementClass, keyGenericTypeArgs,
-							elementGenericTypeArgs);
+							keyClass, elementClass, keyGenericTypeArgs.get(),
+							elementGenericTypeArgs.get());
 
 					parameterValues[idx] = mapType;
 
