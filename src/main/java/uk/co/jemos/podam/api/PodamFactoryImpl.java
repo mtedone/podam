@@ -2202,8 +2202,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Class<?> elementClass = null;
 
-			Type[] keyGenericTypeArgs = new Type[] {};
-			Type[] elementGenericTypeArgs = new Type[] {};
+			AtomicReference<Type[]> keyGenericTypeArgs =
+				new AtomicReference<Type[]>(new Type[] {});
+			AtomicReference<Type[]> elementGenericTypeArgs =
+				new AtomicReference<Type[]>(new Type[] {});
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
 				LOG.warn("Map attribute: "
@@ -2216,65 +2218,21 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				Type[] actualTypeArguments = genericTypeArgs;
-
 				// Expected only key, value type
-				if (actualTypeArguments.length != 2) {
+				if (genericTypeArgs.length != 2) {
 					throw new IllegalStateException(
 							"In a Map only key value generic type are expected.");
 				}
 
-				if (actualTypeArguments[0] instanceof TypeVariable<?>) {
-					// If the Map key is of a generic type get
-					// the type from the type arguments map
-					final String typeName = ((TypeVariable<?>) actualTypeArguments[0])
-							.getName();
-					final Type keyType = typeArgsMap.get(typeName);
-					if (keyType instanceof ParameterizedType) {
-						final ParameterizedType pType = (ParameterizedType) keyType;
-						keyClass = (Class<?>) pType.getRawType();
-						keyGenericTypeArgs = pType.getActualTypeArguments();
-					} else {
-						keyClass = (Class<?>) keyType;
-					}
-
-				} else if (actualTypeArguments[0] instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) actualTypeArguments[0];
-					keyClass = (Class<?>) pType.getRawType();
-					keyGenericTypeArgs = pType.getActualTypeArguments();
-				} else {
-
-					// Assume the type is actually a class
-					keyClass = (Class<?>) actualTypeArguments[0];
-				}
-
-				if (actualTypeArguments[1] instanceof TypeVariable<?>) {
-					// If the Map key is of a generic type get
-					// the type from the type arguments map
-					final String typeName = ((TypeVariable<?>) actualTypeArguments[1])
-							.getName();
-					final Type elementType = typeArgsMap.get(typeName);
-					if (elementType instanceof ParameterizedType) {
-						final ParameterizedType pType = (ParameterizedType) elementType;
-						elementClass = (Class<?>) pType.getRawType();
-						elementGenericTypeArgs = pType.getActualTypeArguments();
-					} else {
-						elementClass = (Class<?>) elementType;
-					}
-
-				} else if (actualTypeArguments[1] instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) actualTypeArguments[1];
-					elementClass = (Class<?>) pType.getRawType();
-					elementGenericTypeArgs = pType.getActualTypeArguments();
-				} else {
-
-					// Assume the type is actually a class
-					elementClass = (Class<?>) actualTypeArguments[1];
-				}
+				Type[] actualTypeArguments = genericTypeArgs;
+				keyClass = resolveGenericParameter(actualTypeArguments[0],
+					typeArgsMap, keyGenericTypeArgs);
+				elementClass = resolveGenericParameter(actualTypeArguments[1],
+					typeArgsMap, elementGenericTypeArgs);
 			}
 
 			fillMap(pojoClass, attributeName, annotations, retValue, keyClass,
-					elementClass, keyGenericTypeArgs, elementGenericTypeArgs);
+					elementClass, keyGenericTypeArgs.get(), elementGenericTypeArgs.get());
 
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(
