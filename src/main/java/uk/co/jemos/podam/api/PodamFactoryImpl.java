@@ -78,6 +78,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * </p>
 	 */
 	private final DataProviderStrategy strategy;
+	
+	private List<Class<? extends Annotation>> excludeAnnotations;
 
 	// ------------------->> Constructors
 
@@ -1294,7 +1296,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				return null;
 			}
 
-			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass);
+			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass, excludeAnnotations);
 
 			if (classInfo.getClassSetters().isEmpty()) {
 
@@ -2928,6 +2930,21 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
+	}
+
+	/**
+	 * @return the excludeAnnotations
+	 */
+	public List<Class<? extends Annotation>> getExcludeAnnotations() {
+		return excludeAnnotations;
+	}
+
+	/**
+	 * @param excludeAnnotations the excludeAnnotations to set
+	 */
+	public void setExcludeAnnotations(
+			List<Class<? extends Annotation>> excludeAnnotations) {
+		this.excludeAnnotations = excludeAnnotations;
 	}
 
 	// ------------------->> equals() / hashcode() / toString()
