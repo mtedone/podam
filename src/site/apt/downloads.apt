@@ -1,26 +1,4 @@
 Podam Downloads
 
-  All code, including the latest development SNAPSHOT, can be downloaded from {{{https://github.com/mtedone/podam} GitHub}}
+  Podam can be downloaded from {{{http://mvnrepository.com/artifact/uk.co.jemos.podam/podam} Maven Central}}
   
-* Latest release - 3.0.2.RELEASE - 24th June 2012
-
-  Release theme: This is a minor release which updates few dependency versions  
-
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries zip | {{{./downloads/podam-3.0.2.RELEASE-bin.zip} podam-3.0.2.RELEASE-bin.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries tag.gz | {{{./downloads/podam-3.0.2.RELEASE-bin.tar.gz} podam-3.0.2.RELEASE-bin.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Binaries bz2 | {{{./downloads/podam-3.0.2.RELEASE-bin.bz2}podam-3.0.2.RELEASE-bin.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project zip | {{{./downloads/podam-3.0.2.RELEASE-project.zip} podam-3.0.2.RELEASE-project.zip}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project tag.gz | {{{./downloads/podam-3.0.2.RELEASE-project.tar.gz} podam-3.0.2.RELEASE-project.tar.gz}} |
-*----------------+-------------------------------------------------------------------------------------------------------+
-| Project bz2 | {{{./downloads/podam-3.0.2.RELEASE-project.bz2}podam-3.0.2.RELEASE-project.bz2}} |
-*----------------+-------------------------------------------------------------------------------------------------------+   
-     
-  
-* Download older releases
-
-  {{{./downloads/} For older releases click here}}
