@@ -11,7 +11,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>3.0.5-SNAPSHOT</version>
+	<version>3.0.6-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
@@ -21,7 +21,7 @@
 
 	<issueManagement>
 		<system>JIRA</system>
-		<url>http://www.jemos.eu/jira</url>
+		<url>https://agileguru.atlassian.net</url>
 	</issueManagement>
 
 	<ciManagement>
@@ -76,6 +76,20 @@
 	      <role>Developer</role>
 	    </roles>
 	    <timezone>UTC-4</timezone>
+	  </contributor>
+	  <contributor>
+	    <name>Daniil Ivanov</name>
+	    <email>daniil.ivanov@gmail.com</email>
+	    <roles>
+	      <role>Developer</role>
+	    </roles>	    
+	  </contributor>	
+	  	  <contributor>
+	    <name>Ganesh Subramanian</name>
+	    <email>tbd@somedomain.com</email>
+	    <roles>
+	      <role>Developer</role>
+	    </roles>	    
 	  </contributor>	  
 	</contributors>
 
