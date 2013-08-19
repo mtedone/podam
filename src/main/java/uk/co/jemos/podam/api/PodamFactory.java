@@ -47,5 +47,12 @@ public interface PodamFactory {
 	 * @return the strategy
 	 */
 	public DataProviderStrategy getStrategy();
+	
+	/**
+	 * Registers the listener with this factory
+	 * 
+	 * @param listener
+	 */
+	void registerListener(PodamFactoryListener listener);
 
 }
