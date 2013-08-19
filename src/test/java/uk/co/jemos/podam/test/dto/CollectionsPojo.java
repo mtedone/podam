@@ -44,6 +44,9 @@ public class CollectionsPojo {
 
 	/** A collection of Strings */
 	private Collection<String> strCollection = new ArrayList<String>();
+	
+	/** A collection of pojos */
+	private Collection<OneDimensionalTestPojo> pojoCollection = new ArrayList<OneDimensionalTestPojo>();
 
 	/** A Map of Strings vs Pojos */
 	private Map<String, OneDimensionalTestPojo> map = new HashMap<String, OneDimensionalTestPojo>();
@@ -271,6 +274,20 @@ public class CollectionsPojo {
 	 */
 	public void setNonGenerifiedMap(Map nonGenerifiedMap) {
 		this.nonGenerifiedMap = nonGenerifiedMap;
+	}
+
+	/**
+	 * @return the pojoCollection
+	 */
+	public Collection<OneDimensionalTestPojo> getPojoCollection() {
+		return pojoCollection;
+	}
+
+	/**
+	 * @param pojoCollection the pojoCollection to set
+	 */
+	public void setPojoCollection(Collection<OneDimensionalTestPojo> pojoCollection) {
+		this.pojoCollection = pojoCollection;
 	}
 
 	// ------------------->> Inner classes
