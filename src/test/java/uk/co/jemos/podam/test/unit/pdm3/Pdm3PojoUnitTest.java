@@ -5,13 +5,14 @@ package uk.co.jemos.podam.test.unit.pdm3;
 
 import java.util.Collection;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
+import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
 
 /**
  * @author tedonema
@@ -24,7 +25,18 @@ public class Pdm3PojoUnitTest {
 
 		PodamFactory factory = new PodamFactoryImpl();
 		Pdm3Pojo pojo = factory.manufacturePojo(Pdm3Pojo.class);
-		Assert.assertNotNull(pojo);
+		assertNotNull(pojo);
+		assertCollection(pojo.getSomething());
+		assertCollection(pojo.getDescendants());
+		assertCollection(pojo.getAncestors());
+	}
+
+	@Test
+	public void testPdm3PojoGenericsConstructor() {
+
+		PodamFactory factory = new PodamFactoryImpl();
+		Pdm3PojoGenericsConstructor pojo = factory.manufacturePojo(Pdm3PojoGenericsConstructor.class);
+		assertNotNull(pojo);
 		assertCollection(pojo.getSomething());
 		assertCollection(pojo.getDescendants());
 		assertCollection(pojo.getAncestors());
@@ -32,11 +44,10 @@ public class Pdm3PojoUnitTest {
 
 	private void assertCollection(Collection<?> collection) {
 
-		Assert.assertNotNull("The collection element should not be null!",
+		assertNotNull("The collection element should not be null!",
 				collection);
-		Assert.assertFalse("The collection attribute should not be empty",
+		assertFalse("The collection attribute should not be empty",
 				collection.isEmpty());
 
 	}
-
 }
