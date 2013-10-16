@@ -428,22 +428,23 @@ public class PodamFactoryImpl implements PodamFactory {
 			methodGenericTypeArgs.set(pType.getActualTypeArguments());
 		} else if (paramType instanceof WildcardType) {
 			WildcardType wType = (WildcardType) paramType;
-			Type[] bounds = wType.getLowerBounds();
-			String msg;
-			if (bounds != null && bounds.length > 0) {
-				msg = "Lower bounds:";
+			Type[] lowerBounds = wType.getLowerBounds();
+			if (lowerBounds != null && lowerBounds.length > 0) {
+				LOG.debug("Lower bounds:"
+						+ Arrays.toString(lowerBounds));
+				parameterType = (Class<?>) lowerBounds[0];
 			} else {
-				bounds = wType.getUpperBounds();
-				msg = "Upper bounds:";
-			}
-			if (bounds != null && bounds.length > 0) {
-				LOG.debug(msg + Arrays.toString(bounds));
-				parameterType = resolveGenericParameter(bounds[0], typeArgsMap,
-					methodGenericTypeArgs);
-			} else {
-				LOG.warn("Unrecognized argument type" + wType.toString()
-					+ ". Will use Object intead");
-				parameterType = Object.class;
+				Type[] upperBounds = wType.getUpperBounds();
+				if (upperBounds != null && upperBounds.length > 0) {
+					LOG.debug("Upper bounds:"
+							+ Arrays.toString(upperBounds));
+					parameterType = (Class<?>) upperBounds[0];
+				} else {
+					LOG.warn("Unrecognized argument type"
+							+ wType.toString()
+							+ ". Will use Object intead");
+					parameterType = Object.class;
+				}
 			}
 		} else if (paramType instanceof Class) {
 			parameterType = (Class<?>) paramType;
