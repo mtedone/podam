@@ -3,9 +3,7 @@
  */
 package uk.co.jemos.podam.test.unit.pdm3;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -52,15 +50,6 @@ public class Pdm3PojoUnitTest {
 		assertCollection(pojo.getSomething());
 		assertCollection(pojo.getDescendants());
 		assertCollection(pojo.getAncestors());
-	}
-
-	@Test
-	public void testPdm3ListOfGenericPojos() {
-
-		PodamFactory factory = new PodamFactoryImpl();
-		List<Pdm3PojoGenericsConstructor> pojos =
-			factory.manufacturePojo(ArrayList.class, Pdm3PojoGenericsConstructor.class);
-		assertCollection(pojos);
 	}
 
 	private void assertCollection(Collection<?> collection) {
