@@ -44,6 +44,15 @@ public class Pdm3PojoUnitTest {
 	}
 
 	@Test
+	public void testPdm3ListOfPojos() {
+
+		PodamFactory factory = new PodamFactoryImpl();
+		List<Pdm3PojoConstructor> pojos =
+			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class);
+		assertCollection(pojos);
+	}
+
+	@Test
 	public void testPdm3PojoGenericsConstructor() {
 
 		PodamFactory factory = new PodamFactoryImpl();
