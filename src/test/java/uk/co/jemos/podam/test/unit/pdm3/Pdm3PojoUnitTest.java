@@ -14,7 +14,6 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
-import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
 
 /**
@@ -32,15 +31,6 @@ public class Pdm3PojoUnitTest {
 		assertCollection(pojo.getSomething());
 		assertCollection(pojo.getDescendants());
 		assertCollection(pojo.getAncestors());
-	}
-
-	@Test
-	public void testPdm3PojoConstructor() {
-
-		PodamFactory factory = new PodamFactoryImpl();
-		Pdm3PojoConstructor pojo = factory.manufacturePojo(Pdm3PojoConstructor.class, String.class);
-		assertNotNull(pojo);
-		assertNotNull(pojo.getName());
 	}
 
 	@Test
