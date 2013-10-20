@@ -1245,9 +1245,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				try {
 					retValue = (T) constructor.newInstance(parameterValues);
-					LOG.info("We could create an instance with constructor: "
+					if (retValue instanceof Collection && ((Collection)retValue).size() == 0) {
+						LOG.info("We could create an instance with constructor: "
+							+ constructor + ", but collection is empty"
+							+ ". Will try with another one.");
+					} else {
+						LOG.info("We could create an instance with constructor: "
 							+ constructor);
-					break;
+						break;
+					}
 				} catch (Throwable t) {
 					LOG.warn("We couldn't create an instance for pojo: "
 							+ pojoClass + " for constructor: " + constructor
