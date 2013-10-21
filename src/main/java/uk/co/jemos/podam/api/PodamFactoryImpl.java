@@ -126,6 +126,39 @@ public class PodamFactoryImpl implements PodamFactory {
 	// ------------------->> Private methods
 
 	/**
+	 * Fills type agruments map
+	 * <p>
+	 * This method places required and provided types for object creation
+	 * into a map, which will be used for type mapping.
+	 * </p>
+	 * 
+	 * @param typeArgsMap
+	 *            a map to fill
+	 * @param typeParameters
+	 *            Type arguments needed for a generics object creation
+	 * @param genericTypeArgs
+	 *            Type arguments provided for a generics object by caller
+	 * @return Array of unused provided generic type arguments
+	 */
+	private Type[] fillTypeArgMap(
+		final Map<String, Type> typeArgsMap,
+		final TypeVariable<?>[] typeParameters,
+		final Type[] genericTypeArgs) {
+
+		int i;
+		for (i = 0; i < typeParameters.length; i++) {
+			typeArgsMap.put(typeParameters[i].getName(), genericTypeArgs[i]);
+		}
+		Type[] genericTypeArgsExtra;
+		if (typeParameters.length < genericTypeArgs.length) {
+			genericTypeArgsExtra = Arrays.copyOfRange(genericTypeArgs, i, genericTypeArgs.length);
+		} else {
+			genericTypeArgsExtra = null;
+		}
+		return genericTypeArgsExtra;
+	}
+
+	/**
 	 * It attempts to create an instance of the given class
 	 * <p>
 	 * This method attempts to create an instance of the given argument for
@@ -162,17 +195,13 @@ public class PodamFactoryImpl implements PodamFactory {
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
 
-		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
 		if (typeParameters.length > genericTypeArgs.length) {
-			LOG.info("Missing generic type arguments, expected "
+			LOG.info(pojoClass.getCanonicalName()
+					+ " is missing generic type arguments, expected "
 					+ typeParameters.length + " found "
 					+ genericTypeArgs.length + ". Returning null.");
 			return null;
-		}
-
-		for (int i = 0; i < typeParameters.length; i++) {
-			typeArgsMap.put(typeParameters[i].getName(), genericTypeArgs[i]);
 		}
 
 		Object retValue = null;
@@ -180,6 +209,14 @@ public class PodamFactoryImpl implements PodamFactory {
 		Constructor<?>[] constructors = clazz.getConstructors();
 
 		if (constructors.length == 0) {
+
+			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+			Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+				typeParameters, genericTypeArgs);
+			if (genericTypeArgsExtra != null) {
+				LOG.warn(String.format("Lost %d generic type arguments",
+					genericTypeArgsExtra.length));
+			}
 
 			// If no publicly accessible constructors are available,
 			// the best we can do is to find a constructor (e.g.
@@ -1318,19 +1355,14 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs) {
 		try {
 
-			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 			final TypeVariable<?>[] typeParameters = pojoClass
 					.getTypeParameters();
 			if (typeParameters.length > genericTypeArgs.length) {
-				LOG.info("Missing generic type arguments, expected "
+				LOG.info(pojoClass.getCanonicalName()
+						+ " is missing generic type arguments, expected "
 						+ typeParameters.length + " found "
 						+ genericTypeArgs.length + ". Returning null.");
 				return null;
-			}
-
-			for (int i = 0; i < typeParameters.length; i++) {
-				typeArgsMap
-						.put(typeParameters[i].getName(), genericTypeArgs[i]);
 			}
 
 			T retValue = null;
@@ -1491,6 +1523,14 @@ public class PodamFactoryImpl implements PodamFactory {
 							attributeStrategy);
 
 				} else {
+
+					final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+					Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+						typeParameters, genericTypeArgs);
+					if (genericTypeArgsExtra != null) {
+						LOG.warn(String.format("Lost %d generic type arguments",
+							genericTypeArgsExtra.length));
+					}
 
 					if (attributeType.equals(pojoClass)) {
 						if (depth < PodamConstants.MAX_DEPTH) {
@@ -2657,18 +2697,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
 		if (typeParameters.length > genericTypeArgs.length) {
-			LOG.info("Missing generic type arguments, expected "
+			LOG.info(pojoClass.getCanonicalName()
+					+ " is missing generic type arguments, expected "
 					+ typeParameters.length + " found "
 					+ genericTypeArgs.length + ". Returning null.");
 			return null;
 		}
 
-		for (int i = 0; i < typeParameters.length; i++) {
-			typeArgsMap.put(typeParameters[i].getName(), genericTypeArgs[i]);
-		}
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+			typeParameters, genericTypeArgs);
 
 		Annotation[][] parameterAnnotations = constructor
 				.getParameterAnnotations();
@@ -2728,9 +2768,23 @@ public class PodamFactoryImpl implements PodamFactory {
 						collectionElementType = Object.class;
 					}
 
+					Type[] genericTypeArgsAll;
+					if (genericTypeArgsExtra != null) {
+						Type[] genericTypeArgsMain = collectionGenericTypeArgs.get();
+						genericTypeArgsAll = new Type[
+							genericTypeArgsMain.length + genericTypeArgsExtra.length];
+						System.arraycopy(genericTypeArgsMain,
+							0, genericTypeArgsAll, 0,
+							genericTypeArgsMain.length);
+						System.arraycopy(genericTypeArgsExtra,
+							0, genericTypeArgsAll,
+							genericTypeArgsMain.length, genericTypeArgsExtra.length);
+					} else {
+						genericTypeArgsAll = collectionGenericTypeArgs.get();
+					}
 					fillCollection(pojoClass, attributeName, annotations,
 							collection, collectionElementType,
-							collectionGenericTypeArgs.get());
+							genericTypeArgsAll);
 
 					parameterValues[idx] = collection;
 
