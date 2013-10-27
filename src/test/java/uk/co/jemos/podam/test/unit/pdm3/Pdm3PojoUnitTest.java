@@ -81,6 +81,10 @@ public class Pdm3PojoUnitTest {
 		for (Object obj : collection) {
 			assertNotNull("Collection element should not be null",
 				obj);
+			if (obj instanceof Pdm3PojoConstructor) {
+				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)obj;
+				assertNotNull("Element's field should not be empty", pojo.getName());
+			}
 		}
 	}
 }
