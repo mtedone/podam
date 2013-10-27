@@ -1711,69 +1711,77 @@ public class PodamFactoryImpl implements PodamFactory {
 			IllegalArgumentException, ClassNotFoundException {
 		Object attributeValue = null;
 
+		Class<?> realAttributeType;
+		if (genericTypeArgs.length > 0 &&
+			genericTypeArgs[0] instanceof Class &&
+			attributeType.isAssignableFrom((Class)genericTypeArgs[0])) {
+			realAttributeType = (Class)genericTypeArgs[0];
+		} else {
+			realAttributeType = attributeType;
+		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, attributeType, annotations);
+				attributeName, realAttributeType, annotations);
 
-		if (attributeType.isPrimitive()) {
+		if (realAttributeType.isPrimitive()) {
 
-			attributeValue = resolvePrimitiveValue(attributeType, annotations,
+			attributeValue = resolvePrimitiveValue(realAttributeType, annotations,
 					attributeMetadata);
 
-		} else if (isWrapper(attributeType)) {
+		} else if (isWrapper(realAttributeType)) {
 
-			attributeValue = resolveWrapperValue(attributeType, annotations,
+			attributeValue = resolveWrapperValue(realAttributeType, annotations,
 					attributeMetadata);
 
-		} else if (attributeType.equals(String.class)) {
+		} else if (realAttributeType.equals(String.class)) {
 
 			attributeValue = resolveStringValue(annotations, attributeMetadata);
 
 			// Is this an array?
-		} else if (attributeType.getName().startsWith("[")) {
+		} else if (realAttributeType.getName().startsWith("[")) {
 
-			attributeValue = resolveArrayElementValue(attributeType,
+			attributeValue = resolveArrayElementValue(realAttributeType,
 					annotations, pojoClass, attributeName, typeArgsMap);
 
 			// Otherwise it's a different type of Object (including
 			// the Object class)
-		} else if (Collection.class.isAssignableFrom(attributeType)) {
+		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-					pojoClass, attributeType, attributeName, annotations,
+					pojoClass, realAttributeType, attributeName, annotations,
 					typeArgsMap, genericTypeArgs);
 
-		} else if (Map.class.isAssignableFrom(attributeType)) {
+		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
-					attributeType, attributeName, annotations, typeArgsMap,
+					realAttributeType, attributeName, annotations, typeArgsMap,
 					genericTypeArgs);
 
-		} else if (attributeType.getName().startsWith("java.")
-				|| attributeType.getName().startsWith("javax.")) {
+		} else if (realAttributeType.getName().startsWith("java.")
+				|| realAttributeType.getName().startsWith("javax.")) {
 
 			// For classes in the Java namespace we attempt the no-args or the
 			// factory constructor strategy
 
 			attributeValue = createNewInstanceForClassWithoutConstructors(
-					pojoClass, attributeType, genericTypeArgs);
+					pojoClass, realAttributeType, genericTypeArgs);
 
-		} else if (attributeType.isEnum()) {
+		} else if (realAttributeType.isEnum()) {
 
-			int enumConstantsLength = attributeType.getEnumConstants().length;
+			int enumConstantsLength = realAttributeType.getEnumConstants().length;
 
 			if (enumConstantsLength > 0) {
 				int enumIndex = strategy.getIntegerInRange(0,
 						enumConstantsLength, attributeMetadata)
 						% enumConstantsLength;
-				attributeValue = attributeType.getEnumConstants()[enumIndex];
-				// attributeValue = attributeType.getEnumConstants()[0];
+				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
+				// attributeValue = realAttributeType.getEnumConstants()[0];
 			}
 
 		} else {
 
 			// For any class not in the Java namespace, we try the PODAM
 			// strategy
-			attributeValue = this.manufacturePojo(attributeType,
+			attributeValue = this.manufacturePojo(realAttributeType,
 					genericTypeArgs);
 
 		}
