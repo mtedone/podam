@@ -84,6 +84,7 @@ public class Pdm3PojoUnitTest {
 			if (obj instanceof Pdm3PojoConstructor) {
 				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)obj;
 				assertNotNull("Element's field should not be empty", pojo.getName());
+				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
 			}
 		}
 	}
