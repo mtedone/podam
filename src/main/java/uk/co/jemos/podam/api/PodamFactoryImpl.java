@@ -1755,7 +1755,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// factory constructor strategy
 
 			attributeValue = createNewInstanceForClassWithoutConstructors(
-					pojoClass, attributeType);
+					pojoClass, attributeType, genericTypeArgs);
 
 		} else if (attributeType.isEnum()) {
 
@@ -2823,7 +2823,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				} else {
 
 					parameterValues[idx] = manufactureAttributeValue(pojoClass,
-							parameterType, annotations, attributeName);
+							parameterType, annotations, attributeName,
+							genericTypeArgs);
 
 				}
 
