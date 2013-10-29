@@ -18,6 +18,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -160,6 +161,37 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		return genericTypeArgsExtra;
 	}
+
+	/**
+	 * Comparator for sorting constructors.
+	 * <p>
+	 * We would like to have constructor with less parameters to speed up
+	 * creation.
+	 * </p>
+	 */
+	public static Comparator<Constructor<?>> ConstructorComparator
+			= new Comparator<Constructor<?>>() {
+
+		public int compare(
+				Constructor<?> constructor1,
+				Constructor<?> constructor2) {
+
+			/* Constructors with Podam annotation first */
+			boolean choose1 =
+				(constructor1.getAnnotation(PodamConstructor.class) != null);
+			boolean choose2 =
+				(constructor2.getAnnotation(PodamConstructor.class) != null);
+			if (choose1 && !choose2) {
+				return Integer.MIN_VALUE;
+			} else if (!choose1 && choose2) {
+				return Integer.MAX_VALUE;
+			}
+
+			/* Then constructors with less parameters */
+			return constructor1.getParameterTypes().length -
+				constructor2.getParameterTypes().length;
+			}
+	};
 
 	/**
 	 * It attempts to create an instance of the given class
@@ -389,13 +421,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
-			// There are public constructors. We need the no-arg
-			// one for now.
-			boolean resolved = false;
+			// There are public constructors. We want constructor with minumum
+			// number of parameters to speed up the creation
+			Arrays.sort(constructors, ConstructorComparator);
+
 			for (Constructor<?> constructor : constructors) {
-				// if (constructor.getParameterTypes().length != 0) {
-				// continue;
-				// }
 
 				try {
 
@@ -403,8 +433,6 @@ public class PodamFactoryImpl implements PodamFactory {
 							constructor, pojoClass, genericTypeArgs);
 
 					retValue = constructor.newInstance(constructorArgs);
-
-					resolved = true;
 
 					LOG.info("For class: "
 							+ clazz.getName()
@@ -424,10 +452,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			if (!resolved) {
-				LOG.warn("For class: "
-						+ clazz.getName()
-						+ " PODAM could not possibly create a value. This attribute will be returned as null.");
+			if (retValue == null) {
+				LOG.warn("For class: " + clazz.getName()
+						+ " PODAM could not possibly create a value."
+						+ " This attribute will be returned as null.");
 			}
 
 		}
@@ -1225,17 +1253,11 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojoClass, pojoClass);
 		} else {
 
-			// Not terribly efficient but necessary
-			boolean podamConstructorAnnotationFound = checkIfConstructorAnnotationPresent(constructors);
+			// There are public constructors. We want constructor with minumum
+			// number of parameters to speed up the creation
+			Arrays.sort(constructors, ConstructorComparator);
 
 			for (Constructor<?> constructor : constructors) {
-
-				// If we know at least one constructor has been annotated with
-				// PodamConstructor, we use it, otherwise we take our best shot
-				if (constructor.getAnnotation(PodamConstructor.class) == null
-						&& podamConstructorAnnotationFound) {
-					continue;
-				}
 
 				Object[] parameterValues = getParameterValuesForConstructor(
 						constructor, pojoClass, genericTypeArgs);
@@ -1265,30 +1287,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 			}
-		}
 
-		return retValue;
-	}
-
-	/**
-	 * It checks whether at least one constructor has got a
-	 * {@link PodamConstructor} annotation.
-	 * 
-	 * @param constructors
-	 *            The array of constructors
-	 * @return {@code true} if at least one constructor contains a
-	 *         {@link PodamConstructor} annotation, {@code false} otherwise.
-	 */
-	private boolean checkIfConstructorAnnotationPresent(
-			Constructor<?>[] constructors) {
-
-		boolean retValue = false;
-
-		for (Constructor<?> constructor : constructors) {
-
-			if (constructor.getAnnotation(PodamConstructor.class) != null) {
-				retValue = true;
-				break;
+			if (retValue == null) {
+				LOG.warn("For class: " + pojoClass.getName()
+						+ " PODAM could not possibly create a value."
+						+ " This attribute will be returned as null.");
 			}
 
 		}
