@@ -1275,6 +1275,14 @@ public class PodamFactoryImpl implements PodamFactory {
 								+ constructor
 								+ ", but collection is empty"
 								+ ". Will try with another one.");
+
+					} else if (retValue instanceof Map
+							&& ((Map) retValue).size() == 0) {
+						LOG.info("We could create an instance with constructor: "
+								+ constructor
+								+ ", but map is empty"
+								+ ". Will try with another one.");
+
 					} else {
 						LOG.info("We could create an instance with constructor: "
 								+ constructor);
