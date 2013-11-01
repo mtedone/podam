@@ -5,7 +5,9 @@ package uk.co.jemos.podam.test.unit.pdm3;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -53,6 +55,15 @@ public class Pdm3PojoUnitTest {
 	}
 
 	@Test
+	public void testPdm3MapOfPojos() {
+
+		PodamFactory factory = new PodamFactoryImpl();
+		Map<String, Pdm3PojoConstructor> pojos =
+			factory.manufacturePojo(HashMap.class, Integer.class, Pdm3PojoConstructor.class, String.class);
+		assertMap(pojos);
+	}
+
+	@Test
 	public void testPdm3PojoGenericsConstructor() {
 
 		PodamFactory factory = new PodamFactoryImpl();
@@ -72,17 +83,40 @@ public class Pdm3PojoUnitTest {
 		assertCollection(pojos);
 	}
 
+	@Test
+	public void testPdm3MapOfGenericPojos() {
+
+		PodamFactory factory = new PodamFactoryImpl();
+		Map<String, Pdm3PojoGenericsConstructor> pojos =
+			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
+		assertMap(pojos);
+	}
+
 	private void assertCollection(Collection<?> collection) {
 
-		assertNotNull("The collection should not be null",
-				collection);
-		assertFalse("The collection should not be empty",
-				collection.isEmpty());
+		assertNotNull("The collection should not be null", collection);
+		assertFalse("The collection should not be empty", collection.isEmpty());
 		for (Object obj : collection) {
 			assertNotNull("Collection element should not be null",
 				obj);
 			if (obj instanceof Pdm3PojoConstructor) {
 				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)obj;
+				assertNotNull("Element's field should not be empty", pojo.getName());
+				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
+			}
+		}
+	}
+
+	private void assertMap(Map<?,?> map) {
+
+		assertNotNull("The map should not be null", map);
+		assertFalse("The map should not be empty", map.isEmpty());
+		for (Object key : map.keySet()) {
+			assertNotNull("Key should not be empty", key);
+			Object value = map.get(key);
+			assertNotNull("Value should not be empty", value);
+			if (value instanceof Pdm3PojoConstructor) {
+				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)value;
 				assertNotNull("Element's field should not be empty", pojo.getName());
 				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
 			}
