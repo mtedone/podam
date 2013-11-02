@@ -48,7 +48,7 @@ public class Pdm3PojoUnitTest {
 
 		PodamFactory factory = new PodamFactoryImpl();
 		List<Pdm3PojoConstructor> pojos =
-			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class);
+			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class, String.class);
 		assertCollection(pojos);
 	}
 
@@ -74,10 +74,18 @@ public class Pdm3PojoUnitTest {
 
 	private void assertCollection(Collection<?> collection) {
 
-		assertNotNull("The collection element should not be null!",
+		assertNotNull("The collection should not be null",
 				collection);
-		assertFalse("The collection attribute should not be empty",
+		assertFalse("The collection should not be empty",
 				collection.isEmpty());
-
+		for (Object obj : collection) {
+			assertNotNull("Collection element should not be null",
+				obj);
+			if (obj instanceof Pdm3PojoConstructor) {
+				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)obj;
+				assertNotNull("Element's field should not be empty", pojo.getName());
+				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
+			}
+		}
 	}
 }
