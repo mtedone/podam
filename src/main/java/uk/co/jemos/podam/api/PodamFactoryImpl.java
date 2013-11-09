@@ -1404,15 +1404,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					} else {
 
-						LOG.info("Will use: " + constructors[0]);
-
-						// It uses the first public constructor found
-						Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
-								constructors[0], pojoClass, genericTypeArgs);
-						constructors[0].setAccessible(true);
-						retValue = (T) constructors[0]
-								.newInstance(parameterValuesForConstructor);
-
+						retValue = resolvePojoWithoutSetters(pojoClass, depth,
+							genericTypeArgs);
 					}
 
 				} catch (SecurityException e1) {
