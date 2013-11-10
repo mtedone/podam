@@ -25,9 +25,9 @@ public class Pdm4PojoWithSetters {
 		}
 	}
 
-	public Pdm4PojoWithSetters(int num) {
-		invocationOrder.add("int");
-		value = String.valueOf(num);
+	public Pdm4PojoWithSetters(int num, int num2) {
+		invocationOrder.add("int,int");
+		value = String.valueOf(num + num2);
 	}
 	
 	@PodamConstructor(comment = "choose this one")

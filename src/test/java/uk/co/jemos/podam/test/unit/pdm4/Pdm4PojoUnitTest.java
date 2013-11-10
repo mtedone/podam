@@ -27,6 +27,6 @@ public class Pdm4PojoUnitTest {
 		assertEquals("Invocation order has changed", "PodamConstructor", pojo.invocationOrder.get(0));
 		assertEquals("Invocation order has changed", "no-op", pojo.invocationOrder.get(1));
 		assertEquals("Invocation order has changed", "InputStream", pojo.invocationOrder.get(2));
-		assertEquals("Invocation order has changed", "int", pojo.invocationOrder.get(3));
+		assertEquals("Invocation order has changed", "int,int", pojo.invocationOrder.get(3));
 	}
 }
