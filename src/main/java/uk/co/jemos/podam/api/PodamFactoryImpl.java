@@ -1371,75 +1371,56 @@ public class PodamFactoryImpl implements PodamFactory {
 			// class does not have a no-arg constructor we search for a suitable
 			// constructor.
 
-			Constructor<T> defaultConstructor = null;
 			try {
 
-				defaultConstructor = pojoClass.getConstructor(new Class[] {});
+				Constructor<?>[] constructors = pojoClass.getConstructors();
 
-				retValue = defaultConstructor.newInstance();
+				if (constructors == null || constructors.length == 0) {
+
+					LOG.warn("No public constructors were found. "
+							+ "We'll look for a default, non-public constructor. ");
+					Constructor<T> defaultConstructor = pojoClass
+							.getDeclaredConstructor(new Class[] {});
+					LOG.info("Will use: " + defaultConstructor);
+
+					// Security hack
+					defaultConstructor.setAccessible(true);
+					retValue = defaultConstructor.newInstance();
+
+				} else {
+
+					retValue = resolvePojoWithoutSetters(pojoClass, depth,
+						genericTypeArgs);
+				}
 
 			} catch (SecurityException e) {
 				throw new PodamMockeryException(
-						"Security exception while applying introspection.", e);
-			} catch (NoSuchMethodException e) {
+						"Security exception while applying introspection.",
+						e);
+			} catch (NoSuchMethodException e1) {
 
-				try {
+				LOG.warn("No default (public or non-public) constructors were found. "
+						+ "Also no other public constructors were found. "
+						+ "Your last hope is that we find a non-public, non-default constructor.");
 
-					LOG.warn("The POJO "
-							+ pojoClass
-							+ " does not have a public no-arg constructor. This violates JavaBean standards. "
-							+ "However in our kindness we'll look for an alternate public constructor "
-							+ "for you and we'll use the first we find...");
-
-					Constructor<?>[] constructors = pojoClass.getConstructors();
-
-					if (constructors == null || constructors.length == 0) {
-
-						LOG.warn("No public constructors were found. "
-								+ "We'll look for a default, non-public constructor. ");
-						defaultConstructor = pojoClass
-								.getDeclaredConstructor(new Class[] {});
-						LOG.info("Will use: " + defaultConstructor);
-
-						// Security hack
-						defaultConstructor.setAccessible(true);
-						retValue = defaultConstructor.newInstance();
-
-					} else {
-
-						retValue = resolvePojoWithoutSetters(pojoClass, depth,
-							genericTypeArgs);
-					}
-
-				} catch (SecurityException e1) {
-					throw new PodamMockeryException(
-							"Security exception while applying introspection.",
-							e);
-				} catch (NoSuchMethodException e2) {
-
-					LOG.warn("No default (public or non-public) constructors were found. "
-							+ "Also no other public constructors were found. "
-							+ "Your last hope is that we find a non-public, non-default constructor.");
-
-					Constructor<?>[] constructors = pojoClass
-							.getDeclaredConstructors();
-					if (constructors == null || constructors.length == 0) {
-						throw new IllegalStateException(
-								"The POJO "
-										+ pojoClass
-										+ " appears without constructors. How is this possible? ");
-					}
-
-					LOG.info("Will use: " + constructors[0]);
-
-					// It uses the first public constructor found
-					Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
-							constructors[0], pojoClass, genericTypeArgs);
-					constructors[0].setAccessible(true);
-					retValue = (T) constructors[0]
-							.newInstance(parameterValuesForConstructor);
-
+				Constructor<?>[] constructors = pojoClass
+						.getDeclaredConstructors();
+				if (constructors == null || constructors.length == 0) {
+					throw new IllegalStateException(
+							"The POJO "
+									+ pojoClass
+									+ " appears without constructors. How is this possible? ");
 				}
+
+				LOG.info("Will use: " + constructors[0]);
+
+				// It uses the first public constructor found
+				Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
+						constructors[0], pojoClass, genericTypeArgs);
+				constructors[0].setAccessible(true);
+				retValue = (T) constructors[0]
+						.newInstance(parameterValuesForConstructor);
+
 			}
 
 			Class<?>[] parameterTypes = null;
