@@ -21,11 +21,11 @@
 		</license>
 	</licenses>
 
-  <modules>
-    <module>podam-core</module>
-    <module>podam-guava</module>
-    <module>podam-site</module>
-  </modules>
+	<modules>
+		<module>podam-core</module>
+		<module>podam-guava</module>
+		<module>podam-site</module>
+	</modules>
 
 	<issueManagement>
 		<system>JIRA</system>

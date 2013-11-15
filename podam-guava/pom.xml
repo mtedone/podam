@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>uk.co.jemos.podam</groupId>
+		<artifactId>podam-knewton</artifactId>
+		<version>3.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>uk.co.jemos.podam</groupId>
+	<artifactId>podam-guava-knewton</artifactId>
+	<version>3.1-SNAPSHOT</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>uk.co.jemos.podam</groupId>
+			<artifactId>podam-core-knewton</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>2.0M10</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
