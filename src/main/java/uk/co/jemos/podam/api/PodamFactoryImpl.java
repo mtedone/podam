@@ -33,6 +33,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.annotations.PodamBooleanValue;
 import uk.co.jemos.podam.annotations.PodamByteValue;
 import uk.co.jemos.podam.annotations.PodamCharValue;
@@ -67,7 +69,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	// ------------------->> Constants
 
 	/** Application logger */
-	private final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+	private final Logger LOG = LoggerFactory
 			.getLogger(PodamFactoryImpl.class.getName());
 
 	// ------------------->> Instance / variables
