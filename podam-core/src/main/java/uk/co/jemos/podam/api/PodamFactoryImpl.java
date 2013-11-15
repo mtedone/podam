@@ -1365,13 +1365,6 @@ public class PodamFactoryImpl implements PodamFactory {
 						new AttributeMetadata(noName, pojoClass, annotations));
 			}
 
-			boolean thereIsAMatchingFactory = factoryMap.containsKey(pojoClass);
-			if (thereIsAMatchingFactory) {
-				AttributeStrategy attributeStrategy = factoryMap.get(pojoClass);
-				T constructedClass = (T) attributeStrategy.getValue();
-				return constructedClass;
-			}
-
 			if (pojoClass.isInterface()
 					|| Modifier.isAbstract(pojoClass.getModifiers())) {
 				LOG.warn("Cannot instantiate an interface or abstract class. Returning null.");
@@ -1453,7 +1446,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			// According to JavaBeans standards, setters should have only
 			// one argument
 			Object setterArg = null;
-			for (Method setter : classInfo.getClassSetters()) {
+			Set<Method> classSetters = classInfo.getClassSetters();
+			for (Method setter : classSetters) {
 
 				List<Annotation> pojoAttributeAnnotations = retrieveFieldAnnotations(
 						pojoClass, setter);
@@ -1470,6 +1464,26 @@ public class PodamFactoryImpl implements PodamFactory {
 				// A class which has got an attribute to itself (e.g.
 				// recursive hierarchies)
 				attributeType = parameterTypes[0];
+
+				// check for registered factories
+				boolean thereIsAMatchingFactory = factoryMap.containsKey(attributeType);
+				if (thereIsAMatchingFactory) {
+					AttributeStrategy attributeStrategy = factoryMap.get(attributeType);
+					Object value;
+					if (attributeStrategy instanceof AttributeStrategyWithGenerics) {
+						AttributeStrategyWithGenerics g = (AttributeStrategyWithGenerics) attributeStrategy;
+						Type[] genericParameterTypes = setter.getGenericParameterTypes();
+						if(genericParameterTypes.length != 1){
+							throw new IllegalStateException("Setter should have a single argument.");
+						}
+						Type genericParameterType = genericParameterTypes[0];
+						value = g.getValue(genericParameterType);
+					} else {
+						value = attributeStrategy.getValue();
+					}
+					setter.invoke(retValue, value);
+					continue; // continue to next field
+				}
 
 				// If an attribute has been annotated with
 				// PodamAttributeStrategy, it takes the precedence over any
@@ -1531,14 +1545,13 @@ public class PodamFactoryImpl implements PodamFactory {
 					Type[] typeArguments = new Type[] {};
 					// If the parameter is a generic parameterized type resolve
 					// the actual type arguments
-					if (setter.getGenericParameterTypes()[0] instanceof ParameterizedType) {
-						final ParameterizedType attributeParameterizedType = (ParameterizedType) setter
-								.getGenericParameterTypes()[0];
+					Type[] genericParameterTypes = setter.getGenericParameterTypes();
+					if (genericParameterTypes[0] instanceof ParameterizedType) {
+						final ParameterizedType attributeParameterizedType = (ParameterizedType) genericParameterTypes[0];
 						typeArguments = attributeParameterizedType
 								.getActualTypeArguments();
-					} else if (setter.getGenericParameterTypes()[0] instanceof TypeVariable) {
-						final TypeVariable<?> typeVariable = (TypeVariable<?>) setter
-								.getGenericParameterTypes()[0];
+					} else if (genericParameterTypes[0] instanceof TypeVariable) {
+						final TypeVariable<?> typeVariable = (TypeVariable<?>) genericParameterTypes[0];
 						Type type = typeArgsMap.get(typeVariable.getName());
 						if (type instanceof ParameterizedType) {
 							final ParameterizedType attributeParameterizedType = (ParameterizedType) type;
@@ -2778,6 +2791,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		// Found a constructor with @PodamConstructor annotation
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
+		Type[] genericParameterTypes1 = constructor.getGenericParameterTypes();
 
 		int idx = 0;
 		for (Class<?> parameterType : parameterTypes) {
@@ -2785,7 +2799,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
 
-			if (parameterType.equals(pojoClass)) {
+			if(factoryMap.containsKey(parameterType)){
+				AttributeStrategy attributeStrategy = factoryMap.get(parameterType);
+				Object value;
+				if(attributeStrategy instanceof AttributeStrategyWithGenerics){
+					AttributeStrategyWithGenerics genericStrat = (AttributeStrategyWithGenerics)attributeStrategy;
+					Type type = genericParameterTypes1[idx];
+					value = genericStrat.getValue(type);
+				} else {
+					value = attributeStrategy.getValue();
+				}
+				parameterValues[idx] = value;
+			} else if (parameterType.equals(pojoClass)) {
 				// Recursive hierarchy in the constructor? If so the POJO should
 				// also have a no-arg constructor
 				// to avoid infinite looping
@@ -2814,7 +2839,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					Collection<? super Object> collection = resolveCollectionType(parameterType);
 
-					Type type = constructor.getGenericParameterTypes()[idx];
+
+					Type[] genericParameterTypes = constructor.getGenericParameterTypes();
+					Type type = genericParameterTypes[idx];
 					Class<?> collectionElementType;
 					AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
 							new Type[] {});

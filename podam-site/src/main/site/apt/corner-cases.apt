@@ -455,3 +455,42 @@ GenericAttributePojo [
   
   If you want to manufacture a generic class directly, i.e., that is not wrapped by a non-generic class like on the example
   above, please refer to "Manufacturing generic types" section in the {{{./index.html} Introduction}} page.
+
+External Attribute Strategy Registration
+
+  If you don't want to modify the class you're hydrating, but need a strategy for a certain type used in it's fields,
+  you can register an AttributeStrategy externally like so:
+
+  		PodamFactory factory = new PodamFactoryImpl();
+
++-----------------------------------------------------------
+MyFactory myFactory = new MyFactory();
+factory.registerFactory(MyCustomClass.class, myFactory);
++-----------------------------------------------------------
+
+	Now, whenever a class of type MyCustomClass is encountered, myFactory will be used.
+
+	This is of global scope, so to reset to no registered strategies, you must create a new Podam factory.
+
+Guava Optional
+
+	Support for Guava optional is in the podam-guava package. It provides a few convenience classes.
+
+	The first, OptionalFactory, which is an AttributeStrategy, you can extend and implement getOptionalValue,
+	and use it with the external (or not) attribute strategy registration. It will wrap your class in Optional,
+	absent() if it's null. You can also, when constructing, tell the factory to randomly make the Optional absent.
+
+	The second, PodamOptional, is an implementation of OptionalFactory which for it's implementation of 
+	getOptionalValue uses an internal PodamFactory. Optionally, when constructing the PodamOptional, you can
+	pass in your own PodamFactory to be used. This construct the type of class you set on it, when constructing
+	the value for the Optional.
+
+	GenericOptionalFactory is the main class you should use, and will dynamically construct optional values by using
+	the generics set on the optional. GuavaPodamFactory comes with this class already registered.
+
++-----------------------------------------------------------
+PodamFactory factory = new GuavaPodamFactory();
+
+// where TopClassSetters has 1 or more Optional<Type> fields
+TopClassSetters storedModuleDto = factory.manufacturePojo(TopClassSetters.class);
++-----------------------------------------------------------

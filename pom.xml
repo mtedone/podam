@@ -23,6 +23,7 @@
 
 	<modules>
 		<module>podam-core</module>
+		<module>podam-guava</module>
 		<module>podam-site</module>
 	</modules>
 
