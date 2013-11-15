@@ -66,39 +66,39 @@
 	</developers>
 	
 	<contributors>
-	  <contributor>
-	    <name>Alec Ross</name>
-	    <email>haelduksf@gmail.com</email>
-	    <organization>Insigma Hengtian Software</organization>
-	    <organizationUrl>http://www.hengtiansoft.com</organizationUrl>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>
-	    <timezone>CST</timezone>
-	  </contributor>
-	  <contributor>
-	    <name>Márcio Carmona</name>
-	    <email>marciocarmona@gmail.com</email>	    
-	    <organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>
-	    <timezone>UTC-4</timezone>
-	  </contributor>
-	  <contributor>
-	    <name>Daniil Ivanov</name>
-	    <email>daniil.ivanov@gmail.com</email>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>	    
-	  </contributor>	
-	  	  <contributor>
-	    <name>Ganesh Subramanian</name>
-	    <email>tbd@somedomain.com</email>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>	    
-	  </contributor>	  
+		<contributor>
+			<name>Alec Ross</name>
+			<email>haelduksf@gmail.com</email>
+			<organization>Insigma Hengtian Software</organization>
+			<organizationUrl>http://www.hengtiansoft.com</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>CST</timezone>
+		</contributor>
+		<contributor>
+			<name>Márcio Carmona</name>
+			<email>marciocarmona@gmail.com</email>
+			<organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>UTC-4</timezone>
+		</contributor>
+		<contributor>
+			<name>Daniil Ivanov</name>
+			<email>daniil.ivanov@gmail.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Ganesh Subramanian</name>
+			<email>tbd@somedomain.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 	<properties>
