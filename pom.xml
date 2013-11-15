@@ -92,6 +92,14 @@
 				<role>Developer</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Antony Stubbs</name>
+			<email>antony.stubbs@gmail.com</email>
+			<organizationUrl>https://www.linkedin.com/in/antonystubbs</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 	<properties>
