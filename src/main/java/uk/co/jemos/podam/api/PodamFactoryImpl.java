@@ -246,7 +246,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
 		if (typeParameters.length > genericTypeArgs.length) {
-			LOG.info(pojoClass.getCanonicalName()
+			LOG.warn(pojoClass.getCanonicalName()
 					+ " is missing generic type arguments, expected "
 					+ typeParameters.length + " found "
 					+ genericTypeArgs.length + ". Returning null.");
@@ -448,7 +448,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					retValue = constructor.newInstance(constructorArgs);
 
-					LOG.info("For class: "
+					LOG.debug("For class: "
 							+ clazz.getName()
 							+ " a valid constructor: "
 							+ constructor
@@ -1285,25 +1285,22 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
 							&& ((Collection) retValue).size() == 0) {
-						LOG.info("We could create an instance with constructor: "
-								+ constructor
-								+ ", but collection is empty"
-								+ ". Will try with another one.");
+						LOG.debug("We could create an instance with constructor: " + constructor
+								  + ", but collection is empty" + ". Will try with another one.");
 					} else {
-						LOG.info("We could create an instance with constructor: "
-								+ constructor);
+						LOG.debug("We could create an instance with constructor: " + constructor);
 						break;
 					}
 				} catch (Throwable t) {
-					LOG.warn("We couldn't create an instance for pojo: "
+					LOG.debug("We couldn't create an instance for pojo: "
 							+ pojoClass + " for constructor: " + constructor
-							+ ". Will try with another one.");
+							+ ". Will try with another one. " + t.getMessage());
 				}
 
 			}
 
 			if (retValue == null) {
-				LOG.warn("For class: " + pojoClass.getName()
+				LOG.debug("For class: " + pojoClass.getName()
 						+ " PODAM could not possibly create a value."
 						+ " This attribute will be returned as null.");
 			}
@@ -1345,7 +1342,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			final TypeVariable<?>[] typeParameters = pojoClass
 					.getTypeParameters();
 			if (typeParameters.length > genericTypeArgs.length) {
-				LOG.info(pojoClass.getCanonicalName()
+				LOG.warn(pojoClass.getCanonicalName()
 						+ " is missing generic type arguments, expected "
 						+ typeParameters.length + " found "
 						+ genericTypeArgs.length + ". Returning null.");
