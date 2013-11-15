@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.annotations.PodamExclude;
 import uk.co.jemos.podam.dto.ClassInfo;
 
@@ -29,7 +31,7 @@ public class PodamUtils {
 	// ---------------------->> Constants
 
 	/** The application logger. */
-	public static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+	public static final Logger LOG = LoggerFactory
 			.getLogger(PodamUtils.class);
 
 	/** Non instantiable constructor */
