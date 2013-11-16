@@ -56,6 +56,7 @@ public class Pdm45UnitTest {
 		Assert.assertNotNull("The generated object cannot be null!", genericPojo.getSecondValue());
 		Assert.assertEquals("The generated object must be a Long!", Long.class, genericPojo.getSecondValue().getClass());
 		Assert.assertNotNull("The generated list cannot be null!", genericPojo.getFirstList());
+		Assert.assertTrue("The generated list must not be empty!", !genericPojo.getFirstList().isEmpty());
 		Assert.assertEquals("The generated list type must be of String!", String.class, genericPojo.getFirstList().get(0).getClass());
 		Assert.assertNotNull("The generated array cannot be null!", genericPojo.getSecondArray());
 		Assert.assertEquals("The generated array type must be of Long!", Long.class, genericPojo.getSecondArray()[0].getClass());

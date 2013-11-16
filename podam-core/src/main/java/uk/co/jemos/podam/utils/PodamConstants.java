@@ -25,7 +25,7 @@ public class PodamConstants {
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 1;
+	public static final int MAX_DEPTH = 2;
 
 	/**
 	 * The default string length that Podam will assign to an annotated
