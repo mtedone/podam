@@ -10,8 +10,8 @@
 
 
 	<groupId>uk.co.jemos.podam</groupId>
-	<artifactId>podam</artifactId>
-	<version>3.0.10.RELEASE</version>
+	<artifactId>podam-knewton</artifactId>
+	<version>3.1-SNAPSHOT</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
