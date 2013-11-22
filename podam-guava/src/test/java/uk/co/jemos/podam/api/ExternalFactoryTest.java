@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -74,32 +75,6 @@ public class ExternalFactoryTest {
 		Assertions.assertThat(list).hasSize(5);
 	}
 
-	@Test
-	public void innerClassConstructors() {
-		Constructor<?>[] constructors = InnerGenericList.class.getConstructors();
-		assertThat(constructors).hasSize(1);
-		Constructor<?> constructor = constructors[0];
-		Type[] genericParameterTypes = constructor.getGenericParameterTypes();
-		Class<?>[] parameterTypes = constructor.getParameterTypes();
-
-		assertThat(genericParameterTypes).hasSize(1);
-		assertThat(parameterTypes).hasSize(1);
-	}
-
-	@Test
-	public void normalClassConstructors() {
-		Constructor<?>[] constructors = NormalGenericList.class.getConstructors();
-		assertThat(constructors).hasSize(1);
-		Constructor<?> constructor = constructors[0];
-		Type[] genericParameterTypes = constructor.getGenericParameterTypes();
-		Class<?>[] parameterTypes = constructor.getParameterTypes();
-
-		assertThat(genericParameterTypes).hasSize(1);
-		assertThat(parameterTypes).hasSize(1);
-	}
-
-
-
 	static public class TopClass {
 
 		public TopClass(Optional<OptionalInner> metadata, Optional<InnerB> secondOptional) {
@@ -162,7 +137,7 @@ public class ExternalFactoryTest {
 	}
 
 	static public class InnerGenericList {
-		private List<InnerA> list;
+		public List<InnerA> list;
 
 		public InnerGenericList(List<InnerA> list) {
 			this.list = list;

@@ -1,10 +1,8 @@
 package uk.co.jemos.podam.api;
 
 import com.google.common.base.Optional;
-import com.google.common.reflect.TypeToken;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -16,15 +14,21 @@ public class GenericOptionalFactory implements AttributeStrategyWithGenerics<Opt
 
 	private PodamFactory factory;
 
+	private GuavaReflectionUtils guavaReflectionUtils = new GuavaReflectionUtils();
+
+	public GenericOptionalFactory() {
+		this(false);
+	}
+
 	/**
 	 * @param randomlyAbsent true to randomly make the optional absent
 	 */
-	GenericOptionalFactory(boolean randomlyAbsent) {
+	public GenericOptionalFactory(boolean randomlyAbsent) {
 		this.randomlyAbsent = randomlyAbsent;
 		factory = new PodamFactoryImpl();
 	}
 
-	GenericOptionalFactory(boolean randomlyAbsent, PodamFactory factory) {
+	public GenericOptionalFactory(boolean randomlyAbsent, PodamFactory factory) {
 		this.randomlyAbsent = randomlyAbsent;
 		this.factory = factory;
 	}
@@ -39,22 +43,10 @@ public class GenericOptionalFactory implements AttributeStrategyWithGenerics<Opt
 		}
 	}
 
-	private Object getOptionalValue(Type theType) {
-		if (theType instanceof ParameterizedType) {
-			ParameterizedType theParamType = (ParameterizedType) theType;
-			Type[] actualTypeArguments = theParamType.getActualTypeArguments();
-			if (actualTypeArguments.length != 1) {
-				throw new IllegalStateException("Only support single type argument");
-			} else {
-				Type actualTypeArgument = actualTypeArguments[0];
-				TypeToken<?> typeToken = TypeToken.of(actualTypeArgument);
-				Class<?> rawType = typeToken.getRawType();
-				Object value = factory.manufacturePojo(rawType);
-				return value;
-			}
-		} else {
-			throw new IllegalStateException("Must be param type");
-		}
+	private Object getOptionalValue(Type rawType) {
+		Class<?> rawClass = guavaReflectionUtils.getRawGenericParameterClass(rawType);
+		Object value = factory.manufacturePojo(rawClass);
+		return value;
 	}
 
 	public Optional<Object> getValue() throws PodamMockeryException {

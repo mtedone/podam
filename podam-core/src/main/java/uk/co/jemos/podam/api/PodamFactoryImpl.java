@@ -89,10 +89,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private List<Class<? extends Annotation>> excludeAnnotations;
 
-	/**
-	 * Map of global class to AttributeStrategy's
-	 */
-	private Map<Class, AttributeStrategy> factoryMap = new HashMap();
+	private ExternalFactoriesManager factoriesManager = new ExternalFactoriesManager();
 
 	// ------------------->> Constructors
 	/**
@@ -120,9 +117,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param attributeStrategy
 	 */
 	public void registerFactory(Class attributeClass, AttributeStrategy attributeStrategy) {
-		if (factoryMap.containsKey(attributeClass))
-			throw new IllegalStateException("Duplicate factories for a given type not allowed.");
-		factoryMap.put(attributeClass, attributeStrategy);
+		factoriesManager.registerFactory(attributeClass, attributeStrategy);
 	}
 
 	// ------------------->> Public methods
@@ -1466,21 +1461,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeType = parameterTypes[0];
 
 				// check for registered factories
-				boolean thereIsAMatchingFactory = factoryMap.containsKey(attributeType);
-				if (thereIsAMatchingFactory) {
-					AttributeStrategy attributeStrategy = factoryMap.get(attributeType);
-					Object value;
-					if (attributeStrategy instanceof AttributeStrategyWithGenerics) {
-						AttributeStrategyWithGenerics g = (AttributeStrategyWithGenerics) attributeStrategy;
-						Type[] genericParameterTypes = setter.getGenericParameterTypes();
-						if(genericParameterTypes.length != 1){
-							throw new IllegalStateException("Setter should have a single argument.");
-						}
-						Type genericParameterType = genericParameterTypes[0];
-						value = g.getValue(genericParameterType);
-					} else {
-						value = attributeStrategy.getValue();
-					}
+				if (factoriesManager.existsMatchingFactoryFor(attributeType)) {
+					Object value = factoriesManager.getValue(attributeType, setter);
 					setter.invoke(retValue, value);
 					continue; // continue to next field
 				}
@@ -2799,16 +2781,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
 
-			if(factoryMap.containsKey(parameterType)){
-				AttributeStrategy attributeStrategy = factoryMap.get(parameterType);
-				Object value;
-				if(attributeStrategy instanceof AttributeStrategyWithGenerics){
-					AttributeStrategyWithGenerics genericStrat = (AttributeStrategyWithGenerics)attributeStrategy;
-					Type type = genericParameterTypes1[idx];
-					value = genericStrat.getValue(type);
-				} else {
-					value = attributeStrategy.getValue();
-				}
+			if (factoriesManager.existsMatchingFactoryFor(parameterType)) {
+				Type genericType = genericParameterTypes1[idx];
+				Object value = factoriesManager.getValue(parameterType, genericType);
 				parameterValues[idx] = value;
 			} else if (parameterType.equals(pojoClass)) {
 				// Recursive hierarchy in the constructor? If so the POJO should
