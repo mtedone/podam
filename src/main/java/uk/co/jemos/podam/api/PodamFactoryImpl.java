@@ -1275,6 +1275,14 @@ public class PodamFactoryImpl implements PodamFactory {
 								+ constructor
 								+ ", but collection is empty"
 								+ ". Will try with another one.");
+
+					} else if (retValue instanceof Map
+							&& ((Map) retValue).size() == 0) {
+						LOG.info("We could create an instance with constructor: "
+								+ constructor
+								+ ", but map is empty"
+								+ ". Will try with another one.");
+
 					} else {
 						LOG.info("We could create an instance with constructor: "
 								+ constructor);
@@ -2742,21 +2750,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						collectionElementType = Object.class;
 					}
 
-					Type[] genericTypeArgsAll;
-					if (genericTypeArgsExtra != null) {
-						Type[] genericTypeArgsMain = collectionGenericTypeArgs
-								.get();
-						genericTypeArgsAll = new Type[genericTypeArgsMain.length
-								+ genericTypeArgsExtra.length];
-						System.arraycopy(genericTypeArgsMain, 0,
-								genericTypeArgsAll, 0,
-								genericTypeArgsMain.length);
-						System.arraycopy(genericTypeArgsExtra, 0,
-								genericTypeArgsAll, genericTypeArgsMain.length,
-								genericTypeArgsExtra.length);
-					} else {
-						genericTypeArgsAll = collectionGenericTypeArgs.get();
-					}
+					Type[] genericTypeArgsAll = mergeTypeArrays(
+								collectionGenericTypeArgs.get(),
+								genericTypeArgsExtra);
 					fillCollection(pojoClass, attributeName, annotations,
 							collection, collectionElementType,
 							genericTypeArgsAll);
@@ -2791,9 +2787,12 @@ public class PodamFactoryImpl implements PodamFactory {
 						elementClass = Object.class;
 					}
 
+					Type[] genericTypeArgsAll = mergeTypeArrays(
+								elementGenericTypeArgs.get(),
+								genericTypeArgsExtra);
 					fillMap(pojoClass, attributeName, annotations, mapType,
 							keyClass, elementClass, keyGenericTypeArgs.get(),
-							elementGenericTypeArgs.get());
+							genericTypeArgsAll);
 
 					parameterValues[idx] = mapType;
 
@@ -2813,6 +2812,30 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return parameterValues;
 
+	}
+
+	/**
+	 * Utility method to merge two arrays
+	 * 
+	 * @param original
+	 *            The main array
+	 * @param extra
+	 *            The additional array, optionally may be null
+	 * @return A merged array of original and extra arrays
+	 */
+	private Type[] mergeTypeArrays(Type[] original, Type[] extra) {
+
+		Type[] merged;
+
+		if (extra != null) {
+			merged = new Type[original.length + extra.length];
+			System.arraycopy(original, 0, merged, 0, original.length);
+			System.arraycopy(extra, 0, merged, original.length, extra.length);
+		} else {
+			merged = original;
+		}
+
+		return merged;
 	}
 
 	/**
