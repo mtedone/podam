@@ -361,7 +361,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Getters / Setters
 
-	public int getNumberOfCollectionElements() {
+	public int getNumberOfCollectionElements(Class<?> type) {
 		return nbrOfCollectionElements;
 	}
 

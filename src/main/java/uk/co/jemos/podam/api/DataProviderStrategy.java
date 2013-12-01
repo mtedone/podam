@@ -151,8 +151,10 @@ public interface DataProviderStrategy {
 	 * Implementations of this interface need to provide this value.
 	 * </p>
 	 * 
+	 * @param type
+	 *            Type of collection's elements
 	 * @return The number of default collection elements
 	 */
-	public int getNumberOfCollectionElements();
+	public int getNumberOfCollectionElements(Class<?> type);
 
 }

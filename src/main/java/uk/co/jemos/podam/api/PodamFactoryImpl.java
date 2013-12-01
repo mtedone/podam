@@ -318,7 +318,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							int nbrElements = strategy
-									.getNumberOfCollectionElements();
+									.getNumberOfCollectionElements(elementType);
 
 							for (Annotation annotation : annotations) {
 								if (annotation.annotationType().equals(
@@ -359,7 +359,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							int nbrElements = strategy
-									.getNumberOfCollectionElements();
+									.getNumberOfCollectionElements(valueClass);
 
 							for (Annotation annotation : annotations) {
 								if (annotation.annotationType().equals(
@@ -2092,7 +2092,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
+		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
 
 		if (null != collectionAnnotation) {
 
@@ -2330,7 +2330,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
+		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
 
 		if (null != collectionAnnotation) {
 
@@ -2481,10 +2481,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
-
-		Object arrayElement = null;
-
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
 		PodamCollection collectionAnnotation = null;
@@ -2497,13 +2493,18 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
+		int nbrElements;
 		if (null != collectionAnnotation) {
 
 			nbrElements = collectionAnnotation.nbrElements();
 			elementStrategy = collectionAnnotation.collectionElementStrategy()
 					.newInstance();
+		} else {
+
+			nbrElements = strategy.getNumberOfCollectionElements(attributeType);
 		}
 
+		Object arrayElement = null;
 		Object array = Array.newInstance(componentType, nbrElements);
 
 		for (int i = 0; i < nbrElements; i++) {
