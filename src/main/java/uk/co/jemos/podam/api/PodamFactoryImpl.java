@@ -452,12 +452,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
-			if (retValue == null) {
-				LOG.warn("For class: " + clazz.getName()
-						+ " PODAM could not possibly create a value."
-						+ " This attribute will be returned as null.");
-			}
+		}
 
+		if (retValue == null) {
+			LOG.warn("For class: " + clazz.getName()
+					+ " PODAM could not possibly create a value."
+					+ " This attribute will be returned as null.");
 		}
 
 		return retValue;
@@ -1364,15 +1364,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
 					excludeAnnotations);
-
-			if (classInfo.getClassSetters().isEmpty()) {
-
-				// A rudimentary attempt to manage immutable classes (e.g. with
-				// constructor only and final fields - no setters)
-				return this.resolvePojoWithoutSetters(pojoClass, depth,
-						genericTypeArgs);
-
-			}
 
 			// If a public no-arg constructor can be found we use it,
 			// otherwise we try to find a non-public one and we use that. If the
