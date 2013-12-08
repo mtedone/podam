@@ -56,41 +56,41 @@
 			<url>http://tedone.typepad.com/blog/</url>
 		</developer>
 	</developers>
-	
+
 	<contributors>
-	  <contributor>
-	    <name>Alec Ross</name>
-	    <email>haelduksf@gmail.com</email>
-	    <organization>Insigma Hengtian Software</organization>
-	    <organizationUrl>http://www.hengtiansoft.com</organizationUrl>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>
-	    <timezone>CST</timezone>
-	  </contributor>
-	  <contributor>
-	    <name>Márcio Carmona</name>
-	    <email>marciocarmona@gmail.com</email>	    
-	    <organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>
-	    <timezone>UTC-4</timezone>
-	  </contributor>
-	  <contributor>
-	    <name>Daniil Ivanov</name>
-	    <email>daniil.ivanov@gmail.com</email>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>	    
-	  </contributor>	
-	  	  <contributor>
-	    <name>Ganesh Subramanian</name>
-	    <email>tbd@somedomain.com</email>
-	    <roles>
-	      <role>Developer</role>
-	    </roles>	    
-	  </contributor>	  
+		<contributor>
+			<name>Alec Ross</name>
+			<email>haelduksf@gmail.com</email>
+			<organization>Insigma Hengtian Software</organization>
+			<organizationUrl>http://www.hengtiansoft.com</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>CST</timezone>
+		</contributor>
+		<contributor>
+			<name>Márcio Carmona</name>
+			<email>marciocarmona@gmail.com</email>
+			<organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>UTC-4</timezone>
+		</contributor>
+		<contributor>
+			<name>Daniil Ivanov</name>
+			<email>daniil.ivanov@gmail.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Ganesh Subramanian</name>
+			<email>tbd@somedomain.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 	<properties>
@@ -98,7 +98,7 @@
 	</properties>
 
 	<build>
-		<plugins>
+		<plugins>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -107,7 +107,7 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>
+			</plugin>		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -116,7 +116,7 @@
 					<attach>true</attach>
 					<show>private</show>
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
-					<footer>Jemos 2002 - 2011: All Rights Reserved. Podam runs under
+					<footer>Jemos 2002 - 2013: All Rights Reserved. Podam runs under
 						the MIT license</footer>
 				</configuration>
 			</plugin>
@@ -181,9 +181,9 @@
 			<version>1.2.8</version>
 		</dependency>
 		<dependency>
-		  <groupId>javax.annotation</groupId>
-		  <artifactId>jsr250-api</artifactId>
-		  <version>1.0</version>
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<version>1.0</version>
 		</dependency>
 
 
@@ -217,7 +217,7 @@
 			<artifactId>spring-test</artifactId>
 			<version>3.0.5.RELEASE</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 
 
 	</dependencies>
@@ -251,16 +251,10 @@
 					<attach>true</attach>
 					<show>private</show>
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
-					<footer>Jemos 2002 - 2011: All Rights Reserved. Podam runs under
+					<footer>Jemos 2002 - 2013: All Rights Reserved. Podam runs under
 						the MIT license</footer>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>emma-maven-plugin</artifactId>
-				<version>1.0-alpha-3</version>
-				<inherited>true</inherited>
-			</plugin>
+			</plugin>			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>surefire-report-maven-plugin</artifactId>
