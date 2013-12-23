@@ -26,7 +26,7 @@
 
 	<ciManagement>
 		<system>Jenkins</system>
-		<url>http://www.jemos.eu/jenkins</url>
+		<url>https://jemos.ci.cloudbees.com/job/podam/</url>
 	</ciManagement>
 
 	<mailingLists>
