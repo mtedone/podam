@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Pojo to test <a href="https://agileguru.atlassian.net/browse/PDM-3">PDM-3</a>
  * 
- * @author tedonema
+ * @author Marco Tedone
  * 
  */
 public class Pdm3Pojo {

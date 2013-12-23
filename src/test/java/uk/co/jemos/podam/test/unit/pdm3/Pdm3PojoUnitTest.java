@@ -20,7 +20,7 @@ import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
 
 /**
- * @author tedonema
+ * @author Marco Tedone
  * 
  */
 public class Pdm3PojoUnitTest {

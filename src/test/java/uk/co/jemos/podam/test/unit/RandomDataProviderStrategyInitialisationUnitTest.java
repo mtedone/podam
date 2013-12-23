@@ -14,7 +14,7 @@ import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 /**
  * It checks that the {@link RandomDataProviderStrategy} is initialised properly
  * 
- * @author tedonema
+ * @author Marco Tedone
  * 
  */
 public class RandomDataProviderStrategyInitialisationUnitTest {
