@@ -1451,7 +1451,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 
 					if (attributeType.equals(pojoClass)) {
-						if (depth < PodamConstants.MAX_DEPTH) {
+						if (depth < strategy.getMaxDepth(pojoClass)) {
 							depth++;
 							setterArg = this.manufacturePojoInternal(
 									attributeType, depth);

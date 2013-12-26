@@ -160,6 +160,20 @@ public interface DataProviderStrategy {
 	public int getNumberOfCollectionElements(Class<?> type);
 
 	/**
+	 * Returns how many times it is allowed to PODAM to create an instance
+	 * of the same class in a recursive hierarchy
+	 * <p>
+	 * Implementations of this interface need to provide this value.
+	 * </p>
+	 * 
+	 * @param type
+	 *            Type of POJO to be created
+	 * @return How many times it is allowed to create an instance
+	 * of the same class in a recursive hierarchy
+	 */
+	public int getMaxDepth(Class<?> type);
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to
 	 * produce the POJO.
 	 * Default strategy consists of putting constructors with less parameters

@@ -55,6 +55,12 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
+	/**
+	 * How many times it is allowed to PODAM to create an instance of the same
+	 * class in a recursive hierarchy
+	 */
+	public static final int MAX_DEPTH = 1;
+
 	/** The default number of collection elements for this strategy */
 	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
@@ -396,6 +402,9 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Getters / Setters
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public int getNumberOfCollectionElements(Class<?> type) {
 		return nbrOfCollectionElements;
 	}
@@ -409,6 +418,13 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
 		nbrOfCollectionElements = newNumberOfCollectionElements;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	 public int getMaxDepth(Class<?> type) {
+		return MAX_DEPTH;
+	 }
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to
