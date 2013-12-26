@@ -18,7 +18,6 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -161,37 +160,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		return genericTypeArgsExtra;
 	}
-
-	/**
-	 * Comparator for sorting constructors.
-	 * <p>
-	 * We would like to have constructor with less parameters to speed up
-	 * creation.
-	 * </p>
-	 */
-	public static Comparator<Constructor<?>> ConstructorComparator
-			= new Comparator<Constructor<?>>() {
-
-		public int compare(
-				Constructor<?> constructor1,
-				Constructor<?> constructor2) {
-
-			/* Constructors with Podam annotation first */
-			boolean choose1 =
-				(constructor1.getAnnotation(PodamConstructor.class) != null);
-			boolean choose2 =
-				(constructor2.getAnnotation(PodamConstructor.class) != null);
-			if (choose1 && !choose2) {
-				return Integer.MIN_VALUE;
-			} else if (!choose1 && choose2) {
-				return Integer.MAX_VALUE;
-			}
-
-			/* Then constructors with less parameters */
-			return constructor1.getParameterTypes().length -
-				constructor2.getParameterTypes().length;
-			}
-	};
 
 	/**
 	 * It attempts to create an instance of the given class
@@ -423,7 +391,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// There are public constructors. We want constructor with minumum
 			// number of parameters to speed up the creation
-			Arrays.sort(constructors, ConstructorComparator);
+			strategy.sort(constructors);
 
 			for (Constructor<?> constructor : constructors) {
 
@@ -1255,7 +1223,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// There are public constructors. We want constructor with minumum
 			// number of parameters to speed up the creation
-			Arrays.sort(constructors, ConstructorComparator);
+			strategy.sort(constructors);
 
 			for (Constructor<?> constructor : constructors) {
 

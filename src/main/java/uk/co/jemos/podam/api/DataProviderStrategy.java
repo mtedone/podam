@@ -3,6 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.reflect.Constructor;
+
 import uk.co.jemos.podam.dto.AttributeMetadata;
 
 /**
@@ -156,5 +158,16 @@ public interface DataProviderStrategy {
 	 * @return The number of default collection elements
 	 */
 	public int getNumberOfCollectionElements(Class<?> type);
+
+	/**
+	 * Rearranges POJO's constructors in order they will be tried to
+	 * produce the POJO.
+	 * Default strategy consists of putting constructors with less parameters
+	 * to be tried first.
+	 * 
+	 * @param constructors
+	 *            Array of POJO's constructors
+	 */
+	public void sort(Constructor<?>[] constructors);
 
 }

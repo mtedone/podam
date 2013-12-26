@@ -3,8 +3,12 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
+import uk.co.jemos.podam.annotations.PodamConstructor;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.utils.PodamConstants;
 
@@ -56,6 +60,37 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
+	
+	/**
+	 * Comparator for sorting constructors.
+	 * <p>
+	 * We would like to have constructor with less parameters to speed up
+	 * creation.
+	 * </p>
+	 */
+	public static Comparator<Constructor<?>> ConstructorComparator
+			= new Comparator<Constructor<?>>() {
+
+		public int compare(
+				Constructor<?> constructor1,
+				Constructor<?> constructor2) {
+
+			/* Constructors with Podam annotation first */
+			boolean choose1 =
+				(constructor1.getAnnotation(PodamConstructor.class) != null);
+			boolean choose2 =
+				(constructor2.getAnnotation(PodamConstructor.class) != null);
+			if (choose1 && !choose2) {
+				return Integer.MIN_VALUE;
+			} else if (!choose1 && choose2) {
+				return Integer.MAX_VALUE;
+			}
+
+			/* Then constructors with less parameters */
+			return constructor1.getParameterTypes().length -
+				constructor2.getParameterTypes().length;
+			}
+	};
 
 	// ------------------->> Instance / Static variables
 
@@ -373,6 +408,19 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
 		nbrOfCollectionElements = newNumberOfCollectionElements;
+	}
+
+	/**
+	 * Rearranges POJO's constructors in order they will be tried to
+	 * produce the POJO.
+	 * Default strategy consist of putting constructors with less parameters
+	 * to be tried first.
+	 * 
+	 * @param constructors
+	 *            Array of POJO's constructors
+	 */
+	public void sort(Constructor<?>[] constructors) {
+		Arrays.sort(constructors, ConstructorComparator);
 	}
 
 	// ------------------->> Private methods
