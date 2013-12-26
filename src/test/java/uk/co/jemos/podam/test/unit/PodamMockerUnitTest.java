@@ -67,6 +67,8 @@ import uk.co.jemos.podam.test.dto.annotations.StringWithWrongStrategyTypePojo;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
+import uk.co.jemos.podam.test.dto.pdm6.Parent;
+import uk.co.jemos.podam.test.dto.pdm6.Child;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
@@ -261,6 +263,15 @@ public class PodamMockerUnitTest {
 				"The parent attribute of the parent pojo cannot be null!",
 				parentPojo.getParent());
 
+	}
+
+	@Test
+	public void testCircularDependencyPojos() {
+		Parent parent = factory.manufacturePojo(Parent.class);
+		Assert.assertNotNull("The parent pojo cannot be null!", parent);
+
+		Child child = parent.getChild();
+		Assert.assertNotNull("The child pojo cannot be null!", child);
 	}
 
 	@Test
