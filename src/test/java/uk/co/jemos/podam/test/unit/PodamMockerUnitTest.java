@@ -67,8 +67,10 @@ import uk.co.jemos.podam.test.dto.annotations.StringWithWrongStrategyTypePojo;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.pdm6.Parent;
 import uk.co.jemos.podam.test.dto.pdm6.Child;
+import uk.co.jemos.podam.test.dto.pdm6.Parent;
+import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
+import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
@@ -272,6 +274,36 @@ public class PodamMockerUnitTest {
 
 		Child child = parent.getChild();
 		Assert.assertNotNull("The child pojo cannot be null!", child);
+	}
+
+	@Test
+	public void testCircularDependencyCollection() {
+		RandomDataProviderStrategy strategy =
+				(RandomDataProviderStrategy)factory.getStrategy();
+		int maxDepth = strategy.getMaxDepth(null);
+		strategy.setMaxDepth(3);
+
+		RecursiveList pojo = factory.manufacturePojo(RecursiveList.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
+		Assert.assertNotNull("The pojo's list cannot be null!", pojo.getList());
+		Assert.assertTrue("The pojo's list cannot be empty!", !pojo.getList().isEmpty());
+
+		strategy.setMaxDepth(maxDepth);
+	}
+
+	@Test
+	public void testCircularDependencyMap() {
+		RandomDataProviderStrategy strategy =
+				(RandomDataProviderStrategy)factory.getStrategy();
+		int maxDepth = strategy.getMaxDepth(null);
+		strategy.setMaxDepth(3);
+
+		RecursiveMap pojo = factory.manufacturePojo(RecursiveMap.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
+		Assert.assertNotNull("The pojo's map cannot be null!", pojo.getMap());
+		Assert.assertTrue("The pojo's map cannot be empty!", !pojo.getMap().isEmpty());
+
+		strategy.setMaxDepth(maxDepth);
 	}
 
 	@Test
