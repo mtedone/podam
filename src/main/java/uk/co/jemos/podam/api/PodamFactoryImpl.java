@@ -172,6 +172,11 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * no-args, factory method (e.g. getInstance()) and it invokes it
 	 * </p>
 	 * 
+	 * @param pojoClass
+	 *            The name of the class for which an instance filled with values
+	 *            is required
+	 * @param depth
+	 *            The stack trace depth
 	 * @param clazz
 	 *            The class for which a new instance is required
 	 * @param genericTypeArgs
@@ -193,7 +198,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	private Object createNewInstanceForClassWithoutConstructors(
-			Class<?> pojoClass, Class<?> clazz, Type... genericTypeArgs)
+			Class<?> pojoClass, int depth, Class<?> clazz, Type... genericTypeArgs)
 			throws IllegalArgumentException, InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
@@ -301,7 +306,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 							for (int i = 0; i < nbrElements; i++) {
 								Object attributeValue = manufactureAttributeValue(
-										clazz, elementType, annotations,
+										clazz, depth, elementType, annotations,
 										attributeName);
 
 								listType.add(attributeValue);
@@ -342,11 +347,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 							for (int i = 0; i < nbrElements; i++) {
 								Object keyValue = manufactureAttributeValue(
-										clazz, keyClass, annotations,
+										clazz, depth, keyClass, annotations,
 										attributeName);
 
 								Object elementValue = manufactureAttributeValue(
-										clazz, valueClass, annotations,
+										clazz, depth, valueClass, annotations,
 										attributeName);
 
 								mapType.put(keyValue, elementValue);
@@ -358,7 +363,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 							// It's any other object
 							parameterValues[idx] = manufactureAttributeValue(
-									clazz, parameterType, annotations,
+									clazz, depth, parameterType, annotations,
 									attributeName, typeArgsMap, genericTypeArgs);
 
 						}
@@ -398,7 +403,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				try {
 
 					Object[] constructorArgs = getParameterValuesForConstructor(
-							constructor, pojoClass, genericTypeArgs);
+							constructor, pojoClass, depth, genericTypeArgs);
 
 					retValue = constructor.newInstance(constructorArgs);
 
@@ -1218,7 +1223,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
 			retValue = (T) createNewInstanceForClassWithoutConstructors(
-					pojoClass, pojoClass);
+					pojoClass, depth, pojoClass);
 		} else {
 
 			// There are public constructors. We want constructor with minumum
@@ -1228,7 +1233,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			for (Constructor<?> constructor : constructors) {
 
 				Object[] parameterValues = getParameterValuesForConstructor(
-						constructor, pojoClass, genericTypeArgs);
+						constructor, pojoClass, depth, genericTypeArgs);
 
 				// Being a generic method we cannot be sure on the identity of
 				// T, therefore the mismatch between the newInstance() return
@@ -1383,7 +1388,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				// It uses the first public constructor found
 				Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
-						constructors[0], pojoClass, genericTypeArgs);
+						constructors[0], pojoClass, depth, genericTypeArgs);
 				constructors[0].setAccessible(true);
 				retValue = (T) constructors[0]
 						.newInstance(parameterValuesForConstructor);
@@ -1453,7 +1458,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					if (depth >= strategy.getMaxDepth(pojoClass)) {
 
 						setterArg = createNewInstanceForClassWithoutConstructors(
-								attributeType, attributeType);
+								attributeType, depth, attributeType,
+								genericTypeArgs);
 					} else {
 						Type[] typeArguments = new Type[] {};
 						// If the parameter is a generic parameterized type resolve
@@ -1479,8 +1485,8 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 						}
 
-						setterArg = manufactureAttributeValueInternal(pojoClass,
-								depth, attributeType, pojoAttributeAnnotations,
+						setterArg = manufactureAttributeValue(pojoClass, depth,
+								attributeType, pojoAttributeAnnotations,
 								attributeName, typeArgsMap, typeArguments);
 					}
 				}
@@ -1529,6 +1535,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The POJO class being filled with values
+	 * @param depth
+	 *            The stack trace depth
 	 * @param attributeType
 	 *            The type of the attribute for which a value is being
 	 *            manufactured
@@ -1559,7 +1567,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             </ul>
 	 * 
 	 */
-	private Object manufactureAttributeValue(Class<?> pojoClass,
+	private Object manufactureAttributeValue(Class<?> pojoClass, int depth,
 			Class<?> attributeType, List<Annotation> annotations,
 			String attributeName, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
@@ -1568,61 +1576,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Map<String, Type> nullTypeArgsMap = null;
 
-		return manufactureAttributeValue(pojoClass, attributeType, annotations,
-				attributeName, nullTypeArgsMap, genericTypeArgs);
-	}
-
-	/**
-	 * It manufactures and returns the value for a POJO attribute.
-	 * 
-	 * 
-	 * @param pojoClass
-	 *            The POJO class being filled with values
-	 * @param attributeType
-	 *            The type of the attribute for which a value is being
-	 *            manufactured
-	 * @param annotations
-	 *            The annotations for the attribute being considered
-	 * @param attributeName
-	 *            The attribute name
-	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
-	 *            example) with their actual types
-	 * @param genericTypeArgs
-	 *            The generic type arguments for the current generic class
-	 *            instance
-	 * @return The value for an attribute
-	 * 
-	 * @throws InstantiationException
-	 *             If an exception occurred during instantiation
-	 * @throws IllegalAccessException
-	 *             If security was violated while creating the object
-	 * @throws InvocationTargetException
-	 *             If an exception occurred while invoking the constructor or
-	 *             factory method
-	 * @throws ClassNotFoundException
-	 *             If it was not possible to create a class from a string
-	 * @throws IllegalArgumentException
-	 *             <ul>
-	 *             <li>If an illegal argument was passed</li>
-	 *             <li>If an invalid value was set for a precise value in an
-	 *             annotation and such value could not be converted to the
-	 *             desired type</li>
-	 *             </ul>
-	 * 
-	 */
-	@SuppressWarnings("rawtypes")
-	private Object manufactureAttributeValue(Class<?> pojoClass,
-			Class<?> attributeType, List<Annotation> annotations,
-			String attributeName, Map<String, Type> typeArgsMap,
-			Type... genericTypeArgs) throws InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			IllegalArgumentException, ClassNotFoundException {
-
-		int depth = 0;
-		return manufactureAttributeValueInternal(pojoClass, depth,
-				attributeType, annotations, attributeName, typeArgsMap,
-				genericTypeArgs);
+		return manufactureAttributeValue(pojoClass, depth, attributeType,
+				annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
 	}
 
 	/**
@@ -1632,7 +1587,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param pojoClass
 	 *            The POJO class being filled with values
 	 * @param depth
-	 *            Stack trace depth
+	 *            The stack trace depth
 	 * @param attributeType
 	 *            The type of the attribute for which a value is being
 	 *            manufactured
@@ -1667,7 +1622,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 */
 	@SuppressWarnings("rawtypes")
-	private Object manufactureAttributeValueInternal(Class<?> pojoClass,
+	private Object manufactureAttributeValue(Class<?> pojoClass,
 			int depth, Class<?> attributeType, List<Annotation> annotations,
 			String attributeName, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) throws InstantiationException,
@@ -1706,7 +1661,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// Array type
 
-			attributeValue = resolveArrayElementValue(realAttributeType,
+			attributeValue = resolveArrayElementValue(realAttributeType, depth,
 					annotations, pojoClass, attributeName, typeArgsMap);
 
 			// Otherwise it's a different type of Object (including
@@ -1715,15 +1670,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// Collection type
 			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-					pojoClass, realAttributeType, attributeName, annotations,
-					typeArgsMap, genericTypeArgs);
+					pojoClass, depth, realAttributeType, attributeName,
+					annotations, typeArgsMap, genericTypeArgs);
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			// Map type
 			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
-					realAttributeType, attributeName, annotations, typeArgsMap,
-					genericTypeArgs);
+					depth, realAttributeType, attributeName, annotations,
+					typeArgsMap, genericTypeArgs);
 
 		} else if (realAttributeType.getName().startsWith("java.")
 				|| realAttributeType.getName().startsWith("javax.")) {
@@ -1732,7 +1687,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// factory constructor strategy
 
 			attributeValue = createNewInstanceForClassWithoutConstructors(
-					pojoClass, realAttributeType, genericTypeArgs);
+					pojoClass, depth, realAttributeType, genericTypeArgs);
 
 		} else if (realAttributeType.isEnum()) {
 
@@ -1927,6 +1882,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The POJO being analysed
+	 * @param depth
+	 *            The stack trace depth
 	 * @param collectionType
 	 *            The type of the attribute being evaluated
 	 * @param annotations
@@ -1948,7 +1905,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	@SuppressWarnings({ "unchecked" })
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
-			Class<?> pojoClass, Class<?> collectionType, String attributeName,
+			Class<?> pojoClass, int depth, Class<?> collectionType, String attributeName,
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
@@ -2020,8 +1977,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						typeArgsMap, elementGenericTypeArgs);
 			}
 
-			fillCollection(pojoClass, attributeName, annotations, retValue,
-					typeClass, elementGenericTypeArgs.get());
+			fillCollection(pojoClass, depth, attributeName, annotations,
+					retValue, typeClass, elementGenericTypeArgs.get());
 
 		} catch (SecurityException e) {
 			throw new PodamMockeryException(
@@ -2057,6 +2014,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The POJO where the collection attribute is defined
+	 * @param depth
+	 *            The stack trace depth
 	 * @param attributeName
 	 *            The attribute name
 	 * @param annotations
@@ -2079,8 +2038,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 * 
 	 */
-	private void fillCollection(Class<?> pojoClass, String attributeName,
-			List<Annotation> annotations,
+	private void fillCollection(Class<?> pojoClass, int depth,
+			String attributeName, List<Annotation> annotations,
 			Collection<? super Object> collection,
 			Class<?> collectionElementType, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
@@ -2125,7 +2084,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						collectionElementType, elementStrategy);
 				collection.add(strategyValue);
 			} else {
-				collection.add(manufactureAttributeValue(pojoClass,
+				collection.add(manufactureAttributeValue(pojoClass, depth,
 						collectionElementType, annotations, attributeName,
 						genericTypeArgs));
 			}
@@ -2138,6 +2097,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The POJO being initialised
+	 * @param depth
+	 *            Stack trace depth
 	 * @param attributeType
 	 *            The type of the POJO map attribute
 	 * @param attributeName
@@ -2163,9 +2124,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If an error occurred while creating the Map object
 	 */
 	private Map<? super Object, ? super Object> resolveMapValueWhenMapIsPojoAttribute(
-			Class<?> pojoClass, Class<?> attributeType, String attributeName,
-			List<Annotation> annotations, Map<String, Type> typeArgsMap,
-			Type... genericTypeArgs) {
+			Class<?> pojoClass, int depth, Class<?> attributeType,
+			String attributeName, List<Annotation> annotations,
+			Map<String, Type> typeArgsMap, Type... genericTypeArgs) {
 
 		Map<? super Object, ? super Object> retValue = null;
 
@@ -2254,7 +2215,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						typeArgsMap, elementGenericTypeArgs);
 			}
 
-			fillMap(pojoClass, attributeName, annotations, retValue, keyClass,
+			fillMap(pojoClass, depth, attributeName, annotations, retValue, keyClass,
 					elementClass, keyGenericTypeArgs.get(),
 					elementGenericTypeArgs.get());
 
@@ -2288,6 +2249,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The POJO where the Map attribute has been declared
+	 * @param depth
+	 *            The stack depth
 	 * @param attributeName
 	 *            The attribute name
 	 * @param annotations
@@ -2315,7 +2278,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 * 
 	 */
-	private void fillMap(Class<?> pojoClass, String attributeName,
+	private void fillMap(Class<?> pojoClass, int depth, String attributeName,
 			List<Annotation> annotations,
 			Map<? super Object, ? super Object> mapToBeFilled,
 			Class<?> keyClass, Class<?> elementClass,
@@ -2353,13 +2316,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Object elementValue = null;
 
-			keyValue = getMapKeyOrElementValue(pojoClass, attributeName,
+			keyValue = getMapKeyOrElementValue(pojoClass, depth, attributeName,
 					annotations, keyClass, collectionAnnotation, keyStrategy,
 					keyGenericTypeArgs);
 
-			elementValue = getMapKeyOrElementValue(pojoClass, attributeName,
-					annotations, elementClass, collectionAnnotation,
-					elementStrategy, elementGenericTypeArgs);
+			elementValue = getMapKeyOrElementValue(pojoClass, depth,
+					attributeName, annotations, elementClass,
+					collectionAnnotation, elementStrategy,
+					elementGenericTypeArgs);
 
 			mapToBeFilled.put(keyValue, elementValue);
 
@@ -2372,6 +2336,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param pojoClass
 	 *            The class containing the annotated attribute
+	 * @param depth
+	 *            The stack depth
 	 * @param attributeName
 	 *            The attribute name
 	 * @param annotations
@@ -2401,7 +2367,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             desired type</li>
 	 *             </ul>
 	 */
-	private Object getMapKeyOrElementValue(Class<?> pojoClass,
+	private Object getMapKeyOrElementValue(Class<?> pojoClass, int depth,
 			String attributeName, List<Annotation> annotations,
 			Class<?> keyOrValueType, PodamCollection collectionAnnotation,
 			AttributeStrategy<?> elementStrategy, Type... genericTypeArgs)
@@ -2425,7 +2391,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
-			retValue = manufactureAttributeValue(pojoClass, keyOrValueType,
+			retValue = manufactureAttributeValue(pojoClass, depth, keyOrValueType,
 					annotations, attributeName, genericTypeArgs);
 		}
 		return retValue;
@@ -2437,6 +2403,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param attributeType
 	 *            The array type
+	 * @param depth
+	 *            The stack trace depth
 	 * @param annotations
 	 *            The annotations to be considered
 	 * @param pojoClass
@@ -2457,7 +2425,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object resolveArrayElementValue(Class<?> attributeType,
+	private Object resolveArrayElementValue(Class<?> attributeType, int depth,
 			List<Annotation> annotations, Class<?> pojoClass,
 			String attributeName, Map<String, Type> typeArgsMap)
 			throws IllegalArgumentException, InstantiationException,
@@ -2534,7 +2502,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				arrayElement = manufactureAttributeValue(pojoClass,
+				arrayElement = manufactureAttributeValue(pojoClass, depth,
 						componentType, annotations, attributeName, typeArgsMap,
 						genericTypeArgs.get());
 
@@ -2653,6 +2621,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The constructor for which parameter values are required
 	 * @param pojoClass
 	 *            The POJO class containing the constructor
+	 * @param depth
+	 *            The stack depth
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
@@ -2671,7 +2641,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	private Object[] getParameterValuesForConstructor(
-			Constructor<?> constructor, Class<?> pojoClass,
+			Constructor<?> constructor, Class<?> pojoClass, int depth,
 			Type... genericTypeArgs) throws IllegalArgumentException,
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
@@ -2751,7 +2721,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					Type[] genericTypeArgsAll = mergeTypeArrays(
 								collectionGenericTypeArgs.get(),
 								genericTypeArgsExtra);
-					fillCollection(pojoClass, attributeName, annotations,
+					fillCollection(pojoClass, depth, attributeName, annotations,
 							collection, collectionElementType,
 							genericTypeArgsAll);
 
@@ -2788,16 +2758,16 @@ public class PodamFactoryImpl implements PodamFactory {
 					Type[] genericTypeArgsAll = mergeTypeArrays(
 								elementGenericTypeArgs.get(),
 								genericTypeArgsExtra);
-					fillMap(pojoClass, attributeName, annotations, mapType,
-							keyClass, elementClass, keyGenericTypeArgs.get(),
-							genericTypeArgsAll);
+					fillMap(pojoClass, depth, attributeName, annotations,
+							mapType, keyClass, elementClass,
+							keyGenericTypeArgs.get(), genericTypeArgsAll);
 
 					parameterValues[idx] = mapType;
 
 				} else {
 
 					parameterValues[idx] = manufactureAttributeValue(pojoClass,
-							parameterType, annotations, attributeName,
+							depth, parameterType, annotations, attributeName,
 							genericTypeArgs);
 
 				}
