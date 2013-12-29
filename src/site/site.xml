@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+<project xmlns="http://maven.apache.org/DECORATION/1.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd"
+  name="Podam">
     
     <publishDate position="bottom" format="dd-MM-yyyy"/>
     
@@ -16,10 +16,9 @@
       
       <links>     
          
-          <item name="My Blog"
-        	href="http://tedone.typepad.com/blog"
-        	alt="Follow My Blog"
-        	target="_blank" />
+		<item name="Jemos Homepage" href="http://www.jemos.co.uk"
+        	 	alt="Visit Jemos homepage"
+        	 	target="_blank" />
         
           <item name="Podam @ GitHub"
         	href="https://github.com/mtedone/podam"
@@ -31,23 +30,30 @@
         	alt="Join PODAM Group on Google"
         	target="_blank" />
         	
-        <item name="Follow Me on Twitter"
-        	href="http://twitter.com/#!/marcotedone"
-        	alt="Follow Marco Tedone on Twitter"
+          <item name="BeDeDe @ GitHub"
+        	href="https://github.com/mtedone/bedede"
+        	alt="Download BeDeDe source from GitHub"
         	target="_blank" />
-        	
-        <item name="Jemos Releases on Twitter"
-        	href="http://twitter.com/#!/jemos_releases"
-        	alt="Follow Jemos releases on Twitter"
+        
+		 <item name="BeDeDe Google Group"
+        	href="https://groups.google.com/forum/#!forum/jemos-bedede"
+        	alt="Join BeDeDe Group on Google"
         	target="_blank" />
-        	
-        <item name="Jemos Homepage" href="http://www.jemos.co.uk"
-        	 	alt="Visit Jemos homepage"
-        	 	target="_blank" />
-        	 	
+        
         <item name="My CV" href="http://www.jemos.co.uk/personal/cv/marco-cv-new.doc"
         	 	alt="Download my CV"
         	 	target="_blank" />
+        
+        <item name="My Blog"
+        	href="http://tedone.typepad.com/blog"
+        	alt="Follow My Blog"
+        	target="_blank" />
+        	
+        <item name="Follow Me on Twitter"
+        	href="http://twitter.com/#!/marcotedone"
+        	alt="Follow Marco Tedone on Twitter"
+        	target="_blank" />       	 	
+        
         	 				        
       </links>
       
