@@ -59,14 +59,17 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 1;
+	public static final int MAX_DEPTH = 10;
 
 	/** The default number of collection elements for this strategy */
 	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
+	/** The max stack trace depth. */
+	private int maxDepth = MAX_DEPTH;
+
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
-	
+
 	/**
 	 * Comparator for sorting constructors.
 	 * <p>
@@ -423,8 +426,18 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	 public int getMaxDepth(Class<?> type) {
-		return MAX_DEPTH;
+		return maxDepth;
 	 }
+
+	/**
+	 * Sets the new max stack trace depth.
+	 * 
+	 * @param newMaxDepth
+	 *            The new max stack trace depth.
+	 */
+	public void setMaxDepth(int newMaxDepth) {
+		maxDepth = newMaxDepth;
+	}
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to
