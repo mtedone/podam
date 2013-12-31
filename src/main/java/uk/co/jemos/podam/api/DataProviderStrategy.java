@@ -3,6 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.reflect.Constructor;
+
 import uk.co.jemos.podam.dto.AttributeMetadata;
 
 /**
@@ -151,8 +153,35 @@ public interface DataProviderStrategy {
 	 * Implementations of this interface need to provide this value.
 	 * </p>
 	 * 
+	 * @param type
+	 *            Type of collection's elements
 	 * @return The number of default collection elements
 	 */
-	public int getNumberOfCollectionElements();
+	public int getNumberOfCollectionElements(Class<?> type);
+
+	/**
+	 * Returns how many times it is allowed to PODAM to create an instance
+	 * of the same class in a recursive hierarchy
+	 * <p>
+	 * Implementations of this interface need to provide this value.
+	 * </p>
+	 * 
+	 * @param type
+	 *            Type of POJO to be created
+	 * @return How many times it is allowed to create an instance
+	 * of the same class in a recursive hierarchy
+	 */
+	public int getMaxDepth(Class<?> type);
+
+	/**
+	 * Rearranges POJO's constructors in order they will be tried to
+	 * produce the POJO.
+	 * Default strategy consists of putting constructors with less parameters
+	 * to be tried first.
+	 * 
+	 * @param constructors
+	 *            Array of POJO's constructors
+	 */
+	public void sort(Constructor<?>[] constructors);
 
 }

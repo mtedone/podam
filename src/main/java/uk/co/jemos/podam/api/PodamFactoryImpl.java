@@ -18,7 +18,6 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -163,37 +162,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * Comparator for sorting constructors.
-	 * <p>
-	 * We would like to have constructor with less parameters to speed up
-	 * creation.
-	 * </p>
-	 */
-	public static Comparator<Constructor<?>> ConstructorComparator
-			= new Comparator<Constructor<?>>() {
-
-		public int compare(
-				Constructor<?> constructor1,
-				Constructor<?> constructor2) {
-
-			/* Constructors with Podam annotation first */
-			boolean choose1 =
-				(constructor1.getAnnotation(PodamConstructor.class) != null);
-			boolean choose2 =
-				(constructor2.getAnnotation(PodamConstructor.class) != null);
-			if (choose1 && !choose2) {
-				return Integer.MIN_VALUE;
-			} else if (!choose1 && choose2) {
-				return Integer.MAX_VALUE;
-			}
-
-			/* Then constructors with less parameters */
-			return constructor1.getParameterTypes().length -
-				constructor2.getParameterTypes().length;
-			}
-	};
-
-	/**
 	 * It attempts to create an instance of the given class
 	 * <p>
 	 * This method attempts to create an instance of the given argument for
@@ -318,7 +286,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							int nbrElements = strategy
-									.getNumberOfCollectionElements();
+									.getNumberOfCollectionElements(elementType);
 
 							for (Annotation annotation : annotations) {
 								if (annotation.annotationType().equals(
@@ -359,7 +327,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							int nbrElements = strategy
-									.getNumberOfCollectionElements();
+									.getNumberOfCollectionElements(valueClass);
 
 							for (Annotation annotation : annotations) {
 								if (annotation.annotationType().equals(
@@ -423,7 +391,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// There are public constructors. We want constructor with minumum
 			// number of parameters to speed up the creation
-			Arrays.sort(constructors, ConstructorComparator);
+			strategy.sort(constructors);
 
 			for (Constructor<?> constructor : constructors) {
 
@@ -1255,7 +1223,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// There are public constructors. We want constructor with minumum
 			// number of parameters to speed up the creation
-			Arrays.sort(constructors, ConstructorComparator);
+			strategy.sort(constructors);
 
 			for (Constructor<?> constructor : constructors) {
 
@@ -1483,7 +1451,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 
 					if (attributeType.equals(pojoClass)) {
-						if (depth < PodamConstants.MAX_DEPTH) {
+						if (depth < strategy.getMaxDepth(pojoClass)) {
 							depth++;
 							setterArg = this.manufacturePojoInternal(
 									attributeType, depth);
@@ -2092,7 +2060,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
+		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
 
 		if (null != collectionAnnotation) {
 
@@ -2330,7 +2298,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
+		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
 
 		if (null != collectionAnnotation) {
 
@@ -2481,10 +2449,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements();
-
-		Object arrayElement = null;
-
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
 		PodamCollection collectionAnnotation = null;
@@ -2497,13 +2461,18 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
+		int nbrElements;
 		if (null != collectionAnnotation) {
 
 			nbrElements = collectionAnnotation.nbrElements();
 			elementStrategy = collectionAnnotation.collectionElementStrategy()
 					.newInstance();
+		} else {
+
+			nbrElements = strategy.getNumberOfCollectionElements(attributeType);
 		}
 
+		Object arrayElement = null;
 		Object array = Array.newInstance(componentType, nbrElements);
 
 		for (int i = 0; i < nbrElements; i++) {

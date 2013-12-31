@@ -3,8 +3,12 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
+import uk.co.jemos.podam.annotations.PodamConstructor;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.utils.PodamConstants;
 
@@ -51,11 +55,48 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
+	/**
+	 * How many times it is allowed to PODAM to create an instance of the same
+	 * class in a recursive hierarchy
+	 */
+	public static final int MAX_DEPTH = 1;
+
 	/** The default number of collection elements for this strategy */
 	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
+	
+	/**
+	 * Comparator for sorting constructors.
+	 * <p>
+	 * We would like to have constructor with less parameters to speed up
+	 * creation.
+	 * </p>
+	 */
+	public static Comparator<Constructor<?>> ConstructorComparator
+			= new Comparator<Constructor<?>>() {
+
+		public int compare(
+				Constructor<?> constructor1,
+				Constructor<?> constructor2) {
+
+			/* Constructors with Podam annotation first */
+			boolean choose1 =
+				(constructor1.getAnnotation(PodamConstructor.class) != null);
+			boolean choose2 =
+				(constructor2.getAnnotation(PodamConstructor.class) != null);
+			if (choose1 && !choose2) {
+				return Integer.MIN_VALUE;
+			} else if (!choose1 && choose2) {
+				return Integer.MAX_VALUE;
+			}
+
+			/* Then constructors with less parameters */
+			return constructor1.getParameterTypes().length -
+				constructor2.getParameterTypes().length;
+			}
+	};
 
 	// ------------------->> Instance / Static variables
 
@@ -361,7 +402,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Getters / Setters
 
-	public int getNumberOfCollectionElements() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getNumberOfCollectionElements(Class<?> type) {
 		return nbrOfCollectionElements;
 	}
 
@@ -373,6 +417,26 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
 		nbrOfCollectionElements = newNumberOfCollectionElements;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	 public int getMaxDepth(Class<?> type) {
+		return MAX_DEPTH;
+	 }
+
+	/**
+	 * Rearranges POJO's constructors in order they will be tried to
+	 * produce the POJO.
+	 * Default strategy consist of putting constructors with less parameters
+	 * to be tried first.
+	 * 
+	 * @param constructors
+	 *            Array of POJO's constructors
+	 */
+	public void sort(Constructor<?>[] constructors) {
+		Arrays.sort(constructors, ConstructorComparator);
 	}
 
 	// ------------------->> Private methods

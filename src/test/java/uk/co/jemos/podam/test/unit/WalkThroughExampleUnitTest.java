@@ -148,10 +148,9 @@ public class WalkThroughExampleUnitTest {
 
 		List<BankAccount> bankAccounts = pojo.getBankAccounts();
 		Assert.assertNotNull("The bank accounts cannot be null!", bankAccounts);
-		int expectedBankAccountsNbr = strategy.getNumberOfCollectionElements();
-		Assert.assertTrue("The expected number of addresses is "
-				+ expectedBankAccountsNbr,
-				bankAccounts.size() == expectedBankAccountsNbr);
+		Assert.assertEquals("Unexpected number of addresses",
+				strategy.getNumberOfCollectionElements(BankAccount.class),
+				bankAccounts.size());
 
 		for (BankAccount bankAccount : bankAccounts) {
 			validateBankAccount(bankAccount);

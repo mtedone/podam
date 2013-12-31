@@ -213,17 +213,19 @@ public class PodamMockerUnitTest {
 		Random[] randomArray = pojo.getRandomArray();
 		Assert.assertNotNull("The array of Random objects cannot be null!",
 				randomArray);
-		Assert.assertTrue("The array of Random length should be one!",
-				randomArray.length == strategy.getNumberOfCollectionElements());
+		Assert.assertEquals("The array of Random length should be one!",
+				strategy.getNumberOfCollectionElements(Random.class),
+				randomArray.length);
 		Random random = randomArray[0];
 		Assert.assertNotNull(
 				"The Random array element at [0] should not be null", random);
 
 		int[] intArray = pojo.getIntArray();
 		Assert.assertNotNull("The array of ints cannot be null!", intArray);
-		Assert.assertTrue(
+		Assert.assertEquals(
 				"The array of ints length should be the same as defined in the strategy!",
-				intArray.length == strategy.getNumberOfCollectionElements());
+				strategy.getNumberOfCollectionElements(Integer.class),
+				intArray.length);
 		Assert.assertTrue(
 				"The first element in the array of ints must be different from zero!",
 				intArray[0] != 0);
@@ -231,9 +233,10 @@ public class PodamMockerUnitTest {
 		boolean[] booleanArray = pojo.getBooleanArray();
 		Assert.assertNotNull("The array of booleans cannot be null!",
 				booleanArray);
-		Assert.assertTrue(
+		Assert.assertEquals(
 				"The array of boolean length should be the same as the one set in the strategy!",
-				booleanArray.length == strategy.getNumberOfCollectionElements());
+				strategy.getNumberOfCollectionElements(Boolean.class),
+				booleanArray.length);
 
 		BigDecimal bigDecimalField = pojo.getBigDecimalField();
 		Assert.assertNotNull("The BigDecimal field cannot be null!",
@@ -301,8 +304,9 @@ public class PodamMockerUnitTest {
 
 		long[] longArray = pojo.getLongArray();
 		Assert.assertNotNull("The array of longs cannot be null!", longArray);
-		Assert.assertTrue("The array of longs must have 1 element!",
-				longArray.length == strategy.getNumberOfCollectionElements());
+		Assert.assertEquals("The array of longs must have 1 element!",
+				strategy.getNumberOfCollectionElements(Long.class),
+				longArray.length);
 
 	}
 

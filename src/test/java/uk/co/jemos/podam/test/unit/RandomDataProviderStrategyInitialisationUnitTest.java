@@ -25,18 +25,18 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	public void init() {
 
 		strategy = RandomDataProviderStrategy.getInstance();
-		Assert.assertTrue(
-				"The default number of collection elements should be "
-						+ RandomDataProviderStrategy.DEFAULT_NBR_COLLECTION_ELEMENTS,
-				strategy.getNumberOfCollectionElements() == RandomDataProviderStrategy.DEFAULT_NBR_COLLECTION_ELEMENTS);
+		Assert.assertEquals(
+				"An incorrect default number of collection elements",
+				RandomDataProviderStrategy.DEFAULT_NBR_COLLECTION_ELEMENTS,
+				strategy.getNumberOfCollectionElements(Object.class));
 
 		int aNumberOfCollectionElements = 3;
 		strategy = RandomDataProviderStrategy
 				.getInstance(aNumberOfCollectionElements);
-		Assert.assertTrue(
-				"The default number of collection elements should be "
-						+ aNumberOfCollectionElements,
-				strategy.getNumberOfCollectionElements() == aNumberOfCollectionElements);
+		Assert.assertEquals(
+				"An incorrect default number of collection elements",
+				aNumberOfCollectionElements,
+				strategy.getNumberOfCollectionElements(Object.class));
 
 	}
 
