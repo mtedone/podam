@@ -1369,6 +1369,11 @@ public class PodamFactoryImpl implements PodamFactory {
 					defaultConstructor.setAccessible(true);
 					retValue = defaultConstructor.newInstance();
 
+				} else if (depth >= strategy.getMaxDepth(pojoClass)) {
+
+					retValue = (T)createNewInstanceForClassWithoutConstructors(
+								pojoClass, depth, pojoClass, genericTypeArgs);
+
 				} else {
 
 					retValue = resolvePojoWithoutSetters(pojoClass, depth,
