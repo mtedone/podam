@@ -2774,9 +2774,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				} else {
 
-					parameterValues[idx] = manufactureAttributeValue(pojoClass,
-							depth, parameterType, annotations, attributeName,
-							genericTypeArgs);
+					if (depth >= strategy.getMaxDepth(pojoClass)) {
+
+						LOG.error("Cannot produce constructor attribute "
+								+ parameterType + ". Returning null");
+						parameterValues[idx] = null;
+
+					} else {
+
+						parameterValues[idx] = manufactureAttributeValue(pojoClass,
+								depth, parameterType, annotations, attributeName,
+								genericTypeArgs);
+
+					}
 
 				}
 
