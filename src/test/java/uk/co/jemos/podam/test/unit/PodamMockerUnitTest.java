@@ -278,32 +278,30 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testCircularDependencyCollection() {
-		RandomDataProviderStrategy strategy =
-				(RandomDataProviderStrategy)factory.getStrategy();
-		int maxDepth = strategy.getMaxDepth(null);
-		strategy.setMaxDepth(3);
 
 		RecursiveList pojo = factory.manufacturePojo(RecursiveList.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		Assert.assertNotNull("The pojo's list cannot be null!", pojo.getList());
 		Assert.assertTrue("The pojo's list cannot be empty!", !pojo.getList().isEmpty());
+		for (RecursiveList listValue : pojo.getList()) {
+			Assert.assertNotNull(
+				"The pojo's list element cannot be null!", listValue);
+		}
 
-		strategy.setMaxDepth(maxDepth);
 	}
 
 	@Test
 	public void testCircularDependencyMap() {
-		RandomDataProviderStrategy strategy =
-				(RandomDataProviderStrategy)factory.getStrategy();
-		int maxDepth = strategy.getMaxDepth(null);
-		strategy.setMaxDepth(3);
 
 		RecursiveMap pojo = factory.manufacturePojo(RecursiveMap.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		Assert.assertNotNull("The pojo's map cannot be null!", pojo.getMap());
 		Assert.assertTrue("The pojo's map cannot be empty!", !pojo.getMap().isEmpty());
+		for (RecursiveMap mapValue : pojo.getMap().values()) {
+			Assert.assertNotNull(
+				"The pojo's map element cannot be null!", mapValue);
+		}
 
-		strategy.setMaxDepth(maxDepth);
 	}
 
 	@Test
