@@ -1577,7 +1577,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, IllegalArgumentException,
 			ClassNotFoundException {
 
-		Map<String, Type> nullTypeArgsMap = null;
+		Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 
 		return manufactureAttributeValue(pojoClass, pojos, attributeType,
 				annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
