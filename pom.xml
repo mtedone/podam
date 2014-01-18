@@ -12,7 +12,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>3.2.0.RELEASE</version>
+	<version>3.3.0.RELEASE</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
@@ -125,7 +125,7 @@
 					<attach>true</attach>
 					<show>private</show>
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
-					<footer>Jemos 2002 - 2013: All Rights Reserved. Podam runs under
+					<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 						the MIT license</footer>
 				</configuration>
 			</plugin>
@@ -260,7 +260,7 @@
 					<attach>true</attach>
 					<show>private</show>
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
-					<footer>Jemos 2002 - 2013: All Rights Reserved. Podam runs under
+					<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 						the MIT license</footer>
 				</configuration>
 			</plugin>			
