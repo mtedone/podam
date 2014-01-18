@@ -59,7 +59,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 10;
+	public static final int MAX_DEPTH = 1;
 
 	/** The default number of collection elements for this strategy */
 	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
