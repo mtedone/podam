@@ -1405,6 +1405,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			}
 
+			/* Construction failed, no point to continue */
+			if (retValue == null) {
+				return null;
+			}
+
 			Class<?>[] parameterTypes = null;
 			Class<?> attributeType = null;
 
