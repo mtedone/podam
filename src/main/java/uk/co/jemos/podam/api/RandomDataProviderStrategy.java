@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.Random;
 
 import uk.co.jemos.podam.annotations.PodamConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.utils.PodamConstants;
 
@@ -38,7 +40,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	// ------------------->> Constants
 
 	/** Application logger */
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+	private static final Logger LOG = LoggerFactory
 			.getLogger(RandomDataProviderStrategy.class.getName());
 
 	/** A RANDOM generator */
