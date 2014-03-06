@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.test.unit;
 
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -16,6 +17,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import javax.activation.DataHandler;
 
 import junit.framework.Assert;
 
@@ -301,6 +304,17 @@ public class PodamMockerUnitTest {
 			Assert.assertNotNull(
 				"The pojo's map element cannot be null!", mapValue);
 		}
+
+	}
+
+	@Test
+	public void testJREPojoWithDependencyLoopInConstructor() {
+
+		URL pojo = factory.manufacturePojo(URL.class);
+		Assert.assertNull("Default strategy cannot create java.net.URL object", pojo);
+
+		DataHandler pojo2 = factory.manufacturePojo(DataHandler.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo2);
 
 	}
 
