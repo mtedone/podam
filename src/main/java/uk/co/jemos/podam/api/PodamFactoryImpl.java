@@ -1688,15 +1688,6 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojos, realAttributeType, attributeName, annotations,
 					typeArgsMap, genericTypeArgs);
 
-		} else if (realAttributeType.getName().startsWith("java.")
-				|| realAttributeType.getName().startsWith("javax.")) {
-
-			// For classes in the Java namespace we attempt the no-args or the
-			// factory constructor strategy
-
-			attributeValue = createNewInstanceForClassWithoutConstructors(
-					pojoClass, pojos, realAttributeType, genericTypeArgs);
-
 		} else if (realAttributeType.isEnum()) {
 
 			// Enum type
@@ -1720,8 +1711,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (depth <= strategy.getMaxDepth(pojoClass)) {
 
 				pojos.put(realAttributeType, depth + 1);
-				attributeValue = this.manufacturePojoInternal(realAttributeType,
-						pojos, genericTypeArgs);
+				if (realAttributeType.getName().startsWith("java.")
+					|| realAttributeType.getName().startsWith("javax.")) {
+
+					// For classes in the Java namespace we attempt the no-args or the
+					// factory constructor strategy
+					attributeValue = createNewInstanceForClassWithoutConstructors(
+							pojoClass, pojos, realAttributeType, genericTypeArgs);
+				} else {
+
+					attributeValue = this.manufacturePojoInternal(realAttributeType,
+							pojos, genericTypeArgs);
+				}
 				pojos.put(realAttributeType, depth);
 
 			} else {
@@ -2696,103 +2697,77 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
 
-			if (parameterType.equals(pojoClass)) {
-				// Recursive hierarchy in the constructor? If so the POJO should
-				// also have a no-arg constructor
-				// to avoid infinite looping
+			String attributeName = null;
 
-				Class<?> declaringClass = constructor.getDeclaringClass();
-				Constructor<?> noArgConstructor = null;
-				try {
-					noArgConstructor = declaringClass
-							.getConstructor(new Class<?>[] {});
-				} catch (NoSuchMethodException e) {
-					String errorMsg = "For class: "
-							+ declaringClass
-							+ " a constructor with its own type as argument does not have a no-arg constructor. Impossible to create an instance of this argument.";
-					LOG.error(errorMsg);
-					throw new IllegalArgumentException(errorMsg);
+			if (Collection.class.isAssignableFrom(parameterType)) {
+
+				Collection<? super Object> collection = resolveCollectionType(parameterType);
+
+				Type type = constructor.getGenericParameterTypes()[idx];
+				Class<?> collectionElementType;
+				AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				if (type instanceof ParameterizedType) {
+					ParameterizedType pType = (ParameterizedType) type;
+					Type actualTypeArgument = pType.getActualTypeArguments()[0];
+
+					collectionElementType = resolveGenericParameter(
+							actualTypeArgument, typeArgsMap,
+							collectionGenericTypeArgs);
+				} else {
+					collectionElementType = Object.class;
 				}
 
-				parameterValues[idx] = noArgConstructor
-						.newInstance(new Object[] {});
+				Type[] genericTypeArgsAll = mergeTypeArrays(
+						collectionGenericTypeArgs.get(),
+						genericTypeArgsExtra);
+				fillCollection(pojoClass, pojos, attributeName,
+						annotations, collection, collectionElementType,
+						genericTypeArgsAll);
+
+				parameterValues[idx] = collection;
+
+			} else if (Map.class.isAssignableFrom(parameterType)) {
+
+				Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
+
+				Type type = constructor.getGenericParameterTypes()[idx];
+
+				Class<?> keyClass;
+				Class<?> elementClass;
+				AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				if (type instanceof ParameterizedType) {
+					ParameterizedType pType = (ParameterizedType) type;
+					Type[] actualTypeArguments = pType
+							.getActualTypeArguments();
+
+					keyClass = resolveGenericParameter(
+							actualTypeArguments[0], typeArgsMap,
+							keyGenericTypeArgs);
+					elementClass = resolveGenericParameter(
+							actualTypeArguments[1], typeArgsMap,
+							elementGenericTypeArgs);
+				} else {
+					keyClass = Object.class;
+					elementClass = Object.class;
+				}
+
+				Type[] genericTypeArgsAll = mergeTypeArrays(
+						elementGenericTypeArgs.get(), genericTypeArgsExtra);
+				fillMap(pojoClass, pojos, attributeName, annotations,
+						mapType, keyClass, elementClass,
+						keyGenericTypeArgs.get(), genericTypeArgsAll);
+
+				parameterValues[idx] = mapType;
 
 			} else {
 
-				String attributeName = null;
-
-				if (Collection.class.isAssignableFrom(parameterType)) {
-
-					Collection<? super Object> collection = resolveCollectionType(parameterType);
-
-					Type type = constructor.getGenericParameterTypes()[idx];
-					Class<?> collectionElementType;
-					AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
-							new Type[] {});
-					if (type instanceof ParameterizedType) {
-						ParameterizedType pType = (ParameterizedType) type;
-						Type actualTypeArgument = pType
-								.getActualTypeArguments()[0];
-
-						collectionElementType = resolveGenericParameter(
-								actualTypeArgument, typeArgsMap,
-								collectionGenericTypeArgs);
-					} else {
-						collectionElementType = Object.class;
-					}
-
-					Type[] genericTypeArgsAll = mergeTypeArrays(
-							collectionGenericTypeArgs.get(),
-							genericTypeArgsExtra);
-					fillCollection(pojoClass, pojos, attributeName,
-							annotations, collection, collectionElementType,
-							genericTypeArgsAll);
-
-					parameterValues[idx] = collection;
-
-				} else if (Map.class.isAssignableFrom(parameterType)) {
-
-					Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
-
-					Type type = constructor.getGenericParameterTypes()[idx];
-
-					Class<?> keyClass;
-					Class<?> elementClass;
-					AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-							new Type[] {});
-					AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-							new Type[] {});
-					if (type instanceof ParameterizedType) {
-						ParameterizedType pType = (ParameterizedType) type;
-						Type[] actualTypeArguments = pType
-								.getActualTypeArguments();
-
-						keyClass = resolveGenericParameter(
-								actualTypeArguments[0], typeArgsMap,
-								keyGenericTypeArgs);
-						elementClass = resolveGenericParameter(
-								actualTypeArguments[1], typeArgsMap,
-								elementGenericTypeArgs);
-					} else {
-						keyClass = Object.class;
-						elementClass = Object.class;
-					}
-
-					Type[] genericTypeArgsAll = mergeTypeArrays(
-							elementGenericTypeArgs.get(), genericTypeArgsExtra);
-					fillMap(pojoClass, pojos, attributeName, annotations,
-							mapType, keyClass, elementClass,
-							keyGenericTypeArgs.get(), genericTypeArgsAll);
-
-					parameterValues[idx] = mapType;
-
-				} else {
-
-					parameterValues[idx] = manufactureAttributeValue(pojoClass,
-							pojos, parameterType, annotations, attributeName,
-							genericTypeArgs);
-
-				}
+				parameterValues[idx] = manufactureAttributeValue(pojoClass,
+						pojos, parameterType, annotations, attributeName,
+						genericTypeArgs);
 
 			}
 
