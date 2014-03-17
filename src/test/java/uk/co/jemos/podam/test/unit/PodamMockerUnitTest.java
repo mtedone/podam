@@ -31,8 +31,10 @@ import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.CollectionsPojo;
+import uk.co.jemos.podam.test.dto.ConcreteTestPojo;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojo;
+import uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo;
 import uk.co.jemos.podam.test.dto.EnumsPojo;
 import uk.co.jemos.podam.test.dto.EnumsPojo.RatePodamInternal;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
@@ -114,6 +116,33 @@ public class PodamMockerUnitTest {
 		// exception
 		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
 		Assert.assertNull("The abstract pojo should be null!", pojo);
+	}
+
+	@Test
+	public void testMockerForAbstractClassWithConcreteSpecified() {
+		// Trying to create an abstract class with a specified concrete
+		// implementation should be fine
+		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
+		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
+		Assert.assertNotNull(
+				"The abstract pojo should not be null since a concrete impl has been specified",
+				pojo);
+		strategy.removeSpecific(AbstractTestPojo.class);
+	}
+
+	@Test
+	public void testMockerForEmbeddedAbstractClassWithConcreteSpecified() {
+		// Trying to create an abstract class with a specified concrete
+		// implementation should be fine
+		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
+		EmbeddedAbstractFieldTestPojo pojo = factory.manufacturePojo(EmbeddedAbstractFieldTestPojo.class);
+		Assert.assertNotNull(
+				"The pojo should not be null",
+				pojo);
+		Assert.assertNotNull(
+				"The abstract embedded pojo should not be null since a concrete impl has been specified",
+				pojo.getPojo());
+		strategy.removeSpecific(AbstractTestPojo.class);
 	}
 
 	@Test
