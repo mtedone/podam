@@ -151,14 +151,26 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * 
 	 * @param typeArgsMap
 	 *            a map to fill
-	 * @param typeParameters
-	 *            Type arguments needed for a generics object creation
+	 * @param pojoClass
+	 *            Typed class
 	 * @param genericTypeArgs
 	 *            Type arguments provided for a generics object by caller
 	 * @return Array of unused provided generic type arguments
+	 * @throws IllegalStateException  If number of typed parameters doesn't match
+	 *            number of provided generic types
 	 */
 	private Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
-			final TypeVariable<?>[] typeParameters, final Type[] genericTypeArgs) {
+			final Class<?> pojoClass, final Type[] genericTypeArgs)
+			throws IllegalStateException {
+
+		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
+		if (typeParameters.length > genericTypeArgs.length) {
+			String msg = pojoClass.getCanonicalName()
+					+ " is missing generic type arguments, expected "
+					+ typeParameters.length + " found "
+					+ genericTypeArgs.length + ". Returning null";
+			throw new IllegalStateException(msg);
+		}
 
 		int i;
 		for (i = 0; i < typeParameters.length; i++) {
@@ -171,6 +183,24 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else {
 			genericTypeArgsExtra = null;
 		}
+
+		/* Adding types, which were specified during inheritance */
+		Class<?> clazz = pojoClass;
+		while (clazz != null) {
+			Type superType = clazz.getGenericSuperclass();
+			clazz = clazz.getSuperclass();
+			if (superType instanceof ParameterizedType) {
+				ParameterizedType paramType = (ParameterizedType)superType;
+				Type[] actualParamTypes = paramType.getActualTypeArguments();
+				TypeVariable<?>[] paramTypes = clazz.getTypeParameters();
+				for (i = 0; i < actualParamTypes.length && i < paramTypes.length; i++) {
+					if (actualParamTypes[i] instanceof Class) {
+						typeArgsMap.put(paramTypes[i].getName(), actualParamTypes[i]);
+					}
+				}
+			}
+		}
+
 		return genericTypeArgsExtra;
 	}
 
@@ -216,15 +246,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
-		if (typeParameters.length > genericTypeArgs.length) {
-			LOG.info(pojoClass.getCanonicalName()
-					+ " is missing generic type arguments, expected "
-					+ typeParameters.length + " found "
-					+ genericTypeArgs.length + ". Returning null.");
-			return null;
-		}
-
 		Object retValue = null;
 
 		Constructor<?>[] constructors = clazz.getConstructors();
@@ -232,11 +253,16 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (constructors.length == 0) {
 
 			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-			Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-					typeParameters, genericTypeArgs);
-			if (genericTypeArgsExtra != null) {
-				LOG.warn(String.format("Lost %d generic type arguments",
-						genericTypeArgsExtra.length));
+			try {
+				Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+						pojoClass, genericTypeArgs);
+				if (genericTypeArgsExtra != null) {
+					LOG.warn(String.format("Lost %d generic type arguments",
+							genericTypeArgsExtra.length));
+				}
+			} catch(IllegalStateException e) {
+				LOG.error(e.getMessage());
+				return null;
 			}
 
 			// If no publicly accessible constructors are available,
@@ -1322,18 +1348,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			T retValue = null;
 
-			final TypeVariable<?>[] typeParameters = pojoClass
-					.getTypeParameters();
-			if (typeParameters.length > genericTypeArgs.length) {
-				LOG.info(pojoClass.getCanonicalName()
-						+ " is missing generic type arguments, expected "
-						+ typeParameters.length + " found "
-						+ genericTypeArgs.length + ". Returning null.");
-
-				return retValue;
-
-			}
-
 			if (pojoClass.isPrimitive()) {
 				// For JDK POJOs we can't retrieve attribute name
 				ArrayList<Annotation> annotations = new ArrayList<Annotation>();
@@ -1464,12 +1478,17 @@ public class PodamFactoryImpl implements PodamFactory {
 				} else {
 
 					final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-					Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-							typeParameters, genericTypeArgs);
-					if (genericTypeArgsExtra != null) {
-						LOG.warn(String.format(
-								"Lost %d generic type arguments",
-								genericTypeArgsExtra.length));
+					try {
+						Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+								pojoClass, genericTypeArgs);
+						if (genericTypeArgsExtra != null) {
+							LOG.warn(String.format(
+									"Lost %d generic type arguments",
+									genericTypeArgsExtra.length));
+						}
+					} catch(IllegalStateException e) {
+						LOG.error(e.getMessage());
+						return null;
 					}
 
 					Type[] typeArguments = new Type[] {};
@@ -2672,18 +2691,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
-		if (typeParameters.length > genericTypeArgs.length) {
-			LOG.info(pojoClass.getCanonicalName()
-					+ " is missing generic type arguments, expected "
-					+ typeParameters.length + " found "
-					+ genericTypeArgs.length + ". Returning null.");
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		Type[] genericTypeArgsExtra = null;
+		try {
+			genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+					pojoClass, genericTypeArgs);
+		} catch(IllegalStateException e) {
+			LOG.error(e.getMessage());
 			return null;
 		}
-
-		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-				typeParameters, genericTypeArgs);
 
 		Annotation[][] parameterAnnotations = constructor
 				.getParameterAnnotations();
