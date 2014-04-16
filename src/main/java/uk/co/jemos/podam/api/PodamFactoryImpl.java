@@ -467,9 +467,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			LOG.warn("For class: " + clazz.getName()
-					+ " PODAM could not possibly create a value."
-					+ " This attribute will be returned as null.");
+			LOG.warn("For class: {} PODAM could not possibly create a value."
+					+ " This attribute will be returned as null.", clazz);
 		}
 
 		return retValue;
@@ -1309,9 +1308,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 			if (retValue == null) {
-				LOG.warn("For class: " + pojoClass.getName()
-						+ " PODAM could not possibly create a value."
-						+ " This attribute will be returned as null.");
+				LOG.warn("For class: {} PODAM could not possibly create a value."
+						+ " This attribute will be returned as null.",
+						pojoClass);
 			}
 
 		}
@@ -1358,7 +1357,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (pojoClass.isInterface()
 					|| Modifier.isAbstract(pojoClass.getModifiers())) {
-				LOG.warn("Cannot instantiate an interface or abstract class. Returning null.");
+				LOG.warn("Cannot instantiate an interface or abstract class {}."
+						+ " Returning null.", pojoClass);
 				return null;
 			}
 
@@ -1443,7 +1443,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				parameterTypes = setter.getParameterTypes();
 				if (parameterTypes.length != 1) {
 					throw new IllegalStateException(
-							"A JavaBean setter should have only one argument");
+							"A " + pojoClass.getSimpleName() + "." + setter.getName()
+							+ "() should have only one argument");
 				}
 
 				// A class which has got an attribute to itself (e.g.
@@ -1534,9 +1535,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 					setter.invoke(retValue, setterArg);
 				} else {
-					LOG.warn("Couldn't find a suitable value for attribute: "
-							+ attributeName
-							+ ". This POJO attribute will be left to null.");
+					LOG.warn("Couldn't find a suitable value for attribute: {}"
+							+ ". This POJO attribute will be left to null.",
+							attributeType);
 				}
 
 			}
@@ -1748,7 +1749,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				LOG.warn("Loop in " + realAttributeType + " production detected. Returning null.");
+				LOG.warn("Loop in {} production detected. Returning null.",
+						realAttributeType);
 				attributeValue = null;
 
 			}
