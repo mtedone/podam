@@ -1279,6 +1279,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				// annotation
 
 				try {
+					if (!constructor.isAccessible()) {
+						constructor.setAccessible(true);
+					}
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
 							&& ((Collection) retValue).size() == 0) {
@@ -1526,11 +1529,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					// the sake of
 					// usability. However this violates Javabean standards and
 					// it's a security hack
-					if (!Modifier.isPublic(setter.getModifiers())) {
-						LOG.warn("The setter: "
-								+ setter.getName()
-								+ " is not public. Setting it to accessible. "
-								+ "However this is a security hack and your code should really adhere to Javabean standards.");
+					if (!setter.isAccessible()) {
+						LOG.warn("The setter: {} is not accessible.Setting it to accessible. "
+								+ "However this is a security hack and your code should really adhere to Javabean standards.",
+								setter.getName());
 						setter.setAccessible(true);
 					}
 					setter.invoke(retValue, setterArg);
