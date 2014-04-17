@@ -1360,9 +1360,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (pojoClass.isInterface()
 					|| Modifier.isAbstract(pojoClass.getModifiers())) {
-				LOG.warn("Cannot instantiate an interface or abstract class {}."
-						+ " Returning null.", pojoClass);
-				return null;
+				Class<T> specificClass = (Class<T>)strategy.getSpecificClass(pojoClass);
+				if (specificClass != pojoClass) {
+					return this.manufacturePojoInternal(specificClass, pojos,
+							genericTypeArgs);
+				} else {
+					LOG.warn("Cannot instantiate an interface or abstract class {}."
+							+ " Returning null.", pojoClass);
+					return null;
+				}
 			}
 
 			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,

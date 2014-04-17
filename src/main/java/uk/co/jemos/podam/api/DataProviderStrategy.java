@@ -184,4 +184,17 @@ public interface DataProviderStrategy {
 	 */
 	public void sort(Constructor<?>[] constructors);
 
+	/**
+	 * Resolves abstract classes and interfaces.
+	 * <p>
+	 * Should return specific class type, which can be instantiated and assigned
+	 * to abstract class type or interface.
+	 * </p>
+	 * 
+	 * @param nonInstantiatableClass
+	 *            Abstract class type or interface
+	 * @return Non-abstract class type derived from
+	 * {@code nonInstantiatableClass}.
+	 */
+	public <T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
 }

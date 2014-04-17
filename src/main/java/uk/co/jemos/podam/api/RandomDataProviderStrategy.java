@@ -6,6 +6,8 @@ package uk.co.jemos.podam.api;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import uk.co.jemos.podam.annotations.PodamConstructor;
@@ -103,6 +105,13 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			}
 	};
 
+	/**
+	 * A list of user-submitted specific implementations for interfaces
+	 * and abstract classes
+	 */
+	private final Map<Class<?>, Class<?>> specificTypes
+			= new HashMap<Class<?>, Class<?>>();
+	
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
@@ -452,6 +461,43 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	public void sort(Constructor<?>[] constructors) {
 		Arrays.sort(constructors, ConstructorComparator);
+	}
+
+	/**
+	 * Bind an interface/abstract class to a specific implementation
+	 *
+	 * @param abstractClass the interface/abstract class to bind
+	 * @param specificClass the specific class implementing or extending
+	 * {@code abstractClass}.
+	 * @return itself
+	 */
+	public <T> RandomDataProviderStrategy addSpecific(final Class<T> abstractClass,
+			final Class<? extends T> specificClass) {
+		this.specificTypes.put(abstractClass, specificClass);
+		return this;
+	}
+
+	/**
+	 * Remove binding of an interface/abstract class to a specific implementation
+	 *
+	 * @param abstractClass the interface/abstract class to remove binding
+	 * @return itself
+	 */
+	public <T> RandomDataProviderStrategy removeSpecific(final Class<T> abstractClass) {
+		this.specificTypes.remove(abstractClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass) {
+		Class<? extends T> found = (Class<? extends T>)specificTypes.get(nonInstantiatableClass);
+		if (found == null) {
+			found = nonInstantiatableClass;
+		}
+		return found;
 	}
 
 	// ------------------->> Private methods
