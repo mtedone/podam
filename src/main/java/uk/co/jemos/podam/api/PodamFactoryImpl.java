@@ -467,9 +467,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			LOG.warn("For class: " + clazz.getName()
-					+ " PODAM could not possibly create a value."
-					+ " This attribute will be returned as null.");
+			LOG.warn("For class: {} PODAM could not possibly create a value."
+					+ " This attribute will be returned as null.", clazz);
 		}
 
 		return retValue;
@@ -1280,6 +1279,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				// annotation
 
 				try {
+					if (!constructor.isAccessible()) {
+						constructor.setAccessible(true);
+					}
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
 							&& ((Collection) retValue).size() == 0) {
@@ -1309,9 +1311,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 			if (retValue == null) {
-				LOG.warn("For class: " + pojoClass.getName()
-						+ " PODAM could not possibly create a value."
-						+ " This attribute will be returned as null.");
+				LOG.warn("For class: {} PODAM could not possibly create a value."
+						+ " This attribute will be returned as null.",
+						pojoClass);
 			}
 
 		}
@@ -1358,8 +1360,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (pojoClass.isInterface()
 					|| Modifier.isAbstract(pojoClass.getModifiers())) {
-				LOG.warn("Cannot instantiate an interface or abstract class. Returning null.");
-				return null;
+				Class<T> specificClass = (Class<T>)strategy.getSpecificClass(pojoClass);
+				if (specificClass != pojoClass) {
+					return this.manufacturePojoInternal(specificClass, pojos,
+							genericTypeArgs);
+				} else {
+					LOG.warn("Cannot instantiate an interface or abstract class {}."
+							+ " Returning null.", pojoClass);
+					return null;
+				}
 			}
 
 			ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
@@ -1443,7 +1452,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				parameterTypes = setter.getParameterTypes();
 				if (parameterTypes.length != 1) {
 					throw new IllegalStateException(
-							"A JavaBean setter should have only one argument");
+							"A " + pojoClass.getSimpleName() + "." + setter.getName()
+							+ "() should have only one argument");
 				}
 
 				// A class which has got an attribute to itself (e.g.
@@ -1525,18 +1535,17 @@ public class PodamFactoryImpl implements PodamFactory {
 					// the sake of
 					// usability. However this violates Javabean standards and
 					// it's a security hack
-					if (!Modifier.isPublic(setter.getModifiers())) {
-						LOG.warn("The setter: "
-								+ setter.getName()
-								+ " is not public. Setting it to accessible. "
-								+ "However this is a security hack and your code should really adhere to Javabean standards.");
+					if (!setter.isAccessible()) {
+						LOG.warn("The setter: {} is not accessible.Setting it to accessible. "
+								+ "However this is a security hack and your code should really adhere to Javabean standards.",
+								setter.getName());
 						setter.setAccessible(true);
 					}
 					setter.invoke(retValue, setterArg);
 				} else {
-					LOG.warn("Couldn't find a suitable value for attribute: "
-							+ attributeName
-							+ ". This POJO attribute will be left to null.");
+					LOG.warn("Couldn't find a suitable value for attribute: {}"
+							+ ". This POJO attribute will be left to null.",
+							attributeType);
 				}
 
 			}
@@ -1748,7 +1757,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				LOG.warn("Loop in " + realAttributeType + " production detected. Returning null.");
+				LOG.warn("Loop in {} production detected. Returning null.",
+						realAttributeType);
 				attributeValue = null;
 
 			}
