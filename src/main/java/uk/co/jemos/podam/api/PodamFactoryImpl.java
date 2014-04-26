@@ -250,7 +250,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Constructor<?>[] constructors = clazz.getConstructors();
 
-		if (constructors.length == 0) {
+		if (constructors.length == 0 || Modifier.isAbstract(clazz.getModifiers())) {
 
 			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 			try {
@@ -276,6 +276,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// The parameters to pass to the method invocation
 			Object[] parameterValues = null;
+			Object[] noParams = new Object[] {};
 
 			for (Method candidateConstructor : declaredMethods) {
 
@@ -292,9 +293,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				if (parameterTypes.length == 0) {
 
-					// There is a factory method with no arguments
-					retValue = candidateConstructor.invoke(clazz,
-							new Object[] {});
+					parameterValues = noParams;
 
 				} else {
 
@@ -495,10 +494,16 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> parameterType;
 		methodGenericTypeArgs.set(new Type[] {});
 		if (paramType instanceof TypeVariable<?>) {
-			final String typeName = ((TypeVariable<?>) paramType).getName();
-			final Type type = typeArgsMap.get(typeName);
-			parameterType = resolveGenericParameter(type, typeArgsMap,
-					methodGenericTypeArgs);
+			final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
+			final Type type = typeArgsMap.get(typeVariable.getName());
+			if (type != null) {
+				parameterType = resolveGenericParameter(type, typeArgsMap,
+						methodGenericTypeArgs);
+			} else {
+				LOG.warn("Unrecognized type {}. Will use Object intead",
+						typeVariable);
+				parameterType = Object.class;
+			}
 		} else if (paramType instanceof ParameterizedType) {
 			ParameterizedType pType = (ParameterizedType) paramType;
 			parameterType = (Class<?>) pType.getRawType();
@@ -518,16 +523,15 @@ public class PodamFactoryImpl implements PodamFactory {
 				parameterType = resolveGenericParameter(bounds[0], typeArgsMap,
 						methodGenericTypeArgs);
 			} else {
-				LOG.warn("Unrecognized argument type" + wType.toString()
+				LOG.warn("Unrecognized type" + wType.toString()
 						+ ". Will use Object intead");
 				parameterType = Object.class;
 			}
 		} else if (paramType instanceof Class) {
 			parameterType = (Class<?>) paramType;
 		} else {
-			LOG.warn("Unrecognized argument type"
-					+ paramType.getClass().getSimpleName()
-					+ ". Will use Object intead");
+			LOG.warn("Unrecognized type {}. Will use Object intead",
+					paramType.getClass().getSimpleName());
 			parameterType = Object.class;
 		}
 		return parameterType;
@@ -1365,9 +1369,13 @@ public class PodamFactoryImpl implements PodamFactory {
 					return this.manufacturePojoInternal(specificClass, pojos,
 							genericTypeArgs);
 				} else {
-					LOG.warn("Cannot instantiate an interface or abstract class {}."
-							+ " Returning null.", pojoClass);
-					return null;
+					if (Modifier.isAbstract(pojoClass.getModifiers())) {
+						return (T) this.createNewInstanceForClassWithoutConstructors(
+								pojoClass, pojos, pojoClass, genericTypeArgs);
+					} else {
+						LOG.warn("Cannot instantiate an interface {}."
+								+ " Returning null.", pojoClass);
+					}
 				}
 			}
 
