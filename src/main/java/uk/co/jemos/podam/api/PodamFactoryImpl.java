@@ -459,7 +459,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					break;
 
-				} catch (Throwable t) {
+				} catch (Exception t) {
 
 					LOG.warn("Couldn't create attribute with constructor: "
 							+ constructor
