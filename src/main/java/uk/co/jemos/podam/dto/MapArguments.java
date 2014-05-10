@@ -166,7 +166,7 @@ public class MapArguments implements Serializable {
 	 *            the keyGenericTypeArgs to set
 	 */
 	public void setKeyGenericTypeArgs(Type[] keyGenericTypeArgs) {
-		this.keyGenericTypeArgs = keyGenericTypeArgs;
+		this.keyGenericTypeArgs = keyGenericTypeArgs.clone();
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class MapArguments implements Serializable {
 	 *            the elementGenericTypeArgs to set
 	 */
 	public void setElementGenericTypeArgs(Type[] elementGenericTypeArgs) {
-		this.elementGenericTypeArgs = elementGenericTypeArgs;
+		this.elementGenericTypeArgs = elementGenericTypeArgs.clone();
 	}
 
 	/**
