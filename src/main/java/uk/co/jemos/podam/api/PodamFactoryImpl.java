@@ -54,6 +54,7 @@ import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 import uk.co.jemos.podam.api.strategies.ObjectStrategy;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.dto.ClassInfo;
+import uk.co.jemos.podam.dto.MapArguments;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.utils.PodamConstants;
 import uk.co.jemos.podam.utils.PodamUtils;
@@ -2300,9 +2301,19 @@ public class PodamFactoryImpl implements PodamFactory {
 						typeArgsMap, elementGenericTypeArgs);
 			}
 
-			fillMap(pojoClass, pojos, attributeName, annotations, retValue,
-					keyClass, elementClass, keyGenericTypeArgs.get(),
-					elementGenericTypeArgs.get());
+			MapArguments mapArguments = new MapArguments();
+			mapArguments.setPojoClass(pojoClass);
+			mapArguments.setPojos(pojos);
+			mapArguments.setAttributeName(attributeName);
+			mapArguments.setAnnotations(annotations);
+			mapArguments.setMapToBeFilled(retValue);
+			mapArguments.setKeyClass(keyClass);
+			mapArguments.setElementClass(elementClass);
+			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
+			mapArguments
+					.setElementGenericTypeArgs(elementGenericTypeArgs.get());
+
+			fillMap(mapArguments);
 
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(
@@ -2363,11 +2374,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 * 
 	 */
-	private void fillMap(Class<?> pojoClass, Map<Class<?>, Integer> pojos,
-			String attributeName, List<Annotation> annotations,
-			Map<? super Object, ? super Object> mapToBeFilled,
-			Class<?> keyClass, Class<?> elementClass,
-			Type[] keyGenericTypeArgs, Type[] elementGenericTypeArgs)
+	private void fillMap(MapArguments mapArguments)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
@@ -2376,7 +2383,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		PodamCollection collectionAnnotation = null;
 		AttributeStrategy<?> keyStrategy = null;
 		AttributeStrategy<?> elementStrategy = null;
-		for (Annotation annotation : annotations) {
+		for (Annotation annotation : mapArguments.getAnnotations()) {
 			if (PodamCollection.class.isAssignableFrom(annotation.getClass())) {
 				collectionAnnotation = (PodamCollection) annotation;
 				break;
@@ -2384,7 +2391,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
+		int nbrElements = strategy.getNumberOfCollectionElements(mapArguments
+				.getPojoClass());
 
 		if (null != collectionAnnotation) {
 
@@ -2401,16 +2409,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Object elementValue = null;
 
-			keyValue = getMapKeyOrElementValue(pojoClass, pojos, attributeName,
-					annotations, keyClass, collectionAnnotation, keyStrategy,
-					keyGenericTypeArgs);
+			keyValue = getMapKeyOrElementValue(mapArguments.getPojoClass(),
+					mapArguments.getPojos(), mapArguments.getAttributeName(),
+					mapArguments.getAnnotations(), mapArguments.getKeyClass(),
+					collectionAnnotation, keyStrategy,
+					mapArguments.getKeyGenericTypeArgs());
 
-			elementValue = getMapKeyOrElementValue(pojoClass, pojos,
-					attributeName, annotations, elementClass,
-					collectionAnnotation, elementStrategy,
-					elementGenericTypeArgs);
+			elementValue = getMapKeyOrElementValue(mapArguments.getPojoClass(),
+					mapArguments.getPojos(), mapArguments.getAttributeName(),
+					mapArguments.getAnnotations(),
+					mapArguments.getElementClass(), collectionAnnotation,
+					elementStrategy, mapArguments.getElementGenericTypeArgs());
 
-			mapToBeFilled.put(keyValue, elementValue);
+			mapArguments.getMapToBeFilled().put(keyValue, elementValue);
 
 		}
 	}
@@ -2813,9 +2824,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				Type[] genericTypeArgsAll = mergeTypeArrays(
 						elementGenericTypeArgs.get(), genericTypeArgsExtra);
-				fillMap(pojoClass, pojos, attributeName, annotations, mapType,
-						keyClass, elementClass, keyGenericTypeArgs.get(),
-						genericTypeArgsAll);
+
+				MapArguments mapArguments = new MapArguments();
+				mapArguments.setPojoClass(pojoClass);
+				mapArguments.setPojos(pojos);
+				mapArguments.setAttributeName(attributeName);
+				mapArguments.setAnnotations(annotations);
+				mapArguments.setMapToBeFilled(mapType);
+				mapArguments.setKeyClass(keyClass);
+				mapArguments.setElementClass(elementClass);
+				mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
+				mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
+
+				fillMap(mapArguments);
 
 				parameterValues[idx] = mapType;
 
