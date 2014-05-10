@@ -37,19 +37,21 @@ import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.co.jemos.podam.annotations.PodamBooleanValue;
-import uk.co.jemos.podam.annotations.PodamByteValue;
-import uk.co.jemos.podam.annotations.PodamCharValue;
-import uk.co.jemos.podam.annotations.PodamCollection;
-import uk.co.jemos.podam.annotations.PodamConstructor;
-import uk.co.jemos.podam.annotations.PodamDoubleValue;
-import uk.co.jemos.podam.annotations.PodamFloatValue;
-import uk.co.jemos.podam.annotations.PodamIntValue;
-import uk.co.jemos.podam.annotations.PodamLongValue;
-import uk.co.jemos.podam.annotations.PodamShortValue;
-import uk.co.jemos.podam.annotations.PodamStrategyValue;
-import uk.co.jemos.podam.annotations.PodamStringValue;
-import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
+import uk.co.jemos.podam.api.annotations.PodamBooleanValue;
+import uk.co.jemos.podam.api.annotations.PodamByteValue;
+import uk.co.jemos.podam.api.annotations.PodamCharValue;
+import uk.co.jemos.podam.api.annotations.PodamCollection;
+import uk.co.jemos.podam.api.annotations.PodamConstructor;
+import uk.co.jemos.podam.api.annotations.PodamDoubleValue;
+import uk.co.jemos.podam.api.annotations.PodamFloatValue;
+import uk.co.jemos.podam.api.annotations.PodamIntValue;
+import uk.co.jemos.podam.api.annotations.PodamLongValue;
+import uk.co.jemos.podam.api.annotations.PodamShortValue;
+import uk.co.jemos.podam.api.annotations.PodamStrategyValue;
+import uk.co.jemos.podam.api.annotations.PodamStringValue;
+import uk.co.jemos.podam.api.strategies.AttributeStrategy;
+import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
+import uk.co.jemos.podam.api.strategies.ObjectStrategy;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.dto.ClassInfo;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
@@ -1921,6 +1923,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	private List<Annotation> retrieveFieldAnnotations(Class<?> clazz,
 			Method setter) {
 
+		Class<?> workClass = clazz;
+
 		List<Annotation> retValue = new ArrayList<Annotation>();
 
 		// Checks if the field has got any custom annotations
@@ -1928,12 +1932,14 @@ public class PodamFactoryImpl implements PodamFactory {
 				.extractFieldNameFromSetterMethod(setter);
 		Field setterField = null;
 
-		while (clazz != null) {
+		while (workClass != null) {
 			try {
-				setterField = clazz.getDeclaredField(attributeName);
+				setterField = workClass.getDeclaredField(attributeName);
 				break;
 			} catch (NoSuchFieldException e) {
-				clazz = clazz.getSuperclass();
+				// Low quality here derives by the JDK which throws
+				// an exception if a field does not exist
+				workClass = workClass.getSuperclass();
 			} catch (SecurityException e) {
 				throw e;
 			}

@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamStrategyValue;
+import uk.co.jemos.podam.api.annotations.PodamStrategyValue;
 import uk.co.jemos.podam.test.strategies.WrongTypeStrategy;
 
 /**

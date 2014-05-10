@@ -3,7 +3,7 @@
  */
 package uk.co.jemos.podam.utils;
 
-import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.api.strategies.AttributeStrategy;
 
 /**
  * PODAM constants.

@@ -5,8 +5,8 @@ package uk.co.jemos.podam.test.dto.docs.example;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamConstructor;
-import uk.co.jemos.podam.annotations.PodamStringValue;
+import uk.co.jemos.podam.api.annotations.PodamConstructor;
+import uk.co.jemos.podam.api.annotations.PodamStringValue;
 
 /**
  * A Country domain Model Object

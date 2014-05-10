@@ -1,10 +1,11 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.api.strategies;
 
 import java.lang.reflect.Constructor;
 
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 
 /**

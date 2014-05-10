@@ -1,10 +1,9 @@
 /**
  * 
  */
-package uk.co.jemos.podam.annotations.strategies;
+package uk.co.jemos.podam.api.strategies;
 
-import uk.co.jemos.podam.annotations.PodamCollection;
-import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.api.annotations.PodamCollection;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
@@ -19,6 +18,7 @@ public class ObjectStrategy implements AttributeStrategy<Object> {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Object getValue() throws PodamMockeryException {
 		return new Object();
 	}

@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.lang.reflect.Type;
 
+import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**

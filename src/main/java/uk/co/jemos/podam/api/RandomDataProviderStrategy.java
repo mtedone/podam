@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import uk.co.jemos.podam.annotations.PodamConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.annotations.PodamConstructor;
+import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 import uk.co.jemos.podam.dto.AttributeMetadata;
 import uk.co.jemos.podam.utils.PodamConstants;
 
@@ -81,18 +83,17 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * creation.
 	 * </p>
 	 */
-	public static Comparator<Constructor<?>> ConstructorComparator
-			= new Comparator<Constructor<?>>() {
+	public static Comparator<Constructor<?>> ConstructorComparator = new Comparator<Constructor<?>>() {
 
-		public int compare(
-				Constructor<?> constructor1,
+		@Override
+		public int compare(Constructor<?> constructor1,
 				Constructor<?> constructor2) {
 
 			/* Constructors with Podam annotation first */
-			boolean choose1 =
-				(constructor1.getAnnotation(PodamConstructor.class) != null);
-			boolean choose2 =
-				(constructor2.getAnnotation(PodamConstructor.class) != null);
+			boolean choose1 = constructor1
+					.getAnnotation(PodamConstructor.class) != null;
+			boolean choose2 = constructor2
+					.getAnnotation(PodamConstructor.class) != null;
 			if (choose1 && !choose2) {
 				return Integer.MIN_VALUE;
 			} else if (!choose1 && choose2) {
@@ -100,18 +101,17 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 			}
 
 			/* Then constructors with less parameters */
-			return constructor1.getParameterTypes().length -
-				constructor2.getParameterTypes().length;
-			}
+			return constructor1.getParameterTypes().length
+					- constructor2.getParameterTypes().length;
+		}
 	};
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces
 	 * and abstract classes
 	 */
-	private final Map<Class<?>, Class<?>> specificTypes
-			= new HashMap<Class<?>, Class<?>>();
-	
+	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
+
 	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
@@ -159,6 +159,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
 		return Boolean.TRUE;
 	}
@@ -167,6 +168,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Byte getByte(AttributeMetadata attributeMetadata) {
 		byte nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (nextByte == 0) {
@@ -179,6 +181,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Byte getByteInRange(byte minValue, byte maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -198,6 +201,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Character getCharacter(AttributeMetadata attributeMetadata) {
 
 		int randomCharIdx = getIntegerInRange(0,
@@ -213,6 +217,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -233,6 +238,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Double getDouble(AttributeMetadata attributeMetadata) {
 		double retValue = RANDOM.nextDouble();
 		while (retValue == 0.0) {
@@ -245,6 +251,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -262,6 +269,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Float getFloat(AttributeMetadata attributeMetadata) {
 		float retValue = RANDOM.nextFloat();
 		while (retValue == 0.0f) {
@@ -274,6 +282,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -293,6 +302,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Integer getInteger(AttributeMetadata attributeMetadata) {
 		Integer retValue = RANDOM.nextInt();
 		while (retValue.intValue() == 0) {
@@ -305,6 +315,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public int getIntegerInRange(int minValue, int maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -331,6 +342,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Long getLong(AttributeMetadata attributeMetadata) {
 		return System.currentTimeMillis();
 	}
@@ -339,6 +351,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Long getLongInRange(long minValue, long maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -358,6 +371,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Short getShort(AttributeMetadata attributeMetadata) {
 		short retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
 		while (retValue == 0) {
@@ -370,6 +384,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata) {
 		// This can happen. It's a way to specify a precise value
@@ -389,6 +404,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public String getStringValue(AttributeMetadata attributeMetadata) {
 		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
 				attributeMetadata);
@@ -398,6 +414,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 
+	@Override
 	public String getStringOfLength(int length,
 			AttributeMetadata attributeMetadata) {
 
@@ -419,6 +436,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public int getNumberOfCollectionElements(Class<?> type) {
 		return nbrOfCollectionElements;
 	}
@@ -436,9 +454,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * {@inheritDoc}
 	 */
-	 public int getMaxDepth(Class<?> type) {
+	@Override
+	public int getMaxDepth(Class<?> type) {
 		return maxDepth;
-	 }
+	}
 
 	/**
 	 * Sets the new max stack trace depth.
@@ -459,32 +478,38 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * @param constructors
 	 *            Array of POJO's constructors
 	 */
+	@Override
 	public void sort(Constructor<?>[] constructors) {
 		Arrays.sort(constructors, ConstructorComparator);
 	}
 
 	/**
 	 * Bind an interface/abstract class to a specific implementation
-	 *
-	 * @param abstractClass the interface/abstract class to bind
-	 * @param specificClass the specific class implementing or extending
-	 * {@code abstractClass}.
+	 * 
+	 * @param abstractClass
+	 *            the interface/abstract class to bind
+	 * @param specificClass
+	 *            the specific class implementing or extending
+	 *            {@code abstractClass}.
 	 * @return itself
 	 */
-	public <T> RandomDataProviderStrategy addSpecific(final Class<T> abstractClass,
-			final Class<? extends T> specificClass) {
-		this.specificTypes.put(abstractClass, specificClass);
+	public <T> RandomDataProviderStrategy addSpecific(
+			final Class<T> abstractClass, final Class<? extends T> specificClass) {
+		specificTypes.put(abstractClass, specificClass);
 		return this;
 	}
 
 	/**
-	 * Remove binding of an interface/abstract class to a specific implementation
-	 *
-	 * @param abstractClass the interface/abstract class to remove binding
+	 * Remove binding of an interface/abstract class to a specific
+	 * implementation
+	 * 
+	 * @param abstractClass
+	 *            the interface/abstract class to remove binding
 	 * @return itself
 	 */
-	public <T> RandomDataProviderStrategy removeSpecific(final Class<T> abstractClass) {
-		this.specificTypes.remove(abstractClass);
+	public <T> RandomDataProviderStrategy removeSpecific(
+			final Class<T> abstractClass) {
+		specificTypes.remove(abstractClass);
 		return this;
 	}
 
@@ -492,8 +517,10 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass) {
-		Class<? extends T> found = (Class<? extends T>)specificTypes.get(nonInstantiatableClass);
+	public <T> Class<? extends T> getSpecificClass(
+			Class<T> nonInstantiatableClass) {
+		Class<? extends T> found = (Class<? extends T>) specificTypes
+				.get(nonInstantiatableClass);
 		if (found == null) {
 			found = nonInstantiatableClass;
 		}

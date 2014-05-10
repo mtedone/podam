@@ -3,7 +3,7 @@
  */
 package uk.co.jemos.podam.test.unit.pdm5;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 

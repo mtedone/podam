@@ -8,8 +8,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 
 /**
  * It checks that the {@link RandomDataProviderStrategy} is initialised properly

@@ -1,10 +1,11 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.util.TimeZone;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.FactoryInstantiablePojo;

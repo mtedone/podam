@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.annotations;
+package uk.co.jemos.podam.api.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,8 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import uk.co.jemos.podam.annotations.strategies.ObjectStrategy;
-import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.api.strategies.AttributeStrategy;
+import uk.co.jemos.podam.api.strategies.ObjectStrategy;
 import uk.co.jemos.podam.utils.PodamConstants;
 
 /**
@@ -30,7 +30,7 @@ import uk.co.jemos.podam.utils.PodamConstants;
  * 
  */
 @Documented
-@Target(value = {ElementType.FIELD, ElementType.PARAMETER})
+@Target(value = { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamCollection {
 

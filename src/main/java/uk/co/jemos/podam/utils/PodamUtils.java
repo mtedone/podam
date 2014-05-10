@@ -14,7 +14,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.jemos.podam.annotations.PodamExclude;
+
+import uk.co.jemos.podam.api.annotations.PodamExclude;
 import uk.co.jemos.podam.dto.ClassInfo;
 
 /**
@@ -31,8 +32,7 @@ public class PodamUtils {
 	// ---------------------->> Constants
 
 	/** The application logger. */
-	public static final Logger LOG = LoggerFactory
-			.getLogger(PodamUtils.class);
+	public static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
 
 	/** Non instantiable constructor */
 	private PodamUtils() {
@@ -49,19 +49,24 @@ public class PodamUtils {
 	public static ClassInfo getClassInfo(Class<?> clazz) {
 		return getClassInfo(clazz, null);
 	}
-	
+
 	/**
 	 * It returns a {@link ClassInfo} object for the given class
 	 * 
 	 * @param clazz
 	 *            The class to retrieve info from
-	 * @param excludeFieldAnnotations the fields marked with any of these annotations will not be included in the class info
+	 * @param excludeFieldAnnotations
+	 *            the fields marked with any of these annotations will not be
+	 *            included in the class info
 	 * @return a {@link ClassInfo} object for the given class
 	 */
-	public static ClassInfo getClassInfo(Class<?> clazz, List<Class<? extends Annotation>> excludeFieldAnnotations) {
+	public static ClassInfo getClassInfo(Class<?> clazz,
+			List<Class<? extends Annotation>> excludeFieldAnnotations) {
 		Set<String> classFields = null;
-		if (excludeFieldAnnotations != null && !excludeFieldAnnotations.isEmpty()) {
-			classFields = getDeclaredInstanceFields(clazz, excludeFieldAnnotations);
+		if (excludeFieldAnnotations != null
+				&& !excludeFieldAnnotations.isEmpty()) {
+			classFields = getDeclaredInstanceFields(clazz,
+					excludeFieldAnnotations);
 		} else {
 			classFields = getDeclaredInstanceFields(clazz);
 		}
@@ -81,16 +86,19 @@ public class PodamUtils {
 		excludedAnnotations.add(PodamExclude.class);
 		return getDeclaredInstanceFields(clazz, excludedAnnotations);
 	}
-	
+
 	/**
 	 * Given a class, it returns a Set of its declared instance field names.
 	 * 
 	 * @param clazz
 	 *            The class to analyse to retrieve declared fields
-	 * @param excludeAnnotations fields marked with any of the mentioned annotations will be skipped
+	 * @param excludeAnnotations
+	 *            fields marked with any of the mentioned annotations will be
+	 *            skipped
 	 * @return Set of a class declared field names.
 	 */
-	public static Set<String> getDeclaredInstanceFields(Class<?> clazz, List<Class<? extends Annotation>> excludeAnnotations) {
+	public static Set<String> getDeclaredInstanceFields(Class<?> clazz,
+			List<Class<? extends Annotation>> excludeAnnotations) {
 		Set<String> classFields = new HashSet<String>();
 
 		while (clazz != null) {
@@ -112,15 +120,18 @@ public class PodamUtils {
 
 		return classFields;
 	}
-	
+
 	/**
 	 * Checks if the given field has any one of the annotations
 	 * 
-	 * @param field the field to check for
-	 * @param annotations the list of annotations to look for in the field
-	 * @return true if the field is marked with any of the given annotations 
+	 * @param field
+	 *            the field to check for
+	 * @param annotations
+	 *            the list of annotations to look for in the field
+	 * @return true if the field is marked with any of the given annotations
 	 */
-	public static boolean containsAnyAnnotation(Field field, List<Class<? extends Annotation>> annotations) {
+	public static boolean containsAnyAnnotation(Field field,
+			List<Class<? extends Annotation>> annotations) {
 		Method method = getGetterFor(field);
 		for (Class<? extends Annotation> annotation : annotations) {
 			if (field.getAnnotation(annotation) != null) {
@@ -132,9 +143,10 @@ public class PodamUtils {
 		}
 		return false;
 	}
-	
+
 	public static Method getGetterFor(Field field) {
-		String name = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+		String name = field.getName().substring(0, 1).toUpperCase()
+				+ field.getName().substring(1);
 		try {
 			return field.getDeclaringClass().getMethod("get" + name);
 		} catch (NoSuchMethodException e) {
@@ -158,7 +170,8 @@ public class PodamUtils {
 	 * @return A Set of setters matching the class declared field names
 	 * 
 	 */
-	public static Set<Method> getPojoSetters(Class<?> clazz, Set<String> classFields) {
+	public static Set<Method> getPojoSetters(Class<?> clazz,
+			Set<String> classFields) {
 
 		Set<Method> classSetters = new HashSet<Method>();
 

@@ -3,8 +3,8 @@
  */
 package uk.co.jemos.podam.test.strategies;
 
-import uk.co.jemos.podam.annotations.PodamStrategyValue;
-import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.api.annotations.PodamStrategyValue;
+import uk.co.jemos.podam.api.strategies.AttributeStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
 

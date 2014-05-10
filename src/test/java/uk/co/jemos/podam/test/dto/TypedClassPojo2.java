@@ -1,6 +1,5 @@
 package uk.co.jemos.podam.test.dto;
 
-import java.io.Serializable;
 
 /**
  * Pojo derived from typed class

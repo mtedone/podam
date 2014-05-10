@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamCharValue;
+import uk.co.jemos.podam.api.annotations.PodamCharValue;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
 /**

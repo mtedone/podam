@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamLongValue;
+import uk.co.jemos.podam.api.annotations.PodamLongValue;
 
 /**
  * POJO to test that {@link PodamLongValue#numValue()} which contains a non

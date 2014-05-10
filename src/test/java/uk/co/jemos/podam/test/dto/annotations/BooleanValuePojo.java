@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.annotations.PodamBooleanValue;
+import uk.co.jemos.podam.api.annotations.PodamBooleanValue;
 
 /**
  * POJO to test {@link PodamBooleanValue} annotation.
