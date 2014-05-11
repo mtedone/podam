@@ -239,9 +239,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object createNewInstanceForClassWithoutConstructors(
 			Class<?> pojoClass, Map<Class<?>, Integer> pojos, Class<?> clazz,
-			Type... genericTypeArgs) throws IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
+			Type... genericTypeArgs) throws InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
 
 		Object retValue = null;
 
@@ -1255,9 +1255,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private <T> T resolvePojoWithoutSetters(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-			throws IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		T retValue = null;
 
@@ -1671,8 +1670,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, String attributeName,
 			Map<String, Type> typeArgsMap, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, IllegalArgumentException,
-			ClassNotFoundException {
+			InvocationTargetException, ClassNotFoundException {
 		Object attributeValue = null;
 
 		Class<?> realAttributeType;
@@ -2701,19 +2699,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	private Object[] getParameterValuesForConstructor(
 			Constructor<?> constructor, Class<?> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-			throws IllegalArgumentException, InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		Type[] genericTypeArgsExtra = null;
-		try {
-			genericTypeArgsExtra = fillTypeArgMap(typeArgsMap, pojoClass,
-					genericTypeArgs);
-		} catch (IllegalStateException e) {
-			LOG.error(e.getMessage());
-			return null;
-		}
+
+		genericTypeArgsExtra = fillTypeArgMap(typeArgsMap, pojoClass,
+				genericTypeArgs);
 
 		Annotation[][] parameterAnnotations = constructor
 				.getParameterAnnotations();

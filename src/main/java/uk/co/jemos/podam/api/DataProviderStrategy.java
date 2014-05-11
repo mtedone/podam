@@ -25,10 +25,10 @@ import java.lang.reflect.Constructor;
 public interface DataProviderStrategy {
 
 	/** It returns a boolean/Boolean value. */
-	public Boolean getBoolean(AttributeMetadata attributeMetadata);
+	Boolean getBoolean(AttributeMetadata attributeMetadata);
 
 	/** It returns a byte/Byte value. */
-	public Byte getByte(AttributeMetadata attributeMetadata);
+	Byte getByte(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a byte/Byte within min and max value (included).
@@ -39,11 +39,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A byte/Byte within min and max value (included).
 	 */
-	public Byte getByteInRange(byte minValue, byte maxValue,
+	Byte getByteInRange(byte minValue, byte maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a char/Character value. */
-	public Character getCharacter(AttributeMetadata attributeMetadata);
+	Character getCharacter(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a char/Character value between min and max value (included).
@@ -54,11 +54,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A char/Character value between min and max value (included).
 	 */
-	public Character getCharacterInRange(char minValue, char maxValue,
+	Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a double/Double value */
-	public Double getDouble(AttributeMetadata attributeMetadata);
+	Double getDouble(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a double/Double value between min and max value (included).
@@ -69,11 +69,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A double/Double value between min and max value (included)
 	 */
-	public Double getDoubleInRange(double minValue, double maxValue,
+	Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a float/Float value. */
-	public Float getFloat(AttributeMetadata attributeMetadata);
+	Float getFloat(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a float/Float value between min and max value (included).
@@ -84,11 +84,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A float/Float value between min and max value (included).
 	 */
-	public Float getFloatInRange(float minValue, float maxValue,
+	Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns an int/Integer value. */
-	public Integer getInteger(AttributeMetadata attributeMetadata);
+	Integer getInteger(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns an int/Integer value between min and max value (included).
@@ -99,11 +99,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return An int/Integer value between min and max value (included).
 	 */
-	public int getIntegerInRange(int minValue, int maxValue,
+	int getIntegerInRange(int minValue, int maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a long/Long value. */
-	public Long getLong(AttributeMetadata attributeMetadata);
+	Long getLong(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a long/Long value between min and max value (included).
@@ -114,11 +114,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A long/Long value between min and max value (included).
 	 */
-	public Long getLongInRange(long minValue, long maxValue,
+	Long getLongInRange(long minValue, long maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a short/Short value. */
-	public Short getShort(AttributeMetadata attributeMetadata);
+	Short getShort(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a short/Short value between min and max value (included).
@@ -129,11 +129,11 @@ public interface DataProviderStrategy {
 	 *            The maximum value for the returned value
 	 * @return A short/Short value between min and max value (included).
 	 */
-	public Short getShortInRange(short minValue, short maxValue,
+	Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata);
 
 	/** It returns a string value */
-	public String getStringValue(AttributeMetadata attributeMetadata);
+	String getStringValue(AttributeMetadata attributeMetadata);
 
 	/**
 	 * It returns a String of {@code length} characters.
@@ -142,8 +142,7 @@ public interface DataProviderStrategy {
 	 *            The number of characters required in the returned String
 	 * @return A String of {@code length} characters
 	 */
-	public String getStringOfLength(int length,
-			AttributeMetadata attributeMetadata);
+	String getStringOfLength(int length, AttributeMetadata attributeMetadata);
 
 	/**
 	 * Returns the number of default collection elements.
@@ -155,7 +154,7 @@ public interface DataProviderStrategy {
 	 *            Type of collection's elements
 	 * @return The number of default collection elements
 	 */
-	public int getNumberOfCollectionElements(Class<?> type);
+	int getNumberOfCollectionElements(Class<?> type);
 
 	/**
 	 * Returns how many times it is allowed to PODAM to create an instance
@@ -167,9 +166,9 @@ public interface DataProviderStrategy {
 	 * @param type
 	 *            Type of POJO to be created
 	 * @return How many times it is allowed to create an instance
-	 * of the same class in a recursive hierarchy
+	 *         of the same class in a recursive hierarchy
 	 */
-	public int getMaxDepth(Class<?> type);
+	int getMaxDepth(Class<?> type);
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to
@@ -180,7 +179,7 @@ public interface DataProviderStrategy {
 	 * @param constructors
 	 *            Array of POJO's constructors
 	 */
-	public void sort(Constructor<?>[] constructors);
+	void sort(Constructor<?>[] constructors);
 
 	/**
 	 * Resolves abstract classes and interfaces.
@@ -192,7 +191,7 @@ public interface DataProviderStrategy {
 	 * @param nonInstantiatableClass
 	 *            Abstract class type or interface
 	 * @return Non-abstract class type derived from
-	 * {@code nonInstantiatableClass}.
+	 *         {@code nonInstantiatableClass}.
 	 */
-	public <T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
+	<T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
 }
