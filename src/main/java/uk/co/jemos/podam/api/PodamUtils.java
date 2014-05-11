@@ -173,11 +173,13 @@ public final class PodamUtils {
 	public static Set<Method> getPojoSetters(Class<?> clazz,
 			Set<String> classFields) {
 
+		Class<?> workClass = clazz;
+
 		Set<Method> classSetters = new HashSet<Method>();
 
-		while (clazz != null) {
+		while (workClass != null) {
 
-			Method[] declaredMethods = clazz.getDeclaredMethods();
+			Method[] declaredMethods = workClass.getDeclaredMethods();
 			String candidateField = null;
 			for (Method method : declaredMethods) {
 				if (!method.getName().startsWith("set")) {
@@ -193,7 +195,7 @@ public final class PodamUtils {
 				classSetters.add(method);
 
 			}
-			clazz = clazz.getSuperclass();
+			workClass = workClass.getSuperclass();
 		}
 
 		return classSetters;
