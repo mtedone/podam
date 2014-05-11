@@ -19,9 +19,6 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 	/** The Map key / element type. */
 	private Class<?> keyOrValueType;
 
-	/** The {@link PodamCollection} annotation. */
-	private PodamCollection collectionAnnotation;
-
 	/** The strategy to use to fill the Map key or value element. */
 	private AttributeStrategy<?> elementStrategy;
 
@@ -44,21 +41,6 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 	 */
 	public void setKeyOrValueType(Class<?> keyOrValueType) {
 		this.keyOrValueType = keyOrValueType;
-	}
-
-	/**
-	 * @return the collectionAnnotation
-	 */
-	public PodamCollection getCollectionAnnotation() {
-		return collectionAnnotation;
-	}
-
-	/**
-	 * @param collectionAnnotation
-	 *            the collectionAnnotation to set
-	 */
-	public void setCollectionAnnotation(PodamCollection collectionAnnotation) {
-		this.collectionAnnotation = collectionAnnotation;
 	}
 
 	/**
@@ -97,22 +79,14 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MapKeyOrElementsArguments [keyOrValueType=");
+		builder.append("MapKeyOrElementsArguments [toString()=");
+		builder.append(super.toString());
+		builder.append(", keyOrValueType=");
 		builder.append(keyOrValueType);
-		builder.append(", collectionAnnotation=");
-		builder.append(collectionAnnotation);
 		builder.append(", elementStrategy=");
 		builder.append(elementStrategy);
 		builder.append(", genericTypeArgs=");
 		builder.append(Arrays.toString(genericTypeArgs));
-		builder.append(", pojoClass=");
-		builder.append(getPojoClass());
-		builder.append(", pojos=");
-		builder.append(getPojos());
-		builder.append(", attributeName=");
-		builder.append(getAttributeName());
-		builder.append(", annotations=");
-		builder.append(getAnnotations());
 		builder.append("]");
 		return builder.toString();
 	}

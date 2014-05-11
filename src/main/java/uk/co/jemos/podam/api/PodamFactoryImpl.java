@@ -2369,7 +2369,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			valueArguments.setAttributeName(mapArguments.getAttributeName());
 			valueArguments.setAnnotations(mapArguments.getAnnotations());
 			valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
-			valueArguments.setCollectionAnnotation(collectionAnnotation);
 			valueArguments.setElementStrategy(keyStrategy);
 			valueArguments.setGenericTypeArgs(mapArguments
 					.getKeyGenericTypeArgs());
@@ -2382,7 +2381,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			valueArguments.setAttributeName(mapArguments.getAttributeName());
 			valueArguments.setAnnotations(mapArguments.getAnnotations());
 			valueArguments.setKeyOrValueType(mapArguments.getElementClass());
-			valueArguments.setCollectionAnnotation(collectionAnnotation);
 			valueArguments.setElementStrategy(elementStrategy);
 			valueArguments.setGenericTypeArgs(mapArguments
 					.getElementGenericTypeArgs());

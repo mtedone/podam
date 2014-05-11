@@ -22,6 +22,6 @@ public interface AttributeStrategy<T> {
 	 *             If an exception occurred while assigning the value specified
 	 *             by this strategy
 	 */
-	T getValue() throws PodamMockeryException;
+	T getValue();
 
 }

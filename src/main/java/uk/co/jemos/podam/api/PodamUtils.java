@@ -23,11 +23,11 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  * 
  */
-
 public final class PodamUtils {
 
 	// ---------------------->> Constants
 
+	private static final int SETTER_IDENTIFIER_LENGTH = 3;
 	/** The application logger. */
 	public static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
 
@@ -144,6 +144,13 @@ public final class PodamUtils {
 		return false;
 	}
 
+	/**
+	 * It returns the getter for the given field.
+	 * 
+	 * @param field
+	 *            The {@link Field} for which the getter is required
+	 * @return the getter for the given field or null if no getter was found
+	 */
 	public static Method getGetterFor(Field field) {
 		String name = field.getName().substring(0, 1).toUpperCase()
 				+ field.getName().substring(1);
@@ -217,7 +224,7 @@ public final class PodamUtils {
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
 		String candidateField = null;
-		candidateField = method.getName().substring(3);
+		candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
 		if (!candidateField.equals("")) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);

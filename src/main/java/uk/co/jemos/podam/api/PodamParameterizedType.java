@@ -18,38 +18,38 @@ public class PodamParameterizedType implements ParameterizedType {
 	/**
 	 * Base constructor.
 	 * 
-	 * @param rawType the generic class type
-	 * @param actualTypeArguments the type arguments
+	 * @param rawType
+	 *            the generic class type
+	 * @param actualTypeArguments
+	 *            the type arguments
 	 */
-	public PodamParameterizedType(final Class<?> rawType, final Type... actualTypeArguments) {
+	public PodamParameterizedType(final Class<?> rawType,
+			final Type... actualTypeArguments) {
 		super();
 		this.rawType = rawType;
 		this.actualTypeArguments = actualTypeArguments;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.reflect.ParameterizedType#getActualTypeArguments()
+	/**
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Type[] getActualTypeArguments() {
 		return actualTypeArguments;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.reflect.ParameterizedType#getRawType()
+	/**
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Class<?> getRawType() {
 		return rawType;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.reflect.ParameterizedType#getOwnerType()
+	/**
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Type getOwnerType() {
 		return null;
 	}

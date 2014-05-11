@@ -118,7 +118,9 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MapArguments [mapToBeFilled=");
+		builder.append("MapArguments [toString()=");
+		builder.append(super.toString());
+		builder.append(", mapToBeFilled=");
 		builder.append(mapToBeFilled);
 		builder.append(", keyClass=");
 		builder.append(keyClass);
@@ -128,14 +130,6 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 		builder.append(Arrays.toString(keyGenericTypeArgs));
 		builder.append(", elementGenericTypeArgs=");
 		builder.append(Arrays.toString(elementGenericTypeArgs));
-		builder.append(", pojoClass=");
-		builder.append(getPojoClass());
-		builder.append(", pojos=");
-		builder.append(getPojos());
-		builder.append(", attributeName=");
-		builder.append(getAttributeName());
-		builder.append(", annotations=");
-		builder.append(getAnnotations());
 		builder.append("]");
 		return builder.toString();
 	}

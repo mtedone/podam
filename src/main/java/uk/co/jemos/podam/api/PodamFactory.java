@@ -33,7 +33,8 @@ public interface PodamFactory {
 	 * @return An instance of <T> filled with dummy values
 	 * 
 	 * @throws PodamMockeryException
-	 *             if a problem occurred while creating a POJO instance or while
+	 *             if a problem occurred while
+	 *             creating a POJO instance or while
 	 *             setting its state
 	 */
 	<T> T manufacturePojo(Class<T> pojoClass);
