@@ -11,10 +11,10 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
-import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 import uk.co.jemos.podam.test.dto.docs.example.Address;
 import uk.co.jemos.podam.test.dto.docs.example.Article;
 import uk.co.jemos.podam.test.dto.docs.example.BankAccount;

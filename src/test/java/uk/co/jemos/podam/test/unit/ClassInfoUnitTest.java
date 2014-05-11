@@ -14,12 +14,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import uk.co.jemos.podam.dto.ClassInfo;
+import uk.co.jemos.podam.api.ClassInfo;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.test.dto.EmptyTestPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.TestExclude;
-import uk.co.jemos.podam.utils.PodamUtils;
 
 /**
  * @author mtedone

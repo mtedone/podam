@@ -1,15 +1,13 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api.annotations;
+package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import uk.co.jemos.podam.api.strategies.AttributeStrategy;
 
 /**
  * Annotation to drive the value of the annotated attribute.

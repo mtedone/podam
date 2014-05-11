@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto;
 
 import java.util.Calendar;
 
-import uk.co.jemos.podam.api.annotations.PodamIntValue;
+import uk.co.jemos.podam.api.PodamIntValue;
 
 /**
  * Abstract POJO to test inheritance.

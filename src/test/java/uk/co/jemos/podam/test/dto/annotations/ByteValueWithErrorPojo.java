@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.api.annotations.PodamByteValue;
+import uk.co.jemos.podam.api.PodamByteValue;
 
 /**
  * POJO to test error case when {@link PodamByteValue#numValue()} contains an

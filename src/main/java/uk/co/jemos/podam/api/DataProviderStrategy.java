@@ -1,12 +1,9 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api.strategies;
+package uk.co.jemos.podam.api;
 
 import java.lang.reflect.Constructor;
-
-import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.dto.AttributeMetadata;
 
 /**
  * This interface defines the contact for PODAM data providers.

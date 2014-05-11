@@ -37,27 +37,7 @@ import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.co.jemos.podam.api.annotations.PodamBooleanValue;
-import uk.co.jemos.podam.api.annotations.PodamByteValue;
-import uk.co.jemos.podam.api.annotations.PodamCharValue;
-import uk.co.jemos.podam.api.annotations.PodamCollection;
-import uk.co.jemos.podam.api.annotations.PodamConstructor;
-import uk.co.jemos.podam.api.annotations.PodamDoubleValue;
-import uk.co.jemos.podam.api.annotations.PodamFloatValue;
-import uk.co.jemos.podam.api.annotations.PodamIntValue;
-import uk.co.jemos.podam.api.annotations.PodamLongValue;
-import uk.co.jemos.podam.api.annotations.PodamShortValue;
-import uk.co.jemos.podam.api.annotations.PodamStrategyValue;
-import uk.co.jemos.podam.api.annotations.PodamStringValue;
-import uk.co.jemos.podam.api.strategies.AttributeStrategy;
-import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
-import uk.co.jemos.podam.api.strategies.ObjectStrategy;
-import uk.co.jemos.podam.dto.AttributeMetadata;
-import uk.co.jemos.podam.dto.ClassInfo;
-import uk.co.jemos.podam.dto.MapArguments;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
-import uk.co.jemos.podam.utils.PodamConstants;
-import uk.co.jemos.podam.utils.PodamUtils;
 
 /**
  * The PODAM factory implementation
@@ -73,9 +53,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	// ------------------->> Constants
 
+	private static final String RESOLVING_COLLECTION_EXCEPTION_STR = "An exception occurred while resolving the collection";
+
+	private static final String MAP_CREATION_EXCEPTION_STR = "An exception occurred while creating a Map object";
+
+	private static final String RAWTYPES_STR = "rawtypes";
+
+	private static final String UNCHECKED_STR = "unchecked";
+
+	private static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
+
 	/** Application logger */
-	private final Logger LOG = LoggerFactory.getLogger(PodamFactoryImpl.class
-			.getName());
+	private static final Logger LOG = LoggerFactory
+			.getLogger(PodamFactoryImpl.class.getName());
 
 	// ------------------->> Instance / variables
 
@@ -166,8 +156,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             number of provided generic types
 	 */
 	private Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
-			final Class<?> pojoClass, final Type[] genericTypeArgs)
-			throws IllegalStateException {
+			final Class<?> pojoClass, final Type[] genericTypeArgs) {
 
 		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
 		if (typeParameters.length > genericTypeArgs.length) {
@@ -687,8 +676,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		for (Annotation annotation : annotations) {
 
 			if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamBooleanValue strategy = (PodamBooleanValue) annotation;
-				retValue = strategy.boolValue();
+				PodamBooleanValue localStrategy = (PodamBooleanValue) annotation;
+				retValue = localStrategy.boolValue();
 
 				break;
 			}
@@ -899,7 +888,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Integer.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = "The annotation value: "
+						String errMsg = THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to an Integer. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -964,7 +953,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Float.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = "The annotation value: "
+						String errMsg = THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to a Float. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -1020,7 +1009,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Double.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = "The annotation value: "
+						String errMsg = THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to a Double. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -1081,7 +1070,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Long.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = "The annotation value: "
+						String errMsg = THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to a Long. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -1263,7 +1252,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private <T> T resolvePojoWithoutSetters(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
 			throws IllegalArgumentException, InstantiationException,
@@ -1358,7 +1347,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T manufacturePojoInternal(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs) {
 		try {
@@ -1377,7 +1366,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					|| Modifier.isAbstract(pojoClass.getModifiers())) {
 				Class<T> specificClass = (Class<T>) strategy
 						.getSpecificClass(pojoClass);
-				if (specificClass != pojoClass) {
+				if (!specificClass.equals(pojoClass)) {
 					return this.manufacturePojoInternal(specificClass, pojos,
 							genericTypeArgs);
 				} else {
@@ -1502,24 +1491,19 @@ public class PodamFactoryImpl implements PodamFactory {
 								+ attributeStrategy);
 					}
 
-					// TODO To pass the AttributeMetadata
 					setterArg = returnAttributeDataStrategyValue(attributeType,
 							attributeStrategy);
 
 				} else {
 
 					final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-					try {
-						Type[] genericTypeArgsExtra = fillTypeArgMap(
-								typeArgsMap, pojoClass, genericTypeArgs);
-						if (genericTypeArgsExtra != null) {
-							LOG.warn(String.format(
-									"Lost %d generic type arguments",
-									genericTypeArgsExtra.length));
-						}
-					} catch (IllegalStateException e) {
-						LOG.error(e.getMessage());
-						return null;
+
+					Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+							pojoClass, genericTypeArgs);
+					if (genericTypeArgsExtra != null) {
+						LOG.warn(String.format(
+								"Lost %d generic type arguments",
+								genericTypeArgsExtra.length));
 					}
 
 					Type[] typeArguments = new Type[] {};
@@ -1632,7 +1616,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, String attributeName,
 			Type... genericTypeArgs) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
-			IllegalArgumentException, ClassNotFoundException {
+			ClassNotFoundException {
 
 		Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 
@@ -1681,7 +1665,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             </ul>
 	 * 
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings(RAWTYPES_STR)
 	private Object manufactureAttributeValue(Class<?> pojoClass,
 			Map<Class<?>, Integer> pojos, Class<?> attributeType,
 			List<Annotation> annotations, String attributeName,
@@ -1751,7 +1735,6 @@ public class PodamFactoryImpl implements PodamFactory {
 						enumConstantsLength, attributeMetadata)
 						% enumConstantsLength;
 				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
-				// attributeValue = realAttributeType.getEnumConstants()[0];
 			}
 
 		} else {
@@ -1941,8 +1924,6 @@ public class PodamFactoryImpl implements PodamFactory {
 				// Low quality here derives by the JDK which throws
 				// an exception if a field does not exist
 				workClass = workClass.getSuperclass();
-			} catch (SecurityException e) {
-				throw e;
 			}
 
 		}
@@ -1986,7 +1967,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws IllegalArgumentException
 	 *             If the field name is null or empty
 	 */
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ UNCHECKED_STR })
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
 			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
 			Class<?> collectionType, String attributeName,
@@ -2015,8 +1996,6 @@ public class PodamFactoryImpl implements PodamFactory {
 						break;
 					} catch (NoSuchFieldException e) {
 						clazz = clazz.getSuperclass();
-					} catch (SecurityException e) {
-						throw e;
 					}
 
 				}
@@ -2065,23 +2044,23 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue, typeClass, elementGenericTypeArgs.get());
 
 		} catch (SecurityException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		} catch (IllegalArgumentException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		} catch (InstantiationException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		} catch (IllegalAccessException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		} catch (ClassNotFoundException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		} catch (InvocationTargetException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while resolving the collection", e);
+			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
+					e);
 		}
 
 		return retValue;
@@ -2252,7 +2231,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				// It allows to invoke Field.get on private fields
 				field.setAccessible(true);
 
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings(UNCHECKED_STR)
 				Map<? super Object, ? super Object> coll = (Map<? super Object, ? super Object>) field
 						.get(newInstance);
 
@@ -2316,20 +2295,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			fillMap(mapArguments);
 
 		} catch (InstantiationException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while creating a Map object", e);
+			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);
 		} catch (IllegalAccessException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while creating a Map object", e);
+			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);
 		} catch (SecurityException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while creating a Map object", e);
+			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);
 		} catch (ClassNotFoundException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while creating a Map object", e);
+			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);
 		} catch (InvocationTargetException e) {
-			throw new PodamMockeryException(
-					"An exception occurred while creating a Map object", e);
+			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);
 		}
 
 		return retValue;
@@ -2343,26 +2317,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * argument.
 	 * </p>
 	 * 
-	 * @param pojoClass
-	 *            The POJO where the Map attribute has been declared
-	 * @param pojos
-	 *            Set of manufactured pojos' types
-	 * @param attributeName
-	 *            The attribute name
-	 * @param annotations
-	 *            The annotations for the attribute
-	 * @param mapToBeFilled
-	 *            The Map to be returned
-	 * @param keyClass
-	 *            The type of the Map key
-	 * @param elementClass
-	 *            The type of the Map element
-	 * @param keyGenericTypeArgs
-	 *            The generic type arguments for the current key generic class
-	 *            instance
-	 * @param elementGenericTypeArgs
-	 *            The generic type arguments for the current element generic
-	 *            class instance
+	 * @param mapArguments
+	 *            The arguments POJO
 	 * @throws InstantiationException
 	 *             If an exception occurred during instantiation
 	 * @throws IllegalAccessException
@@ -2409,17 +2365,31 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Object elementValue = null;
 
-			keyValue = getMapKeyOrElementValue(mapArguments.getPojoClass(),
-					mapArguments.getPojos(), mapArguments.getAttributeName(),
-					mapArguments.getAnnotations(), mapArguments.getKeyClass(),
-					collectionAnnotation, keyStrategy,
-					mapArguments.getKeyGenericTypeArgs());
+			MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
+			valueArguments.setPojoClass(mapArguments.getPojoClass());
+			valueArguments.setPojos(mapArguments.getPojos());
+			valueArguments.setAttributeName(mapArguments.getAttributeName());
+			valueArguments.setAnnotations(mapArguments.getAnnotations());
+			valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
+			valueArguments.setCollectionAnnotation(collectionAnnotation);
+			valueArguments.setElementStrategy(keyStrategy);
+			valueArguments.setGenericTypeArgs(mapArguments
+					.getKeyGenericTypeArgs());
 
-			elementValue = getMapKeyOrElementValue(mapArguments.getPojoClass(),
-					mapArguments.getPojos(), mapArguments.getAttributeName(),
-					mapArguments.getAnnotations(),
-					mapArguments.getElementClass(), collectionAnnotation,
-					elementStrategy, mapArguments.getElementGenericTypeArgs());
+			keyValue = getMapKeyOrElementValue(valueArguments);
+
+			valueArguments = new MapKeyOrElementsArguments();
+			valueArguments.setPojoClass(mapArguments.getPojoClass());
+			valueArguments.setPojos(mapArguments.getPojos());
+			valueArguments.setAttributeName(mapArguments.getAttributeName());
+			valueArguments.setAnnotations(mapArguments.getAnnotations());
+			valueArguments.setKeyOrValueType(mapArguments.getElementClass());
+			valueArguments.setCollectionAnnotation(collectionAnnotation);
+			valueArguments.setElementStrategy(elementStrategy);
+			valueArguments.setGenericTypeArgs(mapArguments
+					.getElementGenericTypeArgs());
+
+			elementValue = getMapKeyOrElementValue(valueArguments);
 
 			mapArguments.getMapToBeFilled().put(keyValue, elementValue);
 
@@ -2430,23 +2400,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * It fills a Map key or value with the appropriate value, considering
 	 * attribute-level customisation.
 	 * 
-	 * @param pojoClass
-	 *            The class containing the annotated attribute
-	 * @param pojos
-	 *            Set of manufactured pojos' types
-	 * @param attributeName
-	 *            The attribute name
-	 * @param annotations
-	 *            The list of annotations for this attribute
-	 * @param keyOrValueType
-	 *            The Map key / element type
-	 * @param collectionAnnotation
-	 *            The {@link PodamCollection} annotation
-	 * @param elementStrategy
-	 *            The strategy to use to fill the Map key or value element
-	 * @param genericTypeArgs
-	 *            The generic type arguments for the current generic class
-	 *            instance
+	 * @param keyOrElementsArguments
+	 *            The arguments POJO
 	 * @return A Map key or value
 	 * @throws InstantiationException
 	 *             If an exception occurred during instantiation
@@ -2463,33 +2418,39 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             desired type</li>
 	 *             </ul>
 	 */
-	private Object getMapKeyOrElementValue(Class<?> pojoClass,
-			Map<Class<?>, Integer> pojos, String attributeName,
-			List<Annotation> annotations, Class<?> keyOrValueType,
-			PodamCollection collectionAnnotation,
-			AttributeStrategy<?> elementStrategy, Type... genericTypeArgs)
+	private Object getMapKeyOrElementValue(
+			MapKeyOrElementsArguments keyOrElementsArguments)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
 		Object retValue = null;
 
-		if (null != elementStrategy
-				&& ObjectStrategy.class.isAssignableFrom(elementStrategy
-						.getClass()) && Object.class.equals(keyOrValueType)) {
+		if (null != keyOrElementsArguments.getElementStrategy()
+				&& ObjectStrategy.class.isAssignableFrom(keyOrElementsArguments
+						.getElementStrategy().getClass())
+				&& Object.class.equals(keyOrElementsArguments
+						.getKeyOrValueType())) {
 			LOG.debug("Element strategy is ObjectStrategy and Map key or value type is of type Object: using the ObjectStrategy strategy");
-			retValue = elementStrategy.getValue();
-		} else if (null != elementStrategy
-				&& !ObjectStrategy.class.isAssignableFrom(elementStrategy
-						.getClass())) {
+			retValue = keyOrElementsArguments.getElementStrategy().getValue();
+		} else if (null != keyOrElementsArguments.getElementStrategy()
+				&& !ObjectStrategy.class
+						.isAssignableFrom(keyOrElementsArguments
+								.getElementStrategy().getClass())) {
 			LOG.debug("Map key or value will be filled using the following strategy: "
-					+ elementStrategy);
-			retValue = returnAttributeDataStrategyValue(keyOrValueType,
-					elementStrategy);
+					+ keyOrElementsArguments.getElementStrategy());
+			retValue = returnAttributeDataStrategyValue(
+					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getElementStrategy());
 
 		} else {
 
-			retValue = manufactureAttributeValue(pojoClass, pojos,
-					keyOrValueType, annotations, attributeName, genericTypeArgs);
+			retValue = manufactureAttributeValue(
+					keyOrElementsArguments.getPojoClass(),
+					keyOrElementsArguments.getPojos(),
+					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getAnnotations(),
+					keyOrElementsArguments.getAttributeName(),
+					keyOrElementsArguments.getGenericTypeArgs());
 		}
 		return retValue;
 	}
@@ -2525,9 +2486,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	private Object resolveArrayElementValue(Class<?> attributeType,
 			Map<Class<?>, Integer> pojos, List<Annotation> annotations,
 			Class<?> pojoClass, String attributeName,
-			Map<String, Type> typeArgsMap) throws IllegalArgumentException,
-			InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
+			Map<String, Type> typeArgsMap) throws InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
 
 		Class<?> componentType = attributeType.getComponentType();
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
@@ -2627,7 +2588,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The collection type *
 	 * @return an instance of the collection type
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ RAWTYPES_STR, UNCHECKED_STR })
 	private Collection<? super Object> resolveCollectionType(
 			Class<?> collectionType) {
 
@@ -2671,7 +2632,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @return A default instance for each map type
 	 * 
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private Map<? super Object, ? super Object> resolveMapType(
 			Class<?> attributeType) {
 

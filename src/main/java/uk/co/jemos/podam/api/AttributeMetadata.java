@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.dto;
+package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -80,25 +80,19 @@ public class AttributeMetadata implements Serializable {
 	// ------------------->> equals() / hashcode() / toString()
 
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 * 
-	 * @return a <code>String</code> representation
-	 *         of this object.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		final String TAB = "    ";
-
-		StringBuilder retValue = new StringBuilder();
-
-		retValue.append("AttributeMetadata ( ").append(super.toString())
-				.append(TAB).append("attributeName = ").append(attributeName)
-				.append(TAB).append("attributeType = ").append(attributeType)
-				.append(TAB).append("attributeAnnotations = ")
-				.append(attributeAnnotations).append(TAB).append(" )");
-
-		return retValue.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append("AttributeMetadata [attributeName=");
+		builder.append(attributeName);
+		builder.append(", attributeType=");
+		builder.append(attributeType);
+		builder.append(", attributeAnnotations=");
+		builder.append(attributeAnnotations);
+		builder.append("]");
+		return builder.toString();
 	}
 
 	// ------------------->> Inner classes

@@ -10,14 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.annotations.PodamConstructor;
-import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
-import uk.co.jemos.podam.dto.AttributeMetadata;
-import uk.co.jemos.podam.utils.PodamConstants;
-
 /**
  * Default implementation of a {@link DataProviderStrategy}
  * <p>
@@ -39,13 +31,9 @@ import uk.co.jemos.podam.utils.PodamConstants;
  * 
  */
 
-public class RandomDataProviderStrategy implements DataProviderStrategy {
+public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Constants
-
-	/** Application logger */
-	private static final Logger LOG = LoggerFactory
-			.getLogger(RandomDataProviderStrategy.class.getName());
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
@@ -83,7 +71,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 * creation.
 	 * </p>
 	 */
-	public static Comparator<Constructor<?>> ConstructorComparator = new Comparator<Constructor<?>>() {
+	private static Comparator<Constructor<?>> constructorComparator = new Comparator<Constructor<?>>() {
 
 		@Override
 		public int compare(Constructor<?> constructor1,
@@ -480,7 +468,7 @@ public class RandomDataProviderStrategy implements DataProviderStrategy {
 	 */
 	@Override
 	public void sort(Constructor<?>[] constructors) {
-		Arrays.sort(constructors, ConstructorComparator);
+		Arrays.sort(constructors, constructorComparator);
 	}
 
 	/**

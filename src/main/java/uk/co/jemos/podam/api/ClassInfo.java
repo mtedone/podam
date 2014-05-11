@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.dto;
+package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -71,12 +71,12 @@ public class ClassInfo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (prime * result)
-				+ ((classFields == null) ? 0 : classFields.hashCode());
-		result = (prime * result)
-				+ ((className == null) ? 0 : className.hashCode());
-		result = (prime * result)
-				+ ((classSetters == null) ? 0 : classSetters.hashCode());
+		result = prime * result
+				+ (classFields == null ? 0 : classFields.hashCode());
+		result = prime * result
+				+ (className == null ? 0 : className.hashCode());
+		result = prime * result
+				+ (classSetters == null ? 0 : classSetters.hashCode());
 		return result;
 	}
 
@@ -122,23 +122,19 @@ public class ClassInfo implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes in name = value
-	 * format.
-	 * 
-	 * @return a <code>String</code> representation of this object.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-		final String TAB = "    ";
-
-		StringBuilder retValue = new StringBuilder();
-
-		retValue.append("ClassInfo ( ").append(TAB).append("className = ")
-				.append(className).append(TAB).append("classFields = ")
-				.append(classFields).append(TAB).append("classSetters = ")
-				.append(classSetters).append(TAB).append(" )");
-
-		return retValue.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append("ClassInfo [className=");
+		builder.append(className);
+		builder.append(", classFields=");
+		builder.append(classFields);
+		builder.append(", classSetters=");
+		builder.append(classSetters);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

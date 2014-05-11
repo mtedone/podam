@@ -1,9 +1,8 @@
 /**
  * 
  */
-package uk.co.jemos.podam.utils;
+package uk.co.jemos.podam.api;
 
-import uk.co.jemos.podam.api.strategies.AttributeStrategy;
 
 /**
  * PODAM constants.
@@ -13,7 +12,7 @@ import uk.co.jemos.podam.api.strategies.AttributeStrategy;
  * @since 1.0.0
  * 
  */
-public class PodamConstants {
+public final class PodamConstants {
 
 	// ------------------->> Constants
 

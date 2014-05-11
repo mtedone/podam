@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.utils;
+package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -15,9 +15,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.co.jemos.podam.api.annotations.PodamExclude;
-import uk.co.jemos.podam.dto.ClassInfo;
-
 /**
  * PODAM Utilities class.
  * 
@@ -27,7 +24,7 @@ import uk.co.jemos.podam.dto.ClassInfo;
  * 
  */
 
-public class PodamUtils {
+public final class PodamUtils {
 
 	// ---------------------->> Constants
 
@@ -99,10 +96,13 @@ public class PodamUtils {
 	 */
 	public static Set<String> getDeclaredInstanceFields(Class<?> clazz,
 			List<Class<? extends Annotation>> excludeAnnotations) {
+
+		Class<?> workClass = clazz;
+
 		Set<String> classFields = new HashSet<String>();
 
-		while (clazz != null) {
-			Field[] declaredFields = clazz.getDeclaredFields();
+		while (workClass != null) {
+			Field[] declaredFields = workClass.getDeclaredFields();
 			for (Field field : declaredFields) {
 				// If users wanted to skip this field, we grant their wishes
 				if (containsAnyAnnotation(field, excludeAnnotations)) {
@@ -115,7 +115,7 @@ public class PodamUtils {
 				}
 
 			}
-			clazz = clazz.getSuperclass();
+			workClass = workClass.getSuperclass();
 		}
 
 		return classFields;

@@ -5,7 +5,6 @@ package uk.co.jemos.podam.api;
 
 import java.lang.reflect.Type;
 
-import uk.co.jemos.podam.api.strategies.DataProviderStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
@@ -37,7 +36,7 @@ public interface PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
-	public <T> T manufacturePojo(Class<T> pojoClass);
+	<T> T manufacturePojo(Class<T> pojoClass);
 
 	/**
 	 * Generic method which returns an instance of the given class filled with
@@ -61,13 +60,13 @@ public interface PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
-	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs);
+	<T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs);
 
 	/**
 	 * It returns the strategy for this factory.
 	 * 
 	 * @return the strategy
 	 */
-	public DataProviderStrategy getStrategy();
+	DataProviderStrategy getStrategy();
 
 }

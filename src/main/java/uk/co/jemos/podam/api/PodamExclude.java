@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api.annotations;
+package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

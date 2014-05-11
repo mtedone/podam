@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import uk.co.jemos.podam.api.annotations.PodamCollection;
+import uk.co.jemos.podam.api.PodamCollection;
 
 /**
  * Generic Pojo.

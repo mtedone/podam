@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import uk.co.jemos.podam.api.annotations.PodamCollection;
+import uk.co.jemos.podam.api.PodamCollection;
 
 /**
  * @author mtedone

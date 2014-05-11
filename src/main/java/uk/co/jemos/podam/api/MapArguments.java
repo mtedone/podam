@@ -1,31 +1,19 @@
-package uk.co.jemos.podam.dto;
+package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
+ * Pojo which contains the arguments required to fill a Map as a POJO attribute
+ * 
  * @author Marco Tedone
  * 
  */
-public class MapArguments implements Serializable {
+public class MapArguments extends AbstractMapArguments implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	/** The POJO where the Map attribute has been declared. */
-	private Class<?> pojoClass;
-
-	/** Set of manufactured pojos' types. */
-	private Map<Class<?>, Integer> pojos;
-
-	/** The attribute name. */
-	private String attributeName;
-
-	/** The annotations for the attribute. */
-	private List<Annotation> annotations;
 
 	/** The Map to be returned. */
 	private Map<? super Object, ? super Object> mapToBeFilled;
@@ -47,66 +35,6 @@ public class MapArguments implements Serializable {
 	 * class instance.
 	 */
 	private Type[] elementGenericTypeArgs;
-
-	/**
-	 * @return the pojoClass
-	 */
-	public Class<?> getPojoClass() {
-		return pojoClass;
-	}
-
-	/**
-	 * @param pojoClass
-	 *            the pojoClass to set
-	 */
-	public void setPojoClass(Class<?> pojoClass) {
-		this.pojoClass = pojoClass;
-	}
-
-	/**
-	 * @return the pojos
-	 */
-	public Map<Class<?>, Integer> getPojos() {
-		return pojos;
-	}
-
-	/**
-	 * @param pojos
-	 *            the pojos to set
-	 */
-	public void setPojos(Map<Class<?>, Integer> pojos) {
-		this.pojos = pojos;
-	}
-
-	/**
-	 * @return the attributeName
-	 */
-	public String getAttributeName() {
-		return attributeName;
-	}
-
-	/**
-	 * @param attributeName
-	 *            the attributeName to set
-	 */
-	public void setAttributeName(String attributeName) {
-		this.attributeName = attributeName;
-	}
-
-	/**
-	 * @return the annotations
-	 */
-	public List<Annotation> getAnnotations() {
-		return annotations;
-	}
-
-	/**
-	 * @param annotations
-	 *            the annotations to set
-	 */
-	public void setAnnotations(List<Annotation> annotations) {
-		this.annotations = annotations;
-	}
 
 	/**
 	 * @return the mapToBeFilled
@@ -190,15 +118,7 @@ public class MapArguments implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MapArguments [pojoClass=");
-		builder.append(pojoClass);
-		builder.append(", pojos=");
-		builder.append(pojos);
-		builder.append(", attributeName=");
-		builder.append(attributeName);
-		builder.append(", annotations=");
-		builder.append(annotations);
-		builder.append(", mapToBeFilled=");
+		builder.append("MapArguments [mapToBeFilled=");
 		builder.append(mapToBeFilled);
 		builder.append(", keyClass=");
 		builder.append(keyClass);
@@ -208,6 +128,14 @@ public class MapArguments implements Serializable {
 		builder.append(Arrays.toString(keyGenericTypeArgs));
 		builder.append(", elementGenericTypeArgs=");
 		builder.append(Arrays.toString(elementGenericTypeArgs));
+		builder.append(", pojoClass=");
+		builder.append(getPojoClass());
+		builder.append(", pojos=");
+		builder.append(getPojos());
+		builder.append(", attributeName=");
+		builder.append(getAttributeName());
+		builder.append(", annotations=");
+		builder.append(getAnnotations());
 		builder.append("]");
 		return builder.toString();
 	}
