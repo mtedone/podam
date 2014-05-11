@@ -2899,22 +2899,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	}
 
-	/**
-	 * @return the excludeAnnotations
-	 */
-	public List<Class<? extends Annotation>> getExcludeAnnotations() {
-		return excludeAnnotations;
-	}
-
-	/**
-	 * @param excludeAnnotations
-	 *            the excludeAnnotations to set
-	 */
-	public void setExcludeAnnotations(
-			List<Class<? extends Annotation>> excludeAnnotations) {
-		this.excludeAnnotations = excludeAnnotations;
-	}
-
 	// ------------------->> equals() / hashcode() / toString()
 
 	// ------------------->> Inner classes
