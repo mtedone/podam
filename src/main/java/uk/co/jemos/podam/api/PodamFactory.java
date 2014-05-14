@@ -70,4 +70,5 @@ public interface PodamFactory {
 	 */
 	DataProviderStrategy getStrategy();
 
+	void registerFactory(Class attributeClass, AttributeStrategy podamOptional);
 }
