@@ -126,6 +126,7 @@
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
 					<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 						the MIT license</footer>
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
 			<plugin>
