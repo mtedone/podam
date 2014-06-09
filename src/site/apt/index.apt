@@ -209,6 +209,20 @@ private double doubleFieldWithMinAndMaxValue;
   To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
   or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.
 
+** A simple example to manufacture collections
+
+  You can use PODAM to fill in generic collections with dummy data. 
+
++-----------------------------------
+PodamFactory podam = new PodamFactoryImpl();
+
+// Annotation required to remove warning because of type erasure although it would work without
+@SuppressWarnings("unchecked")
+List<String> list = podam.manufacturePojo(ArrayList.class, String.class);
+
++-----------------------------------  
+  
+
 ** Manufacturing generic types
 
   Sometimes you may want to manufacture a generic type directly without a wrapper class or a subclass.
