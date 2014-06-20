@@ -2119,7 +2119,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements(pojoClass);
+		int nbrElements = strategy.getNumberOfCollectionElements(collectionElementType);
 
 		if (null != collectionAnnotation) {
 
