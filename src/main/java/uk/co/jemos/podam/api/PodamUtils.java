@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package uk.co.jemos.podam.api;
 
@@ -15,13 +15,15 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jemos.podam.common.PodamExclude;
+
 /**
  * PODAM Utilities class.
- * 
+ *
  * @author mtedone
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public final class PodamUtils {
 
@@ -29,7 +31,7 @@ public final class PodamUtils {
 
 	private static final int SETTER_IDENTIFIER_LENGTH = 3;
 	/** The application logger. */
-	public static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
 
 	/** Non instantiable constructor */
 	private PodamUtils() {
@@ -38,7 +40,7 @@ public final class PodamUtils {
 
 	/**
 	 * It returns a {@link ClassInfo} object for the given class
-	 * 
+	 *
 	 * @param clazz
 	 *            The class to retrieve info from
 	 * @return a {@link ClassInfo} object for the given class
@@ -49,7 +51,7 @@ public final class PodamUtils {
 
 	/**
 	 * It returns a {@link ClassInfo} object for the given class
-	 * 
+	 *
 	 * @param clazz
 	 *            The class to retrieve info from
 	 * @param excludeFieldAnnotations
@@ -73,7 +75,7 @@ public final class PodamUtils {
 
 	/**
 	 * Given a class, it returns a Set of its declared instance field names.
-	 * 
+	 *
 	 * @param clazz
 	 *            The class to analyse to retrieve declared fields
 	 * @return Set of a class declared field names.
@@ -86,7 +88,7 @@ public final class PodamUtils {
 
 	/**
 	 * Given a class, it returns a Set of its declared instance field names.
-	 * 
+	 *
 	 * @param clazz
 	 *            The class to analyse to retrieve declared fields
 	 * @param excludeAnnotations
@@ -123,7 +125,7 @@ public final class PodamUtils {
 
 	/**
 	 * Checks if the given field has any one of the annotations
-	 * 
+	 *
 	 * @param field
 	 *            the field to check for
 	 * @param annotations
@@ -146,7 +148,7 @@ public final class PodamUtils {
 
 	/**
 	 * It returns the getter for the given field.
-	 * 
+	 *
 	 * @param field
 	 *            The {@link Field} for which the getter is required
 	 * @return the getter for the given field or null if no getter was found
@@ -157,6 +159,7 @@ public final class PodamUtils {
 		try {
 			return field.getDeclaringClass().getMethod("get" + name);
 		} catch (NoSuchMethodException e) {
+			LOG.info("No getter method for " + name, e);
 			return null;
 		}
 	}
@@ -169,13 +172,13 @@ public final class PodamUtils {
 	 * {@code classFields} argument contains an attribute whose name matches the
 	 * setter, according to JavaBean standards.
 	 * </p>
-	 * 
+	 *
 	 * @param clazz
 	 *            The class to analyse for setters
 	 * @param classFields
 	 *            A Set of field names for which setters are to be found
 	 * @return A Set of setters matching the class declared field names
-	 * 
+	 *
 	 */
 	public static Set<Method> getPojoSetters(Class<?> clazz,
 			Set<String> classFields) {
@@ -188,18 +191,16 @@ public final class PodamUtils {
 
 			Method[] declaredMethods = workClass.getDeclaredMethods();
 			String candidateField = null;
+
 			for (Method method : declaredMethods) {
-				if (!method.getName().startsWith("set")) {
-					continue;
+				if (method.getName().startsWith("set")
+						&& method.getReturnType().equals(void.class)) {
+					candidateField = extractFieldNameFromSetterMethod(method);
+					if (classFields.contains(candidateField)) {
+						classSetters.add(method);
+					}
+
 				}
-				if (!method.getReturnType().equals(void.class)) {
-					continue;
-				}
-				candidateField = extractFieldNameFromSetterMethod(method);
-				if (!classFields.contains(candidateField)) {
-					continue;
-				}
-				classSetters.add(method);
 
 			}
 			workClass = workClass.getSuperclass();
@@ -217,7 +218,7 @@ public final class PodamUtils {
 	 * intField. The correctness of the return value depends on the adherence to
 	 * JavaBean standards.
 	 * </p>
-	 * 
+	 *
 	 * @param method
 	 *            The setter method from which the field name is required
 	 * @return The field name corresponding to the setter
@@ -225,7 +226,7 @@ public final class PodamUtils {
 	public static String extractFieldNameFromSetterMethod(Method method) {
 		String candidateField = null;
 		candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
-		if (!candidateField.equals("")) {
+		if (!"".equals(candidateField)) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {

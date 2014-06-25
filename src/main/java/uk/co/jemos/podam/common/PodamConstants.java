@@ -1,7 +1,8 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.common;
+
 
 
 /**

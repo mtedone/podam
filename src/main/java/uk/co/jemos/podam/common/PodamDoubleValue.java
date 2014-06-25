@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.common;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used to customise min and max values on a long type attribute or
+ * Annotation used to customise min and max values on a double type attribute or
  * constructor parameter.
  * 
  * 
@@ -20,13 +20,13 @@ import java.lang.annotation.Target;
 @Documented
 @Target(value = { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PodamLongValue {
+public @interface PodamDoubleValue {
 
 	/** The minimum value for the annotated field */
-	long minValue() default 0;
+	double minValue() default 0.0;
 
 	/** The minimum value for the annotated field */
-	long maxValue() default 0;
+	double maxValue() default 0.0;
 
 	/** It allows clients to make comments */
 	String comment() default "";

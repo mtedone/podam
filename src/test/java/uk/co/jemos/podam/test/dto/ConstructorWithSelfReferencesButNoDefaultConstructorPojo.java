@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.api.PodamConstructor;
+import uk.co.jemos.podam.common.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**

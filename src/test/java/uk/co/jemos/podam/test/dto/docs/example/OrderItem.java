@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.docs.example;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.api.PodamExclude;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  * @author mtedone

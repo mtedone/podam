@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import uk.co.jemos.podam.api.AttributeStrategy;
-import uk.co.jemos.podam.api.PodamCollection;
-import uk.co.jemos.podam.api.PodamStrategyValue;
+import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.PodamCollection;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.test.strategies.MyBirthdayStrategy;
 import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 

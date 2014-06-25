@@ -1,14 +1,16 @@
 /**
- * 
+ *
  */
 package uk.co.jemos.podam.api;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import uk.co.jemos.podam.common.ConstructorComparator;
+import uk.co.jemos.podam.common.PodamConstants;
 
 /**
  * Default implementation of a {@link DataProviderStrategy}
@@ -16,19 +18,19 @@ import java.util.Random;
  * This default implementation returns values based on a random generator.
  * <b>Don't use this implementation if you seek deterministic values</b>
  * </p>
- * 
+ *
  * <p>
  * All values returned by this implementation are <b>different from zero</b>.
  * </p>
- * 
+ *
  * <p>
  * This implementation is a Singleton
  * </p>
- * 
+ *
  * @author mtedone
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 
 public final class RandomDataProviderStrategy implements DataProviderStrategy {
@@ -40,6 +42,9 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/** The singleton instance of this implementation */
 	private static final RandomDataProviderStrategy SINGLETON = new RandomDataProviderStrategy();
+
+	/** The constructor comparator */
+	private static final ConstructorComparator constructorComparator = new ConstructorComparator();
 
 	/** An array of valid String characters */
 	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',
@@ -65,38 +70,8 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 	private int nbrOfCollectionElements;
 
 	/**
-	 * Comparator for sorting constructors.
-	 * <p>
-	 * We would like to have constructor with less parameters to speed up
-	 * creation.
-	 * </p>
-	 */
-	private static Comparator<Constructor<?>> constructorComparator = new Comparator<Constructor<?>>() {
-
-		@Override
-		public int compare(Constructor<?> constructor1,
-				Constructor<?> constructor2) {
-
-			/* Constructors with Podam annotation first */
-			boolean choose1 = constructor1
-					.getAnnotation(PodamConstructor.class) != null;
-			boolean choose2 = constructor2
-					.getAnnotation(PodamConstructor.class) != null;
-			if (choose1 && !choose2) {
-				return Integer.MIN_VALUE;
-			} else if (!choose1 && choose2) {
-				return Integer.MAX_VALUE;
-			}
-
-			/* Then constructors with less parameters */
-			return constructor1.getParameterTypes().length
-					- constructor2.getParameterTypes().length;
-		}
-	};
-
-	/**
-	 * A list of user-submitted specific implementations for interfaces
-	 * and abstract classes
+	 * A list of user-submitted specific implementations for interfaces and
+	 * abstract classes
 	 */
 	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
 
@@ -119,7 +94,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/**
 	 * Implementation of the Singleton pattern
-	 * 
+	 *
 	 * @return A singleton instance of this class
 	 */
 	public static RandomDataProviderStrategy getInstance() {
@@ -129,7 +104,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * Other factory method which assigns a default number of collection
 	 * elements before returning the singleton.
-	 * 
+	 *
 	 * @param nbrCollectionElements
 	 *            The number of collection elements
 	 * @return The Singleton, set with the number of collection elements set as
@@ -431,7 +406,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/**
 	 * Sets the new number of default collection elements.
-	 * 
+	 *
 	 * @param newNumberOfCollectionElements
 	 *            The new number of collection elements.
 	 */
@@ -449,7 +424,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/**
 	 * Sets the new max stack trace depth.
-	 * 
+	 *
 	 * @param newMaxDepth
 	 *            The new max stack trace depth.
 	 */
@@ -458,11 +433,10 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 	}
 
 	/**
-	 * Rearranges POJO's constructors in order they will be tried to
-	 * produce the POJO.
-	 * Default strategy consist of putting constructors with less parameters
-	 * to be tried first.
-	 * 
+	 * Rearranges POJO's constructors in order they will be tried to produce the
+	 * POJO. Default strategy consist of putting constructors with less
+	 * parameters to be tried first.
+	 *
 	 * @param constructors
 	 *            Array of POJO's constructors
 	 */
@@ -473,7 +447,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 
 	/**
 	 * Bind an interface/abstract class to a specific implementation
-	 * 
+	 *
 	 * @param abstractClass
 	 *            the interface/abstract class to bind
 	 * @param specificClass
@@ -490,7 +464,7 @@ public final class RandomDataProviderStrategy implements DataProviderStrategy {
 	/**
 	 * Remove binding of an interface/abstract class to a specific
 	 * implementation
-	 * 
+	 *
 	 * @param abstractClass
 	 *            the interface/abstract class to remove binding
 	 * @return itself

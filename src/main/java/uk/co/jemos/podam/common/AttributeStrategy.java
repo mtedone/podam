@@ -1,7 +1,7 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.common;
 
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 

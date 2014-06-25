@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import net.jcip.annotations.Immutable;
-import uk.co.jemos.podam.api.PodamConstructor;
+import uk.co.jemos.podam.common.PodamConstructor;
 
 /**
  * This is an immutable POJO which is not annotated with

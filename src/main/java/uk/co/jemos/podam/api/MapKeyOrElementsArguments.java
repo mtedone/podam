@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
+import uk.co.jemos.podam.common.AttributeStrategy;
+
 /**
  * Contains attributes for the arguments to pass to the factory method to fill
  * map key or elements.

@@ -1,13 +1,15 @@
 /**
  * 
  */
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.common;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import uk.co.jemos.podam.api.ObjectStrategy;
 
 /**
  * Annotation used to customise collection-type elements

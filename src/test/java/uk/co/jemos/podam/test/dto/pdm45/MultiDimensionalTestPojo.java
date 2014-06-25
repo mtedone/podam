@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import uk.co.jemos.podam.api.PodamCollection;
+import uk.co.jemos.podam.common.PodamCollection;
 
 /**
  * This is POJO to test PODAM's ability to create instances

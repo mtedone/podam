@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package uk.co.jemos.podam.api;
 
@@ -37,15 +37,29 @@ import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.PodamBooleanValue;
+import uk.co.jemos.podam.common.PodamByteValue;
+import uk.co.jemos.podam.common.PodamCharValue;
+import uk.co.jemos.podam.common.PodamCollection;
+import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.common.PodamConstructor;
+import uk.co.jemos.podam.common.PodamDoubleValue;
+import uk.co.jemos.podam.common.PodamFloatValue;
+import uk.co.jemos.podam.common.PodamIntValue;
+import uk.co.jemos.podam.common.PodamLongValue;
+import uk.co.jemos.podam.common.PodamShortValue;
+import uk.co.jemos.podam.common.PodamStrategyValue;
+import uk.co.jemos.podam.common.PodamStringValue;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * The PODAM factory implementation
- * 
+ *
  * @author mtedone
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 @ThreadSafe
 @Immutable
@@ -94,7 +108,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * Full constructor.
-	 * 
+	 *
 	 * @param strategy
 	 *            The strategy to use to fill data
 	 */
@@ -143,7 +157,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * This method places required and provided types for object creation into a
 	 * map, which will be used for type mapping.
 	 * </p>
-	 * 
+	 *
 	 * @param typeArgsMap
 	 *            a map to fill
 	 * @param pojoClass
@@ -152,8 +166,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            Type arguments provided for a generics object by caller
 	 * @return Array of unused provided generic type arguments
 	 * @throws IllegalStateException
-	 *             If number of typed parameters doesn't match
-	 *             number of provided generic types
+	 *             If number of typed parameters doesn't match number of
+	 *             provided generic types
 	 */
 	private Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
 			final Class<?> pojoClass, final Type[] genericTypeArgs) {
@@ -211,7 +225,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * no-arg constructor (e.g. Calendar), this method attempts to find a ,
 	 * no-args, factory method (e.g. getInstance()) and it invokes it
 	 * </p>
-	 * 
+	 *
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
 	 *            is required
@@ -222,8 +236,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
-	 * 
-	 * 
+	 *
+	 *
 	 * @return An instance of the given class
 	 * @throws IllegalArgumentException
 	 *             If an illegal argument was passed to the constructor
@@ -259,7 +273,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							genericTypeArgsExtra.length));
 				}
 			} catch (IllegalStateException e) {
-				LOG.error(e.getMessage());
+				LOG.error(
+						"An error occurred while filling the type argument in the map",
+						e);
 				return null;
 			}
 
@@ -420,9 +436,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					break;
 				} catch (Exception t) {
 
-					LOG.warn("PODAM could not create an instance for constructor: "
-							+ candidateConstructor
-							+ ". Will try another one...");
+					LOG.info(
+							"PODAM could not create an instance for constructor: "
+									+ candidateConstructor
+									+ ". Will try another one...", t);
 
 				}
 
@@ -453,9 +470,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				} catch (Exception t) {
 
-					LOG.warn("Couldn't create attribute with constructor: "
-							+ constructor
-							+ ". Will check if other constructors are available");
+					LOG.info(
+							"Couldn't create attribute with constructor: "
+									+ constructor
+									+ ". Will check if other constructors are available",
+									t);
 
 				}
 
@@ -474,8 +493,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It resolves generic parameter type
-	 * 
-	 * 
+	 *
+	 *
 	 * @param paramType
 	 *            The generic parameter type
 	 * @param typeArgsMap
@@ -537,15 +556,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It resolves and returns the primitive value depending on the type
-	 * 
-	 * 
+	 *
+	 *
 	 * @param primitiveClass
 	 *            The primitive type class
 	 * @param annotations
 	 *            The annotations to consider for this attribute
 	 * @param attributeMetadata
 	 * @return the primitive value depending on the type
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If a specific value was set in an annotation but it was not
 	 *             possible to convert such value in the desired type
@@ -664,7 +683,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It returns the boolean value indicated in the annotation.
-	 * 
+	 *
 	 * @param annotations
 	 *            The collection of annotations for the annotated attribute
 	 * @return The boolean value indicated in the annotation
@@ -690,15 +709,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It returns a random byte if the attribute was annotated with
 	 * {@link PodamByteValue} or {@code null} otherwise
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations for this attribute
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
+	 *
 	 * @return A random byte if the attribute was annotated with
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If the {@link PodamByteValue#numValue()} value has been set
 	 *             and it is not convertible to a byte type
@@ -749,16 +768,16 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It returns a random short if the attribute was annotated with
 	 * {@link PodamShortValue} or {@code null} otherwise
-	 * 
+	 *
 	 * @param annotations
 	 *            The annotations with which the attribute was annotated
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
+	 *
 	 * @return A random short if the attribute was annotated with
 	 *         {@link PodamShortValue} or {@code null} otherwise
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If {@link PodamShortValue#numValue()} was set and its value
 	 *             could not be converted to a Short type
@@ -809,13 +828,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It creates and returns a random {@link Character} value
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations which might customise the return value
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
+	 *
 	 * @return A random {@link Character} value
 	 */
 	private Character getCharacterValueWithinRange(
@@ -858,17 +877,17 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Returns either a customised int value if a {@link PodamIntValue}
 	 * annotation was provided or a random integer if this was not the case
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations for the int attribute
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
+	 *
 	 * @return Either a customised int value if a {@link PodamIntValue}
 	 *         annotation was provided or a random integer if this was not the
 	 *         case
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If it was not possible to convert the
 	 *             {@link PodamIntValue#numValue()} to an Integer
@@ -922,18 +941,18 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Returns either a customised float value if a {@link PodamFloatValue}
 	 * annotation was provided or a random float if this was not the case
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations for the int attribute
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
-	 * 
+	 *
+	 *
 	 * @return Either a customised float value if a {@link PodamFloatValue}
 	 *         annotation was provided or a random float if this was not the
 	 *         case
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If {@link PodamFloatValue#numValue()} contained a value not
 	 *             convertible to a Float type
@@ -984,13 +1003,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It creates and returns a random {@link Double} value
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations which might customise the return value
-	 * 
+	 *
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation *
-	 * 
+	 *
 	 * @return a random {@link Double} value
 	 */
 	private Double getDoubleValueWithinRange(List<Annotation> annotations,
@@ -1042,15 +1061,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Returns either a customised long value if a {@link PodamLongValue}
 	 * annotation was provided or a random long if this was not the case
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations for the int attribute
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
-	 * 
+	 *
 	 * @return Either a customised long value if a {@link PodamLongValue}
 	 *         annotation was provided or a random long if this was not the case
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If it was not possible to convert
 	 *             {@link PodamLongValue#numValue()} to a Long
@@ -1102,8 +1121,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It attempts to resolve the given class as a wrapper class and if this is
 	 * the case it assigns a random value
-	 * 
-	 * 
+	 *
+	 *
 	 * @param candidateWrapperClass
 	 *            The class which might be a wrapper class
 	 * @param attributeMetadata
@@ -1227,10 +1246,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It creates and returns an instance of the given class if at least one of
 	 * its constructors has been annotated with {@link PodamConstructor}
-	 * 
+	 *
 	 * @param <T>
 	 *            The type of the instance to return
-	 * 
+	 *
 	 * @param pojoClass
 	 *            The class of which an instance is required
 	 * @param pojos
@@ -1286,14 +1305,14 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
-							&& ((Collection) retValue).size() == 0) {
+							&& ((Collection) retValue).isEmpty()) {
 						LOG.info("We could create an instance with constructor: "
 								+ constructor
 								+ ", but collection is empty"
 								+ ". Will try with another one.");
 
 					} else if (retValue instanceof Map
-							&& ((Map) retValue).size() == 0) {
+							&& ((Map) retValue).isEmpty()) {
 						LOG.info("We could create an instance with constructor: "
 								+ constructor
 								+ ", but map is empty"
@@ -1305,9 +1324,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						break;
 					}
 				} catch (Exception t) {
-					LOG.warn("We couldn't create an instance for pojo: "
+					LOG.info("We couldn't create an instance for pojo: "
 							+ pojoClass + " for constructor: " + constructor
-							+ ". Will try with another one.");
+							+ ". Will try with another one.", t);
 				}
 
 			}
@@ -1327,10 +1346,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Generic method which returns an instance of the given class filled with
 	 * values dictated by the strategy
-	 * 
+	 *
 	 * @param <T>
 	 *            The type for which a filled instance is required
-	 * 
+	 *
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
 	 *            is required
@@ -1341,7 +1360,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return An instance of <T> filled with dummy values
-	 * 
+	 *
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
@@ -1355,7 +1374,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (pojoClass.isPrimitive()) {
 				// For JDK POJOs we can't retrieve attribute name
-				ArrayList<Annotation> annotations = new ArrayList<Annotation>();
+				List<Annotation> annotations = new ArrayList<Annotation>();
 				String noName = null;
 				return (T) resolvePrimitiveValue(pojoClass, annotations,
 						new AttributeMetadata(noName, pojoClass, annotations));
@@ -1414,9 +1433,11 @@ public class PodamFactoryImpl implements PodamFactory {
 						"Security exception while applying introspection.", e);
 			} catch (NoSuchMethodException e1) {
 
-				LOG.warn("No default (public or non-public) constructors were found. "
-						+ "Also no other public constructors were found. "
-						+ "Your last hope is that we find a non-public, non-default constructor.");
+				LOG.info(
+						"No default (public or non-public) constructors were found. "
+								+ "Also no other public constructors were found. "
+								+ "Your last hope is that we find a non-public, non-default constructor.",
+								e1);
 
 				Constructor<?>[] constructors = pojoClass
 						.getDeclaredConstructors();
@@ -1574,8 +1595,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It manufactures and returns the value for a POJO attribute.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param pojoClass
 	 *            The POJO class being filled with values
 	 * @param pojos
@@ -1591,7 +1612,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return The value for an attribute
-	 * 
+	 *
 	 * @throws InstantiationException
 	 *             If an exception occurred during instantiation
 	 * @throws IllegalAccessException
@@ -1608,7 +1629,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             annotation and such value could not be converted to the
 	 *             desired type</li>
 	 *             </ul>
-	 * 
+	 *
 	 */
 	private Object manufactureAttributeValue(Class<?> pojoClass,
 			Map<Class<?>, Integer> pojos, Class<?> attributeType,
@@ -1625,8 +1646,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It manufactures and returns the value for a POJO attribute.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param pojoClass
 	 *            The POJO class being filled with values
 	 * @param pojos
@@ -1645,7 +1666,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return The value for an attribute
-	 * 
+	 *
 	 * @throws InstantiationException
 	 *             If an exception occurred during instantiation
 	 * @throws IllegalAccessException
@@ -1662,7 +1683,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             annotation and such value could not be converted to the
 	 *             desired type</li>
 	 *             </ul>
-	 * 
+	 *
 	 */
 	@SuppressWarnings(RAWTYPES_STR)
 	private Object manufactureAttributeValue(Class<?> pojoClass,
@@ -1748,7 +1769,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				if (realAttributeType.getName().startsWith("java.")
 						|| realAttributeType.getName().startsWith("javax.")) {
 
-					// For classes in the Java namespace we attempt the no-args or the
+					// For classes in the Java namespace we attempt the no-args
+					// or the
 					// factory constructor strategy
 					attributeValue = createNewInstanceForClassWithoutConstructors(
 							pojoClass, pojos, realAttributeType,
@@ -1775,7 +1797,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It creates and returns a String value, eventually customised by
 	 * annotations
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations used to customise the String value, if
 	 *            any
@@ -1787,7 +1809,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws InstantiationException
 	 *             If an exception occurred while creating an instance of the
 	 *             strategy
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If {@link PodamStrategyValue} was specified but the type was
 	 *             not correct for the attribute being set
@@ -1840,7 +1862,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It returns a {@link PodamStrategyValue} if one was specified, or
 	 * {@code null} otherwise.
-	 * 
+	 *
 	 * @param annotations
 	 *            The list of annotations
 	 * @return {@code true} if the list of annotations contains at least one
@@ -1864,7 +1886,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It returns {@code true} if this class is a wrapper class, {@code false}
 	 * otherwise
-	 * 
+	 *
 	 * @param candidateWrapperClass
 	 *            The class to check
 	 * @return {@code true} if this class is a wrapper class, {@code false}
@@ -1891,7 +1913,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * Given the original class and the setter method, it returns all
 	 * annotations for the field or an empty collection if no custom annotations
 	 * were found on the field
-	 * 
+	 *
 	 * @param clazz
 	 *            The class containing the annotated attribute
 	 * @param setter
@@ -1919,8 +1941,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				setterField = workClass.getDeclaredField(attributeName);
 				break;
 			} catch (NoSuchFieldException e) {
-				// Low quality here derives by the JDK which throws
-				// an exception if a field does not exist
+				LOG.info(
+						"A field for " + attributeName + " could not be found",
+						e);
 				workClass = workClass.getSuperclass();
 			}
 
@@ -1940,8 +1963,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It returns a collection of some sort with some data in it.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param pojoClass
 	 *            The POJO being analysed
 	 * @param pojos
@@ -1993,6 +2016,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						field = clazz.getDeclaredField(attributeName);
 						break;
 					} catch (NoSuchFieldException e) {
+						LOG.info(
+								"A field could not be found for attribute name: "
+										+ attributeName, e);
 						clazz = clazz.getSuperclass();
 					}
 
@@ -2013,9 +2039,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue = resolveCollectionType(collectionType);
 				}
 			} catch (Exception e) {
-				// Name is empty or could not call an empty constructor
-				// (probably this call is for a parameterized constructor)
-				// Create a new Collection
+
+				LOG.info(
+						"The name was empty or we couldn't call an empty constructor. Creating an empty collection.",
+						e);
 				retValue = resolveCollectionType(collectionType);
 			}
 
@@ -2067,12 +2094,12 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It fills a collection with the required number of elements of the
 	 * required type.
-	 * 
+	 *
 	 * <p>
 	 * This method has a so-called side effect. It updates the collection passed
 	 * as argument.
 	 * </p>
-	 * 
+	 *
 	 * @param pojoClass
 	 *            The POJO where the collection attribute is defined
 	 * @param pojos
@@ -2097,7 +2124,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             factory method
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
-	 * 
+	 *
 	 */
 	private void fillCollection(Class<?> pojoClass,
 			Map<Class<?>, Integer> pojos, String attributeName,
@@ -2119,7 +2146,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements(collectionElementType);
+		int nbrElements = strategy
+				.getNumberOfCollectionElements(collectionElementType);
 
 		if (null != collectionAnnotation) {
 
@@ -2156,7 +2184,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It manufactures and returns a Map with at least one element in it
-	 * 
+	 *
 	 * @param pojoClass
 	 *            The POJO being initialised
 	 * @param pojos
@@ -2174,14 +2202,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return Map with at least one element in it
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             <ul>
 	 *             <li>If the attribute name is null or empty</li>
 	 *             <li>If the array of types of the Map has length different
 	 *             from 2</li>
 	 *             </ul>
-	 * 
+	 *
 	 * @throws PodamMockeryException
 	 *             If an error occurred while creating the Map object
 	 */
@@ -2213,6 +2241,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						field = workClass.getDeclaredField(attributeName);
 						break;
 					} catch (NoSuchFieldException e) {
+						LOG.info("No field could be found for attribute: "
+								+ attributeName, e);
 						workClass = workClass.getSuperclass();
 					}
 
@@ -2242,6 +2272,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				// Name is empty or could not call an empty constructor
 				// (probably this call is for a parameterized constructor)
 				// Create a new Map
+				LOG.info(
+						"The name was empty of we couldn't call an empty constructor. Creating an empty Map",
+						e);
 				retValue = resolveMapType(attributeType);
 			}
 
@@ -2309,12 +2342,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It fills a Map with the required number of elements of the required type.
-	 * 
+	 *
 	 * <p>
 	 * This method has a so-called side-effect. It updates the Map given as
 	 * argument.
 	 * </p>
-	 * 
+	 *
 	 * @param mapArguments
 	 *            The arguments POJO
 	 * @throws InstantiationException
@@ -2326,7 +2359,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             factory method
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
-	 * 
+	 *
 	 */
 	private void fillMap(MapArguments mapArguments)
 			throws InstantiationException, IllegalAccessException,
@@ -2395,7 +2428,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It fills a Map key or value with the appropriate value, considering
 	 * attribute-level customisation.
-	 * 
+	 *
 	 * @param keyOrElementsArguments
 	 *            The arguments POJO
 	 * @return A Map key or value
@@ -2453,8 +2486,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It returns an Array with the first element set
-	 * 
-	 * 
+	 *
+	 *
 	 * @param attributeType
 	 *            The array type
 	 * @param pojos
@@ -2577,9 +2610,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * <li>The default type for a {@link Queue} is a {@link LinkedList}</li>
 	 * <li>The default type for a {@link Set} is a {@link HashSet}</li>
 	 * </ul>
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param collectionType
 	 *            The collection type *
 	 * @return an instance of the collection type
@@ -2609,24 +2642,24 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It manufactures and returns a default instance for each map type
-	 * 
+	 *
 	 * <p>
 	 * The default implementation for a {@link ConcurrentMap} is
 	 * {@link ConcurrentHashMap}
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The default implementation for a {@link SortedMap} is a {@link TreeMap}
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The default Map is none of the above was recognised is a {@link HashMap}
 	 * </p>
-	 * 
+	 *
 	 * @param attributeType
 	 *            The attribute type
 	 * @return A default instance for each map type
-	 * 
+	 *
 	 */
 	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private Map<? super Object, ? super Object> resolveMapType(
@@ -2654,7 +2687,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * It validates that the attribute name is not null or empty
-	 * 
+	 *
 	 * @param attributeName
 	 *            The attribute to be validated
 	 * @throws IllegalArgumentException
@@ -2670,7 +2703,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Given a constructor it manufactures and returns the parameter values
 	 * required to invoke it
-	 * 
+	 *
 	 * @param constructor
 	 *            The constructor for which parameter values are required
 	 * @param pojoClass
@@ -2680,7 +2713,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
-	 * 
+	 *
 	 * @return The parameter values required to invoke the constructor
 	 * @throws IllegalArgumentException
 	 *             If an illegal argument was passed to the constructor
@@ -2810,7 +2843,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * Utility method to merge two arrays
-	 * 
+	 *
 	 * @param original
 	 *            The main array
 	 * @param extra
@@ -2835,7 +2868,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It retrieves the value for the {@link PodamStrategyValue} annotation with
 	 * which the attribute was annotated
-	 * 
+	 *
 	 * @param attributeType
 	 *            The attribute type, used for type checking
 	 * @param attributeStrategy
@@ -2850,7 +2883,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If an exception occurred while creating an instance of the
 	 *             strategy contained within the {@link PodamStrategyValue}
 	 *             annotation
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             If the type of the data strategy defined for the
 	 *             {@link PodamStrategyValue} annotation is not assignable to

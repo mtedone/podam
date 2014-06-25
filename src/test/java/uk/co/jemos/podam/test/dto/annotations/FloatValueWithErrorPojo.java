@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.api.PodamFloatValue;
+import uk.co.jemos.podam.common.PodamFloatValue;
 
 /**
  * POJO to test that a {@link PodamFloatValue#numValue()} is non parseable.

@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.common;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

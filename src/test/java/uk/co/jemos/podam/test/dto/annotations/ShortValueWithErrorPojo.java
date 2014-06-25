@@ -5,7 +5,7 @@ package uk.co.jemos.podam.test.dto.annotations;
 
 import java.io.Serializable;
 
-import uk.co.jemos.podam.api.PodamShortValue;
+import uk.co.jemos.podam.common.PodamShortValue;
 
 /**
  * POJO to test that {@link PodamShortValue#numValue()} with non parseable value

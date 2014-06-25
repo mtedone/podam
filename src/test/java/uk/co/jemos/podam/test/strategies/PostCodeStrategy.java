@@ -3,7 +3,7 @@
  */
 package uk.co.jemos.podam.test.strategies;
 
-import uk.co.jemos.podam.api.AttributeStrategy;
+import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 

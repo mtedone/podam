@@ -6,7 +6,7 @@ package uk.co.jemos.podam.test.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import uk.co.jemos.podam.api.PodamConstructor;
+import uk.co.jemos.podam.common.PodamConstructor;
 
 /**
  * A Pojo to test constructors with collections as arguments

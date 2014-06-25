@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import uk.co.jemos.podam.api.PodamCollection;
+import uk.co.jemos.podam.common.PodamCollection;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
 /**
