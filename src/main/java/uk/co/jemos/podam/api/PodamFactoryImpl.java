@@ -306,7 +306,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			for (Method candidateConstructor : declaredMethods) {
 
 				if (!Modifier.isStatic(candidateConstructor.getModifiers())
-						|| !candidateConstructor.getReturnType().equals(clazz)) {
+						|| !candidateConstructor.getReturnType().equals(clazz)
+						|| retValue != null) {
 					continue;
 				}
 
@@ -444,7 +445,6 @@ public class PodamFactoryImpl implements PodamFactory {
 					LOG.info("Could create an instance using "
 							+ candidateConstructor);
 
-					break;
 				} catch (Exception t) {
 
 					LOG.info(
@@ -1390,7 +1390,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
-			ArrayList<Annotation> annotations = new ArrayList<Annotation>();
+			List<Annotation> annotations = new ArrayList<Annotation>();
 			String noName = null;
 			return (T) resolvePrimitiveValue(pojoClass, annotations,
 					new AttributeMetadata(noName, pojoClass, annotations));
@@ -1859,6 +1859,38 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
+	 * It returns a {@link Field} matching the attribute name or null if a field
+	 * was not found.
+	 *
+	 * @param pojoClass
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return a {@link Field} matching the attribute name or null if a field
+	 *         was not found.
+	 */
+	private Field getField(Class<?> pojoClass, String attributeName) {
+
+		Field field = null;
+
+		Class<?> clazz = pojoClass;
+
+		while (clazz != null) {
+			try {
+				field = clazz.getDeclaredField(attributeName);
+				break;
+			} catch (NoSuchFieldException e) {
+				LOG.info("A field could not be found for attribute name: "
+						+ attributeName, e);
+				clazz = clazz.getSuperclass();
+			}
+
+		}
+		return field;
+	}
+
+	/**
 	 * It returns a {@link PodamStrategyValue} if one was specified, or
 	 * {@code null} otherwise.
 	 *
@@ -1998,52 +2030,41 @@ public class PodamFactoryImpl implements PodamFactory {
 		Collection<? super Object> retValue = null;
 
 		try {
-			try {
-				validateAttributeName(attributeName);
+			validateAttributeName(attributeName);
 
-				// Checks whether the user initialized the collection in the
-				// class
-				// definition
-				Object newInstance = pojoClass.newInstance();
+			// Checks whether the user initialized the collection in the
+			// class
+			// definition
+			Object newInstance = pojoClass.newInstance();
 
-				Field field = null;
+			Field field = null;
 
-				Class<?> clazz = pojoClass;
+			field = getField(pojoClass, attributeName);
 
-				while (clazz != null) {
-					try {
-						field = clazz.getDeclaredField(attributeName);
-						break;
-					} catch (NoSuchFieldException e) {
-						LOG.info(
-								"A field could not be found for attribute name: "
-										+ attributeName, e);
-						clazz = clazz.getSuperclass();
-					}
+			if (field == null) {
+				throw new NoSuchFieldException();
+			}
 
-				}
-				if (field == null) {
-					throw new NoSuchFieldException();
-				}
+			// It allows to invoke Field.get on private fields
+			field.setAccessible(true);
 
-				// It allows to invoke Field.get on private fields
-				field.setAccessible(true);
+			Collection<? super Object> coll = (Collection<? super Object>) field
+					.get(newInstance);
 
-				Collection<? super Object> coll = (Collection<? super Object>) field
-						.get(newInstance);
-
-				if (null != coll) {
-					retValue = coll;
-				} else {
-					retValue = resolveCollectionType(collectionType);
-				}
-			} catch (Exception e) {
-
-				LOG.info(
-						"The name was empty or we couldn't call an empty constructor. Creating an empty collection.",
-						e);
+			if (null != coll) {
+				retValue = coll;
+			} else {
 				retValue = resolveCollectionType(collectionType);
 			}
+		} catch (Exception e) {
+
+			LOG.info(
+					"The name was empty or we couldn't call an empty constructor. Creating an empty collection.",
+					e);
+			retValue = resolveCollectionType(collectionType);
+		}
+
+		try {
 
 			Class<?> typeClass = null;
 
@@ -2221,61 +2242,46 @@ public class PodamFactoryImpl implements PodamFactory {
 		Map<? super Object, ? super Object> retValue = null;
 
 		try {
-			try {
-				validateAttributeName(attributeName);
+			validateAttributeName(attributeName);
 
-				// Checks whether the user initialised the collection in the
-				// class definition
+			// Checks whether the user initialised the collection in the
+			// class definition
 
-				Class<?> workClass = pojoClass;
+			Object newInstance = null;
 
-				Object newInstance = null;
+			Field field = getField(pojoClass, attributeName);
 
-				Field field = null;
+			if (field == null) {
+				throw new IllegalStateException(
+						"It was not possible to retrieve field: "
+								+ attributeName);
+			}
 
-				newInstance = pojoClass.newInstance();
+			newInstance = pojoClass.newInstance();
 
-				while (workClass != null) {
-					try {
-						field = workClass.getDeclaredField(attributeName);
-						break;
-					} catch (NoSuchFieldException e) {
-						LOG.info("No field could be found for attribute: "
-								+ attributeName, e);
-						workClass = workClass.getSuperclass();
-					}
+			// It allows to invoke Field.get on private fields
+			field.setAccessible(true);
 
-				}
+			@SuppressWarnings(UNCHECKED_STR)
+			Map<? super Object, ? super Object> coll = (Map<? super Object, ? super Object>) field
+			.get(newInstance);
 
-				if (field == null) {
-					throw new IllegalStateException(
-							"It was not possible to retrieve field: "
-									+ attributeName);
-				}
-
-				// Will throw exception if invalid
-
-				// It allows to invoke Field.get on private fields
-				field.setAccessible(true);
-
-				@SuppressWarnings(UNCHECKED_STR)
-				Map<? super Object, ? super Object> coll = (Map<? super Object, ? super Object>) field
-				.get(newInstance);
-
-				if (null != coll) {
-					retValue = coll;
-				} else {
-					retValue = resolveMapType(attributeType);
-				}
-			} catch (Exception e) {
-				// Name is empty or could not call an empty constructor
-				// (probably this call is for a parameterized constructor)
-				// Create a new Map
-				LOG.info(
-						"The name was empty of we couldn't call an empty constructor. Creating an empty Map",
-						e);
+			if (null != coll) {
+				retValue = coll;
+			} else {
 				retValue = resolveMapType(attributeType);
 			}
+		} catch (Exception e) {
+			// Name is empty or could not call an empty constructor
+			// (probably this call is for a parameterized constructor)
+			// Create a new Map
+			LOG.info(
+					"The name was empty of we couldn't call an empty constructor. Creating an empty Map",
+					e);
+			retValue = resolveMapType(attributeType);
+		}
+
+		try {
 
 			Class<?> keyClass = null;
 
@@ -2537,7 +2543,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 			} catch (NoSuchFieldException e) {
 				LOG.info("Cannot get the declared field type for field "
-						+ attributeName + " of class " + pojoClass.getName());
+						+ attributeName + " of class " + pojoClass.getName(), e);
 			}
 		}
 

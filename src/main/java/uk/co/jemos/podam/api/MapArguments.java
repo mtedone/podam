@@ -7,16 +7,16 @@ import java.util.Map;
 
 /**
  * Pojo which contains the arguments required to fill a Map as a POJO attribute
- * 
+ *
  * @author Marco Tedone
- * 
+ *
  */
 public class MapArguments extends AbstractMapArguments implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	/** The Map to be returned. */
-	private Map<? super Object, ? super Object> mapToBeFilled;
+	private Map<Object, Object> mapToBeFilled;
 
 	/** The type of the Map key. */
 	private Class<?> keyClass;
@@ -25,21 +25,20 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	private Class<?> elementClass;
 
 	/**
-	 * The generic type arguments for the current key generic class
-	 * instance.
+	 * The generic type arguments for the current key generic class instance.
 	 */
 	private Type[] keyGenericTypeArgs;
 
 	/**
-	 * The generic type arguments for the current element generic
-	 * class instance.
+	 * The generic type arguments for the current element generic class
+	 * instance.
 	 */
 	private Type[] elementGenericTypeArgs;
 
 	/**
 	 * @return the mapToBeFilled
 	 */
-	public Map<? super Object, ? super Object> getMapToBeFilled() {
+	public Map<Object, Object> getMapToBeFilled() {
 		return mapToBeFilled;
 	}
 
@@ -47,8 +46,7 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	 * @param mapToBeFilled
 	 *            the mapToBeFilled to set
 	 */
-	public void setMapToBeFilled(
-			Map<? super Object, ? super Object> mapToBeFilled) {
+	public void setMapToBeFilled(Map<Object, Object> mapToBeFilled) {
 		this.mapToBeFilled = mapToBeFilled;
 	}
 
