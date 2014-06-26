@@ -16,7 +16,7 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** The Map to be returned. */
-	private Map<Object, Object> mapToBeFilled;
+	private Map<? super Object, ? super Object> mapToBeFilled;
 
 	/** The type of the Map key. */
 	private Class<?> keyClass;
@@ -38,7 +38,7 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	/**
 	 * @return the mapToBeFilled
 	 */
-	public Map<Object, Object> getMapToBeFilled() {
+	public Map<? super Object, ? super Object> getMapToBeFilled() {
 		return mapToBeFilled;
 	}
 
@@ -46,7 +46,8 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	 * @param mapToBeFilled
 	 *            the mapToBeFilled to set
 	 */
-	public void setMapToBeFilled(Map<Object, Object> mapToBeFilled) {
+	public void setMapToBeFilled(
+			Map<? super Object, ? super Object> mapToBeFilled) {
 		this.mapToBeFilled = mapToBeFilled;
 	}
 
