@@ -28,7 +28,6 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
-import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.CollectionsPojo;
 import uk.co.jemos.podam.test.dto.ConcreteTestPojo;
@@ -135,10 +134,9 @@ public class PodamMockerUnitTest {
 		// Trying to create an abstract class with a specified concrete
 		// implementation should be fine
 		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
-		EmbeddedAbstractFieldTestPojo pojo = factory.manufacturePojo(EmbeddedAbstractFieldTestPojo.class);
-		Assert.assertNotNull(
-				"The pojo should not be null",
-				pojo);
+		EmbeddedAbstractFieldTestPojo pojo = factory
+				.manufacturePojo(EmbeddedAbstractFieldTestPojo.class);
+		Assert.assertNotNull("The pojo should not be null", pojo);
 		Assert.assertNotNull(
 				"The abstract embedded pojo should not be null since a concrete impl has been specified",
 				pojo.getPojo());
@@ -314,10 +312,11 @@ public class PodamMockerUnitTest {
 		RecursiveList pojo = factory.manufacturePojo(RecursiveList.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		Assert.assertNotNull("The pojo's list cannot be null!", pojo.getList());
-		Assert.assertTrue("The pojo's list cannot be empty!", !pojo.getList().isEmpty());
+		Assert.assertTrue("The pojo's list cannot be empty!", !pojo.getList()
+				.isEmpty());
 		for (RecursiveList listValue : pojo.getList()) {
-			Assert.assertNotNull(
-				"The pojo's list element cannot be null!", listValue);
+			Assert.assertNotNull("The pojo's list element cannot be null!",
+					listValue);
 		}
 
 	}
@@ -328,10 +327,11 @@ public class PodamMockerUnitTest {
 		RecursiveMap pojo = factory.manufacturePojo(RecursiveMap.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
 		Assert.assertNotNull("The pojo's map cannot be null!", pojo.getMap());
-		Assert.assertTrue("The pojo's map cannot be empty!", !pojo.getMap().isEmpty());
+		Assert.assertTrue("The pojo's map cannot be empty!", !pojo.getMap()
+				.isEmpty());
 		for (RecursiveMap mapValue : pojo.getMap().values()) {
-			Assert.assertNotNull(
-				"The pojo's map element cannot be null!", mapValue);
+			Assert.assertNotNull("The pojo's map element cannot be null!",
+					mapValue);
 		}
 
 	}
@@ -340,7 +340,8 @@ public class PodamMockerUnitTest {
 	public void testJREPojoWithDependencyLoopInConstructor() {
 
 		URL pojo = factory.manufacturePojo(URL.class);
-		Assert.assertNull("Default strategy cannot create java.net.URL object", pojo);
+		Assert.assertNull("Default strategy cannot create java.net.URL object",
+				pojo);
 
 		DataHandler pojo2 = factory.manufacturePojo(DataHandler.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo2);
@@ -410,8 +411,8 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testPojoWithSelfReferenceInConstructorButNoDefaultConstructor() {
 
-		ConstructorWithSelfReferencesButNoDefaultConstructorPojo pojo = factory.
-				manufacturePojo(ConstructorWithSelfReferencesButNoDefaultConstructorPojo.class);
+		ConstructorWithSelfReferencesButNoDefaultConstructorPojo pojo = factory
+				.manufacturePojo(ConstructorWithSelfReferencesButNoDefaultConstructorPojo.class);
 		Assert.assertNotNull("The POJO cannot be null!", pojo);
 		Assert.assertNotNull("The first self-reference cannot be null!",
 				pojo.getParent());
@@ -451,7 +452,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The int field with both min and max value should have a value comprised between",
 				intObjectFieldWithMinAndMaxValue >= 0
-						&& intObjectFieldWithMinAndMaxValue <= 1000);
+				&& intObjectFieldWithMinAndMaxValue <= 1000);
 		Integer integerObjectFieldWithMinValueOnly = pojo
 				.getIntegerObjectFieldWithMinValueOnly();
 		Assert.assertNotNull(
@@ -476,13 +477,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The integer field with minimum and maximum value should have value comprised between 0 and 1000",
 				integerObjectFieldWithMinAndMaxValue.intValue() >= 0
-						&& integerObjectFieldWithMinAndMaxValue.intValue() <= 1000);
+				&& integerObjectFieldWithMinAndMaxValue.intValue() <= 1000);
 
 		int intFieldWithPreciseValue = pojo.getIntFieldWithPreciseValue();
 		Assert.assertTrue(
 				"The integer field with precise value must have a value of: "
 						+ PodamTestConstants.INTEGER_PRECISE_VALUE,
-				intFieldWithPreciseValue == Integer
+						intFieldWithPreciseValue == Integer
 						.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE));
 
 		Integer integerObjectFieldWithPreciseValue = pojo
@@ -493,12 +494,12 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The integer object field with precise value should have a value of "
 						+ PodamTestConstants.INTEGER_PRECISE_VALUE,
-				integerObjectFieldWithPreciseValue.intValue() == Integer
+						integerObjectFieldWithPreciseValue.intValue() == Integer
 						.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE));
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testIntegerValueAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(IntegerValueWithErrorPojo.class);
 	}
@@ -521,7 +522,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The long field with both min and max value should have a value comprised between 0 and 1000!",
 				longFieldWithMinAndMaxValue >= 0
-						&& longFieldWithMinAndMaxValue <= 1000);
+				&& longFieldWithMinAndMaxValue <= 1000);
 
 		Long longObjectFieldWithMinValueOnly = pojo
 				.getLongObjectFieldWithMinValueOnly();
@@ -549,13 +550,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The Long object field with min and max value should have a value comprised between 0 and 1000",
 				longObjectFieldWithMinAndMaxValue >= 0L
-						&& longObjectFieldWithMinAndMaxValue <= 1000L);
+				&& longObjectFieldWithMinAndMaxValue <= 1000L);
 
 		long longFieldWithPreciseValue = pojo.getLongFieldWithPreciseValue();
 		Assert.assertTrue(
 				"The long field with precise value must have a value of "
 						+ PodamTestConstants.LONG_PRECISE_VALUE,
-				longFieldWithPreciseValue == Long
+						longFieldWithPreciseValue == Long
 						.valueOf(PodamTestConstants.LONG_PRECISE_VALUE));
 
 		Long longObjectFieldWithPreciseValue = pojo
@@ -566,12 +567,12 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The long object field with precise value must have a value of "
 						+ PodamTestConstants.LONG_PRECISE_VALUE,
-				longObjectFieldWithPreciseValue.longValue() == Long.valueOf(
-						PodamTestConstants.LONG_PRECISE_VALUE).longValue());
+						longObjectFieldWithPreciseValue.longValue() == Long.valueOf(
+								PodamTestConstants.LONG_PRECISE_VALUE).longValue());
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testLongValueAnnotationWithNumberFormatException() {
 		factory.manufacturePojo(LongValueWithErrorPojo.class);
 	}
@@ -691,14 +692,14 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The byte field value cannot be greater than: "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				byteFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						byteFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 		byte byteFieldWithMinAndMaxValue = pojo
 				.getByteFieldWithMinAndMaxValue();
 		Assert.assertTrue(
 				"The byte field value must be between: "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				byteFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						byteFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& byteFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 		Byte byteObjectFieldWithMinValueOnly = pojo
 				.getByteObjectFieldWithMinValueOnly();
@@ -708,7 +709,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The byte object value must be greate or equal than: "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE,
-				byteObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+						byteObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
 		Byte byteObjectFieldWithMaxValueOnly = pojo
 				.getByteObjectFieldWithMaxValueOnly();
@@ -717,7 +718,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The byte object field must have a value less or equal to  "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				byteObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						byteObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Byte byteObjectFieldWithMinAndMaxValue = pojo
 				.getByteObjectFieldWithMinAndMaxValue();
@@ -727,17 +728,17 @@ public class PodamMockerUnitTest {
 				"The byte object must have a value between: "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_MAX_VALUE,
-				byteObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						byteObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& byteObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_MAX_VALUE);
 		byte byteFieldWithPreciseValue = pojo.getByteFieldWithPreciseValue();
 		Assert.assertTrue("The byte with precise value should have value: "
 				+ PodamTestConstants.BYTE_PRECISE_VALUE,
 				byteFieldWithPreciseValue == Byte
-						.valueOf(PodamTestConstants.BYTE_PRECISE_VALUE));
+				.valueOf(PodamTestConstants.BYTE_PRECISE_VALUE));
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testByteAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(ByteValueWithErrorPojo.class);
 	}
@@ -752,13 +753,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The short attribute with min value only should have a value greater than "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE,
-				shortFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+						shortFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
 		short shortFieldWithMaxValueOnly = pojo.getShortFieldWithMaxValueOnly();
 		Assert.assertTrue(
 				"The short attribute with max value only should have a value less than: "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				shortFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						shortFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		short shortFieldWithMinAndMaxValue = pojo
 				.getShortFieldWithMinAndMaxValue();
@@ -766,7 +767,7 @@ public class PodamMockerUnitTest {
 				"The short field with min and max values should have a value beetween "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_MAX_VALUE,
-				shortFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						shortFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& shortFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Short shortObjectFieldWithMinValueOnly = pojo
@@ -777,7 +778,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The short object attribute with min value only should have a value greater than "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE,
-				shortObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+						shortObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
 		Short shortObjectFieldWithMaxValueOnly = pojo
 				.getShortObjectFieldWithMaxValueOnly();
@@ -787,7 +788,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The short object attribute with max value only should have a value less than: "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				shortObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						shortObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Short shortObjectFieldWithMinAndMaxValue = pojo
 				.getShortObjectFieldWithMinAndMaxValue();
@@ -798,7 +799,7 @@ public class PodamMockerUnitTest {
 				"The short object field with min and max values should have a value beetween "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				shortObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						shortObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& shortObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		short shortFieldWithPreciseValue = pojo.getShortFieldWithPreciseValue();
@@ -807,12 +808,12 @@ public class PodamMockerUnitTest {
 						+ PodamTestConstants.SHORT_PRECISE_VALUE
 						+ " but instead it had a value of "
 						+ shortFieldWithPreciseValue,
-				shortFieldWithPreciseValue == Short
+						shortFieldWithPreciseValue == Short
 						.valueOf(PodamTestConstants.SHORT_PRECISE_VALUE));
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testShortValueAnnotationWithNumberFormatException() {
 		factory.manufacturePojo(ShortValueWithErrorPojo.class);
 	}
@@ -827,13 +828,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The char attribute with min value only should have a value greater than "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE,
-				charFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+						charFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
 		char charFieldWithMaxValueOnly = pojo.getCharFieldWithMaxValueOnly();
 		Assert.assertTrue(
 				"The char attribute with max value only should have a value less or equal than "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				charFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						charFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		char charFieldWithMinAndMaxValue = pojo
 				.getCharFieldWithMinAndMaxValue();
@@ -841,7 +842,7 @@ public class PodamMockerUnitTest {
 				"The char attribute with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				charFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						charFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& charFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Character charObjectFieldWithMinValueOnly = pojo
@@ -852,7 +853,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The char object attribute with min value only should have a value greater than "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE,
-				charObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+						charObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
 		Character charObjectFieldWithMaxValueOnly = pojo
 				.getCharObjectFieldWithMaxValueOnly();
@@ -862,7 +863,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The char object attribute with max value only should have a value less or equal than "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				charObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+						charObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		Character charObjectFieldWithMinAndMaxValue = pojo
 				.getCharObjectFieldWithMinAndMaxValue();
@@ -873,14 +874,14 @@ public class PodamMockerUnitTest {
 				"The char object attribute with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
-				charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+						charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
 						&& charObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
 		char charFieldWithPreciseValue = pojo.getCharFieldWithPreciseValue();
 		Assert.assertTrue(
 				"The character field with precise value should have a value of "
 						+ PodamTestConstants.CHAR_PRECISE_VALUE,
-				charFieldWithPreciseValue == PodamTestConstants.CHAR_PRECISE_VALUE);
+						charFieldWithPreciseValue == PodamTestConstants.CHAR_PRECISE_VALUE);
 
 		char charFieldWithBlankInPreciseValue = pojo
 				.getCharFieldWithBlankInPreciseValue();
@@ -934,13 +935,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The float field with min value only must have value greater than "
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE,
-				floatFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
+						floatFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
 
 		float floatFieldWithMaxValueOnly = pojo.getFloatFieldWithMaxValueOnly();
 		Assert.assertTrue(
 				"The float field with max value only can only have a value less or equal than "
 						+ PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED,
-				floatFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
+						floatFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
 
 		float floatFieldWithMinAndMaxValue = pojo
 				.getFloatFieldWithMinAndMaxValue();
@@ -948,7 +949,7 @@ public class PodamMockerUnitTest {
 				"The float field with min and max value must have a value between "
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
-				floatFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+						floatFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
 						&& floatFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
 
 		Float floatObjectFieldWithMinValueOnly = pojo
@@ -959,7 +960,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The float object attribute with min value only must have a value greater or equal than "
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE,
-				floatObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
+						floatObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
 
 		Float floatObjectFieldWithMaxValueOnly = pojo
 				.getFloatObjectFieldWithMaxValueOnly();
@@ -969,7 +970,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The float object attribute with max value only must have a value less than or equal to "
 						+ PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED,
-				floatObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
+						floatObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
 
 		Float floatObjectFieldWithMinAndMaxValue = pojo
 				.getFloatObjectFieldWithMinAndMaxValue();
@@ -981,14 +982,14 @@ public class PodamMockerUnitTest {
 						+ PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
 						+ " and "
 						+ PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
-				floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+						floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
 						&& floatObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
 
 		float floatFieldWithPreciseValue = pojo.getFloatFieldWithPreciseValue();
 		Assert.assertTrue(
 				"The float field with precise value should have a value of "
 						+ PodamTestConstants.FLOAT_PRECISE_VALUE,
-				floatFieldWithPreciseValue == Float
+						floatFieldWithPreciseValue == Float
 						.valueOf(PodamTestConstants.FLOAT_PRECISE_VALUE));
 
 		Float floatObjectFieldWithPreciseValue = pojo
@@ -999,12 +1000,12 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The float object field with precise value should have a value of "
 						+ PodamTestConstants.FLOAT_PRECISE_VALUE,
-				floatObjectFieldWithPreciseValue.floatValue() == Float.valueOf(
-						PodamTestConstants.FLOAT_PRECISE_VALUE).floatValue());
+						floatObjectFieldWithPreciseValue.floatValue() == Float.valueOf(
+								PodamTestConstants.FLOAT_PRECISE_VALUE).floatValue());
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testFloatValueAnnotationWithNumberFormatError() {
 		factory.manufacturePojo(FloatValueWithErrorPojo.class);
 	}
@@ -1020,14 +1021,14 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The double attribute with min value only must have a value greater than "
 						+ PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE,
-				doubleFieldWithMinValueOnly >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE);
+						doubleFieldWithMinValueOnly >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE);
 
 		double doubleFieldWithMaxValueOnly = pojo
 				.getDoubleFieldWithMaxValueOnly();
 		Assert.assertTrue(
 				"The double attribute with max value only must have a value less or equal to "
 						+ PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED,
-				doubleFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED);
+						doubleFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED);
 
 		double doubleFieldWithMinAndMaxValue = pojo
 				.getDoubleFieldWithMinAndMaxValue();
@@ -1035,7 +1036,7 @@ public class PodamMockerUnitTest {
 				"The double attribute with min and mx value must have a value between "
 						+ PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE + " and "
 						+ PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE,
-				doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE
+						doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE
 						&& doubleFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE);
 
 		double doubleFieldWithPreciseValue = pojo
@@ -1043,7 +1044,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The double field with precise value should have a value of: "
 						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
-				doubleFieldWithPreciseValue == Double
+						doubleFieldWithPreciseValue == Double
 						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE));
 
 		Double doubleObjectFieldWithPreciseValue = pojo
@@ -1054,13 +1055,13 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue(
 				"The double object field with precise value should have a value of: "
 						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
-				doubleObjectFieldWithPreciseValue.doubleValue() == Double
+						doubleObjectFieldWithPreciseValue.doubleValue() == Double
 						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE)
 						.doubleValue());
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testDoubleValueAnnotationWithError() {
 
 		factory.manufacturePojo(DoubleValueWithErrorPojo.class);
@@ -1079,7 +1080,7 @@ public class PodamMockerUnitTest {
 						+ PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH
 						+ "! but it did have a length of "
 						+ twentyLengthString.length(),
-				twentyLengthString.length() == PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH);
+						twentyLengthString.length() == PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH);
 
 		String preciseValueString = pojo.getPreciseValueString();
 		Assert.assertNotNull("The precise value string cannot be null!",
@@ -1106,15 +1107,15 @@ public class PodamMockerUnitTest {
 				"The string list must have "
 						+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS
 						+ " elements but it had only " + strList.size(),
-				strList.size() == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
+						strList.size() == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
 		String[] strArray = pojo.getStrArray();
 		Assert.assertNotNull("The array cannot be null!", strArray);
 		Assert.assertFalse("The array cannot be empty!", strArray.length == 0);
 		Assert.assertTrue(
 				"The number of elements in the array (" + strArray.length
-						+ ") does not match "
-						+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
+				+ ") does not match "
+				+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
 				strArray.length == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
 		Map<String, String> stringMap = pojo.getStringMap();
@@ -1123,8 +1124,8 @@ public class PodamMockerUnitTest {
 				stringMap.isEmpty());
 		Assert.assertTrue(
 				"The number of elements in the map (" + stringMap.size()
-						+ ") does not match "
-						+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
+				+ ") does not match "
+				+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
 				stringMap.size() == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
 	}
@@ -1138,7 +1139,7 @@ public class PodamMockerUnitTest {
 
 		@SuppressWarnings("unchecked")
 		Collection<Object> nonGenerifiedCollection = pojo
-				.getNonGenerifiedCollection();
+		.getNonGenerifiedCollection();
 		Assert.assertNotNull("The non-generified collection cannot be null!",
 				nonGenerifiedCollection);
 		Assert.assertFalse("The non-generified collection cannot be empty!",
@@ -1148,7 +1149,7 @@ public class PodamMockerUnitTest {
 						+ nonGenerifiedCollection.size()
 						+ " does not match the expected value: "
 						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
-				nonGenerifiedCollection.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+						nonGenerifiedCollection.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 		@SuppressWarnings("unchecked")
 		Set<Object> nonGenerifiedSet = pojo.getNonGenerifiedSet();
@@ -1158,8 +1159,8 @@ public class PodamMockerUnitTest {
 				nonGenerifiedSet.isEmpty());
 		Assert.assertTrue(
 				"The number of elements in the Set: " + nonGenerifiedSet.size()
-						+ " does not match the expected value: "
-						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
+				+ " does not match the expected value: "
+				+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
 				nonGenerifiedSet.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 		@SuppressWarnings("unchecked")
@@ -1170,8 +1171,8 @@ public class PodamMockerUnitTest {
 				nonGenerifiedMap.isEmpty());
 		Assert.assertTrue(
 				"The number of elements in the map: " + nonGenerifiedMap.size()
-						+ " does not match the expected value: "
-						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
+				+ " does not match the expected value: "
+				+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
 				nonGenerifiedMap.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 	}
@@ -1194,7 +1195,7 @@ public class PodamMockerUnitTest {
 						+ generifiedCollection.size()
 						+ " does not match the expected value: "
 						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
-				generifiedCollection.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+						generifiedCollection.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 		Map<String, Calendar> generifiedMap = pojo.getGenerifiedMap();
 		Assert.assertNotNull("The generified map cannot be null!",
@@ -1206,7 +1207,7 @@ public class PodamMockerUnitTest {
 						+ generifiedMap.size()
 						+ " does not match the expected value: "
 						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
-				generifiedMap.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+						generifiedMap.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 		Set<ImmutableWithNonGenericCollectionsPojo> generifiedSet = pojo
 				.getGenerifiedSet();
@@ -1219,7 +1220,7 @@ public class PodamMockerUnitTest {
 						+ generifiedSet.size()
 						+ " does not match the expected value: "
 						+ ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
-				generifiedSet.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+						generifiedSet.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
 	}
 
@@ -1336,13 +1337,13 @@ public class PodamMockerUnitTest {
 
 			Assert.assertEquals("The map element is not my birthday!",
 					expectedBirthday.getTime(), myBirthdaysMap.get(key)
-							.getTime());
+					.getTime());
 
 		}
 
 	}
 
-	@Test(expected = PodamMockeryException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testStringPojoWithWrongTypeForAnnotationStrategy() {
 
 		factory.manufacturePojo(StringWithWrongStrategyTypePojo.class);
@@ -1415,7 +1416,7 @@ public class PodamMockerUnitTest {
 	 * <p>
 	 * If the calendar returns a valid date then it's a valid instance
 	 * </p>
-	 * 
+	 *
 	 * @param calendarField
 	 *            The calendar instance to check
 	 */
@@ -1428,7 +1429,7 @@ public class PodamMockerUnitTest {
 
 	/**
 	 * It validates that the returned list contains the expected values
-	 * 
+	 *
 	 * @param list
 	 *            The list to verify
 	 */
@@ -1442,7 +1443,7 @@ public class PodamMockerUnitTest {
 
 	/**
 	 * It validates that the returned list contains the expected values
-	 * 
+	 *
 	 * @param set
 	 *            The set to verify
 	 */
@@ -1456,7 +1457,7 @@ public class PodamMockerUnitTest {
 
 	/**
 	 * It validates the {@link HashMap} returned by Podam
-	 * 
+	 *
 	 * @param map
 	 *            the map to be validated
 	 */
@@ -1473,7 +1474,7 @@ public class PodamMockerUnitTest {
 
 	/**
 	 * It validates the concurrent hash map returned by podam
-	 * 
+	 *
 	 * @param map
 	 */
 	private void validateConcurrentHashMap(
@@ -1491,7 +1492,7 @@ public class PodamMockerUnitTest {
 
 	/**
 	 * It validates a map element
-	 * 
+	 *
 	 * @param map
 	 *            The Map to validate
 	 * @param keySet

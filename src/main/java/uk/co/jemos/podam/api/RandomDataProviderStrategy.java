@@ -24,7 +24,8 @@ package uk.co.jemos.podam.api;
  *
  */
 
-public final class RandomDataProviderStrategy extends AbstractRandomDataProviderStrategy {
+public final class RandomDataProviderStrategy extends
+		AbstractRandomDataProviderStrategy {
 
 	// ------------------->> Constants
 
@@ -40,10 +41,6 @@ public final class RandomDataProviderStrategy extends AbstractRandomDataProvider
 	 */
 	private RandomDataProviderStrategy() {
 		super();
-	}
-
-	private RandomDataProviderStrategy(int nbrOfCollectionElements) {
-		super(nbrOfCollectionElements);
 	}
 
 	// ------------------->> Public methods

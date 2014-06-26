@@ -38,7 +38,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	/** The constructor comparator */
-	private static final ConstructorComparator constructorComparator = new ConstructorComparator();
+	private static final ConstructorComparator CONSTRUCTOR_COMPARATOR = new ConstructorComparator();
 
 	/** An array of valid String characters */
 	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',
@@ -410,7 +410,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Constructor<?>[] constructors) {
-		Arrays.sort(constructors, constructorComparator);
+		Arrays.sort(constructors, CONSTRUCTOR_COMPARATOR);
 	}
 
 	/**
