@@ -3,6 +3,9 @@
  */
 package uk.co.jemos.podam.test.unit;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -82,6 +85,21 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 		Assert.assertEquals(3, pojo.getList().size());
 		Assert.assertNotNull("Map is null", pojo.getMap());
 		Assert.assertEquals(4, pojo.getMap().size());
+
+	}
+
+	@Test
+	public void testRandomProviderStrategyForLong() {
+
+		strategy = new CustomRandomDataProviderStrategy();
+		PodamFactory factory = new PodamFactoryImpl(strategy);
+		Map<Long,String> pojo =
+				factory.manufacturePojo(HashMap.class, Long.class, String.class);
+
+		Assert.assertNotNull("POJO manufacturing failed", pojo);
+		Assert.assertEquals("Wrong map size",
+				strategy.getNumberOfCollectionElements(String.class),
+				pojo.size());
 
 	}
 
