@@ -275,7 +275,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Long getLong(AttributeMetadata attributeMetadata) {
-		return System.currentTimeMillis();
+		return System.nanoTime();
 	}
 
 	/**
