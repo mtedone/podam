@@ -1572,13 +1572,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				// the sake of
 				// usability. However this violates Javabean standards and
 				// it's a security hack
-				if (!setter.isAccessible()) {
+				if (!Modifier.isPublic(setter.getModifiers())) {
 					LOG.warn(
-							"The setter: {} is not accessible.Setting it to accessible. "
-									+ "However this is a security hack and your code should really adhere to Javabean standards.",
-							setter.getName());
-					setter.setAccessible(true);
+							"The setter: {} is not public. Setting it to accessible. "
+										+ "However this is a security hack and your code should really adhere to Javabean standards.",
+						setter.getName());
 				}
+				setter.setAccessible(true);
 				setter.invoke(retValue, setterArg);
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute: {}"
