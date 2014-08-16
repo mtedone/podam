@@ -11,7 +11,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0.RELEASE</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
@@ -95,6 +95,14 @@
 			<name>Antony Stubbs</name>
 			<email>antony.stubbs@gmail.com</email>
 			<organizationUrl>https://www.linkedin.com/in/antonystubbs</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Bradley Baetz</name>
+			<email>bradley.baetz@tobedefined.com</email>
+			<organizationUrl>https://tobedefined.com</organizationUrl>
 			<roles>
 				<role>Developer</role>
 			</roles>
