@@ -63,13 +63,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
 
+    private boolean isMemoizationEnabled;
+
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
 	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
 
-	// ------------------->> Instance / Static variables
+    // ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
 
@@ -390,7 +392,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		return maxDepth;
 	}
 
-	/**
+    /**
 	 * Sets the new max stack trace depth.
 	 *
 	 * @param newMaxDepth
@@ -399,6 +401,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public void setMaxDepth(int newMaxDepth) {
 		maxDepth = newMaxDepth;
 	}
+
+    @Override
+    public boolean isMemoizationEnabled() {
+        return isMemoizationEnabled;
+    }
+
+    public void setMemoizationEnabled(boolean value){
+        isMemoizationEnabled = value;
+    }
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the

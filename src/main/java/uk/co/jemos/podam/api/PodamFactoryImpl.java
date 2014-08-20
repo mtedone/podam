@@ -97,6 +97,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private List<Class<? extends Annotation>> excludeAnnotations;
 
+    private Map<Class, Object> memoizationTable = new HashMap<Class, Object>();
+
 	// ------------------->> Constructors
 
 	/**
@@ -1388,6 +1390,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		T retValue = null;
 
+        if (strategy.isMemoizationEnabled()) {
+            T objectToReuse = (T) memoizationTable.get(pojoClass);
+            if(objectToReuse != null){
+                return objectToReuse;
+            }
+        }
+
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
 			List<Annotation> annotations = new ArrayList<Annotation>();
@@ -1587,6 +1596,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
+
+        if (strategy.isMemoizationEnabled()) {
+            memoizationTable.put(pojoClass, retValue);
+        }
 
 		return retValue;
 

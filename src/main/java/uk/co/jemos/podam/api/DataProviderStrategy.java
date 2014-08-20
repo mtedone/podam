@@ -170,6 +170,8 @@ public interface DataProviderStrategy {
 	 */
 	int getMaxDepth(Class<?> type);
 
+    boolean isMemoizationEnabled();
+
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to
 	 * produce the POJO.
