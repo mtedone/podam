@@ -97,6 +97,11 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private List<Class<? extends Annotation>> excludeAnnotations;
 
+    /**
+     * A map to keep one object for each class.
+     * If memoization is enabled, the factory will use this table to avoid
+     * creating objects of the same class multiple times.
+     */
     private Map<Class, Object> memoizationTable = new HashMap<Class, Object>();
 
 	// ------------------->> Constructors

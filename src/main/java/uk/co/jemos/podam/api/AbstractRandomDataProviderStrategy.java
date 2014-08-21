@@ -63,6 +63,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
 
+    /** Flag to enable/disable the memoization setting. */
     private boolean isMemoizationEnabled;
 
 	/**
@@ -402,11 +403,22 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		maxDepth = newMaxDepth;
 	}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isMemoizationEnabled() {
         return isMemoizationEnabled;
     }
 
+    /**
+     * When memoization is enabled, only one object will be created for each type. Every next property of the same type
+     * will be a reference to the same object.
+     * This can dramatically improve performance but with the expense of not having objects with different values.
+     *
+     * @param value
+     *            True to enable, false to disable.
+     */
     public void setMemoizationEnabled(boolean value){
         isMemoizationEnabled = value;
     }
