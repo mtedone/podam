@@ -335,6 +335,18 @@ GenericPojo [
 ]
 +-----------------------------------
 
+
+** Tweaking PODAM for performance
+
+  Building huge graphs of nested objects may take time. There's a setting to enable memoization,
+  so that Podam creates a unique object for each class and reuses it. You can use it to reduce algorithmic complexity
+  in scenarios where distinct random data is not needed.
+
++-----------------------------------
+strategy.setMemoizationEnabled(true);
++-----------------------------------
+
+
 ** Using PODAM with Spring
 
   You can also use PODAM with Spring: 
