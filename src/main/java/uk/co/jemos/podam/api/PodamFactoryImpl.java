@@ -1395,6 +1395,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		T retValue = null;
 
+        // reuse object from memoization table
         if (strategy.isMemoizationEnabled()) {
             T objectToReuse = (T) memoizationTable.get(pojoClass);
             if(objectToReuse != null){
@@ -1487,6 +1488,12 @@ public class PodamFactoryImpl implements PodamFactory {
 					.newInstance(parameterValuesForConstructor);
 
 		}
+
+        // update memoization table with new object
+        // the reference is stored before properties are set so that recursive properties can use it
+        if (strategy.isMemoizationEnabled()) {
+            memoizationTable.put(pojoClass, retValue);
+        }
 
 		/* Construction failed, no point to continue */
 		if (retValue == null) {
@@ -1601,10 +1608,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
-
-        if (strategy.isMemoizationEnabled()) {
-            memoizationTable.put(pojoClass, retValue);
-        }
 
 		return retValue;
 
