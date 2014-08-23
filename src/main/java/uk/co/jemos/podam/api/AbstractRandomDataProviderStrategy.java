@@ -63,8 +63,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/** The number of collection elements. */
 	private int nbrOfCollectionElements;
 
-    /** Flag to enable/disable the memoization setting. */
-    private boolean isMemoizationEnabled;
+	/** Flag to enable/disable the memoization setting. */
+	private boolean isMemoizationEnabled;
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
@@ -72,7 +72,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
 
-    // ------------------->> Instance / Static variables
+	// ------------------->> Instance / Static variables
 
 	// ------------------->> Constructors
 
@@ -393,7 +393,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		return maxDepth;
 	}
 
-    /**
+	/**
 	 * Sets the new max stack trace depth.
 	 *
 	 * @param newMaxDepth
@@ -403,25 +403,25 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		maxDepth = newMaxDepth;
 	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isMemoizationEnabled() {
-        return isMemoizationEnabled;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isMemoizationEnabled() {
+		return isMemoizationEnabled;
+	}
 
-    /**
-     * When memoization is enabled, only one object will be created for each type. Every next property of the same type
-     * will be a reference to the same object.
-     * This can dramatically improve performance but with the expense of not having objects with different values.
-     *
-     * @param value
-     *            True to enable, false to disable.
-     */
-    public void setMemoizationEnabled(boolean value){
-        isMemoizationEnabled = value;
-    }
+	/**
+	 * When memoization is enabled, only one object will be created for each type. Every next property of the same type
+	 * will be a reference to the same object.
+	 * This can dramatically improve performance but with the expense of not having objects with different values.
+	 *
+	 * @param value
+	 *            True to enable, false to disable.
+	 */
+	public void setMemoizationEnabled(boolean value){
+		isMemoizationEnabled = value;
+	}
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the

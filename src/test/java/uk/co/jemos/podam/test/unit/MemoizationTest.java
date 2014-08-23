@@ -14,38 +14,38 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
  */
 public class MemoizationTest {
 
-    private RandomDataProviderStrategy strategy;
+	private RandomDataProviderStrategy strategy;
 
-    private PodamFactory factory;
+	private PodamFactory factory;
 
-    @Before
-    public void setUp() throws Exception {
-        strategy = RandomDataProviderStrategy.getInstance();
-        factory = new PodamFactoryImpl(strategy);
-    }
+	@Before
+	public void setUp() throws Exception {
+		strategy = RandomDataProviderStrategy.getInstance();
+		factory = new PodamFactoryImpl(strategy);
+	}
 
-    @Test
-    public void whenEnabledObjectsAreSame() throws Exception {
-        strategy.setMemoizationEnabled(true);
-        SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
-        SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
-        Assert.assertTrue(pojo1 == pojo2);
-    }
+	@Test
+	public void whenEnabledObjectsAreSame() throws Exception {
+		strategy.setMemoizationEnabled(true);
+		SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
+		SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
+		Assert.assertTrue(pojo1 == pojo2);
+	}
 
-    @Test
-    public void whenDisabledObjectsAreDifferent() throws Exception {
-        strategy.setMemoizationEnabled(false);
-        SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
-        SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
-        Assert.assertTrue(pojo1 != pojo2);
-    }
+	@Test
+	public void whenDisabledObjectsAreDifferent() throws Exception {
+		strategy.setMemoizationEnabled(false);
+		SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
+		SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
+		Assert.assertTrue(pojo1 != pojo2);
+	}
 
-    @Test
-    public void recursiveObjectsAreSame() throws Exception {
-        strategy.setMemoizationEnabled(true);
-        RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
-        Assert.assertTrue(pojo == pojo.getParent());
-    }
+	@Test
+	public void recursiveObjectsAreSame() throws Exception {
+		strategy.setMemoizationEnabled(true);
+		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
+		Assert.assertTrue(pojo == pojo.getParent());
+	}
 
 
 }

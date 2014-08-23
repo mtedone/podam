@@ -170,20 +170,20 @@ public interface DataProviderStrategy {
 	 */
 	int getMaxDepth(Class<?> type);
 
-    /**
-     * Returns whether the memoization setting is enabled.
-     *
-     * When memoization is enabled, only one object will be created for each type. Every next property of the same type
-     * will be a reference to the same object.
-     * This can dramatically improve performance but with the expense of not having objects with different values.
-     *
-     * <p>
-     * Implementations of this interface need to provide this value.
-     * </p>
-     *
-     * @return Whether the memoization setting is enabled.
-     */
-    boolean isMemoizationEnabled();
+	/**
+	 * Returns whether the memoization setting is enabled.
+	 *
+	 * When memoization is enabled, only one object will be created for each type. Every next property of the same type
+	 * will be a reference to the same object.
+	 * This can dramatically improve performance but with the expense of not having objects with different values.
+	 *
+	 * <p>
+	 * Implementations of this interface need to provide this value.
+	 * </p>
+	 *
+	 * @return Whether the memoization setting is enabled.
+	 */
+	boolean isMemoizationEnabled();
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to
