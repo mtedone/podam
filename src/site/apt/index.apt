@@ -338,9 +338,9 @@ GenericPojo [
 
 ** Tweaking PODAM for performance
 
-  Building huge graphs of nested objects may take time. There's a setting to enable memoization,
-  so that Podam creates a unique object for each class and reuses it. You can use it to reduce algorithmic complexity
-  in scenarios where distinct random data is not needed.
+  Building huge graphs of nested objects may take time. Podam has a memoization option. When enabled
+  Podam will only create a unique object for each class and reuse it. You can enable memoization to
+  reduce algorithmic complexity in scenarios where distinct random data is not needed.
 
 +-----------------------------------
 strategy.setMemoizationEnabled(true);
