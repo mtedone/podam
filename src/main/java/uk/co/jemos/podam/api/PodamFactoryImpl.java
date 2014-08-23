@@ -97,6 +97,13 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private List<Class<? extends Annotation>> excludeAnnotations;
 
+	/**
+	 * A map to keep one object for each class.
+	 * If memoization is enabled, the factory will use this table to avoid
+	 * creating objects of the same class multiple times.
+	 */
+	private Map<Class, Object> memoizationTable = new HashMap<Class, Object>();
+
 	// ------------------->> Constructors
 
 	/**
@@ -1388,6 +1395,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		T retValue = null;
 
+		// reuse object from memoization table
+		if (strategy.isMemoizationEnabled()) {
+			T objectToReuse = (T) memoizationTable.get(pojoClass);
+			if(objectToReuse != null){
+				return objectToReuse;
+			}
+		}
+
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
 			List<Annotation> annotations = new ArrayList<Annotation>();
@@ -1472,6 +1487,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = (T) constructors[0]
 					.newInstance(parameterValuesForConstructor);
 
+		}
+
+		// update memoization table with new object
+		// the reference is stored before properties are set so that recursive properties can use it
+		if (strategy.isMemoizationEnabled()) {
+			memoizationTable.put(pojoClass, retValue);
 		}
 
 		/* Construction failed, no point to continue */
@@ -1572,13 +1593,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				// the sake of
 				// usability. However this violates Javabean standards and
 				// it's a security hack
-				if (!setter.isAccessible()) {
+				if (!Modifier.isPublic(setter.getModifiers())) {
 					LOG.warn(
-							"The setter: {} is not accessible.Setting it to accessible. "
-									+ "However this is a security hack and your code should really adhere to Javabean standards.",
-							setter.getName());
-					setter.setAccessible(true);
+							"The setter: {} is not public. Setting it to accessible. "
+										+ "However this is a security hack and your code should really adhere to Javabean standards.",
+						setter.getName());
 				}
+				setter.setAccessible(true);
 				setter.invoke(retValue, setterArg);
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute: {}"
