@@ -107,6 +107,15 @@
 				<role>Developer</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Victor Basso</name>
+			<email>vitobasso@gmail.com</email>
+			<organizationUrl>http://www.sagaranatech.com</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>UTC-3</timezone>
+		</contributor>		
 	</contributors>
 
 	<properties>
