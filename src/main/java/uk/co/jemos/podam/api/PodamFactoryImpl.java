@@ -98,9 +98,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	private List<Class<? extends Annotation>> excludeAnnotations;
 
 	/**
-	 * A map to keep one object for each class.
-	 * If memoization is enabled, the factory will use this table to avoid
-	 * creating objects of the same class multiple times.
+	 * A map to keep one object for each class. If memoization is enabled, the
+	 * factory will use this table to avoid creating objects of the same class
+	 * multiple times.
 	 */
 	private Map<Class, Object> memoizationTable = new HashMap<Class, Object>();
 
@@ -319,7 +319,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				parameterValues = new Object[candidateConstructor
-				                             .getParameterTypes().length];
+						.getParameterTypes().length];
 
 				Type[] parameterTypes = candidateConstructor
 						.getGenericParameterTypes();
@@ -492,7 +492,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							"Couldn't create attribute with constructor: "
 									+ constructor
 									+ ". Will check if other constructors are available",
-							t);
+									t);
 
 				}
 
@@ -1292,8 +1292,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private <T> T resolvePojoWithoutSetters(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		T retValue = null;
 
@@ -1353,7 +1353,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				LOG.warn(
 						"For class: {} PODAM could not possibly create a value."
 								+ " This attribute will be returned as null.",
-								pojoClass);
+						pojoClass);
 			}
 
 		}
@@ -1390,15 +1390,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T manufacturePojoInternal(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		T retValue = null;
 
 		// reuse object from memoization table
 		if (strategy.isMemoizationEnabled()) {
 			T objectToReuse = (T) memoizationTable.get(pojoClass);
-			if(objectToReuse != null){
+			if (objectToReuse != null) {
 				return objectToReuse;
 			}
 		}
@@ -1468,7 +1468,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					"No default (public or non-public) constructors were found. "
 							+ "Also no other public constructors were found. "
 							+ "Your last hope is that we find a non-public, non-default constructor.",
-					e1);
+							e1);
 
 			Constructor<?>[] constructors = pojoClass.getDeclaredConstructors();
 			if (constructors == null || constructors.length == 0) {
@@ -1490,7 +1490,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		// update memoization table with new object
-		// the reference is stored before properties are set so that recursive properties can use it
+		// the reference is stored before properties are set so that recursive
+		// properties can use it
 		if (strategy.isMemoizationEnabled()) {
 			memoizationTable.put(pojoClass, retValue);
 		}
@@ -1596,10 +1597,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					LOG.warn(
 							"The setter: {} is not accessible.Setting it to accessible. "
 									+ "However this is a security hack and your code should really adhere to Javabean standards.",
-							setter.getName());
-					setter.setAccessible(true);
-				}
+									setter.getName());
 
+				}
+				setter.setAccessible(true);
 				setter.invoke(retValue, setterArg);
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute: {}"
@@ -1710,8 +1711,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			Map<Class<?>, Integer> pojos, Class<?> attributeType,
 			List<Annotation> annotations, String attributeName,
 			Map<String, Type> typeArgsMap, Type... genericTypeArgs)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 		Object attributeValue = null;
 
 		Class<?> realAttributeType;
@@ -1951,13 +1952,13 @@ public class PodamFactoryImpl implements PodamFactory {
 						: candidateWrapperClass.equals(Character.class) ? true
 								: candidateWrapperClass.equals(Short.class) ? true
 										: candidateWrapperClass
-										.equals(Integer.class) ? true
+												.equals(Integer.class) ? true
 												: candidateWrapperClass
-												.equals(Long.class) ? true
+														.equals(Long.class) ? true
 														: candidateWrapperClass
-														.equals(Float.class) ? true
+																.equals(Float.class) ? true
 																: candidateWrapperClass
-																.equals(Double.class) ? true
+																		.equals(Double.class) ? true
 																		: false;
 	}
 
@@ -2172,8 +2173,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations,
 			Collection<? super Object> collection,
 			Class<?> collectionElementType, Type... genericTypeArgs)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
@@ -2203,7 +2204,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != elementStrategy
 					&& ObjectStrategy.class.isAssignableFrom(elementStrategy
 							.getClass())
-							&& Object.class.equals(collectionElementType)) {
+					&& Object.class.equals(collectionElementType)) {
 				LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
 				collection.add(elementStrategy.getValue());
 			} else if (null != elementStrategy
@@ -2285,7 +2286,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings(UNCHECKED_STR)
 			Map<? super Object, ? super Object> coll = (Map<? super Object, ? super Object>) field
-			.get(newInstance);
+					.get(newInstance);
 
 			if (null != coll) {
 				retValue = coll;
@@ -2347,7 +2348,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			mapArguments.setElementClass(elementClass);
 			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
 			mapArguments
-			.setElementGenericTypeArgs(elementGenericTypeArgs.get());
+					.setElementGenericTypeArgs(elementGenericTypeArgs.get());
 
 			fillMap(mapArguments);
 
@@ -2475,22 +2476,22 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object getMapKeyOrElementValue(
 			MapKeyOrElementsArguments keyOrElementsArguments)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		Object retValue = null;
 
 		if (null != keyOrElementsArguments.getElementStrategy()
 				&& ObjectStrategy.class.isAssignableFrom(keyOrElementsArguments
 						.getElementStrategy().getClass())
-						&& Object.class.equals(keyOrElementsArguments
-								.getKeyOrValueType())) {
+				&& Object.class.equals(keyOrElementsArguments
+						.getKeyOrValueType())) {
 			LOG.debug("Element strategy is ObjectStrategy and Map key or value type is of type Object: using the ObjectStrategy strategy");
 			retValue = keyOrElementsArguments.getElementStrategy().getValue();
 		} else if (null != keyOrElementsArguments.getElementStrategy()
 				&& !ObjectStrategy.class
-				.isAssignableFrom(keyOrElementsArguments
-						.getElementStrategy().getClass())) {
+						.isAssignableFrom(keyOrElementsArguments
+								.getElementStrategy().getClass())) {
 			LOG.debug("Map key or value will be filled using the following strategy: "
 					+ keyOrElementsArguments.getElementStrategy());
 			retValue = returnAttributeDataStrategyValue(
@@ -2599,15 +2600,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			// The default
 			if (null != elementStrategy
 					&& ObjectStrategy.class
-					.isAssignableFrom(collectionAnnotation
-							.collectionElementStrategy())
-							&& Object.class.equals(componentType)) {
+							.isAssignableFrom(collectionAnnotation
+									.collectionElementStrategy())
+					&& Object.class.equals(componentType)) {
 				LOG.debug("Element strategy is ObjectStrategy and array element is of type Object: using the ObjectStrategy strategy");
 				arrayElement = elementStrategy.getValue();
 			} else if (null != elementStrategy
 					&& !ObjectStrategy.class
-					.isAssignableFrom(collectionAnnotation
-							.collectionElementStrategy())) {
+							.isAssignableFrom(collectionAnnotation
+									.collectionElementStrategy())) {
 				LOG.debug("Array elements will be filled using the following strategy: "
 						+ elementStrategy);
 				arrayElement = returnAttributeDataStrategyValue(componentType,
@@ -2756,8 +2757,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	private Object[] getParameterValuesForConstructor(
 			Constructor<?> constructor, Class<?> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-					throws InstantiationException, IllegalAccessException,
-					InvocationTargetException, ClassNotFoundException {
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		Type[] genericTypeArgsExtra = null;
@@ -2918,7 +2919,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
 			AttributeStrategy<?> attributeStrategy)
-					throws InstantiationException, IllegalAccessException {
+			throws InstantiationException, IllegalAccessException {
 
 		Object retValue = null;
 

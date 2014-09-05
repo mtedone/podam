@@ -23,7 +23,7 @@ public class ArrayPojo {
 	/**
 	 * Gets the array.
 	 *
-	 * @return
+	 * @return An array of Strings
 	 */
 	public String[] getMyStringArray() {
 		return myStringArray;
