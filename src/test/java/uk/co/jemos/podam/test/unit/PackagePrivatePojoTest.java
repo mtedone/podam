@@ -1,10 +1,10 @@
 package uk.co.jemos.podam.test.unit;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * @author daivanov
@@ -12,10 +12,13 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
  */
 public class PackagePrivatePojoTest {
 
-	@Test(expected = PodamMockeryException.class)
+	@Test
 	public void testPackagePrivateClassInstantiation() {
 		PodamFactory factory = new PodamFactoryImpl();
-		factory.manufacturePojo(PackagePrivatePojo.class);
+		PackagePrivatePojo pojo = factory
+				.manufacturePojo(PackagePrivatePojo.class);
+		Assert.assertNotNull(pojo);
+		Assert.assertNotNull(pojo.getValue());
 
 	}
 }
