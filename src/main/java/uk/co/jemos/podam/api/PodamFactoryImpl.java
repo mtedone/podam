@@ -1569,16 +1569,16 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (setterArg != null) {
 				// If the setter is not public we set it to accessible for
-				// the sake of
-				// usability. However this violates Javabean standards and
-				// it's a security hack
-				if (!setter.isAccessible()) {
+				// the sake of usability.
+				int modifiers = setter.getModifiers();
+				if (!Modifier.isPublic(modifiers)) {
 					LOG.warn(
 							"The setter: {} is not accessible.Setting it to accessible. "
 									+ "However this is a security hack and your code should really adhere to Javabean standards.",
 							setter.getName());
 					setter.setAccessible(true);
 				}
+
 				setter.invoke(retValue, setterArg);
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute: {}"
