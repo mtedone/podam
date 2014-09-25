@@ -1409,7 +1409,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = new ArrayList<Annotation>();
 			String noName = null;
 			return (T) resolvePrimitiveValue(pojoClass, annotations,
-					new AttributeMetadata(noName, pojoClass, annotations));
+					new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
 		}
 
 		if (pojoClass.isInterface()
@@ -1729,7 +1729,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			realAttributeType = attributeType;
 		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, annotations);
+				attributeName, realAttributeType, annotations, pojoClass);
 
 		// Primitive type
 		if (realAttributeType.isPrimitive()) {
