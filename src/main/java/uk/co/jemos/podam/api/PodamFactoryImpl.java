@@ -3,55 +3,19 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.common.*;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.lang.reflect.*;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
-
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.PodamBooleanValue;
-import uk.co.jemos.podam.common.PodamByteValue;
-import uk.co.jemos.podam.common.PodamCharValue;
-import uk.co.jemos.podam.common.PodamCollection;
-import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.common.PodamConstructor;
-import uk.co.jemos.podam.common.PodamDoubleValue;
-import uk.co.jemos.podam.common.PodamFloatValue;
-import uk.co.jemos.podam.common.PodamIntValue;
-import uk.co.jemos.podam.common.PodamLongValue;
-import uk.co.jemos.podam.common.PodamShortValue;
-import uk.co.jemos.podam.common.PodamStrategyValue;
-import uk.co.jemos.podam.common.PodamStringValue;
-import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * The PODAM factory implementation
@@ -1408,7 +1372,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = new ArrayList<Annotation>();
 			String noName = null;
 			return (T) resolvePrimitiveValue(pojoClass, annotations,
-					new AttributeMetadata(noName, pojoClass, annotations));
+					new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
 		}
 
 		if (pojoClass.isInterface()
@@ -1723,7 +1687,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			realAttributeType = attributeType;
 		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, annotations);
+				attributeName, realAttributeType, annotations, pojoClass);
 
 		// Primitive type
 		if (realAttributeType.isPrimitive()) {
