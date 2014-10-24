@@ -102,7 +102,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private Map<Class, Object> memoizationTable = new HashMap<Class, Object>();
+	private Map<Class<?>, Object> memoizationTable = new HashMap<Class<?>, Object>();
 
 	// ------------------->> Constructors
 
@@ -1429,9 +1429,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
-				excludeAnnotations);
-
 		// If a public no-arg constructor can be found we use it,
 		// otherwise we try to find a non-public one and we use that. If the
 		// class does not have a no-arg constructor we search for a suitable
@@ -1501,8 +1498,17 @@ public class PodamFactoryImpl implements PodamFactory {
 			return null;
 		}
 
+		if (retValue instanceof Collection && ((Collection<?>)retValue).size() == 0) {
+			fillCollection((Collection<? super Object>)retValue, pojos, genericTypeArgs);
+		} else if (retValue instanceof Map && ((Map<?,?>)retValue).size() == 0) {
+			fillMap((Map<? super Object,? super Object>)retValue, pojos, genericTypeArgs);
+		}
+
 		Class<?>[] parameterTypes = null;
 		Class<?> attributeType = null;
+
+		ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
+				excludeAnnotations);
 
 		// According to JavaBeans standards, setters should have only
 		// one argument
@@ -2133,6 +2139,66 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 	}
 
+	   /**
+	 * It fills a collection with the required number of elements of the
+	 * required type.
+	 *
+	 * <p>
+	 * This method has a so-called side effect. It updates the collection passed
+	 * as argument.
+	 * </p>
+	 *
+	 * @param collection
+	 *          The Collection to be filled
+	 * @param pojos
+	 *          Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *          The generic type arguments for the current generic class
+	 *          instance
+	 * @throws InstantiationException
+	 *          If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *          If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *          If an exception occurred while invoking the constructor or
+	 *          factory method
+	 * @throws ClassNotFoundException
+	 *          If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillCollection(Collection<? super Object> collection,
+			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		Class<?> pojoClass = collection.getClass();
+		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+				pojoClass, genericTypeArgs);
+		if (genericTypeArgsExtra != null) {
+			LOG.warn(String.format("Lost %d generic type arguments",
+					genericTypeArgsExtra.length));
+		}
+
+		String attributeName = null;
+		Annotation[] annotations = collection.getClass().getAnnotations();
+		Class<?> collectionClass = pojoClass;
+		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
+				new Type[] {});
+		Type[] typeParams = collectionClass.getTypeParameters();
+		while (typeParams.length < 1) {
+			Type type = collectionClass.getGenericSuperclass();
+			collectionClass = resolveGenericParameter(type, typeArgsMap,
+					elementGenericTypeArgs);
+			typeParams = elementGenericTypeArgs.get();
+		}
+		Class<?> elementTypeClass = resolveGenericParameter(typeParams[0],
+					typeArgsMap, elementGenericTypeArgs);
+		fillCollection(pojoClass, pojos, attributeName,
+				Arrays.asList(annotations), collection, elementTypeClass,
+				elementGenericTypeArgs.get());
+	}
+
 	/**
 	 * It fills a collection with the required number of elements of the
 	 * required type.
@@ -2365,6 +2431,79 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return retValue;
+	}
+
+	/**
+	 * It fills a Map with the required number of elements of the required type.
+	 *
+	 * <p>
+	 * This method has a so-called side-effect. It updates the Map given as
+	 * argument.
+	 * </p>
+	 *
+	 * @param pojoClass
+	 *          The POJO being initialised
+	 * @param pojos
+	 *          Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *          The generic type arguments for the current generic class
+	 *          instance
+	 * @throws InstantiationException
+	 *          If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *          If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *          If an exception occurred while invoking the constructor or
+	 *          factory method
+	 * @throws ClassNotFoundException
+	 *          If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillMap(Map<? super Object, ? super Object> map,
+			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		Class<?> pojoClass = map.getClass();
+		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+				pojoClass, genericTypeArgs);
+		if (genericTypeArgsExtra != null) {
+			LOG.warn(String.format("Lost %d generic type arguments",
+					genericTypeArgsExtra.length));
+		}
+
+		Annotation[] annotations = pojoClass.getAnnotations();
+		String attributeName = null;
+
+		Class<?> mapClass = pojoClass;
+		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
+				new Type[] {});
+		Type[] typeParams = mapClass.getTypeParameters();
+		while (typeParams.length < 2) {
+			Type type = mapClass.getGenericSuperclass();
+			mapClass = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);
+			typeParams = elementGenericTypeArgs.get();
+		}
+		AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
+				new Type[] {});
+		Class<?> keyClass = resolveGenericParameter(typeParams[0],
+					typeArgsMap, keyGenericTypeArgs);
+		Class<?> elementClass = resolveGenericParameter(typeParams[1],
+					typeArgsMap, elementGenericTypeArgs);
+		MapArguments mapArguments = new MapArguments();
+		mapArguments.setPojoClass(pojoClass);
+		mapArguments.setPojos(pojos);
+		mapArguments.setAttributeName(attributeName);
+		mapArguments.setAnnotations(Arrays.asList(annotations));
+		mapArguments.setMapToBeFilled(map);
+		mapArguments.setKeyClass(keyClass);
+		mapArguments.setElementClass(elementClass);
+		mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
+		mapArguments
+				.setElementGenericTypeArgs(elementGenericTypeArgs.get());
+
+		fillMap(mapArguments);
 	}
 
 	/**
