@@ -17,6 +17,8 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
+import uk.co.jemos.podam.test.dto.MapExtendingGenericsPojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
@@ -27,10 +29,11 @@ import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
  */
 public class Pdm3PojoUnitTest {
 
+	private static final PodamFactory factory = new PodamFactoryImpl();
+
 	@Test
 	public void testPdm3Pojo() {
 
-		PodamFactory factory = new PodamFactoryImpl();
 		Pdm3Pojo pojo = factory.manufacturePojo(Pdm3Pojo.class);
 		assertNotNull(pojo);
 		assertCollection(pojo.getSomething());
@@ -41,8 +44,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3PojoConstructor() {
 
-		PodamFactory factory = new PodamFactoryImpl();
-		Pdm3PojoConstructor pojo = factory.manufacturePojo(Pdm3PojoConstructor.class, String.class);
+		Pdm3PojoConstructor<?> pojo = factory.manufacturePojo(Pdm3PojoConstructor.class, String.class);
 		assertNotNull(pojo);
 		assertNotNull(pojo.getName());
 	}
@@ -50,8 +52,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3ListOfPojos() {
 
-		PodamFactory factory = new PodamFactoryImpl();
-		List<Pdm3PojoConstructor> pojos =
+		List<Pdm3PojoConstructor<?>> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class, String.class);
 		assertCollection(pojos);
 	}
@@ -59,16 +60,28 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfPojos() {
 
-		PodamFactory factory = new PodamFactoryImpl();
-		Map<String, Pdm3PojoConstructor> pojos =
+		Map<String, Pdm3PojoConstructor<?>> pojos =
 			factory.manufacturePojo(HashMap.class, Integer.class, Pdm3PojoConstructor.class, String.class);
+		assertMap(pojos);
+	}
+
+	@Test
+	public void testPdm3ExtendingListOfPojos() {
+
+		Collection<?> pojos = factory.manufacturePojo(CollectionExtendingGenericsPojo.class);
+		assertCollection(pojos);
+	}
+
+	@Test
+	public void testPdm3ExtendingMapOfPojos() {
+
+		Map<?,?> pojos = factory.manufacturePojo(MapExtendingGenericsPojo.class);
 		assertMap(pojos);
 	}
 
 	@Test
 	public void testPdm3PojoGenericsConstructor() {
 
-		PodamFactory factory = new PodamFactoryImpl();
 		Pdm3PojoGenericsConstructor pojo = factory.manufacturePojo(Pdm3PojoGenericsConstructor.class);
 		assertNotNull(pojo);
 		assertCollection(pojo.getSomething());
@@ -79,7 +92,6 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3ListOfGenericPojos() {
 
-		PodamFactory factory = new PodamFactoryImpl();
 		List<Pdm3PojoGenericsConstructor> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoGenericsConstructor.class);
 		assertCollection(pojos);
@@ -88,7 +100,6 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfGenericPojos() {
 
-		PodamFactory factory = new PodamFactoryImpl();
 		Map<String, Pdm3PojoGenericsConstructor> pojos =
 			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
 		assertMap(pojos);
@@ -102,7 +113,7 @@ public class Pdm3PojoUnitTest {
 			assertNotNull("Collection element should not be null",
 				obj);
 			if (obj instanceof Pdm3PojoConstructor) {
-				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)obj;
+				Pdm3PojoConstructor<?> pojo = (Pdm3PojoConstructor<?>)obj;
 				assertNotNull("Element's field should not be empty", pojo.getName());
 				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
 			}
@@ -118,7 +129,7 @@ public class Pdm3PojoUnitTest {
 			Object value = map.get(key);
 			assertNotNull("Value should not be empty", value);
 			if (value instanceof Pdm3PojoConstructor) {
-				Pdm3PojoConstructor pojo = (Pdm3PojoConstructor)value;
+				Pdm3PojoConstructor<?> pojo = (Pdm3PojoConstructor<?>)value;
 				assertNotNull("Element's field should not be empty", pojo.getName());
 				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
 			}
