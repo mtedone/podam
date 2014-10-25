@@ -501,8 +501,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			LOG.warn("For class: {} PODAM could not possibly create a value."
-					+ " This attribute will be returned as null.", clazz);
+			LOG.warn("For attribute {}[{}] PODAM could not possibly create"
+					+ " a value. It will be returned as null.",
+					pojoClass.getName(), clazz.getName());
 		}
 
 		return retValue;
@@ -1351,8 +1352,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (retValue == null) {
 				LOG.warn(
-						"For class: {} PODAM could not possibly create a value."
-								+ " This attribute will be returned as null.",
+						"For {} PODAM could not possibly create a value."
+								+ " It will be returned as null.",
 						pojoClass);
 			}
 
@@ -1440,8 +1441,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (constructors == null || constructors.length == 0) {
 
-				LOG.warn("No public constructors were found. "
-						+ "We'll look for a default, non-public constructor. ");
+				LOG.warn("No public constructors were found for {}. "
+						+ "We'll look for a default, non-public constructor.",
+						pojoClass);
 				Constructor<T> defaultConstructor = pojoClass
 						.getDeclaredConstructor(new Class[] {});
 				LOG.info("Will use: " + defaultConstructor);
@@ -1607,9 +1609,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					setter.invoke(retValue, setterArg);
 				}
 			} else {
-				LOG.warn("Couldn't find a suitable value for attribute: {}"
-						+ ". This POJO attribute will be left to null.",
-						attributeType);
+				LOG.warn("Couldn't find a suitable value for attribute {}[{}]"
+						+ ". It will be left to null.",
+						pojoClass.getName(), attributeType.getName());
 			}
 
 		}
