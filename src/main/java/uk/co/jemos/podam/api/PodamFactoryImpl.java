@@ -1596,18 +1596,16 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 			if (setterArg != null) {
-				// If the setter is not public we set it to accessible for
-				// the sake of usability.
-				int modifiers = setter.getModifiers();
-				if (!Modifier.isPublic(modifiers)) {
-					LOG.warn(
-							"The setter: {} is not accessible.Setting it to accessible. "
-									+ "However this is a security hack and your code should really adhere to Javabean standards.",
-									setter.getName());
-
+				try {
+					setter.invoke(retValue, setterArg);
+				} catch(IllegalAccessException e) {
+					LOG.warn("{} is not accessible. Setting it to accessible."
+							+ " However this is a security hack and your code"
+							+ " should really adhere to JavaBeans standards.",
+							setter.toString());
+					setter.setAccessible(true);
+					setter.invoke(retValue, setterArg);
 				}
-				setter.setAccessible(true);
-				setter.invoke(retValue, setterArg);
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute: {}"
 						+ ". This POJO attribute will be left to null.",
