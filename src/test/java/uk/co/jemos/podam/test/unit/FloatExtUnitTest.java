@@ -21,11 +21,9 @@ public class FloatExtUnitTest {
 
 		PodamFactory podam = new PodamFactoryImpl();
 
-		FloatExt<Float> pojo = podam.manufacturePojo(FloatExt.class,
-				Float.class);
+		FloatExt pojo = podam.manufacturePojo(FloatExt.class);
 
 		Assert.assertNotNull(pojo);
-
 	}
 
 }

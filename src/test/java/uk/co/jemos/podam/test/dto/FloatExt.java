@@ -7,19 +7,18 @@ package uk.co.jemos.podam.test.dto;
  * @author tedonema
  *
  */
-public class FloatExt<T> implements ObjectExt<T> {
+public class FloatExt implements ObjectExt<Float> {
 
-	private T value;
+	private Float value;
 
 	@Override
-	public T getValue() {
+	public Float getValue() {
 		return value;
 	}
 
 	@Override
-	public void setValue(T value) {
+	public void setValue(Float value) {
 		this.value = value;
-
 	}
 
 }
