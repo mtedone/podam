@@ -40,7 +40,7 @@ public class AttributeMetadata implements Serializable {
 	private final List<Annotation> attributeAnnotations;
 
     /** Type of class that owns the attribute */
-    private final Class<?> classType;
+    private final Class<?> pojoClass;
 
 	// ------------------->> Constructors
 
@@ -62,7 +62,7 @@ public class AttributeMetadata implements Serializable {
 		this.attributeName = attributeName;
 		this.attributeType = attributeType;
 		this.attributeAnnotations = attributeAnnotations;
-        this.classType = classType;
+        this.pojoClass = classType;
 	}
 
 	// ------------------->> Public methods
@@ -81,8 +81,8 @@ public class AttributeMetadata implements Serializable {
 		return attributeAnnotations;
 	}
 
-    public Class<?> getClassType() {
-        return classType;
+    public Class<?> getPojoClass() {
+        return pojoClass;
     }
 
 	// ------------------->> Private methods
@@ -99,8 +99,8 @@ public class AttributeMetadata implements Serializable {
 		builder.append(attributeName);
 		builder.append(", attributeType=");
 		builder.append(attributeType);
-        builder.append(", classType=");
-        builder.append(classType);
+        builder.append(", pojoClass=");
+        builder.append(pojoClass);
 		builder.append(", attributeAnnotations=");
 		builder.append(attributeAnnotations);
 		builder.append("]");
