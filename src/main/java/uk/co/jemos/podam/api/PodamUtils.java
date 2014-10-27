@@ -194,14 +194,14 @@ public final class PodamUtils {
 
 			for (Method method : declaredMethods) {
 				if (method.getName().startsWith("set")
-						&& method.getReturnType().equals(void.class)) {
+						&& method.getReturnType().equals(void.class)
+                        && method.getParameterTypes().length == 1) {
 					candidateField = extractFieldNameFromSetterMethod(method);
-					if (classFields.contains(candidateField)) {
-						classSetters.add(method);
+					if (classFields.contains(candidateField)
+                            && isSetterArgAssignableToField(workClass, candidateField, method)) {
+                        classSetters.add(method);
 					}
-
 				}
-
 			}
 			workClass = workClass.getSuperclass();
 		}
@@ -209,7 +209,31 @@ public final class PodamUtils {
 		return classSetters;
 	}
 
-	/**
+    /**
+     * Given a class, field name and method, returns true if the field's type is assignable
+     * from the methods first parameter type.
+     *
+     * @param clazz
+     *            The class containing field matching fieldName
+     * @param fieldName
+     *            The field whose type we are comparing
+     * @param method
+     *            The method whose argument type we are comparing
+     * @return
+     */
+    private static boolean isSetterArgAssignableToField(Class<?> clazz, String fieldName, Method method) {
+        try {
+            Class<?> candidateFieldType;
+            candidateFieldType = clazz.getDeclaredField(fieldName).getType();
+            //check against methods first parameter, setters should have only one.
+            return candidateFieldType.isAssignableFrom(method.getParameterTypes()[0]);
+        } catch (NoSuchFieldException e) {
+            LOG.warn("Setter method does not have field matching " + fieldName, e);
+            return false;
+        }
+    }
+
+    /**
 	 * Given a setter {@link Method}, it extracts the field name, according to
 	 * JavaBean standards
 	 * <p>
