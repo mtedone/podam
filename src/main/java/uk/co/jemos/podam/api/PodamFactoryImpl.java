@@ -2586,7 +2586,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			elementValue = getMapKeyOrElementValue(valueArguments);
 
-			mapArguments.getMapToBeFilled().put(keyValue, elementValue);
+			Map<? super Object, ? super Object> map = mapArguments.getMapToBeFilled();
+			/* ConcurrentHashMap doesn't allow null values */
+			if (elementValue != null || !(map instanceof ConcurrentHashMap)) {
+				map.put(keyValue, elementValue);
+			}
 
 		}
 	}
