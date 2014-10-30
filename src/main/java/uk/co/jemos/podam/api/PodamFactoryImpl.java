@@ -1760,16 +1760,26 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			// Collection type
-			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-					pojoClass, pojos, realAttributeType, attributeName,
-					annotations, typeArgsMap, genericTypeArgs);
+			try {
+				attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
+						pojoClass, pojos, realAttributeType, attributeName,
+						annotations, typeArgsMap, genericTypeArgs);
+			} catch(IllegalArgumentException e) {
+				LOG.info("Cannot manufacture list {}, will try strategy",
+						realAttributeType);
+			}
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			// Map type
-			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
-					pojos, realAttributeType, attributeName, annotations,
-					typeArgsMap, genericTypeArgs);
+			try {
+				attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
+						pojos, realAttributeType, attributeName, annotations,
+						typeArgsMap, genericTypeArgs);
+			} catch(IllegalArgumentException e) {
+				LOG.info("Cannot manufacture map {}, will try strategy",
+						realAttributeType);
+			}
 
 		} else if (realAttributeType.isEnum()) {
 
@@ -1783,9 +1793,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
 			}
 
-		} else {
+		}
 
-			// For any other type, we use the PODAM strategy
+		// For any other type, we use the PODAM strategy
+		if (attributeValue == null) {
+
 			Integer depth = pojos.get(realAttributeType);
 			if (depth == null) {
 				depth = -1;
