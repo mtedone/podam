@@ -1760,16 +1760,26 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			// Collection type
-			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-					pojoClass, pojos, realAttributeType, attributeName,
-					annotations, typeArgsMap, genericTypeArgs);
+			try {
+				attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
+						pojoClass, pojos, realAttributeType, attributeName,
+						annotations, typeArgsMap, genericTypeArgs);
+			} catch(IllegalArgumentException e) {
+				LOG.info("Cannot manufacture list {}, will try strategy",
+						realAttributeType);
+			}
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			// Map type
-			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
-					pojos, realAttributeType, attributeName, annotations,
-					typeArgsMap, genericTypeArgs);
+			try {
+				attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
+						pojos, realAttributeType, attributeName, annotations,
+						typeArgsMap, genericTypeArgs);
+			} catch(IllegalArgumentException e) {
+				LOG.info("Cannot manufacture map {}, will try strategy",
+						realAttributeType);
+			}
 
 		} else if (realAttributeType.isEnum()) {
 
@@ -1783,9 +1793,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
 			}
 
-		} else {
+		}
 
-			// For any other type, we use the PODAM strategy
+		// For any other type, we use the PODAM strategy
+		if (attributeValue == null) {
+
 			Integer depth = pojos.get(realAttributeType);
 			if (depth == null) {
 				depth = -1;
@@ -2796,14 +2808,20 @@ public class PodamFactoryImpl implements PodamFactory {
 		// Default list and set are ArrayList and HashSet. If users
 		// wants a particular collection flavour they have to initialise
 		// the collection
-		if (List.class.isAssignableFrom(collectionType)
-				|| collectionType.equals(Collection.class)) {
-			retValue = new ArrayList();
-		} else if (Queue.class.isAssignableFrom(collectionType)) {
-			retValue = new LinkedList();
+		if (Queue.class.isAssignableFrom(collectionType)) {
+			if (collectionType.isAssignableFrom(LinkedList.class)) {
+				retValue = new LinkedList();
+			}
 		} else if (Set.class.isAssignableFrom(collectionType)) {
-			retValue = new HashSet();
+			if (collectionType.isAssignableFrom(HashSet.class)) {
+				retValue = new HashSet();
+			}
 		} else {
+			if (collectionType.isAssignableFrom(ArrayList.class)) {
+				retValue = new ArrayList();
+			}
+		}
+		if (null == retValue) {
 			throw new IllegalArgumentException("Collection type: "
 					+ collectionType + " not supported");
 		}
@@ -2826,29 +2844,33 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * The default Map is none of the above was recognised is a {@link HashMap}
 	 * </p>
 	 *
-	 * @param attributeType
-	 *            The attribute type
+	 * @param mapType
+	 *            The attribute type implementing Map
 	 * @return A default instance for each map type
 	 *
 	 */
 	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private Map<? super Object, ? super Object> resolveMapType(
-			Class<?> attributeType) {
+			Class<?> mapType) {
 
 		Map<? super Object, ? super Object> retValue = null;
 
-		if (SortedMap.class.isAssignableFrom(attributeType)) {
-
-			retValue = new TreeMap();
-
-		} else if (ConcurrentMap.class.isAssignableFrom(attributeType)) {
-
-			retValue = new ConcurrentHashMap();
-
+		if (SortedMap.class.isAssignableFrom(mapType)) {
+			if (mapType.isAssignableFrom(TreeMap.class)) {
+				retValue = new TreeMap();
+			}
+		} else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
+			if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+				retValue = new ConcurrentHashMap();
+			}
 		} else {
-
-			retValue = new HashMap();
-
+			if (mapType.isAssignableFrom(HashMap.class)) {
+				retValue = new HashMap();
+			}
+		}
+		if (null == retValue) {
+			throw new IllegalArgumentException("Map type: "
+					+ mapType + " not supported");
 		}
 
 		return retValue;
