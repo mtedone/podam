@@ -3,11 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.Immutable;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.util.List;
-
-import net.jcip.annotations.Immutable;
 
 /**
  * Contains metadata about the attribute for which a value is being assigned.
@@ -39,6 +39,9 @@ public class AttributeMetadata implements Serializable {
 	/** The attribute annotations */
 	private final List<Annotation> attributeAnnotations;
 
+    /** Type of class that owns the attribute */
+    private final Class<?> pojoClass;
+
 	// ------------------->> Constructors
 
 	/**
@@ -50,13 +53,16 @@ public class AttributeMetadata implements Serializable {
 	 *            The attribute type
 	 * @param attributeAnnotations
 	 *            The attribute annotations
+     * @param classType
+     *            The type of class that owns the attribute
 	 */
 	public AttributeMetadata(String attributeName, Class<?> attributeType,
-			List<Annotation> attributeAnnotations) {
+			List<Annotation> attributeAnnotations, Class<?> classType) {
 		super();
 		this.attributeName = attributeName;
 		this.attributeType = attributeType;
 		this.attributeAnnotations = attributeAnnotations;
+        this.pojoClass = classType;
 	}
 
 	// ------------------->> Public methods
@@ -75,6 +81,10 @@ public class AttributeMetadata implements Serializable {
 		return attributeAnnotations;
 	}
 
+    public Class<?> getPojoClass() {
+        return pojoClass;
+    }
+
 	// ------------------->> Private methods
 
 	// ------------------->> equals() / hashcode() / toString()
@@ -89,6 +99,8 @@ public class AttributeMetadata implements Serializable {
 		builder.append(attributeName);
 		builder.append(", attributeType=");
 		builder.append(attributeType);
+        builder.append(", pojoClass=");
+        builder.append(pojoClass);
 		builder.append(", attributeAnnotations=");
 		builder.append(attributeAnnotations);
 		builder.append("]");
