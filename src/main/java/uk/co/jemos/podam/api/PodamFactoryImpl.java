@@ -2071,8 +2071,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Collection<? super Object> retValue = null;
 
 		try {
-			validateAttributeName(attributeName);
-
 			// Checks whether the user initialized the collection in the
 			// class
 			// definition
@@ -2152,7 +2150,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 	}
 
-	   /**
+	/**
 	 * It fills a collection with the required number of elements of the
 	 * required type.
 	 *
@@ -2343,8 +2341,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Map<? super Object, ? super Object> retValue = null;
 
 		try {
-			validateAttributeName(attributeName);
-
 			// Checks whether the user initialised the collection in the
 			// class definition
 
@@ -2876,21 +2872,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
-	}
-
-	/**
-	 * It validates that the attribute name is not null or empty
-	 *
-	 * @param attributeName
-	 *            The attribute to be validated
-	 * @throws IllegalArgumentException
-	 *             If the attribute name is null or empty
-	 */
-	private void validateAttributeName(String attributeName) {
-		if (attributeName == null || "".equals(attributeName)) {
-			throw new IllegalArgumentException(
-					"The field name must not be null or empty!");
-		}
 	}
 
 	/**
