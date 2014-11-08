@@ -86,6 +86,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	// ------------------->> Instance / variables
 
 	/**
+	 * External factory to delegate production this factory cannot handle
+	 * <p>
+	 * The default is {@link LoggingExternalFactory}.
+	 * </p>
+	 */
+	private final PodamFactory externalFactory;
+
+	/**
 	 * The strategy to use to fill data.
 	 * <p>
 	 * The default is {@link RandomDataProviderStrategy}.
@@ -112,17 +120,43 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * Default constructor.
 	 */
 	public PodamFactoryImpl() {
-		this(RandomDataProviderStrategy.getInstance());
+		this(LoggingExternalFactory.getInstance(),
+				RandomDataProviderStrategy.getInstance());
 	}
 
 	/**
-	 * Full constructor.
+	 * Constructor with non-default strategy
 	 *
 	 * @param strategy
 	 *            The strategy to use to fill data
 	 */
 	public PodamFactoryImpl(DataProviderStrategy strategy) {
-		super();
+		this(LoggingExternalFactory.getInstance(), strategy);
+	}
+
+	/**
+	 * Constructor with non-default external factory
+	 *
+	 * @param externalFactory
+	 *            External factory to delegate production this factory cannot
+	 *            handle
+	 */
+	public PodamFactoryImpl(PodamFactory externalFactory) {
+		this(externalFactory, RandomDataProviderStrategy.getInstance());
+	}
+
+	/**
+	 * Full constructor.
+	 *
+	 * @param externalFactory
+	 *            External factory to delegate production this factory cannot
+	 *            handle
+	 * @param strategy
+	 *            The strategy to use to fill data
+	 */
+	public PodamFactoryImpl(PodamFactory externalFactory,
+			DataProviderStrategy strategy) {
+		this.externalFactory = externalFactory;
 		this.strategy = strategy;
 	}
 
@@ -502,9 +536,12 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
+			retValue = externalFactory.manufacturePojo(clazz, genericTypeArgs);
+		}
+		if (retValue == null) {
 			LOG.warn("For attribute {}[{}] PODAM could not possibly create"
 					+ " a value. It will be returned as null.",
-					pojoClass.getName(), clazz.getName());
+					pojoClass, clazz);
 		}
 
 		return retValue;
@@ -1352,10 +1389,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 			if (retValue == null) {
-				LOG.warn(
-						"For {} PODAM could not possibly create a value."
-								+ " It will be returned as null.",
-						pojoClass);
+				retValue = externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
 			}
 
 		}
@@ -1425,8 +1459,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					return (T) createNewInstanceForClassWithoutConstructors(
 							pojoClass, pojos, pojoClass, genericTypeArgs);
 				} else {
-					LOG.warn("Cannot instantiate an interface {}."
-							+ " Returning null.", pojoClass);
+					return externalFactory.manufacturePojo(pojoClass,
+							genericTypeArgs);
 				}
 			}
 		}
@@ -1596,6 +1630,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				setterArg = manufactureAttributeValue(pojoClass, pojos,
 						attributeType, pojoAttributeAnnotations, attributeName,
 						typeArgsMap, typeArguments);
+				if (null == setterArg) {
+					setterArg = externalFactory.manufacturePojo(attributeType);
+				}
 			}
 
 			if (setterArg != null) {
@@ -1612,7 +1649,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute {}[{}]"
 						+ ". It will be left to null.",
-						pojoClass.getName(), attributeType.getName());
+						pojoClass, attributeType);
 			}
 
 		}
@@ -1824,9 +1861,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				LOG.warn("Loop in {} production detected. Returning null.",
+				LOG.warn("Loop in {} production detected.",
 						realAttributeType);
-				attributeValue = null;
+				attributeValue = externalFactory.manufacturePojo(
+						realAttributeType, genericTypeArgs);
 
 			}
 		}
