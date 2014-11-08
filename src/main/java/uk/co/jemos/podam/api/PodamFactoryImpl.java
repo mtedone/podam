@@ -1900,6 +1900,47 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
+	 * It returns an default value for a {@link Field} matching the attribute
+	 * name or null if a field was not found.
+	 *
+	 * @param pojoClass
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return an instance of {@link Field} matching the attribute name or
+	 *         null if a field was not found.
+	 */
+	private <T> T getDefaultFieldValue(Class<?> pojoClass, String attributeName) {
+		T retValue = null;
+
+		try {
+			Field field = getField(pojoClass, attributeName);
+
+			if (field == null) {
+				throw new NoSuchFieldException(
+						"It was not possible to retrieve field: "
+								+ attributeName);
+			}
+
+			// It allows to invoke Field.get on private fields
+			field.setAccessible(true);
+
+			// TODO: we probably already have instantiated the pojoClass,
+			// it will be better to pass pojoInstance instead of pojoClass
+			Object newInstance = pojoClass.newInstance();
+			retValue = (T) field.get(newInstance);
+		} catch (Exception e) {
+
+			LOG.info(
+					"The field didn't exist or we couldn't call an empty constructor.",
+					e);
+		}
+
+		return retValue;
+	}
+
+	/**
 	 * It returns a {@link Field} matching the attribute name or null if a field
 	 * was not found.
 	 *
@@ -2068,38 +2109,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs) {
 
 		// This needs to be generic because collections can be of any type
-		Collection<? super Object> retValue = null;
+		Collection<? super Object> retValue =
+				getDefaultFieldValue(pojoClass, attributeName);
+		if (null == retValue) {
 
-		try {
-			// Checks whether the user initialized the collection in the
-			// class
-			// definition
-			Object newInstance = pojoClass.newInstance();
-
-			Field field = null;
-
-			field = getField(pojoClass, attributeName);
-
-			if (field == null) {
-				throw new NoSuchFieldException();
-			}
-
-			// It allows to invoke Field.get on private fields
-			field.setAccessible(true);
-
-			Collection<? super Object> coll = (Collection<? super Object>) field
-					.get(newInstance);
-
-			if (null != coll) {
-				retValue = coll;
-			} else {
-				retValue = resolveCollectionType(collectionType);
-			}
-		} catch (Exception e) {
-
-			LOG.info(
-					"The name was empty or we couldn't call an empty constructor. Creating an empty collection.",
-					e);
 			retValue = resolveCollectionType(collectionType);
 		}
 
@@ -2338,43 +2351,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
-		Map<? super Object, ? super Object> retValue = null;
+		Map<? super Object, ? super Object> retValue =
+				getDefaultFieldValue(pojoClass, attributeName);
+		if (null == retValue) {
 
-		try {
-			// Checks whether the user initialised the collection in the
-			// class definition
-
-			Object newInstance = null;
-
-			Field field = getField(pojoClass, attributeName);
-
-			if (field == null) {
-				throw new IllegalStateException(
-						"It was not possible to retrieve field: "
-								+ attributeName);
-			}
-
-			newInstance = pojoClass.newInstance();
-
-			// It allows to invoke Field.get on private fields
-			field.setAccessible(true);
-
-			@SuppressWarnings(UNCHECKED_STR)
-			Map<? super Object, ? super Object> coll = (Map<? super Object, ? super Object>) field
-					.get(newInstance);
-
-			if (null != coll) {
-				retValue = coll;
-			} else {
-				retValue = resolveMapType(attributeType);
-			}
-		} catch (Exception e) {
-			// Name is empty or could not call an empty constructor
-			// (probably this call is for a parameterized constructor)
-			// Create a new Map
-			LOG.info(
-					"The name was empty of we couldn't call an empty constructor. Creating an empty Map",
-					e);
 			retValue = resolveMapType(attributeType);
 		}
 
