@@ -77,6 +77,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
 
+	private static final Type[] NO_TYPES = new Type[0];
+
 	/** Application logger */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(PodamFactoryImpl.class.getName());
@@ -131,8 +133,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass) {
-		Type[] noTypes = new Type[0];
-		return this.manufacturePojo(pojoClass, noTypes);
+		return this.manufacturePojo(pojoClass, NO_TYPES);
 	}
 
 	/**
@@ -195,7 +196,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			String msg = pojoClass.getCanonicalName()
 					+ " is missing generic type arguments, expected "
 					+ typeParameters.length + " found "
-					+ genericTypeArgs.length + ". Returning null";
+					+ Arrays.toString(genericTypeArgs);
 			throw new IllegalStateException(msg);
 		}
 
