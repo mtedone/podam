@@ -1,9 +1,12 @@
 package uk.co.jemos.podam.test.unit;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,6 +23,28 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * @author daivanov
  */
 public class MultipleInterfacesInheritanceTest {
+
+	public static class TrackingExternalFactory implements PodamFactory {
+
+		List<Class<?>> failures = new ArrayList<Class<?>>();
+
+		@Override
+		public <T> T manufacturePojo(Class<T> pojoClass) {
+			Type[] noTypes = new Type[0];
+			return this.manufacturePojo(pojoClass, noTypes);
+		}
+
+		@Override
+		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
+			failures.add(pojoClass);
+			return null;
+		}
+
+		@Override
+		public DataProviderStrategy getStrategy() {
+			return null;
+		}
+	}
 
 	private static class CustomDataProviderStrategy
 			extends AbstractRandomDataProviderStrategy {
@@ -38,10 +63,20 @@ public class MultipleInterfacesInheritanceTest {
 
 	};
 
+	private static final TrackingExternalFactory trackingFactory
+			= new TrackingExternalFactory();
+
 	private static final CustomDataProviderStrategy strategy
 			= new CustomDataProviderStrategy();
 
-	private static final PodamFactory factory = new PodamFactoryImpl(strategy);
+	private static final PodamFactory factory
+			= new PodamFactoryImpl(trackingFactory, strategy);
+
+	@Before
+	public void init() {
+		trackingFactory.failures.clear();
+		strategy.getAccessed().clear();
+	}
 
 	@Test
 	public void testListPojoWithMultiInterfaces() {
@@ -85,7 +120,10 @@ public class MultipleInterfacesInheritanceTest {
 
 	@After
 	public void cleanup() {
-		List<Class<?>> accessed = strategy.getAccessed();
-		accessed.clear();
+		Class<?>[] failures = new Class<?>[trackingFactory.failures.size()];
+		trackingFactory.failures.toArray(failures);
+		Assert.assertEquals(Arrays.toString(failures),
+				strategy.getAccessed().size(),
+				failures.length);
 	}
 }
