@@ -7,14 +7,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
@@ -29,7 +34,44 @@ import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
  */
 public class Pdm3PojoUnitTest {
 
-	private static final PodamFactory factory = new PodamFactoryImpl();
+	public static class TrackingExternalFactory implements PodamFactory {
+
+		List<Class<?>> failures = new ArrayList<Class<?>>();
+
+		@Override
+		public <T> T manufacturePojo(Class<T> pojoClass) {
+			Type[] noTypes = new Type[0];
+			return this.manufacturePojo(pojoClass, noTypes);
+		}
+
+		@Override
+		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
+			failures.add(pojoClass);
+			return null;
+		}
+
+		@Override
+		public DataProviderStrategy getStrategy() {
+			return null;
+		}
+	}
+
+	private static final TrackingExternalFactory trackingFactory
+			= new TrackingExternalFactory();
+
+	private static final PodamFactory factory = new PodamFactoryImpl(trackingFactory);
+
+	@Before
+	public void start() {
+		trackingFactory.failures.clear();
+	}
+
+	@After
+	public void end() {
+		Class<?>[] failures = new Class<?>[trackingFactory.failures.size()];
+		trackingFactory.failures.toArray(failures);
+		assertEquals(Arrays.toString(failures), 0, failures.length);
+	}
 
 	@Test
 	public void testPdm3Pojo() {
