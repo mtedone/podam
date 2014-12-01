@@ -465,7 +465,8 @@ External factory
 
 * Example
 
-Define your own external factory implementing <PodamFactory> interface.
+  Define your own external factory implementing <PodamFactory> interface.
+
 +-----------------------------------------------------------
 package uk.co.jemos.podam.example;
 
@@ -505,11 +506,11 @@ public class MyExternalFactory implements PodamFactory {
 }
 +-----------------------------------------------------------
 
-Set the external factory, when instantiation PODAM factory.
+  Set the external factory, when instantiation PODAM factory.
 
 +-----------------------------------------------------------
 PodamFactory factory = new PodamFactoryImpl(externalFactory);
 InputStream pojo = factory.manufacturePojo(InputStream.class);
 +-----------------------------------------------------------
 
-<InputStream> class was given just for an example.
+  <InputStream> class was given just for an example.
