@@ -36,12 +36,13 @@ public class Pdm3PojoUnitTest {
 
 	public static class TrackingExternalFactory implements PodamFactory {
 
+		private static final Type[] NO_TYPES = new Type[0];
+
 		List<Class<?>> failures = new ArrayList<Class<?>>();
 
 		@Override
 		public <T> T manufacturePojo(Class<T> pojoClass) {
-			Type[] noTypes = new Type[0];
-			return this.manufacturePojo(pojoClass, noTypes);
+			return this.manufacturePojo(pojoClass, NO_TYPES);
 		}
 
 		@Override

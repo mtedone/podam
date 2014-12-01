@@ -455,3 +455,61 @@ GenericAttributePojo [
   
   If you want to manufacture a generic class directly, i.e., that is not wrapped by a non-generic class like on the example
   above, please refer to "Manufacturing generic types" section in the {{{./index.html} Introduction}} page.
+  
+External factory
+
+  There are some classes for which PODAM is not able to instantiate an object.
+  Typically these classes are not POJOs, but require sophisticate instantiation.
+  PODAM will leave values for such classes as null, but you still can manufacture
+  them with second level factory registered to the PODAM factory.
+
+* Example
+
+Define your own external factory implementing <PodamFactory> interface.
++-----------------------------------------------------------
+package uk.co.jemos.podam.example;
+
+/**
+ * External factory
+ */
+public class MyExternalFactory implements PodamFactory {
+
+	private static final Logger LOG = LoggerFactory
+			.getLogger(MyExternalFactory.class);
+
+	private static final Type[] NO_TYPES = new Type[0];
+
+	@Override
+	public <T> T manufacturePojo(Class<T> pojoClass) {
+		return this.manufacturePojo(pojoClass, NO_TYPES);
+	}
+
+	@Override
+	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
+		if (pojoClass.equals(InputStream.class)) {
+			byte[] buffer = new byte[256];
+			@SuppressWarnings("unchecked")
+			T result = (T) new ByteArrayInputStream(buffer);
+			return result;
+		} else {
+			LOG.warn("Cannot instantiate {} with arguments {}. Returning null.",
+					pojoClass, Arrays.toString(genericTypeArgs));
+			return null;
+		}
+	}
+
+	@Override
+	public DataProviderStrategy getStrategy() {
+		return null;
+	}
+}
++-----------------------------------------------------------
+
+Set the external factory, when instantiation PODAM factory.
+
++-----------------------------------------------------------
+PodamFactory factory = new PodamFactoryImpl(externalFactory);
+InputStream pojo = factory.manufacturePojo(InputStream.class);
++-----------------------------------------------------------
+
+<InputStream> class was given just for an example.
