@@ -13,6 +13,7 @@ import java.util.Map;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamCollection;
 import uk.co.jemos.podam.common.PodamStrategyValue;
+import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.strategies.MyBirthdayStrategy;
 import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 
@@ -31,6 +32,9 @@ public class PodamStrategyPojo implements Serializable {
 
 	@PodamStrategyValue(PostCodeStrategy.class)
 	private String postCode;
+
+	@PodamStrategyValue(ByteArrayStrategy.class)
+	private byte[] byteData;
 
 	@PodamStrategyValue(MyBirthdayStrategy.class)
 	private Calendar myBirthday;
@@ -73,6 +77,21 @@ public class PodamStrategyPojo implements Serializable {
 	 */
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
+	}
+
+	/**
+	 * @return the byteData
+	 */
+	public byte[] getByteData() {
+		return byteData;
+	}
+
+	/**
+	 * @param byteData
+	 *            the byteData to set
+	 */
+	public void setByteData(byte[] byteData) {
+		this.byteData = byteData;
 	}
 
 	// ------------------->> Private methods

@@ -76,6 +76,7 @@ import uk.co.jemos.podam.test.dto.pdm6.Parent;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
+import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
@@ -643,7 +644,7 @@ public class PodamMockerUnitTest {
 		Assert.assertFalse("The non-generified list cannot be empty!",
 				nonGenerifiedList.isEmpty());
 
-		Map nonGenerifiedMap = pojo.getNonGenerifiedMap();
+		Map<?,?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
 		Assert.assertNotNull("The non generified map cannot be null!",
 				nonGenerifiedMap);
 		Assert.assertFalse("The non generified Map cannot be empty!",
@@ -1280,6 +1281,11 @@ public class PodamMockerUnitTest {
 		Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
 
 		Calendar myBirthday = pojo.getMyBirthday();
+
+		Assert.assertNotNull("byte array manufacturing failed",
+				pojo.getByteData());
+		Assert.assertEquals("byte array wrong length",
+				ByteArrayStrategy.LENGTH, pojo.getByteData().length);
 
 		Assert.assertEquals(
 				"The expected and actual calendar objects are not the same",
