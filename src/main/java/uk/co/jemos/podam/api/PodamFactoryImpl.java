@@ -1945,16 +1945,31 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
+			Type actualTypeArgument = null;
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
-
-				LOG.warn("The collection attribute: "
-						+ attributeName
-						+ " does not have a type. We will assume Object for you");
-				// Support for non-generified collections
-				typeClass = Object.class;
+				for (Type iface : collectionType.getGenericInterfaces()) {
+					if (iface instanceof ParameterizedType) {
+						ParameterizedType paramIface = (ParameterizedType) iface;
+						if (paramIface.getRawType().equals(List.class)) {
+							actualTypeArgument = paramIface.getActualTypeArguments()[0];
+							break;
+						}
+					}
+				}
+				
+				if (actualTypeArgument == null) {
+					LOG.warn("The collection attribute: "
+							+ attributeName
+							+ " does not have a type. We will assume Object for you");
+					// Support for non-generified collections
+					typeClass = Object.class;
+				} else {
+					typeClass = resolveGenericParameter(actualTypeArgument,
+							typeArgsMap, elementGenericTypeArgs);
+				}
 
 			} else {
-				Type actualTypeArgument = genericTypeArgs[0];
+				actualTypeArgument = genericTypeArgs[0];
 
 				typeClass = resolveGenericParameter(actualTypeArgument,
 						typeArgsMap, elementGenericTypeArgs);
