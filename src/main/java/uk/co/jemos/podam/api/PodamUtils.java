@@ -156,10 +156,27 @@ public final class PodamUtils {
 	public static Method getGetterFor(Field field) {
 		String name = field.getName().substring(0, 1).toUpperCase()
 				+ field.getName().substring(1);
+
+		String methodName;
+		if (boolean.class.isAssignableFrom(field.getType()) ||
+			Boolean.class.isAssignableFrom(field.getType())) {
+			methodName = "is" + name;
+		} else {
+			methodName = "get" + name;
+		}
+
 		try {
-			return field.getDeclaringClass().getMethod("get" + name);
+			return field.getDeclaringClass().getMethod(methodName);
 		} catch (NoSuchMethodException e) {
-			LOG.info("No getter method for " + name, e);
+			if (methodName.startsWith("is")) {
+				methodName = "get" + name;
+				try {
+					return field.getDeclaringClass().getMethod(methodName);
+				} catch (NoSuchMethodException e2) {
+				}
+			}
+			LOG.info("No getter {}() for field {}[{}]", methodName,
+					field.getDeclaringClass().getName(), field.getName());
 			return null;
 		}
 	}
