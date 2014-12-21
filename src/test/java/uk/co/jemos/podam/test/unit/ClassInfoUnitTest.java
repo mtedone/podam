@@ -81,7 +81,10 @@ public class ClassInfoUnitTest {
 		excludeAnnotations.add(TestExclude.class);
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(SimplePojoWithExcludeAnnotationToTestSetters.class, excludeAnnotations);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
-		Assert.assertEquals("The expected and actual ClassInfo objects do not match!", expectedClassInfo, actualClassInfo);
+		Assert.assertEquals("The expected and actual ClassInfo objects do not match!",
+				expectedClassInfo, actualClassInfo);
+		Assert.assertEquals("All fields from subclass must be excluded",
+				2, actualClassInfo.getClassSetters().size());
 	}
 
 	// ------------------------------> Private methods
