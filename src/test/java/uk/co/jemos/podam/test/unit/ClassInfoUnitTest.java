@@ -77,7 +77,7 @@ public class ClassInfoUnitTest {
 		Set<Method> pojoSetters = PodamUtils.getPojoSetters(SimplePojoWithExcludeAnnotationToTestSetters.class, pojoFields);
 
 		ClassInfo expectedClassInfo = new ClassInfo(SimplePojoWithExcludeAnnotationToTestSetters.class, pojoFields, pojoSetters);
-		List<Class<? extends Annotation>> excludeAnnotations = new ArrayList<Class<? extends Annotation>>();
+		Set<Class<? extends Annotation>> excludeAnnotations = new HashSet<Class<? extends Annotation>>();
 		excludeAnnotations.add(TestExclude.class);
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(SimplePojoWithExcludeAnnotationToTestSetters.class, excludeAnnotations);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);

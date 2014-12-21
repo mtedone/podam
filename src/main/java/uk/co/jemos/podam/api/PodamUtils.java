@@ -7,9 +7,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -60,15 +58,8 @@ public final class PodamUtils {
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz,
-			List<Class<? extends Annotation>> excludeFieldAnnotations) {
-		Set<String> classFields = null;
-		if (excludeFieldAnnotations != null
-				&& !excludeFieldAnnotations.isEmpty()) {
-			classFields = getDeclaredInstanceFields(clazz,
-					excludeFieldAnnotations);
-		} else {
-			classFields = getDeclaredInstanceFields(clazz);
-		}
+			Set<Class<? extends Annotation>> excludeFieldAnnotations) {
+		Set<String> classFields = getDeclaredInstanceFields(clazz, excludeFieldAnnotations);
 		Set<Method> classSetters = getPojoSetters(clazz, classFields);
 		return new ClassInfo(clazz, classFields, classSetters);
 	}
@@ -81,9 +72,7 @@ public final class PodamUtils {
 	 * @return Set of a class declared field names.
 	 */
 	public static Set<String> getDeclaredInstanceFields(Class<?> clazz) {
-		List<Class<? extends Annotation>> excludedAnnotations = new ArrayList<Class<? extends Annotation>>();
-		excludedAnnotations.add(PodamExclude.class);
-		return getDeclaredInstanceFields(clazz, excludedAnnotations);
+		return getDeclaredInstanceFields(clazz, null);
 	}
 
 	/**
@@ -97,7 +86,12 @@ public final class PodamUtils {
 	 * @return Set of a class declared field names.
 	 */
 	public static Set<String> getDeclaredInstanceFields(Class<?> clazz,
-			List<Class<? extends Annotation>> excludeAnnotations) {
+			Set<Class<? extends Annotation>> excludeAnnotations) {
+
+		if (excludeAnnotations == null) {
+			excludeAnnotations = new HashSet<Class<? extends Annotation>>();
+		}
+		excludeAnnotations.add(PodamExclude.class);
 
 		Class<?> workClass = clazz;
 
@@ -129,11 +123,11 @@ public final class PodamUtils {
 	 * @param field
 	 *            the field to check for
 	 * @param annotations
-	 *            the list of annotations to look for in the field
+	 *            the set of annotations to look for in the field
 	 * @return true if the field is marked with any of the given annotations
 	 */
 	public static boolean containsAnyAnnotation(Field field,
-			List<Class<? extends Annotation>> annotations) {
+			Set<Class<? extends Annotation>> annotations) {
 		Method method = getGetterFor(field);
 		for (Class<? extends Annotation> annotation : annotations) {
 			if (field.getAnnotation(annotation) != null) {

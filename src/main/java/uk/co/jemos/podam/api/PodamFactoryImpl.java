@@ -105,7 +105,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * A list of {@link Annotation}s for attributes that PODAM shouldn't
 	 * consider
 	 */
-	private List<Class<? extends Annotation>> excludeAnnotations;
+	private Set<Class<? extends Annotation>> excludeAnnotations;
 
 	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
