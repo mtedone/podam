@@ -3,10 +3,13 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.Random;
 
 import uk.co.jemos.podam.common.ConstructorComparator;
@@ -71,6 +74,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * abstract classes
 	 */
 	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
+
+	/**
+	 * Set of annotations, which mark fields to be skipped from populating.
+	 */
+	private final Set<Class<? extends Annotation>> excludedAnnotations =
+			new HashSet<Class<? extends Annotation>>();
 
 	// ------------------->> Instance / Static variables
 
@@ -478,6 +487,41 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			found = nonInstantiatableClass;
 		}
 		return found;
+	}
+
+	/**
+	 * Adds the specified {@link Annotation} to set of excluded annotations,
+	 * if it is not already present.
+	 *
+	 * @param annotation
+	 *            the annotation to use as an exlusion mark
+	 * @return itself
+	 */
+	public AbstractRandomDataProviderStrategy addExcludedAnnotation(
+			final Class<? extends Annotation> annotation) {
+		excludedAnnotations.add(annotation);
+		return this;
+	}
+
+	/**
+	 * Adds the specified {@link Annotation} from set of excluded annotations.
+	 *
+	 * @param annotation
+	 *            the annotation used as an exlusion mark
+	 * @return itself
+	 */
+	public AbstractRandomDataProviderStrategy removeExcludedAnnotation(
+			final Class<? extends Annotation> annotation) {
+		excludedAnnotations.remove(annotation);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<Class<? extends Annotation>> getExcludedAnnotations() {
+		return excludedAnnotations;
 	}
 
 	// ------------------->> Private methods

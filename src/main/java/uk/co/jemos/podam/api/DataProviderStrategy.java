@@ -3,7 +3,9 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.util.Set;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -209,4 +211,15 @@ public interface DataProviderStrategy {
 	 *         {@code nonInstantiatableClass}.
 	 */
 	<T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
+
+	/**
+	 * Identifies {@link Annotation}s for fields to be skipped.
+	 * <p>
+	 * Should return set of annotations, which will be treated as notion for
+	 * {@link PodamFactory} to skip production of these particular fields.
+	 * </p>
+	 * 
+	 * @return set of annotations, which mark fields to be skipped from populating.
+	 */
+	Set<Class<? extends Annotation>> getExcludedAnnotations();
 }

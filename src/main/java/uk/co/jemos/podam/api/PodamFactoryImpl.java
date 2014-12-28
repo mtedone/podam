@@ -102,12 +102,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	private final DataProviderStrategy strategy;
 
 	/**
-	 * A list of {@link Annotation}s for attributes that PODAM shouldn't
-	 * consider
-	 */
-	private Set<Class<? extends Annotation>> excludeAnnotations;
-
-	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
@@ -1545,7 +1539,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> attributeType = null;
 
 		ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
-				excludeAnnotations);
+				strategy.getExcludedAnnotations());
 
 		// According to JavaBeans standards, setters should have only
 		// one argument
