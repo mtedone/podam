@@ -316,8 +316,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 						pojoClass, genericTypeArgs);
 				if (genericTypeArgsExtra != null) {
-					LOG.warn(String.format("Lost %d generic type arguments",
-							genericTypeArgsExtra.length));
+					LOG.warn("Lost generic type arguments {}",
+							Arrays.toString(genericTypeArgsExtra));
 				}
 			} catch (IllegalStateException e) {
 				LOG.error(
@@ -387,6 +387,9 @@ public class PodamFactoryImpl implements PodamFactory {
 								elementType = (Class<?>) methodGenericTypeArgs
 										.get()[0];
 							} else {
+								LOG.warn("Collection parameter {} type is non-generic."
+										+ "We will assume a Collection<Object> for you.",
+										paramType);
 								elementType = Object.class;
 							}
 
@@ -427,6 +430,9 @@ public class PodamFactoryImpl implements PodamFactory {
 								valueClass = (Class<?>) methodGenericTypeArgs
 										.get()[1];
 							} else {
+								LOG.warn("Map parameter {} type is non-generic."
+										+ "We will assume a Map<Object,Object> for you.",
+										paramType);
 								keyClass = Object.class;
 								valueClass = Object.class;
 							}
@@ -559,7 +565,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Map<String, Type> typeArgsMap,
 			AtomicReference<Type[]> methodGenericTypeArgs) {
 
-		Class<?> parameterType;
+		Class<?> parameterType = null;
 		methodGenericTypeArgs.set(new Type[] {});
 		if (paramType instanceof TypeVariable<?>) {
 			final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
@@ -567,10 +573,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (type != null) {
 				parameterType = resolveGenericParameter(type, typeArgsMap,
 						methodGenericTypeArgs);
-			} else {
-				LOG.warn("Unrecognized type {}. Will use Object intead",
-						typeVariable);
-				parameterType = Object.class;
 			}
 		} else if (paramType instanceof ParameterizedType) {
 			ParameterizedType pType = (ParameterizedType) paramType;
@@ -590,16 +592,14 @@ public class PodamFactoryImpl implements PodamFactory {
 				LOG.debug(msg + Arrays.toString(bounds));
 				parameterType = resolveGenericParameter(bounds[0], typeArgsMap,
 						methodGenericTypeArgs);
-			} else {
-				LOG.warn("Unrecognized type" + wType.toString()
-						+ ". Will use Object intead");
-				parameterType = Object.class;
 			}
 		} else if (paramType instanceof Class) {
 			parameterType = (Class<?>) paramType;
-		} else {
-			LOG.warn("Unrecognized type {}. Will use Object intead", paramType
-					.getClass().getSimpleName());
+		}
+
+		if (parameterType == null) {
+			LOG.warn("Unrecognized type {}. Will use Object instead",
+					paramType);
 			parameterType = Object.class;
 		}
 		return parameterType;
@@ -1593,8 +1593,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 						pojoClass, genericTypeArgs);
 				if (genericTypeArgsExtra != null) {
-					LOG.warn(String.format("Lost %d generic type arguments",
-							genericTypeArgsExtra.length));
+					LOG.warn("Lost generic type arguments {}",
+							Arrays.toString(genericTypeArgsExtra));
 				}
 
 				Type[] typeArguments = new Type[] {};
@@ -1833,7 +1833,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = resolveGenericParameter(genericTypeArgs[0],
 						typeArgsMap, elementGenericTypeArgs);
 			} else {
-				LOG.error("Missing generic type argument");
+				LOG.error("{} is missing generic type argument",
+						realAttributeType);
 			}
 
 		}
@@ -2242,9 +2243,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> pojoClass = collection.getClass();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
-		if (genericTypeArgsExtra != null) {
-			LOG.warn(String.format("Lost %d generic type arguments",
-					genericTypeArgsExtra.length));
+		if (genericTypeArgsExtra != null && genericTypeArgsExtra.length > 0) {
+			LOG.warn("Lost generic type arguments {}",
+					Arrays.toString(genericTypeArgsExtra));
 		}
 
 		String attributeName = null;
@@ -2500,9 +2501,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> pojoClass = map.getClass();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
-		if (genericTypeArgsExtra != null) {
-			LOG.warn(String.format("Lost %d generic type arguments",
-					genericTypeArgsExtra.length));
+		if (genericTypeArgsExtra != null && genericTypeArgsExtra.length > 0) {
+			LOG.warn("Lost generic type arguments {}",
+					Arrays.toString(genericTypeArgsExtra));
 		}
 
 		Annotation[] annotations = pojoClass.getAnnotations();
@@ -2968,6 +2969,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							actualTypeArgument, typeArgsMap,
 							collectionGenericTypeArgs);
 				} else {
+					LOG.warn("Collection parameter {} type is non-generic."
+							+ "We will assume a Collection<Object> for you.",
+							type);
 					collectionElementType = Object.class;
 				}
 
@@ -3000,6 +3004,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							actualTypeArguments[1], typeArgsMap,
 							elementGenericTypeArgs);
 				} else {
+					LOG.warn("Map parameter {} type is non-generic."
+							+ "We will assume a Map<Object,Object> for you.",
+							type);
 					keyClass = Object.class;
 					elementClass = Object.class;
 				}
