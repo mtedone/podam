@@ -1825,6 +1825,17 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
 			}
 
+		} else if (realAttributeType.isAssignableFrom(Class.class)) {
+
+			if (genericTypeArgs.length > 0 && genericTypeArgs[0] != null) {
+				AtomicReference<Type[]> elementGenericTypeArgs
+						= new AtomicReference<Type[]>(new Type[] {});
+				attributeValue = resolveGenericParameter(genericTypeArgs[0],
+						typeArgsMap, elementGenericTypeArgs);
+			} else {
+				LOG.error("Missing generic type argument");
+			}
+
 		}
 
 		// For any other type, we use the PODAM strategy
