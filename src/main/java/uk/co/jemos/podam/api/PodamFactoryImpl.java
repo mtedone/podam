@@ -1620,6 +1620,17 @@ public class PodamFactoryImpl implements PodamFactory {
 						attributeType = (Class<?>) type;
 					}
 				}
+				AtomicReference<Type[]> typeGenericTypeArgs
+						= new AtomicReference<Type[]>(new Type[] {});
+				for (int i = 0; i < typeArguments.length; i++) {
+					if (typeArguments[i] instanceof TypeVariable) {
+						Class<?> resolvedType = resolveGenericParameter(typeArguments[i],
+								typeArgsMap, typeGenericTypeArgs);
+						if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
+							typeArguments[i] = resolvedType;
+						}
+					}
+				}
 
 				setterArg = manufactureAttributeValue(pojoClass, pojos,
 						attributeType, pojoAttributeAnnotations, attributeName,
