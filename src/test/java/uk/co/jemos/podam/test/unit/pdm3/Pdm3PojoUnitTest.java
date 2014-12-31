@@ -8,7 +8,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -69,9 +68,7 @@ public class Pdm3PojoUnitTest {
 
 	@After
 	public void end() {
-		Class<?>[] failures = new Class<?>[trackingFactory.failures.size()];
-		trackingFactory.failures.toArray(failures);
-		assertEquals(Arrays.toString(failures), 0, failures.length);
+		assertEquals(trackingFactory.failures.toString(), 0, trackingFactory.failures.size());
 	}
 
 	@Test

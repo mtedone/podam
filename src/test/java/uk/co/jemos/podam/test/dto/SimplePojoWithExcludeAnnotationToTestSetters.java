@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
  * 
  */
 public class SimplePojoWithExcludeAnnotationToTestSetters extends SimplePojoToTestSetters {
+	private static final long serialVersionUID = -6468844014508725353L;
 
 	@TestExclude
 	private Object excludeField1;

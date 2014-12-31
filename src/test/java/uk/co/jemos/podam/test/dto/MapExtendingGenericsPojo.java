@@ -15,4 +15,5 @@ import java.util.TreeMap;
  * 
  */
 public class MapExtendingGenericsPojo extends TreeMap<Integer,String> {
+	private static final long serialVersionUID = 5232955143368495291L;
 }
