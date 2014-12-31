@@ -1333,7 +1333,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
 			retValue = (T) createNewInstanceForClassWithoutConstructors(
-					pojoClass, pojos, pojoClass);
+					pojoClass, pojos, pojoClass, genericTypeArgs);
 		} else {
 
 			// There are public constructors. We want constructor with minumum
@@ -3033,7 +3033,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				parameterValues[idx] = manufactureAttributeValue(pojoClass,
 						pojos, parameterType, annotations, attributeName,
-						genericTypeArgs);
+						typeArgsMap, genericTypeArgs);
 
 			}
 
