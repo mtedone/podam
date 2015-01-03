@@ -16,8 +16,6 @@ public abstract class AbstractMapArguments {
 	private Class<?> pojoClass;
 	/** Set of manufactured pojos' types. */
 	private Map<Class<?>, Integer> pojos;
-	/** The attribute name. */
-	private String attributeName;
 	/** The annotations for the attribute. */
 	private List<Annotation> annotations;
 
@@ -52,21 +50,6 @@ public abstract class AbstractMapArguments {
 	}
 
 	/**
-	 * @return the attributeName
-	 */
-	public String getAttributeName() {
-		return attributeName;
-	}
-
-	/**
-	 * @param attributeName
-	 *            the attributeName to set
-	 */
-	public void setAttributeName(String attributeName) {
-		this.attributeName = attributeName;
-	}
-
-	/**
 	 * @return the annotations
 	 */
 	public List<Annotation> getAnnotations() {
@@ -91,8 +74,6 @@ public abstract class AbstractMapArguments {
 		builder.append(pojoClass);
 		builder.append(", pojos=");
 		builder.append(pojos);
-		builder.append(", attributeName=");
-		builder.append(attributeName);
 		builder.append(", annotations=");
 		builder.append(annotations);
 		builder.append("]");
