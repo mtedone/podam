@@ -513,7 +513,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					retValue = constructor.newInstance(constructorArgs);
 
-					LOG.info("For class: "
+					LOG.debug("For class: "
 							+ clazz.getName()
 							+ " a valid constructor: "
 							+ constructor
@@ -1371,27 +1371,27 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
 							&& ((Collection) retValue).isEmpty()) {
-						LOG.info("We could create an instance with constructor: "
+						LOG.debug("We could create an instance with constructor: "
 								+ constructor
 								+ ", but collection is empty"
 								+ ". Will try with another one.");
 
 					} else if (retValue instanceof Map
 							&& ((Map) retValue).isEmpty()) {
-						LOG.info("We could create an instance with constructor: "
+						LOG.debug("We could create an instance with constructor: "
 								+ constructor
 								+ ", but map is empty"
 								+ ". Will try with another one.");
 
 					} else {
-						LOG.info("We could create an instance with constructor: "
+						LOG.debug("We could create an instance with constructor: "
 								+ constructor);
 						break;
 					}
-				} catch (Exception t) {
-					LOG.info("We couldn't create an instance for pojo: "
+				} catch (Exception e) {
+					LOG.debug("We couldn't create an instance for pojo: "
 							+ pojoClass + " for constructor: " + constructor
-							+ ". Will try with another one.", t);
+							+ ". Will try with another one.", e);
 				}
 			}
 		}
