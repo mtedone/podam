@@ -484,12 +484,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 					retValue = candidateConstructor.invoke(clazz,
 							parameterValues);
-					LOG.info("Could create an instance using "
+					LOG.debug("Could create an instance using "
 							+ candidateConstructor);
 
 				} catch (Exception t) {
 
-					LOG.info(
+					LOG.debug(
 							"PODAM could not create an instance for constructor: "
 									+ candidateConstructor
 									+ ". Will try another one...", t);
