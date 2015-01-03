@@ -7,25 +7,25 @@ package uk.co.jemos.podam.test.dto;
  * @author daivanov
  *
  */
-public class MultipleInterfacesHolderPojo {
+public class MultipleInterfacesHolderPojo<K,V> {
 
-	private MultipleInterfacesListPojo list;
+	private MultipleInterfacesListPojo<K> list;
 
-	private MultipleInterfacesMapPojo map;
+	private MultipleInterfacesMapPojo<K,V> map;
 
-	public MultipleInterfacesListPojo getList() {
+	public MultipleInterfacesListPojo<K> getList() {
 		return list;
 	}
 
-	public void setList(MultipleInterfacesListPojo list) {
+	public void setList(MultipleInterfacesListPojo<K> list) {
 		this.list = list;
 	}
 
-	public MultipleInterfacesMapPojo getMap() {
+	public MultipleInterfacesMapPojo<K,V> getMap() {
 		return map;
 	}
 
-	public void setMap(MultipleInterfacesMapPojo map) {
+	public void setMap(MultipleInterfacesMapPojo<K,V> map) {
 		this.map = map;
 	}
 }

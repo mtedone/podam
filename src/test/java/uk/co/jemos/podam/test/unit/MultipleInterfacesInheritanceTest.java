@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +80,7 @@ public class MultipleInterfacesInheritanceTest {
 	@Test
 	public void testListPojoWithMultiInterfaces() {
 
-		MultipleInterfacesListPojo pojo = factory.manufacturePojo(
+		MultipleInterfacesListPojo<?> pojo = factory.manufacturePojo(
 				MultipleInterfacesListPojo.class, String.class);
 		Assert.assertNull("Interface POJO cannot be constructed", pojo);
 		List<Class<?>> accessed = strategy.getAccessed();
@@ -92,7 +91,7 @@ public class MultipleInterfacesInheritanceTest {
 	@Test
 	public void testMapPojoWithMultiInterfaces() {
 
-		MultipleInterfacesMapPojo pojo = factory.manufacturePojo(
+		MultipleInterfacesMapPojo<?, ?> pojo = factory.manufacturePojo(
 				MultipleInterfacesMapPojo.class, String.class, Long.class);
 		Assert.assertNull("Interface POJO cannot be constructed", pojo);
 		List<Class<?>> accessed = strategy.getAccessed();
@@ -103,8 +102,8 @@ public class MultipleInterfacesInheritanceTest {
 	@Test
 	public void testHolderOfPojoWithMultiInterfaces() {
 
-		MultipleInterfacesHolderPojo pojo = factory.manufacturePojo(
-				MultipleInterfacesHolderPojo.class, String.class, String.class, Long.class);
+		MultipleInterfacesHolderPojo<?, ?> pojo = factory.manufacturePojo(
+				MultipleInterfacesHolderPojo.class, String.class, Long.class);
 		Assert.assertNotNull("POJO cannot be null", pojo);
 		Assert.assertNull("POJO's interface value cannot be constructed",
 				pojo.getList());
@@ -120,10 +119,8 @@ public class MultipleInterfacesInheritanceTest {
 
 	@After
 	public void cleanup() {
-		Class<?>[] failures = new Class<?>[trackingFactory.failures.size()];
-		trackingFactory.failures.toArray(failures);
-		Assert.assertEquals(Arrays.toString(failures),
-				strategy.getAccessed().size(),
-				failures.length);
+		for (Class<?> pojo : trackingFactory.failures) {
+			Assert.assertTrue(strategy.getAccessed().toString(), strategy.getAccessed().contains(pojo));
+		}
 	}
 }
