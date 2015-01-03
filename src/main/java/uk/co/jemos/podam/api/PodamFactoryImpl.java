@@ -2006,8 +2006,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				field = clazz.getDeclaredField(attributeName);
 				break;
 			} catch (NoSuchFieldException e) {
-				LOG.info("A field could not be found for attribute name: "
-						+ attributeName, e);
+				LOG.info("A field could not be found for attribute '{}[{}]'",
+						pojoClass, attributeName);
 				clazz = clazz.getSuperclass();
 			}
 
@@ -2083,27 +2083,12 @@ public class PodamFactoryImpl implements PodamFactory {
 	private List<Annotation> retrieveFieldAnnotations(Class<?> clazz,
 			Method setter) {
 
-		Class<?> workClass = clazz;
-
 		List<Annotation> retValue = new ArrayList<Annotation>();
 
 		// Checks if the field has got any custom annotations
 		String attributeName = PodamUtils
 				.extractFieldNameFromSetterMethod(setter);
-		Field setterField = null;
-
-		while (workClass != null) {
-			try {
-				setterField = workClass.getDeclaredField(attributeName);
-				break;
-			} catch (NoSuchFieldException e) {
-				LOG.info(
-						"A field for " + attributeName + " could not be found",
-						e);
-				workClass = workClass.getSuperclass();
-			}
-
-		}
+		Field setterField = getField(clazz, attributeName);
 
 		if (setterField != null) {
 			Annotation[] annotations = setterField.getAnnotations();
