@@ -1860,20 +1860,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (depth <= strategy.getMaxDepth(pojoClass)) {
 
 				pojos.put(realAttributeType, depth + 1);
-				if (realAttributeType.getName().startsWith("java.")
-						|| realAttributeType.getName().startsWith("javax.")) {
-
-					// For classes in the Java namespace we attempt the no-args
-					// or the
-					// factory constructor strategy
-					attributeValue = createNewInstanceForClassWithoutConstructors(
-							pojoClass, pojos, realAttributeType,
-							genericTypeArgs);
-				} else {
-
-					attributeValue = this.manufacturePojoInternal(
+				attributeValue = this.manufacturePojoInternal(
 							realAttributeType, pojos, genericTypeArgs);
-				}
 				pojos.put(realAttributeType, depth);
 
 			} else {
