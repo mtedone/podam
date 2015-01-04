@@ -1976,7 +1976,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} catch (Exception e) {
 
-			LOG.info("We couldn't call an empty constructor for {}[{}].",
+			LOG.info("We couldn't call an empty constructor for {}"
+					+ " to get default value for {}.",
 					pojoClass, attributeName, e);
 		}
 
@@ -2717,9 +2718,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
 				new Type[] {});
 		if (null != attributeName) {
-			try {
-				final Type genericType = pojoClass.getDeclaredField(
-						attributeName).getGenericType();
+			Field field = getField(pojoClass, attributeName);
+
+			if (field != null) {
+				final Type genericType = field.getGenericType();
 				if (genericType instanceof GenericArrayType) {
 					final Type type = ((GenericArrayType) genericType)
 							.getGenericComponentType();
@@ -2730,9 +2732,6 @@ public class PodamFactoryImpl implements PodamFactory {
 								typeArgsMap, genericTypeArgs);
 					}
 				}
-			} catch (NoSuchFieldException e) {
-				LOG.info("Cannot get the declared field type for field "
-						+ attributeName + " of class " + pojoClass.getName(), e);
 			}
 		}
 
