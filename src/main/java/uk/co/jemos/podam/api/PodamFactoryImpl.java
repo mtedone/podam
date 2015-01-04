@@ -1836,7 +1836,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
 			}
 
-		} else if (realAttributeType.isAssignableFrom(Class.class)) {
+		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
 			if (genericTypeArgs.length > 0 && genericTypeArgs[0] != null) {
 				AtomicReference<Type[]> elementGenericTypeArgs
@@ -2144,7 +2144,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws IllegalArgumentException
 	 *             If the field name is null or empty
 	 */
-	@SuppressWarnings({ UNCHECKED_STR })
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
 			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
 			Class<?> collectionType, String attributeName,
