@@ -1960,24 +1960,24 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Field field = getField(pojoClass, attributeName);
 
-			if (field == null) {
-				throw new NoSuchFieldException(
-						"It was not possible to retrieve field: "
-								+ attributeName);
+			if (field != null) {
+
+				// It allows to invoke Field.get on private fields
+				field.setAccessible(true);
+
+				// TODO: we probably already have instantiated the pojoClass,
+				// it will be better to pass pojoInstance instead of pojoClass
+				Object newInstance = pojoClass.newInstance();
+				retValue = (T) field.get(newInstance);
+			} else {
+
+				LOG.info("The field {}[{}] didn't exist.", pojoClass, attributeName);
 			}
 
-			// It allows to invoke Field.get on private fields
-			field.setAccessible(true);
-
-			// TODO: we probably already have instantiated the pojoClass,
-			// it will be better to pass pojoInstance instead of pojoClass
-			Object newInstance = pojoClass.newInstance();
-			retValue = (T) field.get(newInstance);
 		} catch (Exception e) {
 
-			LOG.info(
-					"The field didn't exist or we couldn't call an empty constructor.",
-					e);
+			LOG.info("We couldn't call an empty constructor for {}[{}].",
+					pojoClass, attributeName, e);
 		}
 
 		return retValue;
@@ -2007,7 +2007,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				break;
 			} catch (NoSuchFieldException e) {
 				LOG.info("A field could not be found for attribute '{}[{}]'",
-						pojoClass, attributeName);
+						clazz, attributeName);
 				clazz = clazz.getSuperclass();
 			}
 
@@ -2136,8 +2136,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs) {
 
 		// This needs to be generic because collections can be of any type
-		Collection<? super Object> retValue =
-				getDefaultFieldValue(pojoClass, attributeName);
+		Collection<? super Object> retValue = null;
+		if (null != attributeName) {
+
+			retValue = getDefaultFieldValue(pojoClass, attributeName);
+		}
+
 		if (null == retValue) {
 
 			retValue = resolveCollectionType(collectionType);
@@ -2378,8 +2382,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
-		Map<? super Object, ? super Object> retValue =
-				getDefaultFieldValue(pojoClass, attributeName);
+		Map<? super Object, ? super Object> retValue = null;
+		if (null != attributeName) {
+
+			retValue = getDefaultFieldValue(pojoClass, attributeName);
+		}
+
 		if (null == retValue) {
 
 			retValue = resolveMapType(attributeType);
