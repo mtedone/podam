@@ -1765,9 +1765,17 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			// Collection type
+			Object listSample = null;
+			try {
+				// TODO: we probably already have instantiated the pojoClass,
+				// it will be better to pass pojoInstance instead of pojoClass
+				listSample = pojoClass.newInstance();
+			} catch(InstantiationException e) {
+				LOG.warn("Cannot manufacture list sample", e);
+			}
 			try {
 				attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-						pojoClass, pojos, realAttributeType, attributeName,
+						listSample, pojos, realAttributeType, attributeName,
 						annotations, typeArgsMap, genericTypeArgs);
 			} catch(IllegalArgumentException e) {
 				LOG.info("Cannot manufacture list {}, will try strategy",
@@ -1777,8 +1785,16 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			// Map type
+			Object mapSample = null;
 			try {
-				attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojoClass,
+				// TODO: we probably already have instantiated the pojoClass,
+				// it will be better to pass pojoInstance instead of pojoClass
+				mapSample = pojoClass.newInstance();
+			} catch(InstantiationException e) {
+				LOG.warn("Cannot manufacture map sample", e);
+			}
+			try {
+				attributeValue = resolveMapValueWhenMapIsPojoAttribute(mapSample,
 						pojos, realAttributeType, attributeName, annotations,
 						typeArgsMap, genericTypeArgs);
 			} catch(IllegalArgumentException e) {
@@ -1916,31 +1932,29 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @return an instance of {@link Field} matching the attribute name or
 	 *         null if a field was not found.
 	 */
-	private <T> T getDefaultFieldValue(Class<?> pojoClass, String attributeName) {
+	private <T> T getDefaultFieldValue(Object pojo, String attributeName) {
 		T retValue = null;
 
 		try {
-			Field field = getField(pojoClass, attributeName);
+			Field field = getField(pojo.getClass(), attributeName);
 
 			if (field != null) {
 
 				// It allows to invoke Field.get on private fields
 				field.setAccessible(true);
 
-				// TODO: we probably already have instantiated the pojoClass,
-				// it will be better to pass pojoInstance instead of pojoClass
-				Object newInstance = pojoClass.newInstance();
-				retValue = (T) field.get(newInstance);
+				@SuppressWarnings("unchecked")
+				T t = (T) field.get(pojo);
+				retValue = t;
 			} else {
 
-				LOG.info("The field {}[{}] didn't exist.", pojoClass, attributeName);
+				LOG.info("The field {}[{}] didn't exist.", pojo.getClass(), attributeName);
 			}
 
 		} catch (Exception e) {
 
-			LOG.info("We couldn't call an empty constructor for {}"
-					+ " to get default value for {}.",
-					pojoClass, attributeName, e);
+			LOG.warn("We couldn't get default value for {}[{}]",
+					pojo.getClass(), attributeName, e);
 		}
 
 		return retValue;
@@ -2094,16 +2108,16 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If the field name is null or empty
 	 */
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
-			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
+			Object pojo, Map<Class<?>, Integer> pojos,
 			Class<?> collectionType, String attributeName,
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
 		// This needs to be generic because collections can be of any type
 		Collection<? super Object> retValue = null;
-		if (null != attributeName) {
+		if (null != pojo && null != attributeName) {
 
-			retValue = getDefaultFieldValue(pojoClass, attributeName);
+			retValue = getDefaultFieldValue(pojo, attributeName);
 		}
 
 		if (null == retValue) {
@@ -2341,15 +2355,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If an error occurred while creating the Map object
 	 */
 	private Map<? super Object, ? super Object> resolveMapValueWhenMapIsPojoAttribute(
-			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
+			Object pojo, Map<Class<?>, Integer> pojos,
 			Class<?> attributeType, String attributeName,
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
 		Map<? super Object, ? super Object> retValue = null;
-		if (null != attributeName) {
+		if (null != pojo && null != attributeName) {
 
-			retValue = getDefaultFieldValue(pojoClass, attributeName);
+			retValue = getDefaultFieldValue(pojo, attributeName);
 		}
 
 		if (null == retValue) {
