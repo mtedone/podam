@@ -1323,34 +1323,48 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
-	private <T> T resolvePojoWithoutSetters(Class<T> pojoClass,
+	private <T> T instantiatePojo(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
-			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
+			throws SecurityException {
 
 		T retValue = null;
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
 		if (constructors.length == 0) {
-			retValue = (T) createNewInstanceForClassWithoutConstructors(
-					pojoClass, pojos, pojoClass, genericTypeArgs);
-		} else {
+			/* No public constructors, we will try static factory methods */
+			try {
+				retValue = (T) createNewInstanceForClassWithoutConstructors(
+						pojoClass, pojos, pojoClass, genericTypeArgs);
+			} catch (Exception e) {
+				LOG.debug("We couldn't create an instance for pojo: "
+						+ pojoClass + " with factory methods, will "
+						+ " try non-public constructors.", e);
+			}
 
-			// There are public constructors. We want constructor with minumum
-			// number of parameters to speed up the creation
+			/* Then non-public constructors */
+			if (retValue == null) {
+				constructors = pojoClass.getDeclaredConstructors();
+			}
+		}
+
+		if (retValue == null && constructors.length > 0) {
+
+			/* We want constructor with minumum number of parameters
+			 * to speed up the creation */
 			strategy.sort(constructors);
 
 			for (Constructor<?> constructor : constructors) {
 
-				Object[] parameterValues = getParameterValuesForConstructor(
-						constructor, pojoClass, pojos, genericTypeArgs);
+				try {
+					Object[] parameterValues = getParameterValuesForConstructor(
+							constructor, pojoClass, pojos, genericTypeArgs);
 
 				// Being a generic method we cannot be sure on the identity of
 				// T, therefore the mismatch between the newInstance() return
 				// value (Object) and T is acceptable, thus the SuppressWarning
 				// annotation
 
-				try {
+					// Security hack
 					if (!constructor.isAccessible()) {
 						constructor.setAccessible(true);
 					}
@@ -1379,15 +1393,12 @@ public class PodamFactoryImpl implements PodamFactory {
 							+ pojoClass + " for constructor: " + constructor
 							+ ". Will try with another one.", t);
 				}
-
 			}
-
-			if (retValue == null) {
-				retValue = externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
-			}
-
 		}
 
+		if (retValue == null) {
+			retValue = externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
+		}
 		return retValue;
 	}
 
@@ -1459,62 +1470,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		// If a public no-arg constructor can be found we use it,
-		// otherwise we try to find a non-public one and we use that. If the
-		// class does not have a no-arg constructor we search for a suitable
-		// constructor.
-
 		try {
 
-			Constructor<?>[] constructors = pojoClass.getConstructors();
-
-			if (constructors == null || constructors.length == 0) {
-
-				LOG.warn("No public constructors were found for {}. "
-						+ "We'll look for a default, non-public constructor.",
-						pojoClass);
-				Constructor<T> defaultConstructor = pojoClass
-						.getDeclaredConstructor(new Class[] {});
-				LOG.info("Will use: " + defaultConstructor);
-
-				// Security hack
-				defaultConstructor.setAccessible(true);
-				retValue = defaultConstructor.newInstance();
-
-			} else {
-
-				retValue = resolvePojoWithoutSetters(pojoClass, pojos,
-						genericTypeArgs);
-			}
-
+			retValue = instantiatePojo(pojoClass, pojos, genericTypeArgs);
 		} catch (SecurityException e) {
 			throw new PodamMockeryException(
 					"Security exception while applying introspection.", e);
-		} catch (NoSuchMethodException e1) {
-
-			LOG.info(
-					"No default (public or non-public) constructors were found. "
-							+ "Also no other public constructors were found. "
-							+ "Your last hope is that we find a non-public, non-default constructor.",
-							e1);
-
-			Constructor<?>[] constructors = pojoClass.getDeclaredConstructors();
-			if (constructors == null || constructors.length == 0) {
-				throw new IllegalStateException(
-						"The POJO "
-								+ pojoClass
-								+ " appears without constructors. How is this possible? ");
-			}
-
-			LOG.info("Will use: " + constructors[0]);
-
-			// It uses the first public constructor found
-			Object[] parameterValuesForConstructor = getParameterValuesForConstructor(
-					constructors[0], pojoClass, pojos, genericTypeArgs);
-			constructors[0].setAccessible(true);
-			retValue = (T) constructors[0]
-					.newInstance(parameterValuesForConstructor);
-
 		}
 
 		// update memoization table with new object
