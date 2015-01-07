@@ -162,15 +162,17 @@ public final class PodamUtils {
 		try {
 			return field.getDeclaringClass().getMethod(methodName);
 		} catch (NoSuchMethodException e) {
+			LOG.debug("No getter {}() for field {}[{}]", methodName,
+					field.getDeclaringClass().getName(), field.getName());
 			if (methodName.startsWith("is")) {
 				methodName = "get" + name;
 				try {
 					return field.getDeclaringClass().getMethod(methodName);
 				} catch (NoSuchMethodException e2) {
+					LOG.debug("No getter {}() for field {}[{}]", methodName,
+							field.getDeclaringClass().getName(), field.getName());
 				}
 			}
-			LOG.info("No getter {}() for field {}[{}]", methodName,
-					field.getDeclaringClass().getName(), field.getName());
 			return null;
 		}
 	}
