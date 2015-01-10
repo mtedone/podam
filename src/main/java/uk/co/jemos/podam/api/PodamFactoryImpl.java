@@ -331,6 +331,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// getInstance())
 
 			Method[] declaredMethods = clazz.getDeclaredMethods();
+			strategy.sort(declaredMethods);
 
 			// A candidate factory method is a method which returns the
 			// Class type

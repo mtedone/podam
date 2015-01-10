@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -197,6 +198,17 @@ public interface DataProviderStrategy {
 	 *            Array of POJO's constructors
 	 */
 	void sort(Constructor<?>[] constructors);
+
+	/**
+	 * Rearranges POJO's methods in order they will be tried to
+	 * produce the POJO.
+	 * Default strategy consists of putting factory methods with more parameters
+	 * to be tried first.
+	 * 
+	 * @param methods
+	 *            Array of POJO's methods
+	 */
+	void sort(Method[] methods);
 
 	/**
 	 * Resolves abstract classes and interfaces.
