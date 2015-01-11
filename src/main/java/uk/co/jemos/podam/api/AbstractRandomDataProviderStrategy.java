@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
 import java.util.Random;
 
 import uk.co.jemos.podam.common.ConstructorComparator;
+import uk.co.jemos.podam.common.MethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 
 /**
@@ -42,6 +44,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	/** The constructor comparator */
 	private static final ConstructorComparator CONSTRUCTOR_COMPARATOR = new ConstructorComparator();
+
+	/** The constructor comparator */
+	private static final MethodComparator METHOD_COMPARATOR = new MethodComparator();
 
 	/** An array of valid String characters */
 	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',
@@ -446,6 +451,19 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
+	 * Rearranges POJO's methods in order they will be tried to produce the
+	 * POJO. Default strategy consist of putting methods with more
+	 * parameters to be tried first.
+	 *
+	 * @param methods
+	 *            Array of POJO's methods
+	 */
+	@Override
+	public void sort(Method[] methods) {
+		Arrays.sort(methods, METHOD_COMPARATOR);
+	}
+
+	/**
 	 * Bind an interface/abstract class to a specific implementation
 	 *
 	 * @param abstractClass
@@ -481,6 +499,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
+		@SuppressWarnings("unchecked")
 		Class<? extends T> found = (Class<? extends T>) specificTypes
 				.get(nonInstantiatableClass);
 		if (found == null) {
