@@ -1969,11 +1969,12 @@ public class PodamFactoryImpl implements PodamFactory {
 				field = clazz.getDeclaredField(attributeName);
 				break;
 			} catch (NoSuchFieldException e) {
-				LOG.info("A field could not be found for attribute '{}[{}]'",
-						clazz, attributeName);
 				clazz = clazz.getSuperclass();
 			}
-
+		}
+		if (field == null) {
+			LOG.warn("A field could not be found for attribute '{}[{}]'",
+					pojoClass, attributeName);
 		}
 		return field;
 	}
