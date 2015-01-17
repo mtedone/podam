@@ -93,7 +93,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 
 		strategy = new CustomRandomDataProviderStrategy();
 		PodamFactory factory = new PodamFactoryImpl(strategy);
-		Map<Long,String> pojo =
+		Map<?, ?> pojo =
 				factory.manufacturePojo(HashMap.class, Long.class, String.class);
 
 		Assert.assertNotNull("POJO manufacturing failed", pojo);

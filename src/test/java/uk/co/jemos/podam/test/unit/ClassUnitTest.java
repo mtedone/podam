@@ -32,7 +32,7 @@ public class ClassUnitTest {
 	@Test
 	public void testClassWithGenericType() throws Exception {
 	
-		ClassGenericPojo pojo = podam.manufacturePojo(ClassGenericPojo.class, String.class);
+		ClassGenericPojo<?> pojo = podam.manufacturePojo(ClassGenericPojo.class, String.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertNotNull("Class attr should not be empty", pojo.getClazz());
 		Assert.assertEquals(String.class, pojo.getClazz());
@@ -41,7 +41,7 @@ public class ClassUnitTest {
 	@Test
 	public void testClassWithGenericConstructorType() throws Exception {
 	
-		ClassGenericConstructorPojo pojo = podam.manufacturePojo(ClassGenericConstructorPojo.class, String.class);
+		ClassGenericConstructorPojo<?> pojo = podam.manufacturePojo(ClassGenericConstructorPojo.class, String.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertNotNull("Class attr should not be empty", pojo.getClazz());
 		Assert.assertEquals(String.class, pojo.getClazz());

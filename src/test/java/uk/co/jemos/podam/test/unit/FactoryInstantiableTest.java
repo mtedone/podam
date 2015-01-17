@@ -26,7 +26,7 @@ public class FactoryInstantiableTest {
 
 	@Test
 	public void testFactoryInstantiationWithGenerics() {
-		FactoryInstantiablePojo pojo = factory.manufacturePojo(
+		FactoryInstantiablePojo<?> pojo = factory.manufacturePojo(
 				FactoryInstantiablePojo.class, Date.class);
 		Assert.assertNotNull(pojo);
 

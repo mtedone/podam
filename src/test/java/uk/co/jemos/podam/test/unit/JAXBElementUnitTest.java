@@ -21,7 +21,7 @@ public class JAXBElementUnitTest {
 
 	@Test
 	public void testJAXBElementAsPojo() throws Exception {
-		JAXBElement<String> pojo = podam.manufacturePojo(JAXBElement.class, String.class);
+		JAXBElement<?> pojo = podam.manufacturePojo(JAXBElement.class, String.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertNotNull("QName should not be empty", pojo.getName());
 		Assert.assertNotNull("Value attr should not be empty", pojo.getValue());
@@ -31,7 +31,7 @@ public class JAXBElementUnitTest {
 	@Test
 	public void testJAXBElementFieldsSetting() throws Exception {
 	
-		JAXBElementPojo<String> pojo = podam.manufacturePojo(JAXBElementPojo.class, String.class);
+		JAXBElementPojo<?> pojo = podam.manufacturePojo(JAXBElementPojo.class, String.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertNotNull("JAXBElement attr should not be empty", pojo.getValue());
 		Assert.assertNotNull("QName should not be empty", pojo.getValue().getName());

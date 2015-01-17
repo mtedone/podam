@@ -92,7 +92,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3ListOfPojos() {
 
-		List<Pdm3PojoConstructor<?>> pojos =
+		List<?> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class, String.class);
 		assertCollection(pojos);
 	}
@@ -100,7 +100,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfPojos() {
 
-		Map<String, Pdm3PojoConstructor<?>> pojos =
+		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, Integer.class, Pdm3PojoConstructor.class, String.class);
 		assertMap(pojos);
 	}
@@ -132,7 +132,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3ListOfGenericPojos() {
 
-		List<Pdm3PojoGenericsConstructor> pojos =
+		List<?> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoGenericsConstructor.class);
 		assertCollection(pojos);
 	}
@@ -140,7 +140,7 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfGenericPojos() {
 
-		Map<String, Pdm3PojoGenericsConstructor> pojos =
+		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
 		assertMap(pojos);
 	}
