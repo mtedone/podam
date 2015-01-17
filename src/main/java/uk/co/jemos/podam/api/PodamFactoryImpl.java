@@ -1589,7 +1589,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 				}
 
-				setterArg = manufactureAttributeValue(pojoClass, pojos,
+				setterArg = manufactureAttributeValue(retValue, pojos,
 						attributeType, pojoAttributeAnnotations, attributeName,
 						typeArgsMap, typeArguments);
 				if (null == setterArg) {
@@ -1671,8 +1671,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * It manufactures and returns the value for a POJO attribute.
 	 *
 	 *
-	 * @param pojoClass
-	 *            The POJO class being filled with values
+	 * @param pojo
+	 *            The POJO being filled with values
 	 * @param pojos
 	 *            Set of manufactured pojos' types
 	 * @param attributeType
@@ -1709,7 +1709,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 */
 	@SuppressWarnings(RAWTYPES_STR)
-	private Object manufactureAttributeValue(Class<?> pojoClass,
+	private Object manufactureAttributeValue(Object pojo,
 			Map<Class<?>, Integer> pojos, Class<?> attributeType,
 			List<Annotation> annotations, String attributeName,
 			Map<String, Type> typeArgsMap, Type... genericTypeArgs)
@@ -1725,7 +1725,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			realAttributeType = attributeType;
 		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, annotations, pojoClass);
+				attributeName, realAttributeType, annotations, pojo.getClass());
 
 		// Primitive type
 		if (realAttributeType.isPrimitive()) {
@@ -1749,24 +1749,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			// Array type
 
 			attributeValue = resolveArrayElementValue(realAttributeType, pojos,
-					annotations, pojoClass, attributeName, typeArgsMap);
+					annotations, pojo, attributeName, typeArgsMap);
 
 			// Otherwise it's a different type of Object (including
 			// the Object class)
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
-			// Collection type
-			Object listSample = null;
-			try {
-				// TODO: we probably already have instantiated the pojoClass,
-				// it will be better to pass pojoInstance instead of pojoClass
-				listSample = pojoClass.newInstance();
-			} catch(InstantiationException e) {
-				LOG.warn("Cannot manufacture list sample", e);
-			}
 			try {
 				attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-						listSample, pojos, realAttributeType, attributeName,
+						pojo, pojos, realAttributeType, attributeName,
 						annotations, typeArgsMap, genericTypeArgs);
 			} catch(IllegalArgumentException e) {
 				LOG.info("Cannot manufacture list {}, will try strategy",
@@ -1775,17 +1766,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
-			// Map type
-			Object mapSample = null;
 			try {
-				// TODO: we probably already have instantiated the pojoClass,
-				// it will be better to pass pojoInstance instead of pojoClass
-				mapSample = pojoClass.newInstance();
-			} catch(InstantiationException e) {
-				LOG.warn("Cannot manufacture map sample", e);
-			}
-			try {
-				attributeValue = resolveMapValueWhenMapIsPojoAttribute(mapSample,
+				attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
 						pojos, realAttributeType, attributeName, annotations,
 						typeArgsMap, genericTypeArgs);
 			} catch(IllegalArgumentException e) {
@@ -1826,7 +1808,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (depth == null) {
 				depth = -1;
 			}
-			if (depth <= strategy.getMaxDepth(pojoClass)) {
+			if (depth <= strategy.getMaxDepth(pojo.getClass())) {
 
 				pojos.put(realAttributeType, depth + 1);
 				attributeValue = this.manufacturePojoInternal(
@@ -2654,7 +2636,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            Set of manufactured pojos' types
 	 * @param annotations
 	 *            The annotations to be considered
-	 * @param pojoClass
+	 * @param pojo
+	 *            POJO containing attribute
 	 * @param attributeName
 	 * @param typeArgsMap
 	 *            a map relating the generic class arguments ("<T, V>" for
@@ -2674,7 +2657,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object resolveArrayElementValue(Class<?> attributeType,
 			Map<Class<?>, Integer> pojos, List<Annotation> annotations,
-			Class<?> pojoClass, String attributeName,
+			Object pojo, String attributeName,
 			Map<String, Type> typeArgsMap) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
@@ -2683,7 +2666,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
 				new Type[] {});
 		if (null != attributeName) {
-			Field field = getField(pojoClass, attributeName);
+			Field field = getField(pojo.getClass(), attributeName);
 
 			if (field != null) {
 				final Type genericType = field.getGenericType();
@@ -2747,7 +2730,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				arrayElement = manufactureAttributeValue(pojoClass, pojos,
+				arrayElement = manufactureAttributeValue(pojo, pojos,
 						componentType, annotations, attributeName, typeArgsMap,
 						genericTypeArgs.get());
 
