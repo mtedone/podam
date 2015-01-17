@@ -175,13 +175,13 @@ public class PodamFactoryImpl implements PodamFactory {
 			return this.manufacturePojoInternal(pojoClass, pojos,
 					genericTypeArgs);
 		} catch (InstantiationException e) {
-			throw new PodamMockeryException("", e);
+			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
-			throw new PodamMockeryException("", e);
+			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (InvocationTargetException e) {
-			throw new PodamMockeryException("", e);
+			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (ClassNotFoundException e) {
-			throw new PodamMockeryException("", e);
+			throw new PodamMockeryException(e.getMessage(), e);
 		}
 	}
 
