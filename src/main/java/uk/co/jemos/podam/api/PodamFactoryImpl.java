@@ -377,7 +377,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						// It's a Collection type
 						if (Collection.class.isAssignableFrom(parameterType)) {
 
-							Collection<? super Object> listType = resolveCollectionType(parameterType);
+							Collection<? super Object> defaultValue = null;
+							Collection<? super Object> listType = resolveCollectionType(
+									parameterType, defaultValue);
 
 							Class<?> elementType;
 							if (paramType instanceof ParameterizedType) {
@@ -2094,10 +2096,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = getDefaultFieldValue(pojo, attributeName);
 		}
 
-		if (null == retValue) {
-
-			retValue = resolveCollectionType(collectionType);
-		}
+		retValue = resolveCollectionType(collectionType, retValue);
 
 		try {
 
@@ -2757,28 +2756,38 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param collectionType
 	 *            The collection type *
+	 * @param defaultValue
+	 *            Default value for the collection, can be null
 	 * @return an instance of the collection type
 	 */
-	@SuppressWarnings({ RAWTYPES_STR, UNCHECKED_STR })
 	private Collection<? super Object> resolveCollectionType(
-			Class<?> collectionType) {
+			Class<?> collectionType, Collection<? super Object> defaultValue) {
 
 		Collection<? super Object> retValue = null;
 
 		// Default list and set are ArrayList and HashSet. If users
 		// wants a particular collection flavour they have to initialise
 		// the collection
-		if (Queue.class.isAssignableFrom(collectionType)) {
-			if (collectionType.isAssignableFrom(LinkedList.class)) {
-				retValue = new LinkedList();
-			}
-		} else if (Set.class.isAssignableFrom(collectionType)) {
-			if (collectionType.isAssignableFrom(HashSet.class)) {
-				retValue = new HashSet();
-			}
+		if (null != defaultValue &&
+				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default collection, which is not immutable */
+			retValue = defaultValue;
 		} else {
-			if (collectionType.isAssignableFrom(ArrayList.class)) {
-				retValue = new ArrayList();
+			if (Queue.class.isAssignableFrom(collectionType)) {
+				if (collectionType.isAssignableFrom(LinkedList.class)) {
+					retValue = new LinkedList<Object>();
+				}
+			} else if (Set.class.isAssignableFrom(collectionType)) {
+				if (collectionType.isAssignableFrom(HashSet.class)) {
+					retValue = new HashSet<Object>();
+				}
+			} else {
+				if (collectionType.isAssignableFrom(ArrayList.class)) {
+					retValue = new ArrayList<Object>();
+				}
+			}
+			if (null != retValue && null != defaultValue) {
+				retValue.addAll(defaultValue);
 			}
 		}
 		if (null == retValue) {
@@ -2892,7 +2901,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (Collection.class.isAssignableFrom(parameterType)) {
 
-				Collection<? super Object> collection = resolveCollectionType(parameterType);
+				Collection<? super Object> defaultValue = null;
+				Collection<? super Object> collection = resolveCollectionType(
+						parameterType, defaultValue);
 
 				Type type = constructor.getGenericParameterTypes()[idx];
 				Class<?> collectionElementType;
