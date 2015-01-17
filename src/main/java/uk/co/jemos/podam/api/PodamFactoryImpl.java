@@ -2268,17 +2268,25 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy
-				.getNumberOfCollectionElements(collectionElementType);
+		int nbrElements;
 
 		if (null != collectionAnnotation) {
 
 			nbrElements = collectionAnnotation.nbrElements();
 			elementStrategy = collectionAnnotation.collectionElementStrategy()
 					.newInstance();
+		} else {
+
+			nbrElements = strategy
+						.getNumberOfCollectionElements(collectionElementType);
 		}
 
-		for (int i = 0; i < nbrElements; i++) {
+		if (collection.size() > nbrElements) {
+
+			collection.clear();
+		}
+		
+		for (int i = collection.size(); i < nbrElements; i++) {
 
 			// The default
 			Object element;
@@ -2523,8 +2531,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		int nbrElements = strategy.getNumberOfCollectionElements(mapArguments
-				.getElementClass());
+		int nbrElements;
 
 		if (null != collectionAnnotation) {
 
@@ -2532,10 +2539,19 @@ public class PodamFactoryImpl implements PodamFactory {
 			keyStrategy = collectionAnnotation.mapKeyStrategy().newInstance();
 			elementStrategy = collectionAnnotation.mapElementStrategy()
 					.newInstance();
+		} else {
 
+			nbrElements = strategy.getNumberOfCollectionElements(mapArguments
+					.getElementClass());
 		}
 
-		for (int i = 0; i < nbrElements; i++) {
+		Map<? super Object, ? super Object> map = mapArguments.getMapToBeFilled();
+		if (map.size() > nbrElements) {
+
+			map.clear();
+		}
+
+		for (int i = map.size(); i < nbrElements; i++) {
 
 			Object keyValue = null;
 
@@ -2563,12 +2579,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			elementValue = getMapKeyOrElementValue(valueArguments);
 
-			Map<? super Object, ? super Object> map = mapArguments.getMapToBeFilled();
 			/* ConcurrentHashMap doesn't allow null values */
 			if (elementValue != null || !(map instanceof ConcurrentHashMap)) {
 				map.put(keyValue, elementValue);
 			}
-
 		}
 	}
 
