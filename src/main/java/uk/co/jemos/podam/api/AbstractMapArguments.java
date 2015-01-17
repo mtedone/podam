@@ -12,27 +12,10 @@ import java.util.Map;
  */
 public abstract class AbstractMapArguments {
 
-	/** The POJO where the Map attribute has been declared. */
-	private Class<?> pojoClass;
 	/** Set of manufactured pojos' types. */
 	private Map<Class<?>, Integer> pojos;
 	/** The annotations for the attribute. */
 	private List<Annotation> annotations;
-
-	/**
-	 * @return the pojoClass
-	 */
-	public Class<?> getPojoClass() {
-		return pojoClass;
-	}
-
-	/**
-	 * @param pojoClass
-	 *            the pojoClass to set
-	 */
-	public void setPojoClass(Class<?> pojoClass) {
-		this.pojoClass = pojoClass;
-	}
 
 	/**
 	 * @return the pojos
@@ -70,9 +53,7 @@ public abstract class AbstractMapArguments {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AbstractMapArguments [pojoClass=");
-		builder.append(pojoClass);
-		builder.append(", pojos=");
+		builder.append("AbstractMapArguments [pojos=");
 		builder.append(pojos);
 		builder.append(", annotations=");
 		builder.append(annotations);

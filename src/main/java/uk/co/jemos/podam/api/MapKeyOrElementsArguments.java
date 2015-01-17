@@ -3,6 +3,7 @@ package uk.co.jemos.podam.api;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Map;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
 
@@ -18,6 +19,9 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 
 	private static final long serialVersionUID = 1L;
 
+	/** The Map type. */
+	private Class<? extends Map<?, ?>> pojoClass;
+
 	/** The Map key / element type. */
 	private Class<?> keyOrValueType;
 
@@ -29,6 +33,21 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 	 * instance.
 	 */
 	private Type[] genericTypeArgs;
+
+	/**
+	 * @param pojoClass
+	 *            the pojoClass to set
+	 */
+	public void setPojoClass(Class<? extends Map<?, ?>> pojoClass) {
+		this.pojoClass = pojoClass;
+	}
+
+	/**
+	 * @return the keyOrValueType
+	 */
+	public Class<? extends Map<?,?>> getPojoClass() {
+		return pojoClass;
+	}
 
 	/**
 	 * @return the keyOrValueType
@@ -92,5 +111,4 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 		builder.append("]");
 		return builder.toString();
 	}
-
 }
