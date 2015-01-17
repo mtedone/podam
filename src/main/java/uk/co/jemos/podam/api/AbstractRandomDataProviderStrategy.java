@@ -464,7 +464,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Bind an interface/abstract class to a specific implementation
+	 * Bind an interface/abstract class to a specific implementation. If the
+	 * strategy previously contained a binding for the interface/abstract class,
+	 * the old value is replaced by the new value. If you want to implement
+	 * more sophisticated binding strategy, override this class.
 	 *
 	 * @param abstractClass
 	 *            the interface/abstract class to bind
