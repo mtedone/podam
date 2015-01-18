@@ -278,8 +278,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            is required
 	 * @param pojos
 	 *            Set of manufactured pojos' types
-	 * @param clazz
-	 *            The class for which a new instance is required
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
@@ -299,17 +297,17 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	private Object createNewInstanceForClassWithoutConstructors(
-			Class<?> pojoClass, Map<Class<?>, Integer> pojos, Class<?> clazz,
+			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
 			Type... genericTypeArgs) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
 
 		Object retValue = null;
 
-		Constructor<?>[] constructors = clazz.getConstructors();
+		Constructor<?>[] constructors = pojoClass.getConstructors();
 
 		if (constructors.length == 0
-				|| Modifier.isAbstract(clazz.getModifiers())) {
+				|| Modifier.isAbstract(pojoClass.getModifiers())) {
 
 			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 			try {
@@ -330,7 +328,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// the best we can do is to find a constructor (e.g.
 			// getInstance())
 
-			Method[] declaredMethods = clazz.getDeclaredMethods();
+			Method[] declaredMethods = pojoClass.getDeclaredMethods();
 			strategy.sort(declaredMethods);
 
 			// A candidate factory method is a method which returns the
@@ -343,7 +341,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			for (Method candidateConstructor : declaredMethods) {
 
 				if (!Modifier.isStatic(candidateConstructor.getModifiers())
-						|| !candidateConstructor.getReturnType().equals(clazz)
+						|| !candidateConstructor.getReturnType().equals(pojoClass)
 						|| retValue != null) {
 					continue;
 				}
@@ -478,7 +476,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				try {
 
-					retValue = candidateConstructor.invoke(clazz,
+					retValue = candidateConstructor.invoke(pojoClass,
 							parameterValues);
 					LOG.debug("Could create an instance using "
 							+ candidateConstructor);
@@ -510,7 +508,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue = constructor.newInstance(constructorArgs);
 
 					LOG.debug("For class: "
-							+ clazz.getName()
+							+ pojoClass.getName()
 							+ " a valid constructor: "
 							+ constructor
 							+ " was found. PODAM will use it to create an instance.");
@@ -532,12 +530,12 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			retValue = externalFactory.manufacturePojo(clazz, genericTypeArgs);
+			retValue = externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
 		}
 		if (retValue == null) {
-			LOG.warn("For attribute {}[{}] PODAM could not possibly create"
+			LOG.warn("For class {} PODAM could not possibly create"
 					+ " a value. It will be returned as null.",
-					pojoClass, clazz);
+					pojoClass);
 		}
 
 		return retValue;
@@ -1330,7 +1328,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			/* No public constructors, we will try static factory methods */
 			try {
 				retValue = (T) createNewInstanceForClassWithoutConstructors(
-						pojoClass, pojos, pojoClass, genericTypeArgs);
+						pojoClass, pojos, genericTypeArgs);
 			} catch (Exception e) {
 				LOG.debug("We couldn't create an instance for pojo: "
 						+ pojoClass + " with factory methods, will "
@@ -1458,7 +1456,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 				if (Modifier.isAbstract(pojoClass.getModifiers())) {
 					return (T) createNewInstanceForClassWithoutConstructors(
-							pojoClass, pojos, pojoClass, genericTypeArgs);
+							pojoClass, pojos, genericTypeArgs);
 				} else {
 					return externalFactory.manufacturePojo(pojoClass,
 							genericTypeArgs);
