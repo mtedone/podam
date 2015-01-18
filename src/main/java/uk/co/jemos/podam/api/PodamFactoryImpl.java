@@ -1383,9 +1383,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						break;
 					}
 				} catch (Exception e) {
-					LOG.debug("We couldn't create an instance for pojo: "
-							+ pojoClass + " for constructor: " + constructor
-							+ ". Will try with another one.", e);
+					LOG.debug("We couldn't create an instance for pojo: {} with"
+							+ " constructor: {}. Will try with another one.",
+							pojoClass, constructor, e);
 				}
 			}
 		}
@@ -1427,6 +1427,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
+
+		LOG.debug("Manufacturing {} with parameters {}",
+				pojoClass, Arrays.toString(genericTypeArgs));
 
 		T retValue = null;
 
