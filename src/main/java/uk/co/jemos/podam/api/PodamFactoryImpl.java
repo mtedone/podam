@@ -418,7 +418,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							// It's a Map
 						} else if (Map.class.isAssignableFrom(parameterType)) {
 
-							Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
+							Map<? super Object, ? super Object> defaultValue = null;
+							Map<? super Object, ? super Object> mapType = resolveMapType(
+									parameterType, defaultValue);
 
 							Class<?> keyClass;
 							Class<?> valueClass;
@@ -2337,10 +2339,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = getDefaultFieldValue(pojo, attributeName);
 		}
 
-		if (null == retValue) {
-
-			retValue = resolveMapType(attributeType);
-		}
+		retValue = resolveMapType(attributeType, retValue);
 
 		try {
 
@@ -2815,26 +2814,33 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param mapType
 	 *            The attribute type implementing Map
+	 * @param defaultValue
+	 *            Default value for map
 	 * @return A default instance for each map type
 	 *
 	 */
-	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
 	private Map<? super Object, ? super Object> resolveMapType(
-			Class<?> mapType) {
+			Class<?> mapType, Map<? super Object, ? super Object> defaultValue) {
 
 		Map<? super Object, ? super Object> retValue = null;
 
-		if (SortedMap.class.isAssignableFrom(mapType)) {
-			if (mapType.isAssignableFrom(TreeMap.class)) {
-				retValue = new TreeMap();
-			}
-		} else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
-			if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
-				retValue = new ConcurrentHashMap();
-			}
+		if (null != defaultValue &&
+				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default map, which is not immutable */
+			retValue = defaultValue;
 		} else {
-			if (mapType.isAssignableFrom(HashMap.class)) {
-				retValue = new HashMap();
+			if (SortedMap.class.isAssignableFrom(mapType)) {
+				if (mapType.isAssignableFrom(TreeMap.class)) {
+					retValue = new TreeMap<Object, Object>();
+				}
+			} else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
+				if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+					retValue = new ConcurrentHashMap<Object, Object>();
+				}
+			} else {
+				if (mapType.isAssignableFrom(HashMap.class)) {
+					retValue = new HashMap<Object, Object>();
+				}
 			}
 		}
 		if (null == retValue) {
@@ -2932,7 +2938,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else if (Map.class.isAssignableFrom(parameterType)) {
 
-				Map<? super Object, ? super Object> mapType = resolveMapType(parameterType);
+				Map<? super Object, ? super Object> defaultValue = null;
+				Map<? super Object, ? super Object> mapType = resolveMapType(parameterType, defaultValue);
 
 				Type type = constructor.getGenericParameterTypes()[idx];
 
