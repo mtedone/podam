@@ -11,7 +11,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>4.7.1.RELEASE</version>
+	<version>4.7.2.RELEASE</version>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
