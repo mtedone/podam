@@ -1,10 +1,11 @@
 /**
- * 
+ *
  */
 package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.HashSet;
 import java.util.Set;
 
 import net.jcip.annotations.Immutable;
@@ -17,11 +18,11 @@ import net.jcip.annotations.Immutable;
  * will then be analysed to compose the list of setters which can be invoked to
  * create the state of a given POJO.
  * </p>
- * 
+ *
  * @author mtedone
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 @Immutable
 public class ClassInfo implements Serializable {
@@ -39,7 +40,7 @@ public class ClassInfo implements Serializable {
 
 	/**
 	 * Full constructor
-	 * 
+	 *
 	 * @param className
 	 *            The class name
 	 * @param classFields
@@ -51,20 +52,34 @@ public class ClassInfo implements Serializable {
 			Set<Method> classSetters) {
 		super();
 		this.className = className;
-		this.classFields = classFields;
-		this.classSetters = classSetters;
+		this.classFields = new HashSet<String>(classFields);
+		this.classSetters = new HashSet<Method>(classSetters);
 	}
 
 	/**
 	 * @return the classSetters
 	 */
 	public Set<Method> getClassSetters() {
-		return classSetters;
+		return new HashSet<Method>(classSetters);
+	}
+
+	/**
+	 * @return the className
+	 */
+	public Class<?> getClassName() {
+		return className;
+	}
+
+	/**
+	 * @return the classFields
+	 */
+	public Set<String> getClassFields() {
+		return new HashSet<String>(classFields);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -82,7 +97,7 @@ public class ClassInfo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
