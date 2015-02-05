@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,6 +39,9 @@ public class ClassInfo implements Serializable {
 	/** The Set of setters belonging to this class */
 	private final Set<Method> classSetters;
 
+	/** The Set of constructors for this class. */
+	private final Set<Constructor<?>> constructors;
+
 	/**
 	 * Full constructor
 	 *
@@ -47,13 +51,17 @@ public class ClassInfo implements Serializable {
 	 *            The set of fields belonging to this class
 	 * @param classSetters
 	 *            The set of setters belonging to this class
+	 *
+	 * @param constructors
+	 *            The set of constructors for this class
 	 */
 	public ClassInfo(Class<?> className, Set<String> classFields,
-			Set<Method> classSetters) {
+			Set<Method> classSetters, Set<Constructor<?>> constructors) {
 		super();
 		this.className = className;
 		this.classFields = new HashSet<String>(classFields);
 		this.classSetters = new HashSet<Method>(classSetters);
+		this.constructors = new HashSet<Constructor<?>>(constructors);
 	}
 
 	/**
@@ -64,6 +72,17 @@ public class ClassInfo implements Serializable {
 	}
 
 	/**
+	 * It returns the constructors for this class.
+	 *
+	 * @return the constructors
+	 */
+	public Set<Constructor<?>> getConstructors() {
+		return constructors;
+	}
+
+	/**
+	 * It returns the class name.
+	 *
 	 * @return the className
 	 */
 	public Class<?> getClassName() {
@@ -71,6 +90,8 @@ public class ClassInfo implements Serializable {
 	}
 
 	/**
+	 * It returns the fields for this class.
+	 *
 	 * @return the classFields
 	 */
 	public Set<String> getClassFields() {
@@ -79,7 +100,7 @@ public class ClassInfo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -97,7 +118,7 @@ public class ClassInfo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
