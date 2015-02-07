@@ -13,13 +13,13 @@ import java.util.Comparator;
  * annotation first, and then to those with less arguments.
  * </p>
  * 
- * @author tedonema
+ * @author daivanov
  *
  */
-public class ConstructorComparator implements Comparator<Constructor<?>> {
+public abstract class AbstractConstructorComparator implements Comparator<Constructor<?>> {
 
-	@Override
-	public int compare(Constructor<?> constructor1, Constructor<?> constructor2) {
+	public int compareAnnotations(Constructor<?> constructor1, Constructor<?> constructor2) {
+
 		/* Constructors with Podam annotation first */
 		boolean choose1 = constructor1.getAnnotation(PodamConstructor.class) != null;
 		boolean choose2 = constructor2.getAnnotation(PodamConstructor.class) != null;
@@ -28,10 +28,7 @@ public class ConstructorComparator implements Comparator<Constructor<?>> {
 		} else if (!choose1 && choose2) {
 			return Integer.MAX_VALUE;
 		}
-
-		/* Then constructors with less parameters */
-		return constructor1.getParameterTypes().length
-				- constructor2.getParameterTypes().length;
+		return 0;
 	}
 
 }
