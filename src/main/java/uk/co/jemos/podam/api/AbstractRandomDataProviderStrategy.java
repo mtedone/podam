@@ -13,7 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Random;
 
-import uk.co.jemos.podam.common.ConstructorComparator;
+import uk.co.jemos.podam.common.AbstractConstructorComparator;
+import uk.co.jemos.podam.common.ConstructorLightFirstComparator;
 import uk.co.jemos.podam.common.MethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 
@@ -41,9 +42,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
-
-	/** The constructor comparator */
-	private static final ConstructorComparator CONSTRUCTOR_COMPARATOR = new ConstructorComparator();
 
 	/** The constructor comparator */
 	private static final MethodComparator METHOD_COMPARATOR = new MethodComparator();
@@ -85,6 +83,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	private final Set<Class<? extends Annotation>> excludedAnnotations =
 			new HashSet<Class<? extends Annotation>>();
+
+	/** The constructor comparator */
+	private AbstractConstructorComparator constructorComparator =
+			ConstructorLightFirstComparator.INSTANCE;
 
 	// ------------------->> Instance / Static variables
 
@@ -447,7 +449,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Constructor<?>[] constructors) {
-		Arrays.sort(constructors, CONSTRUCTOR_COMPARATOR);
+		Arrays.sort(constructors, constructorComparator);
 	}
 
 	/**
@@ -544,6 +546,23 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Set<Class<? extends Annotation>> getExcludedAnnotations() {
 		return excludedAnnotations;
+	}
+
+	/**
+	 * Getter for constructor comparator
+	 * @return current constructor comparator used by strategy
+	 */
+	public AbstractConstructorComparator getConstructorComparator() {
+		return constructorComparator;
+	}
+
+	/**
+	 * Setter for constructor comparator. Default implementations are
+	 * @ConstructorHeavyFirstComparator and @ConstructorLightFirstComparator.
+	 * @param constructorComparator constructor comparator to set
+	 */
+	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
+		this.constructorComparator = constructorComparator;
 	}
 
 	// ------------------->> Private methods
