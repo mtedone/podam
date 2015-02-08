@@ -108,6 +108,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Map<Class<?>, Object> memoizationTable = new HashMap<Class<?>, Object>();
 
+	private Map<Class, DataTypeFactory> dataTypeFactoryMap = new HashMap<Class, DataTypeFactory>();
+
 	// ------------------->> Constructors
 
 	/**
@@ -1443,6 +1445,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (objectToReuse != null) {
 				return objectToReuse;
 			}
+		}
+
+		//use custom data type factories if provided
+		DataTypeFactory dataTypeFactory = dataTypeFactoryMap.get(pojoClass);
+		if (dataTypeFactory != null) {
+			return (T) dataTypeFactory.manufacture();
 		}
 
 		if (pojoClass.isPrimitive()) {
@@ -2905,7 +2913,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
 
-			if (Collection.class.isAssignableFrom(parameterType)) {
+			DataTypeFactory dataTypeFactory = dataTypeFactoryMap.get(parameterType);
+			if (dataTypeFactory != null) {
+				parameterValues[idx] = dataTypeFactory.manufacture();
+			} else if (Collection.class.isAssignableFrom(parameterType)) {
 
 				Collection<? super Object> defaultValue = null;
 				Collection<? super Object> collection = resolveCollectionType(
@@ -3084,6 +3095,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
+	}
+
+	@Override
+	public <T> PodamFactory withDataTypeFactory(Class<T> clazz, DataTypeFactory<T> dataTypeFactory) {
+		dataTypeFactoryMap.put(clazz, dataTypeFactory);
+		return this;
 	}
 
 	// ------------------->> equals() / hashcode() / toString()

@@ -77,4 +77,9 @@ public class LoggingExternalFactory implements PodamFactory {
 		return null;
 	}
 
+	@Override
+	public <T> PodamFactory withDataTypeFactory(Class<T> clazz, DataTypeFactory<T> dataTypeFactory) {
+		return null;
+	}
+
 }

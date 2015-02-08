@@ -3,9 +3,9 @@
  */
 package uk.co.jemos.podam.api;
 
-import java.lang.reflect.Type;
-
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import java.lang.reflect.Type;
 
 /**
  * Contract for PODAM factory
@@ -70,4 +70,5 @@ public interface PodamFactory {
 	 */
 	DataProviderStrategy getStrategy();
 
+	<T> PodamFactory withDataTypeFactory(Class<T> clazz, DataTypeFactory<T> dataTypeFactory);
 }

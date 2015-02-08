@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesHolderPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo;
@@ -41,6 +42,11 @@ public class MultipleInterfacesInheritanceTest {
 
 		@Override
 		public DataProviderStrategy getStrategy() {
+			return null;
+		}
+
+		@Override
+		public <T> PodamFactory withDataTypeFactory(Class<T> clazz, DataTypeFactory<T> dataTypeFactory) {
 			return null;
 		}
 	}

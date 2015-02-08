@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.DataTypeFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
@@ -52,6 +53,11 @@ public class Pdm3PojoUnitTest {
 
 		@Override
 		public DataProviderStrategy getStrategy() {
+			return null;
+		}
+
+		@Override
+		public <T> PodamFactory withDataTypeFactory(Class<T> clazz, DataTypeFactory<T> dataTypeFactory) {
 			return null;
 		}
 	}
