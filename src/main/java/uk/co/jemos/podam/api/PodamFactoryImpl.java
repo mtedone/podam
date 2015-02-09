@@ -71,8 +71,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String MAP_CREATION_EXCEPTION_STR = "An exception occurred while creating a Map object";
 
-	private static final String RAWTYPES_STR = "rawtypes";
-
 	private static final String UNCHECKED_STR = "unchecked";
 
 	private static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
@@ -1177,7 +1175,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	@SuppressWarnings({ UNCHECKED_STR, RAWTYPES_STR })
+	@SuppressWarnings({ UNCHECKED_STR })
 	private <T> T instantiatePojo(Class<T> pojoClass,
 			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
 			throws SecurityException {
@@ -1225,14 +1223,14 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 					retValue = (T) constructor.newInstance(parameterValues);
 					if (retValue instanceof Collection
-							&& ((Collection) retValue).isEmpty()) {
+							&& ((Collection<?>) retValue).isEmpty()) {
 						LOG.debug("We could create an instance with constructor: "
 								+ constructor
 								+ ", but collection is empty"
 								+ ". Will try with another one.");
 
 					} else if (retValue instanceof Map
-							&& ((Map) retValue).isEmpty()) {
+							&& ((Map<?, ?>) retValue).isEmpty()) {
 						LOG.debug("We could create an instance with constructor: "
 								+ constructor
 								+ ", but map is empty"
@@ -1567,7 +1565,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             </ul>
 	 *
 	 */
-	@SuppressWarnings(RAWTYPES_STR)
 	private Object manufactureAttributeValue(Object pojo,
 			Map<Class<?>, Integer> pojos, Class<?> attributeType,
 			List<Annotation> annotations, String attributeName,
@@ -1578,8 +1575,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> realAttributeType;
 		if (genericTypeArgs.length > 0 && genericTypeArgs[0] instanceof Class
-				&& attributeType.isAssignableFrom((Class) genericTypeArgs[0])) {
-			realAttributeType = (Class) genericTypeArgs[0];
+				&& attributeType.isAssignableFrom((Class<?>) genericTypeArgs[0])) {
+			realAttributeType = (Class<?>) genericTypeArgs[0];
 		} else {
 			realAttributeType = attributeType;
 		}
@@ -1775,7 +1772,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				// It allows to invoke Field.get on private fields
 				field.setAccessible(true);
 
-				@SuppressWarnings("unchecked")
+				@SuppressWarnings(UNCHECKED_STR)
 				T t = (T) field.get(pojo);
 				retValue = t;
 			} else {
@@ -2389,7 +2386,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Object elementValue = null;
 
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings(UNCHECKED_STR)
 			Class<? extends Map<?, ?>> mapType =
 					(Class<? extends Map<?, ?>>) mapArguments.getMapToBeFilled().getClass();
 
