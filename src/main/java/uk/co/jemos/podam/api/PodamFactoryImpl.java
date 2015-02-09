@@ -296,7 +296,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object createNewInstanceForClassWithoutConstructors(
+	private Object instantiatePojoWithoutConstructors(
 			Class<?> pojoClass, Map<Class<?>, Integer> pojos,
 			Type... genericTypeArgs) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
@@ -304,230 +304,188 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Object retValue = null;
 
-		Constructor<?>[] constructors = pojoClass.getConstructors();
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		try {
+			Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+					pojoClass, genericTypeArgs);
+			if (genericTypeArgsExtra != null) {
+				LOG.warn("Lost generic type arguments {}",
+						Arrays.toString(genericTypeArgsExtra));
+			}
+		} catch (IllegalStateException e) {
+			LOG.error(
+					"An error occurred while filling the type argument in the map",
+					e);
+			return null;
+		}
 
-		if (constructors.length == 0
-				|| Modifier.isAbstract(pojoClass.getModifiers())) {
+		// If no publicly accessible constructors are available,
+		// the best we can do is to find a constructor (e.g.
+		// getInstance())
 
-			final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-			try {
-				Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-						pojoClass, genericTypeArgs);
-				if (genericTypeArgsExtra != null) {
-					LOG.warn("Lost generic type arguments {}",
-							Arrays.toString(genericTypeArgsExtra));
-				}
-			} catch (IllegalStateException e) {
-				LOG.error(
-						"An error occurred while filling the type argument in the map",
-						e);
-				return null;
+		Method[] declaredMethods = pojoClass.getDeclaredMethods();
+		strategy.sort(declaredMethods);
+
+		// A candidate factory method is a method which returns the
+		// Class type
+
+		// The parameters to pass to the method invocation
+		Object[] parameterValues = null;
+		Object[] noParams = new Object[] {};
+
+		for (Method candidateConstructor : declaredMethods) {
+
+			if (!Modifier.isStatic(candidateConstructor.getModifiers())
+					|| !candidateConstructor.getReturnType().equals(pojoClass)
+					|| retValue != null) {
+				continue;
 			}
 
-			// If no publicly accessible constructors are available,
-			// the best we can do is to find a constructor (e.g.
-			// getInstance())
+			parameterValues = new Object[candidateConstructor
+					.getParameterTypes().length];
 
-			Method[] declaredMethods = pojoClass.getDeclaredMethods();
-			strategy.sort(declaredMethods);
+			Type[] parameterTypes = candidateConstructor
+					.getGenericParameterTypes();
 
-			// A candidate factory method is a method which returns the
-			// Class type
+			if (parameterTypes.length == 0) {
 
-			// The parameters to pass to the method invocation
-			Object[] parameterValues = null;
-			Object[] noParams = new Object[] {};
+				parameterValues = noParams;
 
-			for (Method candidateConstructor : declaredMethods) {
+			} else {
 
-				if (!Modifier.isStatic(candidateConstructor.getModifiers())
-						|| !candidateConstructor.getReturnType().equals(pojoClass)
-						|| retValue != null) {
-					continue;
-				}
+				// This is a factory method with arguments
 
-				parameterValues = new Object[candidateConstructor
-						.getParameterTypes().length];
+				Annotation[][] parameterAnnotations = candidateConstructor
+						.getParameterAnnotations();
 
-				Type[] parameterTypes = candidateConstructor
-						.getGenericParameterTypes();
+				int idx = 0;
 
-				if (parameterTypes.length == 0) {
+				for (Type paramType : parameterTypes) {
 
-					parameterValues = noParams;
+					AtomicReference<Type[]> methodGenericTypeArgs = new AtomicReference<Type[]>();
+					Class<?> parameterType = resolveGenericParameter(
+							paramType, typeArgsMap, methodGenericTypeArgs);
 
-				} else {
+					List<Annotation> annotations = Arrays
+							.asList(parameterAnnotations[idx]);
 
-					// This is a factory method with arguments
+					// It's a Collection type
+					if (Collection.class.isAssignableFrom(parameterType)) {
 
-					Annotation[][] parameterAnnotations = candidateConstructor
-							.getParameterAnnotations();
+						Collection<? super Object> defaultValue = null;
+						Collection<? super Object> listType = resolveCollectionType(
+								parameterType, defaultValue);
 
-					int idx = 0;
-
-					for (Type paramType : parameterTypes) {
-
-						AtomicReference<Type[]> methodGenericTypeArgs = new AtomicReference<Type[]>();
-						Class<?> parameterType = resolveGenericParameter(
-								paramType, typeArgsMap, methodGenericTypeArgs);
-
-						List<Annotation> annotations = Arrays
-								.asList(parameterAnnotations[idx]);
-
-						// It's a Collection type
-						if (Collection.class.isAssignableFrom(parameterType)) {
-
-							Collection<? super Object> defaultValue = null;
-							Collection<? super Object> listType = resolveCollectionType(
-									parameterType, defaultValue);
-
-							Class<?> elementType;
-							if (paramType instanceof ParameterizedType) {
-								elementType = (Class<?>) methodGenericTypeArgs
-										.get()[0];
-							} else {
-								LOG.warn("Collection parameter {} type is non-generic."
-										+ "We will assume a Collection<Object> for you.",
-										paramType);
-								elementType = Object.class;
-							}
-
-							int nbrElements = strategy
-									.getNumberOfCollectionElements(elementType);
-
-							for (Annotation annotation : annotations) {
-								if (annotation.annotationType().equals(
-										PodamCollection.class)) {
-
-									PodamCollection ann = (PodamCollection) annotation;
-
-									nbrElements = ann.nbrElements();
-
-								}
-							}
-
-							for (int i = 0; i < nbrElements; i++) {
-								Object attributeValue = manufactureParameterValue(
-										pojos, elementType, annotations);
-
-								listType.add(attributeValue);
-							}
-
-							parameterValues[idx] = listType;
-
-							// It's a Map
-						} else if (Map.class.isAssignableFrom(parameterType)) {
-
-							Map<? super Object, ? super Object> defaultValue = null;
-							Map<? super Object, ? super Object> mapType = resolveMapType(
-									parameterType, defaultValue);
-
-							Class<?> keyClass;
-							Class<?> valueClass;
-							if (paramType instanceof ParameterizedType) {
-								keyClass = (Class<?>) methodGenericTypeArgs
-										.get()[0];
-								valueClass = (Class<?>) methodGenericTypeArgs
-										.get()[1];
-							} else {
-								LOG.warn("Map parameter {} type is non-generic."
-										+ "We will assume a Map<Object,Object> for you.",
-										paramType);
-								keyClass = Object.class;
-								valueClass = Object.class;
-							}
-
-							int nbrElements = strategy
-									.getNumberOfCollectionElements(valueClass);
-
-							for (Annotation annotation : annotations) {
-								if (annotation.annotationType().equals(
-										PodamCollection.class)) {
-
-									PodamCollection ann = (PodamCollection) annotation;
-
-									nbrElements = ann.nbrElements();
-
-								}
-							}
-
-							for (int i = 0; i < nbrElements; i++) {
-								Object keyValue = manufactureParameterValue(
-										pojos, keyClass, annotations);
-
-								Object elementValue = manufactureParameterValue(
-										pojos, valueClass, annotations);
-
-								mapType.put(keyValue, elementValue);
-							}
-
-							parameterValues[idx] = mapType;
-
+						Class<?> elementType;
+						if (paramType instanceof ParameterizedType) {
+							elementType = (Class<?>) methodGenericTypeArgs
+									.get()[0];
 						} else {
-
-							// It's any other object
-							parameterValues[idx] = manufactureParameterValue(
-									pojos, parameterType, annotations,
-									genericTypeArgs);
-
+							LOG.warn("Collection parameter {} type is non-generic."
+									+ "We will assume a Collection<Object> for you.",
+									paramType);
+							elementType = Object.class;
 						}
 
-						idx++;
+						int nbrElements = strategy
+								.getNumberOfCollectionElements(elementType);
+
+						for (Annotation annotation : annotations) {
+							if (annotation.annotationType().equals(
+									PodamCollection.class)) {
+
+								PodamCollection ann = (PodamCollection) annotation;
+
+								nbrElements = ann.nbrElements();
+
+							}
+						}
+
+						for (int i = 0; i < nbrElements; i++) {
+							Object attributeValue = manufactureParameterValue(
+									pojos, elementType, annotations);
+
+							listType.add(attributeValue);
+						}
+
+						parameterValues[idx] = listType;
+
+						// It's a Map
+					} else if (Map.class.isAssignableFrom(parameterType)) {
+
+						Map<? super Object, ? super Object> defaultValue = null;
+						Map<? super Object, ? super Object> mapType = resolveMapType(
+								parameterType, defaultValue);
+
+						Class<?> keyClass;
+						Class<?> valueClass;
+						if (paramType instanceof ParameterizedType) {
+							keyClass = (Class<?>) methodGenericTypeArgs
+									.get()[0];
+							valueClass = (Class<?>) methodGenericTypeArgs
+									.get()[1];
+						} else {
+							LOG.warn("Map parameter {} type is non-generic."
+									+ "We will assume a Map<Object,Object> for you.",
+									paramType);
+							keyClass = Object.class;
+							valueClass = Object.class;
+						}
+
+						int nbrElements = strategy
+								.getNumberOfCollectionElements(valueClass);
+
+						for (Annotation annotation : annotations) {
+							if (annotation.annotationType().equals(
+									PodamCollection.class)) {
+
+								PodamCollection ann = (PodamCollection) annotation;
+
+								nbrElements = ann.nbrElements();
+
+							}
+						}
+
+						for (int i = 0; i < nbrElements; i++) {
+							Object keyValue = manufactureParameterValue(
+									pojos, keyClass, annotations);
+
+							Object elementValue = manufactureParameterValue(
+									pojos, valueClass, annotations);
+
+							mapType.put(keyValue, elementValue);
+						}
+
+						parameterValues[idx] = mapType;
+
+					} else {
+
+						// It's any other object
+						parameterValues[idx] = manufactureParameterValue(
+								pojos, parameterType, annotations,
+								genericTypeArgs);
 
 					}
 
-				}
-
-				try {
-
-					retValue = candidateConstructor.invoke(pojoClass,
-							parameterValues);
-					LOG.debug("Could create an instance using "
-							+ candidateConstructor);
-
-				} catch (Exception t) {
-
-					LOG.debug(
-							"PODAM could not create an instance for constructor: "
-									+ candidateConstructor
-									+ ". Will try another one...", t);
+					idx++;
 
 				}
 
 			}
 
-		} else {
+			try {
 
-			// There are public constructors. We want constructor with minumum
-			// number of parameters to speed up the creation
-			strategy.sort(constructors);
+				retValue = candidateConstructor.invoke(pojoClass,
+						parameterValues);
+				LOG.debug("Could create an instance using "
+						+ candidateConstructor);
 
-			for (Constructor<?> constructor : constructors) {
+			} catch (Exception t) {
 
-				try {
-
-					Object[] constructorArgs = getParameterValuesForConstructor(
-							constructor, pojoClass, pojos, genericTypeArgs);
-
-					retValue = constructor.newInstance(constructorArgs);
-
-					LOG.debug("For class: "
-							+ pojoClass.getName()
-							+ " a valid constructor: "
-							+ constructor
-							+ " was found. PODAM will use it to create an instance.");
-
-					break;
-
-				} catch (Exception t) {
-
-					LOG.info(
-							"Couldn't create attribute with constructor: "
-									+ constructor
-									+ ". Will check if other constructors are available",
-									t);
-
-				}
+				LOG.debug(
+						"PODAM could not create an instance for constructor: "
+								+ candidateConstructor
+								+ ". Will try another one...", t);
 
 			}
 
@@ -1328,10 +1286,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		T retValue = null;
 
 		Constructor<?>[] constructors = pojoClass.getConstructors();
-		if (constructors.length == 0) {
+		if (constructors.length == 0 || Modifier.isAbstract(pojoClass.getModifiers())) {
 			/* No public constructors, we will try static factory methods */
 			try {
-				retValue = (T) createNewInstanceForClassWithoutConstructors(
+				retValue = (T) instantiatePojoWithoutConstructors(
 						pojoClass, pojos, genericTypeArgs);
 			} catch (Exception e) {
 				LOG.debug("We couldn't create an instance for pojo: "
@@ -1461,10 +1419,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				return this.manufacturePojoInternal(specificClass, pojos,
 						genericTypeArgs);
 			} else {
-				if (Modifier.isAbstract(pojoClass.getModifiers())) {
-					return (T) createNewInstanceForClassWithoutConstructors(
-							pojoClass, pojos, genericTypeArgs);
-				} else {
+				if (specificClass.isInterface()) {
 					return externalFactory.manufacturePojo(pojoClass,
 							genericTypeArgs);
 				}
