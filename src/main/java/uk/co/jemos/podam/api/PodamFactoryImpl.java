@@ -38,6 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
 import uk.co.jemos.podam.common.PodamBooleanValue;
 import uk.co.jemos.podam.common.PodamByteValue;
 import uk.co.jemos.podam.common.PodamCharValue;
@@ -162,6 +163,35 @@ public class PodamFactoryImpl implements PodamFactory {
 	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass) {
 		return this.manufacturePojo(pojoClass, NO_TYPES);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> T manufacturePojoWithFullData(Class<T> pojoClass, Type... genericTypeArgs) {
+		AbstractRandomDataProviderStrategy sortingStrategy;
+		if (getStrategy() instanceof AbstractRandomDataProviderStrategy) {
+			sortingStrategy = (AbstractRandomDataProviderStrategy) getStrategy();
+		} else {
+			throw new IllegalStateException("manufacturePojoWithFullData can"
+					+ " only be used with strategies derived from"
+					+ " AbstractRandomDataProviderStrategy");
+		}
+		ConstructorAdaptiveComparator constructorComparator;
+		if (sortingStrategy.getConstructorComparator()
+				instanceof ConstructorAdaptiveComparator) {
+			constructorComparator = (ConstructorAdaptiveComparator)
+					sortingStrategy.getConstructorComparator();
+		} else {
+			throw new IllegalStateException("manufacturePojoWithFullData can"
+					+ " only be used with constructor comparators derived from"
+					+ " ConstructorAdaptiveComparator");
+		}
+		constructorComparator.addHeavyClass(pojoClass);
+		T retValue = this.manufacturePojo(pojoClass, genericTypeArgs);
+		constructorComparator.removeHeavyClass(pojoClass);
+		return retValue;
 	}
 
 	/**

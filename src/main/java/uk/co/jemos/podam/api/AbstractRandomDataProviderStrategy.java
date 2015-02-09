@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.Random;
 
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
-import uk.co.jemos.podam.common.ConstructorLightFirstComparator;
+import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
 import uk.co.jemos.podam.common.MethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 
@@ -86,7 +86,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorComparator =
-			ConstructorLightFirstComparator.INSTANCE;
+			ConstructorAdaptiveComparator.INSTANCE;
 
 	// ------------------->> Instance / Static variables
 
