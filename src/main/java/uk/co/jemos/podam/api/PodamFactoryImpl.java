@@ -305,13 +305,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object retValue = null;
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+		Type[] genericTypeArgsExtra;
 		try {
-			Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+			genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 					pojoClass, genericTypeArgs);
-			if (genericTypeArgsExtra != null) {
-				LOG.warn("Lost generic type arguments {}",
-						Arrays.toString(genericTypeArgsExtra));
-			}
 		} catch (IllegalStateException e) {
 			LOG.error(
 					"An error occurred while filling the type argument in the map",
@@ -344,8 +341,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			parameterValues = new Object[candidateConstructor
 					.getParameterTypes().length];
 
-			Type[] parameterTypes = candidateConstructor
-					.getGenericParameterTypes();
+			Class<?>[] parameterTypes = candidateConstructor.getParameterTypes();
 
 			if (parameterTypes.length == 0) {
 
@@ -360,112 +356,15 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				int idx = 0;
 
-				for (Type paramType : parameterTypes) {
-
-					AtomicReference<Type[]> methodGenericTypeArgs = new AtomicReference<Type[]>();
-					Class<?> parameterType = resolveGenericParameter(
-							paramType, typeArgsMap, methodGenericTypeArgs);
+				for (Class<?> parameterType : parameterTypes) {
 
 					List<Annotation> annotations = Arrays
 							.asList(parameterAnnotations[idx]);
+					Type genericType = candidateConstructor.getGenericParameterTypes()[idx];
 
-					// It's a Collection type
-					if (Collection.class.isAssignableFrom(parameterType)) {
-
-						Collection<? super Object> defaultValue = null;
-						Collection<? super Object> listType = resolveCollectionType(
-								parameterType, defaultValue);
-
-						Class<?> elementType;
-						if (paramType instanceof ParameterizedType) {
-							elementType = (Class<?>) methodGenericTypeArgs
-									.get()[0];
-						} else {
-							LOG.warn("Collection parameter {} type is non-generic."
-									+ "We will assume a Collection<Object> for you.",
-									paramType);
-							elementType = Object.class;
-						}
-
-						int nbrElements = strategy
-								.getNumberOfCollectionElements(elementType);
-
-						for (Annotation annotation : annotations) {
-							if (annotation.annotationType().equals(
-									PodamCollection.class)) {
-
-								PodamCollection ann = (PodamCollection) annotation;
-
-								nbrElements = ann.nbrElements();
-
-							}
-						}
-
-						for (int i = 0; i < nbrElements; i++) {
-							Object attributeValue = manufactureParameterValue(
-									pojos, elementType, annotations);
-
-							listType.add(attributeValue);
-						}
-
-						parameterValues[idx] = listType;
-
-						// It's a Map
-					} else if (Map.class.isAssignableFrom(parameterType)) {
-
-						Map<? super Object, ? super Object> defaultValue = null;
-						Map<? super Object, ? super Object> mapType = resolveMapType(
-								parameterType, defaultValue);
-
-						Class<?> keyClass;
-						Class<?> valueClass;
-						if (paramType instanceof ParameterizedType) {
-							keyClass = (Class<?>) methodGenericTypeArgs
-									.get()[0];
-							valueClass = (Class<?>) methodGenericTypeArgs
-									.get()[1];
-						} else {
-							LOG.warn("Map parameter {} type is non-generic."
-									+ "We will assume a Map<Object,Object> for you.",
-									paramType);
-							keyClass = Object.class;
-							valueClass = Object.class;
-						}
-
-						int nbrElements = strategy
-								.getNumberOfCollectionElements(valueClass);
-
-						for (Annotation annotation : annotations) {
-							if (annotation.annotationType().equals(
-									PodamCollection.class)) {
-
-								PodamCollection ann = (PodamCollection) annotation;
-
-								nbrElements = ann.nbrElements();
-
-							}
-						}
-
-						for (int i = 0; i < nbrElements; i++) {
-							Object keyValue = manufactureParameterValue(
-									pojos, keyClass, annotations);
-
-							Object elementValue = manufactureParameterValue(
-									pojos, valueClass, annotations);
-
-							mapType.put(keyValue, elementValue);
-						}
-
-						parameterValues[idx] = mapType;
-
-					} else {
-
-						// It's any other object
-						parameterValues[idx] = manufactureParameterValue(
-								pojos, parameterType, annotations,
-								genericTypeArgs);
-
-					}
+					parameterValues[idx] = manufactureParameterValue(parameterType,
+							genericType, annotations, typeArgsMap, genericTypeArgsExtra,
+							pojos, genericTypeArgs);
 
 					idx++;
 
@@ -2841,108 +2740,25 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Type[] genericTypeArgsExtra = null;
-
-		genericTypeArgsExtra = fillTypeArgMap(typeArgsMap, pojoClass,
+		final Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap, pojoClass,
 				genericTypeArgs);
 
 		Annotation[][] parameterAnnotations = constructor
 				.getParameterAnnotations();
 
-		Object[] parameterValues = new Object[constructor.getParameterTypes().length];
-
-		// Found a constructor with @PodamConstructor annotation
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
+		Object[] parameterValues = new Object[parameterTypes.length];
 
 		int idx = 0;
 		for (Class<?> parameterType : parameterTypes) {
 
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
+			Type genericType = constructor.getGenericParameterTypes()[idx];
 
-			if (Collection.class.isAssignableFrom(parameterType)) {
-
-				Collection<? super Object> defaultValue = null;
-				Collection<? super Object> collection = resolveCollectionType(
-						parameterType, defaultValue);
-
-				Type type = constructor.getGenericParameterTypes()[idx];
-				Class<?> collectionElementType;
-				AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
-				if (type instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) type;
-					Type actualTypeArgument = pType.getActualTypeArguments()[0];
-
-					collectionElementType = resolveGenericParameter(
-							actualTypeArgument, typeArgsMap,
-							collectionGenericTypeArgs);
-				} else {
-					LOG.warn("Collection parameter {} type is non-generic."
-							+ "We will assume a Collection<Object> for you.",
-							type);
-					collectionElementType = Object.class;
-				}
-
-				Type[] genericTypeArgsAll = mergeTypeArrays(
-						collectionGenericTypeArgs.get(), genericTypeArgsExtra);
-				fillCollection(pojos, annotations,
-						collection, collectionElementType, genericTypeArgsAll);
-
-				parameterValues[idx] = collection;
-
-			} else if (Map.class.isAssignableFrom(parameterType)) {
-
-				Map<? super Object, ? super Object> defaultValue = null;
-				Map<? super Object, ? super Object> mapType = resolveMapType(parameterType, defaultValue);
-
-				Type type = constructor.getGenericParameterTypes()[idx];
-
-				Class<?> keyClass;
-				Class<?> elementClass;
-				AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
-				AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
-				if (type instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) type;
-					Type[] actualTypeArguments = pType.getActualTypeArguments();
-
-					keyClass = resolveGenericParameter(actualTypeArguments[0],
-							typeArgsMap, keyGenericTypeArgs);
-					elementClass = resolveGenericParameter(
-							actualTypeArguments[1], typeArgsMap,
-							elementGenericTypeArgs);
-				} else {
-					LOG.warn("Map parameter {} type is non-generic."
-							+ "We will assume a Map<Object,Object> for you.",
-							type);
-					keyClass = Object.class;
-					elementClass = Object.class;
-				}
-
-				Type[] genericTypeArgsAll = mergeTypeArrays(
-						elementGenericTypeArgs.get(), genericTypeArgsExtra);
-
-				MapArguments mapArguments = new MapArguments();
-				mapArguments.setPojos(pojos);
-				mapArguments.setAnnotations(annotations);
-				mapArguments.setMapToBeFilled(mapType);
-				mapArguments.setKeyClass(keyClass);
-				mapArguments.setElementClass(elementClass);
-				mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
-				mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
-
-				fillMap(mapArguments);
-
-				parameterValues[idx] = mapType;
-
-			} else {
-
-				parameterValues[idx] = manufactureParameterValue(pojos,
-						parameterType, annotations, genericTypeArgs);
-
-			}
+			parameterValues[idx] = manufactureParameterValue(parameterType,
+					genericType, annotations, typeArgsMap, genericTypeArgsExtra,
+					pojos, genericTypeArgs);
 
 			idx++;
 
@@ -2950,6 +2766,127 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return parameterValues;
 
+	}
+
+	/**
+	 * Manufactures and returns the parameter value for method required to
+	 * invoke it
+	 *
+	 * @param parameterType type of parameter
+	 * @param genericType generic type of parameter
+	 * @param annotations parameter annotations
+	 * @param typeArgsMap map for resolving generic types
+	 * @param genericTypeArgsExtra extra generic types for chaining
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 *
+	 * @return The parameter values required to invoke the constructor
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object manufactureParameterValue(Class<?> parameterType,
+			Type genericType, List<Annotation> annotations,
+			final Map<String, Type> typeArgsMap, final Type[] genericTypeArgsExtra,
+			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		Object parameterValue = null;
+
+		if (Collection.class.isAssignableFrom(parameterType)) {
+
+			Collection<? super Object> defaultValue = null;
+			Collection<? super Object> collection = resolveCollectionType(
+					parameterType, defaultValue);
+
+			Class<?> collectionElementType;
+			AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
+					new Type[] {});
+			if (genericType instanceof ParameterizedType) {
+				ParameterizedType pType = (ParameterizedType) genericType;
+				Type actualTypeArgument = pType.getActualTypeArguments()[0];
+
+				collectionElementType = resolveGenericParameter(
+						actualTypeArgument, typeArgsMap,
+						collectionGenericTypeArgs);
+			} else {
+				LOG.warn("Collection parameter {} type is non-generic."
+						+ "We will assume a Collection<Object> for you.",
+						genericType);
+				collectionElementType = Object.class;
+			}
+
+			Type[] genericTypeArgsAll = mergeTypeArrays(
+					collectionGenericTypeArgs.get(), genericTypeArgsExtra);
+			fillCollection(pojos, annotations,
+					collection, collectionElementType, genericTypeArgsAll);
+
+			parameterValue = collection;
+
+		} else if (Map.class.isAssignableFrom(parameterType)) {
+
+			Map<? super Object, ? super Object> defaultValue = null;
+			Map<? super Object, ? super Object> mapType = resolveMapType(parameterType, defaultValue);
+
+			Class<?> keyClass;
+			Class<?> elementClass;
+			AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
+					new Type[] {});
+			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
+					new Type[] {});
+			if (genericType instanceof ParameterizedType) {
+				ParameterizedType pType = (ParameterizedType) genericType;
+				Type[] actualTypeArguments = pType.getActualTypeArguments();
+
+				keyClass = resolveGenericParameter(actualTypeArguments[0],
+						typeArgsMap, keyGenericTypeArgs);
+				elementClass = resolveGenericParameter(
+						actualTypeArguments[1], typeArgsMap,
+						elementGenericTypeArgs);
+			} else {
+				LOG.warn("Map parameter {} type is non-generic."
+						+ "We will assume a Map<Object,Object> for you.",
+						genericType);
+				keyClass = Object.class;
+				elementClass = Object.class;
+			}
+
+			Type[] genericTypeArgsAll = mergeTypeArrays(
+					elementGenericTypeArgs.get(), genericTypeArgsExtra);
+
+			MapArguments mapArguments = new MapArguments();
+			mapArguments.setPojos(pojos);
+			mapArguments.setAnnotations(annotations);
+			mapArguments.setMapToBeFilled(mapType);
+			mapArguments.setKeyClass(keyClass);
+			mapArguments.setElementClass(elementClass);
+			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
+			mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
+
+			fillMap(mapArguments);
+
+			parameterValue = mapType;
+
+		} else {
+
+			parameterValue = manufactureParameterValue(pojos,
+					parameterType, annotations, genericTypeArgs);
+
+		}
+
+		return parameterValue;
 	}
 
 	/**
