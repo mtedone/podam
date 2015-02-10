@@ -9,6 +9,7 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo;
+import uk.co.jemos.podam.test.dto.UnsupportedCollectionInConstructorPojo;
 
 /**
  * @author daivanov
@@ -37,5 +38,19 @@ public class DifferentObjectsTest {
 		Assert.assertEquals("Map is not filled",
 				strategy.getNumberOfCollectionElements(model.getMap().getClass()),
 				model.getMap().size());
+	}
+
+	@Test
+	public void testUnsupportedCollectionInConstructorPojoInstantiation() {
+		UnsupportedCollectionInConstructorPojo<?> pojo =
+				factory.manufacturePojo(UnsupportedCollectionInConstructorPojo.class,
+						String.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertNotNull("Collection manufacturing failed", pojo.getVector());
+		Assert.assertFalse("Collection is empty", pojo.getVector().isEmpty());
+		for (Object element : pojo.getVector()) {
+			Assert.assertEquals("Wrong collection element",
+					String.class, element.getClass());
+		}
 	}
 }
