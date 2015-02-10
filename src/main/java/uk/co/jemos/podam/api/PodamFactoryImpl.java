@@ -1611,14 +1611,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			// the Object class)
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
-			try {
-				attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-						pojo, pojos, realAttributeType, attributeName,
-						annotations, typeArgsMap, genericTypeArgs);
-			} catch(IllegalArgumentException e) {
-				LOG.info("Cannot manufacture list {}, will try strategy",
-						realAttributeType);
-			}
+			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
+					pojo, pojos, realAttributeType, attributeName,
+					annotations, typeArgsMap, genericTypeArgs);
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
@@ -1950,6 +1945,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		retValue = resolveCollectionType(collectionType, retValue);
+
+		if (null == retValue) {
+			return null;
+		}
 
 		try {
 
@@ -2608,7 +2607,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The collection type *
 	 * @param defaultValue
 	 *            Default value for the collection, can be null
-	 * @return an instance of the collection type
+	 * @return an instance of the collection type or null
 	 */
 	private Collection<? super Object> resolveCollectionType(
 			Class<?> collectionType, Collection<? super Object> defaultValue) {
@@ -2639,10 +2638,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (null != retValue && null != defaultValue) {
 				retValue.addAll(defaultValue);
 			}
-		}
-		if (null == retValue) {
-			throw new IllegalArgumentException("Collection type: "
-					+ collectionType + " not supported");
 		}
 		return retValue;
 	}
@@ -2808,29 +2803,31 @@ public class PodamFactoryImpl implements PodamFactory {
 			Collection<? super Object> collection = resolveCollectionType(
 					parameterType, defaultValue);
 
-			Class<?> collectionElementType;
-			AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
-			if (genericType instanceof ParameterizedType) {
-				ParameterizedType pType = (ParameterizedType) genericType;
-				Type actualTypeArgument = pType.getActualTypeArguments()[0];
+			if (collection != null) {
+				Class<?> collectionElementType;
+				AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				if (genericType instanceof ParameterizedType) {
+					ParameterizedType pType = (ParameterizedType) genericType;
+					Type actualTypeArgument = pType.getActualTypeArguments()[0];
 
-				collectionElementType = resolveGenericParameter(
-						actualTypeArgument, typeArgsMap,
-						collectionGenericTypeArgs);
-			} else {
-				LOG.warn("Collection parameter {} type is non-generic."
-						+ "We will assume a Collection<Object> for you.",
-						genericType);
-				collectionElementType = Object.class;
+					collectionElementType = resolveGenericParameter(
+							actualTypeArgument, typeArgsMap,
+							collectionGenericTypeArgs);
+				} else {
+					LOG.warn("Collection parameter {} type is non-generic."
+							+ "We will assume a Collection<Object> for you.",
+							genericType);
+					collectionElementType = Object.class;
+				}
+
+				Type[] genericTypeArgsAll = mergeTypeArrays(
+						collectionGenericTypeArgs.get(), genericTypeArgsExtra);
+				fillCollection(pojos, annotations,
+						collection, collectionElementType, genericTypeArgsAll);
+
+				parameterValue = collection;
 			}
-
-			Type[] genericTypeArgsAll = mergeTypeArrays(
-					collectionGenericTypeArgs.get(), genericTypeArgsExtra);
-			fillCollection(pojos, annotations,
-					collection, collectionElementType, genericTypeArgsAll);
-
-			parameterValue = collection;
 
 		} else if (Map.class.isAssignableFrom(parameterType)) {
 
@@ -2876,11 +2873,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			parameterValue = mapType;
 
-		} else {
+		}
+
+		if (parameterValue == null) { 
 
 			parameterValue = manufactureParameterValue(pojos,
 					parameterType, annotations, genericTypeArgs);
-
 		}
 
 		return parameterValue;
