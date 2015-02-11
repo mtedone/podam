@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -217,21 +218,30 @@ public class PodamFactoryImpl implements PodamFactory {
 	private Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
 			final Class<?> pojoClass, final Type[] genericTypeArgs) {
 
-		final TypeVariable<?>[] typeParameters = pojoClass.getTypeParameters();
-		if (typeParameters.length > genericTypeArgs.length) {
+		TypeVariable<?>[] array = pojoClass.getTypeParameters();
+		List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(array));
+		Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
+		/* Removing types, which are already in typeArgsMap */
+		while (iterator.hasNext()) {
+			if (typeArgsMap.containsKey(iterator.next().getName())) {
+				iterator.remove();
+			}
+		}
+
+		if (typeParameters.size() > genericTypeArgs.length) {
 			String msg = pojoClass.getCanonicalName()
 					+ " is missing generic type arguments, expected "
-					+ typeParameters.length + " found "
+					+ typeParameters + " found "
 					+ Arrays.toString(genericTypeArgs);
 			throw new IllegalStateException(msg);
 		}
 
 		int i;
-		for (i = 0; i < typeParameters.length; i++) {
-			typeArgsMap.put(typeParameters[i].getName(), genericTypeArgs[i]);
+		for (i = 0; i < typeParameters.size(); i++) {
+			typeArgsMap.put(typeParameters.get(i).getName(), genericTypeArgs[i]);
 		}
 		Type[] genericTypeArgsExtra;
-		if (typeParameters.length < genericTypeArgs.length) {
+		if (typeParameters.size() < genericTypeArgs.length) {
 			genericTypeArgsExtra = Arrays.copyOfRange(genericTypeArgs, i,
 					genericTypeArgs.length);
 		} else {
