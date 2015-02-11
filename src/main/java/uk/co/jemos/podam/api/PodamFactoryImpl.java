@@ -1617,14 +1617,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
-			try {
-				attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
-						pojos, realAttributeType, attributeName, annotations,
-						typeArgsMap, genericTypeArgs);
-			} catch(IllegalArgumentException e) {
-				LOG.info("Cannot manufacture map {}, will try strategy",
-						realAttributeType);
-			}
+			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
+					pojos, realAttributeType, attributeName, annotations,
+					typeArgsMap, genericTypeArgs);
 
 		} else if (realAttributeType.isEnum()) {
 
@@ -2191,6 +2186,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		retValue = resolveMapType(attributeType, retValue);
 
+		if (null == retValue) {
+			return null;
+		}
+
 		try {
 
 			Class<?> keyClass = null;
@@ -2662,7 +2661,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The attribute type implementing Map
 	 * @param defaultValue
 	 *            Default value for map
-	 * @return A default instance for each map type
+	 * @return A default instance for each map type or null
 	 *
 	 */
 	private Map<? super Object, ? super Object> resolveMapType(
@@ -2688,10 +2687,6 @@ public class PodamFactoryImpl implements PodamFactory {
 					retValue = new HashMap<Object, Object>();
 				}
 			}
-		}
-		if (null == retValue) {
-			throw new IllegalArgumentException("Map type: "
-					+ mapType + " not supported");
 		}
 
 		return retValue;
@@ -2832,47 +2827,48 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Map.class.isAssignableFrom(parameterType)) {
 
 			Map<? super Object, ? super Object> defaultValue = null;
-			Map<? super Object, ? super Object> mapType = resolveMapType(parameterType, defaultValue);
+			Map<? super Object, ? super Object> map = resolveMapType(parameterType, defaultValue);
 
-			Class<?> keyClass;
-			Class<?> elementClass;
-			AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
-			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
-			if (genericType instanceof ParameterizedType) {
-				ParameterizedType pType = (ParameterizedType) genericType;
-				Type[] actualTypeArguments = pType.getActualTypeArguments();
+			if (map != null) {
+				Class<?> keyClass;
+				Class<?> elementClass;
+				AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
+						new Type[] {});
+				if (genericType instanceof ParameterizedType) {
+					ParameterizedType pType = (ParameterizedType) genericType;
+					Type[] actualTypeArguments = pType.getActualTypeArguments();
 
-				keyClass = resolveGenericParameter(actualTypeArguments[0],
-						typeArgsMap, keyGenericTypeArgs);
-				elementClass = resolveGenericParameter(
-						actualTypeArguments[1], typeArgsMap,
-						elementGenericTypeArgs);
-			} else {
-				LOG.warn("Map parameter {} type is non-generic."
-						+ "We will assume a Map<Object,Object> for you.",
-						genericType);
-				keyClass = Object.class;
-				elementClass = Object.class;
+					keyClass = resolveGenericParameter(actualTypeArguments[0],
+							typeArgsMap, keyGenericTypeArgs);
+					elementClass = resolveGenericParameter(
+							actualTypeArguments[1], typeArgsMap,
+							elementGenericTypeArgs);
+				} else {
+					LOG.warn("Map parameter {} type is non-generic."
+							+ "We will assume a Map<Object,Object> for you.",
+							genericType);
+					keyClass = Object.class;
+					elementClass = Object.class;
+				}
+
+				Type[] genericTypeArgsAll = mergeTypeArrays(
+						elementGenericTypeArgs.get(), genericTypeArgsExtra);
+
+				MapArguments mapArguments = new MapArguments();
+				mapArguments.setPojos(pojos);
+				mapArguments.setAnnotations(annotations);
+				mapArguments.setMapToBeFilled(map);
+				mapArguments.setKeyClass(keyClass);
+				mapArguments.setElementClass(elementClass);
+				mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
+				mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
+
+				fillMap(mapArguments);
+
+				parameterValue = map;
 			}
-
-			Type[] genericTypeArgsAll = mergeTypeArrays(
-					elementGenericTypeArgs.get(), genericTypeArgsExtra);
-
-			MapArguments mapArguments = new MapArguments();
-			mapArguments.setPojos(pojos);
-			mapArguments.setAnnotations(annotations);
-			mapArguments.setMapToBeFilled(mapType);
-			mapArguments.setKeyClass(keyClass);
-			mapArguments.setElementClass(elementClass);
-			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
-			mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
-
-			fillMap(mapArguments);
-
-			parameterValue = mapType;
-
 		}
 
 		if (parameterValue == null) { 

@@ -66,9 +66,9 @@ public class DifferentObjectsTest {
 		Assert.assertFalse("Map is empty", pojo.getHashTable().isEmpty());
 		for (Map.Entry<?,?> entry : pojo.getHashTable().entrySet()) {
 			Assert.assertEquals("Wrong key element",
-					String.class, entry.getKey());
+					String.class, entry.getKey().getClass());
 			Assert.assertEquals("Wrong value element",
-					String.class, entry.getValue());
+					Integer.class, entry.getValue().getClass());
 		}
 	}
 }
