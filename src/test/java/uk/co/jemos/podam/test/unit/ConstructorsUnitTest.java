@@ -6,6 +6,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.GenericInConstructorPojo;
+import uk.co.jemos.podam.test.dto.GenericInSetterPojo;
 
 /**
  * @author daivanov
@@ -19,6 +20,18 @@ public class ConstructorsUnitTest {
 	public void testGenericInConstructorPojoInstantiation() {
 		GenericInConstructorPojo pojo
 				= factory.manufacturePojo(GenericInConstructorPojo.class);
+		Assert.assertNotNull("Instantiation failed", pojo);
+		Assert.assertNotNull("Field instantiation failed", pojo.getVector());
+		for (Object element : pojo.getVector()) {
+			Assert.assertEquals("Wrong collection element type",
+					String.class, element.getClass());
+		}
+	}
+
+	@Test
+	public void testGenericInSetterPojoInstantiation() {
+		GenericInSetterPojo pojo
+				= factory.manufacturePojo(GenericInSetterPojo.class);
 		Assert.assertNotNull("Instantiation failed", pojo);
 		Assert.assertNotNull("Field instantiation failed", pojo.getVector());
 		for (Object element : pojo.getVector()) {
