@@ -10,6 +10,8 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo;
+import uk.co.jemos.podam.test.dto.ImmutableHashtable;
+import uk.co.jemos.podam.test.dto.ImmutableVector;
 import uk.co.jemos.podam.test.dto.UnsupportedCollectionInConstructorPojo;
 import uk.co.jemos.podam.test.dto.UnsupportedMapInConstructorPojo;
 
@@ -70,5 +72,22 @@ public class DifferentObjectsTest {
 			Assert.assertEquals("Wrong value element",
 					Integer.class, entry.getValue().getClass());
 		}
+	}
+
+	@Test
+	public void testImmutableCollectionInstantiation() {
+		ImmutableVector<?> pojo =
+				factory.manufacturePojo(ImmutableVector.class, String.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertTrue("Immutable collection cannot be filled", pojo.isEmpty());
+	}
+
+	@Test
+	public void testImmutableMapInstantiation() {
+		ImmutableHashtable<?,?> pojo =
+				factory.manufacturePojo(ImmutableHashtable.class,
+						String.class, Integer.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertTrue("Immutable map cannot be filled", pojo.isEmpty());
 	}
 }
