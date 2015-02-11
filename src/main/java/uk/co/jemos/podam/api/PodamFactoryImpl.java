@@ -1488,6 +1488,9 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            manufactured
 	 * @param annotations
 	 *            The annotations for the attribute being considered
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            example) with their actual types
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
@@ -1513,15 +1516,14 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object manufactureParameterValue(Map<Class<?>, Integer> pojos,
 			Class<?> parameterType, List<Annotation> annotations,
-			Type... genericTypeArgs) throws InstantiationException,
-			IllegalAccessException, InvocationTargetException,
-			ClassNotFoundException {
+			Map<String, Type> typeArgsMap, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
 
-		Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 		String attributeName = null;
 
 		return manufactureAttributeValue(Object.class, pojos, parameterType,
-				annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
+				annotations, attributeName, typeArgsMap, genericTypeArgs);
 	}
 
 	/**
@@ -2135,8 +2137,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					element = returnAttributeDataStrategyValue(
 							collectionElementType, elementStrategy);
 				} else {
+					Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 					element = manufactureParameterValue(pojos,
-							collectionElementType, annotations, genericTypeArgs);
+							collectionElementType, annotations, nullTypeArgsMap,
+							genericTypeArgs);
 				}
 				collection.add(element);
 			}
@@ -2474,10 +2478,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
+			Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 			retValue = manufactureParameterValue(
 					keyOrElementsArguments.getPojos(),
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getAnnotations(),
+					nullTypeArgsMap,
 					keyOrElementsArguments.getGenericTypeArgs());
 		}
 		return retValue;
@@ -2880,10 +2886,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		if (parameterValue == null) { 
+		if (parameterValue == null) {
 
-			parameterValue = manufactureParameterValue(pojos,
-					parameterType, annotations, genericTypeArgs);
+			parameterValue = manufactureParameterValue(pojos, parameterType,
+					annotations, typeArgsMap, genericTypeArgs);
 		}
 
 		return parameterValue;
