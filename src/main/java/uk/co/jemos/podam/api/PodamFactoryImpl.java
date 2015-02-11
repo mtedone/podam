@@ -2111,33 +2111,38 @@ public class PodamFactoryImpl implements PodamFactory {
 						.getNumberOfCollectionElements(collectionElementType);
 		}
 
-		if (collection.size() > nbrElements) {
+		try {
+			if (collection.size() > nbrElements) {
 
-			collection.clear();
-		}
-		
-		for (int i = collection.size(); i < nbrElements; i++) {
-
-			// The default
-			Object element;
-			if (null != elementStrategy
-					&& ObjectStrategy.class.isAssignableFrom(elementStrategy
-							.getClass())
-					&& Object.class.equals(collectionElementType)) {
-				LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
-				element = elementStrategy.getValue();
-			} else if (null != elementStrategy
-					&& !ObjectStrategy.class.isAssignableFrom(elementStrategy
-							.getClass())) {
-				LOG.debug("Collection elements will be filled using the following strategy: "
-						+ elementStrategy);
-				element = returnAttributeDataStrategyValue(
-						collectionElementType, elementStrategy);
-			} else {
-				element = manufactureParameterValue(pojos,
-						collectionElementType, annotations, genericTypeArgs);
+				collection.clear();
 			}
-			collection.add(element);
+
+			for (int i = collection.size(); i < nbrElements; i++) {
+
+				// The default
+				Object element;
+				if (null != elementStrategy
+						&& ObjectStrategy.class.isAssignableFrom(elementStrategy
+								.getClass())
+								&& Object.class.equals(collectionElementType)) {
+					LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
+					element = elementStrategy.getValue();
+				} else if (null != elementStrategy
+						&& !ObjectStrategy.class.isAssignableFrom(elementStrategy
+								.getClass())) {
+					LOG.debug("Collection elements will be filled using the following strategy: "
+							+ elementStrategy);
+					element = returnAttributeDataStrategyValue(
+							collectionElementType, elementStrategy);
+				} else {
+					element = manufactureParameterValue(pojos,
+							collectionElementType, annotations, genericTypeArgs);
+				}
+				collection.add(element);
+			}
+		} catch (UnsupportedOperationException e) {
+
+			LOG.warn("Cannot fill immutable collection {}", collection.getClass());
 		}
 	}
 
@@ -2355,7 +2360,6 @@ public class PodamFactoryImpl implements PodamFactory {
 				collectionAnnotation = (PodamCollection) annotation;
 				break;
 			}
-
 		}
 
 		int nbrElements;
@@ -2373,47 +2377,52 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		Map<? super Object, ? super Object> map = mapArguments.getMapToBeFilled();
-		if (map.size() > nbrElements) {
+		try {
+			if (map.size() > nbrElements) {
 
-			map.clear();
-		}
-
-		for (int i = map.size(); i < nbrElements; i++) {
-
-			Object keyValue = null;
-
-			Object elementValue = null;
-
-			@SuppressWarnings(UNCHECKED_STR)
-			Class<? extends Map<?, ?>> mapType =
-					(Class<? extends Map<?, ?>>) mapArguments.getMapToBeFilled().getClass();
-
-			MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
-			valueArguments.setPojoClass(mapType);
-			valueArguments.setPojos(mapArguments.getPojos());
-			valueArguments.setAnnotations(mapArguments.getAnnotations());
-			valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
-			valueArguments.setElementStrategy(keyStrategy);
-			valueArguments.setGenericTypeArgs(mapArguments
-					.getKeyGenericTypeArgs());
-
-			keyValue = getMapKeyOrElementValue(valueArguments);
-
-			valueArguments = new MapKeyOrElementsArguments();
-			valueArguments.setPojoClass(mapType);
-			valueArguments.setPojos(mapArguments.getPojos());
-			valueArguments.setAnnotations(mapArguments.getAnnotations());
-			valueArguments.setKeyOrValueType(mapArguments.getElementClass());
-			valueArguments.setElementStrategy(elementStrategy);
-			valueArguments.setGenericTypeArgs(mapArguments
-					.getElementGenericTypeArgs());
-
-			elementValue = getMapKeyOrElementValue(valueArguments);
-
-			/* ConcurrentHashMap doesn't allow null values */
-			if (elementValue != null || !(map instanceof ConcurrentHashMap)) {
-				map.put(keyValue, elementValue);
+				map.clear();
 			}
+
+			for (int i = map.size(); i < nbrElements; i++) {
+
+				Object keyValue = null;
+
+				Object elementValue = null;
+
+				@SuppressWarnings(UNCHECKED_STR)
+				Class<? extends Map<?, ?>> mapType =
+						(Class<? extends Map<?, ?>>) mapArguments.getMapToBeFilled().getClass();
+
+				MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
+				valueArguments.setPojoClass(mapType);
+				valueArguments.setPojos(mapArguments.getPojos());
+				valueArguments.setAnnotations(mapArguments.getAnnotations());
+				valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
+				valueArguments.setElementStrategy(keyStrategy);
+				valueArguments.setGenericTypeArgs(mapArguments
+						.getKeyGenericTypeArgs());
+
+				keyValue = getMapKeyOrElementValue(valueArguments);
+
+				valueArguments = new MapKeyOrElementsArguments();
+				valueArguments.setPojoClass(mapType);
+				valueArguments.setPojos(mapArguments.getPojos());
+				valueArguments.setAnnotations(mapArguments.getAnnotations());
+				valueArguments.setKeyOrValueType(mapArguments.getElementClass());
+				valueArguments.setElementStrategy(elementStrategy);
+				valueArguments.setGenericTypeArgs(mapArguments
+						.getElementGenericTypeArgs());
+
+				elementValue = getMapKeyOrElementValue(valueArguments);
+
+				/* ConcurrentHashMap doesn't allow null values */
+				if (elementValue != null || !(map instanceof ConcurrentHashMap)) {
+					map.put(keyValue, elementValue);
+				}
+			}
+		} catch (UnsupportedOperationException e) {
+
+			LOG.warn("Cannot fill immutable map {}", map.getClass());
 		}
 	}
 
