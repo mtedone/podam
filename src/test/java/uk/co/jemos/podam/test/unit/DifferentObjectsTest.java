@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.test.unit;
 
 import java.util.Observable;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo;
 import uk.co.jemos.podam.test.dto.UnsupportedCollectionInConstructorPojo;
+import uk.co.jemos.podam.test.dto.UnsupportedMapInConstructorPojo;
 
 /**
  * @author daivanov
@@ -51,6 +53,22 @@ public class DifferentObjectsTest {
 		for (Object element : pojo.getVector()) {
 			Assert.assertEquals("Wrong collection element",
 					String.class, element.getClass());
+		}
+	}
+
+	@Test
+	public void testUnsupportedMapInConstructorPojoInstantiation() {
+		UnsupportedMapInConstructorPojo<?,?> pojo =
+				factory.manufacturePojo(UnsupportedMapInConstructorPojo.class,
+						String.class, Integer.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertNotNull("Map manufacturing failed", pojo.getHashTable());
+		Assert.assertFalse("Map is empty", pojo.getHashTable().isEmpty());
+		for (Map.Entry<?,?> entry : pojo.getHashTable().entrySet()) {
+			Assert.assertEquals("Wrong key element",
+					String.class, entry.getKey());
+			Assert.assertEquals("Wrong value element",
+					String.class, entry.getValue());
 		}
 	}
 }
