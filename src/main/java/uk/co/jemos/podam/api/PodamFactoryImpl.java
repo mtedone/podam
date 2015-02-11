@@ -2888,8 +2888,27 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (parameterValue == null) {
 
+			Map<String, Type> typeArgsMapForParam;
+			if (genericType instanceof ParameterizedType) {
+				typeArgsMapForParam = new HashMap<String, Type>(typeArgsMap);
+				ParameterizedType parametrizedType =
+						(ParameterizedType) genericType;
+
+				TypeVariable<?>[] argumentTypes = parameterType.getTypeParameters();
+				Type[] argumentGenericTypes = parametrizedType.getActualTypeArguments();
+
+				for (int k = 0; k < argumentTypes.length; k++) {
+					if (argumentGenericTypes[k] instanceof Class) {
+						Class<?> genericParam = (Class<?>) argumentGenericTypes[k];
+						typeArgsMapForParam.put(argumentTypes[k].getName(), genericParam);
+					}
+				}
+			} else {
+				typeArgsMapForParam = typeArgsMap;
+			}
+
 			parameterValue = manufactureParameterValue(pojos, parameterType,
-					annotations, typeArgsMap, genericTypeArgs);
+					annotations, typeArgsMapForParam, genericTypeArgs);
 		}
 
 		return parameterValue;
