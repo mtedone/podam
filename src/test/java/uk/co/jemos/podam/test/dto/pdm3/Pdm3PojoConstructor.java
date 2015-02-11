@@ -6,7 +6,7 @@ package uk.co.jemos.podam.test.dto.pdm3;
  * @author daivanov
  * 
  */
-public class Pdm3PojoConstructor<T extends String> {
+public class Pdm3PojoConstructor<T extends RuntimeException> {
 
 	private T name;
 

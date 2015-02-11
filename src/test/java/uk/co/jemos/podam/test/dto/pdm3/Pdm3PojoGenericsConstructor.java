@@ -10,8 +10,10 @@ import java.util.List;
  */
 public class Pdm3PojoGenericsConstructor {
 
-	public Pdm3PojoGenericsConstructor(List<?> something, List<? extends Object> descendants,
-		List<? super String> ancestors) {
+	public Pdm3PojoGenericsConstructor(
+			List<?> something,
+			List<? extends RuntimeException> descendants,
+			List<? super NullPointerException> ancestors) {
 		this.something = something;
 		this.descendants = descendants;
 		this.ancestors = ancestors;
@@ -19,19 +21,19 @@ public class Pdm3PojoGenericsConstructor {
 
 	private List<?> something;
 
-	private List<? extends Object> descendants;
+	private List<? extends RuntimeException> descendants;
 
-	private List<? super String> ancestors;
+	private List<? super NullPointerException> ancestors;
 
 	public List<?> getSomething() {
 		return something;
 	}
 
-	public List<? extends Object> getDescendants() {
+	public List<? extends RuntimeException> getDescendants() {
 		return descendants;
 	}
 
-	public List<? super String> getAncestors() {
+	public List<? super NullPointerException> getAncestors() {
 		return ancestors;
 	}
 

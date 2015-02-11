@@ -12,9 +12,9 @@ public class Pdm3Pojo {
 
 	private List<?> something;
 
-	private List<? extends Object> descendants;
+	private List<? extends RuntimeException> descendants;
 
-	private List<? super String> ancestors;
+	private List<? super NullPointerException> ancestors;
 
 	public List<?> getSomething() {
 		return something;
@@ -24,19 +24,19 @@ public class Pdm3Pojo {
 		this.something = something;
 	}
 
-	public List<? extends Object> getDescendants() {
+	public List<? extends RuntimeException> getDescendants() {
 		return descendants;
 	}
 
-	public void setDescendants(List<? extends Object> descendants) {
+	public void setDescendants(List<? extends RuntimeException> descendants) {
 		this.descendants = descendants;
 	}
 
-	public List<? super String> getAncestors() {
+	public List<? super NullPointerException> getAncestors() {
 		return ancestors;
 	}
 
-	public void setAncestors(List<? super String> ancestors) {
+	public void setAncestors(List<? super NullPointerException> ancestors) {
 		this.ancestors = ancestors;
 	}
 

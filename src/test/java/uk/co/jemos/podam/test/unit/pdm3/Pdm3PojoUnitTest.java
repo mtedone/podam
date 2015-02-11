@@ -76,9 +76,9 @@ public class Pdm3PojoUnitTest {
 
 		Pdm3Pojo pojo = factory.manufacturePojo(Pdm3Pojo.class);
 		assertNotNull(pojo);
-		assertCollection(pojo.getSomething());
-		assertCollection(pojo.getDescendants());
-		assertCollection(pojo.getAncestors());
+		assertCollection(pojo.getSomething(), Object.class);
+		assertCollection(pojo.getDescendants(), RuntimeException.class);
+		assertCollection(pojo.getAncestors(), NullPointerException.class);
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class Pdm3PojoUnitTest {
 
 		List<?> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoConstructor.class, String.class);
-		assertCollection(pojos);
+		assertCollection(pojos, Pdm3PojoConstructor.class);
 	}
 
 	@Test
@@ -102,21 +102,21 @@ public class Pdm3PojoUnitTest {
 
 		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, Integer.class, Pdm3PojoConstructor.class, String.class);
-		assertMap(pojos);
+		assertMap(pojos, Integer.class, Pdm3PojoConstructor.class);
 	}
 
 	@Test
 	public void testPdm3ExtendingListOfPojos() {
 
 		Collection<?> pojos = factory.manufacturePojo(CollectionExtendingGenericsPojo.class);
-		assertCollection(pojos);
+		assertCollection(pojos, String.class);
 	}
 
 	@Test
 	public void testPdm3ExtendingMapOfPojos() {
 
 		Map<?,?> pojos = factory.manufacturePojo(MapExtendingGenericsPojo.class);
-		assertMap(pojos);
+		assertMap(pojos, Integer.class, String.class);
 	}
 
 	@Test
@@ -124,9 +124,9 @@ public class Pdm3PojoUnitTest {
 
 		Pdm3PojoGenericsConstructor pojo = factory.manufacturePojo(Pdm3PojoGenericsConstructor.class);
 		assertNotNull(pojo);
-		assertCollection(pojo.getSomething());
-		assertCollection(pojo.getDescendants());
-		assertCollection(pojo.getAncestors());
+		assertCollection(pojo.getSomething(), Object.class);
+		assertCollection(pojo.getDescendants(), RuntimeException.class);
+		assertCollection(pojo.getAncestors(), NullPointerException.class);
 	}
 
 	@Test
@@ -134,7 +134,7 @@ public class Pdm3PojoUnitTest {
 
 		List<?> pojos =
 			factory.manufacturePojo(ArrayList.class, Pdm3PojoGenericsConstructor.class);
-		assertCollection(pojos);
+		assertCollection(pojos, Pdm3PojoGenericsConstructor.class);
 	}
 
 	@Test
@@ -142,36 +142,38 @@ public class Pdm3PojoUnitTest {
 
 		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
-		assertMap(pojos);
+		assertMap(pojos, String.class, Pdm3PojoGenericsConstructor.class);
 	}
 
-	private void assertCollection(Collection<?> collection) {
+	private void assertCollection(Collection<?> collection, Class<?> elementType) {
 
 		assertNotNull("The collection should not be null", collection);
 		assertFalse("The collection should not be empty", collection.isEmpty());
 		for (Object obj : collection) {
-			assertNotNull("Collection element should not be null",
-				obj);
+			assertNotNull("Collection element should not be null", obj);
+			assertEquals("Wrong element's type", elementType, obj.getClass());
 			if (obj instanceof Pdm3PojoConstructor) {
 				Pdm3PojoConstructor<?> pojo = (Pdm3PojoConstructor<?>)obj;
 				assertNotNull("Element's field should not be empty", pojo.getName());
-				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
+				assertEquals("Element's type is String", RuntimeException.class, pojo.getName().getClass());
 			}
 		}
 	}
 
-	private void assertMap(Map<?,?> map) {
+	private void assertMap(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
 
 		assertNotNull("The map should not be null", map);
 		assertFalse("The map should not be empty", map.isEmpty());
 		for (Object key : map.keySet()) {
 			assertNotNull("Key should not be empty", key);
+			assertEquals("Wrong element's type", keyType, key.getClass());
 			Object value = map.get(key);
 			assertNotNull("Value should not be empty", value);
+			assertEquals("Wrong element's type", valueType, value.getClass());
 			if (value instanceof Pdm3PojoConstructor) {
 				Pdm3PojoConstructor<?> pojo = (Pdm3PojoConstructor<?>)value;
 				assertNotNull("Element's field should not be empty", pojo.getName());
-				assertEquals("Element's type is String", String.class, pojo.getName().getClass());
+				assertEquals("Element's type is String", RuntimeException.class, pojo.getName().getClass());
 			}
 		}
 	}
