@@ -1662,6 +1662,18 @@ public class PodamFactoryImpl implements PodamFactory {
 		// For any other type, we use the PODAM strategy
 		if (attributeValue == null) {
 
+			TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
+			List<Type> resolvedTypes = new ArrayList<Type>();
+			for (int i = 0; i < typeParams.length; i++) {
+				Type type = typeArgsMap.get(typeParams[i].getName());
+				if (type != null) {
+					resolvedTypes.add(type);
+				}
+			}
+			Type[] genericTypeArgsAll = mergeTypeArrays(
+					resolvedTypes.toArray(new Type[resolvedTypes.size()]),
+					genericTypeArgs);
+
 			Integer depth = pojos.get(realAttributeType);
 			if (depth == null) {
 				depth = -1;
@@ -1670,7 +1682,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				pojos.put(realAttributeType, depth + 1);
 				attributeValue = this.manufacturePojoInternal(
-							realAttributeType, pojos, genericTypeArgs);
+							realAttributeType, pojos, genericTypeArgsAll);
 				pojos.put(realAttributeType, depth);
 
 			} else {
@@ -1678,7 +1690,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				LOG.warn("Loop in {} production detected.",
 						realAttributeType);
 				attributeValue = externalFactory.manufacturePojo(
-						realAttributeType, genericTypeArgs);
+						realAttributeType, genericTypeArgsAll);
 
 			}
 		}
