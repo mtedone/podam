@@ -313,16 +313,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object retValue = null;
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Type[] genericTypeArgsExtra;
-		try {
-			genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 					pojoClass, genericTypeArgs);
-		} catch (IllegalStateException e) {
-			LOG.error(
-					"An error occurred while filling the type argument in the map",
-					e);
-			return null;
-		}
 
 		// If no publicly accessible constructors are available,
 		// the best we can do is to find a constructor (e.g.
