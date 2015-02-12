@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.GenericArrayInConstructorPojo;
 import uk.co.jemos.podam.test.dto.GenericInConstructorPojo;
 import uk.co.jemos.podam.test.dto.GenericInSetterPojo;
 import uk.co.jemos.podam.test.dto.GenericInStaticConstructorPojo;
@@ -49,6 +50,19 @@ public class ConstructorsUnitTest {
 		Assert.assertNotNull("Field instantiation failed", pojo.getVector());
 		for (Object element : pojo.getVector()) {
 			Assert.assertEquals("Wrong collection element type",
+					String.class, element.getClass());
+		}
+	}
+
+	@Test
+	public void testGenericArrayInConstructorPojoInstantiation() {
+		GenericArrayInConstructorPojo<?> pojo
+				= factory.manufacturePojo(GenericArrayInConstructorPojo.class,
+						String.class);
+		Assert.assertNotNull("Instantiation failed", pojo);
+		Assert.assertNotNull("Array instantiation failed", pojo.getArray());
+		for (Object element : pojo.getArray()) {
+			Assert.assertEquals("Wrong array element type",
 					String.class, element.getClass());
 		}
 	}
