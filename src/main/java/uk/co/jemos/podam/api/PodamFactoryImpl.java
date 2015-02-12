@@ -583,7 +583,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				retValue = strategy.getCharacter(attributeMetadata);
 			}
 
+		} else {
+
+			throw new IllegalArgumentException(
+					String.format("%s is unsupported primitive type",
+							primitiveClass));
 		}
+
 		return retValue;
 	}
 
