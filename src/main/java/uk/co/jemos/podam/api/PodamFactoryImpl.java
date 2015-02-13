@@ -79,6 +79,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final Type[] NO_TYPES = new Type[0];
 
+	private static final Object[] NO_ARGS = new Object[0];
+
 	/** Application logger */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(PodamFactoryImpl.class.getName());
@@ -1371,22 +1373,52 @@ public class PodamFactoryImpl implements PodamFactory {
 			memoizationTable.put(pojoClass, retValue);
 		}
 
-		/* Construction failed, no point to continue */
-		if (retValue == null) {
-			return null;
+		if (retValue != null) {
+			populatePojo(retValue, pojos, genericTypeArgs);
 		}
 
-		if (retValue instanceof Collection && ((Collection<?>)retValue).size() == 0) {
-			fillCollection((Collection<? super Object>)retValue, pojos, genericTypeArgs);
-		} else if (retValue instanceof Map && ((Map<?,?>)retValue).size() == 0) {
-			fillMap((Map<? super Object,? super Object>)retValue, pojos, genericTypeArgs);
+		return retValue;
+	}
+
+	/**
+	 * Fills given class filled with values dictated by the strategy
+	 *
+	 * @param pojo
+	 *            An instance to be filled with dummy values
+	 * @param pojos
+	 *            How many times {@code pojoClass} has been found. This will be
+	 *            used for reentrant objects
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return An instance of <T> filled with dummy values
+	 * @throws ClassNotFoundException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	@SuppressWarnings(UNCHECKED_STR)
+	private <T> T populatePojo(T pojo, Map<Class<?>, Integer> pojos,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		Class<?> pojoClass = pojo.getClass();
+		if (pojo instanceof Collection && ((Collection<?>)pojo).size() == 0) {
+			fillCollection((Collection<? super Object>)pojo, pojos, genericTypeArgs);
+		} else if (pojo instanceof Map && ((Map<?,?>)pojo).size() == 0) {
+			fillMap((Map<? super Object,? super Object>)pojo, pojos, genericTypeArgs);
 		}
 
 		Class<?>[] parameterTypes = null;
 		Class<?> attributeType = null;
 
-		ClassInfo classInfo = PodamUtils.getClassInfo(pojoClass,
+		ClassInfo classInfo = PodamUtils.getClassInfo(pojo.getClass(),
 				strategy.getExcludedAnnotations());
+
+		Set<String> readOnlyFields = classInfo.getClassFields();
+
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 
 		// According to JavaBeans standards, setters should have only
 		// one argument
@@ -1394,10 +1426,11 @@ public class PodamFactoryImpl implements PodamFactory {
 		for (Method setter : classInfo.getClassSetters()) {
 
 			List<Annotation> pojoAttributeAnnotations = retrieveFieldAnnotations(
-					pojoClass, setter);
+					pojo.getClass(), setter);
 
 			String attributeName = PodamUtils
 					.extractFieldNameFromSetterMethod(setter);
+			readOnlyFields.remove(attributeName);
 
 			parameterTypes = setter.getParameterTypes();
 			if (parameterTypes.length != 1) {
@@ -1435,13 +1468,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-
-				Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-						pojoClass, genericTypeArgs);
-				if (genericTypeArgsExtra != null) {
-					LOG.warn("Lost generic type arguments {}",
-							Arrays.toString(genericTypeArgsExtra));
+				if (typeArgsMap.isEmpty()) {
+					Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+							pojoClass, genericTypeArgs);
+					if (genericTypeArgsExtra != null) {
+						LOG.warn("Lost generic type arguments {}",
+								Arrays.toString(genericTypeArgsExtra));
+					}
 				}
 
 				Type[] typeArguments = NO_TYPES;
@@ -1479,7 +1512,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 				}
 
-				setterArg = manufactureAttributeValue(retValue, pojos,
+				setterArg = manufactureAttributeValue(pojo, pojos,
 						attributeType, setter.getGenericParameterTypes()[0],
 						pojoAttributeAnnotations, attributeName,
 						typeArgsMap, typeArguments);
@@ -1490,25 +1523,66 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (setterArg != null) {
 				try {
-					setter.invoke(retValue, setterArg);
+					setter.invoke(pojo, setterArg);
 				} catch(IllegalAccessException e) {
 					LOG.warn("{} is not accessible. Setting it to accessible."
 							+ " However this is a security hack and your code"
 							+ " should really adhere to JavaBeans standards.",
 							setter.toString());
 					setter.setAccessible(true);
-					setter.invoke(retValue, setterArg);
+					setter.invoke(pojo, setterArg);
 				}
 			} else {
 				LOG.warn("Couldn't find a suitable value for attribute {}[{}]"
 						+ ". It will be left to null.",
 						pojoClass, attributeType);
 			}
-
 		}
 
-		return retValue;
+		for (String readOnlyField : readOnlyFields) {
 
+			Field field = getField(pojo.getClass(), readOnlyField);
+			Method getter = PodamUtils.getGetterFor(field);
+			if (getter != null && !getter.getReturnType().isPrimitive()) {
+
+				if (getter.getGenericParameterTypes().length == 0) {
+
+					Object fieldValue = getter.invoke(pojo, NO_ARGS);
+					if (fieldValue != null) {
+
+						LOG.debug("Populating read-only field {}", field);
+						Type[] genericTypeArgsAll;
+						if (field.getGenericType() instanceof ParameterizedType) {
+
+							if (typeArgsMap.isEmpty()) {
+								Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
+										pojoClass, genericTypeArgs);
+								if (genericTypeArgsExtra != null) {
+									LOG.warn("Lost generic type arguments {}",
+											Arrays.toString(genericTypeArgsExtra));
+								}
+							}
+
+							ParameterizedType paramType
+									= (ParameterizedType) field.getGenericType();
+							Type[] actualTypes = paramType.getActualTypeArguments();
+							genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(
+									actualTypes, genericTypeArgs,
+									typeArgsMap);
+						} else {
+
+							genericTypeArgsAll = genericTypeArgs;
+						}
+						populatePojo(fieldValue, pojos, genericTypeArgsAll);
+					}
+				} else {
+
+					LOG.warn("Skipping invalid getter {}", getter);
+				}
+			}
+		}
+
+		return pojo;
 	}
 
 	/**
@@ -1753,13 +1827,19 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            resolved
 	 */
 	private Type[] mergeActualAndSuppliedGenericTypes(
-			TypeVariable<?>[] actualTypes, Type[] suppliedTypes,
+			Type[] actualTypes, Type[] suppliedTypes,
 			Map<String, Type> typeArgsMap) {
 
 		List<Type> resolvedTypes = new ArrayList<Type>();
 		List<Type> substitutionTypes = new ArrayList<Type>(Arrays.asList(suppliedTypes));
 		for (int i = 0; i < actualTypes.length; i++) {
-			Type type = typeArgsMap.get(actualTypes[i].getName());
+
+			Type type = null;
+			if (actualTypes[i] instanceof TypeVariable) {
+				type = typeArgsMap.get(((TypeVariable<?>)actualTypes[i]).getName());
+			} else if (actualTypes[i] instanceof Class) {
+				type = actualTypes[i];
+			}
 			if (type != null) {
 				resolvedTypes.add(type);
 				if (!substitutionTypes.isEmpty() && substitutionTypes.get(0).equals(type)) {
