@@ -429,7 +429,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			AtomicReference<Type[]> methodGenericTypeArgs) {
 
 		Class<?> parameterType = null;
-		methodGenericTypeArgs.set(new Type[] {});
+		methodGenericTypeArgs.set(NO_TYPES);
 		if (paramType instanceof TypeVariable<?>) {
 			final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
 			final Type type = typeArgsMap.get(typeVariable.getName());
@@ -1421,7 +1421,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							Arrays.toString(genericTypeArgsExtra));
 				}
 
-				Type[] typeArguments = new Type[] {};
+				Type[] typeArguments = NO_TYPES;
 				// If the parameter is a generic parameterized type resolve
 				// the actual type arguments
 				if (setter.getGenericParameterTypes()[0] instanceof ParameterizedType) {
@@ -1445,7 +1445,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 				}
 				AtomicReference<Type[]> typeGenericTypeArgs
-						= new AtomicReference<Type[]>(new Type[] {});
+						= new AtomicReference<Type[]>(NO_TYPES);
 				for (int i = 0; i < typeArguments.length; i++) {
 					if (typeArguments[i] instanceof TypeVariable) {
 						Class<?> resolvedType = resolveGenericParameter(typeArguments[i],
@@ -1660,7 +1660,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (genericTypeArgs.length > 0 && genericTypeArgs[0] != null) {
 				AtomicReference<Type[]> elementGenericTypeArgs
-						= new AtomicReference<Type[]>(new Type[] {});
+						= new AtomicReference<Type[]>(NO_TYPES);
 				attributeValue = resolveGenericParameter(genericTypeArgs[0],
 						typeArgsMap, elementGenericTypeArgs);
 			} else {
@@ -1985,7 +1985,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> typeClass = null;
 
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
+					NO_TYPES);
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
 				LOG.warn("The collection attribute: "
@@ -2070,7 +2070,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Annotation[] annotations = collection.getClass().getAnnotations();
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-				new Type[] {});
+				NO_TYPES);
 		Type[] typeParams = collectionClass.getTypeParameters();
 		while (typeParams.length < 1) {
 			Type type = collectionClass.getGenericSuperclass();
@@ -2239,9 +2239,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> elementClass = null;
 
 			AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
+					NO_TYPES);
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-					new Type[] {});
+					NO_TYPES);
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
 				LOG.warn("Map attribute: "
@@ -2336,7 +2336,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> mapClass = pojoClass;
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-				new Type[] {});
+				NO_TYPES);
 		Type[] typeParams = mapClass.getTypeParameters();
 		while (typeParams.length < 2) {
 			Type type = mapClass.getGenericSuperclass();
@@ -2344,7 +2344,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			typeParams = elementGenericTypeArgs.get();
 		}
 		AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-				new Type[] {});
+				NO_TYPES);
 		Class<?> keyClass = resolveGenericParameter(typeParams[0],
 					typeArgsMap, keyGenericTypeArgs);
 		Class<?> elementClass = resolveGenericParameter(typeParams[1],
@@ -2563,7 +2563,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> componentType = null;
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
-				new Type[] {});
+				NO_TYPES);
 		if (genericType instanceof GenericArrayType) {
 			Type genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();
 			if (genericComponentType instanceof TypeVariable) {
@@ -2850,7 +2850,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (collection != null) {
 				Class<?> collectionElementType;
 				AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
+						NO_TYPES);
 				if (genericType instanceof ParameterizedType) {
 					ParameterizedType pType = (ParameterizedType) genericType;
 					Type actualTypeArgument = pType.getActualTypeArguments()[0];
@@ -2882,9 +2882,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				Class<?> keyClass;
 				Class<?> elementClass;
 				AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
+						NO_TYPES);
 				AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-						new Type[] {});
+						NO_TYPES);
 				if (genericType instanceof ParameterizedType) {
 					ParameterizedType pType = (ParameterizedType) genericType;
 					Type[] actualTypeArguments = pType.getActualTypeArguments();
