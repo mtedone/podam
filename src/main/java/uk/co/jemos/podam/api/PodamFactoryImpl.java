@@ -1378,8 +1378,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			parameterTypes = setter.getParameterTypes();
 			if (parameterTypes.length != 1) {
-				LOG.warn("Skipping setter with non-single arguments {}.{}",
-						pojoClass.getSimpleName(), setter.getName());
+				LOG.warn("Skipping setter with non-single arguments {}",
+						setter);
 				continue;
 			}
 
@@ -1664,8 +1664,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeValue = resolveGenericParameter(genericTypeArgs[0],
 						typeArgsMap, elementGenericTypeArgs);
 			} else {
-				LOG.error("{} is missing generic type argument",
-						realAttributeType);
+				LOG.error("{} is missing generic type argument, supplied {} {}",
+						genericAttributeType, typeArgsMap,
+						Arrays.toString(genericTypeArgs));
 			}
 
 		}

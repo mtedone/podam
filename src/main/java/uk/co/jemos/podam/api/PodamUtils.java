@@ -257,7 +257,7 @@ public final class PodamUtils {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {
-			LOG.warn("Encountered method {}. This will be ignored.", method);
+			LOG.debug("Encountered method {}. This will be ignored.", method);
 		}
 
 		return candidateField;
