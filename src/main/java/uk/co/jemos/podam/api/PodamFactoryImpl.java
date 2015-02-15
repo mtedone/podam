@@ -1332,18 +1332,15 @@ public class PodamFactoryImpl implements PodamFactory {
 					new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
 		}
 
-		if (pojoClass.isInterface()
-				|| Modifier.isAbstract(pojoClass.getModifiers())) {
+		if (pojoClass.isInterface()) {
 			Class<T> specificClass = (Class<T>) strategy
 					.getSpecificClass(pojoClass);
 			if (!specificClass.equals(pojoClass)) {
 				return this.manufacturePojoInternal(specificClass, pojos,
 						genericTypeArgs);
 			} else {
-				if (specificClass.isInterface()) {
-					return externalFactory.manufacturePojo(pojoClass,
-							genericTypeArgs);
-				}
+				return externalFactory.manufacturePojo(pojoClass,
+						genericTypeArgs);
 			}
 		}
 
@@ -1353,6 +1350,18 @@ public class PodamFactoryImpl implements PodamFactory {
 		} catch (SecurityException e) {
 			throw new PodamMockeryException(
 					"Security exception while applying introspection.", e);
+		}
+
+		if (retValue == null && Modifier.isAbstract(pojoClass.getModifiers())) {
+			Class<T> specificClass = (Class<T>) strategy
+					.getSpecificClass(pojoClass);
+			if (!specificClass.equals(pojoClass)) {
+				return this.manufacturePojoInternal(specificClass, pojos,
+						genericTypeArgs);
+			} else {
+				return externalFactory.manufacturePojo(pojoClass,
+						genericTypeArgs);
+			}
 		}
 
 		// update memoization table with new object
