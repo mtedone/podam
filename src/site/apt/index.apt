@@ -15,7 +15,14 @@ Introduction
   
 +-----------------------------------
 PodamFactory factory = new PodamFactoryImpl(); //This will use the default Random Data Provider Strategy
+
+// This will use constructor with minimum arguments and
+// then setters to populate POJO
 Pojo myPojo = factory.manufacturePojo(Pojo.class);
+
+// This will use constructor with maximum arguments and
+// then setters to populate POJO
+Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
 +-----------------------------------
 
   PODAM allows users to customise the way data are assigned in several ways: 
@@ -42,6 +49,8 @@ PodamFactory factory = new PodamFactoryImpl(strategy);
 
 Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
+Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
+
 +-----------------------------------
 
   Please note that annotations are not required to use PODAM. The tool will automatically introspect
@@ -58,7 +67,9 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
   * Provide an implementation of the <<AttributeStrategy\<T\>>> interface
   
   * Use the <<@PodamStrategyValue>> annotation
-  
+
+  []
+
   Example: 
   
 +-----------------------------------
@@ -76,7 +87,9 @@ private Calendar myBirthday;
   * PostCodeStrategy to create a UK-like postcode
   
   * MyBirthdayStrategy to create a Calendar which contains the exact time of my birth
-  
+
+  []
+
   The <PostCodeStrategy> class looks like the following:
   
 +-----------------------------------
