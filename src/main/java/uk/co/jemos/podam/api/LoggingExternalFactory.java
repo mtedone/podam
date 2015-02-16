@@ -63,6 +63,15 @@ public class LoggingExternalFactory implements PodamFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
+			Type... genericTypeArgs) {
+		return this.manufacturePojo(pojoClass, genericTypeArgs);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 		LOG.warn("Cannot instantiate {} with arguments {}. Returning null.",
 				pojoClass, Arrays.toString(genericTypeArgs));

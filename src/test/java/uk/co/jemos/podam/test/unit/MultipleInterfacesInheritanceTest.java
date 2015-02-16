@@ -34,6 +34,12 @@ public class MultipleInterfacesInheritanceTest {
 		}
 
 		@Override
+		public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
+				Type... genericTypeArgs) {
+			return this.manufacturePojo(pojoClass, genericTypeArgs);
+		}
+
+		@Override
 		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 			failures.add(pojoClass);
 			return null;

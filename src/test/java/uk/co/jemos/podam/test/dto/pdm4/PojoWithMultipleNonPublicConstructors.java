@@ -27,7 +27,7 @@ public class PojoWithMultipleNonPublicConstructors {
 
 	protected PojoWithMultipleNonPublicConstructors(int num, int num2) {
 		invocationOrder.add("int,int");
-		value = String.valueOf(num + num2);
+		throw new IllegalStateException("Cannot use me neither");
 	}
 	
 	@PodamConstructor(comment = "choose this one")
