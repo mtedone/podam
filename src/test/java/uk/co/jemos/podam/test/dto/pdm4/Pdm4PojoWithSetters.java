@@ -20,16 +20,19 @@ public class Pdm4PojoWithSetters {
 	
 	public Pdm4PojoWithSetters(InputStream inputStream) {
 		invocationOrder.add("InputStream");
-		if (inputStream == null) {
-			throw new NullPointerException("Invalid input stream provided");
-		}
+		throw new IllegalStateException("Cannot use me also");
 	}
 
 	public Pdm4PojoWithSetters(int num, int num2) {
 		invocationOrder.add("int,int");
 		throw new IllegalStateException("Cannot use me neither");
 	}
-	
+
+	public Pdm4PojoWithSetters(InputStream inputStream, int num) {
+		invocationOrder.add("abstract,int");
+		throw new IllegalStateException("Cannot use me also");
+	}
+
 	@PodamConstructor(comment = "choose this one")
 	public Pdm4PojoWithSetters(String value) {
 		invocationOrder.add("PodamConstructor");

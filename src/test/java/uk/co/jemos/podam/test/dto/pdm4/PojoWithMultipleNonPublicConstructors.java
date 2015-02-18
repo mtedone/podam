@@ -20,16 +20,19 @@ public class PojoWithMultipleNonPublicConstructors {
 	
 	protected PojoWithMultipleNonPublicConstructors(InputStream inputStream) {
 		invocationOrder.add("InputStream");
-		if (inputStream == null) {
-			throw new NullPointerException("Invalid input stream provided");
-		}
+		throw new IllegalStateException("Cannot use me also");
 	}
 
 	protected PojoWithMultipleNonPublicConstructors(int num, int num2) {
 		invocationOrder.add("int,int");
 		throw new IllegalStateException("Cannot use me neither");
 	}
-	
+
+	protected PojoWithMultipleNonPublicConstructors(InputStream inputStream, int num) {
+		invocationOrder.add("abstract,int");
+		throw new IllegalStateException("Cannot use me also");
+	}
+
 	@PodamConstructor(comment = "choose this one")
 	private PojoWithMultipleNonPublicConstructors(String value) {
 		invocationOrder.add("PodamConstructor");
