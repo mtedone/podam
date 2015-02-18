@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.common;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.Comparator;
 
 /**
@@ -17,6 +18,19 @@ import java.util.Comparator;
  *
  */
 public abstract class AbstractConstructorComparator implements Comparator<Constructor<?>> {
+
+	public int constructorComplexity(Constructor<?> constructor) {
+
+		int complexity = 0;
+		for (Class<?> parameter : constructor.getParameterTypes()) {
+			if (parameter.isInterface()
+					|| (Modifier.isAbstract(parameter.getModifiers()) && !parameter.isPrimitive())
+					|| parameter.isAssignableFrom(constructor.getDeclaringClass())) {
+				complexity++;
+			}
+		}
+		return complexity;
+	}
 
 	public int compareAnnotations(Constructor<?> constructor1, Constructor<?> constructor2) {
 
