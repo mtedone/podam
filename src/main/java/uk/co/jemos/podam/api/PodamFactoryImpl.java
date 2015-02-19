@@ -1260,21 +1260,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						constructor.setAccessible(true);
 					}
 					retValue = (T) constructor.newInstance(parameterValues);
-					if (retValue instanceof Collection
-							&& ((Collection<?>) retValue).isEmpty()) {
-						LOG.debug("We could create an instance with constructor: "
-								+ constructor
-								+ ", but collection is empty"
-								+ ". Will try with another one.");
-
-					} else if (retValue instanceof Map
-							&& ((Map<?, ?>) retValue).isEmpty()) {
-						LOG.debug("We could create an instance with constructor: "
-								+ constructor
-								+ ", but map is empty"
-								+ ". Will try with another one.");
-
-					} else {
+					if (retValue != null) {
 						LOG.debug("We could create an instance with constructor: "
 								+ constructor);
 						break;
@@ -2120,10 +2106,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> collectionClass = collection.getClass();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 				collectionClass, genericTypeArgs);
-		if (genericTypeArgsExtra != null && genericTypeArgsExtra.length > 0) {
-			LOG.warn("Lost generic type arguments {}",
-					Arrays.toString(genericTypeArgsExtra));
-		}
 
 		Annotation[] annotations = collection.getClass().getAnnotations();
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
@@ -2137,8 +2119,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		Class<?> elementTypeClass = resolveGenericParameter(typeParams[0],
 					typeArgsMap, elementGenericTypeArgs);
+		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),
+				genericTypeArgsExtra);
 		fillCollection(pojos, Arrays.asList(annotations),
-				collection, elementTypeClass, elementGenericTypeArgs.get());
+				collection, elementTypeClass, elementGenericArgs);
 	}
 
 	/**
@@ -2386,10 +2370,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> pojoClass = map.getClass();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
-		if (genericTypeArgsExtra != null && genericTypeArgsExtra.length > 0) {
-			LOG.warn("Lost generic type arguments {}",
-					Arrays.toString(genericTypeArgsExtra));
-		}
 
 		Class<?> mapClass = pojoClass;
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
@@ -2406,15 +2386,20 @@ public class PodamFactoryImpl implements PodamFactory {
 					typeArgsMap, keyGenericTypeArgs);
 		Class<?> elementClass = resolveGenericParameter(typeParams[1],
 					typeArgsMap, elementGenericTypeArgs);
+
+		Type[] keyGenericArgs = mergeTypeArrays(keyGenericTypeArgs.get(),
+				genericTypeArgsExtra);
+		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),
+				genericTypeArgsExtra);
+
 		MapArguments mapArguments = new MapArguments();
 		mapArguments.setPojos(pojos);
 		mapArguments.setAnnotations(Arrays.asList(pojoClass.getAnnotations()));
 		mapArguments.setMapToBeFilled(map);
 		mapArguments.setKeyClass(keyClass);
 		mapArguments.setElementClass(elementClass);
-		mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
-		mapArguments
-				.setElementGenericTypeArgs(elementGenericTypeArgs.get());
+		mapArguments.setKeyGenericTypeArgs(keyGenericArgs);
+		mapArguments.setElementGenericTypeArgs(elementGenericArgs);
 
 		fillMap(mapArguments);
 	}
