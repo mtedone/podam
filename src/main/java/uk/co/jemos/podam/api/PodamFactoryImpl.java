@@ -1624,9 +1624,11 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object attributeValue = null;
 
 		Class<?> realAttributeType;
-		if (genericTypeArgs.length > 0 && genericTypeArgs[0] instanceof Class
-				&& attributeType.isAssignableFrom((Class<?>) genericTypeArgs[0])) {
-			realAttributeType = (Class<?>) genericTypeArgs[0];
+		if (Object.class.equals(attributeType) && attributeType != genericAttributeType) {
+			AtomicReference<Type[]> elementGenericTypeArgs
+					= new AtomicReference<Type[]>(NO_TYPES);
+			realAttributeType = resolveGenericParameter(genericAttributeType,
+					typeArgsMap, elementGenericTypeArgs);
 		} else {
 			realAttributeType = attributeType;
 		}
@@ -1650,7 +1652,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			attributeValue = resolveStringValue(annotations, attributeMetadata);
 
-		} else if (realAttributeType.getName().startsWith("[")) {
+		} else if (realAttributeType.isArray()) {
 
 			// Array type
 
