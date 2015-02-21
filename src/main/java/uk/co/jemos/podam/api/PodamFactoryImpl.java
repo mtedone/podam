@@ -1705,16 +1705,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (attributeValue == null) {
 
 			TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
-			List<Type> resolvedTypes = new ArrayList<Type>();
-			for (int i = 0; i < typeParams.length; i++) {
-				Type type = typeArgsMap.get(typeParams[i].getName());
-				if (type != null) {
-					resolvedTypes.add(type);
-				}
-			}
-			Type[] genericTypeArgsAll = mergeTypeArrays(
-					resolvedTypes.toArray(new Type[resolvedTypes.size()]),
-					genericTypeArgs);
+			Type[] genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(
+					typeParams, genericTypeArgs, typeArgsMap);
 
 			Integer depth = pojos.get(realAttributeType);
 			if (depth == null) {
@@ -1738,6 +1730,40 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return attributeValue;
+	}
+
+	/**
+	 * Utility to merge actual types with supplied array of generic type
+	 * substitutions
+	 *
+	 * @param actualTypes
+	 *            an array of types used for field or POJO declaration 
+	 * @param suppliedTypes
+	 *            an array of supplied types for generic type substitution 
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            example) with their actual types
+	 * @return An array of merged actual and supplied types with generic types
+	 *            resolved
+	 */
+	private Type[] mergeActualAndSuppliedGenericTypes(
+			TypeVariable<?>[] actualTypes, Type[] suppliedTypes,
+			Map<String, Type> typeArgsMap) {
+
+		List<Type> resolvedTypes = new ArrayList<Type>();
+		List<Type> substitutionTypes = new ArrayList<Type>(Arrays.asList(suppliedTypes));
+		for (int i = 0; i < actualTypes.length; i++) {
+			Type type = typeArgsMap.get(actualTypes[i].getName());
+			if (type != null) {
+				resolvedTypes.add(type);
+				if (!substitutionTypes.isEmpty() && substitutionTypes.get(0).equals(type)) {
+					substitutionTypes.remove(0);
+				}
+			}
+		}
+		Type[] resolved = resolvedTypes.toArray(new Type[resolvedTypes.size()]);
+		Type[] supplied = substitutionTypes.toArray(new Type[substitutionTypes.size()]);
+		return mergeTypeArrays(resolved, supplied);
 	}
 
 	/**
