@@ -2836,22 +2836,20 @@ public class PodamFactoryImpl implements PodamFactory {
 				.getParameterAnnotations();
 
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
+		Type[] genericTypes = constructor.getGenericParameterTypes();
 		Object[] parameterValues = new Object[parameterTypes.length];
 
-		int idx = 0;
-		for (Class<?> parameterType : parameterTypes) {
+		for (int idx = 0; idx < parameterTypes.length; idx++) {
 
 			List<Annotation> annotations = Arrays
 					.asList(parameterAnnotations[idx]);
-			Type genericType = constructor.getGenericParameterTypes()[idx];
 
+			Type genericType = (idx < genericTypes.length) ?
+					genericTypes[idx] : parameterTypes[idx];
 
-			parameterValues[idx] = manufactureParameterValue(parameterType,
+			parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
 					genericType, annotations, typeArgsMap, pojos,
 					genericTypeArgsExtra == null ? NO_TYPES : genericTypeArgsExtra);
-
-			idx++;
-
 		}
 
 		return parameterValues;
