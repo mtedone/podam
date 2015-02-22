@@ -2114,19 +2114,31 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Class<?> collectionClass = collection.getClass();
+		Class<?> pojoClass = collection.getClass();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-				collectionClass, genericTypeArgs);
+				pojoClass, genericTypeArgs);
 
 		Annotation[] annotations = collection.getClass().getAnnotations();
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 				NO_TYPES);
+		Class<?> collectionClass = pojoClass;
 		Type[] typeParams = collectionClass.getTypeParameters();
 		while (typeParams.length < 1) {
-			Type type = collectionClass.getGenericSuperclass();
-			collectionClass = resolveGenericParameter(type, typeArgsMap,
-					elementGenericTypeArgs);
-			typeParams = elementGenericTypeArgs.get();
+			for (Type genericIface : collectionClass.getGenericInterfaces()) {
+				Class<?> clazz = resolveGenericParameter(genericIface,
+						typeArgsMap, elementGenericTypeArgs);
+				if (Collection.class.isAssignableFrom(clazz)) {
+					typeParams = elementGenericTypeArgs.get();
+				}
+			}
+			if (typeParams.length < 1) {
+				Type type = collectionClass.getGenericSuperclass();
+				collectionClass = resolveGenericParameter(type, typeArgsMap,
+						elementGenericTypeArgs);
+				if (Collection.class.isAssignableFrom(collectionClass)) {
+					typeParams = elementGenericTypeArgs.get();
+				}
+			}
 		}
 		Class<?> elementTypeClass = resolveGenericParameter(typeParams[0],
 					typeArgsMap, elementGenericTypeArgs);
@@ -2387,9 +2399,19 @@ public class PodamFactoryImpl implements PodamFactory {
 				NO_TYPES);
 		Type[] typeParams = mapClass.getTypeParameters();
 		while (typeParams.length < 2) {
-			Type type = mapClass.getGenericSuperclass();
-			mapClass = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);
-			typeParams = elementGenericTypeArgs.get();
+			for (Type genericIface : mapClass.getGenericInterfaces()) {
+				Class<?> clazz = resolveGenericParameter(genericIface, typeArgsMap, elementGenericTypeArgs);
+				if (Map.class.isAssignableFrom(clazz)) {
+					typeParams = elementGenericTypeArgs.get();
+				}
+			}
+			if (typeParams.length < 2) {
+				Type type = mapClass.getGenericSuperclass();
+				mapClass = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);
+				if (Map.class.isAssignableFrom(mapClass)) {
+					typeParams = elementGenericTypeArgs.get();
+				}
+			}
 		}
 		AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
 				NO_TYPES);
