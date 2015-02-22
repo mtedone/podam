@@ -6,6 +6,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ReadOnlyComplexTypesPojo;
+import uk.co.jemos.podam.test.dto.ReadOnlyGenericComplexTypesPojo;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 /**
@@ -27,5 +28,22 @@ public class ReadOnlyComplexTypesTest {
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Long.class, String.class);
 		Assert.assertNotNull("Complex element should not be empty",
 				pojo.getValue().getValue());
+	}
+
+	@Test
+	public void testReadOnlyGenericComplexTypesPojoInstantiation() {
+		ReadOnlyGenericComplexTypesPojo<?, ?, ?> pojo
+				= factory.manufacturePojo(ReadOnlyGenericComplexTypesPojo.class,
+						Character.class, Long.class, Integer.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertNotNull("List should be present", pojo.getList());
+		Assert.assertNotNull("Map should be present", pojo.getMap());
+		Assert.assertNotNull("Complex element should be present", pojo.getValue());
+		PodamTestUtils.assertListElementsType(pojo.getList(), Long.class);
+		PodamTestUtils.assertMapElementsType(pojo.getMap(), Integer.class, String.class);
+		Assert.assertNotNull("Complex element should not be empty",
+				pojo.getValue().getValue());
+		Assert.assertEquals("Wrong element type", Character.class,
+				pojo.getValue().getValue().getClass());
 	}
 }
