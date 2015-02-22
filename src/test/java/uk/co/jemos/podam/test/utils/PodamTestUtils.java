@@ -4,7 +4,12 @@
 package uk.co.jemos.podam.test.utils;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.Map.Entry;
+
+import org.junit.Assert;
 
 /**
  * Test utility class
@@ -42,6 +47,39 @@ public class PodamTestUtils {
 		myBirthday.set(Calendar.MILLISECOND, 0);
 
 		return myBirthday;
+	}
+
+	/**
+	 * Asserts list is non-empty and elements are of certain type
+	 * 
+	 * @param list
+	 *            List to examine
+	 * @param elementType
+	 *            Element type to ensure
+	 */
+	public static void assertListElementsType(List<?> list, Class<?> elementType) {
+		Assert.assertFalse("List should not be empty", list.isEmpty());
+		for (Object element : list) {
+			Assert.assertEquals("Wrong element type", elementType, element.getClass());
+		}
+	}
+
+	/**
+	 * Asserts map is non-empty and key and values are of certain type
+	 *
+	 * @param map
+	 *           Map to examine
+	 * @param keyType
+	 *           Key type to ensure
+	 * @param valueType
+	 *           Value type to ensure
+	 */
+	public static void assertMapElementsType(Map<?, ?> map, Class<?> keyType, Class<?> valueType) {
+		Assert.assertFalse("Map should not be empty", map.isEmpty());
+		for (Entry<?, ?> element : map.entrySet()) {
+			Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
+			Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
+		}
 	}
 
 	// ------------------->> Getters / Setters

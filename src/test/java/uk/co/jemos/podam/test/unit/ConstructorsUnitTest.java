@@ -9,6 +9,8 @@ import uk.co.jemos.podam.test.dto.GenericArrayInConstructorPojo;
 import uk.co.jemos.podam.test.dto.GenericInConstructorPojo;
 import uk.co.jemos.podam.test.dto.GenericInSetterPojo;
 import uk.co.jemos.podam.test.dto.GenericInStaticConstructorPojo;
+import uk.co.jemos.podam.test.dto.MultipleGenericInConstructorPojo;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 /**
  * @author daivanov
@@ -65,5 +67,16 @@ public class ConstructorsUnitTest {
 			Assert.assertEquals("Wrong array element type",
 					String.class, element.getClass());
 		}
+	}
+	
+	@Test
+	public void testMultipleGenericInConstructorPojoInstantiation() {
+		MultipleGenericInConstructorPojo<?, ?, ?, ?> pojo
+				= factory.manufacturePojo(MultipleGenericInConstructorPojo.class,
+						String.class, Character.class, Byte.class, Integer.class);
+		Assert.assertNotNull("Instantiation failed", pojo);
+		Assert.assertEquals("Class instantiation failed", String.class, pojo.getType());
+		PodamTestUtils.assertListElementsType(pojo.getList(), Character.class);
+		PodamTestUtils.assertMapElementsType(pojo.getMap(), Byte.class, Integer.class);
 	}
 }
