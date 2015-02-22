@@ -393,8 +393,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					Type genericType = candidateConstructor.getGenericParameterTypes()[idx];
 
 					parameterValues[idx] = manufactureParameterValue(parameterType,
-							genericType, annotations, typeArgsMap, genericTypeArgsExtra,
-							pojos, genericTypeArgs);
+							genericType, annotations, typeArgsMap, pojos,
+							genericTypeArgsExtra == null ? NO_TYPES : genericTypeArgsExtra);
 
 					idx++;
 
@@ -1674,10 +1674,21 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
-			if (genericTypeArgs.length > 0 && genericTypeArgs[0] != null) {
+			Type paremeterType = null;
+			if (genericAttributeType instanceof ParameterizedType) {
+				ParameterizedType parametrized =  (ParameterizedType) genericAttributeType;
+				Type[] arguments = parametrized.getActualTypeArguments();
+				if (arguments.length > 0) {
+					paremeterType = arguments[0];
+				}
+			} else if (realAttributeType.getTypeParameters().length > 0) {
+				paremeterType = realAttributeType.getTypeParameters()[0];
+			}
+
+			if (paremeterType != null) {
 				AtomicReference<Type[]> elementGenericTypeArgs
 						= new AtomicReference<Type[]>(NO_TYPES);
-				attributeValue = resolveGenericParameter(genericTypeArgs[0],
+				attributeValue = resolveGenericParameter(paremeterType,
 						typeArgsMap, elementGenericTypeArgs);
 			} else {
 				LOG.error("{} is missing generic type argument, supplied {} {}",
@@ -2834,9 +2845,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					.asList(parameterAnnotations[idx]);
 			Type genericType = constructor.getGenericParameterTypes()[idx];
 
+
 			parameterValues[idx] = manufactureParameterValue(parameterType,
-					genericType, annotations, typeArgsMap, genericTypeArgsExtra,
-					pojos, genericTypeArgs);
+					genericType, annotations, typeArgsMap, pojos,
+					genericTypeArgsExtra == null ? NO_TYPES : genericTypeArgsExtra);
 
 			idx++;
 
@@ -2876,8 +2888,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object manufactureParameterValue(Class<?> parameterType,
 			Type genericType, List<Annotation> annotations,
-			final Map<String, Type> typeArgsMap, final Type[] genericTypeArgsExtra,
-			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
+			final Map<String, Type> typeArgsMap, Map<Class<?>, Integer> pojos,
+			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
@@ -2908,7 +2920,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				Type[] genericTypeArgsAll = mergeTypeArrays(
-						collectionGenericTypeArgs.get(), genericTypeArgsExtra);
+						collectionGenericTypeArgs.get(), genericTypeArgs);
 				fillCollection(pojos, annotations,
 						collection, collectionElementType, genericTypeArgsAll);
 
@@ -2945,7 +2957,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				Type[] genericTypeArgsAll = mergeTypeArrays(
-						elementGenericTypeArgs.get(), genericTypeArgsExtra);
+						elementGenericTypeArgs.get(), genericTypeArgs);
 
 				MapArguments mapArguments = new MapArguments();
 				mapArguments.setPojos(pojos);
