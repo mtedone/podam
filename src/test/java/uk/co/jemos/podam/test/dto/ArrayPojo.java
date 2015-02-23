@@ -13,6 +13,8 @@ public class ArrayPojo {
 
 	private String[] myStringArray = new String[10];
 
+	private Object[] myObjectArray;
+
 	/**
 	 * Default constructor.
 	 */
@@ -38,4 +40,21 @@ public class ArrayPojo {
 		this.myStringArray = myStringArray;
 	}
 
+	/**
+	 * Gets the array.
+	 *
+	 * @return An array of Objects
+	 */
+	public Object[] getMyObjectArray() {
+		return myObjectArray;
+	}
+
+	/**
+	 * Sets the array.
+	 *
+	 * @param myObjectArray
+	 */
+	public void setMyObjectArray(Object[] myObjectArray) {
+		this.myObjectArray = myObjectArray;
+	}
 }

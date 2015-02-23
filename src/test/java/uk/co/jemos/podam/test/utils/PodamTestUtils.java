@@ -58,6 +58,7 @@ public class PodamTestUtils {
 	 *            Element type to ensure
 	 */
 	public static void assertListElementsType(List<?> list, Class<?> elementType) {
+		Assert.assertNotNull("List should not be null", list);
 		Assert.assertFalse("List should not be empty", list.isEmpty());
 		for (Object element : list) {
 			Assert.assertEquals("Wrong element type", elementType, element.getClass());
@@ -75,10 +76,27 @@ public class PodamTestUtils {
 	 *           Value type to ensure
 	 */
 	public static void assertMapElementsType(Map<?, ?> map, Class<?> keyType, Class<?> valueType) {
+		Assert.assertNotNull("Map should not be null", map);
 		Assert.assertFalse("Map should not be empty", map.isEmpty());
 		for (Entry<?, ?> element : map.entrySet()) {
 			Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
 			Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
+		}
+	}
+
+	/**
+	 * Asserts array is non-empty and elements are of certain type
+	 *
+	 * @param array
+	 *           Array to examine
+	 * @param elementType
+	 *           Element type to ensure
+	 */
+	public static void assertArrayElementsType(Object[] array, Class<?> elementType) {
+		Assert.assertNotNull("Array should not be null", array);
+		Assert.assertTrue("Array should not be empty", array.length > 0);
+		for (Object element : array) {
+			Assert.assertEquals("Wrong element type", elementType, element.getClass());
 		}
 	}
 

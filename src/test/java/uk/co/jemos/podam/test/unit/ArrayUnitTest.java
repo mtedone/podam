@@ -1,11 +1,11 @@
 package uk.co.jemos.podam.test.unit;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ArrayPojo;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 public class ArrayUnitTest {
 
@@ -15,16 +15,8 @@ public class ArrayUnitTest {
 		PodamFactory podam = new PodamFactoryImpl();
 		ArrayPojo pojo = podam.manufacturePojo(ArrayPojo.class);
 
-		Assert.assertNotNull(pojo);
-
-		String[] array = pojo.getMyStringArray();
-		Assert.assertTrue("The array should not be empty", array.length > 0);
-		for (String string : array) {
-			Assert.assertTrue(
-					"The length of each string in the array should be > 0",
-					string.length() > 0);
-		}
-
+		PodamTestUtils.assertArrayElementsType(pojo.getMyStringArray(), String.class);
+		PodamTestUtils.assertArrayElementsType(pojo.getMyObjectArray(), Object.class);
 	}
 
 }
