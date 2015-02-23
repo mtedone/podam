@@ -22,7 +22,9 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
+import uk.co.jemos.podam.test.dto.CollectionImplementingGenericsInterface;
 import uk.co.jemos.podam.test.dto.MapExtendingGenericsPojo;
+import uk.co.jemos.podam.test.dto.MapImplementingGenericInterface;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
@@ -119,9 +121,23 @@ public class Pdm3PojoUnitTest {
 	}
 
 	@Test
+	public void testPdm3ImplementingListOfPojos() {
+
+		Collection<?> pojos = factory.manufacturePojo(CollectionImplementingGenericsInterface.class);
+		assertCollection(pojos, String.class);
+	}
+
+	@Test
 	public void testPdm3ExtendingMapOfPojos() {
 
 		Map<?,?> pojos = factory.manufacturePojo(MapExtendingGenericsPojo.class);
+		assertMap(pojos, Integer.class, String.class);
+	}
+
+	@Test
+	public void testPdm3ImplementingMapOfPojos() {
+
+		Map<?,?> pojos = factory.manufacturePojo(MapImplementingGenericInterface.class);
 		assertMap(pojos, Integer.class, String.class);
 	}
 
