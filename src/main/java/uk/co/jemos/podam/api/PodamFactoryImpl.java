@@ -2615,10 +2615,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			ClassNotFoundException {
 
 		Class<?> componentType = null;
+		Type genericComponentType = null;
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
 				NO_TYPES);
 		if (genericType instanceof GenericArrayType) {
-			Type genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();
+			genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();
 			if (genericComponentType instanceof TypeVariable) {
 				TypeVariable<?> componentTypeVariable
 						= (TypeVariable<?>) genericComponentType;
@@ -2628,7 +2629,13 @@ public class PodamFactoryImpl implements PodamFactory {
 						= resolveGenericParameter(resolvedType, typeArgsMap,
 								genericTypeArgs);
 			}
+		} else if (genericType instanceof Class) {
+			Class<?> arrayClass = (Class<?>) genericType;
+			genericComponentType = arrayClass.getComponentType();
+		} else {
+			genericComponentType = attributeType.getComponentType();
 		}
+
 		if (componentType == null) {
 			componentType = attributeType.getComponentType();
 		}
@@ -2681,7 +2688,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 
 				arrayElement = manufactureAttributeValue(pojo, pojos,
-						componentType, genericType, annotations, attributeName,
+						componentType, genericComponentType, annotations, attributeName,
 						typeArgsMap, genericTypeArgs.get());
 
 			}
