@@ -2123,21 +2123,30 @@ public class PodamFactoryImpl implements PodamFactory {
 				NO_TYPES);
 		Class<?> collectionClass = pojoClass;
 		Type[] typeParams = collectionClass.getTypeParameters();
-		while (typeParams.length < 1) {
+		main : while (typeParams.length < 1) {
 			for (Type genericIface : collectionClass.getGenericInterfaces()) {
 				Class<?> clazz = resolveGenericParameter(genericIface,
 						typeArgsMap, elementGenericTypeArgs);
 				if (Collection.class.isAssignableFrom(clazz)) {
+					collectionClass = clazz;
 					typeParams = elementGenericTypeArgs.get();
+					continue main;
 				}
 			}
-			if (typeParams.length < 1) {
-				Type type = collectionClass.getGenericSuperclass();
-				collectionClass = resolveGenericParameter(type, typeArgsMap,
+			Type type = collectionClass.getGenericSuperclass();
+			if (type != null) {
+				Class<?> clazz = resolveGenericParameter(type, typeArgsMap,
 						elementGenericTypeArgs);
-				if (Collection.class.isAssignableFrom(collectionClass)) {
+				if (Collection.class.isAssignableFrom(clazz)) {
+					collectionClass = clazz;
 					typeParams = elementGenericTypeArgs.get();
+					continue main;
 				}
+			}
+			if (Collection.class.equals(collectionClass)) {
+				LOG.warn("Collection {} doesn't have generic types,"
+						+ "will use Object instead", pojoClass);
+				typeParams = new Type[] { Object.class };
 			}
 		}
 		Class<?> elementTypeClass = resolveGenericParameter(typeParams[0],
@@ -2398,19 +2407,28 @@ public class PodamFactoryImpl implements PodamFactory {
 		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 				NO_TYPES);
 		Type[] typeParams = mapClass.getTypeParameters();
-		while (typeParams.length < 2) {
+		main : while (typeParams.length < 2) {
 			for (Type genericIface : mapClass.getGenericInterfaces()) {
 				Class<?> clazz = resolveGenericParameter(genericIface, typeArgsMap, elementGenericTypeArgs);
 				if (Map.class.isAssignableFrom(clazz)) {
 					typeParams = elementGenericTypeArgs.get();
+					mapClass = clazz;
+					continue main;
 				}
 			}
-			if (typeParams.length < 2) {
-				Type type = mapClass.getGenericSuperclass();
-				mapClass = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);
-				if (Map.class.isAssignableFrom(mapClass)) {
+			Type type = mapClass.getGenericSuperclass();
+			if (type != null) {
+				Class<?> clazz = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);
+				if (Map.class.isAssignableFrom(clazz)) {
 					typeParams = elementGenericTypeArgs.get();
+					mapClass = clazz;
+					continue main;
 				}
+			}
+			if (Map.class.equals(mapClass)) {
+				LOG.warn("Map {} doesn't have generic types,"
+						+ "will use Object, Object instead", pojoClass);
+				typeParams = new Type[] { Object.class, Object.class };
 			}
 		}
 		AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
