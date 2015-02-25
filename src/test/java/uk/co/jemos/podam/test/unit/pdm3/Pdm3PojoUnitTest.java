@@ -25,10 +25,12 @@ import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
 import uk.co.jemos.podam.test.dto.CollectionExtendingImplementingPojo;
 import uk.co.jemos.podam.test.dto.CollectionExtendingNoGenericsPojo;
 import uk.co.jemos.podam.test.dto.CollectionImplementingGenericsInterface;
+import uk.co.jemos.podam.test.dto.CollectionIndirectRawImplPojo;
 import uk.co.jemos.podam.test.dto.MapExtendingGenericsPojo;
 import uk.co.jemos.podam.test.dto.MapExtendingImplementingPojo;
 import uk.co.jemos.podam.test.dto.MapExtendingNoGenericsPojo;
 import uk.co.jemos.podam.test.dto.MapImplementingGenericInterface;
+import uk.co.jemos.podam.test.dto.MapIndirectRawImplPojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
@@ -132,6 +134,13 @@ public class Pdm3PojoUnitTest {
 	}
 
 	@Test
+	public void testPdm3IndirectImplementingListOfPojos() {
+
+		Collection<?> pojos = factory.manufacturePojo(CollectionIndirectRawImplPojo.class);
+		assertCollection(pojos, Object.class);
+	}
+
+	@Test
 	public void testPdm3ImplementingListOfPojos() {
 
 		Collection<?> pojos = factory.manufacturePojo(CollectionImplementingGenericsInterface.class);
@@ -156,6 +165,13 @@ public class Pdm3PojoUnitTest {
 	public void testPdm3ExtendingNonRawMapOfPojos() {
 
 		Map<?,?> pojos = factory.manufacturePojo(MapExtendingNoGenericsPojo.class);
+		assertMap(pojos, Object.class, Object.class);
+	}
+
+	@Test
+	public void testPdm3IndirectImplementingMapOfPojos() {
+
+		Map<?,?> pojos = factory.manufacturePojo(MapIndirectRawImplPojo.class);
 		assertMap(pojos, Object.class, Object.class);
 	}
 
