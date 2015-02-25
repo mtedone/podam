@@ -35,6 +35,7 @@ public class ImmutableWithNonGenericCollectionsPojo implements Serializable {
 	// This is actually intentional
 	private final Map nonGenerifiedMap;
 
+	@SuppressWarnings("rawtypes")
 	private final Set nonGenerifiedSet;
 
 	// ------------------->> Constructors
@@ -85,6 +86,7 @@ public class ImmutableWithNonGenericCollectionsPojo implements Serializable {
 	/**
 	 * @return the nonGenerifiedSet
 	 */
+	@SuppressWarnings("rawtypes")
 	public Set getNonGenerifiedSet() {
 		return nonGenerifiedSet;
 	}

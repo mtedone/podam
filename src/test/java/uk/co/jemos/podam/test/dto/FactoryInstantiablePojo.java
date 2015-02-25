@@ -10,7 +10,7 @@ public abstract class FactoryInstantiablePojo<T> {
 
 	private T typedValue;
 
-	public static <E> FactoryInstantiablePojo getInstance(E typedValue) {
+	public static <E> FactoryInstantiablePojo<E> getInstance(E typedValue) {
 		return new FactoryInstantiablePojoImpl<E>(typedValue);
 	}
 

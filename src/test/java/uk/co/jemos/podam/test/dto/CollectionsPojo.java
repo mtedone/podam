@@ -61,9 +61,11 @@ public class CollectionsPojo {
 	private Queue<SimplePojoToTestSetters> queue;
 
 	/** A non-generified list */
+	@SuppressWarnings("rawtypes")
 	private List nonGenerifiedList;
 
 	/** A non-generified map */
+	@SuppressWarnings("rawtypes")
 	private Map nonGenerifiedMap;
 
 	// ------------------->> Constructors
@@ -246,6 +248,7 @@ public class CollectionsPojo {
 	/**
 	 * @return the nonGenerifiedList
 	 */
+	@SuppressWarnings("rawtypes")
 	public List getNonGenerifiedList() {
 		return nonGenerifiedList;
 	}
@@ -254,6 +257,7 @@ public class CollectionsPojo {
 	 * @param nonGenerifiedList
 	 *            the nonGenerifiedList to set
 	 */
+	@SuppressWarnings("rawtypes")
 	public void setNonGenerifiedList(List nonGenerifiedList) {
 		this.nonGenerifiedList = nonGenerifiedList;
 	}
@@ -261,6 +265,7 @@ public class CollectionsPojo {
 	/**
 	 * @return the nonGenerifiedMap
 	 */
+	@SuppressWarnings("rawtypes")
 	public Map getNonGenerifiedMap() {
 		return nonGenerifiedMap;
 	}
@@ -269,6 +274,7 @@ public class CollectionsPojo {
 	 * @param nonGenerifiedMap
 	 *            the nonGenerifiedMap to set
 	 */
+	@SuppressWarnings("rawtypes")
 	public void setNonGenerifiedMap(Map nonGenerifiedMap) {
 		this.nonGenerifiedMap = nonGenerifiedMap;
 	}
