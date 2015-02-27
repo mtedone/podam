@@ -25,37 +25,33 @@ public class MapUnitTest {
 
 	private static final PodamFactory factory = new PodamFactoryImpl(strategy);
 
-	private void testMap(Class<?> mapType, int keySetSize, int valueSetSize) {
+	private void testMap(Class<?> mapType, int mapSize) {
 		Map<?,?> pojo = (Map<?,?>)factory.manufacturePojo(mapType,
-				String.class, Cloneable.class);
+				String.class, PodamTestInterface.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertEquals("Wrong size of key set",
-				keySetSize, pojo.keySet().size());
+				mapSize, pojo.keySet().size());
 		Assert.assertEquals("Wrong size of value set",
-				valueSetSize, pojo.values().size());
+				mapSize, pojo.values().size());
 	}
 	
 	@Test
 	public void testSortedMapCreation() {
 
 		testMap(TreeMap.class,
-				strategy.getNumberOfCollectionElements(TreeMap.class),
-				strategy.getNumberOfCollectionElements(Cloneable.class));
+				strategy.getNumberOfCollectionElements(PodamTestInterface.class));
 	}
 
 	@Test
 	public void testConcurrentMapCreation() {
 
-		testMap(ConcurrentHashMap.class,
-				0,
-				0);
+		testMap(ConcurrentHashMap.class, 0);
 	}
 
 	@Test
 	public void testHashMapCreation() {
 
 		testMap(HashMap.class,
-				strategy.getNumberOfCollectionElements(HashMap.class),
-				strategy.getNumberOfCollectionElements(Cloneable.class));
+				strategy.getNumberOfCollectionElements(PodamTestInterface.class));
 	}
 }
