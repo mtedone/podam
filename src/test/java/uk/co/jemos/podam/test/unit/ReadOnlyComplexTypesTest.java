@@ -1,5 +1,7 @@
 package uk.co.jemos.podam.test.unit;
 
+import java.beans.beancontext.BeanContextServicesSupport;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,5 +47,11 @@ public class ReadOnlyComplexTypesTest {
 				pojo.getValue().getValue());
 		Assert.assertEquals("Wrong element type", Character.class,
 				pojo.getValue().getValue().getClass());
+	}
+
+	@Test
+	public void testLoopInFillingReadOnlyFields() {
+		Object pojo = factory.manufacturePojo(BeanContextServicesSupport.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
 	}
 }
