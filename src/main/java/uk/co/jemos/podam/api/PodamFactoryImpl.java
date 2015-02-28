@@ -1855,6 +1855,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				type = typeArgsMap.get(((TypeVariable<?>)actualTypes[i]).getName());
 			} else if (actualTypes[i] instanceof Class) {
 				type = actualTypes[i];
+			} else if (actualTypes[i] instanceof WildcardType) {
+				AtomicReference<Type[]> methodGenericTypeArgs
+						= new AtomicReference<Type[]>(NO_TYPES);
+				type = resolveGenericParameter(actualTypes[i], typeArgsMap,
+						methodGenericTypeArgs);
 			}
 			if (type != null) {
 				resolvedTypes.add(type);
