@@ -1573,7 +1573,23 @@ public class PodamFactoryImpl implements PodamFactory {
 
 							genericTypeArgsAll = genericTypeArgs;
 						}
-						populatePojo(fieldValue, pojos, genericTypeArgsAll);
+
+						Class<?> fieldClass = fieldValue.getClass();
+						Integer depth = pojos.get(fieldClass);
+						if (depth == null) {
+							depth = -1;
+						}
+						if (depth <= strategy.getMaxDepth(fieldClass)) {
+
+							pojos.put(fieldClass, depth + 1);
+							populatePojo(fieldValue, pojos, genericTypeArgsAll);
+							pojos.put(fieldClass, depth);
+
+						} else {
+
+							LOG.warn("Loop in filling read-only field {} detected.",
+									field);
+						}
 					}
 				} else {
 
