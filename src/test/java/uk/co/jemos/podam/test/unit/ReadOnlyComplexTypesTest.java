@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.ReadOnlyRawFieldsPojo;
 import uk.co.jemos.podam.test.dto.ReadOnlyWildcardFieldsPojo;
 import uk.co.jemos.podam.test.dto.ReadOnlyComplexTypesPojo;
 import uk.co.jemos.podam.test.dto.ReadOnlyGenericComplexTypesPojo;
@@ -60,6 +61,15 @@ public class ReadOnlyComplexTypesTest {
 	public void testAttributeWithWildcards() {
 		ReadOnlyWildcardFieldsPojo pojo
 				= factory.manufacturePojo(ReadOnlyWildcardFieldsPojo.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		PodamTestUtils.assertListElementsType(pojo.getList(), Object.class);
+		PodamTestUtils.assertMapElementsType(pojo.getMap(), Object.class, Object.class);
+	}
+
+	@Test
+	public void testAttributeWithRawTypes() {
+		ReadOnlyRawFieldsPojo pojo
+				= factory.manufacturePojo(ReadOnlyRawFieldsPojo.class);
 		Assert.assertNotNull("Manufacturing failed", pojo);
 		PodamTestUtils.assertListElementsType(pojo.getList(), Object.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Object.class, Object.class);
