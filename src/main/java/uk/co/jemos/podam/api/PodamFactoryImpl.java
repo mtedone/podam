@@ -1574,6 +1574,20 @@ public class PodamFactoryImpl implements PodamFactory {
 							genericTypeArgsAll = genericTypeArgs;
 						}
 
+						if (field.getType().getTypeParameters().length > genericTypeArgsAll.length) {
+
+							Type[] missing = new Type[
+									field.getType().getTypeParameters().length
+									- genericTypeArgsAll.length];
+							for (int i = 0; i < missing.length; i++) {
+								missing[i] = Object.class;
+							}
+							LOG.warn("Missing type parameters, appended {}",
+									Arrays.toString(missing));
+							genericTypeArgsAll =
+									mergeTypeArrays(genericTypeArgsAll, missing);
+						}
+
 						Class<?> fieldClass = fieldValue.getClass();
 						Integer depth = pojos.get(fieldClass);
 						if (depth == null) {
