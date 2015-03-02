@@ -95,4 +95,18 @@ public interface PodamFactory {
 	 */
 	DataProviderStrategy getStrategy();
 
+	/**
+	 * It returns the class info strategy for this factory.
+	 *
+	 * @return
+	 */
+	ClassInfoStrategy getClassStrategy();
+
+	/**
+	 * Sets the class info strategy for this factory
+	 *
+	 * @param classInfoStrategy
+	 * @return
+	 */
+	PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy);
 }

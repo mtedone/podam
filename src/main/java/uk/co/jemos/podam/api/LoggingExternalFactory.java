@@ -86,4 +86,20 @@ public class LoggingExternalFactory implements PodamFactory {
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ClassInfoStrategy getClassStrategy() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
+		return this;
+	}
+
 }

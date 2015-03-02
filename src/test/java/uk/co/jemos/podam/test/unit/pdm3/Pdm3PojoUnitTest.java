@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.ClassInfoStrategy;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -67,6 +68,16 @@ public class Pdm3PojoUnitTest {
 		@Override
 		public DataProviderStrategy getStrategy() {
 			return null;
+		}
+
+		@Override
+		public ClassInfoStrategy getClassStrategy() {
+			return null;
+		}
+
+		@Override
+		public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
+			return this;
 		}
 	}
 

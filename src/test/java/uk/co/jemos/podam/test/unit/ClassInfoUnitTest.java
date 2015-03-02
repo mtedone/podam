@@ -80,6 +80,29 @@ public class ClassInfoUnitTest {
 	@Test
 	public void testClassInfoWithExcludeAnnotations() {
 
+		Set<Class<? extends Annotation>> excludeAnnotations = new HashSet<Class<? extends Annotation>>();
+		excludeAnnotations.add(TestExclude.class);
+		Set<String> excludeFields = new HashSet<String>();
+		testClassInfoWithExclusions(excludeAnnotations, excludeFields);
+	}
+
+	@Test
+	public void testClassInfoWithExcludeFields() {
+
+		Set<Class<? extends Annotation>> excludeAnnotations = new HashSet<Class<? extends Annotation>>();
+		Set<String> excludeFields = new HashSet<String>();
+		excludeFields.add("excludeField1");
+		excludeFields.add("excludeField2");
+		excludeFields.add("excludeField3");
+		testClassInfoWithExclusions(excludeAnnotations, excludeFields);
+	}
+
+	// ------------------------------> Private methods
+
+	private void testClassInfoWithExclusions(
+			Set<Class<? extends Annotation>> excludeAnnotations,
+			Set<String> excludeFields) {
+
 		Set<String> pojoFields = retrievePojoFields();
 
 		Set<Method> pojoSetters = PodamUtils.getPojoSetters(
@@ -90,11 +113,9 @@ public class ClassInfoUnitTest {
 		ClassInfo expectedClassInfo = new ClassInfo(
 				SimplePojoWithExcludeAnnotationToTestSetters.class, pojoFields,
 				pojoSetters, constructors);
-		Set<Class<? extends Annotation>> excludeAnnotations = new HashSet<Class<? extends Annotation>>();
-		excludeAnnotations.add(TestExclude.class);
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(
 				SimplePojoWithExcludeAnnotationToTestSetters.class,
-				excludeAnnotations);
+				excludeAnnotations, excludeFields);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
 		Assert.assertEquals(
 				"The expected and actual ClassInfo objects do not match!",
@@ -109,7 +130,5 @@ public class ClassInfoUnitTest {
 		pojoFields.add("intField");
 		return pojoFields;
 	}
-
-	// ------------------------------> Private methods
 
 }
