@@ -1541,7 +1541,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (String readOnlyField : readOnlyFields) {
 
-			Field field = getField(pojo.getClass(), readOnlyField);
+			Field field = PodamUtils.getField(pojo.getClass(), readOnlyField);
 			Method getter = PodamUtils.getGetterFor(field);
 			if (getter != null && !getter.getReturnType().isPrimitive()) {
 
@@ -1968,7 +1968,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		T retValue = null;
 
 		try {
-			Field field = getField(pojo.getClass(), attributeName);
+			Field field = PodamUtils.getField(pojo.getClass(), attributeName);
 
 			if (field != null) {
 
@@ -1990,39 +1990,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return retValue;
-	}
-
-	/**
-	 * It returns a {@link Field} matching the attribute name or null if a field
-	 * was not found.
-	 *
-	 * @param pojoClass
-	 *            The class supposed to contain the field
-	 * @param attributeName
-	 *            The field name
-	 *
-	 * @return a {@link Field} matching the attribute name or null if a field
-	 *         was not found.
-	 */
-	private Field getField(Class<?> pojoClass, String attributeName) {
-
-		Field field = null;
-
-		Class<?> clazz = pojoClass;
-
-		while (clazz != null) {
-			try {
-				field = clazz.getDeclaredField(attributeName);
-				break;
-			} catch (NoSuchFieldException e) {
-				clazz = clazz.getSuperclass();
-			}
-		}
-		if (field == null) {
-			LOG.warn("A field could not be found for attribute '{}[{}]'",
-					pojoClass, attributeName);
-		}
-		return field;
 	}
 
 	/**
@@ -2098,7 +2065,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		// Checks if the field has got any custom annotations
 		String attributeName = PodamUtils
 				.extractFieldNameFromSetterMethod(setter);
-		Field setterField = getField(clazz, attributeName);
+		Field setterField = PodamUtils.getField(clazz, attributeName);
 
 		if (setterField != null) {
 			Annotation[] annotations = setterField.getAnnotations();

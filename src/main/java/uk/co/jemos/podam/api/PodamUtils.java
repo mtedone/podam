@@ -263,4 +263,36 @@ public final class PodamUtils {
 		return candidateField;
 	}
 
+	/**
+	 * It returns a {@link Field} matching the attribute name or null if a field
+	 * was not found.
+	 *
+	 * @param pojoClass
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return a {@link Field} matching the attribute name or null if a field
+	 *         was not found.
+	 */
+	public static Field getField(Class<?> pojoClass, String attributeName) {
+
+		Field field = null;
+
+		Class<?> clazz = pojoClass;
+
+		while (clazz != null) {
+			try {
+				field = clazz.getDeclaredField(attributeName);
+				break;
+			} catch (NoSuchFieldException e) {
+				clazz = clazz.getSuperclass();
+			}
+		}
+		if (field == null) {
+			LOG.warn("A field could not be found for attribute '{}[{}]'",
+					pojoClass, attributeName);
+		}
+		return field;
+	}
 }
