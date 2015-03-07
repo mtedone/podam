@@ -295,4 +295,44 @@ public final class PodamUtils {
 		}
 		return field;
 	}
+
+	/**
+	 * It returns an value for a {@link Field} matching the attribute
+	 * name or null if a field was not found.
+	 *
+	 * @param pojoClass
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return an instance of {@link Field} matching the attribute name or
+	 *         null if a field was not found.
+	 */
+	public static <T> T getFieldValue(Object pojo, String attributeName) {
+		T retValue = null;
+
+		try {
+			Field field = PodamUtils.getField(pojo.getClass(), attributeName);
+
+			if (field != null) {
+
+				// It allows to invoke Field.get on private fields
+				field.setAccessible(true);
+
+				@SuppressWarnings("unchecked")
+				T t = (T) field.get(pojo);
+				retValue = t;
+			} else {
+
+				LOG.info("The field {}[{}] didn't exist.", pojo.getClass(), attributeName);
+			}
+
+		} catch (Exception e) {
+
+			LOG.warn("We couldn't get default value for {}[{}]",
+					pojo.getClass(), attributeName, e);
+		}
+
+		return retValue;
+	}
 }

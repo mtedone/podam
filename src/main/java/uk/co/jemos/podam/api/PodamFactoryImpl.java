@@ -1953,46 +1953,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It returns an default value for a {@link Field} matching the attribute
-	 * name or null if a field was not found.
-	 *
-	 * @param pojoClass
-	 *            The class supposed to contain the field
-	 * @param attributeName
-	 *            The field name
-	 *
-	 * @return an instance of {@link Field} matching the attribute name or
-	 *         null if a field was not found.
-	 */
-	private <T> T getDefaultFieldValue(Object pojo, String attributeName) {
-		T retValue = null;
-
-		try {
-			Field field = PodamUtils.getField(pojo.getClass(), attributeName);
-
-			if (field != null) {
-
-				// It allows to invoke Field.get on private fields
-				field.setAccessible(true);
-
-				@SuppressWarnings(UNCHECKED_STR)
-				T t = (T) field.get(pojo);
-				retValue = t;
-			} else {
-
-				LOG.info("The field {}[{}] didn't exist.", pojo.getClass(), attributeName);
-			}
-
-		} catch (Exception e) {
-
-			LOG.warn("We couldn't get default value for {}[{}]",
-					pojo.getClass(), attributeName, e);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * It returns a {@link PodamStrategyValue} if one was specified, or
 	 * {@code null} otherwise.
 	 *
@@ -2116,7 +2076,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Collection<? super Object> retValue = null;
 		if (null != pojo && null != attributeName) {
 
-			retValue = getDefaultFieldValue(pojo, attributeName);
+			retValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
 		retValue = resolveCollectionType(collectionType, retValue);
@@ -2387,7 +2347,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Map<? super Object, ? super Object> retValue = null;
 		if (null != pojo && null != attributeName) {
 
-			retValue = getDefaultFieldValue(pojo, attributeName);
+			retValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
 		retValue = resolveMapType(attributeType, retValue);
