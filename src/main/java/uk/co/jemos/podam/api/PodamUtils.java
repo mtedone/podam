@@ -8,8 +8,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -331,6 +333,34 @@ public final class PodamUtils {
 
 			LOG.warn("We couldn't get default value for {}[{}]",
 					pojo.getClass(), attributeName, e);
+		}
+
+		return retValue;
+	}
+
+	/**
+	 * Given the original class and the attribute name, it returns all
+	 * annotations for the field or an empty collection if no custom annotations
+	 * were found on the field
+	 *
+	 * @param clazz
+	 *            The class containing the annotated attribute
+	 * @param attributeName
+	 *            The name of attribute
+	 * @return all annotations for the field
+	 */
+	public static List<Annotation> getFieldAnnotations(Class<?> clazz,
+			final String attributeName) {
+
+		Field field = PodamUtils.getField(clazz, attributeName);
+
+		Annotation[] annotations = (field != null ? field.getAnnotations() : null);
+
+		List<Annotation> retValue;
+		if (annotations != null && annotations.length != 0) {
+			retValue = Arrays.asList(annotations);
+		} else {
+			retValue = new ArrayList<Annotation>();
 		}
 
 		return retValue;

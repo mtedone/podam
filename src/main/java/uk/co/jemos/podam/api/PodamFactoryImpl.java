@@ -1425,11 +1425,12 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object setterArg = null;
 		for (Method setter : classInfo.getClassSetters()) {
 
-			List<Annotation> pojoAttributeAnnotations = retrieveFieldAnnotations(
-					pojo.getClass(), setter);
-
 			String attributeName = PodamUtils
 					.extractFieldNameFromSetterMethod(setter);
+			List<Annotation> pojoAttributeAnnotations
+					= PodamUtils.getFieldAnnotations(pojo.getClass(),
+							attributeName);
+
 			readOnlyFields.remove(attributeName);
 
 			parameterTypes = setter.getParameterTypes();
@@ -2000,43 +2001,6 @@ public class PodamFactoryImpl implements PodamFactory {
 																: candidateWrapperClass
 																		.equals(Double.class) ? true
 																		: false;
-	}
-
-	/**
-	 * Given the original class and the setter method, it returns all
-	 * annotations for the field or an empty collection if no custom annotations
-	 * were found on the field
-	 *
-	 * @param clazz
-	 *            The class containing the annotated attribute
-	 * @param setter
-	 *            The setter method
-	 * @return all annotations for the field
-	 * @throws NoSuchFieldException
-	 *             If the field could not be found
-	 * @throws SecurityException
-	 *             if a security exception occurred
-	 */
-	private List<Annotation> retrieveFieldAnnotations(Class<?> clazz,
-			Method setter) {
-
-		List<Annotation> retValue = new ArrayList<Annotation>();
-
-		// Checks if the field has got any custom annotations
-		String attributeName = PodamUtils
-				.extractFieldNameFromSetterMethod(setter);
-		Field setterField = PodamUtils.getField(clazz, attributeName);
-
-		if (setterField != null) {
-			Annotation[] annotations = setterField.getAnnotations();
-
-			if (annotations != null && annotations.length != 0) {
-				retValue = Arrays.asList(annotations);
-			}
-		}
-
-		return retValue;
-
 	}
 
 	/**
