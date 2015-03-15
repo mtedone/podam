@@ -467,20 +467,34 @@ public class ImmutableNoHierarchicalAnnotatedPojo implements Serializable {
 * @PodamExclude
 
   This annotation is used to instruct PODAM to skip the initialisation of a certain attribute. 
-  
+
 *------------+---------------------+
 | Attribute | Description |
 *------------+---------------------+
 | comment | It allows users to write a comment on the use of this annotation |
+*------------+---------------------+
 
   Example: 
-  
+
 +-----------------------------------
 
-/** PODAM will not fill this attribute */
-@PodamExclude
-private SimplePojoToTestSetters somePojo;
+	public class Pojo {
+
+		/** PODAM will not fill this attribute */
+		@PodamExclude
+		private SimplePojoToTestSetters somePojo;
+	}
 
 +----------------------------------- 
 
-  
+  An alternative to this annotation is reloading <ClassInfoStrategy.getExcludedFields()>
+
+  Example: 
+
++-----------------------------------
+
+	private final static DefaultClassInfoStrategy classInfoStrategy =
+			DefaultClassInfoStrategy.getInstance();
+	classInfoStrategy.addExcludedField(Pojo.class, "somePojo");
+
++-----------------------------------
