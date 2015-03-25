@@ -1556,7 +1556,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				if (getter.getGenericParameterTypes().length == 0) {
 
-					Object fieldValue = getter.invoke(pojo, NO_ARGS);
+					Object fieldValue = null;
+					try {
+						fieldValue = getter.invoke(pojo, NO_ARGS);
+					} catch(Exception e) {
+						LOG.debug("Cannot access {}, skipping", getter);
+					}
 					if (fieldValue != null) {
 
 						LOG.debug("Populating read-only field {}", field);
