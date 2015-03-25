@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.DefaultClassInfoStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
@@ -26,21 +27,24 @@ public class BooleanUnitTest implements Serializable {
 	private final static RandomDataProviderStrategy strategy =
 			RandomDataProviderStrategy.getInstance();
 
+	private final static DefaultClassInfoStrategy classInfoStrategy =
+			DefaultClassInfoStrategy.getInstance();
+
 	private final static PodamFactory podam = new PodamFactoryImpl(strategy);
 
 	@BeforeClass
 	public static void init() {
-		strategy.addExcludedAnnotation(TestExclude.class);
-		strategy.addExcludedAnnotation(PodamExclude.class);
+		classInfoStrategy.addExcludedAnnotation(TestExclude.class);
+		classInfoStrategy.addExcludedAnnotation(PodamExclude.class);
 		Assert.assertEquals("Unexpected number of exluded annotations",
-				2, strategy.getExcludedAnnotations().size());
+				2, classInfoStrategy.getExcludedAnnotations().size());
 	}
 
 	@AfterClass
 	public static void deinit() {
-		strategy.removeExcludedAnnotation(TestExclude.class);
+		classInfoStrategy.removeExcludedAnnotation(TestExclude.class);
 		Assert.assertEquals("Unexpected number of exluded annotations",
-				1, strategy.getExcludedAnnotations().size());
+				1, classInfoStrategy.getExcludedAnnotations().size());
 	}
 
 	@Test

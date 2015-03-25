@@ -48,7 +48,7 @@ public final class PodamUtils {
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz) {
-		return getClassInfo(clazz, null);
+		return getClassInfo(clazz, null, null);
 	}
 
 	/**
@@ -59,13 +59,16 @@ public final class PodamUtils {
 	 * @param excludeFieldAnnotations
 	 *            the fields marked with any of these annotations will not be
 	 *            included in the class info
+	 * @param excludedFields
+	 *            the fields will not be included in the class info
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz,
-			Set<Class<? extends Annotation>> excludeFieldAnnotations) {
+			Set<Class<? extends Annotation>> excludeFieldAnnotations,
+			Set<String> excludedFields) {
 
 		Set<String> classFields = getDeclaredInstanceFields(clazz,
-				excludeFieldAnnotations);
+				excludeFieldAnnotations, excludedFields);
 		Set<Method> classSetters = getPojoSetters(clazz, classFields);
 		Constructor<?>[] constructors = clazz.getConstructors();
 		Set<Constructor<?>> constructorsSet = new HashSet<Constructor<?>>(
@@ -82,7 +85,7 @@ public final class PodamUtils {
 	 * @return Set of a class declared field names.
 	 */
 	public static Set<String> getDeclaredInstanceFields(Class<?> clazz) {
-		return getDeclaredInstanceFields(clazz, null);
+		return getDeclaredInstanceFields(clazz, null, null);
 	}
 
 	/**
@@ -93,10 +96,13 @@ public final class PodamUtils {
 	 * @param excludeAnnotations
 	 *            fields marked with any of the mentioned annotations will be
 	 *            skipped
+	 * @param excludedFields
+	 *            the fields will not be included in the class info
 	 * @return Set of a class declared field names.
 	 */
 	public static Set<String> getDeclaredInstanceFields(Class<?> clazz,
-			Set<Class<? extends Annotation>> excludeAnnotations) {
+			Set<Class<? extends Annotation>> excludeAnnotations,
+			Set<String> excludedFields) {
 
 		if (excludeAnnotations == null) {
 			excludeAnnotations = new HashSet<Class<? extends Annotation>>();
@@ -111,7 +117,9 @@ public final class PodamUtils {
 			Field[] declaredFields = workClass.getDeclaredFields();
 			for (Field field : declaredFields) {
 				// If users wanted to skip this field, we grant their wishes
-				if (containsAnyAnnotation(field, excludeAnnotations)) {
+				if (containsAnyAnnotation(field, excludeAnnotations)
+						|| (excludedFields != null
+								&& excludedFields.contains(field.getName()))) {
 					continue;
 				}
 				int modifiers = field.getModifiers();

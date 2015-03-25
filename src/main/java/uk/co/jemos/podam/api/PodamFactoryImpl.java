@@ -104,6 +104,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	private final DataProviderStrategy strategy;
 
 	/**
+	 * The strategy to use to introspect data.
+	 * <p>
+	 * The default is {@link DefaultClassInfoStrategy}.
+	 * </p>
+	 */
+	private ClassInfoStrategy classInfoStrategy
+			= DefaultClassInfoStrategy.getInstance();
+
+	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
@@ -1413,8 +1422,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?>[] parameterTypes = null;
 		Class<?> attributeType = null;
 
-		ClassInfo classInfo = PodamUtils.getClassInfo(pojo.getClass(),
-				strategy.getExcludedAnnotations());
+		ClassInfo classInfo = classInfoStrategy.getClassInfo(pojo.getClass());
 
 		Set<String> readOnlyFields = classInfo.getClassFields();
 
@@ -3150,6 +3158,17 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
+	}
+
+	@Override
+	public ClassInfoStrategy getClassStrategy() {
+		return classInfoStrategy;
+	}
+
+	@Override
+	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
+		this.classInfoStrategy = classInfoStrategy;
+		return this;
 	}
 
 	// ------------------->> equals() / hashcode() / toString()
