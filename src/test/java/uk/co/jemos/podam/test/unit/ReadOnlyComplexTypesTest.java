@@ -7,10 +7,11 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.test.dto.ReadOnlyRawFieldsPojo;
-import uk.co.jemos.podam.test.dto.ReadOnlyWildcardFieldsPojo;
+import uk.co.jemos.podam.test.dto.ReadOnlyAbstract;
 import uk.co.jemos.podam.test.dto.ReadOnlyComplexTypesPojo;
 import uk.co.jemos.podam.test.dto.ReadOnlyGenericComplexTypesPojo;
+import uk.co.jemos.podam.test.dto.ReadOnlyRawFieldsPojo;
+import uk.co.jemos.podam.test.dto.ReadOnlyWildcardFieldsPojo;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 /**
@@ -73,5 +74,12 @@ public class ReadOnlyComplexTypesTest {
 		Assert.assertNotNull("Manufacturing failed", pojo);
 		PodamTestUtils.assertListElementsType(pojo.getList(), Object.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Object.class, Object.class);
+	}
+
+	@Test
+	public void testNonAccessibleAttribute() {
+		ReadOnlyAbstract pojo
+				= factory.manufacturePojo(ReadOnlyAbstract.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
 	}
 }
