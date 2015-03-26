@@ -1332,6 +1332,17 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
+		if (pojoClass.isEnum()) {
+
+			int enumConstantsLength = pojoClass.getEnumConstants().length;
+			if (enumConstantsLength > 0) {
+				AttributeMetadata attribute = null;
+				int enumIndex = strategy.getIntegerInRange(0,
+						enumConstantsLength - 1, attribute);
+				return  pojoClass.getEnumConstants()[enumIndex];
+			}
+		}
+
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
 			List<Annotation> annotations = new ArrayList<Annotation>();
