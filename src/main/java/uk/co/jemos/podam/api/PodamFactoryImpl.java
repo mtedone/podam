@@ -432,7 +432,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			LOG.warn("For class {} PODAM could not possibly create"
+			LOG.debug("For class {} PODAM could not possibly create"
 					+ " a value statically. Will try other means.",
 					pojoClass);
 		}
@@ -1282,7 +1282,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			retValue = externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
+			LOG.debug("For class {} PODAM could not possibly create"
+					+ " a value. Will try other means.", pojoClass);
 		}
 		return retValue;
 	}
