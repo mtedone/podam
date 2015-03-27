@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -132,8 +133,12 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy {
 	 */
 	@Override
 	public ClassInfo getClassInfo(Class<?> pojoClass) {
+		Set<String> excludedAttributes = excludedFields.get(pojoClass);
+		if (excludedAttributes == null) {
+			excludedAttributes = Collections.emptySet();
+		}
 		return PodamUtils.getClassInfo(pojoClass,
-				excludedAnnotations, excludedFields.get(pojoClass));
+				excludedAnnotations, excludedAttributes);
 	}
 
 	// ------------------->> Private methods
