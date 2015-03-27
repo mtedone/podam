@@ -14,6 +14,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.ClassAttribute;
+import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.test.dto.EmptyTestPojo;
@@ -25,7 +26,7 @@ import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.T
  * @author mtedone
  *
  */
-public class ClassInfoUnitTest {
+public class ClassInfoUnitTest implements ClassAttributeApprover {
 
 	@Test
 	public void testClassInfoWithEmptyPojo() {
@@ -35,7 +36,7 @@ public class ClassInfoUnitTest {
 				EmptyTestPojo.class, attributes);
 
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(EmptyTestPojo.class);
+				.getClassInfo(EmptyTestPojo.class, this);
 
 		Assert.assertEquals(
 				"The expected and actual ClassInfo objects are not the same",
@@ -47,7 +48,7 @@ public class ClassInfoUnitTest {
 	public void testClassInfoSettersWithSimplePojo() {
 
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(SimplePojoToTestSetters.class);
+				.getClassInfo(SimplePojoToTestSetters.class, this);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
 		Assert.assertEquals("Class mismatch",
 				SimplePojoToTestSetters.class, actualClassInfo.getClassName());
@@ -85,7 +86,7 @@ public class ClassInfoUnitTest {
 
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(
 				SimplePojoWithExcludeAnnotationToTestSetters.class,
-				excludeAnnotations, excludeFields);
+				excludeAnnotations, excludeFields, this);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
 		Set<String> attribs = new HashSet<String>();
 		attribs.add("stringField");
@@ -106,5 +107,10 @@ public class ClassInfoUnitTest {
 			Assert.assertEquals("Wrong number of setters " + attribute.getSetters(),
 					1, attribute.getSetters().size());
 		}
+	}
+
+	@Override
+	public boolean approve(ClassAttribute attribute) {
+		return (attribute.getAttribute() != null);
 	}
 }

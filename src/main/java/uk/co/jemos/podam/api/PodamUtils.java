@@ -9,8 +9,10 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,12 +53,17 @@ public final class PodamUtils {
 	 *
 	 * @param clazz
 	 *            The class to retrieve info from
+	 * @param attributeApprover
+	 *            a {@link ClassAttributeApprover} implementation,
+	 *             which attributes to skip and which to process
 	 * @return a {@link ClassInfo} object for the given class
 	 */
-	public static ClassInfo getClassInfo(Class<?> clazz) {
+	public static ClassInfo getClassInfo(Class<?> clazz,
+			ClassAttributeApprover attributeApprover) {
 		return getClassInfo(clazz,
 				new HashSet<Class<? extends Annotation>>(),
-				Collections.<String>emptySet());
+				Collections.<String>emptySet(),
+				attributeApprover);
 	}
 
 	/**
@@ -69,11 +76,15 @@ public final class PodamUtils {
 	 *            included in the class info
 	 * @param excludedFields
 	 *            the fields will not be included in the class info
+	 * @param attributeApprover
+	 *            a {@link ClassAttributeApprover} implementation,
+	 *             which attributes to skip and which to process
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz,
 			Set<Class<? extends Annotation>> excludeFieldAnnotations,
-			Set<String> excludedFields) {
+			Set<String> excludedFields,
+			ClassAttributeApprover attributeApprover) {
 
 		Set<Field> classFields = new HashSet<Field>();
 		Set<Method> classGetters = new HashSet<Method>();
@@ -97,6 +108,11 @@ public final class PodamUtils {
 				ClassAttribute attribute = map.get(attributeName);
 				if (attribute != null) {
 					attribute.getRawGetters().add(classGetter);
+				} else {
+					attribute = new ClassAttribute(null,
+							Collections.singleton(classGetter),
+							Collections.<Method>emptySet());
+					map.put(attributeName, attribute);
 				}
 			}
 		}
@@ -108,11 +124,25 @@ public final class PodamUtils {
 				ClassAttribute attribute = map.get(attributeName);
 				if (attribute != null) {
 					attribute.getRawSetters().add(classSetter);
+				} else {
+					attribute = new ClassAttribute(null,
+							Collections.<Method>emptySet(),
+							Collections.singleton(classSetter));
+					map.put(attributeName, attribute);
 				}
 			}
 		}
 
-		return new ClassInfo(clazz, map.values());
+		/* Approve all found attributes */
+		Collection<ClassAttribute> attributes = new ArrayList<ClassAttribute>(map.values());
+		Iterator<ClassAttribute> iter = attributes.iterator();
+		while(iter.hasNext()) {
+			if (!attributeApprover.approve(iter.next())) {
+				iter.remove();
+			}
+		}
+
+		return new ClassInfo(clazz, attributes);
 	}
 
 	/**

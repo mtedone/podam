@@ -22,7 +22,8 @@ import java.util.Set;
  *
  */
 
-public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy {
+public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
+		ClassAttributeApprover {
 
 	// ------------------->> Constants
 
@@ -138,7 +139,15 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy {
 			excludedAttributes = Collections.emptySet();
 		}
 		return PodamUtils.getClassInfo(pojoClass,
-				excludedAnnotations, excludedAttributes);
+				excludedAnnotations, excludedAttributes, this);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean approve(ClassAttribute attribute) {
+		return (attribute.getAttribute() != null);
 	}
 
 	// ------------------->> Private methods
