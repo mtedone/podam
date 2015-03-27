@@ -1523,9 +1523,6 @@ public class PodamFactoryImpl implements PodamFactory {
 						attributeType, setter.getGenericParameterTypes()[0],
 						pojoAttributeAnnotations, attributeName,
 						typeArgsMap, typeArguments);
-				if (null == setterArg) {
-					setterArg = externalFactory.manufacturePojo(attributeType);
-				}
 			}
 
 			if (setterArg != null) {
