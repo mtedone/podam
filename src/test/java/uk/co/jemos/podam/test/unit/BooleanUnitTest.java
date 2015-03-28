@@ -22,7 +22,7 @@ import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.T
  *
  */
 public class BooleanUnitTest implements Serializable {
-	private static final long serialVersionUID = 8040488550006045568L;
+	private static final long serialVersionUID = 1L;
 
 	private final static RandomDataProviderStrategy strategy =
 			RandomDataProviderStrategy.getInstance();

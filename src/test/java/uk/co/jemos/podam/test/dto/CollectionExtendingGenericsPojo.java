@@ -15,5 +15,5 @@ import java.util.LinkedList;
  * 
  */
 public class CollectionExtendingGenericsPojo extends LinkedList<String> {
-	private static final long serialVersionUID = 2004572368340270532L;
+	private static final long serialVersionUID = 1L;
 }

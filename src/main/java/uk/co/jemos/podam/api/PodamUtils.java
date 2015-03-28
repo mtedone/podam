@@ -75,10 +75,10 @@ public final class PodamUtils {
 	 *            the fields marked with any of these annotations will not be
 	 *            included in the class info
 	 * @param excludedFields
-	 *            the fields will not be included in the class info
+	 *            the fields matching the given names will not be included in the class info
 	 * @param attributeApprover
 	 *            a {@link ClassAttributeApprover} implementation,
-	 *             which attributes to skip and which to process
+	 *             which defines which attributes to skip and which to process
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz,
@@ -311,8 +311,7 @@ public final class PodamUtils {
 	 * @return The field name corresponding to the setter
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
-		String candidateField = null;
-		candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
+		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
 		if (!"".equals(candidateField)) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
@@ -392,7 +391,7 @@ public final class PodamUtils {
 	 * It returns an value for a {@link Field} matching the attribute
 	 * name or null if a field was not found.
 	 *
-	 * @param pojoClass
+	 * @param pojo
 	 *            The class supposed to contain the field
 	 * @param attributeName
 	 *            The field name

@@ -16,5 +16,5 @@ import java.util.HashMap;
  */
 @SuppressWarnings("rawtypes")
 public class MapExtendingNoGenericsPojo extends HashMap {
-	private static final long serialVersionUID = 5232955143368495291L;
+	private static final long serialVersionUID = 1L;
 }

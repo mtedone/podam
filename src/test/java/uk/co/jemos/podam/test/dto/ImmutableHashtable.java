@@ -8,7 +8,7 @@ import java.util.Map;
  *
  */
 public class ImmutableHashtable<K,V> extends Hashtable<K,V> {
-	private static final long serialVersionUID = -1550528035764376072L;
+	private static final long serialVersionUID = -1L;
 
 	@Override
 	public V put(K key, V value) {

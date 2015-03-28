@@ -8,7 +8,7 @@ import java.util.Vector;
  *
  */
 public class ImmutableVector<E> extends Vector<E> {
-	private static final long serialVersionUID = -2236361271129519506L;
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public boolean add(E e) {
