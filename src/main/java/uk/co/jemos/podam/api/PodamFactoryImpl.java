@@ -6,7 +6,6 @@ package uk.co.jemos.podam.api;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -1422,22 +1421,33 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		ClassInfo classInfo = classInfoStrategy.getClassInfo(pojo.getClass());
 
-		Set<String> readOnlyFields = classInfo.getClassFields();
-
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+
+		Set<ClassAttribute> classAttributes = classInfo.getClassAttributes();
 
 		// According to JavaBeans standards, setters should have only
 		// one argument
 		Object setterArg = null;
-		for (Method setter : classInfo.getClassSetters()) {
+		Iterator<ClassAttribute> iter = classAttributes.iterator();
+		while (iter.hasNext()) {
+
+			ClassAttribute attribute = iter.next();
+			Set<Method> setters = attribute.getSetters();
+			if (setters.isEmpty()) {
+				if (attribute.getGetters().isEmpty()) {
+					iter.remove();
+				}
+				continue;
+			} else {
+				iter.remove();
+			}
+			Method setter = setters.iterator().next();
 
 			String attributeName = PodamUtils
 					.extractFieldNameFromSetterMethod(setter);
 			List<Annotation> pojoAttributeAnnotations
 					= PodamUtils.getFieldAnnotations(pojo.getClass(),
 							attributeName);
-
-			readOnlyFields.remove(attributeName);
 
 			parameterTypes = setter.getParameterTypes();
 			if (parameterTypes.length != 1) {
@@ -1543,10 +1553,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		for (String readOnlyField : readOnlyFields) {
+		for (ClassAttribute readOnlyAttribute : classAttributes) {
 
-			Field field = PodamUtils.getField(pojo.getClass(), readOnlyField);
-			Method getter = PodamUtils.getGetterFor(field);
+			Method getter = readOnlyAttribute.getGetters().iterator().next();
 			if (getter != null && !getter.getReturnType().isPrimitive()) {
 
 				if (getter.getGenericParameterTypes().length == 0) {
@@ -1559,9 +1568,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 					if (fieldValue != null) {
 
-						LOG.debug("Populating read-only field {}", field);
+						LOG.debug("Populating read-only field {}", getter);
 						Type[] genericTypeArgsAll;
-						if (field.getGenericType() instanceof ParameterizedType) {
+						if (getter.getGenericReturnType() instanceof ParameterizedType) {
 
 							if (typeArgsMap.isEmpty()) {
 								Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
@@ -1573,7 +1582,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							}
 
 							ParameterizedType paramType
-									= (ParameterizedType) field.getGenericType();
+									= (ParameterizedType) getter.getGenericReturnType();
 							Type[] actualTypes = paramType.getActualTypeArguments();
 							genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(
 									actualTypes, genericTypeArgs,
@@ -1583,10 +1592,10 @@ public class PodamFactoryImpl implements PodamFactory {
 							genericTypeArgsAll = genericTypeArgs;
 						}
 
-						if (field.getType().getTypeParameters().length > genericTypeArgsAll.length) {
+						if (getter.getReturnType().getTypeParameters().length > genericTypeArgsAll.length) {
 
 							Type[] missing = new Type[
-									field.getType().getTypeParameters().length
+									getter.getReturnType().getTypeParameters().length
 									- genericTypeArgsAll.length];
 							for (int i = 0; i < missing.length; i++) {
 								missing[i] = Object.class;
@@ -1611,7 +1620,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						} else {
 
 							LOG.warn("Loop in filling read-only field {} detected.",
-									field);
+									getter);
 						}
 					}
 				} else {

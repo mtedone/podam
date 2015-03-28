@@ -4,8 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,50 +33,27 @@ public class ClassInfo implements Serializable {
 	private final Class<?> className;
 
 	/** The Set of fields belonging to this class */
-	private final Set<String> classFields;
-
-	/** The Set of setters belonging to this class */
-	private final Set<Method> classSetters;
-
-	/** The Set of constructors for this class. */
-	private final Set<Constructor<?>> constructors;
+	private final Set<ClassAttribute> classAttributes = new HashSet<ClassAttribute>();
 
 	/**
 	 * Full constructor
 	 *
 	 * @param className
 	 *            The class name
-	 * @param classFields
-	 *            The set of fields belonging to this class
-	 * @param classSetters
-	 *            The set of setters belonging to this class
-	 *
-	 * @param constructors
-	 *            The set of constructors for this class
+	 * @param classAttributes
+	 *            The collection of attributes belonging to this class
 	 */
-	public ClassInfo(Class<?> className, Set<String> classFields,
-			Set<Method> classSetters, Set<Constructor<?>> constructors) {
+	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes) {
 		super();
 		this.className = className;
-		this.classFields = new HashSet<String>(classFields);
-		this.classSetters = new HashSet<Method>(classSetters);
-		this.constructors = new HashSet<Constructor<?>>(constructors);
+		this.classAttributes.addAll(classAttributes);
 	}
 
 	/**
 	 * @return the classSetters
 	 */
-	public Set<Method> getClassSetters() {
-		return new HashSet<Method>(classSetters);
-	}
-
-	/**
-	 * It returns the constructors for this class.
-	 *
-	 * @return the constructors
-	 */
-	public Set<Constructor<?>> getConstructors() {
-		return constructors;
+	public Set<ClassAttribute> getClassAttributes() {
+		return new HashSet<ClassAttribute>(classAttributes);
 	}
 
 	/**
@@ -87,15 +63,6 @@ public class ClassInfo implements Serializable {
 	 */
 	public Class<?> getClassName() {
 		return className;
-	}
-
-	/**
-	 * It returns the fields for this class.
-	 *
-	 * @return the classFields
-	 */
-	public Set<String> getClassFields() {
-		return new HashSet<String>(classFields);
 	}
 
 	/*
@@ -108,11 +75,9 @@ public class ClassInfo implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ (classFields == null ? 0 : classFields.hashCode());
+				+ (classAttributes == null ? 0 : classAttributes.hashCode());
 		result = prime * result
 				+ (className == null ? 0 : className.hashCode());
-		result = prime * result
-				+ (classSetters == null ? 0 : classSetters.hashCode());
 		return result;
 	}
 
@@ -133,11 +98,11 @@ public class ClassInfo implements Serializable {
 			return false;
 		}
 		ClassInfo other = (ClassInfo) obj;
-		if (classFields == null) {
-			if (other.classFields != null) {
+		if (classAttributes == null) {
+			if (other.classAttributes != null) {
 				return false;
 			}
-		} else if (!classFields.equals(other.classFields)) {
+		} else if (!classAttributes.equals(other.classAttributes)) {
 			return false;
 		}
 		if (className == null) {
@@ -145,13 +110,6 @@ public class ClassInfo implements Serializable {
 				return false;
 			}
 		} else if (!className.getName().equals(other.className.getName())) {
-			return false;
-		}
-		if (classSetters == null) {
-			if (other.classSetters != null) {
-				return false;
-			}
-		} else if (!classSetters.equals(other.classSetters)) {
 			return false;
 		}
 		return true;
@@ -165,10 +123,8 @@ public class ClassInfo implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("ClassInfo [className=");
 		builder.append(className);
-		builder.append(", classFields=");
-		builder.append(classFields);
-		builder.append(", classSetters=");
-		builder.append(classSetters);
+		builder.append(", classAttributes=");
+		builder.append(classAttributes);
 		builder.append("]");
 		return builder.toString();
 	}

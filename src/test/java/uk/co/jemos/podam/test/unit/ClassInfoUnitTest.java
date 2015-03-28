@@ -4,16 +4,17 @@
 package uk.co.jemos.podam.test.unit;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.ClassAttribute;
+import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.test.dto.EmptyTestPojo;
@@ -25,22 +26,17 @@ import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.T
  * @author mtedone
  *
  */
-public class ClassInfoUnitTest {
+public class ClassInfoUnitTest implements ClassAttributeApprover {
 
 	@Test
 	public void testClassInfoWithEmptyPojo() {
 
-		Set<String> pojoDeclaredFields = new HashSet<String>();
-
-		Set<Method> pojoSetters = new HashSet<Method>();
-
-		Set<Constructor<?>> constructors = new HashSet<Constructor<?>>();
-
-		ClassInfo expectedClassInfo = new ClassInfo(EmptyTestPojo.class,
-				pojoDeclaredFields, pojoSetters, constructors);
+		List<ClassAttribute> attributes = new ArrayList<ClassAttribute>();
+		ClassInfo expectedClassInfo = new ClassInfo(
+				EmptyTestPojo.class, attributes);
 
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(EmptyTestPojo.class);
+				.getClassInfo(EmptyTestPojo.class, this);
 
 		Assert.assertEquals(
 				"The expected and actual ClassInfo objects are not the same",
@@ -51,30 +47,15 @@ public class ClassInfoUnitTest {
 	@Test
 	public void testClassInfoSettersWithSimplePojo() {
 
-		Set<String> pojoFields = retrievePojoFields();
-
-		Set<Method> pojoSetters = PodamUtils.getPojoSetters(
-				SimplePojoToTestSetters.class, pojoFields);
-
-		Set<Constructor<?>> constructors = retrieveConstructors(SimplePojoToTestSetters.class);
-
-		ClassInfo expectedClassInfo = new ClassInfo(
-				SimplePojoToTestSetters.class, pojoFields, pojoSetters,
-				constructors);
-
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(SimplePojoToTestSetters.class);
+				.getClassInfo(SimplePojoToTestSetters.class, this);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
-		Assert.assertEquals(
-				"The expected and actual ClassInfo objects do not match!",
-				expectedClassInfo, actualClassInfo);
-
-	}
-
-	private Set<Constructor<?>> retrieveConstructors(Class<?> clazz) {
-		Set<Constructor<?>> constructors = new HashSet<Constructor<?>>(
-				Arrays.asList(clazz.getConstructors()));
-		return constructors;
+		Assert.assertEquals("Class mismatch",
+				SimplePojoToTestSetters.class, actualClassInfo.getClassName());
+		Set<String> attribs = new HashSet<String>();
+		attribs.add("stringField");
+		attribs.add("intField");
+		checkAttributes(attribs, actualClassInfo.getClassAttributes());
 	}
 
 	@Test
@@ -103,32 +84,33 @@ public class ClassInfoUnitTest {
 			Set<Class<? extends Annotation>> excludeAnnotations,
 			Set<String> excludeFields) {
 
-		Set<String> pojoFields = retrievePojoFields();
-
-		Set<Method> pojoSetters = PodamUtils.getPojoSetters(
-				SimplePojoWithExcludeAnnotationToTestSetters.class, pojoFields);
-
-		Set<Constructor<?>> constructors = retrieveConstructors(SimplePojoWithExcludeAnnotationToTestSetters.class);
-
-		ClassInfo expectedClassInfo = new ClassInfo(
-				SimplePojoWithExcludeAnnotationToTestSetters.class, pojoFields,
-				pojoSetters, constructors);
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(
 				SimplePojoWithExcludeAnnotationToTestSetters.class,
-				excludeAnnotations, excludeFields);
+				excludeAnnotations, excludeFields, this);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
-		Assert.assertEquals(
-				"The expected and actual ClassInfo objects do not match!",
-				expectedClassInfo, actualClassInfo);
-		Assert.assertEquals("All fields from subclass must be excluded", 2,
-				actualClassInfo.getClassSetters().size());
+		Set<String> attribs = new HashSet<String>();
+		attribs.add("stringField");
+		attribs.add("intField");
+		checkAttributes(attribs, actualClassInfo.getClassAttributes());
 	}
 
-	private Set<String> retrievePojoFields() {
-		Set<String> pojoFields = new HashSet<String>();
-		pojoFields.add("stringField");
-		pojoFields.add("intField");
-		return pojoFields;
+	private void checkAttributes(Set<String> attribs, Set<ClassAttribute> classAttributes) {
+		Assert.assertEquals("Wrong number of attributes" + classAttributes, attribs.size(),
+				classAttributes.size());
+		for (ClassAttribute attribute : classAttributes) {
+			String attrName = attribute.getAttribute().getName();
+			if (!attribs.contains(attrName)) {
+				Assert.fail("Unexpected attribute " + attrName);
+			}
+			Assert.assertEquals("Wrong number of getters " + attribute.getGetters(),
+					1, attribute.getGetters().size());
+			Assert.assertEquals("Wrong number of setters " + attribute.getSetters(),
+					1, attribute.getSetters().size());
+		}
 	}
 
+	@Override
+	public boolean approve(ClassAttribute attribute) {
+		return (attribute.getAttribute() != null);
+	}
 }
