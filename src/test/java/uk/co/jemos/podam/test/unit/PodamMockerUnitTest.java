@@ -1249,7 +1249,7 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testEnumsPojo() {
+	public void testPojoWithEnums() {
 
 		EnumsPojo pojo = factory.manufacturePojo(EnumsPojo.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo);
@@ -1264,6 +1264,14 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The internal enum cannot be null!",
 				ratePodamInternal);
 
+	}
+
+	@Test
+	public void testEnumPojo() {
+
+		ExternalRatePodamEnum pojo = factory
+				.manufacturePojo(ExternalRatePodamEnum.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
 	}
 
 	@Test
