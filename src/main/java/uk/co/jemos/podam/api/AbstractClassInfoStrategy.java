@@ -45,7 +45,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 	// ------------------->> Public methods
 
-	// ------------------->> Getters / Setters
+
 
 	/**
 	 * Adds the specified {@link Annotation} to set of excluded annotations,
@@ -59,27 +59,6 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 			final Class<? extends Annotation> annotation) {
 		excludedAnnotations.add(annotation);
 		return this;
-	}
-
-	/**
-	 * Removes the specified {@link Annotation} from set of excluded annotations.
-	 *
-	 * @param annotation
-	 *            the annotation used as an exclusion mark
-	 * @return itself
-	 */
-	public AbstractClassInfoStrategy removeExcludedAnnotation(
-			final Class<? extends Annotation> annotation) {
-		excludedAnnotations.remove(annotation);
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Set<Class<? extends Annotation>> getExcludedAnnotations() {
-		return excludedAnnotations;
 	}
 
 	/**
@@ -104,6 +83,19 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	/**
+	 * Removes the specified {@link Annotation} from set of excluded annotations.
+	 *
+	 * @param annotation
+	 *            the annotation used as an exclusion mark
+	 * @return itself
+	 */
+	public AbstractClassInfoStrategy removeExcludedAnnotation(
+			final Class<? extends Annotation> annotation) {
+		excludedAnnotations.remove(annotation);
+		return this;
+	}
+
+	/**
 	 * Removes the field name from set of excluded fields.
 	 *
 	 * @param pojoClass
@@ -120,6 +112,17 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		}
 		return this;
 	}
+
+
+	// ------------------->> Getters / Setters
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set<Class<? extends Annotation>> getExcludedAnnotations() {
+		return excludedAnnotations;
+	}
+
 
 	/**
 	 * {@inheritDoc}
