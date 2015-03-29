@@ -1565,9 +1565,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					setter.invoke(pojo, setterArg);
 				}
 			} else {
-				LOG.warn("Couldn't find a suitable value for attribute {}[{}]"
-						+ ". It will be left to null.",
-						pojoClass, attributeType);
+
+				LOG.warn("Couldn't find a suitable value for attribute {}[{}]. Will delegate to {}",
+						pojoClass, attributeType, externalFactory);
 			}
 		}
 
