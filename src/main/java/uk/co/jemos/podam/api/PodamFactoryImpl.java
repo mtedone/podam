@@ -89,7 +89,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * External factory to delegate production this factory cannot handle
 	 * <p>
-	 * The default is {@link LoggingExternalFactory}.
+	 * The default is {@link NullExternalFactory}.
 	 * </p>
 	 */
 	private final PodamFactory externalFactory;
@@ -124,7 +124,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * Default constructor.
 	 */
 	public PodamFactoryImpl() {
-		this(LoggingExternalFactory.getInstance(),
+		this(NullExternalFactory.getInstance(),
 				RandomDataProviderStrategy.getInstance());
 	}
 
@@ -136,7 +136,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	public PodamFactoryImpl(DataProviderStrategy strategy) {
 
-		this(LoggingExternalFactory.getInstance(), strategy);
+		this(NullExternalFactory.getInstance(), strategy);
 	}
 
 	/**
@@ -1861,8 +1861,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				LOG.warn("Loop in {} production detected.",
-						realAttributeType);
+				LOG.warn("Loop in {} production detected. Resorting to {} external factory",
+						realAttributeType, externalFactory.getClass().getName());
 				attributeValue = externalFactory.manufacturePojo(
 						realAttributeType, genericTypeArgsAll);
 
