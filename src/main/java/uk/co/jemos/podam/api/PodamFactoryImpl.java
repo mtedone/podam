@@ -1359,6 +1359,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				return this.manufacturePojoInternal(specificClass, pojos,
 						genericTypeArgs);
 			} else {
+				LOG.info("{} is an interface. Resorting to {} external factory",
+						pojoClass.getTypeName(),
+						externalFactory.getClass().getName());
 				return externalFactory.manufacturePojo(pojoClass,
 						genericTypeArgs);
 			}
@@ -1379,6 +1382,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				return this.manufacturePojoInternal(specificClass, pojos,
 						genericTypeArgs);
 			} else {
+				LOG.info("{} is an abstract class. Resorting to {} external factory",
+						pojoClass.getTypeName(),
+						externalFactory.getClass().getName());
 				return externalFactory.manufacturePojo(pojoClass,
 						genericTypeArgs);
 			}
