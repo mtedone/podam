@@ -35,8 +35,9 @@ public class ClassInfoUnitTest implements ClassAttributeApprover {
 		ClassInfo expectedClassInfo = new ClassInfo(
 				EmptyTestPojo.class, attributes);
 
+		ClassAttributeApprover nullApprover = null;
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(EmptyTestPojo.class, this);
+				.getClassInfo(EmptyTestPojo.class, nullApprover);
 
 		Assert.assertEquals(
 				"The expected and actual ClassInfo objects are not the same",
@@ -47,8 +48,10 @@ public class ClassInfoUnitTest implements ClassAttributeApprover {
 	@Test
 	public void testClassInfoSettersWithSimplePojo() {
 
+		ClassAttributeApprover nullApprover = null;
+
 		ClassInfo actualClassInfo = PodamUtils
-				.getClassInfo(SimplePojoToTestSetters.class, this);
+				.getClassInfo(SimplePojoToTestSetters.class, nullApprover);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
 		Assert.assertEquals("Class mismatch",
 				SimplePojoToTestSetters.class, actualClassInfo.getClassName());
@@ -84,9 +87,11 @@ public class ClassInfoUnitTest implements ClassAttributeApprover {
 			Set<Class<? extends Annotation>> excludeAnnotations,
 			Set<String> excludeFields) {
 
+		ClassAttributeApprover nullApprover = null;
+
 		ClassInfo actualClassInfo = PodamUtils.getClassInfo(
 				SimplePojoWithExcludeAnnotationToTestSetters.class,
-				excludeAnnotations, excludeFields, this);
+				excludeAnnotations, excludeFields, nullApprover);
 		Assert.assertNotNull("ClassInfo cannot be null!", actualClassInfo);
 		Set<String> attribs = new HashSet<String>();
 		attribs.add("stringField");

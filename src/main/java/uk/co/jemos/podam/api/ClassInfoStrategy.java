@@ -51,4 +51,8 @@ public interface ClassInfoStrategy {
 	 * @return information about class internal structure {@link ClassInfo}
 	 */
 	ClassInfo getClassInfo(Class<?> pojoClass);
+
+
+	ClassAttributeApprover getClassAttributeApprover(Class<?> pojoClass);
+
 }

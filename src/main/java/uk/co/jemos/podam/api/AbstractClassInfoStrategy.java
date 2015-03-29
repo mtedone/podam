@@ -145,6 +145,11 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 				excludedAnnotations, excludedAttributes, this);
 	}
 
+	@Override
+	public ClassAttributeApprover getClassAttributeApprover(Class<?> pojoClass) {
+		return this;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */

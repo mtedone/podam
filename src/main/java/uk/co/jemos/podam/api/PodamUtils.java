@@ -55,11 +55,14 @@ public final class PodamUtils {
 	 *            The class to retrieve info from
 	 * @param attributeApprover
 	 *            a {@link ClassAttributeApprover} implementation,
-	 *             which attributes to skip and which to process
+	 *             which attributes to skip and which to process.
+	 *             If one hasn't been provided, Podam will use the
+	 *             default one in the {@link DefaultClassInfoStrategy} class.
 	 * @return a {@link ClassInfo} object for the given class
 	 */
 	public static ClassInfo getClassInfo(Class<?> clazz,
 			ClassAttributeApprover attributeApprover) {
+
 		return getClassInfo(clazz,
 				new HashSet<Class<? extends Annotation>>(),
 				Collections.<String>emptySet(),
@@ -85,6 +88,10 @@ public final class PodamUtils {
 			Set<Class<? extends Annotation>> excludeFieldAnnotations,
 			Set<String> excludedFields,
 			ClassAttributeApprover attributeApprover) {
+
+		if (null == attributeApprover) {
+			attributeApprover = DefaultClassInfoStrategy.getInstance().getClassAttributeApprover(clazz);
+		}
 
 		Set<Field> classFields = new HashSet<Field>();
 		Set<Method> classGetters = new HashSet<Method>();
