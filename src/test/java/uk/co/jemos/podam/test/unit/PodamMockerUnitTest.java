@@ -344,6 +344,11 @@ public class PodamMockerUnitTest {
 		Assert.assertNull("Default strategy cannot create java.net.URL object",
 				pojo);
 
+	}
+
+	@Test
+	public void testJREPojoWithDependencyLoopInConstructor2() {
+
 		DataHandler pojo2 = factory.manufacturePojo(DataHandler.class);
 		Assert.assertNotNull("The pojo cannot be null!", pojo2);
 
