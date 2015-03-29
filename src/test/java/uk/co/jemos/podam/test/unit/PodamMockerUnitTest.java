@@ -102,7 +102,6 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testMockerForClassWithoutDefaultConstructor() {
 
-		// With a no-arg constructor, an instantiation exception will be thrown
 		NoDefaultConstructorPojo pojo = factory
 				.manufacturePojo(NoDefaultConstructorPojo.class);
 		Assert.assertNotNull(
@@ -155,8 +154,6 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testMockerForPrimitiveType() {
-		// Trying to create an interface class should thrown an instantiation
-		// exception
 		int intValue = factory.manufacturePojo(int.class);
 		Assert.assertTrue("The int value should not be zero!", intValue != 0);
 	}

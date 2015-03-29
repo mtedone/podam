@@ -12,10 +12,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import uk.co.jemos.podam.api.ClassInfoStrategy;
-import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.XMLDatatypePojo;
 
 /**
@@ -28,10 +25,8 @@ public class XMLDatatypeUnitTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(XMLDatatypeUnitTest.class);
 
-	protected static final Type[] NO_TYPES = new Type[0];
-
 	private final static PodamFactory externalFactory =
-			new PodamFactory() {
+			new AbstractExternalFactory() {
 
 				@Override
 				public <T> T manufacturePojo(Class<T> pojoClass,
@@ -49,7 +44,6 @@ public class XMLDatatypeUnitTest {
 							T duration = (T) factory.newDuration(0L);
 							LOG.info("Externally created Duration");
 							return duration;
-						} else {
 						}
 					} catch (Exception e) {
 						throw new IllegalStateException("Manufacturing failed", e);
@@ -57,32 +51,6 @@ public class XMLDatatypeUnitTest {
 					return null;
 				}
 
-				@Override
-				public <T> T manufacturePojo(Class<T> pojoClass) {
-					return this.manufacturePojo(pojoClass, NO_TYPES);
-				}
-
-				@Override
-				public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
-						Type... genericTypeArgs) {
-					return this.manufacturePojo(pojoClass, genericTypeArgs);
-				}
-
-				@Override
-				public DataProviderStrategy getStrategy() {
-					return null;
-				}
-
-				@Override
-				public ClassInfoStrategy getClassStrategy() {
-					return null;
-				}
-
-				@Override
-				public PodamFactory setClassStrategy(
-						ClassInfoStrategy classInfoStrategy) {
-					return null;
-				}
 	};
 
 	private final static PodamFactory podam = new PodamFactoryImpl(externalFactory);

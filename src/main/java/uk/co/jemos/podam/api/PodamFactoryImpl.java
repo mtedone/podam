@@ -135,6 +135,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The strategy to use to fill data
 	 */
 	public PodamFactoryImpl(DataProviderStrategy strategy) {
+
 		this(LoggingExternalFactory.getInstance(), strategy);
 	}
 
