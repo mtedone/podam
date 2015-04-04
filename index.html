@@ -116,14 +116,26 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2>Introduction <a name="Introduction"></a></h2>
+<h2>Introduction<a name="Introduction"></a></h2>
+<p>PODAM is a lightweight tool to auto-fill Java POJOs with data. This comes handy when developing unit tests. Thanks to PODAM users now have a one-liner that does all the work you.</p>
+<div class="section">
+<h3>PODAM main features:<a name="PODAM_main_features:"></a></h3>
+<ul>
+<li>Automatic introspection of your POJOs to fill all possible attributes with random data. You can customise this behaviour.</li>
+<li>Extension points to customise the data strategy, fields exclusions based on names or annotations</li>
+<li>Support for your custom annotations to either provide data or exclude fields</li>
+<li>The option to select minimal constructors (for lightweight POJOs) or full constructors</li>
+<li>Support for Java types, arrays, collections (lists, sets, maps)</li>
+<li>Support for generics</li>
+<li>Support for your own factories when PODAM cannot introspect enough information to generate a type (e.g. XMLGregorianCalendar)</li></ul></div>
 <div class="section">
 <h3>Using PODAM in your project<a name="Using_PODAM_in_your_project"></a></h3>
 <p>To see how you add PODAM to your project, please refer to <a href="./usage.html"> the usage page</a>.</p></div>
 <div class="section">
 <h3>How to use PODAM API <a name="How_to_use_PODAM_API"></a></h3>
 <div class="source">
-<pre>PodamFactory factory = new PodamFactoryImpl(); //This will use the default Random Data Provider Strategy
+<pre>// Simplest scenario. Will delegate to Podam all decisions
+PodamFactory factory = new PodamFactoryImpl();
 
 // This will use constructor with minimum arguments and
 // then setters to populate POJO
@@ -138,7 +150,7 @@ Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);</pre></div>
 <li>By defining strategies at the attribute level</li>
 <li>For primitive and wrapper types, by customising the numeric value through annotations</li>
 <li>For strings by customising the string value and length through annotation</li>
-<li>To skip a certain attribute by using the <i>@PodamExclude</i> annotation</li></ul>
+<li>To skip a certain attribute by using the <i>@PodamExclude</i> annotation or by name</li></ul>
 <div class="section">
 <h4>Defining a global data provider strategy<a name="Defining_a_global_data_provider_strategy"></a></h4>
 <p>The default strategy for PODAM is Random values. However users can define their own global strategy by providing an implementation of the <b>DataProviderStrategy</b> interface, as follows: </p>
@@ -151,7 +163,7 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 
 Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
 </pre></div>
-<p>Please note that annotations are not required to use PODAM. The tool will automatically introspect and fill your tree of POJOs out-of-the-box. The preferred way to customise the way PODAM fills your data is through a custom <i>DataProviderStrategy</i>, as shown above. However one can annotate Java classes to provide custom values, as shown below.</p></div>
+<p>Please note that annotations are not required to use PODAM. The tool will automatically introspect and fill your tree of POJOs out-of-the-box. The preferred way to customise the way PODAM fills your data is through a custom <i>DataProviderStrategy</i>, as shown above. However one can annotate Java classes to provide custom values, as shown below. Podam also supports your own annotations.</p></div>
 <div class="section">
 <h4>Defining an attribute-level strategy<a name="Defining_an_attribute-level_strategy"></a></h4>
 <p>PODAM allows also users to define data strategies at the attribute level: this includes the capability to define custom strategies for elements and keys in collections, maps and arrays. In order to define an attribute-level strategy, users will need to: </p>
