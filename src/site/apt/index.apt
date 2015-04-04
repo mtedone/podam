@@ -4,7 +4,28 @@
 	Marco Tedone
 	---------------------
 
-Introduction  
+Introduction
+
+  PODAM is a lightweight tool to auto-fill Java POJOs with data. This comes handy when developing unit tests. Thanks
+  to PODAM users now have a one-liner that does all the work you.
+
+* PODAM main features:
+
+  * Automatic introspection of your POJOs to fill all possible attributes with random data. You can customise this behaviour.
+
+  * Extension points to customise the data strategy, fields exclusions based on names or annotations
+
+  * Support for your custom annotations to either provide data or exclude fields
+
+  * The option to select minimal constructors (for lightweight POJOs) or full constructors
+
+  * Support for Java types, arrays, collections (lists, sets, maps)
+
+  * Support for generics
+
+  * Support for your own factories when PODAM cannot introspect enough information to generate a
+  type (e.g. XMLGregorianCalendar)
+
 
 * Using PODAM in your project
 
@@ -14,7 +35,8 @@ Introduction
 * How to use PODAM API        
   
 +-----------------------------------
-PodamFactory factory = new PodamFactoryImpl(); //This will use the default Random Data Provider Strategy
+// Simplest scenario. Will delegate to Podam all decisions
+PodamFactory factory = new PodamFactoryImpl();
 
 // This will use constructor with minimum arguments and
 // then setters to populate POJO
@@ -35,7 +57,7 @@ Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
   
   * For strings by customising the string value and length through annotation
   
-  * To skip a certain attribute by using the <@PodamExclude> annotation
+  * To skip a certain attribute by using the <@PodamExclude> annotation or by name
   
 ** Defining a global data provider strategy
 
@@ -56,7 +78,7 @@ Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
   Please note that annotations are not required to use PODAM. The tool will automatically introspect
   and fill your tree of POJOs out-of-the-box. The preferred way to customise the way PODAM fills your data
   is through a custom <DataProviderStrategy>, as shown above. However one can annotate Java classes to 
-  provide custom values, as shown below.
+  provide custom values, as shown below. Podam also supports your own annotations.
 
 ** Defining an attribute-level strategy
 
