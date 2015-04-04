@@ -55,6 +55,14 @@
 			<timezone>UTC</timezone>
 			<url>http://www.linkedin.com/in/mtedone</url>
 		</developer>
+		<developer>
+			<name>Daniil Ivanov</name>
+			<email>daniil.ivanov@gmail.com</email>
+			<roles>
+				<role>Committer</role>
+			</roles>
+			<timezone>EET</timezone>
+		</developer>
 	</developers>
 
 	<contributors>
@@ -76,14 +84,6 @@
 				<role>Developer</role>
 			</roles>
 			<timezone>UTC-4</timezone>
-		</contributor>
-		<contributor>
-			<name>Daniil Ivanov</name>
-			<email>daniil.ivanov@gmail.com</email>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>EET</timezone>
 		</contributor>
 		<contributor>
 			<name>Ganesh Subramanian</name>
