@@ -1360,7 +1360,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						genericTypeArgs);
 			} else {
 				LOG.info("{} is an interface. Resorting to {} external factory",
-						pojoClass.getTypeName(),
+						pojoClass,
 						externalFactory.getClass().getName());
 				return externalFactory.manufacturePojo(pojoClass,
 						genericTypeArgs);
@@ -1383,7 +1383,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						genericTypeArgs);
 			} else {
 				LOG.info("{} is an abstract class. Resorting to {} external factory",
-						pojoClass.getTypeName(),
+						pojoClass,
 						externalFactory.getClass().getName());
 				return externalFactory.manufacturePojo(pojoClass,
 						genericTypeArgs);
