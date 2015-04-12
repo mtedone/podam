@@ -8,7 +8,7 @@
   <part id="general">
     <title>PODAM FAQs</title>
 
-    <faq id="podam-faqs">
+    <faq id="change-behaviour-between-invocations">
       <question>
         What if I want to change PODAM behaviour between invocations and I have used a custom annotation? 
       </question>
@@ -44,6 +44,25 @@
         </source>
         
       </answer>
+    </faq>
+
+    <faq id="customising-data">
+
+        <question>
+          I've noticed that Podam assigned random values. What if I wanted to define my own values?
+        </question>
+        <answer>
+          <p>
+          You want to provide your own implementation of the DataProviderStrategy. Podam uses the
+          default implementation (RandomDataProviderStrategy) but you can define pretty much what
+          you want. We've provided AbstractRandomDataProviderStrategy to take away most of the
+          boilerplate code. So you could write your own extension to this class customising the
+          types you want to provide yourself.
+          </p>
+          <p>
+            Please refer to the home page documentation for examples on how to do this.
+          </p>
+        </answer>
     </faq>
     
   </part>

@@ -1,29 +1,112 @@
 Using PODAM
 
-  Using PODAM is easy. You can either declare it as a Maven dependency or, if you need to
+  Using PODAM is easy. You can either declare it as a Maven dependency or, used it with Spring or, if you need to
   customise its behaviour, {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself.
 
 * Declaring PODAM as a Maven dependency
 
   If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
-  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
-  from version to version):
+  you are using the latest version):
 
 +-------------------------------------------
 <dependency>
   <groupId>uk.co.jemos.podam</groupId>
   <artifactId>podam</artifactId>
-  <version>2.3.8</version>
+  <version>[latest.version]</version>
   <!-- <scope>test</scope> -->
 </dependency>
 +-------------------------------------------
 
   * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}.
 
-  * Releases and Release Candidates versions are available from {{{http://mvnrepository.com/artifact/uk.co.jemos.podam/podam} Maven Central}}.
+  * Releases and Release Candidates versions are available from {{{http://search.maven.org/#search|ga|1|podam} Maven Central}}.
 
   []
 
+** Using PODAM with Spring
+
+  You can also use PODAM with Spring:
+
+  * Define the Data Provider Strategy as a bean if you don't want the default (Random data)
+
+  * Define PodamFactory bean, initialised with the Data Provider Strategy
+
+  * Use the PodamFactory bean in your code
+
+  []
+
++-----------------------------------
+
+# Define your Spring app context
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<!-- The definition of PODAM factory -->
+	<bean id="podamFactory" class="uk.co.jemos.podam.api.PodamFactoryImpl" />
+
+</beans>
++-----------------------------------
+
++-----------------------------------
+
+# Use Podam Factory in your code
+
+/**
+ *
+ */
+package uk.co.jemos.podam.test.unit.integration;
+
+import javax.annotation.Resource;
+
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
+
+/**
+ * @author mtedone
+ *
+ */
+@ContextConfiguration(locations = {"classpath:podam-test-appContext.xml"})
+public class PodamFactoryInjectionIntegrationTest
+		extends	AbstractJUnit4SpringContextTests {
+
+	/** The Podam Factory */
+	@Resource
+	private PodamFactory factory;
+
+	@Before
+	public void init() {
+		Assert.assertNotNull("The PODAM factory cannot be null!", factory);
+		Assert.assertNotNull("The factory strategy cannot be null!",
+				factory.getStrategy());
+	}
+
+	@Test
+	public void testSimplePojo() {
+
+		SimplePojoToTestSetters pojo = factory
+				.manufacturePojo(SimplePojoToTestSetters.class);
+		Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+		...etc
+	}
+}
++-----------------------------------
+
+
+  Please note that the data provider strategy cannot be changed upon instantiation. If you want to use a different data provider
+  strategy, you'll need to create a new instance of PodamFactory. This has been decided to preserve thread-safety and immutability
+  of PodamFactory.
 
 * Building PODAM from the source
 
@@ -34,7 +117,7 @@ Using PODAM
   
   * Maven must be installed on your machine and the <mvn> command must be available from the command line
   
-  * Java 5 or later version must be installed on your machine and the environment variable <JAVA_HOME> must be
+  * Java 6 or later version must be installed on your machine and the environment variable <JAVA_HOME> must be
     set to the JDK/JRE installation root folder.
   
   * Your computer should be capable of connecting to the Internet to download Maven dependencies and your Maven
@@ -61,4 +144,3 @@ mvn clean install
 mvn clean site:site
 
 +-----------------------------------------
-

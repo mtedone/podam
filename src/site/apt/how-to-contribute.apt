@@ -6,8 +6,8 @@ How to contribute
   
   * By joining our {{{http://groups.google.com/group/podam} Google group}} and join the discussion.
   
-  * By submitting a bug. In this case, please submit a bug at {{http://agileguru.atlassian.net/}}. When submitting a bug, please
-  ensure the following is attached to the JIRA issue: 
+  * By submitting a bug. In this case, please submit a bug at {{https://github.com/mtedone/podam/issues}}. When submitting a bug, please
+  ensure the following is defined:
    
     * The failing POJO (of in case of copyright issues, a POJO which reflects the problem)
     
@@ -15,12 +15,11 @@ How to contribute
     
     []
     
-  * By submitting new feature requests at {{http://agileguru.atlassian.net/}}. When submitting a feature request, 
-  please attach the POJO (of in case of copyright issues, a similar POJO) 
-  for which you would like the new feature.
+  * By submitting new feature requests at {{https://github.com/mtedone/podam/issues}}. When submitting a feature request,
+  please attach the POJO (of in case of copyright issues, a similar POJO) for which you would like the new feature.
   
-  * By submitting feedbacks. This can be done directly by {{{mailto:marco.tedone@gmail.com} sending me an email}} or by 
-  starting a discussion on our {{{http://groups.google.com/group/podam} Google group}}
+  * By providing feedback. This can be done by starting a discussion on
+  our {{{http://groups.google.com/group/podam} Google group}}
   
   []
   

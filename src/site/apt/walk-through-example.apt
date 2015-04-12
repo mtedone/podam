@@ -977,44 +977,35 @@ public class Client implements Serializable {
 +-----------------------------------------------------
 
   A quick print out of the unit test shows that PODAM has filled the whole graph correctly and according to custom annotations.
-  
+
 +-----------------------------------------------------
-Client ( firstName = Michael    lastName = á‰ÞÎDBîñ³q    dateCreated = Mon Apr 25 12:58:15 BST 2011    orders = 
-  [Order ( id = -1214029713    createDate = Mon Apr 25 12:58:15 BST 2011    totalAmount = 0.15824563659082125    orderItems = 
-    [OrderItem ( id = 437697937    note = null    lineAmount = 0.5912186097270055    
-      article = Article ( id = 78249    description = å‰@½7¬8éñ    itemCost = 50.725438562464575     )     ), 
-     OrderItem ( id = 1001796352    note = null    lineAmount = 0.10393017626286882    
-      article = Article ( id = 10520    description = í¬ç¨ò¿Îå    itemCost = 50.360370831675326     )     ), 
-     OrderItem ( id = 599405735    note = null    lineAmount = 0.0404010474189852    
-      article = Article ( id = 57216    description = {RóQñOè…    itemCost = 50.128059604375046     )     ), 
-     OrderItem ( id = 117731007    note = null    lineAmount = 0.9593616974720982    
-      article = Article ( id = 61107    description = £5°‘èQõJ÷    itemCost = 50.013514672179845     )     ), 
-     OrderItem ( id = -1073324010    note = null    lineAmount = 0.7772903427345885    
-      article = Article ( id = 78961    description = Ë’áÂ2Ò%À÷    itemCost = 50.22020062244809     )     )]     ), 
-   Order ( id = -1651635160    createDate = Mon Apr 25 12:58:15 BST 2011    totalAmount = 0.6645246082071045    orderItems = [
-     OrderItem ( id = 109866940    note = null    lineAmount = 0.8745830931110706    
-      article = Article ( id = 71651    description = ôû„âÛ?Ï4K    itemCost = 50.381801769956546     )     ), 
-     OrderItem ( id = 1095604915    note = null    lineAmount = 0.9123939846823909    
-      article = Article ( id = 17489    description = í8CðM…¸¿â    itemCost = 50.497844673239534     )     ), 
-     OrderItem ( id = -1798096015    note = null    lineAmount = 0.4721243067669355    
-      article = Article ( id = 30372    description = º£©6,†]']    itemCost = 50.28528682613012     )     ), 
-     OrderItem ( id = 2037554497    note = null    lineAmount = 0.8879105975840326    
-      article = Article ( id = 79913    description = ò¿x{f?>^m    itemCost = 50.24873540554301     )     ), 
-     OrderItem ( id = 1441773834    note = null    lineAmount = 0.46836761974290253    
-      article = Article ( id = 23240    description = <“[¦¶ÕŽ9ñÃ    itemCost = 50.818364354492246     )     )]     ), 
-   Order ( id = -1124161683    createDate = Mon Apr 25 12:58:15 BST 2011    totalAmount = 0.8423129969362227    orderItems = [
-     OrderItem ( id = 11819221    note = null    lineAmount = 0.2078458049765809    
-      article = Article ( id = 25352    description = Ÿ“µØ;AŒXþ    itemCost = 50.28236458449263     )     ), 
-     OrderItem ( id = -1587301956    note = null    lineAmount = 0.015293480987208175    
-      article = Article ( id = 19402    description = ö€ÙÑŠ´’*‰§    itemCost = 50.923520177819256     )     ), 
-     OrderItem ( id = 2018175196    note = null    lineAmount = 0.3628655588134182    
-      article = Article ( id = 13429    description = çeŠ‰¬ÔÌëõˆ    itemCost = 50.059012227627704     )     ), 
-     OrderItem ( id = 20895848    note = null    lineAmount = 0.30105000549975536    
-      article = Article ( id = 4134    description = ’ÔË†(„*
-   addresses = [
-     Address ( address1 = ûÏ>H„•ôÝ²    address2 = ôàG¸}ÚÜF¤7    city = ©ÜH·¥ÖÏF    zipCode = ;p¨˜yíHÉ    
-       country = Country ( countryId = 1721185184    countryCode = ?t    description = üÙ“R"€~ÛA     )     ), 
-     Address ( address1 = Õºgß?oæz2    address2 = Bª¢ÛšâÃÂ”×    city = UéO?„†>ÛVû    zipCode = 	Q“b8S÷â¼=    
-       country = Country ( countryId = -866208309    countryCode = yg    description = a "{tí‡lC     )     )]    
-   bankAccounts = [BankAccount ( account = -1814262486    bank = ?”“]SÏÑïoR    sortCode = :¶QÒ9Y8§ ®    balance = 0.132176225216333     )]     )
-  +-----------------------------------------------------
+Client ( firstName = Michael    lastName = 26DUfeITA6    dateCreated = Sun Apr 12 22:05:29 BST 2015
+  orders =
+    [Order ( id = 1821274116    createDate = Sun Apr 12 22:05:29 BST 2015    totalAmount = 0.8772870622958445    orderItems = [
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     )]     ),
+     Order ( id = 1821274116    createDate = Sun Apr 12 22:05:29 BST 2015    totalAmount = 0.8772870622958445    orderItems = [
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     )]     ),
+     Order ( id = 1821274116    createDate = Sun Apr 12 22:05:29 BST 2015    totalAmount = 0.8772870622958445    orderItems = [
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     ),
+       OrderItem ( id = -1673385160    note = null    lineAmount = 0.8522344642870483    article = Article ( id = 29115    description = 2r6esZswGm    itemCost = 50.0     )     )]     )]
+  addresses = [
+    Address ( address1 = 5AYKjJGUmu    address2 = gOFji9ODoq    city = 1lVQDz_Plr    zipCode = kumAYhYhfY    country = Country ( countryId = -1776122448    countryCode = aL    description = ZE41OjRbAq     )     ),
+    Address ( address1 = 5AYKjJGUmu    address2 = gOFji9ODoq    city = 1lVQDz_Plr    zipCode = kumAYhYhfY    country = Country ( countryId = -1776122448    countryCode = aL    description = ZE41OjRbAq     )     )]
+  bankAccounts = [
+    BankAccount ( account = -406255777    bank = z2yKqcpL5e    sortCode = 6RMFOq9kim    balance = 0.25778714401085623     ),
+    BankAccount ( account = -406255777    bank = z2yKqcpL5e    sortCode = 6RMFOq9kim    balance = 0.25778714401085623     ),
+    BankAccount ( account = -406255777    bank = z2yKqcpL5e    sortCode = 6RMFOq9kim    balance = 0.25778714401085623     ),
+    BankAccount ( account = -406255777    bank = z2yKqcpL5e    sortCode = 6RMFOq9kim    balance = 0.25778714401085623     ),
+    BankAccount ( account = -406255777    bank = z2yKqcpL5e    sortCode = 6RMFOq9kim    balance = 0.25778714401085623     )]     )
++-----------------------------------------------------

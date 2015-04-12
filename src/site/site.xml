@@ -68,15 +68,15 @@
       	<item name="Usage" href="./usage.html" />
       	<item name="How to contribute" href="./how-to-contribute.html" />
       	<item name="Sponsors" href="./sponsors/sponsors.html" />
-      	<item name="News" href="./news.html" />
       </menu>
       
       <menu name="Technical Reference">
-      	<item name="Custom Annotations" href="./annotations.html" />
-      	<item name="A Walk-through example" href="./walk-through-example.html" />
-      	<item name="Corner Cases" href="./corner-cases.html" />      		
-      	<item name="FAQS" href="./faqs.html" />
-      	<item name="Release Notes" href="./release-notes/release-notes.html" />
+		  <item name="Architecture" href="./uml/architecture.html" />
+      	  <item name="Custom Annotations" href="./annotations.html" />
+      	  <item name="A Walk-through example" href="./walk-through-example.html" />
+      	  <item name="Corner Cases" href="./corner-cases.html" />
+      	  <item name="FAQS" href="./faqs.html" />
+      	  <item name="Release Notes" href="./release-notes/release-notes.html" />
       </menu>
       
       <menu ref="reports" />

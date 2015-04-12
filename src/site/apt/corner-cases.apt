@@ -1,6 +1,6 @@
 Corner Cases
 
-  In the {{{./walk-through-example.html} Walk-through page}} I showed the most common scenarios where you would want to 
+  In the {{{./walk-through-example.html} Walk-through page}} we documented the most common scenarios where you would want to
   use PODAM. These include: 
   
   * Normal one-level POJO
@@ -22,7 +22,7 @@ Corner Cases
   
 Inheritance
 
-  PODAM support inheritance. It will fill parent attributes provided an accessible setter is available to the POJOs which
+  PODAM supports inheritance. It will fill parent attributes if an accessible setter is available to the POJOs which
   you are filling with data. 
   
 * Example 

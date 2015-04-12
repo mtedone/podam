@@ -377,116 +377,12 @@ GenericPojo [
 
 ** Tweaking PODAM for performance
 
-  Building huge graphs of nested objects may take time. Podam has a memoization option. When enabled
-  Podam will only create a unique object for each class and reuse it. You can enable memoization to
-  reduce algorithmic complexity in scenarios where distinct random data is not needed.
+  Building huge graphs of nested objects may take time. Podam has a memoization option which is the default.
+  When enabled, Podam will only create a unique object for each class and reuse it.
+  This reduces algorithmic complexity in scenarios where distinct random data is not needed.
+  To disable memoization, you can do the following:
 
 +-----------------------------------
-strategy.setMemoizationEnabled(true);
+PodamFactory podam = new PodamFactoryImpl();
+podam.getStrategy().setMemoizationEnabled(false);
 +-----------------------------------
-
-
-** Using PODAM with Spring
-
-  You can also use PODAM with Spring: 
-  
-  * Define the Data Provider Strategy as a bean if you don't want the default (Random data)
-  
-  * Define PodamFactory bean, initialised with the Data Provider Strategy
-  
-  * Use the PodamFactory bean in your code
-  
-  []
-  
-+-----------------------------------
-
-# Define your Spring app context
-
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
-
-	<!-- The definition of the default strategy -->
-	<bean id="myDataProviderStrategy"
-		class="uk.co.jemos.podam.api.MyDataProviderStrategy"
-		factory-method="getInstance" />
-		
-	<!-- The definition of PODAM factory -->
-	<bean id="podamFactory" class="uk.co.jemos.podam.api.PodamFactoryImpl">
-	  <constructor-arg index="0" ref="myDataProviderStrategy" />
-	</bean>
-
-</beans>
-+-----------------------------------
-
-+-----------------------------------
-
-# Use Podam Factory in your code
-
-/**
- * 
- */
-package uk.co.jemos.podam.test.unit.integration;
-
-import javax.annotation.Resource;
-
-import junit.framework.Assert;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
-
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
-
-/**
- * @author mtedone
- * 
- */
-@ContextConfiguration(locations = {"classpath:podam-test-appContext.xml"})
-public class PodamFactoryInjectionIntegrationTest
-		extends	AbstractJUnit4SpringContextTests {
-	
-	/** The Podam Factory */
-	@Resource
-	private PodamFactory factory;
-	
-	@Before
-	public void init() {
-		Assert.assertNotNull("The PODAM factory cannot be null!", factory);
-		Assert.assertNotNull("The factory strategy cannot be null!",
-				factory.getStrategy());
-	}
-
-	@Test
-	public void testSimplePojo() {
-
-		SimplePojoToTestSetters pojo = factory
-				.manufacturePojo(SimplePojoToTestSetters.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-
-		...etc
-	}
-}
-+-----------------------------------
-
-
-  Please note that the data provider strategy cannot be changed upon instantiation. If you want to use a different data provider
-  strategy, you'll need to create a new instance of PodamFactory. This has been decided to preserve thread-safety and immutability
-  of PodamFactory.  
-  
-* How PODAM assigns values
-  
-  By default PODAM assigns random values to all its types. However, PODAM can be extended by providing a custom implementation
-  of the <uk.co.jemos.podam.api.DataProviderStrategy> interface. 
-  Please note that methods which return a numeric value between ranges should consider the ranges inclusive, as documented
-  in the interface Javadoc. 
-  
-  PODAM uses the <uk.co.jemos.podam.api.RandomDataProviderStrategy> class as default Data Provider implementation.
-  
-  To know more about how PODAM works, please refer to the {{{./walk-through-example.html} The walk-through example}} page 
-  or to the {{{./corner-cases.html} Corner Cases }} page on the left menu.  
-    
