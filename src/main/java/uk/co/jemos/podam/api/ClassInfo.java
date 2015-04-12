@@ -3,12 +3,13 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.Immutable;
+
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import net.jcip.annotations.Immutable;
 
 /**
  * This class wraps fields and setters information about a given class
@@ -34,9 +35,10 @@ public class ClassInfo implements Serializable {
 
 	/** The Set of fields belonging to this class */
 	private final Set<ClassAttribute> classAttributes = new HashSet<ClassAttribute>();
+	private final Set<ExtraMethodExecutorData> extraMethods = new HashSet<ExtraMethodExecutorData>();
 
 	/**
-	 * Full constructor
+	 * Partial constructor.
 	 *
 	 * @param className
 	 *            The class name
@@ -44,9 +46,19 @@ public class ClassInfo implements Serializable {
 	 *            The collection of attributes belonging to this class
 	 */
 	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes) {
-		super();
+		this(className, classAttributes, Collections.<ExtraMethodExecutorData>emptySet());
+	}
+
+	/**
+	 * Full constructor.
+	 * @param className The class name
+	 * @param classAttributes The collection of attributes belonging to this class
+	 * @param extraMethods The collection of extra methods to execute
+	 */
+	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes, Set<ExtraMethodExecutorData> extraMethods) {
 		this.className = className;
 		this.classAttributes.addAll(classAttributes);
+		this.extraMethods.addAll(extraMethods);
 	}
 
 	/**

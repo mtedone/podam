@@ -4,11 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default abstract implementation of a {@link ClassInfoStrategy}
@@ -40,6 +36,11 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	 */
 	private Map<Class<?>, Set<String>> excludedFields
 			= new HashMap<Class<?>, Set<String>>();
+
+
+	/** Set of extra methods to execute */
+	private final Map<Class<?>, Set<ExtraMethodExecutorData>> extraMethods = new HashMap<Class<?>, Set<ExtraMethodExecutorData>>();
+
 
 	// ------------------->> Constructors
 
@@ -83,6 +84,25 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	/**
+	 * It adds an extra method to execute
+	 * @param pojoClass The pojo class where to execute the method
+	 * @param extraMethodExecutorData Data required to execute the method
+	 * @return this object
+	 */
+	public AbstractClassInfoStrategy addExtraMethod(
+			Class<?> pojoClass, ExtraMethodExecutorData extraMethodExecutorData) {
+		Set<ExtraMethodExecutorData> methods = extraMethods.get(pojoClass);
+		if (methods == null) {
+			methods = new HashSet<ExtraMethodExecutorData>();
+			extraMethods.put(pojoClass, methods);
+		}
+
+		methods.add(extraMethodExecutorData);
+
+		return this;
+	}
+
+	/**
 	 * Removes the specified {@link Annotation} from set of excluded annotations.
 	 *
 	 * @param annotation
@@ -114,6 +134,14 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean approve(ClassAttribute attribute) {
+		return (attribute.getAttribute() != null);
+	}
+
 	// ------------------->> Getters / Setters
 	/**
 	 * {@inheritDoc}
@@ -138,11 +166,15 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	@Override
 	public ClassInfo getClassInfo(Class<?> pojoClass) {
 		Set<String> excludedAttributes = excludedFields.get(pojoClass);
-		if (excludedAttributes == null) {
-			excludedAttributes = Collections.emptySet();
+		if (null == excludedAttributes) {
+			excludedAttributes = Collections.EMPTY_SET;
+		}
+		Set<ExtraMethodExecutorData> localExtraMethods = extraMethods.get(pojoClass);
+		if (null == localExtraMethods) {
+			localExtraMethods = Collections.EMPTY_SET;
 		}
 		return PodamUtils.getClassInfo(pojoClass,
-				excludedAnnotations, excludedAttributes, this);
+				excludedAnnotations, excludedAttributes, this, localExtraMethods);
 	}
 
 	@Override
@@ -150,13 +182,11 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean approve(ClassAttribute attribute) {
-		return (attribute.getAttribute() != null);
+	public Set<ExtraMethodExecutorData> getExtraMethods(Class<?> pojoClass) {
+		return extraMethods.get(pojoClass);
 	}
+
 
 	// ------------------->> Private methods
 

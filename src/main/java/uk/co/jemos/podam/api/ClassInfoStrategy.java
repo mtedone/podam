@@ -55,4 +55,11 @@ public interface ClassInfoStrategy {
 
 	ClassAttributeApprover getClassAttributeApprover(Class<?> pojoClass);
 
+	/**
+	 * It returns the collection of extra methods to execute.
+	 * @param pojoClass The pojo class
+	 * @return the collection of extra methods to execute.
+	 */
+	Set<ExtraMethodExecutorData> getExtraMethods(Class<?> pojoClass);
+
 }

@@ -3,25 +3,15 @@
  */
 package uk.co.jemos.podam.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.common.PodamExclude;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.common.PodamExclude;
+import java.util.*;
 
 /**
  * PODAM Utilities class.
@@ -89,6 +79,18 @@ public final class PodamUtils {
 			Set<String> excludedFields,
 			ClassAttributeApprover attributeApprover) {
 
+
+		return getClassInfo(clazz, excludeFieldAnnotations, excludedFields, attributeApprover, Collections.<ExtraMethodExecutorData>emptySet());
+
+	}
+
+
+	public static ClassInfo getClassInfo(Class<?> clazz,
+										 Set<Class<? extends Annotation>> excludeFieldAnnotations,
+										 Set<String> excludedFields,
+										 ClassAttributeApprover attributeApprover,
+										 Set<ExtraMethodExecutorData> extraMethods) {
+
 		if (null == attributeApprover) {
 			attributeApprover = DefaultClassInfoStrategy.getInstance().getClassAttributeApprover(clazz);
 		}
@@ -149,8 +151,9 @@ public final class PodamUtils {
 			}
 		}
 
-		return new ClassInfo(clazz, attributes);
+		return new ClassInfo(clazz, attributes, extraMethods);
 	}
+
 
 	/**
 	 * Checks if the given field has any one of the annotations
