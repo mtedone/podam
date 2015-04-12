@@ -1,8 +1,30 @@
 Using PODAM
 
-  Using PODAM is easy. You can either {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself 
-  with Maven or you declare PODAM as a Maven dependency.
-  
+  Using PODAM is easy. You can either declare it as a Maven dependency or, if you need to
+  customise its behaviour, {{{https://github.com/mtedone/podam} fork PODAM from GitHub}} and build it yourself.
+
+* Declaring PODAM as a Maven dependency
+
+  If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
+  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
+  from version to version):
+
++-------------------------------------------
+<dependency>
+  <groupId>uk.co.jemos.podam</groupId>
+  <artifactId>podam</artifactId>
+  <version>2.3.8</version>
+  <!-- <scope>test</scope> -->
+</dependency>
++-------------------------------------------
+
+  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}.
+
+  * Releases and Release Candidates versions are available from {{{http://mvnrepository.com/artifact/uk.co.jemos.podam/podam} Maven Central}}.
+
+  []
+
+
 * Building PODAM from the source
 
   The following pre-requisites must be satisfied in order to build PODAM:
@@ -40,23 +62,3 @@ mvn clean site:site
 
 +-----------------------------------------
 
-* Declaring PODAM as a Maven dependency 
-
-  If you are using Maven and want to use PODAM directly in your project, you can declare it as a Maven dependency (always ensure
-  you are using the latest version: PODAM in this initial phase is in active development and things might change quite a bit
-  from version to version):
-  
-+-------------------------------------------
-<dependency>
-  <groupId>uk.co.jemos.podam</groupId>
-  <artifactId>podam</artifactId>
-  <version>2.3.8</version>
-  <!-- <scope>test</scope> -->
-</dependency>
-+-------------------------------------------
-
-  * Snapshot versions are available from {{{https://oss.sonatype.org/content/groups/public/} Nexus OSS snapshot repository}}. 
-  
-  * Releases and Release Candidates versions are available from {{{http://repo2.maven.org/maven2/uk/co/jemos/podam/podam/} Maven Central}}.
-  
-  []

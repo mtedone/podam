@@ -41,6 +41,7 @@ public final class RandomDataProviderStrategy extends
 	 */
 	private RandomDataProviderStrategy() {
 		super();
+		setMemoizationEnabled(true);
 	}
 
 	// ------------------->> Public methods

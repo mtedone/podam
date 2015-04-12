@@ -7,7 +7,7 @@
 Introduction
 
   PODAM is a lightweight tool to auto-fill Java POJOs with data. This comes handy when developing unit tests. Thanks
-  to PODAM users now have a one-liner that does all the work you.
+  to PODAM users now have a one-liner that does all the work them.
 
 * PODAM main features:
 
@@ -25,6 +25,8 @@ Introduction
 
   * Support for your own factories when PODAM cannot introspect enough information to generate a
   type (e.g. XMLGregorianCalendar)
+
+  * Support for arbitrary method executions when the normal lifecycle has ended
 
 
 * Using PODAM in your project
@@ -58,6 +60,8 @@ Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
   * For strings by customising the string value and length through annotation
   
   * To skip a certain attribute by using the <@PodamExclude> annotation or by name
+
+  * By defining a collection of methods that Podam should execute while filling POJOs
   
 ** Defining a global data provider strategy
 

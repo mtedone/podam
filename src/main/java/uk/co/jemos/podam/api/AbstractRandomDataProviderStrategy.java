@@ -521,6 +521,11 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		this.constructorComparator = constructorComparator;
 	}
 
+	@Override
+	public void setMemoization(boolean isMemoizationEnabled) {
+		this.isMemoizationEnabled = isMemoizationEnabled;
+	}
+
 	// ------------------->> Private methods
 
 	// ------------------->> equals() / hashcode() / toString()

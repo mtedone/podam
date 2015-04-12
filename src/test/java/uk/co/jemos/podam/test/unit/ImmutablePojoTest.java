@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ImmutablePojo;
@@ -29,6 +30,8 @@ public class ImmutablePojoTest {
 	@Test
 	public void testImmutablePojoConstructionFailure() throws Exception {
 
+		DataProviderStrategy strategy = podam.getStrategy();
+		strategy.setMemoization(false);
 		ImmutablePojo pojo = podam.manufacturePojo(ImmutablePojo.class);
 		Assert.assertNotNull("Construction failed", pojo);
 		Assert.assertNull("Value should be empty", pojo.getValue());

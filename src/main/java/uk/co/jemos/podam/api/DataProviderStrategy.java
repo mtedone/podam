@@ -187,6 +187,12 @@ public interface DataProviderStrategy {
 	boolean isMemoizationEnabled();
 
 	/**
+	 * Sets whether memoization is enabled
+	 * @param isMemoizationEnabled whether memoization is enabled
+	 */
+	void setMemoization(boolean isMemoizationEnabled);
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to
 	 * produce the POJO.
 	 * Default strategy consists of putting constructors with less parameters
@@ -221,4 +227,5 @@ public interface DataProviderStrategy {
 	 *         {@code nonInstantiatableClass}.
 	 */
 	<T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
+
 }

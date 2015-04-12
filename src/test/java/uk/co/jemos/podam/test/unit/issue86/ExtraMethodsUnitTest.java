@@ -6,8 +6,6 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.*;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by tedonema on 12/04/2015.
@@ -26,11 +24,6 @@ public class ExtraMethodsUnitTest {
     @Before
     public void setup() throws Exception {
 
-        //Using Podam to get an empty pojo
-        extraMethodsPojo = podam.manufacturePojo(ExtraMethodsPojo.class);
-        Assert.assertNotNull("The initial pojo cannot be null", extraMethodsPojo);
-
-        Set<ExtraMethodExecutorData> extraMethods = new HashSet<ExtraMethodExecutorData>();
 
         Method setMyStringMethod = ExtraMethodsPojo.class.getMethod("setMyString", String.class);
 

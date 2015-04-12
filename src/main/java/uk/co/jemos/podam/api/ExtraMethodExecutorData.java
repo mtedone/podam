@@ -52,7 +52,6 @@ public class ExtraMethodExecutorData implements Serializable {
         ExtraMethodExecutorData that = (ExtraMethodExecutorData) o;
 
         if (!getMethod().equals(that.getMethod())) return false;
-        if (!getTarget().equals(that.getTarget())) return false;
         // Probably incorrect - comparing Object[] arrays with Arrays.equals
         return Arrays.equals(getMethodArgs(), that.getMethodArgs());
 
@@ -61,7 +60,6 @@ public class ExtraMethodExecutorData implements Serializable {
     @Override
     public int hashCode() {
         int result = getMethod().hashCode();
-        result = 31 * result + getTarget().hashCode();
         result = 31 * result + Arrays.hashCode(getMethodArgs());
         return result;
     }

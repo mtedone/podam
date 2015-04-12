@@ -1,73 +1,14 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.math.BigDecimal;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
-import javax.activation.DataHandler;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
-import uk.co.jemos.podam.test.dto.AbstractTestPojo;
-import uk.co.jemos.podam.test.dto.CollectionsPojo;
-import uk.co.jemos.podam.test.dto.ConcreteTestPojo;
-import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojo;
-import uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo;
-import uk.co.jemos.podam.test.dto.EnumsPojo;
+import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.EnumsPojo.RatePodamInternal;
-import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
-import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
-import uk.co.jemos.podam.test.dto.ImmutableNonAnnotatedPojo;
-import uk.co.jemos.podam.test.dto.ImmutableWithGenericCollectionsPojo;
-import uk.co.jemos.podam.test.dto.ImmutableWithNonGenericCollectionsPojo;
-import uk.co.jemos.podam.test.dto.InterfacePojo;
-import uk.co.jemos.podam.test.dto.NoDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.NoSetterWithCollectionInConstructorPojo;
-import uk.co.jemos.podam.test.dto.OneDimensionalChildPojo;
-import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
-import uk.co.jemos.podam.test.dto.PrivateNoArgConstructorPojo;
-import uk.co.jemos.podam.test.dto.RecursivePojo;
-import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
-import uk.co.jemos.podam.test.dto.SingletonWithParametersInStaticFactoryPojo;
-import uk.co.jemos.podam.test.dto.annotations.BooleanValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.ByteValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.ByteValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.CharValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo;
-import uk.co.jemos.podam.test.dto.annotations.DoubleValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.DoubleValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.FloatValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.FloatValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.PodamStrategyPojo;
-import uk.co.jemos.podam.test.dto.annotations.ShortValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.ShortValueWithErrorPojo;
-import uk.co.jemos.podam.test.dto.annotations.StringValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.StringWithWrongStrategyTypePojo;
+import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
@@ -79,6 +20,13 @@ import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
+
+import javax.activation.DataHandler;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Unit test for simple App.
@@ -95,6 +43,7 @@ public class PodamMockerUnitTest {
 	@Before
 	public void init() {
 
+		strategy.setMemoizationEnabled(true);
 		factory = new PodamFactoryImpl(strategy);
 
 	}
@@ -1182,6 +1131,8 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testImmutablePojoWithGenerifiedCollectionsInConstructor() {
+
+		strategy.setMemoizationEnabled(false);
 
 		ImmutableWithGenericCollectionsPojo pojo = factory
 				.manufacturePojo(ImmutableWithGenericCollectionsPojo.class);

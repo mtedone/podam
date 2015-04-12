@@ -3,38 +3,22 @@
  */
 package uk.co.jemos.podam.test.unit.pdm3;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.ClassInfoStrategy;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.test.dto.CollectionExtendingGenericsPojo;
-import uk.co.jemos.podam.test.dto.CollectionExtendingImplementingPojo;
-import uk.co.jemos.podam.test.dto.CollectionExtendingNoGenericsPojo;
-import uk.co.jemos.podam.test.dto.CollectionImplementingGenericsInterface;
-import uk.co.jemos.podam.test.dto.CollectionIndirectRawImplPojo;
-import uk.co.jemos.podam.test.dto.MapExtendingGenericsPojo;
-import uk.co.jemos.podam.test.dto.MapExtendingImplementingPojo;
-import uk.co.jemos.podam.test.dto.MapExtendingNoGenericsPojo;
-import uk.co.jemos.podam.test.dto.MapImplementingGenericInterface;
-import uk.co.jemos.podam.test.dto.MapIndirectRawImplPojo;
+import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
+
+import java.lang.reflect.Type;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Marco Tedone
@@ -221,12 +205,16 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfGenericPojos() {
 
+		factory.getStrategy().setMemoization(false);
+
 		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
 		assertMap(pojos, String.class, Pdm3PojoGenericsConstructor.class);
 	}
 
 	private void assertCollection(Collection<?> collection, Class<?> elementType) {
+
+		factory.getStrategy().setMemoization(false);
 
 		assertNotNull("The collection should not be null", collection);
 		assertFalse("The collection should not be empty", collection.isEmpty());
