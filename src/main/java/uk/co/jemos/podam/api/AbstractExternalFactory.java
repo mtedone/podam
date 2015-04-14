@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 public abstract class AbstractExternalFactory implements PodamFactory {
 
 
+    /** Empty list of types */
     protected static final Type[] NO_TYPES = new Type[0];
 
     @Override

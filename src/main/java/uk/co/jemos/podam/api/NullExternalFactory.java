@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * @since 4.3.0
  * 
  */
-public class NullExternalFactory implements PodamFactory {
+public class NullExternalFactory extends AbstractExternalFactory {
 
 	// ------------------->> Constants
 
@@ -28,9 +28,6 @@ public class NullExternalFactory implements PodamFactory {
 	/** The singleton instance of this implementation */
 	private static final NullExternalFactory SINGLETON
 			= new NullExternalFactory();
-
-	/** Empty list of types */
-	private static final Type[] NO_TYPES = new Type[0];
 
 	// ------------------->> Constructors
 
@@ -55,51 +52,9 @@ public class NullExternalFactory implements PodamFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> T manufacturePojo(Class<T> pojoClass) {
-		return this.manufacturePojo(pojoClass, NO_TYPES);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
-			Type... genericTypeArgs) {
-		return this.manufacturePojo(pojoClass, genericTypeArgs);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 		LOG.warn("Cannot instantiate {} with arguments {}. Returning null.",
 				pojoClass, Arrays.toString(genericTypeArgs));
 		return null;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public DataProviderStrategy getStrategy() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ClassInfoStrategy getClassStrategy() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
-		return this;
-	}
-
 }
