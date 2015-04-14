@@ -41,7 +41,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 	/**
 	 * Set of extra methods to execute.
-	 * @since 5.3.1
+	 * @since 5.3.0
 	 **/
 	private final Map<Class<?>, Set<Method>> extraMethods = new HashMap<Class<?>, Set<Method>>();
 
@@ -95,7 +95,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	 * @return this object
 	 * @throws SecurityException If a security exception occurred while retrieving the method
 	 * @throws NoSuchMethodException If pojoClass doesn't declare the required method
-	 * @since 5.3.1
+	 * @since 5.3.0
 	 */
 	public AbstractClassInfoStrategy addExtraMethod(
 			Class<?> pojoClass, String methodName, Class<?> ... methodArgs)

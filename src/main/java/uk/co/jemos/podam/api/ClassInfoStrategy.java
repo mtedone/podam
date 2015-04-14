@@ -60,7 +60,7 @@ public interface ClassInfoStrategy {
 	 * It returns the collection of extra methods to execute.
 	 * @param pojoClass The pojo class
 	 * @return the collection of extra methods to execute.
-	 * @since 5.3.1
+	 * @since 5.3.0
 	 */
 	Set<Method> getExtraMethods(Class<?> pojoClass);
 
