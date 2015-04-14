@@ -19,12 +19,12 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.api.PodamParameterizedType;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalTestPojo;
+import uk.co.jemos.podam.test.dto.PodamParameterizedType;
 
 /**
  * Unit tests for <a href="http://www.jemos.eu/jira/browse/PDM-45">PDM-45</a>.

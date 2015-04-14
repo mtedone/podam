@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.test.dto;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
