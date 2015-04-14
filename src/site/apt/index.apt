@@ -19,7 +19,7 @@ Introduction
 
   * The option to select minimal constructors (for lightweight POJOs) or full constructors
 
-  * Support for Java types, arrays, collections (lists, sets, maps)
+  * Support for Java types, enumerations, arrays, collections (lists, sets, maps)
 
   * Support for generics
 
@@ -260,7 +260,70 @@ PodamFactory podam = new PodamFactoryImpl();
 List<String> list = podam.manufacturePojo(ArrayList.class, String.class);
 
 +-----------------------------------  
-  
+
+** Defining an attribute-level strategy with <DataProviderStrategy>
+
+  Assuming we are filling the class
+
++-----------------------------------
+public static class Pojo {
+	private String randomString;
+	private String postCode;
+	private URL url;
+
+	public String getRandomString() { return randomString; }
+
+	public void setRandomString(String randomString) { this.randomString = randomString; }
+
+	public String getUrl() { return url.toString(); }
+
+	public void setUrl(String url) throws MalformedURLException { this.url = new URL(url); }
+
+	public String getPostCode() { return postCode; }
+
+	public void setPostCode(String postCode) { this.postCode = postCode; }
+}
++-----------------------------------
+
+  Define custom <DataProviderStrategy>, which will be producing values
+  depending on attribute type
+
++-----------------------------------
+public class CustomProviderStrategy extends AbstractRandomDataProviderStrategy {
+
+	@Override
+	public String getStringValue(AttributeMetadata attributeMetadata) {
+
+		if (Pojo.class.isAssignableFrom(attributeMetadata.getPojoClass())) {
+
+			if ("url".equals(attributeMetadata.getAttributeName())) {
+				return "http://wikipedia.org";
+			} else if ("postCode".equals(attributeMetadata.getAttributeName())) {
+				return "00100";
+			}
+		}
+		return super.getStringValue(attributeMetadata);
+	}
+}
++-----------------------------------
+
+  Intantiate POJO with <PodamFactory>
+
++-----------------------------------
+CustomProviderStrategy providerStrategy = new CustomProviderStrategy();
+PodamFactory factory = new PodamFactoryImpl(providerStrategy);
+Pojo pojo = factory.manufacturePojo(Pojo.class);
++-----------------------------------
+
+  Result:
+
++-----------------------------------
+{
+  "randomString":"rP_yOK2EtR",
+  "postCode":"00100",
+  "url":"http://wikipedia.org"
+}
++-----------------------------------
 
 ** Manufacturing generic types
 
@@ -386,3 +449,38 @@ GenericPojo [
 PodamFactory podam = new PodamFactoryImpl();
 podam.getStrategy().setMemoizationEnabled(false);
 +-----------------------------------
+
+** Executing arbitrary methods after POJO instantiation
+
+  Class info strategy can be instructed to execute arbitrary methods after POJO creation and hydation.
+
+  For example, the class
+
++-----------------------------------
+public class MyPojo {
+
+    private String strValue;
+    private Integer intValue;
+
+    public void init(String strValue, Integer intValue) {
+        this.strValue = strValue;
+        this.intValue = intValue;
+    }
+}
++-----------------------------------
+
+  One needs to specify POJO class, method name and list of method parameter types.
+
++-----------------------------------
+DefaultClassInfoStrategy classInfoStrategy = DefaultClassInfoStrategy.getInstance();
+classInfoStrategy.addExtraMethod(MyPojo.class, "init", String.class, Integer.class);
++-----------------------------------
+
+  Then instantiation will look like:
+
++-----------------------------------
+PodamFactory podam = new PodamFactoryImpl();
+Pojo myPojo = factory.manufacturePojo(Pojo.class);
++-----------------------------------
+
+  PODAM will use values provided by <DataProviderStrategy> as parameters to call the methods.
