@@ -10,10 +10,6 @@ import uk.co.jemos.podam.api.ClassAttribute;
 import uk.co.jemos.podam.api.ClassInfoStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
-import uk.co.jemos.podam.test.dto.ClassGenericPojo;
-import uk.co.jemos.podam.test.dto.ClassInheritedPojo;
-import uk.co.jemos.podam.test.dto.ClassPojo;
 import uk.co.jemos.podam.test.dto.NonEJBPojo;
 
 /**

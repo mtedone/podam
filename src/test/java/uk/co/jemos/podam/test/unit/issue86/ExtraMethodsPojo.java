@@ -6,8 +6,7 @@ import java.io.Serializable;
  * Created by tedonema on 12/04/2015.
  */
 public class ExtraMethodsPojo implements Serializable {
-
-    private final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private static class Holder {
         private String holdingString = null;

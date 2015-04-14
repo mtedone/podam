@@ -167,11 +167,11 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	public ClassInfo getClassInfo(Class<?> pojoClass) {
 		Set<String> excludedAttributes = excludedFields.get(pojoClass);
 		if (null == excludedAttributes) {
-			excludedAttributes = Collections.EMPTY_SET;
+			excludedAttributes = Collections.emptySet();
 		}
 		Set<ExtraMethodExecutorData> localExtraMethods = extraMethods.get(pojoClass);
 		if (null == localExtraMethods) {
-			localExtraMethods = Collections.EMPTY_SET;
+			localExtraMethods = Collections.emptySet();
 		}
 		return PodamUtils.getClassInfo(pojoClass,
 				excludedAnnotations, excludedAttributes, this, localExtraMethods);
