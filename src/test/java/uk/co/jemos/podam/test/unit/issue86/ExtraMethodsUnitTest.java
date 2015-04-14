@@ -5,8 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.*;
 
-import java.lang.reflect.Method;
-
 /**
  * Created by tedonema on 12/04/2015.
  */
@@ -19,25 +17,11 @@ public class ExtraMethodsUnitTest {
 
     private PodamFactory podam = new PodamFactoryImpl(dataProviderStrategy);
 
-    private ExtraMethodsPojo extraMethodsPojo = null;
-
     @Before
     public void setup() throws Exception {
 
-
-        Method setMyStringMethod = ExtraMethodsPojo.class.getMethod("setMyString", String.class);
-
-        ExtraMethodExecutorData setMyStringExecutorData =
-                new ExtraMethodExecutorData(setMyStringMethod, extraMethodsPojo, new String[] {"Hello World"});
-
-        Method setMyLongMethod = ExtraMethodsPojo.class.getMethod("setMyLong", Long.class);
-        ExtraMethodExecutorData setMyLongExecutorData =
-                new ExtraMethodExecutorData(setMyLongMethod, extraMethodsPojo, new Long[] {podam.manufacturePojo(Long.class)});
-
-        classInfoStrategy.addExtraMethod(ExtraMethodsPojo.class, setMyStringExecutorData);
-        classInfoStrategy.addExtraMethod(ExtraMethodsPojo.class, setMyLongExecutorData);
-
-
+        classInfoStrategy.addExtraMethod(ExtraMethodsPojo.class, "setMyString", String.class);
+        classInfoStrategy.addExtraMethod(ExtraMethodsPojo.class, "setMyLong", Long.class);
     }
 
     @Test
@@ -48,6 +32,5 @@ public class ExtraMethodsUnitTest {
         Assert.assertNotNull("The long value cannot be zero", pojo.getMyLong());
         Assert.assertNotNull("The string value cannot be null", pojo.getMyString());
         Assert.assertTrue("The string value cannot be empty", pojo.getMyString().length() > 0);
-
     }
 }

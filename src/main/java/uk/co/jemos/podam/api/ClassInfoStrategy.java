@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -60,6 +61,6 @@ public interface ClassInfoStrategy {
 	 * @param pojoClass The pojo class
 	 * @return the collection of extra methods to execute.
 	 */
-	Set<ExtraMethodExecutorData> getExtraMethods(Class<?> pojoClass);
+	Set<Method> getExtraMethods(Class<?> pojoClass);
 
 }

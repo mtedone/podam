@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -39,7 +40,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 
 	/** Set of extra methods to execute */
-	private final Map<Class<?>, Set<ExtraMethodExecutorData>> extraMethods = new HashMap<Class<?>, Set<ExtraMethodExecutorData>>();
+	private final Map<Class<?>, Set<Method>> extraMethods = new HashMap<Class<?>, Set<Method>>();
 
 
 	// ------------------->> Constructors
@@ -86,18 +87,25 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	/**
 	 * It adds an extra method to execute
 	 * @param pojoClass The pojo class where to execute the method
-	 * @param extraMethodExecutorData Data required to execute the method
+	 * @param methodName name to be scheduled for execution
+	 * @param methodArgs list of method arguments
 	 * @return this object
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
 	 */
 	public AbstractClassInfoStrategy addExtraMethod(
-			Class<?> pojoClass, ExtraMethodExecutorData extraMethodExecutorData) {
-		Set<ExtraMethodExecutorData> methods = extraMethods.get(pojoClass);
+			Class<?> pojoClass, String methodName, Class<?> ... methodArgs)
+			throws NoSuchMethodException, SecurityException {
+
+		Method method = pojoClass.getMethod(methodName, methodArgs);
+
+		Set<Method> methods = extraMethods.get(pojoClass);
 		if (methods == null) {
-			methods = new HashSet<ExtraMethodExecutorData>();
+			methods = new HashSet<Method>();
 			extraMethods.put(pojoClass, methods);
 		}
 
-		methods.add(extraMethodExecutorData);
+		methods.add(method);
 
 		return this;
 	}
@@ -169,7 +177,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		if (null == excludedAttributes) {
 			excludedAttributes = Collections.emptySet();
 		}
-		Set<ExtraMethodExecutorData> localExtraMethods = extraMethods.get(pojoClass);
+		Set<Method> localExtraMethods = extraMethods.get(pojoClass);
 		if (null == localExtraMethods) {
 			localExtraMethods = Collections.emptySet();
 		}
@@ -183,7 +191,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	@Override
-	public Set<ExtraMethodExecutorData> getExtraMethods(Class<?> pojoClass) {
+	public Set<Method> getExtraMethods(Class<?> pojoClass) {
 		return extraMethods.get(pojoClass);
 	}
 

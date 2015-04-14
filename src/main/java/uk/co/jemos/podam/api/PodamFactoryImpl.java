@@ -1648,16 +1648,26 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		//It executes any extra methods if any
-		Set<ExtraMethodExecutorData> extraMethods = classInfoStrategy.getExtraMethods(pojoClass);
+		// It executes any extra methods, if any
+		Set<Method> extraMethods = classInfoStrategy.getExtraMethods(pojoClass);
 		if (null != extraMethods) {
-			for (ExtraMethodExecutorData extraMethod : extraMethods) {
+			for (Method extraMethod : extraMethods) {
 
-				extraMethod.getMethod().invoke(pojo, extraMethod.getMethodArgs());
+				Class<?>[] argTypes = extraMethod.getParameterTypes();
+				Type[] genericTypes = extraMethod.getGenericParameterTypes();
+				Annotation[][] annotations = extraMethod.getParameterAnnotations();
 
+				Object[] args = new Object[argTypes.length];
+				for (int i = 0; i < argTypes.length; i++) {
+
+					List<Annotation> paramAnnotations = Arrays.asList(annotations[i]);
+					args[i] = manufactureParameterValue(pojos, argTypes[i],
+							genericTypes[i], paramAnnotations, typeArgsMap,
+							genericTypeArgs);
+				}
+				extraMethod.invoke(pojo, args);
 			}
 		}
-
 
 		return pojo;
 	}
