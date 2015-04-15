@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
 import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
 import uk.co.jemos.podam.common.MethodComparator;
@@ -36,6 +39,10 @@ import uk.co.jemos.podam.common.PodamConstants;
 public abstract class AbstractRandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Constants
+
+	/** Application logger */
+	private static final Logger LOG = LoggerFactory
+			.getLogger(AbstractRandomDataProviderStrategy.class);
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
@@ -102,6 +109,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
+
+		log(attributeMetadata);
 		return Boolean.TRUE;
 	}
 
@@ -111,10 +120,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Byte getByte(AttributeMetadata attributeMetadata) {
-		byte nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
-		while (nextByte == 0) {
+
+		log(attributeMetadata);
+		byte nextByte;
+		do {
 			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
-		}
+		} while (nextByte == 0);
 		return nextByte;
 	}
 
@@ -125,17 +136,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Byte getByteInRange(byte minValue, byte maxValue,
 			AttributeMetadata attributeMetadata) {
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		byte retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
-				- minValue + 1)));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = (byte) (minValue + (byte) (Math.random() * (maxValue
-					- minValue + 1)));
-		}
-		return retValue;
+
+		log(attributeMetadata);
+		return (byte) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
 
 	/**
@@ -145,6 +148,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Character getCharacter(AttributeMetadata attributeMetadata) {
 
+		log(attributeMetadata);
 		int randomCharIdx = getIntegerInRange(0,
 				NICE_ASCII_CHARACTERS.length - 1, attributeMetadata);
 
@@ -161,18 +165,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata) {
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		char retValue = (char) (minValue + (char) (Math.random() * (maxValue
-				- minValue + 1)));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = (char) (minValue + (char) (Math.random() * (maxValue
-					- minValue + 1)));
-		}
 
-		return retValue;
+		log(attributeMetadata);
+		return (char) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
 
 	/**
@@ -181,10 +176,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Double getDouble(AttributeMetadata attributeMetadata) {
-		double retValue = RANDOM.nextDouble();
-		while (retValue == 0.0) {
+
+		log(attributeMetadata);
+		double retValue;
+		do {
 			retValue = RANDOM.nextDouble();
-		}
+		} while (retValue == 0.0);
 		return retValue;
 	}
 
@@ -195,14 +192,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata) {
+
+		log(attributeMetadata);
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		double retValue = minValue + Math.random() * (maxValue - minValue + 1);
-		while (retValue < minValue || retValue > maxValue) {
+		double retValue;
+		do {
 			retValue = minValue + Math.random() * (maxValue - minValue + 1);
-		}
+		} while (retValue > maxValue);
 		return retValue;
 	}
 
@@ -212,10 +211,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Float getFloat(AttributeMetadata attributeMetadata) {
-		float retValue = RANDOM.nextFloat();
-		while (retValue == 0.0f) {
+
+		log(attributeMetadata);
+		float retValue;
+		do {
 			retValue = RANDOM.nextFloat();
-		}
+		} while (retValue == 0.0f);
 		return retValue;
 	}
 
@@ -226,16 +227,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata) {
+
+		log(attributeMetadata);
 		// This can happen. It's a way to specify a precise value
 		if (minValue == maxValue) {
 			return minValue;
 		}
-		float retValue = minValue
-				+ (float) (Math.random() * (maxValue - minValue + 1));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (float) (Math.random() * (maxValue - minValue + 1));
-		}
+		float retValue;
+		do {
+			retValue = (float) (minValue
+					+ Math.random() * (maxValue - minValue + 1));
+		} while (retValue > maxValue);
 		return retValue;
 	}
 
@@ -245,10 +247,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Integer getInteger(AttributeMetadata attributeMetadata) {
-		Integer retValue = RANDOM.nextInt();
-		while (retValue.intValue() == 0) {
+
+		log(attributeMetadata);
+		Integer retValue;
+		do {
 			retValue = RANDOM.nextInt();
-		}
+		} while (retValue.intValue() == 0);
 		return retValue;
 	}
 
@@ -259,17 +263,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public int getIntegerInRange(int minValue, int maxValue,
 			AttributeMetadata attributeMetadata) {
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		int retValue = minValue
-				+ (int) (Math.random() * (maxValue - minValue + 1));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (int) (Math.random() * (maxValue - minValue + 1));
-		}
-		return retValue;
+
+		log(attributeMetadata);
+		return (int) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
 
 	/**
@@ -285,6 +281,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Long getLong(AttributeMetadata attributeMetadata) {
+
+		log(attributeMetadata);
 		return System.nanoTime();
 	}
 
@@ -295,17 +293,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Long getLongInRange(long minValue, long maxValue,
 			AttributeMetadata attributeMetadata) {
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		long retValue = minValue
-				+ (long) (Math.random() * (maxValue - minValue + 1));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = minValue
-					+ (long) (Math.random() * (maxValue - minValue + 1));
-		}
-		return retValue;
+
+		log(attributeMetadata);
+		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
 
 	/**
@@ -314,10 +304,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public Short getShort(AttributeMetadata attributeMetadata) {
-		short retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
-		while (retValue == 0) {
+
+		log(attributeMetadata);
+		short retValue;
+		do {
 			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
-		}
+		} while (retValue == 0);
 		return retValue;
 	}
 
@@ -328,17 +320,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata) {
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		short retValue = (short) (minValue + (short) (Math.random() * (maxValue
-				- minValue + 1)));
-		while (retValue < minValue || retValue > maxValue) {
-			retValue = (short) (minValue + (short) (Math.random() * (maxValue
-					- minValue + 1)));
-		}
-		return retValue;
+
+		log(attributeMetadata);
+		return (short) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
 
 	/**
@@ -347,6 +331,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	@Override
 	public String getStringValue(AttributeMetadata attributeMetadata) {
+
+		log(attributeMetadata);
 		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
 				attributeMetadata);
 	}
@@ -359,6 +345,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public String getStringOfLength(int length,
 			AttributeMetadata attributeMetadata) {
 
+		log(attributeMetadata);
 		StringBuilder buff = new StringBuilder(
 				PodamConstants.STR_DEFAULT_ENCODING);
 		// Default length was 5 for some reason
@@ -527,6 +514,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	// ------------------->> Private methods
+
+	private void log(AttributeMetadata attributeMetadata) {
+		LOG.trace("Providing data for attribute {}.{}",
+				attributeMetadata.getPojoClass().getName(),
+				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : "");
+	}
 
 	// ------------------->> equals() / hashcode() / toString()
 

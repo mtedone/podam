@@ -1300,9 +1300,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			int enumConstantsLength = pojoClass.getEnumConstants().length;
 			if (enumConstantsLength > 0) {
-				AttributeMetadata attribute = null;
+				List<Annotation> annotations = new ArrayList<Annotation>();
+				String noName = null;
 				int enumIndex = strategy.getIntegerInRange(0,
-						enumConstantsLength - 1, attribute);
+						enumConstantsLength - 1,
+						new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
 				return  pojoClass.getEnumConstants()[enumIndex];
 			}
 		}
