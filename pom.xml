@@ -151,7 +151,7 @@
 					<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
 					<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 						the MIT license</footer>
-					<additionalparam>-Xdoclint:none</additionalparam>
+					<additionalparam>${javadoc.opts}</additionalparam>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -282,6 +282,15 @@
 
 	<profiles>
 		<profile>
+			<id>doclint-java8-disable</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<javadoc.opts>-Xdoclint:none</javadoc.opts>
+			</properties>
+		</profile>
+		<profile>
 			<id>github-site</id>
 			<build>
 				<plugins>
@@ -336,7 +345,7 @@
 							<doctitle>Jemos Podam API - Version: ${project.version}</doctitle>
 							<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 								the MIT license</footer>
-							<additionalparam>-Xdoclint:none</additionalparam>
+							<additionalparam>${javadoc.opts}</additionalparam>
 						</configuration>
 					</plugin>
 					<plugin>
