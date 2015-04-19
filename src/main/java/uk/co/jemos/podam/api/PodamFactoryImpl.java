@@ -43,6 +43,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final Object[] NO_ARGS = new Object[0];
 
+	private static final Object OBJECT = new Object();
+
 	/** Application logger */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(PodamFactoryImpl.class.getName());
@@ -1686,7 +1688,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		String attributeName = null;
 
-		return manufactureAttributeValue(Object.class, pojos, parameterType,
+		return manufactureAttributeValue(OBJECT, pojos, parameterType,
 				genericType, annotations, attributeName, typeArgsMap,
 				genericTypeArgs);
 	}
