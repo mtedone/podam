@@ -89,7 +89,7 @@ public final class PodamUtils {
 										 Set<Class<? extends Annotation>> excludeFieldAnnotations,
 										 Set<String> excludedFields,
 										 ClassAttributeApprover attributeApprover,
-										 Set<Method> extraMethods) {
+										 Collection<Method> extraMethods) {
 
 		if (null == attributeApprover) {
 			attributeApprover = DefaultClassInfoStrategy.getInstance().getClassAttributeApprover(clazz);

@@ -1614,7 +1614,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		// It executes any extra methods
-		Set<Method> extraMethods = classInfoStrategy.getExtraMethods(pojoClass);
+		Collection<Method> extraMethods = classInfoStrategy.getExtraMethods(pojoClass);
 		if (null != extraMethods) {
 			for (Method extraMethod : extraMethods) {
 

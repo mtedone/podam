@@ -43,7 +43,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	 * Set of extra methods to execute.
 	 * @since 5.3.0
 	 **/
-	private final Map<Class<?>, Set<Method>> extraMethods = new HashMap<Class<?>, Set<Method>>();
+	private final Map<Class<?>, List<Method>> extraMethods = new HashMap<Class<?>, List<Method>>();
 
 
 	// ------------------->> Constructors
@@ -103,9 +103,9 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 		Method method = pojoClass.getMethod(methodName, methodArgs);
 
-		Set<Method> methods = extraMethods.get(pojoClass);
+		List<Method> methods = extraMethods.get(pojoClass);
 		if (methods == null) {
-			methods = new HashSet<Method>();
+			methods = new ArrayList<Method>();
 			extraMethods.put(pojoClass, methods);
 		}
 
@@ -181,9 +181,9 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		if (null == excludedAttributes) {
 			excludedAttributes = Collections.emptySet();
 		}
-		Set<Method> localExtraMethods = extraMethods.get(pojoClass);
+		List<Method> localExtraMethods = extraMethods.get(pojoClass);
 		if (null == localExtraMethods) {
-			localExtraMethods = Collections.emptySet();
+			localExtraMethods = Collections.emptyList();
 		}
 		return PodamUtils.getClassInfo(pojoClass,
 				excludedAnnotations, excludedAttributes, this, localExtraMethods);
@@ -195,7 +195,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	@Override
-	public Set<Method> getExtraMethods(Class<?> pojoClass) {
+	public Collection<Method> getExtraMethods(Class<?> pojoClass) {
 		return extraMethods.get(pojoClass);
 	}
 

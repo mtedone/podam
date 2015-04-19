@@ -7,9 +7,11 @@ import net.jcip.annotations.Immutable;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +38,7 @@ public class ClassInfo implements Serializable {
 
 	/** The Set of fields belonging to this class */
 	private final Set<ClassAttribute> classAttributes = new HashSet<ClassAttribute>();
-	private final Set<Method> extraMethods = new HashSet<Method>();
+	private final List<Method> extraMethods = new ArrayList<Method>();
 
 	/**
 	 * Partial constructor.
@@ -47,7 +49,7 @@ public class ClassInfo implements Serializable {
 	 *            The collection of attributes belonging to this class
 	 */
 	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes) {
-		this(className, classAttributes, Collections.<Method>emptySet());
+		this(className, classAttributes, Collections.<Method>emptyList());
 	}
 
 	/**
@@ -56,7 +58,7 @@ public class ClassInfo implements Serializable {
 	 * @param classAttributes The collection of attributes belonging to this class
 	 * @param extraMethods The collection of extra methods to execute
 	 */
-	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes, Set<Method> extraMethods) {
+	public ClassInfo(Class<?> className, Collection<ClassAttribute> classAttributes, Collection<Method> extraMethods) {
 		this.className = className;
 		this.classAttributes.addAll(classAttributes);
 		this.extraMethods.addAll(extraMethods);
