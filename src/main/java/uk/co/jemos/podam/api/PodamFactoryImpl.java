@@ -170,8 +170,11 @@ public class PodamFactoryImpl implements PodamFactory {
 		Map<Class<?>, Integer> pojos = new HashMap<Class<?>, Integer>();
 		pojos.put(pojoClass, 0);
 		try {
-			return this.manufacturePojoInternal(pojoClass, pojos,
-					genericTypeArgs);
+			Class<?> declaringClass = null;
+			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
+					declaringClass);
+			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
+					pojos, genericTypeArgs);
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -1256,6 +1259,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
 	 *            is required
+	 * @param pojoMetadata
+	 *            attribute metadata for POJOs produced recursively
 	 * @param pojos
 	 *            How many times {@code pojoClass} has been found. This will be
 	 *            used for reentrant objects
@@ -1274,7 +1279,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T manufacturePojoInternal(Class<T> pojoClass,
-			Map<Class<?>, Integer> pojos, Type... genericTypeArgs)
+			AttributeMetadata pojoMetadata, Map<Class<?>, Integer> pojos,
+			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
@@ -1282,9 +1288,6 @@ public class PodamFactoryImpl implements PodamFactory {
 				pojoClass, Arrays.toString(genericTypeArgs));
 
 		T retValue = null;
-
-		Class<?> declaringClass = null;
-		AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass, declaringClass);
 
 		// reuse object from memoization table
 		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);
@@ -1313,8 +1316,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<T> specificClass = (Class<T>) strategy
 					.getSpecificClass(pojoClass);
 			if (!specificClass.equals(pojoClass)) {
-				return this.manufacturePojoInternal(specificClass, pojos,
-						genericTypeArgs);
+				return this.manufacturePojoInternal(specificClass, pojoMetadata,
+						pojos, genericTypeArgs);
 			} else {
 				LOG.info("{} is an interface. Resorting to {} external factory",
 						pojoClass,
@@ -1337,7 +1340,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				Class<T> specificClass = (Class<T>) strategy
 						.getSpecificClass(pojoClass);
 				if (!specificClass.equals(pojoClass)) {
-					return this.manufacturePojoInternal(specificClass,
+					return this.manufacturePojoInternal(specificClass, pojoMetadata,
 							pojos, genericTypeArgs);
 				}
 			}
@@ -1838,8 +1841,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (depth <= strategy.getMaxDepth(pojo.getClass())) {
 
 				pojos.put(realAttributeType, depth + 1);
+
 				attributeValue = this.manufacturePojoInternal(
-							realAttributeType, pojos, genericTypeArgsAll);
+						realAttributeType, attributeMetadata, pojos, genericTypeArgsAll);
 				pojos.put(realAttributeType, depth);
 
 			} else {
