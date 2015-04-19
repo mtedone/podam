@@ -1342,19 +1342,20 @@ public class PodamFactoryImpl implements PodamFactory {
 					"Security exception while applying introspection.", e);
 		}
 
-		if (retValue == null && Modifier.isAbstract(pojoClass.getModifiers())) {
-			Class<T> specificClass = (Class<T>) strategy
-					.getSpecificClass(pojoClass);
-			if (!specificClass.equals(pojoClass)) {
-				return this.manufacturePojoInternal(specificClass, pojos,
-						genericTypeArgs);
-			} else {
-				LOG.info("{} is an abstract class. Resorting to {} external factory",
-						pojoClass,
-						externalFactory.getClass().getName());
-				return externalFactory.manufacturePojo(pojoClass,
-						genericTypeArgs);
+		if (retValue == null) {
+			if (Modifier.isAbstract(pojoClass.getModifiers())) {
+				Class<T> specificClass = (Class<T>) strategy
+						.getSpecificClass(pojoClass);
+				if (!specificClass.equals(pojoClass)) {
+					return this.manufacturePojoInternal(specificClass,
+							pojos, genericTypeArgs);
+				}
 			}
+			LOG.info("Failed to manufacture {}. Resorting to {} external factory",
+					pojoClass,
+					externalFactory.getClass().getName());
+			return externalFactory.manufacturePojo(pojoClass,
+					genericTypeArgs);
 		}
 
 		// update memoization table with new object
