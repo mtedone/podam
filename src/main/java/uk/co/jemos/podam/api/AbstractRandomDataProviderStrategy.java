@@ -77,6 +77,13 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	private boolean isMemoizationEnabled;
 
 	/**
+	 * A map to keep one object for each class. If memoization is enabled, the
+	 * factory will use this table to avoid creating objects of the same class
+	 * multiple times.
+	 */
+	private Map<Class<?>, Object> memoizationTable = new HashMap<Class<?>, Object>();
+
+	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
@@ -406,15 +413,36 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * When memoization is enabled, only one object will be created for each type. Every next property of the same type
-	 * will be a reference to the same object.
-	 * This can dramatically improve performance but with the expense of not having objects with different values.
-	 *
-	 * @param value
-	 *            True to enable, false to disable.
+	 * {@inheritDoc}
 	 */
-	public void setMemoizationEnabled(boolean value){
-		isMemoizationEnabled = value;
+	@Override
+	public void setMemoization(boolean isMemoizationEnabled) {
+		this.isMemoizationEnabled = isMemoizationEnabled;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
+
+		if (isMemoizationEnabled) {
+			return memoizationTable.get(attributeMetadata.getAttributeType());
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void cacheMemoizedObject(AttributeMetadata attributeMetadata,
+			Object instance) {
+
+		if (isMemoizationEnabled) {
+			memoizationTable.put(attributeMetadata.getAttributeType(), instance);
+		}
 	}
 
 	/**
@@ -506,11 +534,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
 		this.constructorComparator = constructorComparator;
-	}
-
-	@Override
-	public void setMemoization(boolean isMemoizationEnabled) {
-		this.isMemoizationEnabled = isMemoizationEnabled;
 	}
 
 	// ------------------->> Private methods

@@ -43,7 +43,7 @@ public class PodamMockerUnitTest {
 	@Before
 	public void init() {
 
-		strategy.setMemoizationEnabled(true);
+		strategy.setMemoization(true);
 		factory = new PodamFactoryImpl(strategy);
 
 	}
@@ -1132,7 +1132,7 @@ public class PodamMockerUnitTest {
 	@Test
 	public void testImmutablePojoWithGenerifiedCollectionsInConstructor() {
 
-		strategy.setMemoizationEnabled(false);
+		strategy.setMemoization(false);
 
 		ImmutableWithGenericCollectionsPojo pojo = factory
 				.manufacturePojo(ImmutableWithGenericCollectionsPojo.class);

@@ -27,7 +27,7 @@ public class MemoizationTest {
 
 	@Test
 	public void whenEnabledObjectsAreSame() throws Exception {
-		strategy.setMemoizationEnabled(true);
+		strategy.setMemoization(true);
 		SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
 		SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
 		Assert.assertTrue(pojo1 == pojo2);
@@ -35,7 +35,7 @@ public class MemoizationTest {
 
 	@Test
 	public void whenDisabledObjectsAreDifferent() throws Exception {
-		strategy.setMemoizationEnabled(false);
+		strategy.setMemoization(false);
 		SimplePojoToTestSetters pojo1 = factory.manufacturePojo(SimplePojoToTestSetters.class);
 		SimplePojoToTestSetters pojo2 = factory.manufacturePojo(SimplePojoToTestSetters.class);
 		Assert.assertTrue(pojo1 != pojo2);
@@ -43,13 +43,13 @@ public class MemoizationTest {
 
 	@Test
 	public void recursiveObjectsAreSame() throws Exception {
-		strategy.setMemoizationEnabled(true);
+		strategy.setMemoization(true);
 		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
 		Assert.assertTrue(pojo == pojo.getParent());
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		strategy.setMemoizationEnabled(false); // clean for next tests, because strategy is singleton
+		strategy.setMemoization(false); // clean for next tests, because strategy is singleton
 	}
 }

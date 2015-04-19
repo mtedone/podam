@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
+import java.util.Collections;
 import java.util.List;
 
 import net.jcip.annotations.Immutable;
@@ -53,16 +54,27 @@ public class AttributeMetadata implements Serializable {
 	 *            The attribute type
 	 * @param attributeAnnotations
 	 *            The attribute annotations
-	 * @param classType
+	 * @param declaringClass
 	 *            The type of class that owns the attribute
 	 */
 	public AttributeMetadata(String attributeName, Class<?> attributeType,
-			List<Annotation> attributeAnnotations, Class<?> classType) {
-		super();
+			List<Annotation> attributeAnnotations, Class<?> declaringClass) {
 		this.attributeName = attributeName;
 		this.attributeType = attributeType;
 		this.attributeAnnotations = attributeAnnotations;
-		this.pojoClass = classType;
+		this.pojoClass = declaringClass;
+	}
+
+	/**
+	 * Constructor for method parameters metadata
+	 * 
+	 * @param attributeType
+	 *            The attribute type
+	 * @param declaringClass
+	 *            The type of class that owns the attribute
+	 */
+	public AttributeMetadata(Class<?> attributeType, Class<?> declaringClass) {
+		this(null, attributeType, Collections.<Annotation>emptyList(), declaringClass);
 	}
 
 	// ------------------->> Public methods

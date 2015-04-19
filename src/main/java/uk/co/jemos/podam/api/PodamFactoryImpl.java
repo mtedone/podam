@@ -76,13 +76,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	private ClassInfoStrategy classInfoStrategy
 			= DefaultClassInfoStrategy.getInstance();
 
-	/**
-	 * A map to keep one object for each class. If memoization is enabled, the
-	 * factory will use this table to avoid creating objects of the same class
-	 * multiple times.
-	 */
-	private Map<Class<?>, Object> memoizationTable = new HashMap<Class<?>, Object>();
-
 	// ------------------->> Constructors
 
 	/**
@@ -1290,33 +1283,30 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		T retValue = null;
 
+		Class<?> declaringClass = null;
+		AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass, declaringClass);
+
 		// reuse object from memoization table
-		if (strategy.isMemoizationEnabled()) {
-			T objectToReuse = (T) memoizationTable.get(pojoClass);
-			if (objectToReuse != null) {
-				return objectToReuse;
-			}
+		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);
+		if (objectToReuse != null) {
+			return objectToReuse;
 		}
 
 		if (pojoClass.isEnum()) {
 
 			int enumConstantsLength = pojoClass.getEnumConstants().length;
 			if (enumConstantsLength > 0) {
-				List<Annotation> annotations = new ArrayList<Annotation>();
-				String noName = null;
 				int enumIndex = strategy.getIntegerInRange(0,
 						enumConstantsLength - 1,
-						new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
+						new AttributeMetadata(pojoClass, pojoClass));
 				return  pojoClass.getEnumConstants()[enumIndex];
 			}
 		}
 
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
-			List<Annotation> annotations = new ArrayList<Annotation>();
-			String noName = null;
-			return (T) resolvePrimitiveValue(pojoClass, annotations,
-					new AttributeMetadata(noName, pojoClass, annotations, pojoClass));
+			return (T) resolvePrimitiveValue(pojoClass, Collections.<Annotation>emptyList(),
+					new AttributeMetadata(pojoClass, pojoClass));
 		}
 
 		if (pojoClass.isInterface()) {
@@ -1358,12 +1348,10 @@ public class PodamFactoryImpl implements PodamFactory {
 					genericTypeArgs);
 		}
 
-		// update memoization table with new object
+		// update memoization cache with new object
 		// the reference is stored before properties are set so that recursive
 		// properties can use it
-		if (strategy.isMemoizationEnabled()) {
-			memoizationTable.put(pojoClass, retValue);
-		}
+		strategy.cacheMemoizedObject(pojoMetadata, retValue);
 
 		if (retValue != null) {
 			populatePojo(retValue, pojos, genericTypeArgs);

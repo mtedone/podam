@@ -193,6 +193,25 @@ public interface DataProviderStrategy {
 	void setMemoization(boolean isMemoizationEnabled);
 
 	/**
+	 * Obtains object from memoization cache
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return object instance from memoization cache
+	 */
+	Object getMemoizedObject(AttributeMetadata attributeMetadata);
+
+	/**
+	 * Saves object in memoization cache
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance being memoized
+	 * @param instance
+	 *            object instance to save in memoization cache
+	 */
+	void cacheMemoizedObject(AttributeMetadata attributeMetadata, Object instance);
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to
 	 * produce the POJO.
 	 * Default strategy consists of putting constructors with less parameters
