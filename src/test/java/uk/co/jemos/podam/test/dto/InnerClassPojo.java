@@ -18,5 +18,9 @@ public class InnerClassPojo {
 		public InnerPojo(String data) {
 			this.data = data;
 		}
+
+		public String getData() {
+			return data;
+		}
 	}
 }

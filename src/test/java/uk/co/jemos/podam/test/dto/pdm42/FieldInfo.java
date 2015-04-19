@@ -2,8 +2,6 @@ package uk.co.jemos.podam.test.dto.pdm42;
 
 public class FieldInfo {
 
-	private static final long serialVersionUID = 1L;
-
 	private String fieldName;
 
 	private String namespace;
