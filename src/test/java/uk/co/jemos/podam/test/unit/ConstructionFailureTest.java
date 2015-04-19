@@ -5,28 +5,13 @@ import org.junit.Test;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.NonInstantiatableClass;
 
 /**
  * @author kurtinaitis
  * 
  */
 public class ConstructionFailureTest {
-
-	public static class NonInstantiatableClass {
-		private String name;
-
-		public NonInstantiatableClass() throws Exception {
-			throw new Exception();
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return name;
-		}
-	}
 
 	@Test
 	public void testConstructionFailure(){

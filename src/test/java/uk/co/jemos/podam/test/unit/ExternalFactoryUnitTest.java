@@ -12,7 +12,9 @@ import uk.co.jemos.podam.api.ClassInfoStrategy;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 import uk.co.jemos.podam.test.dto.InterfacePojo;
+import uk.co.jemos.podam.test.dto.NonInstantiatableClass;
 import uk.co.jemos.podam.test.dto.ObjectExt;
 import uk.co.jemos.podam.test.dto.PojoWithInterfaces;
 
@@ -74,7 +76,7 @@ public class ExternalFactoryUnitTest {
 	}
 
 	@Test
-	public void testNonInstantiatableClass() {
+	public void testInterface() {
 
 		InterfacePojo pojo = podam.manufacturePojo(InterfacePojo.class);
 		Assert.assertNull("Should not produce interfaces", pojo);
@@ -90,5 +92,23 @@ public class ExternalFactoryUnitTest {
 		Assert.assertEquals("List " + failures.toString(), 2, failures.size());
 		Assert.assertEquals("List " + failures.toString(), ObjectExt.class, failures.get(0));
 		Assert.assertEquals("List " + failures.toString(), InterfacePojo.class, failures.get(1));
+	}
+
+	@Test
+	public void testAbstractClass() {
+
+		AbstractTestPojo pojo = podam.manufacturePojo(AbstractTestPojo.class);
+		Assert.assertNull("Should not produce abstract classes", pojo);
+		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
+		Assert.assertEquals("List " + failures.toString(), AbstractTestPojo.class, failures.get(0));
+	}
+
+	@Test
+	public void testNonInstantiatableClass() {
+
+		NonInstantiatableClass pojo = podam.manufacturePojo(NonInstantiatableClass.class);
+		Assert.assertNull("Should not produce abstract classes", pojo);
+		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
+		Assert.assertEquals("List " + failures.toString(), NonInstantiatableClass.class, failures.get(0));
 	}
 }
