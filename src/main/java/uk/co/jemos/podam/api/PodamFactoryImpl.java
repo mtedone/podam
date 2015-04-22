@@ -172,7 +172,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Class<?> declaringClass = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					declaringClass);
+					genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
 					pojos, genericTypeArgs);
 		} catch (InstantiationException e) {
@@ -1301,7 +1301,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (enumConstantsLength > 0) {
 				int enumIndex = strategy.getIntegerInRange(0,
 						enumConstantsLength - 1,
-						new AttributeMetadata(pojoClass, pojoClass));
+						new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
 				return  pojoClass.getEnumConstants()[enumIndex];
 			}
 		}
@@ -1309,7 +1309,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
 			return (T) resolvePrimitiveValue(pojoClass, Collections.<Annotation>emptyList(),
-					new AttributeMetadata(pojoClass, pojoClass));
+					new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
 		}
 
 		if (pojoClass.isInterface()) {
@@ -1748,7 +1748,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			realAttributeType = attributeType;
 		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, annotations, pojo.getClass());
+				attributeName, realAttributeType, genericTypeArgs, annotations,
+				pojo.getClass());
 
 		// Primitive type
 		if (realAttributeType.isPrimitive()) {

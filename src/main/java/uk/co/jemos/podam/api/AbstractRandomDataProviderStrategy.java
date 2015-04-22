@@ -5,6 +5,7 @@ package uk.co.jemos.podam.api;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,7 +82,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private Map<Class<?>, Object> memoizationTable = new HashMap<Class<?>, Object>();
+	private Map<Class<?>, Map<Type[], Object>> memoizationTable = new HashMap<Class<?>, Map<Type[], Object>>();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
@@ -427,10 +428,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
 		if (isMemoizationEnabled) {
-			return memoizationTable.get(attributeMetadata.getAttributeType());
-		} else {
-			return null;
+			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+			if (map != null) {
+				return map.get(attributeMetadata.getAttrGenericArgs());
+			}
 		}
+		return null;
 	}
 
 	/**
@@ -441,7 +444,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 		if (isMemoizationEnabled) {
-			memoizationTable.put(attributeMetadata.getAttributeType(), instance);
+			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+			if (map == null) {
+				map = new HashMap<Type[], Object>();
+				memoizationTable.put(attributeMetadata.getAttributeType(), map);
+			}
+			map.put(attributeMetadata.getAttrGenericArgs(), instance);
 		}
 	}
 
