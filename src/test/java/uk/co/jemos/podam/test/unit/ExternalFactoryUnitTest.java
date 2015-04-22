@@ -107,7 +107,7 @@ public class ExternalFactoryUnitTest {
 	public void testNonInstantiatableClass() {
 
 		NonInstantiatableClass pojo = podam.manufacturePojo(NonInstantiatableClass.class);
-		Assert.assertNull("Should not produce abstract classes", pojo);
+		Assert.assertNull("Should not produce non-instantiatable classes", pojo);
 		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
 		Assert.assertEquals("List " + failures.toString(), NonInstantiatableClass.class, failures.get(0));
 	}
