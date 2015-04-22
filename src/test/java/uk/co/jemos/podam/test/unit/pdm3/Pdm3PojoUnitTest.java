@@ -205,16 +205,12 @@ public class Pdm3PojoUnitTest {
 	@Test
 	public void testPdm3MapOfGenericPojos() {
 
-		factory.getStrategy().setMemoization(false);
-
 		Map<?, ?> pojos =
 			factory.manufacturePojo(HashMap.class, String.class, Pdm3PojoGenericsConstructor.class);
 		assertMap(pojos, String.class, Pdm3PojoGenericsConstructor.class);
 	}
 
 	private void assertCollection(Collection<?> collection, Class<?> elementType) {
-
-		factory.getStrategy().setMemoization(false);
 
 		assertNotNull("The collection should not be null", collection);
 		assertFalse("The collection should not be empty", collection.isEmpty());

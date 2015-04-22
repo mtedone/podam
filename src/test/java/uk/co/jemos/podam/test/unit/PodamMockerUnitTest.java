@@ -1,7 +1,8 @@
 package uk.co.jemos.podam.test.unit;
 
 import junit.framework.Assert;
-import org.junit.Before;
+
+import org.junit.After;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -34,18 +35,21 @@ import java.util.concurrent.ConcurrentMap;
 public class PodamMockerUnitTest {
 
 	/** The podam factory */
-	private PodamFactory factory;
+	private static final PodamFactory factory = new PodamFactoryImpl();
 
 	/** The default data strategy */
-	private final RandomDataProviderStrategy strategy = RandomDataProviderStrategy
-			.getInstance();
+	private static final RandomDataProviderStrategy strategy
+			= (RandomDataProviderStrategy) factory.getStrategy();
 
-	@Before
-	public void init() {
+	/** Backup of memoization setting */
+	private final static boolean memoizationBackup = strategy.isMemoizationEnabled();
 
-		strategy.setMemoization(true);
-		factory = new PodamFactoryImpl(strategy);
-
+	/**
+	 * Restores memoization settings after test run
+	 */
+	@After
+	public void cleanup() {
+		strategy.setMemoization(memoizationBackup);
 	}
 
 	@Test
@@ -1473,5 +1477,4 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull("The map element must not be null!",
 				oneDimensionalTestPojo);
 	}
-
 }
