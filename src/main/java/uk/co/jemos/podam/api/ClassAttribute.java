@@ -40,7 +40,7 @@ public class ClassAttribute implements Serializable {
 	/**
 	 * Full constructor
 	 *
-	 * @param field
+	 * @param attribute
 	 *            attribute, can be null
 	 * @param getters
 	 *            The set of getters for this attributes

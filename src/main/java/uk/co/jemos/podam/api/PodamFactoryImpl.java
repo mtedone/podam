@@ -1170,17 +1170,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            instance
 	 * @return an instance of the given class if at least one of its
 	 *         constructors has been annotated with {@link PodamConstructor}
-	 * @throws IllegalArgumentException
-	 *             If an illegal argument was passed to the constructor
-	 * @throws InstantiationException
-	 *             If an exception occurred during instantiation
-	 * @throws IllegalAccessException
-	 *             If security was violated while creating the object
-	 * @throws InvocationTargetException
-	 *             If an exception occurred while invoking the constructor or
-	 *             factory method
-	 * @throws ClassNotFoundException
-	 *             If it was not possible to create a class from a string
+	 * @throws SecurityException
+	 *             If an security was violated
 	 */
 	@SuppressWarnings({ UNCHECKED_STR })
 	private <T> T instantiatePojo(Class<T> pojoClass,
@@ -1267,7 +1258,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
-	 * @return An instance of <T> filled with dummy values
+	 * @return An instance of &lt;T&gt; filled with dummy values
 	 * @throws ClassNotFoundException
 	 * @throws InvocationTargetException
 	 * @throws IllegalAccessException
@@ -1374,7 +1365,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
 	 *            instance
-	 * @return An instance of <T> filled with dummy values
+	 * @return An instance of &lt;T&gt; filled with dummy values
 	 * @throws ClassNotFoundException 
 	 * @throws InvocationTargetException 
 	 * @throws IllegalAccessException 
@@ -1646,7 +1637,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The annotations for the attribute being considered
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
@@ -1704,7 +1695,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param attributeName
 	 *            The attribute name
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
@@ -1869,7 +1860,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param suppliedTypes
 	 *            an array of supplied types for generic type substitution 
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @return An array of merged actual and supplied types with generic types
 	 *            resolved
@@ -2024,8 +2015,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * It returns a collection of some sort with some data in it.
 	 *
 	 *
-	 * @param pojoClass
-	 *            The POJO being analysed
+	 * @param collectionType
+	 *            The POJO being analyzed
 	 * @param pojos
 	 *            Set of manufactured pojos' types
 	 * @param collectionType
@@ -2036,7 +2027,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param attributeName
 	 *            The name of the field being set
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
@@ -2291,8 +2282,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * It manufactures and returns a Map with at least one element in it
 	 *
-	 * @param pojoClass
-	 *            The POJO being initialised
+	 * @param pojo
+	 *            The POJO being initialized
 	 * @param pojos
 	 *            Set of manufactured pojos' types
 	 * @param attributeType
@@ -2302,7 +2293,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The annotations specified for this attribute
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @param genericTypeArgs
 	 *            The generic type arguments for the current generic class
@@ -2407,8 +2398,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * argument.
 	 * </p>
 	 *
-	 * @param pojoClass
-	 *          The POJO being initialised
+	 * @param map
+	 *          The map being initialised
 	 * @param pojos
 	 *          Set of manufactured pojos' types
 	 * @param genericTypeArgs
@@ -2654,7 +2645,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param attributeType
 	 *            The array type
-	 * @param genericAttributeType
+	 * @param genericType
 	 *            The array generic type
 	 * @param pojos
 	 *            Set of manufactured pojos' types
@@ -2664,7 +2655,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            POJO containing attribute
 	 * @param attributeName
 	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("<T, V>" for
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
 	 * @return Array with the first element set
 	 * @throws IllegalArgumentException
@@ -2774,14 +2765,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	/**
 	 * Given a collection type it returns an instance
-	 * <p>
+	 *
 	 * <ul>
 	 * <li>The default type for a {@link List} is an {@link ArrayList}</li>
 	 * <li>The default type for a {@link Queue} is a {@link LinkedList}</li>
 	 * <li>The default type for a {@link Set} is a {@link HashSet}</li>
 	 * </ul>
-	 *
-	 * </p>
 	 *
 	 * @param collectionType
 	 *            The collection type *
@@ -2943,7 +2932,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param genericType generic type of parameter
 	 * @param annotations parameter annotations
 	 * @param typeArgsMap map for resolving generic types
-	 * @param genericTypeArgsExtra extra generic types for chaining
 	 * @param pojos
 	 *            Set of manufactured pojos' types
 	 * @param genericTypeArgs

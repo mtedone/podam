@@ -26,11 +26,13 @@ public interface PodamFactory {
 	 * implementation.
 	 * </p>
 	 * 
+	 * @param <T>
+	 *            The type for which a filled instance is required
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
 	 *            is required
 	 * 
-	 * @return An instance of <T> filled with dummy values
+	 * @return An instance of &lt;T&gt; filled with dummy values
 	 * 
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while
@@ -55,7 +57,7 @@ public interface PodamFactory {
 	 *            is required
 	 * @param genericTypeArgs
 	 *            The generic Type arguments for a generic class instance
-	 * @return An instance of <T> filled with dummy values
+	 * @return An instance of &lt;T&gt; filled with dummy values
 	 * 
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while creating a POJO instance or while
@@ -80,7 +82,7 @@ public interface PodamFactory {
 	 *            is required
 	 * @param genericTypeArgs
 	 *            The generic Type arguments for a generic class instance
-	 * @return An instance of <T> filled with dummy values
+	 * @return An instance of &lt;T&gt; filled with dummy values
 	 * 
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while creating a POJO instance or while
@@ -98,7 +100,7 @@ public interface PodamFactory {
 	/**
 	 * It returns the class info strategy for this factory.
 	 *
-	 * @return
+	 * @return the class info strategy for this factory
 	 */
 	ClassInfoStrategy getClassStrategy();
 
@@ -106,7 +108,8 @@ public interface PodamFactory {
 	 * Sets the class info strategy for this factory
 	 *
 	 * @param classInfoStrategy
-	 * @return
+	 *             A class info strategy to be used by this factory
+	 * @return instance of the factory for chaining
 	 */
 	PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy);
 }

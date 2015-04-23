@@ -485,6 +485,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * the old value is replaced by the new value. If you want to implement
 	 * more sophisticated binding strategy, override this class.
 	 *
+	 * @param <T> return type
 	 * @param abstractClass
 	 *            the interface/abstract class to bind
 	 * @param specificClass
@@ -502,6 +503,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * Remove binding of an interface/abstract class to a specific
 	 * implementation
 	 *
+	 * @param <T> return type
 	 * @param abstractClass
 	 *            the interface/abstract class to remove binding
 	 * @return itself
@@ -537,7 +539,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	/**
 	 * Setter for constructor comparator. Default implementations are
-	 * @ConstructorHeavyFirstComparator and @ConstructorLightFirstComparator.
+	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
+	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
 	 * @param constructorComparator constructor comparator to set
 	 */
 	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {

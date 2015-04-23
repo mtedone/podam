@@ -252,6 +252,10 @@ public final class PodamUtils {
 	 *            The {@link Set} which will be filled with class' getters
 	 * @param classSetters
 	 *            The {@link Set} which will be filled with class' setters
+	 * @param excludeAnnotations
+	 *            The {@link Set} containing annotations marking fields to be excluded
+	 * @param excludedFields
+	 *            The {@link Set} containing field names to be excluded
 	 */
 	public static void fillPojoSets(Class<?> clazz, Set<Field> classFields,
 			Set<Method> classGetters, Set<Method> classSetters,
@@ -401,6 +405,8 @@ public final class PodamUtils {
 	 * It returns an value for a {@link Field} matching the attribute
 	 * name or null if a field was not found.
 	 *
+	 * @param <T>
+	 *            The type of field to be returned
 	 * @param pojo
 	 *            The class supposed to contain the field
 	 * @param attributeName
