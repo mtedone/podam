@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -428,9 +429,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
 		if (isMemoizationEnabled) {
-			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-			if (map != null) {
-				return map.get(attributeMetadata.getAttrGenericArgs());
+			/* No memoization for arrays, collections and maps */
+			Class<?> pojoClass = attributeMetadata.getPojoClass();
+			if (pojoClass == null ||
+					(!pojoClass.isArray() &&
+					!Collection.class.isAssignableFrom(pojoClass) &&
+					!Map.class.isAssignableFrom(pojoClass))) {
+				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				if (map != null) {
+					return map.get(attributeMetadata.getAttrGenericArgs());
+				}
 			}
 		}
 		return null;
