@@ -4,7 +4,7 @@
 package uk.co.jemos.podam.test.utils;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.Map.Entry;
@@ -50,17 +50,17 @@ public class PodamTestUtils {
 	}
 
 	/**
-	 * Asserts list is non-empty and elements are of certain type
+	 * Asserts collection is non-empty and elements are of certain type
 	 * 
-	 * @param list
-	 *            List to examine
+	 * @param collection
+	 *            Collection to examine
 	 * @param elementType
 	 *            Element type to ensure
 	 */
-	public static void assertListElementsType(List<?> list, Class<?> elementType) {
-		Assert.assertNotNull("List should not be null", list);
-		Assert.assertFalse("List should not be empty", list.isEmpty());
-		for (Object element : list) {
+	public static void assertCollectionElementsType(Collection<?> collection, Class<?> elementType) {
+		Assert.assertNotNull("List should not be null", collection);
+		Assert.assertFalse("List should not be empty", collection.isEmpty());
+		for (Object element : collection) {
 			Assert.assertEquals("Wrong element type", elementType, element.getClass());
 		}
 	}

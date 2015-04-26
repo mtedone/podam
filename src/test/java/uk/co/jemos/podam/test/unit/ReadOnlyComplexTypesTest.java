@@ -29,7 +29,7 @@ public class ReadOnlyComplexTypesTest {
 		Assert.assertNotNull("List should be present", pojo.getList());
 		Assert.assertNotNull("Map should be present", pojo.getMap());
 		Assert.assertNotNull("Complex element should be present", pojo.getValue());
-		PodamTestUtils.assertListElementsType(pojo.getList(), Integer.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getList(), Integer.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Long.class, String.class);
 		Assert.assertNotNull("Complex element should not be empty",
 				pojo.getValue().getValue());
@@ -44,7 +44,7 @@ public class ReadOnlyComplexTypesTest {
 		Assert.assertNotNull("List should be present", pojo.getList());
 		Assert.assertNotNull("Map should be present", pojo.getMap());
 		Assert.assertNotNull("Complex element should be present", pojo.getValue());
-		PodamTestUtils.assertListElementsType(pojo.getList(), Long.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getList(), Long.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Integer.class, String.class);
 		Assert.assertNotNull("Complex element should not be empty",
 				pojo.getValue().getValue());
@@ -63,7 +63,7 @@ public class ReadOnlyComplexTypesTest {
 		ReadOnlyWildcardFieldsPojo pojo
 				= factory.manufacturePojo(ReadOnlyWildcardFieldsPojo.class);
 		Assert.assertNotNull("Manufacturing failed", pojo);
-		PodamTestUtils.assertListElementsType(pojo.getList(), Object.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getList(), Object.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Object.class, Object.class);
 	}
 
@@ -72,7 +72,7 @@ public class ReadOnlyComplexTypesTest {
 		ReadOnlyRawFieldsPojo pojo
 				= factory.manufacturePojo(ReadOnlyRawFieldsPojo.class);
 		Assert.assertNotNull("Manufacturing failed", pojo);
-		PodamTestUtils.assertListElementsType(pojo.getList(), Object.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getList(), Object.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Object.class, Object.class);
 	}
 

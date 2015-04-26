@@ -76,7 +76,7 @@ public class ConstructorsUnitTest {
 						String.class, Character.class, Byte.class, Integer.class);
 		Assert.assertNotNull("Instantiation failed", pojo);
 		Assert.assertEquals("Class instantiation failed", String.class, pojo.getType());
-		PodamTestUtils.assertListElementsType(pojo.getList(), Character.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getList(), Character.class);
 		PodamTestUtils.assertMapElementsType(pojo.getMap(), Byte.class, Integer.class);
 	}
 }

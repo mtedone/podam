@@ -23,6 +23,6 @@ public class TypedClassTest {
 		Assert.assertNotNull(pojo.getTypedValue());
 		Assert.assertEquals("Invalid value type",
 				String.class, pojo.getTypedValue().getClass());
-		PodamTestUtils.assertListElementsType(pojo.getTypedList(), String.class);
+		PodamTestUtils.assertCollectionElementsType(pojo.getTypedList(), String.class);
 	}
 }
