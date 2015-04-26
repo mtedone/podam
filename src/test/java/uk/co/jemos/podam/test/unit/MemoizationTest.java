@@ -1,5 +1,9 @@
 package uk.co.jemos.podam.test.unit;
 
+import java.util.Currency;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -13,6 +17,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.MemoizationPojo;
 import uk.co.jemos.podam.test.dto.RecursivePojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 /**
  * Created by Victor on 21/08/14.
@@ -63,5 +68,21 @@ public class MemoizationTest {
 		strategy.setMemoization(true);
 		MemoizationPojo pojo = factory.manufacturePojo(MemoizationPojo.class);
 		Assert.assertNotNull("Manufacturing failed", pojo);
+		PodamTestUtils.assertArrayElementsType(pojo.getArray(), Currency.class);
+		Set<Currency> countingSet = new HashSet<Currency>();
+		for (Currency currency : pojo.getArray()) {
+			countingSet.add(currency);
+		}
+		Assert.assertEquals("Wrong array size",
+				strategy.getNumberOfCollectionElements(Currency.class),
+				countingSet.size());
+		PodamTestUtils.assertCollectionElementsType(pojo.getCollection(), Currency.class);
+		Assert.assertEquals("Wrong collection size",
+				strategy.getNumberOfCollectionElements(Currency.class),
+				pojo.getCollection().size());
+		PodamTestUtils.assertMapElementsType(pojo.getMap(), Currency.class, Currency.class);
+		Assert.assertEquals("Wrong map size",
+				strategy.getNumberOfCollectionElements(Currency.class),
+				pojo.getMap().size());
 	}
 }

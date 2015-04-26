@@ -4,8 +4,8 @@
 package uk.co.jemos.podam.test.dto;
 
 import java.util.Currency;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * POJO to test when Podam memoization with collections and arrays
@@ -18,7 +18,7 @@ public class MemoizationPojo {
 	private Currency single;
 	private Currency singleReadOnly;
 	private Currency[] array;
-	private List<Currency> list;
+	private Set<Currency> collection;
 	private Map<Currency, Currency> map;
 
 	public MemoizationPojo(Currency singleReadOnly) {
@@ -45,12 +45,12 @@ public class MemoizationPojo {
 		this.array = array;
 	}
 
-	public List<Currency> getList() {
-		return list;
+	public Set<Currency> getCollection() {
+		return collection;
 	}
 
-	public void setList(List<Currency> list) {
-		this.list = list;
+	public void setCollection(Set<Currency> collection) {
+		this.collection = collection;
 	}
 
 	public Map<Currency, Currency> getMap() {
