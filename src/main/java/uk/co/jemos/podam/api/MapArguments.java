@@ -3,7 +3,6 @@ package uk.co.jemos.podam.api;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.Map;
 
 /**
  * Pojo which contains the arguments required to fill a Map as a POJO attribute
@@ -14,9 +13,6 @@ import java.util.Map;
 public class MapArguments extends AbstractMapArguments implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	/** The Map to be returned. */
-	private Map<? super Object, ? super Object> mapToBeFilled;
 
 	/** The type of the Map key. */
 	private Class<?> keyClass;
@@ -34,22 +30,6 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	 * instance.
 	 */
 	private Type[] elementGenericTypeArgs;
-
-	/**
-	 * @return the mapToBeFilled
-	 */
-	public Map<? super Object, ? super Object> getMapToBeFilled() {
-		return mapToBeFilled;
-	}
-
-	/**
-	 * @param mapToBeFilled
-	 *            the mapToBeFilled to set
-	 */
-	public void setMapToBeFilled(
-			Map<? super Object, ? super Object> mapToBeFilled) {
-		this.mapToBeFilled = mapToBeFilled;
-	}
 
 	/**
 	 * @return the keyClass
@@ -119,8 +99,6 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("MapArguments [toString()=");
 		builder.append(super.toString());
-		builder.append(", mapToBeFilled=");
-		builder.append(mapToBeFilled);
 		builder.append(", keyClass=");
 		builder.append(keyClass);
 		builder.append(", elementClass=");

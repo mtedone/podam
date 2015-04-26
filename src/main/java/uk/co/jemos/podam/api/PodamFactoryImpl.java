@@ -2267,9 +2267,10 @@ public class PodamFactoryImpl implements PodamFactory {
 							collectionElementType, elementStrategy);
 				} else {
 					Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
-					element = manufactureParameterValue(pojos,
+					String attributeName = null;
+					element = manufactureAttributeValue(collection, pojos,
 							collectionElementType, collectionElementType,
-							annotations, nullTypeArgsMap, genericTypeArgs);
+							annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
 				}
 				collection.add(element);
 			}
@@ -2542,12 +2543,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				Object elementValue = null;
 
-				@SuppressWarnings(UNCHECKED_STR)
-				Class<? extends Map<?, ?>> mapType =
-						(Class<? extends Map<?, ?>>) mapArguments.getMapToBeFilled().getClass();
-
 				MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
-				valueArguments.setPojoClass(mapType);
+				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());
 				valueArguments.setPojos(mapArguments.getPojos());
 				valueArguments.setAnnotations(mapArguments.getAnnotations());
 				valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
@@ -2558,7 +2555,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				keyValue = getMapKeyOrElementValue(valueArguments);
 
 				valueArguments = new MapKeyOrElementsArguments();
-				valueArguments.setPojoClass(mapType);
+				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());
 				valueArguments.setPojos(mapArguments.getPojos());
 				valueArguments.setAnnotations(mapArguments.getAnnotations());
 				valueArguments.setKeyOrValueType(mapArguments.getElementClass());
@@ -2628,11 +2625,14 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else {
 
 			Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
-			retValue = manufactureParameterValue(
+			String attributename = null;
+			retValue = manufactureAttributeValue(
+					keyOrElementsArguments.getMapToBeFilled(),
 					keyOrElementsArguments.getPojos(),
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getAnnotations(),
+					attributename,
 					nullTypeArgsMap,
 					keyOrElementsArguments.getGenericTypeArgs());
 		}

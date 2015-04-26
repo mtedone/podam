@@ -12,10 +12,28 @@ import java.util.Map;
  */
 public abstract class AbstractMapArguments {
 
+	/** The Map to be returned. */
+	private Map<? super Object, ? super Object> mapToBeFilled;
 	/** Set of manufactured pojos' types. */
 	private Map<Class<?>, Integer> pojos;
 	/** The annotations for the attribute. */
 	private List<Annotation> annotations;
+
+	/**
+	 * @return the mapToBeFilled
+	 */
+	public Map<? super Object, ? super Object> getMapToBeFilled() {
+		return mapToBeFilled;
+	}
+
+	/**
+	 * @param mapToBeFilled
+	 *            the mapToBeFilled to set
+	 */
+	public void setMapToBeFilled(
+			Map<? super Object, ? super Object> mapToBeFilled) {
+		this.mapToBeFilled = mapToBeFilled;
+	}
 
 	/**
 	 * @return the pojos
@@ -53,7 +71,9 @@ public abstract class AbstractMapArguments {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AbstractMapArguments [pojos=");
+		builder.append("AbstractMapArguments [mapToBeFilled=");
+		builder.append(mapToBeFilled.getClass());
+		builder.append(", pojos=");
 		builder.append(pojos);
 		builder.append(", annotations=");
 		builder.append(annotations);
