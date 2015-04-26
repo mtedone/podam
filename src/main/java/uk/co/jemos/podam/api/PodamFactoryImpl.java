@@ -1765,7 +1765,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			attributeValue = resolveArrayElementValue(realAttributeType,
 					genericAttributeType, pojos, annotations, pojo,
-					attributeName, typeArgsMap);
+					typeArgsMap);
 
 			// Otherwise it's a different type of Object (including
 			// the Object class)
@@ -2653,7 +2653,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The annotations to be considered
 	 * @param pojo
 	 *            POJO containing attribute
-	 * @param attributeName
 	 * @param typeArgsMap
 	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
@@ -2672,7 +2671,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object resolveArrayElementValue(Class<?> attributeType,
 			Type genericType, Map<Class<?>, Integer> pojos,
-			List<Annotation> annotations, Object pojo, String attributeName,
+			List<Annotation> annotations, Object pojo,
 			Map<String, Type> typeArgsMap) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
@@ -2729,6 +2728,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object arrayElement = null;
 		Object array = Array.newInstance(componentType, nbrElements);
 
+		String attributeName = null;
 		for (int i = 0; i < nbrElements; i++) {
 
 			// The default
@@ -2750,7 +2750,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				arrayElement = manufactureAttributeValue(pojo, pojos,
+				arrayElement = manufactureAttributeValue(array, pojos,
 						componentType, genericComponentType, annotations, attributeName,
 						typeArgsMap, genericTypeArgs.get());
 
