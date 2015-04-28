@@ -4,6 +4,8 @@ import java.util.Currency;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.ws.Holder;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -61,6 +63,31 @@ public class MemoizationTest {
 		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
 		Assert.assertNotNull("Manufacturing failed", pojo);
 		Assert.assertTrue(pojo == pojo.getParent());
+	}
+
+	@Test
+	public void testMemoizationWithGenericsEquality() throws Exception {
+		strategy.setMemoization(true);
+		Holder<?> pojo1 = factory.manufacturePojoWithFullData(Holder.class, String.class);
+		Assert.assertNotNull("Manufacturing failed", pojo1);
+
+		Holder<?> pojo2 = factory.manufacturePojoWithFullData(Holder.class, String.class);
+		Assert.assertNotNull("Manufacturing failed", pojo2);
+
+		Assert.assertEquals("Should be the same", pojo1, pojo2);
+		Assert.assertEquals("Should be the same", pojo1.value, pojo2.value);
+	}
+
+	@Test
+	public void testMemoizationWithGenericsInequality() throws Exception {
+		strategy.setMemoization(true);
+		Holder<?> pojo1 = factory.manufacturePojo(Holder.class, String.class);
+		Assert.assertNotNull("Manufacturing failed", pojo1);
+
+		Holder<?> pojo2 = factory.manufacturePojo(Holder.class, Integer.class);
+		Assert.assertNotNull("Manufacturing failed", pojo2);
+
+		Assert.assertTrue("Should be different", pojo1 != pojo2);
 	}
 
 	@Test
