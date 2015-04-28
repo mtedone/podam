@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -437,7 +438,11 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 					!Map.class.isAssignableFrom(pojoClass))) {
 				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 				if (map != null) {
-					return map.get(attributeMetadata.getAttrGenericArgs());
+					for (Entry<Type[], Object> entry : map.entrySet()) {
+						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+							return entry.getValue();
+						}
+					}
 				}
 			}
 		}
