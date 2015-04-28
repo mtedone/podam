@@ -1764,7 +1764,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// Array type
 
 			attributeValue = resolveArrayElementValue(realAttributeType,
-					genericAttributeType, pojos, annotations, pojo,
+					genericAttributeType, attributeName, pojos, annotations, pojo,
 					typeArgsMap);
 
 			// Otherwise it's a different type of Object (including
@@ -2078,7 +2078,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						typeArgsMap, elementGenericTypeArgs);
 			}
 
-			fillCollection(pojos, annotations, retValue, typeClass,
+			fillCollection(pojos, annotations, attributeName, retValue, typeClass,
 					elementGenericTypeArgs.get());
 
 		} catch (SecurityException e) {
@@ -2176,7 +2176,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					typeArgsMap, elementGenericTypeArgs);
 		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),
 				genericTypeArgsExtra);
-		fillCollection(pojos, Arrays.asList(annotations),
+		String attributeName = null;
+		fillCollection(pojos, Arrays.asList(annotations), attributeName,
 				collection, elementTypeClass, elementGenericArgs);
 	}
 
@@ -2193,6 +2194,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            Set of manufactured pojos' types
 	 * @param annotations
 	 *            The annotations for this attribute
+	 * @param attributeName
+	 *            The attribute name of collection in enclosing POJO class 
 	 * @param collection
 	 *            The Collection to be filled
 	 * @param collectionElementType
@@ -2212,7 +2215,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 */
 	private void fillCollection(Map<Class<?>, Integer> pojos,
-			List<Annotation> annotations, Collection<? super Object> collection,
+			List<Annotation> annotations, String attributeName,
+			Collection<? super Object> collection,
 			Class<?> collectionElementType, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
@@ -2267,7 +2271,6 @@ public class PodamFactoryImpl implements PodamFactory {
 							collectionElementType, elementStrategy);
 				} else {
 					Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
-					String attributeName = null;
 					element = manufactureAttributeValue(collection, pojos,
 							collectionElementType, collectionElementType,
 							annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
@@ -2365,6 +2368,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 			MapArguments mapArguments = new MapArguments();
+			mapArguments.setAttributeName(attributeName);
 			mapArguments.setPojos(pojos);
 			mapArguments.setAnnotations(annotations);
 			mapArguments.setMapToBeFilled(retValue);
@@ -2544,6 +2548,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				Object elementValue = null;
 
 				MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
+				valueArguments.setAttributeName(mapArguments.getAttributeName());
 				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());
 				valueArguments.setPojos(mapArguments.getPojos());
 				valueArguments.setAnnotations(mapArguments.getAnnotations());
@@ -2554,10 +2559,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				keyValue = getMapKeyOrElementValue(valueArguments);
 
-				valueArguments = new MapKeyOrElementsArguments();
-				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());
-				valueArguments.setPojos(mapArguments.getPojos());
-				valueArguments.setAnnotations(mapArguments.getAnnotations());
 				valueArguments.setKeyOrValueType(mapArguments.getElementClass());
 				valueArguments.setElementStrategy(elementStrategy);
 				valueArguments.setGenericTypeArgs(mapArguments
@@ -2625,14 +2626,13 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else {
 
 			Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
-			String attributename = null;
 			retValue = manufactureAttributeValue(
 					keyOrElementsArguments.getMapToBeFilled(),
 					keyOrElementsArguments.getPojos(),
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getAnnotations(),
-					attributename,
+					keyOrElementsArguments.getAttributeName(),
 					nullTypeArgsMap,
 					keyOrElementsArguments.getGenericTypeArgs());
 		}
@@ -2647,6 +2647,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The array type
 	 * @param genericType
 	 *            The array generic type
+	 * @param attributeName
+	 *            The array attribute name in enclosing POJO class
 	 * @param pojos
 	 *            Set of manufactured pojos' types
 	 * @param annotations
@@ -2670,7 +2672,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If it was not possible to create a class from a string
 	 */
 	private Object resolveArrayElementValue(Class<?> attributeType,
-			Type genericType, Map<Class<?>, Integer> pojos,
+			Type genericType, String attributeName, Map<Class<?>, Integer> pojos,
 			List<Annotation> annotations, Object pojo,
 			Map<String, Type> typeArgsMap) throws InstantiationException,
 			IllegalAccessException, InvocationTargetException,
@@ -2728,7 +2730,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object arrayElement = null;
 		Object array = Array.newInstance(componentType, nbrElements);
 
-		String attributeName = null;
 		for (int i = 0; i < nbrElements; i++) {
 
 			// The default
@@ -2986,7 +2987,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				Type[] genericTypeArgsAll = mergeTypeArrays(
 						collectionGenericTypeArgs.get(), genericTypeArgs);
-				fillCollection(pojos, annotations,
+				String attributeName = null;
+				fillCollection(pojos, annotations, attributeName,
 						collection, collectionElementType, genericTypeArgsAll);
 
 				parameterValue = collection;

@@ -12,12 +12,29 @@ import java.util.Map;
  */
 public abstract class AbstractMapArguments {
 
+	/** The name of map attribute in enclosing POJO */
+	private String attributeName;
 	/** The Map to be returned. */
 	private Map<? super Object, ? super Object> mapToBeFilled;
 	/** Set of manufactured pojos' types. */
 	private Map<Class<?>, Integer> pojos;
 	/** The annotations for the attribute. */
 	private List<Annotation> annotations;
+
+	/**
+	 * @return the attribute name for this map
+	 */
+	public String getAttributeName() {
+		return attributeName;
+	}
+
+	/**
+	 * @param attributeName
+	 *            the attribute name for this map
+	 */
+	public void setAttributeName(String attributeName) {
+		this.attributeName = attributeName;
+	}
 
 	/**
 	 * @return the mapToBeFilled
