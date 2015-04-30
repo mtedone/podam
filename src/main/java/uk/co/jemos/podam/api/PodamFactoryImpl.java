@@ -1414,7 +1414,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			Method setter = null;
 			for (Method current : setters) {
 				if (setter == null || setter.getDeclaringClass().isAssignableFrom(current.getDeclaringClass())) {
-					LOG.warn("Prefer {} for {}", current, setter);
 					setter = current;
 				}
 			}
