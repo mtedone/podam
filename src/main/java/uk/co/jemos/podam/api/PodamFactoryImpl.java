@@ -481,106 +481,35 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (primitiveClass.equals(int.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getIntegerValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getInteger(attributeMetadata);
-			}
+			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(long.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getLongValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getLong(attributeMetadata);
-			}
+			retValue = getLongValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(float.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getFloatValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getFloat(attributeMetadata);
-			}
+			retValue = getFloatValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(double.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getDoubleValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getDouble(attributeMetadata);
-			}
+			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(boolean.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getBooleanValueForAnnotation(annotations);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getBoolean(attributeMetadata);
-			}
+			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(byte.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getByteValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getByte(attributeMetadata);
-			}
+			retValue = getByteValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(short.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getShortValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getShort(attributeMetadata);
-			}
+			retValue = getShortValueWithinRange(annotations, attributeMetadata);
 
 		} else if (primitiveClass.equals(char.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getCharacterValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getCharacter(attributeMetadata);
-			}
+			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);
 
 		} else {
 
@@ -597,9 +526,12 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param annotations
 	 *            The collection of annotations for the annotated attribute
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
 	 * @return The boolean value indicated in the annotation
 	 */
-	private Boolean getBooleanValueForAnnotation(List<Annotation> annotations) {
+	private Boolean getBooleanValueForAnnotation(List<Annotation> annotations,
+			AttributeMetadata attributeMetadata) {
 
 		Boolean retValue = null;
 
@@ -611,7 +543,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				break;
 			}
+		}
 
+		if (retValue == null) {
+			retValue = strategy.getBoolean(attributeMetadata);
 		}
 
 		return retValue;
@@ -671,8 +606,12 @@ public class PodamFactoryImpl implements PodamFactory {
 				break;
 
 			}
-
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getByte(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -732,8 +671,12 @@ public class PodamFactoryImpl implements PodamFactory {
 				break;
 
 			}
-
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getShort(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -780,8 +723,12 @@ public class PodamFactoryImpl implements PodamFactory {
 				break;
 
 			}
-
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getCharacter(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -846,6 +793,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getInteger(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -909,6 +861,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getFloat(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -965,6 +922,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getDouble(attributeMetadata);
+		}
+
 		return retValue;
 
 	}
@@ -1026,6 +988,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 
 		}
+
+		if (retValue == null) {
+			retValue = strategy.getLong(attributeMetadata);
+		}
+
 		return retValue;
 	}
 
@@ -1048,106 +1015,41 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (candidateWrapperClass.equals(Integer.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getIntegerValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getInteger(attributeMetadata);
-			}
+			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Long.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getLongValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getLong(attributeMetadata);
-			}
+			retValue = getLongValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Float.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getFloatValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getFloat(attributeMetadata);
-			}
+			retValue = getFloatValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Double.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getDoubleValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getDouble(attributeMetadata);
-			}
+			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Boolean.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getBooleanValueForAnnotation(annotations);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getBoolean(attributeMetadata);
-			}
+			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Byte.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getByteValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getByte(attributeMetadata);
-			}
+			retValue = getByteValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Short.class)) {
 
-			if (!annotations.isEmpty()) {
-
-				retValue = getShortValueWithinRange(annotations,
-						attributeMetadata);
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getShort(attributeMetadata);
-			}
+			retValue = getShortValueWithinRange(annotations, attributeMetadata);
 
 		} else if (candidateWrapperClass.equals(Character.class)) {
 
-			if (!annotations.isEmpty()) {
+			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);
 
-				retValue = getCharacterValueWithinRange(annotations,
-						attributeMetadata);
+		} else {
 
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getCharacter(attributeMetadata);
-			}
+			throw new IllegalArgumentException(
+					String.format("%s is unsupported wrapper type",
+							candidateWrapperClass));
 
 		}
 
