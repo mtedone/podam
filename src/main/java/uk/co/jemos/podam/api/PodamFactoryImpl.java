@@ -1409,7 +1409,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 				iter.remove();
 			}
-			Method setter = setters.iterator().next();
+
+			/* We want to find setter defined the latest */
+			Method setter = null;
+			for (Method current : setters) {
+				if (setter == null || setter.getDeclaringClass().isAssignableFrom(current.getDeclaringClass())) {
+					LOG.warn("Prefer {} for {}", current, setter);
+					setter = current;
+				}
+			}
 
 			String attributeName = PodamUtils
 					.extractFieldNameFromSetterMethod(setter);
