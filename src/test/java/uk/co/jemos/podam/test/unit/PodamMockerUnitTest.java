@@ -64,6 +64,7 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testMockerForAbstractClass() {
+		strategy.setMemoization(false);
 		// Trying to create an abstract class should thrown an instantiation
 		// exception
 		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
@@ -72,6 +73,7 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testMockerForAbstractClassWithConcreteSpecified() {
+		strategy.setMemoization(false);
 		// Trying to create an abstract class with a specified concrete
 		// implementation should be fine
 		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
@@ -84,6 +86,7 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testMockerForEmbeddedAbstractClassWithConcreteSpecified() {
+		strategy.setMemoization(false);
 		// Trying to create an abstract class with a specified concrete
 		// implementation should be fine
 		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
