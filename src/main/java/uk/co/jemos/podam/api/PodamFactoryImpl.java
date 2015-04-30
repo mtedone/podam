@@ -1351,11 +1351,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				AttributeStrategy<?> attributeStrategy = attributeStrategyAnnotation
 						.value().newInstance();
 
-				if (LOG.isDebugEnabled()) {
-					LOG.debug("The attribute: " + attributeName
-							+ " will be filled using the following strategy: "
-							+ attributeStrategy);
-				}
+				LOG.debug("The attribute: " + attributeName
+						+ " will be filled using the following strategy: "
+						+ attributeStrategy);
 
 				setterArg = returnAttributeDataStrategyValue(attributeType,
 						attributeStrategy);
@@ -3013,15 +3011,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The {@link AttributeStrategy} to use
 	 * @return The value for the {@link PodamStrategyValue} annotation with
 	 *         which the attribute was annotated
-	 * @throws InstantiationException
-	 *             If an exception occurred while creating an instance of the
-	 *             strategy contained within the {@link PodamStrategyValue}
-	 *             annotation
-	 * @throws IllegalAccessException
-	 *             If an exception occurred while creating an instance of the
-	 *             strategy contained within the {@link PodamStrategyValue}
-	 *             annotation
-	 *
 	 * @throws IllegalArgumentException
 	 *             If the type of the data strategy defined for the
 	 *             {@link PodamStrategyValue} annotation is not assignable to
@@ -3030,38 +3019,18 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
 			AttributeStrategy<?> attributeStrategy)
-			throws InstantiationException, IllegalAccessException {
+			throws IllegalArgumentException {
 
-		Object retValue = null;
+		Object retValue = attributeStrategy.getValue();
 
-		Method attributeStrategyMethod = null;
-
-		try {
-			attributeStrategyMethod = attributeStrategy.getClass().getMethod(
-					PodamConstants.PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME,
-					new Class<?>[] {});
-
-			if (!attributeType.isAssignableFrom(attributeStrategyMethod
-					.getReturnType())) {
-				String errMsg = "The type of the Podam Attribute Strategy is not "
-						+ attributeType.getName()
-						+ " but "
-						+ attributeStrategyMethod.getReturnType().getName()
-						+ ". An exception will be thrown.";
-				LOG.error(errMsg);
-				throw new IllegalArgumentException(errMsg);
-			}
-
-			retValue = attributeStrategy.getValue();
-
-		} catch (SecurityException e) {
-			throw new IllegalStateException(
-					"A security issue occurred while retrieving the Podam Attribute Strategy details",
-					e);
-		} catch (NoSuchMethodException e) {
-			throw new IllegalStateException(
-					"It seems the Podam Attribute Annotation is of the wrong type",
-					e);
+		if (retValue != null
+				&& !attributeType.isAssignableFrom(retValue.getClass())) {
+			String errMsg = "The type of the Podam Attribute Strategy is not "
+					+ attributeType.getName() + " but "
+					+ retValue.getClass().getName()
+					+ ". An exception will be thrown.";
+			LOG.error(errMsg);
+			throw new IllegalArgumentException(errMsg);
 		}
 
 		return retValue;

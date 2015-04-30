@@ -23,8 +23,7 @@ public class WrongTypeStrategy
 	 * {@inheritDoc}
 	 */
 	public OneDimensionalTestPojo getValue() throws PodamMockeryException {
-		// WHATEVER!
-		return null;
+		return new OneDimensionalTestPojo();
 	}
 
 	// ------------------->> Constants

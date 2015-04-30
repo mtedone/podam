@@ -33,9 +33,6 @@ public final class PodamConstants {
 	/** The default encoding for Strings */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
 
-	/** The name of the {@link AttributeStrategy} interface */
-	public static final String PODAM_ATTRIBUTE_STRATEGY_METHOD_NAME = "getValue";
-
 	/** Non-instantiable constructor */
 	private PodamConstants() {
 		throw new AssertionError();
