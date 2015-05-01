@@ -1320,12 +1320,6 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 			}
 
-			String attributeName = PodamUtils
-					.extractFieldNameFromSetterMethod(setter);
-			List<Annotation> pojoAttributeAnnotations
-					= PodamUtils.getFieldAnnotations(pojo.getClass(),
-							attributeName);
-
 			parameterTypes = setter.getParameterTypes();
 			if (parameterTypes.length != 1) {
 				LOG.warn("Skipping setter with non-single arguments {}",
@@ -1345,11 +1339,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			// attribute they are already customising the value assigned to
 			// that attribute.
 
-			PodamStrategyValue attributeStrategyAnnotation = containsAttributeStrategyAnnotation(pojoAttributeAnnotations);
-			if (null != attributeStrategyAnnotation) {
+			String attributeName = PodamUtils
+					.extractFieldNameFromSetterMethod(setter);
+			List<Annotation> pojoAttributeAnnotations
+					= PodamUtils.getFieldAnnotations(pojo.getClass(),
+							attributeName);
+			for (Annotation annotation : setter.getParameterAnnotations()[0]) {
+				pojoAttributeAnnotations.add(annotation);
+			}
 
-				AttributeStrategy<?> attributeStrategy = attributeStrategyAnnotation
-						.value().newInstance();
+			AttributeStrategy<?> attributeStrategy
+					= findAttributeStrategy(pojoAttributeAnnotations, attributeType);
+			if (null != attributeStrategy) {
 
 				LOG.debug("The attribute: " + attributeName
 						+ " will be filled using the following strategy: "
@@ -1869,23 +1870,30 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It returns a {@link PodamStrategyValue} if one was specified, or
-	 * {@code null} otherwise.
+	 * It returns a {@link AttributeStrategy} if one was specified in
+	 * annotations, or {@code null} otherwise.
 	 *
 	 * @param annotations
 	 *            The list of annotations
-	 * @return {@code true} if the list of annotations contains at least one
-	 *         {@link PodamStrategyValue} annotation.
+	 * @param attributeType
+	 *            Type of attribute expected to be returned
+	 * @return {@link AttributeStrategy}, if {@link PodamStrategyValue} or bean
+	 *         validation constraint annotation was found among annotations
+	 * @throws IllegalAccessException
+	 *         if attribute strategy cannot be instantiated
+	 * @throws InstantiationException 
+	 *         if attribute strategy cannot be instantiated
 	 */
-	private PodamStrategyValue containsAttributeStrategyAnnotation(
-			List<Annotation> annotations) {
-		PodamStrategyValue retValue = null;
+	private AttributeStrategy<?> findAttributeStrategy(
+			List<Annotation> annotations, Class<?> attributeType)
+					throws InstantiationException, IllegalAccessException {
+
+		AttributeStrategy<?> retValue = null;
 
 		for (Annotation annotation : annotations) {
-			if (PodamStrategyValue.class
-					.isAssignableFrom(annotation.getClass())) {
-				retValue = (PodamStrategyValue) annotation;
-				break;
+			if (annotation instanceof PodamStrategyValue) {
+				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
+				return strategyAnnotation.value().newInstance();
 			}
 		}
 
@@ -2867,6 +2875,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		Object parameterValue = null;
+
+		AttributeStrategy<?> attributeStrategy
+				= findAttributeStrategy(annotations, parameterType);
+		if (null != attributeStrategy) {
+
+			LOG.debug("The parameter: " + genericType
+					+ " will be filled using the following strategy: "
+					+ attributeStrategy);
+
+			return returnAttributeDataStrategyValue(parameterType,
+					attributeStrategy);
+		}
 
 		if (Collection.class.isAssignableFrom(parameterType)) {
 
