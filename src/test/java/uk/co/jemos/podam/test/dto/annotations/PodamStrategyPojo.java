@@ -33,6 +33,10 @@ public class PodamStrategyPojo implements Serializable {
 	@PodamStrategyValue(PostCodeStrategy.class)
 	private String postCode;
 
+	private String postCode2;
+
+	private String postCode3;
+
 	@PodamStrategyValue(ByteArrayStrategy.class)
 	private byte[] byteData;
 
@@ -60,6 +64,10 @@ public class PodamStrategyPojo implements Serializable {
 
 	// ------------------->> Constructors
 
+	public PodamStrategyPojo(@PodamStrategyValue(PostCodeStrategy.class) String postCode3) {
+		this.postCode3 = postCode3;
+	}
+
 	// ------------------->> Public methods
 
 	// ------------------->> Getters / Setters
@@ -77,6 +85,28 @@ public class PodamStrategyPojo implements Serializable {
 	 */
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
+	}
+
+	/**
+	 * @return the postCode2
+	 */
+	public String getPostCode2() {
+		return postCode2;
+	}
+
+	/**
+	 * @param postCode2
+	 *            the postCode2 to set
+	 */
+	public void setPostCode2(@PodamStrategyValue(PostCodeStrategy.class) String postCode2) {
+		this.postCode2 = postCode2;
+	}
+
+	/**
+	 * @return the postCode3
+	 */
+	public String getPostCode3() {
+		return postCode3;
 	}
 
 	/**
@@ -218,7 +248,9 @@ public class PodamStrategyPojo implements Serializable {
 		StringBuilder retValue = new StringBuilder();
 
 		retValue.append("PodamStrategyPojo ( ").append("postCode = ")
-				.append(postCode).append(TAB).append("myBirthday = ")
+				.append(postCode).append(TAB).append("postCode2 = ")
+				.append(postCode2).append(TAB).append("postCode3 = ")
+				.append(postCode3).append(TAB).append("myBirthday = ")
 				.append(myBirthday).append(TAB).append("myBirthdays = ")
 				.append(myBirthdays).append(TAB).append("objectList = ")
 				.append(objectList).append(TAB).append("myBirthdaysMap = ")

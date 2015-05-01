@@ -1246,6 +1246,16 @@ public class PodamMockerUnitTest {
 		Assert.assertEquals("The post code does not match the expected value",
 				PodamTestConstants.POST_CODE, postCode);
 
+		String postCode2 = pojo.getPostCode2();
+		Assert.assertNotNull("The post code 2 cannot be null!", postCode2);
+		Assert.assertEquals("The post code 2 does not match the expected value",
+				PodamTestConstants.POST_CODE, postCode2);
+
+		String postCode3 = pojo.getPostCode3();
+		Assert.assertNotNull("The post code 3 cannot be null!", postCode3);
+		Assert.assertEquals("The post code 3 does not match the expected value",
+				PodamTestConstants.POST_CODE, postCode3);
+
 		Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
 
 		Calendar myBirthday = pojo.getMyBirthday();
