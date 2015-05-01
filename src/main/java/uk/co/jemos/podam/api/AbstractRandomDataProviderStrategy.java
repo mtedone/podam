@@ -53,14 +53,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/** The constructor comparator */
 	private static final MethodComparator METHOD_COMPARATOR = new MethodComparator();
 
-	/** An array of valid String characters */
-	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',
-			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B',
-			'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1',
-			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
-
 	/**
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
@@ -159,12 +151,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public Character getCharacter(AttributeMetadata attributeMetadata) {
 
 		log(attributeMetadata);
-		int randomCharIdx = getIntegerInRange(0,
-				NICE_ASCII_CHARACTERS.length - 1, attributeMetadata);
-
-		int charToReturnIdx = randomCharIdx % NICE_ASCII_CHARACTERS.length;
-
-		return NICE_ASCII_CHARACTERS[charToReturnIdx];
+		return PodamUtils.getNiceCharacter();
 
 	}
 
