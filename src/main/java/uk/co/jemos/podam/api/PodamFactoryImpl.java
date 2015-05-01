@@ -1890,13 +1890,22 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, Class<?> attributeType)
 					throws InstantiationException, IllegalAccessException {
 
-		AttributeStrategy<?> retValue = null;
-
-		for (Annotation annotation : annotations) {
+		List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
+		Iterator<Annotation> iter = localAnnotations.iterator();
+		while (iter.hasNext()) {
+			Annotation annotation = iter.next();
 			if (annotation instanceof PodamStrategyValue) {
 				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
 				return strategyAnnotation.value().newInstance();
+			} else if (annotation.annotationType().getAnnotation(javax.validation.Constraint.class) == null) {
+				iter.remove();
 			}
+		}
+		
+		AttributeStrategy<?> retValue = null;
+		if (!localAnnotations.isEmpty()) {
+
+			retValue = new BeanValidationStrategy(localAnnotations, attributeType);
 		}
 
 		return retValue;
