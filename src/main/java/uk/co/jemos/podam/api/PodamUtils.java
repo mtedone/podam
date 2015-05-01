@@ -492,4 +492,17 @@ public final class PodamUtils {
 		return NICE_ASCII_CHARACTERS[randomCharIdx];
 
 	}
+	
+	/**
+	 * It returns a long/Long value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @return A long/Long value between min and max value (included).
+	 */
+	public static long getLongInRange(long minValue, long maxValue) {
+		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+	}
 }

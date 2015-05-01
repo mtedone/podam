@@ -292,7 +292,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			AttributeMetadata attributeMetadata) {
 
 		log(attributeMetadata);
-		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+		return PodamUtils.getLongInRange(minValue, maxValue);
 	}
 
 	/**
