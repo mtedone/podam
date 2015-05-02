@@ -472,6 +472,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @param annotations
 	 *            The annotations to consider for this attribute
 	 * @param attributeMetadata
+	 *            Metadata of the attribute being filled
 	 * @return the primitive value depending on the type
 	 *
 	 * @throws IllegalArgumentException
@@ -1007,6 +1008,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param candidateWrapperClass
 	 *            The class which might be a wrapper class
+	 * @param annotations
+	 *            The attribute's annotations, if any, used for customisation
 	 * @param attributeMetadata
 	 *            The attribute's metadata, if any, used for customisation
 	 * @return {@code null} if this is not a wrapper class, otherwise an Object
@@ -1165,11 +1168,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return An instance of &lt;T&gt; filled with dummy values
-	 * @throws ClassNotFoundException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
 	 * @throws InstantiationException
-	 *
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If manufactured class cannot be loaded
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
@@ -1263,6 +1270,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * Fills given class filled with values dictated by the strategy
 	 *
+	 * @param <T>
+	 *            The type for which should be populated
 	 * @param pojo
 	 *            An instance to be filled with dummy values
 	 * @param pojos
@@ -1272,10 +1281,15 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The generic type arguments for the current generic class
 	 *            instance
 	 * @return An instance of &lt;T&gt; filled with dummy values
-	 * @throws ClassNotFoundException 
-	 * @throws InvocationTargetException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If manufactured class cannot be loaded
 	 */
 	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T populatePojo(T pojo, Map<Class<?>, Integer> pojos,
@@ -1810,6 +1824,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The list of annotations used to customise the String value, if
 	 *            any
 	 * @param attributeMetadata
+	 *            Metadata of the attribute to be filled with string
 	 * @return a String value, eventually customised by annotations
 	 * @throws IllegalAccessException
 	 *             If an exception occurred while creating an instance of the
@@ -1940,7 +1955,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * It returns a collection of some sort with some data in it.
 	 *
 	 *
-	 * @param collectionType
+	 * @param pojo
 	 *            The POJO being analyzed
 	 * @param pojos
 	 *            Set of manufactured pojos' types
@@ -2491,6 +2506,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             annotation and such value could not be converted to the
 	 *             desired type</li>
 	 *             </ul>
+	 * @throws ClassNotFoundException
+	 *             If manufactured class could not be loaded
 	 */
 	private Object getMapKeyOrElementValue(
 			MapKeyOrElementsArguments keyOrElementsArguments)

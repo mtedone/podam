@@ -32,8 +32,9 @@ import uk.co.jemos.podam.api.ObjectStrategy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamCollection {
 
-	/**
-	 * The number of elements to create for the collection
+	/** The number of elements to create for the collection
+	 *
+	 * @return number of elements to place into collection
 	 */
 	int nbrElements() default PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS;
 
@@ -79,7 +80,10 @@ public @interface PodamCollection {
 	 */
 	Class<? extends AttributeStrategy<?>> mapElementStrategy() default ObjectStrategy.class;
 
-	/** It allows clients to specify a comment on this annotation */
+	/** It allows clients to specify a comment on this annotation
+	 *
+	 * @return comment value
+	 */
 	String comment() default "";
 
 }

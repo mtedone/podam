@@ -25,10 +25,20 @@ import java.lang.reflect.Method;
  */
 public interface DataProviderStrategy {
 
-	/** It returns a boolean/Boolean value. */
+	/** It returns a boolean/Boolean value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a boolean/Boolean value
+	 */
 	Boolean getBoolean(AttributeMetadata attributeMetadata);
 
-	/** It returns a byte/Byte value. */
+	/** It returns a byte/Byte value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a boolean/Boolean value
+	 */
 	Byte getByte(AttributeMetadata attributeMetadata);
 
 	/**
@@ -38,12 +48,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A byte/Byte within min and max value (included).
 	 */
 	Byte getByteInRange(byte minValue, byte maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a char/Character value. */
+	/** It returns a char/Character value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a char/Character value
+	 */
 	Character getCharacter(AttributeMetadata attributeMetadata);
 
 	/**
@@ -53,12 +70,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A char/Character value between min and max value (included).
 	 */
 	Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a double/Double value */
+	/** It returns a double/Double value
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a double/Double value
+	 */
 	Double getDouble(AttributeMetadata attributeMetadata);
 
 	/**
@@ -68,12 +92,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A double/Double value between min and max value (included)
 	 */
 	Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a float/Float value. */
+	/** It returns a float/Float value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A float/Float value
+	 */
 	Float getFloat(AttributeMetadata attributeMetadata);
 
 	/**
@@ -83,12 +114,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A float/Float value between min and max value (included).
 	 */
 	Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns an int/Integer value. */
+	/** It returns an int/Integer value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A int/Integer value
+	 */
 	Integer getInteger(AttributeMetadata attributeMetadata);
 
 	/**
@@ -98,12 +136,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return An int/Integer value between min and max value (included).
 	 */
 	int getIntegerInRange(int minValue, int maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a long/Long value. */
+	/** It returns a long/Long value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A long/Long value
+	 * */
 	Long getLong(AttributeMetadata attributeMetadata);
 
 	/**
@@ -113,12 +158,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A long/Long value between min and max value (included).
 	 */
 	Long getLongInRange(long minValue, long maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a short/Short value. */
+	/** It returns a short/Short value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A short/Short value.
+	 */
 	Short getShort(AttributeMetadata attributeMetadata);
 
 	/**
@@ -128,12 +180,19 @@ public interface DataProviderStrategy {
 	 *            The minimum value for the returned value
 	 * @param maxValue
 	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A short/Short value between min and max value (included).
 	 */
 	Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata);
 
-	/** It returns a string value */
+	/** It returns a string value
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A String of default length
+	 */
 	String getStringValue(AttributeMetadata attributeMetadata);
 
 	/**
@@ -141,6 +200,8 @@ public interface DataProviderStrategy {
 	 * 
 	 * @param length
 	 *            The number of characters required in the returned String
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
 	 * @return A String of {@code length} characters
 	 */
 	String getStringOfLength(int length, AttributeMetadata attributeMetadata);
@@ -216,7 +277,7 @@ public interface DataProviderStrategy {
 	 * produce the POJO.
 	 * Default strategy consists of putting constructors with less parameters
 	 * to be tried first.
-	 * 
+	 *
 	 * @param constructors
 	 *            Array of POJO's constructors
 	 */
@@ -240,6 +301,8 @@ public interface DataProviderStrategy {
 	 * to abstract class type or interface.
 	 * </p>
 	 * 
+	 * @param <T>
+	 *            The type of class being resolved
 	 * @param nonInstantiatableClass
 	 *            Abstract class type or interface
 	 * @return Non-abstract class type derived from

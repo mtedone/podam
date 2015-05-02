@@ -22,13 +22,22 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamDoubleValue {
 
-	/** The minimum value for the annotated field */
+	/** The minimum value for the annotated field
+	 *
+	 * @return min value
+	 */
 	double minValue() default 0.0;
 
-	/** The minimum value for the annotated field */
+	/** The minimum value for the annotated field
+	 *
+	 * @return max value
+	 */
 	double maxValue() default 0.0;
 
-	/** It allows clients to make comments */
+	/** It allows clients to make comments
+	 *
+	 * @return comment value
+	 */
 	String comment() default "";
 
 	/**

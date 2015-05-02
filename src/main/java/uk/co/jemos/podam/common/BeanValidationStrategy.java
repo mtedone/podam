@@ -62,7 +62,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 *
 	 * @param annotations
 	 *        bean validation annotations
-	 * @param returnType
+	 * @param attributeType
 	 *        expected return type of an attribute
 	 */
 	public BeanValidationStrategy(List<Annotation> annotations, Class<?> attributeType) {
@@ -229,7 +229,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 * @param result
 	 *        {@link BigDecimal} intermediate result to convert to the
 	 *        real attribute type 
-	 * @return
+	 * @return actual attribute type object
 	 */
 	private Object decimalToReturnType(BigDecimal result) {
 
@@ -296,7 +296,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 * @param result
 	 *        {@link Long} intermediate result to convert to the
 	 *        real attribute type 
-	 * @return
+	 * @return actual attribute type object
 	 */
 	private Object timestampToReturnType(Long result) {
 

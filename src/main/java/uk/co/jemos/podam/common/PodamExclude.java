@@ -25,6 +25,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamExclude {
 
-	/** Gives users the possibility to leave comments */
+	/** Gives users the possibility to leave comments
+	 *
+	 * @return comment value
+	 */
 	String comment() default "";
 }
