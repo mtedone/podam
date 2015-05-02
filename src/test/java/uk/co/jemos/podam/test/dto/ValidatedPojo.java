@@ -18,7 +18,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * POJO to test bean validation API
@@ -73,6 +76,12 @@ public class ValidatedPojo {
 
 	@Size(min = 2)
 	private Collection<String> minCollection;
+
+	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
+	private String identifier;
+
+	@Email
+	private String email;
 
 	public Boolean getBoolTrue() {
 		return boolTrue;
@@ -184,5 +193,21 @@ public class ValidatedPojo {
 
 	public void setMinCollection(Collection<String> minCollection) {
 		this.minCollection = minCollection;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

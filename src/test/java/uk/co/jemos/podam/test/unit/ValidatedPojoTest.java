@@ -27,6 +27,7 @@ public class ValidatedPojoTest {
 	public void testBeanValidation(){
 
 		ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);
+		Assert.assertNull("Non empty field emptyString", pojo.getEmptyString());
 		Assert.assertNotNull("Manufacturing failed", pojo);
 		Assert.assertNotNull("Empty field boolFalse", pojo.getBoolFalse());
 		Assert.assertNotNull("Empty field boolTrue", pojo.getBoolTrue());
@@ -41,6 +42,11 @@ public class ValidatedPojoTest {
 		Assert.assertNotNull("Empty field sizedString", pojo.getSizedString());
 		Assert.assertNotNull("Empty field maxCollection", pojo.getMaxCollection());
 		Assert.assertNotNull("Empty field minCollection", pojo.getMinCollection());
+
+		Assert.assertNull("PODAM doesn't support @Pattern ATM",
+				pojo.getIdentifier());
+		Assert.assertNull("PODAM doesn't support custom constraints",
+				pojo.getIdentifier());
 
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
