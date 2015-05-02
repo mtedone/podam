@@ -21,7 +21,7 @@ import uk.co.jemos.podam.api.ObjectStrategy;
  * 
  * <p>
  * The minimum number of elements is
- * {@link PodamConstants#ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS}
+ * {@link PodamConstants#DEFAULT_NBR_COLLECTION_ELEMENTS}
  * </p>
  * 
  * @author mtedone
@@ -35,7 +35,7 @@ public @interface PodamCollection {
 	/**
 	 * The number of elements to create for the collection
 	 */
-	int nbrElements() default PodamConstants.ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS;
+	int nbrElements() default PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS;
 
 	/**
 	 * The strategy that will populate the annotated attribute.

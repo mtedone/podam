@@ -14,6 +14,7 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 
@@ -33,7 +34,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 		strategy = RandomDataProviderStrategy.getInstance();
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
-				RandomDataProviderStrategy.DEFAULT_NBR_COLLECTION_ELEMENTS,
+				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
 				strategy.getNumberOfCollectionElements(Object.class));
 
 		int aNumberOfCollectionElements = 3;

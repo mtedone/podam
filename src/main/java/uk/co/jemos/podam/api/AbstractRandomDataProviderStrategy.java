@@ -59,9 +59,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public static final int MAX_DEPTH = 1;
 
-	/** The default number of collection elements for this strategy */
-	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
-
 	/** The max stack trace depth. */
 	private int maxDepth = MAX_DEPTH;
 
@@ -96,7 +93,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * Implementation of the Singleton pattern
 	 */
 	public AbstractRandomDataProviderStrategy() {
-		this(DEFAULT_NBR_COLLECTION_ELEMENTS);
+		this(PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS);
 	}
 
 	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {
@@ -343,10 +340,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			AttributeMetadata attributeMetadata) {
 
 		log(attributeMetadata);
-		StringBuilder buff = new StringBuilder(
-				PodamConstants.STR_DEFAULT_ENCODING);
-		// Default length was 5 for some reason
-		buff.setLength(0);
+		StringBuilder buff = new StringBuilder();
 
 		while (buff.length() < length) {
 			buff.append(getCharacter(attributeMetadata));

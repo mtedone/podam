@@ -28,7 +28,7 @@ public final class PodamConstants {
 	public static final int STR_DEFAULT_LENGTH = 10;
 
 	/** The default number of elements for a collection-type element */
-	public static final int ANNOTATION_COLLECTION_DEFAULT_NBR_ELEMENTS = 1;
+	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
 	/** The default encoding for Strings */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
