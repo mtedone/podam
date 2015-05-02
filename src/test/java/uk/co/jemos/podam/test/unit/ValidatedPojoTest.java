@@ -39,6 +39,8 @@ public class ValidatedPojoTest {
 		Assert.assertNotNull("Empty field pastDate", pojo.getPastDate());
 		Assert.assertNotNull("Empty field futureCalendar", pojo.getFutureCalendar());
 		Assert.assertNotNull("Empty field sizedString", pojo.getSizedString());
+		Assert.assertNotNull("Empty field maxCollection", pojo.getMaxCollection());
+		Assert.assertNotNull("Empty field minCollection", pojo.getMinCollection());
 
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();

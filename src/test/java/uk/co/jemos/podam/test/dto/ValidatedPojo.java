@@ -5,6 +5,7 @@ package uk.co.jemos.podam.test.dto;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.validation.constraints.AssertFalse;
@@ -66,6 +67,12 @@ public class ValidatedPojo {
 
 	@Size(min = 7, max = 10)
 	private String sizedString;
+
+	@Size(max = 2)
+	private Collection<String> maxCollection;
+
+	@Size(min = 2)
+	private Collection<String> minCollection;
 
 	public Boolean getBoolTrue() {
 		return boolTrue;
@@ -163,4 +170,19 @@ public class ValidatedPojo {
 		this.sizedString = sizedString;
 	}
 
+	public Collection<String> getMaxCollection() {
+		return maxCollection;
+	}
+
+	public void setMaxCollection(Collection<String> maxCollection) {
+		this.maxCollection = maxCollection;
+	}
+
+	public Collection<String> getMinCollection() {
+		return minCollection;
+	}
+
+	public void setMinCollection(Collection<String> minCollection) {
+		this.minCollection = minCollection;
+	}
 }
