@@ -73,6 +73,7 @@
       <menu name="Technical Reference">
 		  <item name="Architecture" href="./uml/architecture.html" />
       	  <item name="Custom Annotations" href="./annotations.html" />
+      	  <item name="Bean Validation Support" href="./validation-api.html" />
       	  <item name="A Walk-through example" href="./walk-through-example.html" />
       	  <item name="Corner Cases" href="./corner-cases.html" />
       	  <item name="FAQS" href="./faqs.html" />

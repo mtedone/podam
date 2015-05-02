@@ -1,0 +1,54 @@
+Podam Bean Validation Support
+
+  Podam supports Bean Validation annotation constraints to fill attributes with
+  the values fulfilling these constaints.
+  For the full syntax of Bean Validation annotations, please refer to the
+  {{http://docs.oracle.com/javaee/6/tutorial/doc/gircz.html}}
+
+* Usage
+
+  Annotate fields, constructor parameters or setter parameters with
+  constraint annotations
+
++-----------------------------------
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
+public class Person {
+
+	@NotNull
+	Size(min=1)
+	private String firstname;
+
+	@NotNull
+	@Past
+	Date birthday;
+
+	@NotNull
+	@Digits(integer=2, fraction=1)
+	Double weight;
+
+	// constructors, getters and setters
+	...
+}
+
++-----------------------------------
+
+  Then just manufacture the POJO as normal.
+
++-----------------------------------
+Person pojo = factory.manufacturePojo(Person.class);
++-----------------------------------
+
+  Podam will introspect annotations and will follow constraints.
+
+* Custom constraints support
+
+  Not yet supported
+
+* Limitations
+
+  @Pattern annotation is not yet supported
