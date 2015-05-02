@@ -62,7 +62,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * The default is {@link NullExternalFactory}.
 	 * </p>
 	 */
-	private final PodamFactory externalFactory;
+	private PodamFactory externalFactory
+			= NullExternalFactory.getInstance();
 
 	/**
 	 * The strategy to use to fill data.
@@ -70,7 +71,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * The default is {@link RandomDataProviderStrategy}.
 	 * </p>
 	 */
-	private final DataProviderStrategy strategy;
+	private DataProviderStrategy strategy
+			= RandomDataProviderStrategy.getInstance();
 
 	/**
 	 * The strategy to use to introspect data.
@@ -188,10 +190,52 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * {@inheritDoc}
 	 */
-
 	@Override
 	public DataProviderStrategy getStrategy() {
 		return strategy;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PodamFactory setStrategy(DataProviderStrategy strategy) {
+		this.strategy = strategy;
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ClassInfoStrategy getClassStrategy() {
+		return classInfoStrategy;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
+		this.classInfoStrategy = classInfoStrategy;
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PodamFactory getExternalFactory() {
+		return externalFactory;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PodamFactory setExternalFactory(PodamFactory externalFactory) {
+		this.externalFactory = externalFactory;
+		return this;
 	}
 
 	// ------------------->> Private methods
@@ -3063,17 +3107,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return retValue;
 
-	}
-
-	@Override
-	public ClassInfoStrategy getClassStrategy() {
-		return classInfoStrategy;
-	}
-
-	@Override
-	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
-		this.classInfoStrategy = classInfoStrategy;
-		return this;
 	}
 
 	// ------------------->> equals() / hashcode() / toString()

@@ -74,6 +74,32 @@ public interface PodamFactory {
 	DataProviderStrategy getStrategy();
 
 	/**
+	 * Sets the data provider strategy for this factory
+	 *
+	 * @param strategy
+	 *             A data provider strategy to be used by this factory
+	 * @return instance of the factory for chaining
+	 */
+	PodamFactory setStrategy(DataProviderStrategy strategy);
+
+	/**
+	 * It returns the external factory assigned to this factory.
+	 * 
+	 * @return the strategy
+	 */
+	PodamFactory getExternalFactory();
+
+	/**
+	 * Sets an external factory for this factory to delegate requests it cannot
+	 * process
+	 *
+	 * @param externalFactory
+	 *             An external factory to be used by this factory
+	 * @return instance of this factory for chaining
+	 */
+	PodamFactory setExternalFactory(PodamFactory externalFactory);
+
+	/**
 	 * It returns the class info strategy for this factory.
 	 *
 	 * @return the class info strategy for this factory
