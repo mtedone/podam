@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.validation.Constraint;
+import javax.validation.constraints.Size;
 import javax.xml.ws.Holder;
 
 /**
@@ -1897,13 +1899,16 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (annotation instanceof PodamStrategyValue) {
 				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
 				return strategyAnnotation.value().newInstance();
-			} else if (annotation.annotationType().getAnnotation(javax.validation.Constraint.class) == null) {
+			} else if (annotation.annotationType().getAnnotation(Constraint.class) == null) {
 				iter.remove();
 			}
 		}
 		
 		AttributeStrategy<?> retValue = null;
-		if (!localAnnotations.isEmpty()) {
+		if (!localAnnotations.isEmpty()
+				&& !Collection.class.isAssignableFrom(attributeType)
+				&& !Map.class.isAssignableFrom(attributeType)
+				&& !attributeType.isArray()) {
 
 			retValue = new BeanValidationStrategy(localAnnotations, attributeType);
 		}
@@ -2152,14 +2157,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> elementStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = findCollectionSize(annotations, elementStrategyHolder, keyStrategyHolder);
+		Integer nbrElements = findCollectionSize(annotations,
+				collectionElementType, elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
-
-		if (null == nbrElements) {
-
-			nbrElements = strategy
-					.getNumberOfCollectionElements(collectionElementType);
-		}
 
 		try {
 			if (collection.size() > nbrElements) {
@@ -2428,15 +2428,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> keyStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Integer nbrElements = findCollectionSize(mapArguments.getAnnotations(),
-				elementStrategyHolder, keyStrategyHolder);
+				mapArguments.getElementClass(), elementStrategyHolder,
+				keyStrategyHolder);
 		AttributeStrategy<?> keyStrategy = keyStrategyHolder.value;
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
-
-		if (null == nbrElements) {
-
-			nbrElements = strategy.getNumberOfCollectionElements(mapArguments
-					.getElementClass());
-		}
 
 		Map<? super Object, ? super Object> map = mapArguments.getMapToBeFilled();
 		try {
@@ -2613,14 +2608,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> elementStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = findCollectionSize(annotations,
+		Integer nbrElements = findCollectionSize(annotations, attributeType,
 				elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
-
-		if (null == nbrElements) {
-
-			nbrElements = strategy.getNumberOfCollectionElements(attributeType);
-		}
 
 		Object arrayElement = null;
 		Object array = Array.newInstance(componentType, nbrElements);
@@ -2661,6 +2651,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *
 	 * @param annotations
 	 *        a list of annotations to inspect
+	 * @param collectionElementType
+	 *        a collection element type
 	 * @param elementStrategyHolder
 	 *        a holder to pass found element strategy back to the caller,
 	 *        can be null
@@ -2676,14 +2668,16 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *        A strategy cannot be instantiated
 	 */
 	private Integer findCollectionSize(List<Annotation> annotations,
+			Class<?> collectionElementType,
 			Holder<AttributeStrategy<?>> elementStrategyHolder,
 			Holder<AttributeStrategy<?>> keyStrategyHolder)
 			throws InstantiationException, IllegalAccessException {
 
 		// If the user defined a strategy to fill the collection elements,
 		// we use it
+		Size size = null;
 		for (Annotation annotation : annotations) {
-			if (PodamCollection.class.isAssignableFrom(annotation.getClass())) {
+			if (annotation instanceof PodamCollection) {
 
 				PodamCollection collectionAnnotation = (PodamCollection) annotation;
 				if (null != elementStrategyHolder) {
@@ -2706,10 +2700,26 @@ public class PodamFactoryImpl implements PodamFactory {
 					}
 				}
 				return collectionAnnotation.nbrElements();
+
+			} else if (annotation instanceof Size) {
+
+				size = (Size) annotation;
 			}
 		}
 
-		return null;
+		Integer nbrElements = strategy
+				.getNumberOfCollectionElements(collectionElementType);
+
+		if (null != size) {
+			if (nbrElements > size.max()) {
+				nbrElements = size.max();
+			}
+			if (nbrElements < size.min()) {
+				nbrElements = size.min();
+			}
+		}
+
+		return nbrElements;
 	}
 
 	/**
