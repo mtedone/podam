@@ -1,5 +1,7 @@
 package uk.co.jemos.podam.test.unit;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -10,6 +12,7 @@ import javax.validation.ValidatorFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
@@ -21,7 +24,18 @@ import uk.co.jemos.podam.test.dto.ValidatedPojo;
  */
 public class ValidatedPojoTest {
 
-	private static PodamFactory factory = new PodamFactoryImpl();
+	private static final AbstractExternalFactory externalFactory = new AbstractExternalFactory() {
+
+		@Override
+		public <T> T manufacturePojo(Class<T> pojoClass,
+				Type... genericTypeArgs) {
+			Assert.fail("Received request for " + pojoClass + " with "
+				+ Arrays.toString(genericTypeArgs));
+			return null;
+		}
+	};
+
+	private static final PodamFactory factory = new PodamFactoryImpl(externalFactory);
 
 	@Test
 	public void testBeanValidation(){

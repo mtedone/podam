@@ -1415,21 +1415,15 @@ public class PodamFactoryImpl implements PodamFactory {
 						typeArgsMap, typeArguments);
 			}
 
-			if (setterArg != null) {
-				try {
-					setter.invoke(pojo, setterArg);
-				} catch(IllegalAccessException e) {
-					LOG.warn("{} is not accessible. Setting it to accessible."
-							+ " However this is a security hack and your code"
-							+ " should really adhere to JavaBeans standards.",
-							setter.toString());
-					setter.setAccessible(true);
-					setter.invoke(pojo, setterArg);
-				}
-			} else {
-
-				LOG.warn("Couldn't find a suitable value for attribute {}[{}]. Will delegate to {}",
-						pojoClass, attributeType, externalFactory);
+			try {
+				setter.invoke(pojo, setterArg);
+			} catch(IllegalAccessException e) {
+				LOG.warn("{} is not accessible. Setting it to accessible."
+						+ " However this is a security hack and your code"
+						+ " should really adhere to JavaBeans standards.",
+						setter.toString());
+				setter.setAccessible(true);
+				setter.invoke(pojo, setterArg);
 			}
 		}
 
