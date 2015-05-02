@@ -21,6 +21,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
@@ -167,6 +168,13 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				sb.append(PodamUtils.getNiceCharacter());
 			}
 			return sb.toString();
+
+		} else if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {
+
+			Pattern pattern = (Pattern) minAnno;
+			LOG.warn("At the moment PODAM doesn't support @Pattern({}),"
+					+ " returning null", pattern.regexp());
+			return null;
 
 		}
 
