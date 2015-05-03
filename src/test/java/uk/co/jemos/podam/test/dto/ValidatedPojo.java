@@ -3,11 +3,27 @@
  */
 package uk.co.jemos.podam.test.dto;
 
-import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.Email;
+
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * POJO to test bean validation API
@@ -22,6 +38,9 @@ public class ValidatedPojo {
 
 	@AssertFalse
 	private Boolean boolFalse;
+
+	@NotNull
+	private String filledString;
 
 	@Null
 	private String emptyString;
@@ -66,6 +85,7 @@ public class ValidatedPojo {
 	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
 	private String identifier;
 
+	@Email
 	private String email;
 
 	public Boolean getBoolTrue() {
@@ -82,6 +102,14 @@ public class ValidatedPojo {
 
 	public void setBoolFalse(Boolean boolFalse) {
 		this.boolFalse = boolFalse;
+	}
+
+	public String getFilledString() {
+		return filledString;
+	}
+
+	public void setFilledString(String filledString) {
+		this.filledString = filledString;
 	}
 
 	public String getEmptyString() {
