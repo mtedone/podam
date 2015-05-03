@@ -185,6 +185,26 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+		Map<Class<?>, Integer> pojos = new HashMap<Class<?>, Integer>();
+		pojos.put(pojo.getClass(), 0);
+		try {
+			return this.populatePojoInternal(pojo, pojos, genericTypeArgs);
+		} catch (InstantiationException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (InvocationTargetException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (ClassNotFoundException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		}
+	}
+
 	// ------------------->> Getters / Setters
 
 	/**
@@ -1235,7 +1255,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		strategy.cacheMemoizedObject(pojoMetadata, retValue);
 
 		if (retValue != null) {
-			populatePojo(retValue, pojos, genericTypeArgs);
+			populatePojoInternal(retValue, pojos, genericTypeArgs);
 		}
 
 		return retValue;
@@ -1266,7 +1286,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If manufactured class cannot be loaded
 	 */
 	@SuppressWarnings(UNCHECKED_STR)
-	private <T> T populatePojo(T pojo, Map<Class<?>, Integer> pojos,
+	private <T> T populatePojoInternal(T pojo, Map<Class<?>, Integer> pojos,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
@@ -1476,7 +1496,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						if (depth <= strategy.getMaxDepth(fieldClass)) {
 
 							pojos.put(fieldClass, depth + 1);
-							populatePojo(fieldValue, pojos, genericTypeArgsAll);
+							populatePojoInternal(fieldValue, pojos, genericTypeArgsAll);
 							pojos.put(fieldClass, depth);
 
 						} else {

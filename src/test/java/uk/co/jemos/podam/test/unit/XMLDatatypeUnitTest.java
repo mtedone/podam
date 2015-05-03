@@ -51,6 +51,11 @@ public class XMLDatatypeUnitTest {
 					return null;
 				}
 
+				@Override
+				public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+					return pojo;
+				}
+
 	};
 
 	private final static PodamFactory podam = new PodamFactoryImpl(externalFactory);

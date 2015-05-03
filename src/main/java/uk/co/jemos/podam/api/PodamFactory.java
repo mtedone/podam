@@ -67,6 +67,30 @@ public interface PodamFactory {
 	<T> T manufacturePojoWithFullData(Class<T> pojoClass, Type... genericTypeArgs);
 
 	/**
+	 * Generic method which populates an instance of the given class with
+	 * dummy values, using the default data provider strategy.
+	 * 
+	 * <p>
+	 * This method uses {@link RandomDataProviderStrategy} as the default
+	 * implementation.
+	 * </p>
+	 * 
+	 * @param <T>
+	 *            The type for which a filled instance is required
+	 * @param pojo
+	 *            The instance to be filled with values
+	 * @param genericTypeArgs
+	 *            The generic Type arguments for a generic class instance
+	 * @return The same instance of object for chaining
+	 * 
+	 * @throws PodamMockeryException
+	 *             if a problem occurred while creating a POJO instance or while
+	 *             setting its state
+	 * @since 5.4.0
+	 */
+	<T> T populatePojo(T pojo, Type... genericTypeArgs);
+
+	/**
 	 * It returns the strategy for this factory.
 	 * 
 	 * @return the strategy
