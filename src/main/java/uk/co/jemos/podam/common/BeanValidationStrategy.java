@@ -3,6 +3,12 @@
  */
 package uk.co.jemos.podam.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import javax.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -11,25 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import javax.validation.constraints.AssertFalse;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.PodamUtils;
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * This strategy fills attributes and parameters annotated with Java bean
@@ -84,6 +71,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		Annotation minAnno = null;
 		Annotation maxAnno = null;
+
 		if (null != findTypeFromList(annotations, AssertTrue.class)) {
 
 			return Boolean.TRUE;

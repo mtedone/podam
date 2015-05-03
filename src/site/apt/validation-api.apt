@@ -12,27 +12,85 @@ Podam Bean Validation Support
 
 +-----------------------------------
 
+package uk.co.jemos.podam.test.dto;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class Person {
+/**
+* POJO to test bean validation API
+*
+* @author daivanov
+*
+*/
+public class ValidatedPojo {
 
-	@NotNull
-	Size(min=1)
-	private String firstname;
+@AssertTrue
+private Boolean boolTrue;
 
-	@NotNull
-	@Past
-	Date birthday;
+@AssertFalse
+private Boolean boolFalse;
 
-	@NotNull
-	@Digits(integer=2, fraction=1)
-	Double weight;
+@Null
+private String emptyString;
 
-	// constructors, getters and setters
-	...
+@DecimalMin("-5.5")
+@DecimalMax("5.5")
+private String decimalString;
+
+@DecimalMin("-5.5")
+@DecimalMax("5.5")
+private Double decimalDouble;
+
+@Min(-10)
+@Max(10)
+private Integer intInteger;
+
+@Min(-10)
+@Max(10)
+private String intString;
+
+@Digits(integer = 3, fraction = 2)
+private String fractionString;
+
+@Digits(integer = 3, fraction = 2)
+private BigDecimal fractionDecimal;
+
+@Past
+private Date pastDate;
+
+@Future
+private Calendar futureCalendar;
+
+@Size(min = 7, max = 10)
+private String sizedString;
+
+@Size(max = 2)
+private Collection<String> maxCollection;
+
+@Size(min = 2)
+private Collection<String> minCollection;
+
+@Pattern(regexp = "^[a-zA-Z0-9_]*$")
+private String identifier;
+
+	...etc
+
 }
 
 +-----------------------------------
@@ -40,15 +98,23 @@ public class Person {
   Then just manufacture the POJO as normal.
 
 +-----------------------------------
-Person pojo = factory.manufacturePojo(Person.class);
+ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);
++-----------------------------------
+
+  To test your POJO you can run something like:
+
++-----------------------------------
+ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+Validator validator = factory.getValidator();
+Set<ConstraintViolation<ValidatedPojo>> violations = validator.validate(pojo);
+Assert.assertTrue("Unexpected " + violations.size() + " violations "
+    + violations, violations.isEmpty());
 +-----------------------------------
 
   Podam will introspect annotations and will follow constraints.
 
-* Custom constraints support
-
-  Not yet supported
-
 * Limitations
 
-  @Pattern annotation is not yet supported
+  * @Pattern annotation is not yet supported
+
+  * Custom constraints are not yet supported
