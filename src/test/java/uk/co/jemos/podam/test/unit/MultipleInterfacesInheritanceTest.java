@@ -12,53 +12,24 @@ import org.junit.Test;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesHolderPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo;
+import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.AbstractRandomDataProviderStrategy;
-import uk.co.jemos.podam.api.ClassInfoStrategy;
-import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-
 
 /**
  * @author daivanov
  */
 public class MultipleInterfacesInheritanceTest {
 
-	public static class TrackingExternalFactory implements PodamFactory {
+	public static class TrackingExternalFactory extends AbstractExternalFactory {
 
 		List<Class<?>> failures = new ArrayList<Class<?>>();
-
-		@Override
-		public <T> T manufacturePojo(Class<T> pojoClass) {
-			Type[] noTypes = new Type[0];
-			return this.manufacturePojo(pojoClass, noTypes);
-		}
-
-		@Override
-		public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
-				Type... genericTypeArgs) {
-			return this.manufacturePojo(pojoClass, genericTypeArgs);
-		}
 
 		@Override
 		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 			failures.add(pojoClass);
 			return null;
-		}
-
-		@Override
-		public DataProviderStrategy getStrategy() {
-			return null;
-		}
-
-		@Override
-		public ClassInfoStrategy getClassStrategy() {
-			return null;
-		}
-
-		@Override
-		public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
-			return this;
 		}
 	}
 

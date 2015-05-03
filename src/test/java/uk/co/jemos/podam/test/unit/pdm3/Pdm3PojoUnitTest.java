@@ -6,8 +6,7 @@ package uk.co.jemos.podam.test.unit.pdm3;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import uk.co.jemos.podam.api.ClassInfoStrategy;
-import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.*;
@@ -26,42 +25,14 @@ import static org.junit.Assert.*;
  */
 public class Pdm3PojoUnitTest {
 
-	public static class TrackingExternalFactory implements PodamFactory {
-
-		private static final Type[] NO_TYPES = new Type[0];
+	public static class TrackingExternalFactory extends AbstractExternalFactory {
 
 		List<Class<?>> failures = new ArrayList<Class<?>>();
-
-		@Override
-		public <T> T manufacturePojo(Class<T> pojoClass) {
-			return this.manufacturePojo(pojoClass, NO_TYPES);
-		}
-
-		@Override
-		public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
-				Type... genericTypeArgs) {
-			return this.manufacturePojo(pojoClass, genericTypeArgs);
-		}
 
 		@Override
 		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 			failures.add(pojoClass);
 			return null;
-		}
-
-		@Override
-		public DataProviderStrategy getStrategy() {
-			return null;
-		}
-
-		@Override
-		public ClassInfoStrategy getClassStrategy() {
-			return null;
-		}
-
-		@Override
-		public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
-			return this;
 		}
 	}
 
