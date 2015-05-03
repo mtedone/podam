@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.validation.Constraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.ws.Holder;
 
@@ -1908,11 +1909,31 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (annotation instanceof PodamStrategyValue) {
 				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
 				return strategyAnnotation.value().newInstance();
-			} else if (annotation.annotationType().getAnnotation(Constraint.class) == null) {
+			} else if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
+				if (annotation instanceof NotNull) {
+					/* We don't need to do anything for NotNull constraint */
+					iter.remove();
+				} else {
+
+					/* Find real class out of proxy */
+					Class<?> constraintClass = annotation.getClass();
+					if (Proxy.isProxyClass(constraintClass)) {
+						Class<?>[] interfaces = constraintClass.getInterfaces();
+						if (interfaces.length == 1) {
+							constraintClass = interfaces[0];
+						}
+					}
+
+					if (!NotNull.class.getPackage().equals(constraintClass.getPackage())) {
+						LOG.warn("Encountered custom constraint {}, not yet" +
+								"supported, will be left to null", annotation);
+					}
+				}
+			} else {
 				iter.remove();
 			}
 		}
-		
+
 		AttributeStrategy<?> retValue = null;
 		if (!localAnnotations.isEmpty()
 				&& !Collection.class.isAssignableFrom(attributeType)
