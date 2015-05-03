@@ -134,14 +134,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> T manufacturePojo(Class<T> pojoClass) {
-		return this.manufacturePojo(pojoClass, NO_TYPES);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public <T> T manufacturePojoWithFullData(Class<T> pojoClass, Type... genericTypeArgs) {
 		AbstractRandomDataProviderStrategy sortingStrategy;
 		if (getStrategy() instanceof AbstractRandomDataProviderStrategy) {

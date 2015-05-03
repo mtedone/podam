@@ -31,30 +31,6 @@ public interface PodamFactory {
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
 	 *            is required
-	 * 
-	 * @return An instance of &lt;T&gt; filled with dummy values
-	 * 
-	 * @throws PodamMockeryException
-	 *             if a problem occurred while
-	 *             creating a POJO instance or while
-	 *             setting its state
-	 */
-	<T> T manufacturePojo(Class<T> pojoClass);
-
-	/**
-	 * Generic method which returns an instance of the given class filled with
-	 * dummy values, using the default data provider strategy.
-	 * 
-	 * <p>
-	 * This method uses {@link RandomDataProviderStrategy} as the default
-	 * implementation.
-	 * </p>
-	 * 
-	 * @param <T>
-	 *            The type for which a filled instance is required
-	 * @param pojoClass
-	 *            The name of the class for which an instance filled with values
-	 *            is required
 	 * @param genericTypeArgs
 	 *            The generic Type arguments for a generic class instance
 	 * @return An instance of &lt;T&gt; filled with dummy values

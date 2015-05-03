@@ -11,15 +11,6 @@ import java.lang.reflect.Type;
  */
 public abstract class AbstractExternalFactory implements PodamFactory {
 
-
-    /** Empty list of types */
-    protected static final Type[] NO_TYPES = new Type[0];
-
-    @Override
-    public <T> T manufacturePojo(Class<T> pojoClass) {
-        return this.manufacturePojo(pojoClass, NO_TYPES);
-    }
-
     @Override
     public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
                                              Type... genericTypeArgs) {
