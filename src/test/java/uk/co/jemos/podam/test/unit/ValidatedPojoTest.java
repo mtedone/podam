@@ -9,13 +9,19 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.hibernate.validator.constraints.Email;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
+import uk.co.jemos.podam.test.strategies.EmailStrategy;
 
 /**
  * Tests Java bean validation API
@@ -37,6 +43,18 @@ public class ValidatedPojoTest {
 
 	private static final PodamFactory factory = new PodamFactoryImpl(externalFactory);
 
+	@BeforeClass
+	public static void init() {
+		@SuppressWarnings("unchecked")
+		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
+		((RandomDataProviderStrategy)factory.getStrategy()).addAttributeStrategy(Email.class, strategy);
+	}
+
+	@AfterClass
+	public static void clear() {
+		((RandomDataProviderStrategy)factory.getStrategy()).removeAttributeStrategy(Email.class);
+	}
+
 	@Test
 	public void testBeanValidation(){
 
@@ -57,11 +75,10 @@ public class ValidatedPojoTest {
 		Assert.assertNotNull("Empty field sizedString", pojo.getSizedString());
 		Assert.assertNotNull("Empty field maxCollection", pojo.getMaxCollection());
 		Assert.assertNotNull("Empty field minCollection", pojo.getMinCollection());
+		Assert.assertNotNull("Empty field email", pojo.getEmail());
 
 		Assert.assertNull("PODAM doesn't support @Pattern ATM",
 				pojo.getIdentifier());
-		Assert.assertNull("PODAM doesn't support custom constraints ATM",
-				pojo.getEmail());
 
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
