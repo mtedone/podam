@@ -1901,25 +1901,32 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (annotation instanceof PodamStrategyValue) {
 				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
 				return strategyAnnotation.value().newInstance();
-			} else if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
+			}
+
+			/* Find real class out of proxy */
+			Class<? extends Annotation> annotationClass = annotation.getClass();
+			if (Proxy.isProxyClass(annotationClass)) {
+				Class<?>[] interfaces = annotationClass.getInterfaces();
+				if (interfaces.length == 1) {
+					@SuppressWarnings("unchecked")
+					Class<? extends Annotation> tmp = (Class<? extends Annotation>) interfaces[0];
+					annotationClass = tmp;
+				}
+			}
+
+			Class<AttributeStrategy<?>> attrStrategyClass;
+			if ((attrStrategyClass = strategy.getStrategyForAnnotation(annotationClass)) != null) {
+				return attrStrategyClass.newInstance();
+			}
+
+			if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
 				if (annotation instanceof NotNull) {
 					/* We don't need to do anything for NotNull constraint */
 					iter.remove();
-				} else {
-
-					/* Find real class out of proxy */
-					Class<?> constraintClass = annotation.getClass();
-					if (Proxy.isProxyClass(constraintClass)) {
-						Class<?>[] interfaces = constraintClass.getInterfaces();
-						if (interfaces.length == 1) {
-							constraintClass = interfaces[0];
-						}
-					}
-
-					if (!NotNull.class.getPackage().equals(constraintClass.getPackage())) {
-						LOG.warn("Encountered custom constraint {}, not yet" +
-								"supported, will be left to null", annotation);
-					}
+				} else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
+					LOG.warn("Please, registrer AttributeStratergy for custom "
+							+ "constraint {}, in DataProviderStrategy! Value "
+							+ "will be left to null", annotation);
 				}
 			} else {
 				iter.remove();
