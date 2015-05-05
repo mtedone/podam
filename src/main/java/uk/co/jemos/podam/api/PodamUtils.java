@@ -110,51 +110,66 @@ public final class PodamUtils {
 
 		Map<String, ClassAttribute> map = new TreeMap<String, ClassAttribute>();
 		for (Field classField : classFields) {
-			if (!containsAnyAnnotation(classField, excludeFieldAnnotations)
-					&& !excludedFields.contains(classField.getName())) {
-				ClassAttribute attribute = new ClassAttribute(classField,
-						Collections.<Method>emptySet(), Collections.<Method>emptySet());
-				map.put(classField.getName(), attribute);
-			}
+			ClassAttribute attribute = new ClassAttribute(classField,
+					Collections.<Method>emptySet(), Collections.<Method>emptySet());
+			map.put(classField.getName(), attribute);
 		}
 
 		for (Method classGetter : classGetters) {
 			String attributeName = extractFieldNameFromGetterMethod(classGetter);
-			if (!containsAnyAnnotation(classGetter, excludeFieldAnnotations)
-					&& !excludedFields.contains(attributeName)) {
-				ClassAttribute attribute = map.get(attributeName);
-				if (attribute != null) {
-					attribute.getRawGetters().add(classGetter);
-				} else {
-					attribute = new ClassAttribute(null,
-							Collections.singleton(classGetter),
-							Collections.<Method>emptySet());
-					map.put(attributeName, attribute);
-				}
+			ClassAttribute attribute = map.get(attributeName);
+			if (attribute != null) {
+				attribute.getRawGetters().add(classGetter);
+			} else {
+				attribute = new ClassAttribute(null,
+						Collections.singleton(classGetter),
+						Collections.<Method>emptySet());
+				map.put(attributeName, attribute);
 			}
 		}
 
 		for (Method classSetter : classSetters) {
 			String attributeName = extractFieldNameFromSetterMethod(classSetter);
-			if (!containsAnyAnnotation(classSetter, excludeFieldAnnotations)
-					&& !excludedFields.contains(attributeName)) {
-				ClassAttribute attribute = map.get(attributeName);
-				if (attribute != null) {
-					attribute.getRawSetters().add(classSetter);
-				} else {
-					attribute = new ClassAttribute(null,
-							Collections.<Method>emptySet(),
-							Collections.singleton(classSetter));
-					map.put(attributeName, attribute);
-				}
+			ClassAttribute attribute = map.get(attributeName);
+			if (attribute != null) {
+				attribute.getRawSetters().add(classSetter);
+			} else {
+				attribute = new ClassAttribute(null,
+						Collections.<Method>emptySet(),
+						Collections.singleton(classSetter));
+				map.put(attributeName, attribute);
 			}
 		}
 
 		/* Approve all found attributes */
 		Collection<ClassAttribute> attributes = new ArrayList<ClassAttribute>(map.values());
 		Iterator<ClassAttribute> iter = attributes.iterator();
-		while(iter.hasNext()) {
-			if (!attributeApprover.approve(iter.next())) {
+		main : while(iter.hasNext()) {
+			ClassAttribute attribute = iter.next();
+
+			for (Method classGetter : attribute.getRawGetters()) {
+				if (containsAnyAnnotation(classGetter, excludeFieldAnnotations)) {
+					iter.remove();
+					continue main;
+				}
+			}
+
+			for (Method classSetter : attribute.getRawSetters()) {
+				if (containsAnyAnnotation(classSetter, excludeFieldAnnotations)) {
+					iter.remove();
+					continue main;
+				}
+			}
+
+			Field field = attribute.getAttribute();
+			if (field != null && (
+					excludedFields.contains(field.getName())
+					|| containsAnyAnnotation(field, excludeFieldAnnotations))) {
+				iter.remove();
+				continue;
+			}
+
+			if (!attributeApprover.approve(attribute)) {
 				iter.remove();
 			}
 		}
@@ -174,12 +189,8 @@ public final class PodamUtils {
 	 */
 	public static boolean containsAnyAnnotation(Field field,
 			Set<Class<? extends Annotation>> annotations) {
-		Method method = getGetterFor(field);
 		for (Class<? extends Annotation> annotation : annotations) {
 			if (field.getAnnotation(annotation) != null) {
-				return true;
-			}
-			if (method != null && method.getAnnotation(annotation) != null) {
 				return true;
 			}
 		}
@@ -204,44 +215,6 @@ public final class PodamUtils {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * It returns the getter for the given field.
-	 *
-	 * @param field
-	 *            The {@link Field} for which the getter is required
-	 * @return the getter for the given field or null if no getter was found
-	 */
-	public static Method getGetterFor(Field field) {
-		String name = field.getName().substring(0, 1).toUpperCase()
-				+ field.getName().substring(1);
-
-		String methodName;
-		if (boolean.class.isAssignableFrom(field.getType())
-				|| Boolean.class.isAssignableFrom(field.getType())) {
-			methodName = GETTER_PREFIX2 + name;
-		} else {
-			methodName = GETTER_PREFIX + name;
-		}
-
-		try {
-			return field.getDeclaringClass().getMethod(methodName);
-		} catch (NoSuchMethodException e) {
-			LOG.debug("No getter {}() for field {}[{}]", methodName, field
-					.getDeclaringClass().getName(), field.getName());
-			if (methodName.startsWith(GETTER_PREFIX2)) {
-				methodName = GETTER_PREFIX + name;
-				try {
-					return field.getDeclaringClass().getMethod(methodName);
-				} catch (NoSuchMethodException e2) {
-					LOG.debug("No getter {}() for field {}[{}]", methodName,
-							field.getDeclaringClass().getName(),
-							field.getName());
-				}
-			}
-			return null;
-		}
 	}
 
 	/**
@@ -301,12 +274,6 @@ public final class PodamUtils {
 
 			Field[] declaredFields = workClass.getDeclaredFields();
 			for (Field field : declaredFields) {
-				// If users wanted to skip this field, we grant their wishes
-				if (containsAnyAnnotation(field, excludeAnnotations)
-						|| (excludedFields != null
-								&& excludedFields.contains(field.getName()))) {
-					continue;
-				}
 				int modifiers = field.getModifiers();
 				if (!Modifier.isStatic(modifiers)) {
 
