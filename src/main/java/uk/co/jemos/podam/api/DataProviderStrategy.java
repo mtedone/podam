@@ -3,8 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+
+import uk.co.jemos.podam.common.AttributeStrategy;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -309,5 +312,18 @@ public interface DataProviderStrategy {
 	 *         {@code nonInstantiatableClass}.
 	 */
 	<T> Class<? extends T> getSpecificClass(Class<T> nonInstantiatableClass);
+
+	/**
+	 * Finds attribute strategies for annotations.
+	 * <p>
+	 * Searches for mapping between annotations and attribute strategies,
+	 * which will be used then for populating fields or constructor parameters.
+	 * </p>
+	 * 
+	 * @param annotationClass
+	 *        Annotation class to inspect
+	 * @return attribute strategy associated with given annotation
+	 */
+	Class<AttributeStrategy<?>> getStrategyForAnnotation(Class<? extends Annotation> annotationClass);
 
 }

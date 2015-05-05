@@ -3,6 +3,7 @@
  */
 package uk.co.jemos.podam.api;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
+import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
 import uk.co.jemos.podam.common.MethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
@@ -80,6 +82,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * abstract classes
 	 */
 	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
+
+	/**
+	 * Mapping between annotations and attribute strategies
+	 */
+	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
+			= new HashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorComparator =
@@ -521,6 +529,48 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			found = nonInstantiatableClass;
 		}
 		return found;
+	}
+
+	/**
+	 * Bind an annotation to attribute strategy class. If the
+	 * strategy previously contained a binding for the annotation,
+	 * the old value is replaced by the new value. If you want to implement
+	 * more sophisticated binding strategy, override this class.
+	 *
+	 * @param <T> return type
+	 * @param annotationClass
+	 *            the annotation class
+	 * @param strategyClass
+	 *            the attribute strategy class
+	 * @return itself
+	 */
+	public AbstractRandomDataProviderStrategy addAttributeStrategy(
+			final Class<? extends Annotation> annotationClass,
+			final Class<AttributeStrategy<?>> strategyClass) {
+		attributeStrategies.put(annotationClass, strategyClass);
+		return this;
+	}
+
+	/**
+	 * Remove binding of an annotation to attribute strategy
+	 *
+	 * @param annotationClass
+	 *            the annotation class to remove binding
+	 * @return itself
+	 */
+	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
+			final Class<? extends Annotation> annotationClass) {
+		attributeStrategies.remove(annotationClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Class<AttributeStrategy<?>> getStrategyForAnnotation(
+			final Class<? extends Annotation> annotationClass) {
+		return attributeStrategies.get(annotationClass);
 	}
 
 	/**
