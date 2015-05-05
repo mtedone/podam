@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit.issue93;
 
 import junit.framework.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -11,7 +10,6 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 public class Issue93UnitTest {
 
     @Test
-    @Ignore("Results in an infinite loop")
     public void testLoop()  {
         A a =new PodamFactoryImpl().manufacturePojo(A.class);
         Assert.assertNotNull("The Pojo for class A should not be null", a);

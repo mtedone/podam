@@ -1,5 +1,7 @@
 package uk.co.jemos.podam.test.unit.issue93;
 
+import uk.co.jemos.podam.common.PodamCollection;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public class C {
 
+    @PodamCollection(nbrElements = 2)
     List<B> listOfB;
 
 
