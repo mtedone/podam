@@ -1,21 +1,17 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.AbstractExternalFactory;
+import uk.co.jemos.podam.api.NullExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.test.dto.AbstractClass;
-import uk.co.jemos.podam.test.dto.InterfacePojo;
-import uk.co.jemos.podam.test.dto.NonInstantiatableClass;
-import uk.co.jemos.podam.test.dto.ObjectExt;
-import uk.co.jemos.podam.test.dto.PojoWithInterfaces;
+import uk.co.jemos.podam.test.dto.*;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test @uk.co.jemos.podam.test.dto.JAXBElementPojo@ construction
@@ -80,5 +76,20 @@ public class ExternalFactoryUnitTest {
 		Assert.assertNull("Should not produce non-instantiatable classes", pojo);
 		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
 		Assert.assertEquals("List " + failures.toString(), NonInstantiatableClass.class, failures.get(0));
+	}
+
+	@Test
+	public void testAbstractExternalFactoryMethods() {
+		Assert.assertNull(externalFactory.getClassStrategy());
+		Assert.assertNull(externalFactory.getStrategy());
+		Assert.assertNull(externalFactory.setClassStrategy(null));
+	}
+
+	@Test
+	public void testExternalFactoryWithFullConstructor() {
+		NullExternalFactory factory = NullExternalFactory.getInstance();
+		PodamFactory newPodam = new PodamFactoryImpl(factory);
+		PojoWithInterfaces pojo = newPodam.manufacturePojoWithFullData(PojoWithInterfaces.class);
+		Assert.assertNotNull(pojo);
 	}
 }

@@ -82,7 +82,7 @@ public class ClassInfo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -98,7 +98,7 @@ public class ClassInfo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -130,18 +130,6 @@ public class ClassInfo implements Serializable {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ClassInfo [className=");
-		builder.append(className);
-		builder.append(", classAttributes=");
-		builder.append(classAttributes);
-		builder.append("]");
-		return builder.toString();
-	}
+
 
 }

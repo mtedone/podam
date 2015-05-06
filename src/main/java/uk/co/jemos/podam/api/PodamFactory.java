@@ -3,9 +3,9 @@
  */
 package uk.co.jemos.podam.api;
 
-import java.lang.reflect.Type;
-
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import java.lang.reflect.Type;
 
 /**
  * Contract for PODAM factory
@@ -34,7 +34,7 @@ public interface PodamFactory {
 	 * @param genericTypeArgs
 	 *            The generic Type arguments for a generic class instance
 	 * @return An instance of &lt;T&gt; filled with dummy values
-	 * 
+	 *
 	 * @throws PodamMockeryException
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
@@ -88,4 +88,5 @@ public interface PodamFactory {
 	 * @return instance of the factory for chaining
 	 */
 	PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy);
+
 }

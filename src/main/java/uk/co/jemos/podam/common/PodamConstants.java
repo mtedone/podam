@@ -35,7 +35,7 @@ public final class PodamConstants {
 
 	/** Non-instantiable constructor */
 	private PodamConstants() {
-		throw new AssertionError();
+		throw new AssertionError("Non instantiable");
 	}
 
 	// ------------------->> Public methods

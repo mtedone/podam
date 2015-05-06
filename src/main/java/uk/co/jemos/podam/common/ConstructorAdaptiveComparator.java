@@ -45,7 +45,4 @@ public class ConstructorAdaptiveComparator extends AbstractConstructorComparator
 		this.heavyFirstClasses.remove(heavyFirstClass);
 	}
 
-	public Set<Class<?>> getHeavyFirstClasses() {
-		return heavyFirstClasses;
-	}
 }

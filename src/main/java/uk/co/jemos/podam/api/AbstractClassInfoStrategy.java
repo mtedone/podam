@@ -67,27 +67,6 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	/**
-	 * Adds the specified field to set of excluded fields,
-	 * if it is not already present.
-	 *
-	 * @param pojoClass
-	 *        a class for which fields should be skipped
-	 * @param fieldName
-	 *            the field name to use as an exclusion mark
-	 * @return itself
-	 */
-	public AbstractClassInfoStrategy addExcludedField(
-			final Class<?> pojoClass, final String fieldName) {
-		Set<String> fields = excludedFields.get(pojoClass);
-		if (fields == null) {
-			fields = new HashSet<String>();
-			excludedFields.put(pojoClass, fields);
-		}
-		fields.add(fieldName);
-		return this;
-	}
-
-	/**
 	 * It adds an extra method to execute
 	 * @param pojoClass The pojo class where to execute the method
 	 * @param methodName name to be scheduled for execution
