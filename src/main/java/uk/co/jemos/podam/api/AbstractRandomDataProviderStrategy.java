@@ -537,7 +537,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * the old value is replaced by the new value. If you want to implement
 	 * more sophisticated binding strategy, override this class.
 	 *
-	 * @param <T> return type
 	 * @param annotationClass
 	 *            the annotation class
 	 * @param strategyClass
