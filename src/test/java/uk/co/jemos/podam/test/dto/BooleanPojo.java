@@ -15,6 +15,7 @@ public class BooleanPojo {
 	private boolean value1;
 	private Boolean value2;
 	private Boolean value3;
+	private Boolean value4;
 
 	public BooleanPojo() {
 	}
@@ -42,5 +43,13 @@ public class BooleanPojo {
 
 	public void setValue3(Boolean value3) {
 		this.value3 = value3;
+	}
+
+	public Boolean getValue4() {
+		return value4;
+	}
+
+	public void setValue4(Boolean value4) {
+		this.value4 = value4;
 	}
 }
