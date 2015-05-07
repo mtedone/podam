@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MethodComparator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">MethodComparator.java</span></div><h1>MethodComparator.java</h1><pre class="source lang-java linenums">/**
+ *
+ */
+package uk.co.jemos.podam.common;
+
+import java.lang.reflect.Method;
+import java.util.Comparator;
+
+/**
+ * It provides a comparator to sort the constructor to choose first.
+ * &lt;p&gt;
+ * The priority goes to constructors with the {@link PodamConstructor}
+ * annotation first, and then to those with more arguments.
+ * &lt;/p&gt;
+ * 
+ * @author tedonema
+ *
+ */
+<span class="fc" id="L19">public class MethodComparator implements Comparator&lt;Method&gt; {</span>
+
+	@Override
+	public int compare(Method method1, Method method2) {
+		/* Constructors with Podam annotation first */
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">		boolean choose1 = method1.getAnnotation(PodamConstructor.class) != null;</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">		boolean choose2 = method2.getAnnotation(PodamConstructor.class) != null;</span>
+<span class="pc bpc" id="L26" title="3 of 4 branches missed.">		if (choose1 &amp;&amp; !choose2) {</span>
+<span class="nc" id="L27">			return Integer.MIN_VALUE;</span>
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">		} else if (!choose1 &amp;&amp; choose2) {</span>
+<span class="nc" id="L29">			return Integer.MAX_VALUE;</span>
+		}
+
+		/* Then constructors with more parameters */
+<span class="fc" id="L33">		return method2.getParameterTypes().length</span>
+				- method1.getParameterTypes().length;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

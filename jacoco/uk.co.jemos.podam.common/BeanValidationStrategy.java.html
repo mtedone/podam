@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BeanValidationStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">BeanValidationStrategy.java</span></div><h1>BeanValidationStrategy.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package uk.co.jemos.podam.common;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import javax.validation.constraints.*;
+import java.lang.annotation.Annotation;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * This strategy fills attributes and parameters annotated with Java bean
+ * validation annotations
+ *
+ * @author daivanov
+ */
+public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
+
+	// -------------------&gt;&gt; Constants
+
+	// -------------------&gt;&gt; Instance / Static variables
+
+<span class="fc" id="L33">	private static final Logger LOG = LoggerFactory</span>
+			.getLogger(BeanValidationStrategy.class);
+
+	/** A RANDOM generator */
+<span class="fc" id="L37">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
+
+	/** bean validation annotations */
+	private List&lt;Annotation&gt; annotations;
+
+	/** expected return type of an attribute */
+	private Class&lt;?&gt; attributeType;
+
+	// -------------------&gt;&gt; Constructors
+
+	/**
+	 * Constructor for the strategy
+	 *
+	 * @param annotations
+	 *        bean validation annotations
+	 * @param attributeType
+	 *        expected return type of an attribute
+	 */
+<span class="fc" id="L55">	public BeanValidationStrategy(List&lt;Annotation&gt; annotations, Class&lt;?&gt; attributeType) {</span>
+<span class="fc" id="L56">		this.annotations = annotations;</span>
+<span class="fc" id="L57">		this.attributeType = attributeType;</span>
+<span class="fc" id="L58">	}</span>
+
+	// -------------------&gt;&gt; Public methods
+
+	// -------------------&gt;&gt; Getters / Setters
+
+	/**
+	 * It returns a {@link Calendar} objects complying with Java bean validation
+	 * annotations.
+	 * 
+	 * {@inheritDoc}
+	 */
+	public Object getValue() throws PodamMockeryException {
+
+<span class="fc" id="L72">		Annotation minAnno = null;</span>
+<span class="fc" id="L73">		Annotation maxAnno = null;</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, AssertTrue.class)) {</span>
+
+<span class="fc" id="L77">			return Boolean.TRUE;</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		} else if (null != findTypeFromList(annotations, AssertFalse.class)) {</span>
+			
+<span class="fc" id="L81">			return Boolean.FALSE;</span>
+
+<span class="pc bpc" id="L83" title="3 of 8 branches missed.">		} else if ((null != (minAnno = findTypeFromList(annotations, DecimalMin.class))</span>
+				&amp;&amp; (null != (maxAnno = findTypeFromList(annotations, DecimalMax.class)))
+				|| (null != minAnno) || (null != maxAnno))) {
+
+			BigDecimal min;
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">			if (null != minAnno) {</span>
+<span class="fc" id="L89">				DecimalMin tmp = (DecimalMin) minAnno;</span>
+<span class="fc" id="L90">				min = new BigDecimal(tmp.value());</span>
+<span class="fc" id="L91">			} else {</span>
+<span class="nc" id="L92">				min = new BigDecimal(Double.MIN_VALUE);</span>
+			}
+			BigDecimal max;
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">			if (null != maxAnno) {</span>
+<span class="fc" id="L96">				DecimalMax tmp = (DecimalMax) maxAnno;</span>
+<span class="fc" id="L97">				max = new BigDecimal(tmp.value());</span>
+<span class="fc" id="L98">			} else {</span>
+<span class="nc" id="L99">				max = new BigDecimal(Double.MAX_VALUE);</span>
+			}
+<span class="fc" id="L101">			return decimalToReturnType(getValueInRange(min, max));</span>
+
+<span class="pc bpc" id="L103" title="3 of 8 branches missed.">		} else if ((null != (minAnno = findTypeFromList(annotations, Min.class))</span>
+				&amp;&amp; (null != (maxAnno = findTypeFromList(annotations, Max.class)))
+				|| (null != minAnno) || (null != maxAnno))) {
+
+			BigDecimal min;
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">			if (null != minAnno) {</span>
+<span class="fc" id="L109">				Min tmp = (Min) minAnno;</span>
+<span class="fc" id="L110">				min = new BigDecimal(tmp.value());</span>
+<span class="fc" id="L111">			} else {</span>
+<span class="nc" id="L112">				min = new BigDecimal(Double.MIN_VALUE);</span>
+			}
+			BigDecimal max;
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">			if (null != maxAnno) {</span>
+<span class="fc" id="L116">				Max tmp = (Max) maxAnno;</span>
+<span class="fc" id="L117">				max = new BigDecimal(tmp.value());</span>
+<span class="fc" id="L118">			} else {</span>
+<span class="nc" id="L119">				max = new BigDecimal(Double.MAX_VALUE);</span>
+			}
+			/* Integer part */
+<span class="fc" id="L122">			BigInteger intValue = getValueInRange(min, max).toBigInteger();</span>
+<span class="fc" id="L123">			BigDecimal value = new BigDecimal(intValue);</span>
+<span class="fc" id="L124">			return decimalToReturnType(value);</span>
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		} else if (null != (minAnno = findTypeFromList(annotations, Digits.class))) {</span>
+
+<span class="fc" id="L128">			Digits digits = (Digits) minAnno;</span>
+<span class="fc" id="L129">			BigDecimal divisor = BigDecimal.TEN.pow(digits.fraction());</span>
+<span class="fc" id="L130">			BigDecimal max = BigDecimal.TEN.pow(digits.integer()).multiply(divisor);</span>
+<span class="fc" id="L131">			BigDecimal min = max.negate();</span>
+			/* Integer part */
+<span class="fc" id="L133">			BigInteger intValue = getValueInRange(min, max).toBigInteger();</span>
+<span class="fc" id="L134">			BigDecimal value = new BigDecimal(intValue).divide(divisor);</span>
+<span class="fc" id="L135">			return decimalToReturnType(value);</span>
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		} else if (null != findTypeFromList(annotations, Past.class)) {</span>
+
+<span class="fc" id="L139">			int days = RANDOM.nextInt(365) + 1;</span>
+<span class="fc" id="L140">			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);</span>
+<span class="fc" id="L141">			return timestampToReturnType(timestamp);</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		} else if (null != findTypeFromList(annotations, Future.class)) {</span>
+
+<span class="fc" id="L145">			int days = RANDOM.nextInt(365) + 1;</span>
+<span class="fc" id="L146">			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);</span>
+<span class="fc" id="L147">			return timestampToReturnType(timestamp);</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">		} else if (null != (minAnno = findTypeFromList(annotations, Size.class))) {</span>
+
+<span class="fc" id="L151">			Size size = (Size) minAnno;</span>
+<span class="fc" id="L152">			long length = PodamUtils.getLongInRange(size.min(), size.max());</span>
+
+<span class="fc" id="L154">			StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			while (sb.length() &lt; length) {</span>
+<span class="fc" id="L156">				sb.append(PodamUtils.getNiceCharacter());</span>
+			}
+<span class="fc" id="L158">			return sb.toString();</span>
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		} else if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {</span>
+
+<span class="fc" id="L162">			Pattern pattern = (Pattern) minAnno;</span>
+<span class="fc" id="L163">			LOG.warn(&quot;At the moment PODAM doesn't support @Pattern({}),&quot;</span>
+					+ &quot; returning null&quot;, pattern.regexp());
+<span class="fc" id="L165">			return null;</span>
+
+		}
+
+<span class="fc" id="L169">		return null;</span>
+	}
+
+	// -------------------&gt;&gt; Private methods
+
+	/**
+	 * Utility to find an item of a desired type in the given list
+	 *
+	 * @param &lt;T&gt;
+	 *        Return type of item to find
+	 * @param list
+	 *        List to search in
+	 * @param type
+	 *        Type to find in the list
+	 * @return
+	 *        First element from the list of desired type
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	private static &lt;T&gt; T findTypeFromList(List&lt;?&gt; list, Class&lt;T&gt; type) {
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		for (Object item : list) {</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">			if (type.isAssignableFrom(item.getClass())) {</span>
+<span class="fc" id="L191">				return (T)item;</span>
+			}
+<span class="fc" id="L193">		}</span>
+<span class="fc" id="L194">		return null;</span>
+	}
+
+	/**
+	 * Produces random decimal value within specified range
+	 *
+	 * @param min
+	 *        minimum value of range
+	 * @param max
+	 *        maximum value of range
+	 * @return
+	 *        decimal value in the specified range
+	 */
+	private BigDecimal getValueInRange(BigDecimal min, BigDecimal max) {
+
+<span class="fc" id="L209">		BigDecimal scale = new BigDecimal(RANDOM.nextDouble());</span>
+<span class="fc" id="L210">		return min.add(max.subtract(min).multiply(scale));</span>
+	}
+
+	/**
+	 * Converts intermediate decimal value to the actual attribute type,
+	 * for example, string representation of this decimal
+	 *
+	 * @param result
+	 *        {@link BigDecimal} intermediate result to convert to the
+	 *        real attribute type 
+	 * @return actual attribute type object
+	 */
+	private Object decimalToReturnType(BigDecimal result) {
+
+<span class="fc bfc" id="L224" title="All 2 branches covered.">		if (String.class.equals(attributeType)) {</span>
+
+<span class="fc" id="L226">			return result.toPlainString();</span>
+
+<span class="pc bpc" id="L228" title="1 of 4 branches missed.">		} else if (Double.class.equals(attributeType)</span>
+				|| double.class.equals(attributeType)) {
+
+<span class="fc" id="L231">			return result.doubleValue();</span>
+
+<span class="pc bpc" id="L233" title="2 of 4 branches missed.">		} else if (Float.class.equals(attributeType)</span>
+				|| float.class.equals(attributeType)) {
+
+<span class="nc" id="L236">			return result.floatValue();</span>
+
+<span class="pc bpc" id="L238" title="2 of 4 branches missed.">		} else if (Long.class.equals(attributeType)</span>
+				|| long.class.equals(attributeType)) {
+
+<span class="nc" id="L241">			return result.longValue();</span>
+
+<span class="pc bpc" id="L243" title="1 of 4 branches missed.">		} else if (Integer.class.equals(attributeType)</span>
+				|| int.class.equals(attributeType)) {
+
+<span class="fc" id="L246">			return result.intValue();</span>
+
+<span class="pc bpc" id="L248" title="2 of 4 branches missed.">		} else if (Short.class.equals(attributeType)</span>
+				|| short.class.equals(attributeType)) {
+
+<span class="nc" id="L251">			return result.shortValue();</span>
+
+<span class="pc bpc" id="L253" title="2 of 4 branches missed.">		} else if (Byte.class.equals(attributeType)</span>
+				|| byte.class.equals(attributeType)) {
+
+<span class="nc" id="L256">			return result.byteValue();</span>
+
+<span class="pc bpc" id="L258" title="2 of 4 branches missed.">		} else if (Character.class.equals(attributeType)</span>
+				|| char.class.equals(attributeType)) {
+
+<span class="nc" id="L261">			return Character.valueOf((char)result.byteValue());</span>
+
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(BigDecimal.class)) {</span>
+
+<span class="fc" id="L265">			return result;</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">		} else if (attributeType.isAssignableFrom(BigInteger.class)) {</span>
+
+<span class="nc" id="L269">			return result.toBigInteger();</span>
+
+		} else {
+
+<span class="nc" id="L273">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
+
+		}
+
+<span class="nc" id="L277">		return null;</span>
+	}
+
+	/**
+	 * Converts intermediate long time stamp value to the actual attribute type,
+	 * {@link java.util.Date} or {@link java.util.Calendar}
+	 *
+	 * @param result
+	 *        {@link Long} intermediate result to convert to the
+	 *        real attribute type 
+	 * @return actual attribute type object
+	 */
+	private Object timestampToReturnType(Long result) {
+
+<span class="fc bfc" id="L291" title="All 2 branches covered.">		if (attributeType.isAssignableFrom(Date.class)) {</span>
+
+<span class="fc" id="L293">			return new Date(result);</span>
+
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(Calendar.class)) {</span>
+
+<span class="fc" id="L297">			Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L298">			calendar.setTimeInMillis(result);</span>
+<span class="fc" id="L299">			return calendar;</span>
+
+		} else {
+
+<span class="nc" id="L303">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
+
+		}
+
+<span class="nc" id="L307">		return null;</span>
+	}
+
+	// -------------------&gt;&gt; equals() / hashcode() / toString()
+
+	// -------------------&gt;&gt; Inner classes
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

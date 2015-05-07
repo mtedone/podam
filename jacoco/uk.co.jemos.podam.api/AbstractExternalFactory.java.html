@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractExternalFactory.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractExternalFactory.java</span></div><h1>AbstractExternalFactory.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.api;
+
+import java.lang.reflect.Type;
+
+/**
+ * Adapter pattern for boilerplate code when creating an external factory
+ *
+ * @author Marco Tedone
+ *
+ * @since 5.2.1
+ */
+<span class="fc" id="L12">public abstract class AbstractExternalFactory implements PodamFactory {</span>
+
+    @Override
+    public &lt;T&gt; T manufacturePojoWithFullData(Class&lt;T&gt; pojoClass,
+                                             Type... genericTypeArgs) {
+<span class="nc" id="L17">        return this.manufacturePojo(pojoClass, genericTypeArgs);</span>
+    }
+
+    @Override
+    public DataProviderStrategy getStrategy() {
+<span class="fc" id="L22">        return null;</span>
+    }
+
+    @Override
+    public ClassInfoStrategy getClassStrategy() {
+<span class="fc" id="L27">        return null;</span>
+    }
+
+    @Override
+    public PodamFactory setClassStrategy(
+            ClassInfoStrategy classInfoStrategy) {
+<span class="fc" id="L33">        return null;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

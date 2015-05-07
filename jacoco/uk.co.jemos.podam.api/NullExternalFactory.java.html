@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>NullExternalFactory.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">NullExternalFactory.java</span></div><h1>NullExternalFactory.java</h1><pre class="source lang-java linenums">/**
+ * 
+ */
+package uk.co.jemos.podam.api;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Default implementation of an external factory which does nothing.
+ * 
+ * @author daivanov
+ * 
+ * @since 4.3.0
+ * 
+ */
+public class NullExternalFactory extends AbstractExternalFactory {
+
+	// -------------------&gt;&gt; Constants
+
+	/** Application logger */
+<span class="fc" id="L25">	private static final Logger LOG = LoggerFactory</span>
+			.getLogger(NullExternalFactory.class);
+
+	/** The singleton instance of this implementation */
+<span class="fc" id="L29">	private static final NullExternalFactory SINGLETON</span>
+			= new NullExternalFactory();
+
+	// -------------------&gt;&gt; Constructors
+
+	/**
+	 * Implementation of the Singleton pattern
+	 */
+<span class="fc" id="L37">	private NullExternalFactory() {</span>
+<span class="fc" id="L38">	}</span>
+
+	// -------------------&gt;&gt; Public methods
+
+	/**
+	 * Instantiation method
+	 *
+	 * @return A singleton instance of this class
+	 */
+	public static NullExternalFactory getInstance() {
+<span class="fc" id="L48">		return SINGLETON;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; T manufacturePojo(Class&lt;T&gt; pojoClass, Type... genericTypeArgs) {
+<span class="fc" id="L56">		LOG.warn(&quot;Cannot instantiate {} with arguments {}. Returning null.&quot;,</span>
+				pojoClass, Arrays.toString(genericTypeArgs));
+<span class="fc" id="L58">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>MapArguments.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">MapArguments.java</span></div><h1>MapArguments.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.api;
+
+import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+
+/**
+ * Pojo which contains the arguments required to fill a Map as a POJO attribute
+ *
+ * @author Marco Tedone
+ *
+ */
+<span class="fc" id="L13">public class MapArguments extends AbstractMapArguments implements Serializable {</span>
+
+	private static final long serialVersionUID = 1L;
+
+	/** The type of the Map key. */
+	private Class&lt;?&gt; keyClass;
+
+	/** The type of the Map element. */
+	private Class&lt;?&gt; elementClass;
+
+	/**
+	 * The generic type arguments for the current key generic class instance.
+	 */
+	private Type[] keyGenericTypeArgs;
+
+	/**
+	 * The generic type arguments for the current element generic class
+	 * instance.
+	 */
+	private Type[] elementGenericTypeArgs;
+
+	/**
+	 * @return the keyClass
+	 */
+	public Class&lt;?&gt; getKeyClass() {
+<span class="fc" id="L38">		return keyClass;</span>
+	}
+
+	/**
+	 * @param keyClass
+	 *            the keyClass to set
+	 */
+	public void setKeyClass(Class&lt;?&gt; keyClass) {
+<span class="fc" id="L46">		this.keyClass = keyClass;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * @return the elementClass
+	 */
+	public Class&lt;?&gt; getElementClass() {
+<span class="fc" id="L53">		return elementClass;</span>
+	}
+
+	/**
+	 * @param elementClass
+	 *            the elementClass to set
+	 */
+	public void setElementClass(Class&lt;?&gt; elementClass) {
+<span class="fc" id="L61">		this.elementClass = elementClass;</span>
+<span class="fc" id="L62">	}</span>
+
+	/**
+	 * @return the keyGenericTypeArgs
+	 */
+	public Type[] getKeyGenericTypeArgs() {
+<span class="fc" id="L68">		return keyGenericTypeArgs;</span>
+	}
+
+	/**
+	 * @param keyGenericTypeArgs
+	 *            the keyGenericTypeArgs to set
+	 */
+	public void setKeyGenericTypeArgs(Type[] keyGenericTypeArgs) {
+<span class="fc" id="L76">		this.keyGenericTypeArgs = keyGenericTypeArgs.clone();</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * @return the elementGenericTypeArgs
+	 */
+	public Type[] getElementGenericTypeArgs() {
+<span class="fc" id="L83">		return elementGenericTypeArgs;</span>
+	}
+
+	/**
+	 * @param elementGenericTypeArgs
+	 *            the elementGenericTypeArgs to set
+	 */
+	public void setElementGenericTypeArgs(Type[] elementGenericTypeArgs) {
+<span class="fc" id="L91">		this.elementGenericTypeArgs = elementGenericTypeArgs.clone();</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L99">		StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L100">		builder.append(&quot;MapArguments [toString()=&quot;);</span>
+<span class="nc" id="L101">		builder.append(super.toString());</span>
+<span class="nc" id="L102">		builder.append(&quot;, keyClass=&quot;);</span>
+<span class="nc" id="L103">		builder.append(keyClass);</span>
+<span class="nc" id="L104">		builder.append(&quot;, elementClass=&quot;);</span>
+<span class="nc" id="L105">		builder.append(elementClass);</span>
+<span class="nc" id="L106">		builder.append(&quot;, keyGenericTypeArgs=&quot;);</span>
+<span class="nc" id="L107">		builder.append(Arrays.toString(keyGenericTypeArgs));</span>
+<span class="nc" id="L108">		builder.append(&quot;, elementGenericTypeArgs=&quot;);</span>
+<span class="nc" id="L109">		builder.append(Arrays.toString(elementGenericTypeArgs));</span>
+<span class="nc" id="L110">		builder.append(&quot;]&quot;);</span>
+<span class="nc" id="L111">		return builder.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

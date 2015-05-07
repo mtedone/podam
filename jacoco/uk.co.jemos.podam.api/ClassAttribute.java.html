@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ClassAttribute.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">ClassAttribute.java</span></div><h1>ClassAttribute.java</h1><pre class="source lang-java linenums">/**
+ *
+ */
+package uk.co.jemos.podam.api;
+
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
+
+import net.jcip.annotations.Immutable;
+
+/**
+ * This class wraps fields, getters and setters information of the same attribute
+ * &lt;p&gt;
+ * The purpose of this class is to carry information about single attribute
+ * of POJO class.
+ * &lt;/p&gt;
+ *
+ * @author daivanov
+ *
+ * @since 5.1.0
+ *
+ */
+@Immutable
+public class ClassAttribute implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	/** The Set of fields belonging to this class */
+	private final Field attribute;
+
+	/** The Set of getters for this attribute in the class */
+<span class="fc" id="L35">	private final Set&lt;Method&gt; getters = new HashSet&lt;Method&gt;();</span>
+
+	/** The Set of setters for this attribute in the class */
+<span class="fc" id="L38">	private final Set&lt;Method&gt; setters = new HashSet&lt;Method&gt;();</span>
+
+	/**
+	 * Full constructor
+	 *
+	 * @param attribute
+	 *            attribute, can be null
+	 * @param getters
+	 *            The set of getters for this attributes
+	 * @param setters
+	 *            The set of setters for this attributes
+	 */
+<span class="fc" id="L50">	public ClassAttribute(Field attribute, Set&lt;Method&gt; getters, Set&lt;Method&gt; setters) {</span>
+<span class="fc" id="L51">		this.attribute = attribute;</span>
+<span class="fc" id="L52">		this.getters.addAll(getters);</span>
+<span class="fc" id="L53">		this.setters.addAll(setters);</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * It returns the attribute
+	 *
+	 * @return the classFields
+	 */
+	public Field getAttribute() {
+<span class="fc" id="L62">		return attribute;</span>
+	}
+
+	/**
+	 * It returns the attribute getters
+	 *
+	 * @return the getters
+	 */
+	public Set&lt;Method&gt; getGetters() {
+<span class="fc" id="L71">		return new HashSet&lt;Method&gt;(getters);</span>
+	}
+
+	Set&lt;Method&gt; getRawGetters() {
+<span class="fc" id="L75">		return getters;</span>
+	}
+
+	/**
+	 * It returns the attribute setters
+	 *
+	 * @return the setters
+	 */
+	public Set&lt;Method&gt; getSetters() {
+<span class="fc" id="L84">		return new HashSet&lt;Method&gt;(setters);</span>
+	}
+
+	Set&lt;Method&gt; getRawSetters() {
+<span class="fc" id="L88">		return setters;</span>
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+
+<span class="fc" id="L99">		int hashCode = getters.hashCode() ^ setters.hashCode();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (attribute != null) {</span>
+<span class="fc" id="L101">			hashCode ^= attribute.hashCode();</span>
+		}
+<span class="fc" id="L103">		return hashCode;</span>
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+<span class="nc bnc" id="L113" title="All 2 branches missed.">		if (this == obj) {</span>
+<span class="nc" id="L114">			return true;</span>
+		}
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		if (!(obj instanceof ClassAttribute)) {</span>
+<span class="nc" id="L117">			return false;</span>
+		}
+<span class="nc" id="L119">		ClassAttribute other = (ClassAttribute) obj;</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">		if (attribute != null &amp;&amp; !attribute.equals(other.getAttribute())) {</span>
+<span class="nc" id="L121">			return false;</span>
+		}
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		if (!setters.equals(other.getSetters())) {</span>
+<span class="nc" id="L124">			return false;</span>
+		}
+<span class="nc bnc" id="L126" title="All 2 branches missed.">		if (!getters.equals(other.getGetters())) {</span>
+<span class="nc" id="L127">			return false;</span>
+		}
+<span class="nc" id="L129">		return true;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L137">		StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L138">		builder.append(attribute);</span>
+<span class="fc" id="L139">		builder.append(&quot;={ getters: {&quot;);</span>
+<span class="fc" id="L140">		builder.append(getters);</span>
+<span class="fc" id="L141">		builder.append(&quot;}, { setters: {&quot;);</span>
+<span class="fc" id="L142">		builder.append(setters);</span>
+<span class="fc" id="L143">		builder.append(&quot;}}&quot;);</span>
+<span class="fc" id="L144">		return builder.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractMapArguments.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractMapArguments.java</span></div><h1>AbstractMapArguments.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.api;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Parent for map-related arguments POJO
+ * 
+ * @author Marco Tedone
+ * 
+ */
+<span class="fc" id="L13">public abstract class AbstractMapArguments {</span>
+
+	/** The name of map attribute in enclosing POJO */
+	private String attributeName;
+	/** The Map to be returned. */
+	private Map&lt;? super Object, ? super Object&gt; mapToBeFilled;
+	/** Set of manufactured pojos' types. */
+	private Map&lt;Class&lt;?&gt;, Integer&gt; pojos;
+	/** The annotations for the attribute. */
+	private List&lt;Annotation&gt; annotations;
+
+	/**
+	 * @return the attribute name for this map
+	 */
+	public String getAttributeName() {
+<span class="fc" id="L28">		return attributeName;</span>
+	}
+
+	/**
+	 * @param attributeName
+	 *            the attribute name for this map
+	 */
+	public void setAttributeName(String attributeName) {
+<span class="fc" id="L36">		this.attributeName = attributeName;</span>
+<span class="fc" id="L37">	}</span>
+
+	/**
+	 * @return the mapToBeFilled
+	 */
+	public Map&lt;? super Object, ? super Object&gt; getMapToBeFilled() {
+<span class="fc" id="L43">		return mapToBeFilled;</span>
+	}
+
+	/**
+	 * @param mapToBeFilled
+	 *            the mapToBeFilled to set
+	 */
+	public void setMapToBeFilled(
+			Map&lt;? super Object, ? super Object&gt; mapToBeFilled) {
+<span class="fc" id="L52">		this.mapToBeFilled = mapToBeFilled;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * @return the pojos
+	 */
+	public Map&lt;Class&lt;?&gt;, Integer&gt; getPojos() {
+<span class="fc" id="L59">		return pojos;</span>
+	}
+
+	/**
+	 * @param pojos
+	 *            the pojos to set
+	 */
+	public void setPojos(Map&lt;Class&lt;?&gt;, Integer&gt; pojos) {
+<span class="fc" id="L67">		this.pojos = pojos;</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * @return the annotations
+	 */
+	public List&lt;Annotation&gt; getAnnotations() {
+<span class="fc" id="L74">		return annotations;</span>
+	}
+
+	/**
+	 * @param annotations
+	 *            the annotations to set
+	 */
+	public void setAnnotations(List&lt;Annotation&gt; annotations) {
+<span class="fc" id="L82">		this.annotations = annotations;</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L90">		StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L91">		builder.append(&quot;AbstractMapArguments [mapToBeFilled=&quot;);</span>
+<span class="nc" id="L92">		builder.append(mapToBeFilled.getClass());</span>
+<span class="nc" id="L93">		builder.append(&quot;, pojos=&quot;);</span>
+<span class="nc" id="L94">		builder.append(pojos);</span>
+<span class="nc" id="L95">		builder.append(&quot;, annotations=&quot;);</span>
+<span class="nc" id="L96">		builder.append(annotations);</span>
+<span class="nc" id="L97">		builder.append(&quot;]&quot;);</span>
+<span class="nc" id="L98">		return builder.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractClassInfoStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractClassInfoStrategy.java</span></div><h1>AbstractClassInfoStrategy.java</h1><pre class="source lang-java linenums">/**
+ *
+ */
+package uk.co.jemos.podam.api;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.*;
+
+/**
+ * Default abstract implementation of a {@link ClassInfoStrategy}
+ * &lt;p&gt;
+ * This default implementation is based on field introspection.
+ * &lt;/p&gt;
+ *
+ * @author daivanov
+ *
+ * @since 5.1.0
+ *
+ */
+
+<span class="fc" id="L22">public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,</span>
+		ClassAttributeApprover {
+
+	// -------------------&gt;&gt; Constants
+
+	// -------------------&gt;&gt; Instance / Static variables
+
+	/**
+	 * Set of annotations, which mark fields to be skipped from populating.
+	 */
+<span class="fc" id="L32">	private final Set&lt;Class&lt;? extends Annotation&gt;&gt; excludedAnnotations =</span>
+			new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;();
+
+	/**
+	 * Set of fields, which mark fields to be skipped from populating.
+	 */
+<span class="fc" id="L38">	private Map&lt;Class&lt;?&gt;, Set&lt;String&gt;&gt; excludedFields</span>
+			= new HashMap&lt;Class&lt;?&gt;, Set&lt;String&gt;&gt;();
+
+
+	/**
+	 * Set of extra methods to execute.
+	 * @since 5.3.0
+	 **/
+<span class="fc" id="L46">	private final Map&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt; extraMethods = new HashMap&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt;();</span>
+
+
+	// -------------------&gt;&gt; Constructors
+
+	// -------------------&gt;&gt; Public methods
+
+
+
+	/**
+	 * Adds the specified {@link Annotation} to set of excluded annotations,
+	 * if it is not already present.
+	 *
+	 * @param annotation
+	 *            the annotation to use as an exclusion mark
+	 * @return itself
+	 */
+	public AbstractClassInfoStrategy addExcludedAnnotation(
+			final Class&lt;? extends Annotation&gt; annotation) {
+<span class="fc" id="L65">		excludedAnnotations.add(annotation);</span>
+<span class="fc" id="L66">		return this;</span>
+	}
+
+	/**
+	 * It adds an extra method to execute
+	 * @param pojoClass The pojo class where to execute the method
+	 * @param methodName name to be scheduled for execution
+	 * @param methodArgs list of method arguments
+	 * @return this object
+	 * @throws SecurityException If a security exception occurred while retrieving the method
+	 * @throws NoSuchMethodException If pojoClass doesn't declare the required method
+	 * @since 5.3.0
+	 */
+	public AbstractClassInfoStrategy addExtraMethod(
+			Class&lt;?&gt; pojoClass, String methodName, Class&lt;?&gt; ... methodArgs)
+			throws NoSuchMethodException, SecurityException {
+
+<span class="fc" id="L83">		Method method = pojoClass.getMethod(methodName, methodArgs);</span>
+
+<span class="fc" id="L85">		List&lt;Method&gt; methods = extraMethods.get(pojoClass);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		if (methods == null) {</span>
+<span class="fc" id="L87">			methods = new ArrayList&lt;Method&gt;();</span>
+<span class="fc" id="L88">			extraMethods.put(pojoClass, methods);</span>
+		}
+
+<span class="fc" id="L91">		methods.add(method);</span>
+
+<span class="fc" id="L93">		return this;</span>
+	}
+
+	/**
+	 * Removes the specified {@link Annotation} from set of excluded annotations.
+	 *
+	 * @param annotation
+	 *            the annotation used as an exclusion mark
+	 * @return itself
+	 */
+	public AbstractClassInfoStrategy removeExcludedAnnotation(
+			final Class&lt;? extends Annotation&gt; annotation) {
+<span class="fc" id="L105">		excludedAnnotations.remove(annotation);</span>
+<span class="fc" id="L106">		return this;</span>
+	}
+
+	/**
+	 * Adds the specified field to set of excluded fields,
+	 * if it is not already present.
+	 *
+	 * @param pojoClass
+	 *        a class for which fields should be skipped
+	 * @param fieldName
+	 *            the field name to use as an exclusion mark
+	 * @return itself
+	 */
+	public AbstractClassInfoStrategy addExcludedField(
+			final Class&lt;?&gt; pojoClass, final String fieldName) {
+<span class="fc" id="L121">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (fields == null) {</span>
+<span class="fc" id="L123">			fields = new HashSet&lt;String&gt;();</span>
+<span class="fc" id="L124">			excludedFields.put(pojoClass, fields);</span>
+		}
+<span class="fc" id="L126">		fields.add(fieldName);</span>
+<span class="fc" id="L127">		return this;</span>
+	}
+
+	/**
+	 * Removes the field name from set of excluded fields.
+	 *
+	 * @param pojoClass
+	 *        a class for which fields should be skipped
+	 * @param fieldName
+	 *            the field name used as an exlusion mark
+	 * @return itself
+	 */
+	public AbstractClassInfoStrategy removeExcludedField(
+			final Class&lt;?&gt; pojoClass, final String fieldName) {
+<span class="fc" id="L141">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (fields != null) {</span>
+<span class="fc" id="L143">			fields.remove(fieldName);</span>
+		}
+<span class="fc" id="L145">		return this;</span>
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean approve(ClassAttribute attribute) {
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		return (attribute.getAttribute() != null);</span>
+	}
+
+	// -------------------&gt;&gt; Getters / Setters
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set&lt;Class&lt;? extends Annotation&gt;&gt; getExcludedAnnotations() {
+<span class="fc" id="L163">		return excludedAnnotations;</span>
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set&lt;String&gt; getExcludedFields(final Class&lt;?&gt; pojoClass) {
+<span class="nc" id="L172">		return excludedFields.get(pojoClass);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ClassInfo getClassInfo(Class&lt;?&gt; pojoClass) {
+<span class="fc" id="L180">		Set&lt;String&gt; excludedAttributes = excludedFields.get(pojoClass);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		if (null == excludedAttributes) {</span>
+<span class="fc" id="L182">			excludedAttributes = Collections.emptySet();</span>
+		}
+<span class="fc" id="L184">		List&lt;Method&gt; localExtraMethods = extraMethods.get(pojoClass);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (null == localExtraMethods) {</span>
+<span class="fc" id="L186">			localExtraMethods = Collections.emptyList();</span>
+		}
+<span class="fc" id="L188">		return PodamUtils.getClassInfo(pojoClass,</span>
+				excludedAnnotations, excludedAttributes, this, localExtraMethods);
+	}
+
+	@Override
+	public ClassAttributeApprover getClassAttributeApprover(Class&lt;?&gt; pojoClass) {
+<span class="fc" id="L194">		return this;</span>
+	}
+
+	@Override
+	public Collection&lt;Method&gt; getExtraMethods(Class&lt;?&gt; pojoClass) {
+<span class="fc" id="L199">		return extraMethods.get(pojoClass);</span>
+	}
+
+
+	// -------------------&gt;&gt; Private methods
+
+	// -------------------&gt;&gt; equals() / hashcode() / toString()
+
+	// -------------------&gt;&gt; Inner classes
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

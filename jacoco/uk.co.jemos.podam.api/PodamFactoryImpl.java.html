@@ -1,0 +1,3150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PodamFactoryImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">PodamFactoryImpl.java</span></div><h1>PodamFactoryImpl.java</h1><pre class="source lang-java linenums">/**
+ *
+ */
+package uk.co.jemos.podam.api;
+
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.common.*;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.validation.Constraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.ws.Holder;
+
+/**
+ * The PODAM factory implementation
+ *
+ * @author mtedone
+ *
+ * @since 1.0.0
+ *
+ */
+@ThreadSafe
+@Immutable
+public class PodamFactoryImpl implements PodamFactory {
+
+	// -------------------&gt;&gt; Constants
+
+	private static final String RESOLVING_COLLECTION_EXCEPTION_STR = &quot;An exception occurred while resolving the collection&quot;;
+
+	private static final String MAP_CREATION_EXCEPTION_STR = &quot;An exception occurred while creating a Map object&quot;;
+
+	private static final String UNCHECKED_STR = &quot;unchecked&quot;;
+
+	private static final String THE_ANNOTATION_VALUE_STR = &quot;The annotation value: &quot;;
+
+<span class="fc" id="L47">	private static final Type[] NO_TYPES = new Type[0];</span>
+
+<span class="fc" id="L49">	private static final Object[] NO_ARGS = new Object[0];</span>
+
+<span class="fc" id="L51">	private static final Object OBJECT = new Object();</span>
+
+	/** Application logger */
+<span class="fc" id="L54">	private static final Logger LOG = LoggerFactory</span>
+			.getLogger(PodamFactoryImpl.class.getName());
+
+	// -------------------&gt;&gt; Instance / variables
+
+	/**
+	 * External factory to delegate production this factory cannot handle
+	 * &lt;p&gt;
+	 * The default is {@link NullExternalFactory}.
+	 * &lt;/p&gt;
+	 */
+	private final PodamFactory externalFactory;
+
+	/**
+	 * The strategy to use to fill data.
+	 * &lt;p&gt;
+	 * The default is {@link RandomDataProviderStrategy}.
+	 * &lt;/p&gt;
+	 */
+	private final DataProviderStrategy strategy;
+
+	/**
+	 * The strategy to use to introspect data.
+	 * &lt;p&gt;
+	 * The default is {@link DefaultClassInfoStrategy}.
+	 * &lt;/p&gt;
+	 */
+<span class="fc" id="L81">	private ClassInfoStrategy classInfoStrategy</span>
+			= DefaultClassInfoStrategy.getInstance();
+
+	// -------------------&gt;&gt; Constructors
+
+	/**
+	 * Default constructor.
+	 */
+	public PodamFactoryImpl() {
+<span class="fc" id="L90">		this(NullExternalFactory.getInstance(),</span>
+				RandomDataProviderStrategy.getInstance());
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * Constructor with non-default strategy
+	 *
+	 * @param strategy
+	 *            The strategy to use to fill data
+	 */
+	public PodamFactoryImpl(DataProviderStrategy strategy) {
+
+<span class="fc" id="L102">		this(NullExternalFactory.getInstance(), strategy);</span>
+<span class="fc" id="L103">	}</span>
+
+	/**
+	 * Constructor with non-default external factory
+	 *
+	 * @param externalFactory
+	 *            External factory to delegate production this factory cannot
+	 *            handle
+	 */
+	public PodamFactoryImpl(PodamFactory externalFactory) {
+<span class="fc" id="L113">		this(externalFactory, RandomDataProviderStrategy.getInstance());</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Full constructor.
+	 *
+	 * @param externalFactory
+	 *            External factory to delegate production this factory cannot
+	 *            handle
+	 * @param strategy
+	 *            The strategy to use to fill data
+	 */
+	public PodamFactoryImpl(PodamFactory externalFactory,
+<span class="fc" id="L126">			DataProviderStrategy strategy) {</span>
+<span class="fc" id="L127">		this.externalFactory = externalFactory;</span>
+<span class="fc" id="L128">		this.strategy = strategy;</span>
+<span class="fc" id="L129">	}</span>
+
+	// -------------------&gt;&gt; Public methods
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; T manufacturePojoWithFullData(Class&lt;T&gt; pojoClass, Type... genericTypeArgs) {
+		AbstractRandomDataProviderStrategy sortingStrategy;
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">		if (getStrategy() instanceof AbstractRandomDataProviderStrategy) {</span>
+<span class="fc" id="L140">			sortingStrategy = (AbstractRandomDataProviderStrategy) getStrategy();</span>
+		} else {
+<span class="nc" id="L142">			throw new IllegalStateException(&quot;manufacturePojoWithFullData can&quot;</span>
+					+ &quot; only be used with strategies derived from&quot;
+					+ &quot; AbstractRandomDataProviderStrategy&quot;);
+		}
+		ConstructorAdaptiveComparator constructorComparator;
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">		if (sortingStrategy.getConstructorComparator()</span>
+				instanceof ConstructorAdaptiveComparator) {
+<span class="fc" id="L149">			constructorComparator = (ConstructorAdaptiveComparator)</span>
+					sortingStrategy.getConstructorComparator();
+		} else {
+<span class="nc" id="L152">			throw new IllegalStateException(&quot;manufacturePojoWithFullData can&quot;</span>
+					+ &quot; only be used with constructor comparators derived from&quot;
+					+ &quot; ConstructorAdaptiveComparator&quot;);
+		}
+<span class="fc" id="L156">		constructorComparator.addHeavyClass(pojoClass);</span>
+<span class="fc" id="L157">		T retValue = this.manufacturePojo(pojoClass, genericTypeArgs);</span>
+<span class="fc" id="L158">		constructorComparator.removeHeavyClass(pojoClass);</span>
+<span class="fc" id="L159">		return retValue;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; T manufacturePojo(Class&lt;T&gt; pojoClass, Type... genericTypeArgs) {
+<span class="fc" id="L167">		Map&lt;Class&lt;?&gt;, Integer&gt; pojos = new HashMap&lt;Class&lt;?&gt;, Integer&gt;();</span>
+<span class="fc" id="L168">		pojos.put(pojoClass, 0);</span>
+		try {
+<span class="fc" id="L170">			Class&lt;?&gt; declaringClass = null;</span>
+<span class="fc" id="L171">			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,</span>
+					genericTypeArgs, declaringClass);
+<span class="fc" id="L173">			return this.manufacturePojoInternal(pojoClass, pojoMetadata,</span>
+					pojos, genericTypeArgs);
+<span class="nc" id="L175">		} catch (InstantiationException e) {</span>
+<span class="nc" id="L176">			throw new PodamMockeryException(e.getMessage(), e);</span>
+<span class="nc" id="L177">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L178">			throw new PodamMockeryException(e.getMessage(), e);</span>
+<span class="fc" id="L179">		} catch (InvocationTargetException e) {</span>
+<span class="fc" id="L180">			throw new PodamMockeryException(e.getMessage(), e);</span>
+<span class="nc" id="L181">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L182">			throw new PodamMockeryException(e.getMessage(), e);</span>
+		}
+	}
+
+	// -------------------&gt;&gt; Getters / Setters
+
+	/**
+	 * {@inheritDoc}
+	 */
+
+	@Override
+	public DataProviderStrategy getStrategy() {
+<span class="fc" id="L194">		return strategy;</span>
+	}
+
+	// -------------------&gt;&gt; Private methods
+
+	/**
+	 * Fills type agruments map
+	 * &lt;p&gt;
+	 * This method places required and provided types for object creation into a
+	 * map, which will be used for type mapping.
+	 * &lt;/p&gt;
+	 *
+	 * @param typeArgsMap
+	 *            a map to fill
+	 * @param pojoClass
+	 *            Typed class
+	 * @param genericTypeArgs
+	 *            Type arguments provided for a generics object by caller
+	 * @return Array of unused provided generic type arguments
+	 * @throws IllegalStateException
+	 *             If number of typed parameters doesn't match number of
+	 *             provided generic types
+	 */
+	private Type[] fillTypeArgMap(final Map&lt;String, Type&gt; typeArgsMap,
+			final Class&lt;?&gt; pojoClass, final Type[] genericTypeArgs) {
+
+<span class="fc" id="L220">		TypeVariable&lt;?&gt;[] array = pojoClass.getTypeParameters();</span>
+<span class="fc" id="L221">		List&lt;TypeVariable&lt;?&gt;&gt; typeParameters = new ArrayList&lt;TypeVariable&lt;?&gt;&gt;(Arrays.asList(array));</span>
+<span class="fc" id="L222">		Iterator&lt;TypeVariable&lt;?&gt;&gt; iterator = typeParameters.iterator();</span>
+		/* Removing types, which are already in typeArgsMap */
+<span class="fc bfc" id="L224" title="All 2 branches covered.">		while (iterator.hasNext()) {</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">			if (typeArgsMap.containsKey(iterator.next().getName())) {</span>
+<span class="nc" id="L226">				iterator.remove();</span>
+			}
+		}
+
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">		if (typeParameters.size() &gt; genericTypeArgs.length) {</span>
+<span class="nc" id="L231">			String msg = pojoClass.getCanonicalName()</span>
+					+ &quot; is missing generic type arguments, expected &quot;
+					+ typeParameters + &quot; found &quot;
+					+ Arrays.toString(genericTypeArgs);
+<span class="nc" id="L235">			throw new IllegalStateException(msg);</span>
+		}
+
+		int i;
+<span class="fc bfc" id="L239" title="All 2 branches covered.">		for (i = 0; i &lt; typeParameters.size(); i++) {</span>
+<span class="fc" id="L240">			typeArgsMap.put(typeParameters.get(i).getName(), genericTypeArgs[i]);</span>
+		}
+		Type[] genericTypeArgsExtra;
+<span class="fc bfc" id="L243" title="All 2 branches covered.">		if (typeParameters.size() &lt; genericTypeArgs.length) {</span>
+<span class="fc" id="L244">			genericTypeArgsExtra = Arrays.copyOfRange(genericTypeArgs, i,</span>
+					genericTypeArgs.length);
+		} else {
+<span class="fc" id="L247">			genericTypeArgsExtra = null;</span>
+		}
+
+		/* Adding types, which were specified during inheritance */
+<span class="fc" id="L251">		Class&lt;?&gt; clazz = pojoClass;</span>
+<span class="fc bfc" id="L252" title="All 2 branches covered.">		while (clazz != null) {</span>
+<span class="fc" id="L253">			Type superType = clazz.getGenericSuperclass();</span>
+<span class="fc" id="L254">			clazz = clazz.getSuperclass();</span>
+<span class="fc bfc" id="L255" title="All 2 branches covered.">			if (superType instanceof ParameterizedType) {</span>
+<span class="fc" id="L256">				ParameterizedType paramType = (ParameterizedType) superType;</span>
+<span class="fc" id="L257">				Type[] actualParamTypes = paramType.getActualTypeArguments();</span>
+<span class="fc" id="L258">				TypeVariable&lt;?&gt;[] paramTypes = clazz.getTypeParameters();</span>
+<span class="fc" id="L259">				for (i = 0; i &lt; actualParamTypes.length</span>
+<span class="pc bpc" id="L260" title="1 of 4 branches missed.">						&amp;&amp; i &lt; paramTypes.length; i++) {</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">					if (actualParamTypes[i] instanceof Class) {</span>
+<span class="fc" id="L262">						typeArgsMap.put(paramTypes[i].getName(),</span>
+								actualParamTypes[i]);
+					}
+				}
+			}
+<span class="fc" id="L267">		}</span>
+
+<span class="fc" id="L269">		return genericTypeArgsExtra;</span>
+	}
+
+	/**
+	 * It attempts to create an instance of the given class
+	 * &lt;p&gt;
+	 * This method attempts to create an instance of the given argument for
+	 * classes without setters. These may be either immutable classes (e.g. with
+	 * final attributes and no setters) or Java classes (e.g. belonging to the
+	 * java / javax namespace). In case the class does not provide a public,
+	 * no-arg constructor (e.g. Calendar), this method attempts to find a ,
+	 * no-args, factory method (e.g. getInstance()) and it invokes it
+	 * &lt;/p&gt;
+	 *
+	 * @param pojoClass
+	 *            The name of the class for which an instance filled with values
+	 *            is required
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 *
+	 *
+	 * @return An instance of the given class
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object instantiatePojoWithoutConstructors(
+			Class&lt;?&gt; pojoClass, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Type... genericTypeArgs) throws InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
+
+<span class="fc" id="L312">		Object retValue = null;</span>
+
+<span class="fc" id="L314">		final Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L315">		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,</span>
+					pojoClass, genericTypeArgs);
+
+		// If no publicly accessible constructors are available,
+		// the best we can do is to find a constructor (e.g.
+		// getInstance())
+
+<span class="fc" id="L322">		Method[] declaredMethods = pojoClass.getDeclaredMethods();</span>
+<span class="fc" id="L323">		strategy.sort(declaredMethods);</span>
+
+		// A candidate factory method is a method which returns the
+		// Class type
+
+		// The parameters to pass to the method invocation
+<span class="fc" id="L329">		Object[] parameterValues = null;</span>
+<span class="fc" id="L330">		Object[] noParams = new Object[] {};</span>
+
+<span class="fc bfc" id="L332" title="All 2 branches covered.">		for (Method candidateConstructor : declaredMethods) {</span>
+
+<span class="fc bfc" id="L334" title="All 6 branches covered.">			if (!Modifier.isStatic(candidateConstructor.getModifiers())</span>
+					|| !candidateConstructor.getReturnType().equals(pojoClass)
+					|| retValue != null) {
+<span class="fc" id="L337">				continue;</span>
+			}
+
+<span class="fc" id="L340">			parameterValues = new Object[candidateConstructor</span>
+					.getParameterTypes().length];
+
+<span class="fc" id="L343">			Class&lt;?&gt;[] parameterTypes = candidateConstructor.getParameterTypes();</span>
+
+<span class="fc bfc" id="L345" title="All 2 branches covered.">			if (parameterTypes.length == 0) {</span>
+
+<span class="fc" id="L347">				parameterValues = noParams;</span>
+
+			} else {
+
+				// This is a factory method with arguments
+
+<span class="fc" id="L353">				Annotation[][] parameterAnnotations = candidateConstructor</span>
+						.getParameterAnnotations();
+
+<span class="fc" id="L356">				int idx = 0;</span>
+
+<span class="fc bfc" id="L358" title="All 2 branches covered.">				for (Class&lt;?&gt; parameterType : parameterTypes) {</span>
+
+<span class="fc" id="L360">					List&lt;Annotation&gt; annotations = Arrays</span>
+							.asList(parameterAnnotations[idx]);
+<span class="fc" id="L362">					Type genericType = candidateConstructor.getGenericParameterTypes()[idx];</span>
+
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">					parameterValues[idx] = manufactureParameterValue(parameterType,</span>
+							genericType, annotations, typeArgsMap, pojos,
+							genericTypeArgsExtra == null ? NO_TYPES : genericTypeArgsExtra);
+
+<span class="fc" id="L368">					idx++;</span>
+
+				}
+
+			}
+
+			try {
+
+<span class="fc" id="L376">				retValue = candidateConstructor.invoke(pojoClass,</span>
+						parameterValues);
+<span class="fc" id="L378">				LOG.debug(&quot;Could create an instance using &quot;</span>
+						+ candidateConstructor);
+
+<span class="fc" id="L381">			} catch (Exception t) {</span>
+
+<span class="fc" id="L383">				LOG.debug(</span>
+						&quot;PODAM could not create an instance for constructor: &quot;
+								+ candidateConstructor
+								+ &quot;. Will try another one...&quot;, t);
+
+<span class="fc" id="L388">			}</span>
+
+		}
+
+<span class="fc bfc" id="L392" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L393">			LOG.debug(&quot;For class {} PODAM could not possibly create&quot;</span>
+					+ &quot; a value statically. Will try other means.&quot;,
+					pojoClass);
+		}
+
+<span class="fc" id="L398">		return retValue;</span>
+
+	}
+
+	/**
+	 * It resolves generic parameter type
+	 *
+	 *
+	 * @param paramType
+	 *            The generic parameter type
+	 * @param typeArgsMap
+	 *            A map of resolved types
+	 * @param methodGenericTypeArgs
+	 *            Return value posible generic types of the generic parameter
+	 *            type
+	 * @return value for class representing the generic parameter type
+	 */
+	private Class&lt;?&gt; resolveGenericParameter(Type paramType,
+			Map&lt;String, Type&gt; typeArgsMap,
+			AtomicReference&lt;Type[]&gt; methodGenericTypeArgs) {
+
+<span class="fc" id="L419">		Class&lt;?&gt; parameterType = null;</span>
+<span class="fc" id="L420">		methodGenericTypeArgs.set(NO_TYPES);</span>
+<span class="fc bfc" id="L421" title="All 2 branches covered.">		if (paramType instanceof TypeVariable&lt;?&gt;) {</span>
+<span class="fc" id="L422">			final TypeVariable&lt;?&gt; typeVariable = (TypeVariable&lt;?&gt;) paramType;</span>
+<span class="fc" id="L423">			final Type type = typeArgsMap.get(typeVariable.getName());</span>
+<span class="fc bfc" id="L424" title="All 2 branches covered.">			if (type != null) {</span>
+<span class="fc" id="L425">				parameterType = resolveGenericParameter(type, typeArgsMap,</span>
+						methodGenericTypeArgs);
+			}
+<span class="fc bfc" id="L428" title="All 2 branches covered.">		} else if (paramType instanceof ParameterizedType) {</span>
+<span class="fc" id="L429">			ParameterizedType pType = (ParameterizedType) paramType;</span>
+<span class="fc" id="L430">			parameterType = (Class&lt;?&gt;) pType.getRawType();</span>
+<span class="fc" id="L431">			methodGenericTypeArgs.set(pType.getActualTypeArguments());</span>
+<span class="fc bfc" id="L432" title="All 2 branches covered.">		} else if (paramType instanceof WildcardType) {</span>
+<span class="fc" id="L433">			WildcardType wType = (WildcardType) paramType;</span>
+<span class="fc" id="L434">			Type[] bounds = wType.getLowerBounds();</span>
+			String msg;
+<span class="pc bpc" id="L436" title="1 of 4 branches missed.">			if (bounds != null &amp;&amp; bounds.length &gt; 0) {</span>
+<span class="fc" id="L437">				msg = &quot;Lower bounds:&quot;;</span>
+			} else {
+<span class="fc" id="L439">				bounds = wType.getUpperBounds();</span>
+<span class="fc" id="L440">				msg = &quot;Upper bounds:&quot;;</span>
+			}
+<span class="pc bpc" id="L442" title="2 of 4 branches missed.">			if (bounds != null &amp;&amp; bounds.length &gt; 0) {</span>
+<span class="fc" id="L443">				LOG.debug(msg + Arrays.toString(bounds));</span>
+<span class="fc" id="L444">				parameterType = resolveGenericParameter(bounds[0], typeArgsMap,</span>
+						methodGenericTypeArgs);
+			}
+<span class="pc bpc" id="L447" title="1 of 2 branches missed.">		} else if (paramType instanceof Class) {</span>
+<span class="fc" id="L448">			parameterType = (Class&lt;?&gt;) paramType;</span>
+		}
+
+<span class="fc bfc" id="L451" title="All 2 branches covered.">		if (parameterType == null) {</span>
+<span class="fc" id="L452">			LOG.warn(&quot;Unrecognized type {}. Will use Object instead&quot;,</span>
+					paramType);
+<span class="fc" id="L454">			parameterType = Object.class;</span>
+		}
+<span class="fc" id="L456">		return parameterType;</span>
+	}
+
+	/**
+	 * It resolves and returns the primitive value depending on the type
+	 *
+	 *
+	 * @param primitiveClass
+	 *            The primitive type class
+	 * @param annotations
+	 *            The annotations to consider for this attribute
+	 * @param attributeMetadata
+	 *            Metadata of the attribute being filled
+	 * @return the primitive value depending on the type
+	 *
+	 * @throws IllegalArgumentException
+	 *             If a specific value was set in an annotation but it was not
+	 *             possible to convert such value in the desired type
+	 */
+	private Object resolvePrimitiveValue(Class&lt;?&gt; primitiveClass,
+			List&lt;Annotation&gt; annotations, AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L478">		Object retValue = null;</span>
+
+<span class="fc bfc" id="L480" title="All 2 branches covered.">		if (primitiveClass.equals(int.class)) {</span>
+
+<span class="fc" id="L482">			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L484" title="All 2 branches covered.">		} else if (primitiveClass.equals(long.class)) {</span>
+
+<span class="fc" id="L486">			retValue = getLongValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L488" title="All 2 branches covered.">		} else if (primitiveClass.equals(float.class)) {</span>
+
+<span class="fc" id="L490">			retValue = getFloatValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L492" title="All 2 branches covered.">		} else if (primitiveClass.equals(double.class)) {</span>
+
+<span class="fc" id="L494">			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L496" title="All 2 branches covered.">		} else if (primitiveClass.equals(boolean.class)) {</span>
+
+<span class="fc" id="L498">			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L500" title="All 2 branches covered.">		} else if (primitiveClass.equals(byte.class)) {</span>
+
+<span class="fc" id="L502">			retValue = getByteValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L504" title="All 2 branches covered.">		} else if (primitiveClass.equals(short.class)) {</span>
+
+<span class="fc" id="L506">			retValue = getShortValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="pc bpc" id="L508" title="1 of 2 branches missed.">		} else if (primitiveClass.equals(char.class)) {</span>
+
+<span class="fc" id="L510">			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);</span>
+
+		} else {
+
+<span class="nc" id="L514">			throw new IllegalArgumentException(</span>
+					String.format(&quot;%s is unsupported primitive type&quot;,
+							primitiveClass));
+		}
+
+<span class="fc" id="L519">		return retValue;</span>
+	}
+
+	/**
+	 * It returns the boolean value indicated in the annotation.
+	 *
+	 * @param annotations
+	 *            The collection of annotations for the annotated attribute
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 * @return The boolean value indicated in the annotation
+	 */
+	private Boolean getBooleanValueForAnnotation(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L534">		Boolean retValue = null;</span>
+
+<span class="fc bfc" id="L536" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L538" title="All 2 branches covered.">			if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L539">				PodamBooleanValue localStrategy = (PodamBooleanValue) annotation;</span>
+<span class="fc" id="L540">				retValue = localStrategy.boolValue();</span>
+
+<span class="fc" id="L542">				break;</span>
+			}
+<span class="fc" id="L544">		}</span>
+
+<span class="fc bfc" id="L546" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L547">			retValue = strategy.getBoolean(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L550">		return retValue;</span>
+	}
+
+	/**
+	 * It returns a random byte if the attribute was annotated with
+	 * {@link PodamByteValue} or {@code null} otherwise
+	 *
+	 * @param annotations
+	 *            The list of annotations for this attribute
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 * @return A random byte if the attribute was annotated with
+	 *
+	 * @throws IllegalArgumentException
+	 *             If the {@link PodamByteValue#numValue()} value has been set
+	 *             and it is not convertible to a byte type
+	 */
+	private Byte getByteValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+<span class="fc" id="L571">		Byte retValue = null;</span>
+
+<span class="fc bfc" id="L573" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="pc bpc" id="L575" title="1 of 2 branches missed.">			if (PodamByteValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L576">				PodamByteValue intStrategy = (PodamByteValue) annotation;</span>
+
+<span class="fc" id="L578">				String numValueStr = intStrategy.numValue();</span>
+<span class="pc bpc" id="L579" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+					try {
+
+<span class="fc" id="L582">						retValue = Byte.valueOf(numValueStr);</span>
+
+<span class="fc" id="L584">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L585">						String errMsg = &quot;The precise value: &quot;</span>
+								+ numValueStr
+								+ &quot; cannot be converted to a byte type. An exception will be thrown.&quot;;
+<span class="fc" id="L588">						LOG.error(errMsg);</span>
+<span class="fc" id="L589">						throw new IllegalArgumentException(errMsg, nfe);</span>
+<span class="fc" id="L590">					}</span>
+				} else {
+<span class="fc" id="L592">					byte minValue = intStrategy.minValue();</span>
+<span class="fc" id="L593">					byte maxValue = intStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L596" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L597">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L600">					retValue = strategy.getByteInRange(minValue, maxValue,</span>
+							attributeMetadata);
+				}
+
+<span class="fc" id="L604">				break;</span>
+
+			}
+<span class="nc" id="L607">		}</span>
+
+<span class="fc bfc" id="L609" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L610">			retValue = strategy.getByte(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L613">		return retValue;</span>
+	}
+
+	/**
+	 * It returns a random short if the attribute was annotated with
+	 * {@link PodamShortValue} or {@code null} otherwise
+	 *
+	 * @param annotations
+	 *            The annotations with which the attribute was annotated
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 * @return A random short if the attribute was annotated with
+	 *         {@link PodamShortValue} or {@code null} otherwise
+	 *
+	 * @throws IllegalArgumentException
+	 *             If {@link PodamShortValue#numValue()} was set and its value
+	 *             could not be converted to a Short type
+	 */
+	private Short getShortValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L636">		Short retValue = null;</span>
+
+<span class="fc bfc" id="L638" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="pc bpc" id="L640" title="1 of 2 branches missed.">			if (PodamShortValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L641">				PodamShortValue shortStrategy = (PodamShortValue) annotation;</span>
+
+<span class="fc" id="L643">				String numValueStr = shortStrategy.numValue();</span>
+<span class="pc bpc" id="L644" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+					try {
+<span class="fc" id="L646">						retValue = Short.valueOf(numValueStr);</span>
+<span class="fc" id="L647">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L648">						String errMsg = &quot;The precise value: &quot;</span>
+								+ numValueStr
+								+ &quot; cannot be converted to a short type. An exception will be thrown.&quot;;
+<span class="fc" id="L651">						LOG.error(errMsg);</span>
+<span class="fc" id="L652">						throw new IllegalArgumentException(errMsg, nfe);</span>
+<span class="fc" id="L653">					}</span>
+				} else {
+
+<span class="fc" id="L656">					short minValue = shortStrategy.minValue();</span>
+<span class="fc" id="L657">					short maxValue = shortStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L660" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L661">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L664">					retValue = strategy.getShortInRange(minValue, maxValue,</span>
+							attributeMetadata);
+
+				}
+
+<span class="fc" id="L669">				break;</span>
+
+			}
+<span class="nc" id="L672">		}</span>
+
+<span class="fc bfc" id="L674" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L675">			retValue = strategy.getShort(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L678">		return retValue;</span>
+	}
+
+	/**
+	 * It creates and returns a random {@link Character} value
+	 *
+	 * @param annotations
+	 *            The list of annotations which might customise the return value
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 * @return A random {@link Character} value
+	 */
+	private Character getCharacterValueWithinRange(
+			List&lt;Annotation&gt; annotations, AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L695">		Character retValue = null;</span>
+
+<span class="fc bfc" id="L697" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="pc bpc" id="L699" title="1 of 2 branches missed.">			if (PodamCharValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L700">				PodamCharValue annotationStrategy = (PodamCharValue) annotation;</span>
+
+<span class="fc" id="L702">				char charValue = annotationStrategy.charValue();</span>
+<span class="fc bfc" id="L703" title="All 2 branches covered.">				if (charValue != ' ') {</span>
+<span class="fc" id="L704">					retValue = charValue;</span>
+
+				} else {
+
+<span class="fc" id="L708">					char minValue = annotationStrategy.minValue();</span>
+<span class="fc" id="L709">					char maxValue = annotationStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L712" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L713">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L716">					retValue = strategy.getCharacterInRange(minValue, maxValue,</span>
+							attributeMetadata);
+
+				}
+
+<span class="fc" id="L721">				break;</span>
+
+			}
+<span class="nc" id="L724">		}</span>
+
+<span class="fc bfc" id="L726" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L727">			retValue = strategy.getCharacter(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L730">		return retValue;</span>
+	}
+
+	/**
+	 * Returns either a customised int value if a {@link PodamIntValue}
+	 * annotation was provided or a random integer if this was not the case
+	 *
+	 * @param annotations
+	 *            The list of annotations for the int attribute
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 * @return Either a customised int value if a {@link PodamIntValue}
+	 *         annotation was provided or a random integer if this was not the
+	 *         case
+	 *
+	 * @throws IllegalArgumentException
+	 *             If it was not possible to convert the
+	 *             {@link PodamIntValue#numValue()} to an Integer
+	 */
+	private Integer getIntegerValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L754">		Integer retValue = null;</span>
+
+<span class="fc bfc" id="L756" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L758" title="All 2 branches covered.">			if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L759">				PodamIntValue intStrategy = (PodamIntValue) annotation;</span>
+
+<span class="fc" id="L761">				String numValueStr = intStrategy.numValue();</span>
+<span class="pc bpc" id="L762" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+					try {
+<span class="fc" id="L764">						retValue = Integer.valueOf(numValueStr);</span>
+<span class="fc" id="L765">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L766">						String errMsg = THE_ANNOTATION_VALUE_STR</span>
+								+ numValueStr
+								+ &quot; could not be converted to an Integer. An exception will be thrown.&quot;;
+<span class="fc" id="L769">						LOG.error(errMsg);</span>
+<span class="fc" id="L770">						throw new IllegalArgumentException(errMsg, nfe);</span>
+
+<span class="fc" id="L772">					}</span>
+
+				} else {
+
+<span class="fc" id="L776">					int minValue = intStrategy.minValue();</span>
+<span class="fc" id="L777">					int maxValue = intStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L780" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L781">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L784">					retValue = strategy.getIntegerInRange(minValue, maxValue,</span>
+							attributeMetadata);
+
+				}
+
+<span class="fc" id="L789">				break;</span>
+
+			}
+
+<span class="fc" id="L793">		}</span>
+
+<span class="fc bfc" id="L795" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L796">			retValue = strategy.getInteger(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L799">		return retValue;</span>
+	}
+
+	/**
+	 * Returns either a customised float value if a {@link PodamFloatValue}
+	 * annotation was provided or a random float if this was not the case
+	 *
+	 * @param annotations
+	 *            The list of annotations for the int attribute
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 *
+	 * @return Either a customised float value if a {@link PodamFloatValue}
+	 *         annotation was provided or a random float if this was not the
+	 *         case
+	 *
+	 * @throws IllegalArgumentException
+	 *             If {@link PodamFloatValue#numValue()} contained a value not
+	 *             convertible to a Float type
+	 */
+	private Float getFloatValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L824">		Float retValue = null;</span>
+
+<span class="fc bfc" id="L826" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L828" title="All 2 branches covered.">			if (PodamFloatValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L829">				PodamFloatValue floatStrategy = (PodamFloatValue) annotation;</span>
+
+<span class="fc" id="L831">				String numValueStr = floatStrategy.numValue();</span>
+<span class="pc bpc" id="L832" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+					try {
+<span class="fc" id="L834">						retValue = Float.valueOf(numValueStr);</span>
+<span class="fc" id="L835">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L836">						String errMsg = THE_ANNOTATION_VALUE_STR</span>
+								+ numValueStr
+								+ &quot; could not be converted to a Float. An exception will be thrown.&quot;;
+<span class="fc" id="L839">						LOG.error(errMsg);</span>
+<span class="fc" id="L840">						throw new IllegalArgumentException(errMsg, nfe);</span>
+<span class="fc" id="L841">					}</span>
+				} else {
+
+<span class="fc" id="L844">					float minValue = floatStrategy.minValue();</span>
+<span class="fc" id="L845">					float maxValue = floatStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L848" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L849">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L852">					retValue = strategy.getFloatInRange(minValue, maxValue,</span>
+							attributeMetadata);
+
+				}
+
+<span class="fc" id="L857">				break;</span>
+
+			}
+
+<span class="fc" id="L861">		}</span>
+
+<span class="fc bfc" id="L863" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L864">			retValue = strategy.getFloat(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L867">		return retValue;</span>
+	}
+
+	/**
+	 * It creates and returns a random {@link Double} value
+	 *
+	 * @param annotations
+	 *            The list of annotations which might customise the return value
+	 *
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation *
+	 *
+	 * @return a random {@link Double} value
+	 */
+	private Double getDoubleValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L884">		Double retValue = null;</span>
+
+<span class="fc bfc" id="L886" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L888" title="All 2 branches covered.">			if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L889">				PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;</span>
+
+<span class="fc" id="L891">				String numValueStr = doubleStrategy.numValue();</span>
+<span class="pc bpc" id="L892" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+
+					try {
+<span class="fc" id="L895">						retValue = Double.valueOf(numValueStr);</span>
+<span class="fc" id="L896">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L897">						String errMsg = THE_ANNOTATION_VALUE_STR</span>
+								+ numValueStr
+								+ &quot; could not be converted to a Double. An exception will be thrown.&quot;;
+<span class="fc" id="L900">						LOG.error(errMsg);</span>
+<span class="fc" id="L901">						throw new IllegalArgumentException(errMsg, nfe);</span>
+<span class="fc" id="L902">					}</span>
+
+				} else {
+
+<span class="fc" id="L906">					double minValue = doubleStrategy.minValue();</span>
+<span class="fc" id="L907">					double maxValue = doubleStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="fc bfc" id="L910" title="All 2 branches covered.">					if (minValue &gt; maxValue) {</span>
+<span class="fc" id="L911">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L914">					retValue = strategy.getDoubleInRange(minValue, maxValue,</span>
+							attributeMetadata);
+				}
+
+<span class="fc" id="L918">				break;</span>
+
+			}
+
+<span class="fc" id="L922">		}</span>
+
+<span class="fc bfc" id="L924" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L925">			retValue = strategy.getDouble(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L928">		return retValue;</span>
+
+	}
+
+	/**
+	 * Returns either a customised long value if a {@link PodamLongValue}
+	 * annotation was provided or a random long if this was not the case
+	 *
+	 * @param annotations
+	 *            The list of annotations for the int attribute
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 *
+	 * @return Either a customised long value if a {@link PodamLongValue}
+	 *         annotation was provided or a random long if this was not the case
+	 *
+	 * @throws IllegalArgumentException
+	 *             If it was not possible to convert
+	 *             {@link PodamLongValue#numValue()} to a Long
+	 */
+	private Long getLongValueWithinRange(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L951">		Long retValue = null;</span>
+
+<span class="fc bfc" id="L953" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L955" title="All 2 branches covered.">			if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {</span>
+<span class="fc" id="L956">				PodamLongValue longStrategy = (PodamLongValue) annotation;</span>
+
+<span class="fc" id="L958">				String numValueStr = longStrategy.numValue();</span>
+<span class="pc bpc" id="L959" title="1 of 4 branches missed.">				if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+					try {
+<span class="fc" id="L961">						retValue = Long.valueOf(numValueStr);</span>
+<span class="fc" id="L962">					} catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L963">						String errMsg = THE_ANNOTATION_VALUE_STR</span>
+								+ numValueStr
+								+ &quot; could not be converted to a Long. An exception will be thrown.&quot;;
+<span class="fc" id="L966">						LOG.error(errMsg);</span>
+<span class="fc" id="L967">						throw new IllegalArgumentException(errMsg, nfe);</span>
+<span class="fc" id="L968">					}</span>
+				} else {
+
+<span class="fc" id="L971">					long minValue = longStrategy.minValue();</span>
+<span class="fc" id="L972">					long maxValue = longStrategy.maxValue();</span>
+
+					// Sanity check
+<span class="pc bpc" id="L975" title="1 of 2 branches missed.">					if (minValue &gt; maxValue) {</span>
+<span class="nc" id="L976">						maxValue = minValue;</span>
+					}
+
+<span class="fc" id="L979">					retValue = strategy.getLongInRange(minValue, maxValue,</span>
+							attributeMetadata);
+
+				}
+
+<span class="fc" id="L984">				break;</span>
+
+			}
+
+<span class="fc" id="L988">		}</span>
+
+<span class="fc bfc" id="L990" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L991">			retValue = strategy.getLong(attributeMetadata);</span>
+		}
+
+<span class="fc" id="L994">		return retValue;</span>
+	}
+
+	/**
+	 * It attempts to resolve the given class as a wrapper class and if this is
+	 * the case it assigns a random value
+	 *
+	 *
+	 * @param candidateWrapperClass
+	 *            The class which might be a wrapper class
+	 * @param annotations
+	 *            The attribute's annotations, if any, used for customisation
+	 * @param attributeMetadata
+	 *            The attribute's metadata, if any, used for customisation
+	 * @return {@code null} if this is not a wrapper class, otherwise an Object
+	 *         with the value for the wrapper class
+	 */
+	private Object resolveWrapperValue(Class&lt;?&gt; candidateWrapperClass,
+			List&lt;Annotation&gt; annotations, AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L1014">		Object retValue = null;</span>
+
+<span class="fc bfc" id="L1016" title="All 2 branches covered.">		if (candidateWrapperClass.equals(Integer.class)) {</span>
+
+<span class="fc" id="L1018">			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1020" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Long.class)) {</span>
+
+<span class="fc" id="L1022">			retValue = getLongValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1024" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Float.class)) {</span>
+
+<span class="fc" id="L1026">			retValue = getFloatValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1028" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Double.class)) {</span>
+
+<span class="fc" id="L1030">			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1032" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Boolean.class)) {</span>
+
+<span class="fc" id="L1034">			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1036" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Byte.class)) {</span>
+
+<span class="fc" id="L1038">			retValue = getByteValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1040" title="All 2 branches covered.">		} else if (candidateWrapperClass.equals(Short.class)) {</span>
+
+<span class="fc" id="L1042">			retValue = getShortValueWithinRange(annotations, attributeMetadata);</span>
+
+<span class="pc bpc" id="L1044" title="1 of 2 branches missed.">		} else if (candidateWrapperClass.equals(Character.class)) {</span>
+
+<span class="fc" id="L1046">			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);</span>
+
+		} else {
+
+<span class="nc" id="L1050">			throw new IllegalArgumentException(</span>
+					String.format(&quot;%s is unsupported wrapper type&quot;,
+							candidateWrapperClass));
+
+		}
+
+<span class="fc" id="L1056">		return retValue;</span>
+	}
+
+	/**
+	 * It creates and returns an instance of the given class if at least one of
+	 * its constructors has been annotated with {@link PodamConstructor}
+	 *
+	 * @param &lt;T&gt;
+	 *            The type of the instance to return
+	 *
+	 * @param pojoClass
+	 *            The class of which an instance is required
+	 * @param pojos
+	 *            How many instances of the same class have been created so far
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return an instance of the given class if at least one of its
+	 *         constructors has been annotated with {@link PodamConstructor}
+	 * @throws SecurityException
+	 *             If an security was violated
+	 */
+	@SuppressWarnings({ UNCHECKED_STR })
+	private &lt;T&gt; T instantiatePojo(Class&lt;T&gt; pojoClass,
+			Map&lt;Class&lt;?&gt;, Integer&gt; pojos, Type... genericTypeArgs)
+			throws SecurityException {
+
+<span class="fc" id="L1083">		T retValue = null;</span>
+
+<span class="fc" id="L1085">		Constructor&lt;?&gt;[] constructors = pojoClass.getConstructors();</span>
+<span class="fc bfc" id="L1086" title="All 4 branches covered.">		if (constructors.length == 0 || Modifier.isAbstract(pojoClass.getModifiers())) {</span>
+			/* No public constructors, we will try static factory methods */
+			try {
+<span class="fc" id="L1089">				retValue = (T) instantiatePojoWithoutConstructors(</span>
+						pojoClass, pojos, genericTypeArgs);
+<span class="nc" id="L1091">			} catch (Exception e) {</span>
+<span class="nc" id="L1092">				LOG.debug(&quot;We couldn't create an instance for pojo: &quot;</span>
+						+ pojoClass + &quot; with factory methods, will &quot;
+						+ &quot; try non-public constructors.&quot;, e);
+<span class="fc" id="L1095">			}</span>
+
+			/* Then non-public constructors */
+<span class="fc bfc" id="L1098" title="All 2 branches covered.">			if (retValue == null) {</span>
+<span class="fc" id="L1099">				constructors = pojoClass.getDeclaredConstructors();</span>
+			}
+		}
+
+<span class="pc bpc" id="L1103" title="1 of 4 branches missed.">		if (retValue == null &amp;&amp; constructors.length &gt; 0) {</span>
+
+			/* We want constructor with minumum number of parameters
+			 * to speed up the creation */
+<span class="fc" id="L1107">			strategy.sort(constructors);</span>
+
+<span class="fc bfc" id="L1109" title="All 2 branches covered.">			for (Constructor&lt;?&gt; constructor : constructors) {</span>
+
+				try {
+<span class="fc" id="L1112">					Object[] parameterValues = getParameterValuesForConstructor(</span>
+							constructor, pojoClass, pojos, genericTypeArgs);
+
+				// Being a generic method we cannot be sure on the identity of
+				// T, therefore the mismatch between the newInstance() return
+				// value (Object) and T is acceptable, thus the SuppressWarning
+				// annotation
+
+					// Security hack
+<span class="pc bpc" id="L1121" title="1 of 2 branches missed.">					if (!constructor.isAccessible()) {</span>
+<span class="fc" id="L1122">						constructor.setAccessible(true);</span>
+					}
+<span class="fc" id="L1124">					retValue = (T) constructor.newInstance(parameterValues);</span>
+<span class="pc bpc" id="L1125" title="1 of 2 branches missed.">					if (retValue != null) {</span>
+<span class="fc" id="L1126">						LOG.debug(&quot;We could create an instance with constructor: &quot;</span>
+								+ constructor);
+<span class="fc" id="L1128">						break;</span>
+					}
+<span class="fc" id="L1130">				} catch (Exception e) {</span>
+<span class="fc" id="L1131">					LOG.debug(&quot;We couldn't create an instance for pojo: {} with&quot;</span>
+							+ &quot; constructor: {}. Will try with another one.&quot;,
+							pojoClass, constructor, e);
+<span class="nc" id="L1134">				}</span>
+			}
+		}
+
+<span class="fc bfc" id="L1138" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc" id="L1139">			LOG.debug(&quot;For class {} PODAM could not possibly create&quot;</span>
+					+ &quot; a value. Will try other means.&quot;, pojoClass);
+		}
+<span class="fc" id="L1142">		return retValue;</span>
+	}
+
+	/**
+	 * Generic method which returns an instance of the given class filled with
+	 * values dictated by the strategy
+	 *
+	 * @param &lt;T&gt;
+	 *            The type for which a filled instance is required
+	 *
+	 * @param pojoClass
+	 *            The name of the class for which an instance filled with values
+	 *            is required
+	 * @param pojoMetadata
+	 *            attribute metadata for POJOs produced recursively
+	 * @param pojos
+	 *            How many times {@code pojoClass} has been found. This will be
+	 *            used for reentrant objects
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return An instance of &amp;lt;T&amp;gt; filled with dummy values
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If manufactured class cannot be loaded
+	 * @throws PodamMockeryException
+	 *             if a problem occurred while creating a POJO instance or while
+	 *             setting its state
+	 */
+	@SuppressWarnings(UNCHECKED_STR)
+	private &lt;T&gt; T manufacturePojoInternal(Class&lt;T&gt; pojoClass,
+			AttributeMetadata pojoMetadata, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L1184">		LOG.debug(&quot;Manufacturing {} with parameters {}&quot;,</span>
+				pojoClass, Arrays.toString(genericTypeArgs));
+
+<span class="fc" id="L1187">		T retValue = null;</span>
+
+		// reuse object from memoization table
+<span class="fc" id="L1190">		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);</span>
+<span class="fc bfc" id="L1191" title="All 2 branches covered.">		if (objectToReuse != null) {</span>
+<span class="fc" id="L1192">			return objectToReuse;</span>
+		}
+
+<span class="fc bfc" id="L1195" title="All 2 branches covered.">		if (pojoClass.isEnum()) {</span>
+
+<span class="fc" id="L1197">			int enumConstantsLength = pojoClass.getEnumConstants().length;</span>
+<span class="pc bpc" id="L1198" title="1 of 2 branches missed.">			if (enumConstantsLength &gt; 0) {</span>
+<span class="fc" id="L1199">				int enumIndex = strategy.getIntegerInRange(0,</span>
+						enumConstantsLength - 1,
+						new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
+<span class="fc" id="L1202">				return  pojoClass.getEnumConstants()[enumIndex];</span>
+			}
+		}
+
+<span class="fc bfc" id="L1206" title="All 2 branches covered.">		if (pojoClass.isPrimitive()) {</span>
+			// For JDK POJOs we can't retrieve attribute name
+<span class="fc" id="L1208">			return (T) resolvePrimitiveValue(pojoClass, Collections.&lt;Annotation&gt;emptyList(),</span>
+					new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
+		}
+
+<span class="fc bfc" id="L1212" title="All 2 branches covered.">		if (pojoClass.isInterface()) {</span>
+<span class="fc" id="L1213">			Class&lt;T&gt; specificClass = (Class&lt;T&gt;) strategy</span>
+					.getSpecificClass(pojoClass);
+<span class="pc bpc" id="L1215" title="1 of 2 branches missed.">			if (!specificClass.equals(pojoClass)) {</span>
+<span class="nc" id="L1216">				return this.manufacturePojoInternal(specificClass, pojoMetadata,</span>
+						pojos, genericTypeArgs);
+			} else {
+<span class="fc" id="L1219">				LOG.info(&quot;{} is an interface. Resorting to {} external factory&quot;,</span>
+						pojoClass,
+						externalFactory.getClass().getName());
+<span class="fc" id="L1222">				return externalFactory.manufacturePojo(pojoClass,</span>
+						genericTypeArgs);
+			}
+		}
+
+		try {
+
+<span class="fc" id="L1229">			retValue = instantiatePojo(pojoClass, pojos, genericTypeArgs);</span>
+<span class="nc" id="L1230">		} catch (SecurityException e) {</span>
+<span class="nc" id="L1231">			throw new PodamMockeryException(</span>
+					&quot;Security exception while applying introspection.&quot;, e);
+<span class="fc" id="L1233">		}</span>
+
+<span class="fc bfc" id="L1235" title="All 2 branches covered.">		if (retValue == null) {</span>
+<span class="fc bfc" id="L1236" title="All 2 branches covered.">			if (Modifier.isAbstract(pojoClass.getModifiers())) {</span>
+<span class="fc" id="L1237">				Class&lt;T&gt; specificClass = (Class&lt;T&gt;) strategy</span>
+						.getSpecificClass(pojoClass);
+<span class="fc bfc" id="L1239" title="All 2 branches covered.">				if (!specificClass.equals(pojoClass)) {</span>
+<span class="fc" id="L1240">					return this.manufacturePojoInternal(specificClass, pojoMetadata,</span>
+							pojos, genericTypeArgs);
+				}
+			}
+<span class="fc" id="L1244">			LOG.info(&quot;Failed to manufacture {}. Resorting to {} external factory&quot;,</span>
+					pojoClass,
+					externalFactory.getClass().getName());
+<span class="fc" id="L1247">			return externalFactory.manufacturePojo(pojoClass,</span>
+					genericTypeArgs);
+		}
+
+		// update memoization cache with new object
+		// the reference is stored before properties are set so that recursive
+		// properties can use it
+<span class="fc" id="L1254">		strategy.cacheMemoizedObject(pojoMetadata, retValue);</span>
+
+<span class="pc bpc" id="L1256" title="1 of 2 branches missed.">		if (retValue != null) {</span>
+<span class="fc" id="L1257">			populatePojo(retValue, pojos, genericTypeArgs);</span>
+		}
+
+<span class="fc" id="L1260">		return retValue;</span>
+	}
+
+	/**
+	 * Fills given class filled with values dictated by the strategy
+	 *
+	 * @param &lt;T&gt;
+	 *            The type for which should be populated
+	 * @param pojo
+	 *            An instance to be filled with dummy values
+	 * @param pojos
+	 *            How many times {@code pojoClass} has been found. This will be
+	 *            used for reentrant objects
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return An instance of &amp;lt;T&amp;gt; filled with dummy values
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If manufactured class cannot be loaded
+	 */
+	@SuppressWarnings(UNCHECKED_STR)
+	private &lt;T&gt; T populatePojo(T pojo, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L1293">		Class&lt;?&gt; pojoClass = pojo.getClass();</span>
+<span class="fc bfc" id="L1294" title="All 4 branches covered.">		if (pojo instanceof Collection &amp;&amp; ((Collection&lt;?&gt;)pojo).size() == 0) {</span>
+<span class="fc" id="L1295">			fillCollection((Collection&lt;? super Object&gt;)pojo, pojos, genericTypeArgs);</span>
+<span class="fc bfc" id="L1296" title="All 4 branches covered.">		} else if (pojo instanceof Map &amp;&amp; ((Map&lt;?,?&gt;)pojo).size() == 0) {</span>
+<span class="fc" id="L1297">			fillMap((Map&lt;? super Object,? super Object&gt;)pojo, pojos, genericTypeArgs);</span>
+		}
+
+<span class="fc" id="L1300">		Class&lt;?&gt;[] parameterTypes = null;</span>
+<span class="fc" id="L1301">		Class&lt;?&gt; attributeType = null;</span>
+
+<span class="fc" id="L1303">		ClassInfo classInfo = classInfoStrategy.getClassInfo(pojo.getClass());</span>
+
+<span class="fc" id="L1305">		final Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+
+<span class="fc" id="L1307">		Set&lt;ClassAttribute&gt; classAttributes = classInfo.getClassAttributes();</span>
+
+		// According to JavaBeans standards, setters should have only
+		// one argument
+<span class="fc" id="L1311">		Object setterArg = null;</span>
+<span class="fc" id="L1312">		Iterator&lt;ClassAttribute&gt; iter = classAttributes.iterator();</span>
+<span class="fc bfc" id="L1313" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+
+<span class="fc" id="L1315">			ClassAttribute attribute = iter.next();</span>
+<span class="fc" id="L1316">			Set&lt;Method&gt; setters = attribute.getSetters();</span>
+<span class="fc bfc" id="L1317" title="All 2 branches covered.">			if (setters.isEmpty()) {</span>
+<span class="fc bfc" id="L1318" title="All 2 branches covered.">				if (attribute.getGetters().isEmpty()) {</span>
+<span class="fc" id="L1319">					iter.remove();</span>
+				}
+				continue;
+			} else {
+<span class="fc" id="L1323">				iter.remove();</span>
+			}
+
+			/* We want to find setter defined the latest */
+<span class="fc" id="L1327">			Method setter = null;</span>
+<span class="fc bfc" id="L1328" title="All 2 branches covered.">			for (Method current : setters) {</span>
+<span class="pc bpc" id="L1329" title="1 of 4 branches missed.">				if (setter == null || setter.getDeclaringClass().isAssignableFrom(current.getDeclaringClass())) {</span>
+<span class="fc" id="L1330">					setter = current;</span>
+				}
+<span class="fc" id="L1332">			}</span>
+
+<span class="fc" id="L1334">			parameterTypes = setter.getParameterTypes();</span>
+<span class="fc bfc" id="L1335" title="All 2 branches covered.">			if (parameterTypes.length != 1) {</span>
+<span class="fc" id="L1336">				LOG.warn(&quot;Skipping setter with non-single arguments {}&quot;,</span>
+						setter);
+<span class="fc" id="L1338">				continue;</span>
+			}
+
+			// A class which has got an attribute to itself (e.g.
+			// recursive hierarchies)
+<span class="fc" id="L1343">			attributeType = parameterTypes[0];</span>
+
+			// If an attribute has been annotated with
+			// PodamAttributeStrategy, it takes the precedence over any
+			// other strategy. Additionally we don't pass the attribute
+			// metadata for value customisation; if user went to the extent
+			// of specifying a PodamAttributeStrategy annotation for an
+			// attribute they are already customising the value assigned to
+			// that attribute.
+
+<span class="fc" id="L1353">			String attributeName = PodamUtils</span>
+					.extractFieldNameFromSetterMethod(setter);
+<span class="fc" id="L1355">			List&lt;Annotation&gt; pojoAttributeAnnotations</span>
+					= PodamUtils.getFieldAnnotations(pojo.getClass(),
+							attributeName);
+<span class="fc bfc" id="L1358" title="All 2 branches covered.">			for (Annotation annotation : setter.getParameterAnnotations()[0]) {</span>
+<span class="fc" id="L1359">				pojoAttributeAnnotations.add(annotation);</span>
+			}
+
+<span class="fc" id="L1362">			AttributeStrategy&lt;?&gt; attributeStrategy</span>
+					= findAttributeStrategy(pojoAttributeAnnotations, attributeType);
+<span class="fc bfc" id="L1364" title="All 2 branches covered.">			if (null != attributeStrategy) {</span>
+
+<span class="fc" id="L1366">				LOG.debug(&quot;The attribute: &quot; + attributeName</span>
+						+ &quot; will be filled using the following strategy: &quot;
+						+ attributeStrategy);
+
+<span class="fc" id="L1370">				setterArg = returnAttributeDataStrategyValue(attributeType,</span>
+						attributeStrategy);
+
+			} else {
+
+<span class="fc bfc" id="L1375" title="All 2 branches covered.">				if (typeArgsMap.isEmpty()) {</span>
+<span class="fc" id="L1376">					Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,</span>
+							pojoClass, genericTypeArgs);
+<span class="fc bfc" id="L1378" title="All 2 branches covered.">					if (genericTypeArgsExtra != null) {</span>
+<span class="fc" id="L1379">						LOG.warn(&quot;Lost generic type arguments {}&quot;,</span>
+								Arrays.toString(genericTypeArgsExtra));
+					}
+				}
+
+<span class="fc" id="L1384">				Type[] typeArguments = NO_TYPES;</span>
+				// If the parameter is a generic parameterized type resolve
+				// the actual type arguments
+<span class="fc bfc" id="L1387" title="All 2 branches covered.">				if (setter.getGenericParameterTypes()[0] instanceof ParameterizedType) {</span>
+<span class="fc" id="L1388">					final ParameterizedType attributeParameterizedType = (ParameterizedType) setter</span>
+							.getGenericParameterTypes()[0];
+<span class="fc" id="L1390">					typeArguments = attributeParameterizedType</span>
+							.getActualTypeArguments();
+<span class="fc bfc" id="L1392" title="All 2 branches covered.">				} else if (setter.getGenericParameterTypes()[0] instanceof TypeVariable) {</span>
+<span class="fc" id="L1393">					final TypeVariable&lt;?&gt; typeVariable = (TypeVariable&lt;?&gt;) setter</span>
+							.getGenericParameterTypes()[0];
+<span class="fc" id="L1395">					Type type = typeArgsMap.get(typeVariable.getName());</span>
+<span class="fc bfc" id="L1396" title="All 2 branches covered.">					if (type instanceof ParameterizedType) {</span>
+<span class="fc" id="L1397">						final ParameterizedType attributeParameterizedType = (ParameterizedType) type;</span>
+
+<span class="fc" id="L1399">						typeArguments = attributeParameterizedType</span>
+								.getActualTypeArguments();
+<span class="fc" id="L1401">						attributeType = (Class&lt;?&gt;) attributeParameterizedType</span>
+								.getRawType();
+<span class="fc" id="L1403">					} else {</span>
+<span class="fc" id="L1404">						attributeType = (Class&lt;?&gt;) type;</span>
+					}
+				}
+<span class="fc" id="L1407">				AtomicReference&lt;Type[]&gt; typeGenericTypeArgs</span>
+						= new AtomicReference&lt;Type[]&gt;(NO_TYPES);
+<span class="fc bfc" id="L1409" title="All 2 branches covered.">				for (int i = 0; i &lt; typeArguments.length; i++) {</span>
+<span class="fc bfc" id="L1410" title="All 2 branches covered.">					if (typeArguments[i] instanceof TypeVariable) {</span>
+<span class="fc" id="L1411">						Class&lt;?&gt; resolvedType = resolveGenericParameter(typeArguments[i],</span>
+								typeArgsMap, typeGenericTypeArgs);
+<span class="fc bfc" id="L1413" title="All 4 branches covered.">						if (!Collection.class.isAssignableFrom(resolvedType) &amp;&amp; !Map.class.isAssignableFrom(resolvedType)) {</span>
+<span class="fc" id="L1414">							typeArguments[i] = resolvedType;</span>
+						}
+					}
+				}
+
+<span class="fc" id="L1419">				setterArg = manufactureAttributeValue(pojo, pojos,</span>
+						attributeType, setter.getGenericParameterTypes()[0],
+						pojoAttributeAnnotations, attributeName,
+						typeArgsMap, typeArguments);
+			}
+
+			try {
+<span class="fc" id="L1426">				setter.invoke(pojo, setterArg);</span>
+<span class="fc" id="L1427">			} catch(IllegalAccessException e) {</span>
+<span class="fc" id="L1428">				LOG.warn(&quot;{} is not accessible. Setting it to accessible.&quot;</span>
+						+ &quot; However this is a security hack and your code&quot;
+						+ &quot; should really adhere to JavaBeans standards.&quot;,
+						setter.toString());
+<span class="fc" id="L1432">				setter.setAccessible(true);</span>
+<span class="fc" id="L1433">				setter.invoke(pojo, setterArg);</span>
+<span class="fc" id="L1434">			}</span>
+<span class="fc" id="L1435">		}</span>
+
+<span class="fc bfc" id="L1437" title="All 2 branches covered.">		for (ClassAttribute readOnlyAttribute : classAttributes) {</span>
+
+<span class="fc" id="L1439">			Method getter = readOnlyAttribute.getGetters().iterator().next();</span>
+<span class="pc bpc" id="L1440" title="1 of 4 branches missed.">			if (getter != null &amp;&amp; !getter.getReturnType().isPrimitive()) {</span>
+
+<span class="pc bpc" id="L1442" title="1 of 2 branches missed.">				if (getter.getGenericParameterTypes().length == 0) {</span>
+
+<span class="fc" id="L1444">					Object fieldValue = null;</span>
+					try {
+<span class="fc" id="L1446">						fieldValue = getter.invoke(pojo, NO_ARGS);</span>
+<span class="fc" id="L1447">					} catch(Exception e) {</span>
+<span class="fc" id="L1448">						LOG.debug(&quot;Cannot access {}, skipping&quot;, getter);</span>
+<span class="fc" id="L1449">					}</span>
+<span class="fc bfc" id="L1450" title="All 2 branches covered.">					if (fieldValue != null) {</span>
+
+<span class="fc" id="L1452">						LOG.debug(&quot;Populating read-only field {}&quot;, getter);</span>
+						Type[] genericTypeArgsAll;
+<span class="fc bfc" id="L1454" title="All 2 branches covered.">						if (getter.getGenericReturnType() instanceof ParameterizedType) {</span>
+
+<span class="fc bfc" id="L1456" title="All 2 branches covered.">							if (typeArgsMap.isEmpty()) {</span>
+<span class="fc" id="L1457">								Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,</span>
+										pojoClass, genericTypeArgs);
+<span class="pc bpc" id="L1459" title="1 of 2 branches missed.">								if (genericTypeArgsExtra != null) {</span>
+<span class="nc" id="L1460">									LOG.warn(&quot;Lost generic type arguments {}&quot;,</span>
+											Arrays.toString(genericTypeArgsExtra));
+								}
+							}
+
+<span class="fc" id="L1465">							ParameterizedType paramType</span>
+									= (ParameterizedType) getter.getGenericReturnType();
+<span class="fc" id="L1467">							Type[] actualTypes = paramType.getActualTypeArguments();</span>
+<span class="fc" id="L1468">							genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(</span>
+									actualTypes, genericTypeArgs,
+									typeArgsMap);
+<span class="fc" id="L1471">						} else {</span>
+
+<span class="fc" id="L1473">							genericTypeArgsAll = genericTypeArgs;</span>
+						}
+
+<span class="fc bfc" id="L1476" title="All 2 branches covered.">						if (getter.getReturnType().getTypeParameters().length &gt; genericTypeArgsAll.length) {</span>
+
+<span class="fc" id="L1478">							Type[] missing = new Type[</span>
+									getter.getReturnType().getTypeParameters().length
+									- genericTypeArgsAll.length];
+<span class="fc bfc" id="L1481" title="All 2 branches covered.">							for (int i = 0; i &lt; missing.length; i++) {</span>
+<span class="fc" id="L1482">								missing[i] = Object.class;</span>
+							}
+<span class="fc" id="L1484">							LOG.warn(&quot;Missing type parameters, appended {}&quot;,</span>
+									Arrays.toString(missing));
+<span class="fc" id="L1486">							genericTypeArgsAll =</span>
+									mergeTypeArrays(genericTypeArgsAll, missing);
+						}
+
+<span class="fc" id="L1490">						Class&lt;?&gt; fieldClass = fieldValue.getClass();</span>
+<span class="fc" id="L1491">						Integer depth = pojos.get(fieldClass);</span>
+<span class="fc bfc" id="L1492" title="All 2 branches covered.">						if (depth == null) {</span>
+<span class="fc" id="L1493">							depth = -1;</span>
+						}
+<span class="fc bfc" id="L1495" title="All 2 branches covered.">						if (depth &lt;= strategy.getMaxDepth(fieldClass)) {</span>
+
+<span class="fc" id="L1497">							pojos.put(fieldClass, depth + 1);</span>
+<span class="fc" id="L1498">							populatePojo(fieldValue, pojos, genericTypeArgsAll);</span>
+<span class="fc" id="L1499">							pojos.put(fieldClass, depth);</span>
+
+						} else {
+
+<span class="fc" id="L1503">							LOG.warn(&quot;Loop in filling read-only field {} detected.&quot;,</span>
+									getter);
+						}
+					}
+<span class="fc" id="L1507">				} else {</span>
+
+<span class="nc" id="L1509">					LOG.warn(&quot;Skipping invalid getter {}&quot;, getter);</span>
+				}
+			}
+<span class="fc" id="L1512">		}</span>
+
+		// It executes any extra methods
+<span class="fc" id="L1515">		Collection&lt;Method&gt; extraMethods = classInfoStrategy.getExtraMethods(pojoClass);</span>
+<span class="fc bfc" id="L1516" title="All 2 branches covered.">		if (null != extraMethods) {</span>
+<span class="fc bfc" id="L1517" title="All 2 branches covered.">			for (Method extraMethod : extraMethods) {</span>
+
+<span class="fc" id="L1519">				Class&lt;?&gt;[] argTypes = extraMethod.getParameterTypes();</span>
+<span class="fc" id="L1520">				Type[] genericTypes = extraMethod.getGenericParameterTypes();</span>
+<span class="fc" id="L1521">				Annotation[][] annotations = extraMethod.getParameterAnnotations();</span>
+
+<span class="fc" id="L1523">				Object[] args = new Object[argTypes.length];</span>
+<span class="fc bfc" id="L1524" title="All 2 branches covered.">				for (int i = 0; i &lt; argTypes.length; i++) {</span>
+
+<span class="fc" id="L1526">					List&lt;Annotation&gt; paramAnnotations = Arrays.asList(annotations[i]);</span>
+<span class="fc" id="L1527">					args[i] = manufactureParameterValue(pojos, argTypes[i],</span>
+							genericTypes[i], paramAnnotations, typeArgsMap,
+							genericTypeArgs);
+				}
+<span class="fc" id="L1531">				extraMethod.invoke(pojo, args);</span>
+<span class="fc" id="L1532">			}</span>
+		}
+
+<span class="fc" id="L1535">		return pojo;</span>
+	}
+
+	/**
+	 * It manufactures and returns the value for a POJO method parameter.
+	 *
+	 *
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param parameterType
+	 *            The type of the attribute for which a value is being
+	 *            manufactured
+	 * @param genericType
+	 *            The generic type of the attribute for which a value is being
+	 *            manufactured
+	 * @param annotations
+	 *            The annotations for the attribute being considered
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return The value for a parameter
+	 *
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 * @throws IllegalArgumentException
+	 *             &lt;ul&gt;
+	 *             &lt;li&gt;If an illegal argument was passed&lt;/li&gt;
+	 *             &lt;li&gt;If an invalid value was set for a precise value in an
+	 *             annotation and such value could not be converted to the
+	 *             desired type&lt;/li&gt;
+	 *             &lt;/ul&gt;
+	 *
+	 */
+	private Object manufactureParameterValue(Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Class&lt;?&gt; parameterType, Type genericType,
+			List&lt;Annotation&gt; annotations, Map&lt;String, Type&gt; typeArgsMap,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L1585">		String attributeName = null;</span>
+
+<span class="fc" id="L1587">		return manufactureAttributeValue(OBJECT, pojos, parameterType,</span>
+				genericType, annotations, attributeName, typeArgsMap,
+				genericTypeArgs);
+	}
+
+	/**
+	 * It manufactures and returns the value for a POJO attribute.
+	 *
+	 *
+	 * @param pojo
+	 *            The POJO being filled with values
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param attributeType
+	 *            The type of the attribute for which a value is being
+	 *            manufactured
+	 * @param genericAttributeType
+	 *            The generic type of the attribute for which a value is being
+	 *            manufactured
+	 * @param annotations
+	 *            The annotations for the attribute being considered
+	 * @param attributeName
+	 *            The attribute name
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return The value for an attribute
+	 *
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 * @throws IllegalArgumentException
+	 *             &lt;ul&gt;
+	 *             &lt;li&gt;If an illegal argument was passed&lt;/li&gt;
+	 *             &lt;li&gt;If an invalid value was set for a precise value in an
+	 *             annotation and such value could not be converted to the
+	 *             desired type&lt;/li&gt;
+	 *             &lt;/ul&gt;
+	 *
+	 */
+	private Object manufactureAttributeValue(Object pojo,
+			Map&lt;Class&lt;?&gt;, Integer&gt; pojos, Class&lt;?&gt; attributeType,
+			Type genericAttributeType, List&lt;Annotation&gt; annotations,
+			String attributeName, Map&lt;String, Type&gt; typeArgsMap,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+<span class="fc" id="L1643">		Object attributeValue = null;</span>
+
+		Class&lt;?&gt; realAttributeType;
+<span class="fc bfc" id="L1646" title="All 4 branches covered.">		if (Object.class.equals(attributeType) &amp;&amp; attributeType != genericAttributeType) {</span>
+<span class="fc" id="L1647">			AtomicReference&lt;Type[]&gt; elementGenericTypeArgs</span>
+					= new AtomicReference&lt;Type[]&gt;(NO_TYPES);
+<span class="fc" id="L1649">			realAttributeType = resolveGenericParameter(genericAttributeType,</span>
+					typeArgsMap, elementGenericTypeArgs);
+<span class="fc" id="L1651">		} else {</span>
+<span class="fc" id="L1652">			realAttributeType = attributeType;</span>
+		}
+<span class="fc" id="L1654">		AttributeMetadata attributeMetadata = new AttributeMetadata(</span>
+				attributeName, realAttributeType, genericTypeArgs, annotations,
+				pojo.getClass());
+
+		// Primitive type
+<span class="fc bfc" id="L1659" title="All 2 branches covered.">		if (realAttributeType.isPrimitive()) {</span>
+
+<span class="fc" id="L1661">			attributeValue = resolvePrimitiveValue(realAttributeType,</span>
+					annotations, attributeMetadata);
+
+			// Wrapper type
+<span class="fc bfc" id="L1665" title="All 2 branches covered.">		} else if (isWrapper(realAttributeType)) {</span>
+
+<span class="fc" id="L1667">			attributeValue = resolveWrapperValue(realAttributeType,</span>
+					annotations, attributeMetadata);
+
+			// String type
+<span class="fc bfc" id="L1671" title="All 2 branches covered.">		} else if (realAttributeType.equals(String.class)) {</span>
+
+<span class="fc" id="L1673">			attributeValue = resolveStringValue(annotations, attributeMetadata);</span>
+
+<span class="fc bfc" id="L1675" title="All 2 branches covered.">		} else if (realAttributeType.isArray()) {</span>
+
+			// Array type
+
+<span class="fc" id="L1679">			attributeValue = resolveArrayElementValue(realAttributeType,</span>
+					genericAttributeType, attributeName, pojos, annotations, pojo,
+					typeArgsMap);
+
+			// Otherwise it's a different type of Object (including
+			// the Object class)
+<span class="fc bfc" id="L1685" title="All 2 branches covered.">		} else if (Collection.class.isAssignableFrom(realAttributeType)) {</span>
+
+<span class="fc" id="L1687">			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(</span>
+					pojo, pojos, realAttributeType, attributeName,
+					annotations, typeArgsMap, genericTypeArgs);
+
+<span class="fc bfc" id="L1691" title="All 2 branches covered.">		} else if (Map.class.isAssignableFrom(realAttributeType)) {</span>
+
+<span class="fc" id="L1693">			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,</span>
+					pojos, realAttributeType, attributeName, annotations,
+					typeArgsMap, genericTypeArgs);
+
+<span class="fc bfc" id="L1697" title="All 2 branches covered.">		} else if (realAttributeType.isEnum()) {</span>
+
+			// Enum type
+<span class="fc" id="L1700">			int enumConstantsLength = realAttributeType.getEnumConstants().length;</span>
+
+<span class="pc bpc" id="L1702" title="1 of 2 branches missed.">			if (enumConstantsLength &gt; 0) {</span>
+<span class="fc" id="L1703">				int enumIndex = strategy.getIntegerInRange(0,</span>
+						enumConstantsLength, attributeMetadata)
+						% enumConstantsLength;
+<span class="fc" id="L1706">				attributeValue = realAttributeType.getEnumConstants()[enumIndex];</span>
+			}
+
+<span class="fc bfc" id="L1709" title="All 2 branches covered.">		} else if (Type.class.isAssignableFrom(realAttributeType)) {</span>
+
+<span class="fc" id="L1711">			Type paremeterType = null;</span>
+<span class="pc bpc" id="L1712" title="1 of 2 branches missed.">			if (genericAttributeType instanceof ParameterizedType) {</span>
+<span class="fc" id="L1713">				ParameterizedType parametrized =  (ParameterizedType) genericAttributeType;</span>
+<span class="fc" id="L1714">				Type[] arguments = parametrized.getActualTypeArguments();</span>
+<span class="pc bpc" id="L1715" title="1 of 2 branches missed.">				if (arguments.length &gt; 0) {</span>
+<span class="fc" id="L1716">					paremeterType = arguments[0];</span>
+				}
+<span class="pc bnc" id="L1718" title="All 2 branches missed.">			} else if (realAttributeType.getTypeParameters().length &gt; 0) {</span>
+<span class="nc" id="L1719">				paremeterType = realAttributeType.getTypeParameters()[0];</span>
+			}
+
+<span class="pc bpc" id="L1722" title="1 of 2 branches missed.">			if (paremeterType != null) {</span>
+<span class="fc" id="L1723">				AtomicReference&lt;Type[]&gt; elementGenericTypeArgs</span>
+						= new AtomicReference&lt;Type[]&gt;(NO_TYPES);
+<span class="fc" id="L1725">				attributeValue = resolveGenericParameter(paremeterType,</span>
+						typeArgsMap, elementGenericTypeArgs);
+<span class="fc" id="L1727">			} else {</span>
+<span class="nc" id="L1728">				LOG.error(&quot;{} is missing generic type argument, supplied {} {}&quot;,</span>
+						genericAttributeType, typeArgsMap,
+						Arrays.toString(genericTypeArgs));
+			}
+
+		}
+
+		// For any other type, we use the PODAM strategy
+<span class="fc bfc" id="L1736" title="All 2 branches covered.">		if (attributeValue == null) {</span>
+
+<span class="fc" id="L1738">			TypeVariable&lt;?&gt;[] typeParams = attributeType.getTypeParameters();</span>
+<span class="fc" id="L1739">			Type[] genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(</span>
+					typeParams, genericTypeArgs, typeArgsMap);
+
+<span class="fc" id="L1742">			Integer depth = pojos.get(realAttributeType);</span>
+<span class="fc bfc" id="L1743" title="All 2 branches covered.">			if (depth == null) {</span>
+<span class="fc" id="L1744">				depth = -1;</span>
+			}
+<span class="fc bfc" id="L1746" title="All 2 branches covered.">			if (depth &lt;= strategy.getMaxDepth(pojo.getClass())) {</span>
+
+<span class="fc" id="L1748">				pojos.put(realAttributeType, depth + 1);</span>
+
+<span class="fc" id="L1750">				attributeValue = this.manufacturePojoInternal(</span>
+						realAttributeType, attributeMetadata, pojos, genericTypeArgsAll);
+<span class="fc" id="L1752">				pojos.put(realAttributeType, depth);</span>
+
+			} else {
+
+<span class="fc" id="L1756">				LOG.warn(&quot;Loop in {} production detected. Resorting to {} external factory&quot;,</span>
+						realAttributeType, externalFactory.getClass().getName());
+<span class="fc" id="L1758">				attributeValue = externalFactory.manufacturePojo(</span>
+						realAttributeType, genericTypeArgsAll);
+
+			}
+		}
+
+<span class="fc" id="L1764">		return attributeValue;</span>
+	}
+
+	/**
+	 * Utility to merge actual types with supplied array of generic type
+	 * substitutions
+	 *
+	 * @param actualTypes
+	 *            an array of types used for field or POJO declaration 
+	 * @param suppliedTypes
+	 *            an array of supplied types for generic type substitution 
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @return An array of merged actual and supplied types with generic types
+	 *            resolved
+	 */
+	private Type[] mergeActualAndSuppliedGenericTypes(
+			Type[] actualTypes, Type[] suppliedTypes,
+			Map&lt;String, Type&gt; typeArgsMap) {
+
+<span class="fc" id="L1785">		List&lt;Type&gt; resolvedTypes = new ArrayList&lt;Type&gt;();</span>
+<span class="fc" id="L1786">		List&lt;Type&gt; substitutionTypes = new ArrayList&lt;Type&gt;(Arrays.asList(suppliedTypes));</span>
+<span class="fc bfc" id="L1787" title="All 2 branches covered.">		for (int i = 0; i &lt; actualTypes.length; i++) {</span>
+
+<span class="fc" id="L1789">			Type type = null;</span>
+<span class="fc bfc" id="L1790" title="All 2 branches covered.">			if (actualTypes[i] instanceof TypeVariable) {</span>
+<span class="fc" id="L1791">				type = typeArgsMap.get(((TypeVariable&lt;?&gt;)actualTypes[i]).getName());</span>
+<span class="fc bfc" id="L1792" title="All 2 branches covered.">			} else if (actualTypes[i] instanceof Class) {</span>
+<span class="fc" id="L1793">				type = actualTypes[i];</span>
+<span class="pc bpc" id="L1794" title="1 of 2 branches missed.">			} else if (actualTypes[i] instanceof WildcardType) {</span>
+<span class="fc" id="L1795">				AtomicReference&lt;Type[]&gt; methodGenericTypeArgs</span>
+						= new AtomicReference&lt;Type[]&gt;(NO_TYPES);
+<span class="fc" id="L1797">				type = resolveGenericParameter(actualTypes[i], typeArgsMap,</span>
+						methodGenericTypeArgs);
+			}
+<span class="fc bfc" id="L1800" title="All 2 branches covered.">			if (type != null) {</span>
+<span class="fc" id="L1801">				resolvedTypes.add(type);</span>
+<span class="fc bfc" id="L1802" title="All 4 branches covered.">				if (!substitutionTypes.isEmpty() &amp;&amp; substitutionTypes.get(0).equals(type)) {</span>
+<span class="fc" id="L1803">					substitutionTypes.remove(0);</span>
+				}
+			}
+		}
+<span class="fc" id="L1807">		Type[] resolved = resolvedTypes.toArray(new Type[resolvedTypes.size()]);</span>
+<span class="fc" id="L1808">		Type[] supplied = substitutionTypes.toArray(new Type[substitutionTypes.size()]);</span>
+<span class="fc" id="L1809">		return mergeTypeArrays(resolved, supplied);</span>
+	}
+
+	/**
+	 * It creates and returns a String value, eventually customised by
+	 * annotations
+	 *
+	 * @param annotations
+	 *            The list of annotations used to customise the String value, if
+	 *            any
+	 * @param attributeMetadata
+	 *            Metadata of the attribute to be filled with string
+	 * @return a String value, eventually customised by annotations
+	 * @throws IllegalAccessException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy
+	 * @throws InstantiationException
+	 *             If an exception occurred while creating an instance of the
+	 *             strategy
+	 *
+	 * @throws IllegalArgumentException
+	 *             If {@link PodamStrategyValue} was specified but the type was
+	 *             not correct for the attribute being set
+	 */
+	private String resolveStringValue(List&lt;Annotation&gt; annotations,
+			AttributeMetadata attributeMetadata) throws InstantiationException,
+			IllegalAccessException {
+
+<span class="fc" id="L1837">		String retValue = null;</span>
+
+<span class="pc bpc" id="L1839" title="1 of 4 branches missed.">		if (annotations == null || annotations.isEmpty()) {</span>
+
+<span class="fc" id="L1841">			retValue = strategy.getStringValue(attributeMetadata);</span>
+
+		} else {
+
+<span class="fc bfc" id="L1845" title="All 2 branches covered.">			for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L1847" title="All 2 branches covered.">				if (!PodamStringValue.class.isAssignableFrom(annotation</span>
+						.getClass())) {
+<span class="fc" id="L1849">					continue;</span>
+				}
+
+				// A specific value takes precedence over the length
+<span class="fc" id="L1853">				PodamStringValue podamAnnotation = (PodamStringValue) annotation;</span>
+
+<span class="pc bpc" id="L1855" title="1 of 4 branches missed.">				if (podamAnnotation.strValue() != null</span>
+						&amp;&amp; podamAnnotation.strValue().length() &gt; 0) {
+
+<span class="fc" id="L1858">					retValue = podamAnnotation.strValue();</span>
+
+				} else {
+
+<span class="fc" id="L1862">					retValue = strategy.getStringOfLength(</span>
+							podamAnnotation.length(), attributeMetadata);
+
+				}
+
+<span class="fc" id="L1867">			}</span>
+
+<span class="fc bfc" id="L1869" title="All 2 branches covered.">			if (retValue == null) {</span>
+<span class="fc" id="L1870">				retValue = strategy.getStringValue(attributeMetadata);</span>
+			}
+
+		}
+
+<span class="fc" id="L1875">		return retValue;</span>
+	}
+
+	/**
+	 * It returns a {@link AttributeStrategy} if one was specified in
+	 * annotations, or {@code null} otherwise.
+	 *
+	 * @param annotations
+	 *            The list of annotations
+	 * @param attributeType
+	 *            Type of attribute expected to be returned
+	 * @return {@link AttributeStrategy}, if {@link PodamStrategyValue} or bean
+	 *         validation constraint annotation was found among annotations
+	 * @throws IllegalAccessException
+	 *         if attribute strategy cannot be instantiated
+	 * @throws InstantiationException 
+	 *         if attribute strategy cannot be instantiated
+	 */
+	private AttributeStrategy&lt;?&gt; findAttributeStrategy(
+			List&lt;Annotation&gt; annotations, Class&lt;?&gt; attributeType)
+					throws InstantiationException, IllegalAccessException {
+
+<span class="fc" id="L1897">		List&lt;Annotation&gt; localAnnotations = new ArrayList&lt;Annotation&gt;(annotations);</span>
+<span class="fc" id="L1898">		Iterator&lt;Annotation&gt; iter = localAnnotations.iterator();</span>
+<span class="fc bfc" id="L1899" title="All 2 branches covered.">		while (iter.hasNext()) {</span>
+<span class="fc" id="L1900">			Annotation annotation = iter.next();</span>
+<span class="fc bfc" id="L1901" title="All 2 branches covered.">			if (annotation instanceof PodamStrategyValue) {</span>
+<span class="fc" id="L1902">				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;</span>
+<span class="fc" id="L1903">				return strategyAnnotation.value().newInstance();</span>
+			}
+
+			/* Find real class out of proxy */
+<span class="fc" id="L1907">			Class&lt;? extends Annotation&gt; annotationClass = annotation.getClass();</span>
+<span class="pc bpc" id="L1908" title="1 of 2 branches missed.">			if (Proxy.isProxyClass(annotationClass)) {</span>
+<span class="fc" id="L1909">				Class&lt;?&gt;[] interfaces = annotationClass.getInterfaces();</span>
+<span class="pc bpc" id="L1910" title="1 of 2 branches missed.">				if (interfaces.length == 1) {</span>
+					@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L1912">					Class&lt;? extends Annotation&gt; tmp = (Class&lt;? extends Annotation&gt;) interfaces[0];</span>
+<span class="fc" id="L1913">					annotationClass = tmp;</span>
+				}
+			}
+
+			Class&lt;AttributeStrategy&lt;?&gt;&gt; attrStrategyClass;
+<span class="fc bfc" id="L1918" title="All 2 branches covered.">			if ((attrStrategyClass = strategy.getStrategyForAnnotation(annotationClass)) != null) {</span>
+<span class="fc" id="L1919">				return attrStrategyClass.newInstance();</span>
+			}
+
+<span class="fc bfc" id="L1922" title="All 2 branches covered.">			if (annotation.annotationType().getAnnotation(Constraint.class) != null) {</span>
+<span class="fc bfc" id="L1923" title="All 2 branches covered.">				if (annotation instanceof NotNull) {</span>
+					/* We don't need to do anything for NotNull constraint */
+<span class="fc" id="L1925">					iter.remove();</span>
+<span class="pc bpc" id="L1926" title="1 of 2 branches missed.">				} else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {</span>
+<span class="nc" id="L1927">					LOG.warn(&quot;Please, registrer AttributeStratergy for custom &quot;</span>
+							+ &quot;constraint {}, in DataProviderStrategy! Value &quot;
+							+ &quot;will be left to null&quot;, annotation);
+				}
+			} else {
+<span class="fc" id="L1932">				iter.remove();</span>
+			}
+<span class="fc" id="L1934">		}</span>
+
+<span class="fc" id="L1936">		AttributeStrategy&lt;?&gt; retValue = null;</span>
+<span class="pc bpc" id="L1937" title="2 of 8 branches missed.">		if (!localAnnotations.isEmpty()</span>
+				&amp;&amp; !Collection.class.isAssignableFrom(attributeType)
+				&amp;&amp; !Map.class.isAssignableFrom(attributeType)
+				&amp;&amp; !attributeType.isArray()) {
+
+<span class="fc" id="L1942">			retValue = new BeanValidationStrategy(localAnnotations, attributeType);</span>
+		}
+
+<span class="fc" id="L1945">		return retValue;</span>
+	}
+
+	/**
+	 * It returns {@code true} if this class is a wrapper class, {@code false}
+	 * otherwise
+	 *
+	 * @param candidateWrapperClass
+	 *            The class to check
+	 * @return {@code true} if this class is a wrapper class, {@code false}
+	 *         otherwise
+	 */
+	private boolean isWrapper(Class&lt;?&gt; candidateWrapperClass) {
+
+<span class="fc bfc" id="L1959" title="All 16 branches covered.">		return candidateWrapperClass.equals(Byte.class) ? true</span>
+				: candidateWrapperClass.equals(Boolean.class) ? true
+						: candidateWrapperClass.equals(Character.class) ? true
+								: candidateWrapperClass.equals(Short.class) ? true
+										: candidateWrapperClass
+												.equals(Integer.class) ? true
+												: candidateWrapperClass
+														.equals(Long.class) ? true
+														: candidateWrapperClass
+																.equals(Float.class) ? true
+																: candidateWrapperClass
+																		.equals(Double.class) ? true
+																		: false;
+	}
+
+	/**
+	 * It returns a collection of some sort with some data in it.
+	 *
+	 *
+	 * @param pojo
+	 *            The POJO being analyzed
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param collectionType
+	 *            The type of the attribute being evaluated
+	 * @param annotations
+	 *            The set of annotations for the annotated attribute. It might
+	 *            be empty
+	 * @param attributeName
+	 *            The name of the field being set
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return a collection of some sort with some data in it
+	 * @throws PodamMockeryException
+	 *             An exception occurred while resolving the collection
+	 * @throws IllegalArgumentException
+	 *             If the field name is null or empty
+	 */
+	private Collection&lt;? super Object&gt; resolveCollectionValueWhenCollectionIsPojoAttribute(
+			Object pojo, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Class&lt;?&gt; collectionType, String attributeName,
+			List&lt;Annotation&gt; annotations, Map&lt;String, Type&gt; typeArgsMap,
+			Type... genericTypeArgs) {
+
+		// This needs to be generic because collections can be of any type
+<span class="fc" id="L2008">		Collection&lt;? super Object&gt; retValue = null;</span>
+<span class="pc bpc" id="L2009" title="1 of 4 branches missed.">		if (null != pojo &amp;&amp; null != attributeName) {</span>
+
+<span class="fc" id="L2011">			retValue = PodamUtils.getFieldValue(pojo, attributeName);</span>
+		}
+
+<span class="fc" id="L2014">		retValue = resolveCollectionType(collectionType, retValue);</span>
+
+<span class="fc bfc" id="L2016" title="All 2 branches covered.">		if (null == retValue) {</span>
+<span class="fc" id="L2017">			return null;</span>
+		}
+
+		try {
+
+<span class="fc" id="L2022">			Class&lt;?&gt; typeClass = null;</span>
+
+<span class="fc" id="L2024">			AtomicReference&lt;Type[]&gt; elementGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+					NO_TYPES);
+<span class="pc bpc" id="L2026" title="1 of 4 branches missed.">			if (genericTypeArgs == null || genericTypeArgs.length == 0) {</span>
+
+<span class="fc" id="L2028">				LOG.warn(&quot;The collection attribute: &quot;</span>
+						+ attributeName
+						+ &quot; does not have a type. We will assume Object for you&quot;);
+				// Support for non-generified collections
+<span class="fc" id="L2032">				typeClass = Object.class;</span>
+
+			} else {
+<span class="fc" id="L2035">				Type actualTypeArgument = genericTypeArgs[0];</span>
+
+<span class="fc" id="L2037">				typeClass = resolveGenericParameter(actualTypeArgument,</span>
+						typeArgsMap, elementGenericTypeArgs);
+			}
+
+<span class="fc" id="L2041">			fillCollection(pojos, annotations, attributeName, retValue, typeClass,</span>
+					elementGenericTypeArgs.get());
+
+<span class="nc" id="L2044">		} catch (SecurityException e) {</span>
+<span class="nc" id="L2045">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="nc" id="L2047">		} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L2048">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="nc" id="L2050">		} catch (InstantiationException e) {</span>
+<span class="nc" id="L2051">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="nc" id="L2053">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L2054">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="nc" id="L2056">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L2057">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="nc" id="L2059">		} catch (InvocationTargetException e) {</span>
+<span class="nc" id="L2060">			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,</span>
+					e);
+<span class="fc" id="L2062">		}</span>
+
+<span class="fc" id="L2064">		return retValue;</span>
+	}
+
+	/**
+	 * It fills a collection with the required number of elements of the
+	 * required type.
+	 *
+	 * &lt;p&gt;
+	 * This method has a so-called side effect. It updates the collection passed
+	 * as argument.
+	 * &lt;/p&gt;
+	 *
+	 * @param collection
+	 *          The Collection to be filled
+	 * @param pojos
+	 *          Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *          The generic type arguments for the current generic class
+	 *          instance
+	 * @throws InstantiationException
+	 *          If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *          If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *          If an exception occurred while invoking the constructor or
+	 *          factory method
+	 * @throws ClassNotFoundException
+	 *          If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillCollection(Collection&lt;? super Object&gt; collection,
+			Map&lt;Class&lt;?&gt;, Integer&gt; pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L2099">		final Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L2100">		Class&lt;?&gt; pojoClass = collection.getClass();</span>
+<span class="fc" id="L2101">		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,</span>
+				pojoClass, genericTypeArgs);
+
+<span class="fc" id="L2104">		Annotation[] annotations = collection.getClass().getAnnotations();</span>
+<span class="fc" id="L2105">		AtomicReference&lt;Type[]&gt; elementGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+				NO_TYPES);
+<span class="fc" id="L2107">		Class&lt;?&gt; collectionClass = pojoClass;</span>
+<span class="fc" id="L2108">		Type[] typeParams = collectionClass.getTypeParameters();</span>
+<span class="fc bfc" id="L2109" title="All 2 branches covered.">		main : while (typeParams.length &lt; 1) {</span>
+<span class="fc bfc" id="L2110" title="All 2 branches covered.">			for (Type genericIface : collectionClass.getGenericInterfaces()) {</span>
+<span class="fc" id="L2111">				Class&lt;?&gt; clazz = resolveGenericParameter(genericIface,</span>
+						typeArgsMap, elementGenericTypeArgs);
+<span class="fc bfc" id="L2113" title="All 2 branches covered.">				if (Collection.class.isAssignableFrom(clazz)) {</span>
+<span class="fc" id="L2114">					collectionClass = clazz;</span>
+<span class="fc" id="L2115">					typeParams = elementGenericTypeArgs.get();</span>
+<span class="fc" id="L2116">					continue main;</span>
+				}
+			}
+<span class="fc" id="L2119">			Type type = collectionClass.getGenericSuperclass();</span>
+<span class="fc bfc" id="L2120" title="All 2 branches covered.">			if (type != null) {</span>
+<span class="fc" id="L2121">				Class&lt;?&gt; clazz = resolveGenericParameter(type, typeArgsMap,</span>
+						elementGenericTypeArgs);
+<span class="pc bpc" id="L2123" title="1 of 2 branches missed.">				if (Collection.class.isAssignableFrom(clazz)) {</span>
+<span class="fc" id="L2124">					collectionClass = clazz;</span>
+<span class="fc" id="L2125">					typeParams = elementGenericTypeArgs.get();</span>
+<span class="fc" id="L2126">					continue main;</span>
+				}
+			}
+<span class="pc bpc" id="L2129" title="1 of 2 branches missed.">			if (Collection.class.equals(collectionClass)) {</span>
+<span class="fc" id="L2130">				LOG.warn(&quot;Collection {} doesn't have generic types,&quot;</span>
+						+ &quot;will use Object instead&quot;, pojoClass);
+<span class="fc" id="L2132">				typeParams = new Type[] { Object.class };</span>
+			}
+<span class="fc" id="L2134">		}</span>
+<span class="fc" id="L2135">		Class&lt;?&gt; elementTypeClass = resolveGenericParameter(typeParams[0],</span>
+					typeArgsMap, elementGenericTypeArgs);
+<span class="fc" id="L2137">		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),</span>
+				genericTypeArgsExtra);
+<span class="fc" id="L2139">		String attributeName = null;</span>
+<span class="fc" id="L2140">		fillCollection(pojos, Arrays.asList(annotations), attributeName,</span>
+				collection, elementTypeClass, elementGenericArgs);
+<span class="fc" id="L2142">	}</span>
+
+	/**
+	 * It fills a collection with the required number of elements of the
+	 * required type.
+	 *
+	 * &lt;p&gt;
+	 * This method has a so-called side effect. It updates the collection passed
+	 * as argument.
+	 * &lt;/p&gt;
+	 *
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param annotations
+	 *            The annotations for this attribute
+	 * @param attributeName
+	 *            The attribute name of collection in enclosing POJO class 
+	 * @param collection
+	 *            The Collection to be filled
+	 * @param collectionElementType
+	 *            The type of the collection element
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillCollection(Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			List&lt;Annotation&gt; annotations, String attributeName,
+			Collection&lt;? super Object&gt; collection,
+			Class&lt;?&gt; collectionElementType, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+<span class="fc" id="L2186">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; elementStrategyHolder</span>
+				= new Holder&lt;AttributeStrategy&lt;?&gt;&gt;();
+<span class="fc" id="L2188">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; keyStrategyHolder = null;</span>
+<span class="fc" id="L2189">		Integer nbrElements = findCollectionSize(annotations,</span>
+				collectionElementType, elementStrategyHolder, keyStrategyHolder);
+<span class="fc" id="L2191">		AttributeStrategy&lt;?&gt; elementStrategy = elementStrategyHolder.value;</span>
+
+		try {
+<span class="fc bfc" id="L2194" title="All 2 branches covered.">			if (collection.size() &gt; nbrElements) {</span>
+
+<span class="fc" id="L2196">				collection.clear();</span>
+			}
+
+<span class="fc bfc" id="L2199" title="All 2 branches covered.">			for (int i = collection.size(); i &lt; nbrElements; i++) {</span>
+
+				// The default
+				Object element;
+<span class="fc bfc" id="L2203" title="All 6 branches covered.">				if (null != elementStrategy</span>
+						&amp;&amp; (elementStrategy instanceof ObjectStrategy)
+								&amp;&amp; Object.class.equals(collectionElementType)) {
+<span class="fc" id="L2206">					LOG.debug(&quot;Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy&quot;);</span>
+<span class="fc" id="L2207">					element = elementStrategy.getValue();</span>
+<span class="fc bfc" id="L2208" title="All 4 branches covered.">				} else if (null != elementStrategy</span>
+						&amp;&amp; !(elementStrategy instanceof ObjectStrategy)) {
+<span class="fc" id="L2210">					LOG.debug(&quot;Collection elements will be filled using the following strategy: &quot;</span>
+							+ elementStrategy);
+<span class="fc" id="L2212">					element = returnAttributeDataStrategyValue(</span>
+							collectionElementType, elementStrategy);
+				} else {
+<span class="fc" id="L2215">					Map&lt;String, Type&gt; nullTypeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L2216">					element = manufactureAttributeValue(collection, pojos,</span>
+							collectionElementType, collectionElementType,
+							annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
+				}
+<span class="fc" id="L2220">				collection.add(element);</span>
+			}
+<span class="fc" id="L2222">		} catch (UnsupportedOperationException e) {</span>
+
+<span class="fc" id="L2224">			LOG.warn(&quot;Cannot fill immutable collection {}&quot;, collection.getClass());</span>
+<span class="fc" id="L2225">		}</span>
+<span class="fc" id="L2226">	}</span>
+
+	/**
+	 * It manufactures and returns a Map with at least one element in it
+	 *
+	 * @param pojo
+	 *            The POJO being initialized
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param attributeType
+	 *            The type of the POJO map attribute
+	 * @param attributeName
+	 *            The POJO attribute name
+	 * @param annotations
+	 *            The annotations specified for this attribute
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return Map with at least one element in it
+	 *
+	 * @throws IllegalArgumentException
+	 *             &lt;ul&gt;
+	 *             &lt;li&gt;If the attribute name is null or empty&lt;/li&gt;
+	 *             &lt;li&gt;If the array of types of the Map has length different
+	 *             from 2&lt;/li&gt;
+	 *             &lt;/ul&gt;
+	 *
+	 * @throws PodamMockeryException
+	 *             If an error occurred while creating the Map object
+	 */
+	private Map&lt;? super Object, ? super Object&gt; resolveMapValueWhenMapIsPojoAttribute(
+			Object pojo, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Class&lt;?&gt; attributeType, String attributeName,
+			List&lt;Annotation&gt; annotations, Map&lt;String, Type&gt; typeArgsMap,
+			Type... genericTypeArgs) {
+
+<span class="fc" id="L2265">		Map&lt;? super Object, ? super Object&gt; retValue = null;</span>
+<span class="pc bpc" id="L2266" title="1 of 4 branches missed.">		if (null != pojo &amp;&amp; null != attributeName) {</span>
+
+<span class="fc" id="L2268">			retValue = PodamUtils.getFieldValue(pojo, attributeName);</span>
+		}
+
+<span class="fc" id="L2271">		retValue = resolveMapType(attributeType, retValue);</span>
+
+<span class="fc bfc" id="L2273" title="All 2 branches covered.">		if (null == retValue) {</span>
+<span class="fc" id="L2274">			return null;</span>
+		}
+
+		try {
+
+<span class="fc" id="L2279">			Class&lt;?&gt; keyClass = null;</span>
+
+<span class="fc" id="L2281">			Class&lt;?&gt; elementClass = null;</span>
+
+<span class="fc" id="L2283">			AtomicReference&lt;Type[]&gt; keyGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+					NO_TYPES);
+<span class="fc" id="L2285">			AtomicReference&lt;Type[]&gt; elementGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+					NO_TYPES);
+<span class="pc bpc" id="L2287" title="1 of 4 branches missed.">			if (genericTypeArgs == null || genericTypeArgs.length == 0) {</span>
+
+<span class="fc" id="L2289">				LOG.warn(&quot;Map attribute: &quot;</span>
+						+ attributeName
+						+ &quot; is non-generic. We will assume a Map&lt;Object, Object&gt; for you.&quot;);
+
+<span class="fc" id="L2293">				keyClass = Object.class;</span>
+
+<span class="fc" id="L2295">				elementClass = Object.class;</span>
+
+			} else {
+
+				// Expected only key, value type
+<span class="pc bpc" id="L2300" title="1 of 2 branches missed.">				if (genericTypeArgs.length != 2) {</span>
+<span class="nc" id="L2301">					throw new IllegalStateException(</span>
+							&quot;In a Map only key value generic type are expected.&quot;);
+				}
+
+<span class="fc" id="L2305">				Type[] actualTypeArguments = genericTypeArgs;</span>
+<span class="fc" id="L2306">				keyClass = resolveGenericParameter(actualTypeArguments[0],</span>
+						typeArgsMap, keyGenericTypeArgs);
+<span class="fc" id="L2308">				elementClass = resolveGenericParameter(actualTypeArguments[1],</span>
+						typeArgsMap, elementGenericTypeArgs);
+			}
+
+<span class="fc" id="L2312">			MapArguments mapArguments = new MapArguments();</span>
+<span class="fc" id="L2313">			mapArguments.setAttributeName(attributeName);</span>
+<span class="fc" id="L2314">			mapArguments.setPojos(pojos);</span>
+<span class="fc" id="L2315">			mapArguments.setAnnotations(annotations);</span>
+<span class="fc" id="L2316">			mapArguments.setMapToBeFilled(retValue);</span>
+<span class="fc" id="L2317">			mapArguments.setKeyClass(keyClass);</span>
+<span class="fc" id="L2318">			mapArguments.setElementClass(elementClass);</span>
+<span class="fc" id="L2319">			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());</span>
+<span class="fc" id="L2320">			mapArguments</span>
+					.setElementGenericTypeArgs(elementGenericTypeArgs.get());
+
+<span class="fc" id="L2323">			fillMap(mapArguments);</span>
+
+<span class="nc" id="L2325">		} catch (InstantiationException e) {</span>
+<span class="nc" id="L2326">			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);</span>
+<span class="nc" id="L2327">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L2328">			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);</span>
+<span class="nc" id="L2329">		} catch (SecurityException e) {</span>
+<span class="nc" id="L2330">			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);</span>
+<span class="nc" id="L2331">		} catch (ClassNotFoundException e) {</span>
+<span class="nc" id="L2332">			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);</span>
+<span class="nc" id="L2333">		} catch (InvocationTargetException e) {</span>
+<span class="nc" id="L2334">			throw new PodamMockeryException(MAP_CREATION_EXCEPTION_STR, e);</span>
+<span class="fc" id="L2335">		}</span>
+
+<span class="fc" id="L2337">		return retValue;</span>
+	}
+
+	/**
+	 * It fills a Map with the required number of elements of the required type.
+	 *
+	 * &lt;p&gt;
+	 * This method has a so-called side-effect. It updates the Map given as
+	 * argument.
+	 * &lt;/p&gt;
+	 *
+	 * @param map
+	 *          The map being initialised
+	 * @param pojos
+	 *          Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *          The generic type arguments for the current generic class
+	 *          instance
+	 * @throws InstantiationException
+	 *          If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *          If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *          If an exception occurred while invoking the constructor or
+	 *          factory method
+	 * @throws ClassNotFoundException
+	 *          If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillMap(Map&lt;? super Object, ? super Object&gt; map,
+			Map&lt;Class&lt;?&gt;, Integer&gt; pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L2371">		final Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L2372">		Class&lt;?&gt; pojoClass = map.getClass();</span>
+<span class="fc" id="L2373">		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,</span>
+				pojoClass, genericTypeArgs);
+
+<span class="fc" id="L2376">		Class&lt;?&gt; mapClass = pojoClass;</span>
+<span class="fc" id="L2377">		AtomicReference&lt;Type[]&gt; elementGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+				NO_TYPES);
+<span class="fc" id="L2379">		Type[] typeParams = mapClass.getTypeParameters();</span>
+<span class="fc bfc" id="L2380" title="All 2 branches covered.">		main : while (typeParams.length &lt; 2) {</span>
+<span class="fc bfc" id="L2381" title="All 2 branches covered.">			for (Type genericIface : mapClass.getGenericInterfaces()) {</span>
+<span class="fc" id="L2382">				Class&lt;?&gt; clazz = resolveGenericParameter(genericIface, typeArgsMap, elementGenericTypeArgs);</span>
+<span class="fc bfc" id="L2383" title="All 2 branches covered.">				if (Map.class.isAssignableFrom(clazz)) {</span>
+<span class="fc" id="L2384">					typeParams = elementGenericTypeArgs.get();</span>
+<span class="fc" id="L2385">					mapClass = clazz;</span>
+<span class="fc" id="L2386">					continue main;</span>
+				}
+			}
+<span class="fc" id="L2389">			Type type = mapClass.getGenericSuperclass();</span>
+<span class="fc bfc" id="L2390" title="All 2 branches covered.">			if (type != null) {</span>
+<span class="fc" id="L2391">				Class&lt;?&gt; clazz = resolveGenericParameter(type, typeArgsMap, elementGenericTypeArgs);</span>
+<span class="pc bpc" id="L2392" title="1 of 2 branches missed.">				if (Map.class.isAssignableFrom(clazz)) {</span>
+<span class="fc" id="L2393">					typeParams = elementGenericTypeArgs.get();</span>
+<span class="fc" id="L2394">					mapClass = clazz;</span>
+<span class="fc" id="L2395">					continue main;</span>
+				}
+			}
+<span class="pc bpc" id="L2398" title="1 of 2 branches missed.">			if (Map.class.equals(mapClass)) {</span>
+<span class="fc" id="L2399">				LOG.warn(&quot;Map {} doesn't have generic types,&quot;</span>
+						+ &quot;will use Object, Object instead&quot;, pojoClass);
+<span class="fc" id="L2401">				typeParams = new Type[] { Object.class, Object.class };</span>
+			}
+<span class="fc" id="L2403">		}</span>
+<span class="fc" id="L2404">		AtomicReference&lt;Type[]&gt; keyGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+				NO_TYPES);
+<span class="fc" id="L2406">		Class&lt;?&gt; keyClass = resolveGenericParameter(typeParams[0],</span>
+					typeArgsMap, keyGenericTypeArgs);
+<span class="fc" id="L2408">		Class&lt;?&gt; elementClass = resolveGenericParameter(typeParams[1],</span>
+					typeArgsMap, elementGenericTypeArgs);
+
+<span class="fc" id="L2411">		Type[] keyGenericArgs = mergeTypeArrays(keyGenericTypeArgs.get(),</span>
+				genericTypeArgsExtra);
+<span class="fc" id="L2413">		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),</span>
+				genericTypeArgsExtra);
+
+<span class="fc" id="L2416">		MapArguments mapArguments = new MapArguments();</span>
+<span class="fc" id="L2417">		mapArguments.setPojos(pojos);</span>
+<span class="fc" id="L2418">		mapArguments.setAnnotations(Arrays.asList(pojoClass.getAnnotations()));</span>
+<span class="fc" id="L2419">		mapArguments.setMapToBeFilled(map);</span>
+<span class="fc" id="L2420">		mapArguments.setKeyClass(keyClass);</span>
+<span class="fc" id="L2421">		mapArguments.setElementClass(elementClass);</span>
+<span class="fc" id="L2422">		mapArguments.setKeyGenericTypeArgs(keyGenericArgs);</span>
+<span class="fc" id="L2423">		mapArguments.setElementGenericTypeArgs(elementGenericArgs);</span>
+
+<span class="fc" id="L2425">		fillMap(mapArguments);</span>
+<span class="fc" id="L2426">	}</span>
+
+	/**
+	 * It fills a Map with the required number of elements of the required type.
+	 *
+	 * &lt;p&gt;
+	 * This method has a so-called side-effect. It updates the Map given as
+	 * argument.
+	 * &lt;/p&gt;
+	 *
+	 * @param mapArguments
+	 *            The arguments POJO
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillMap(MapArguments mapArguments)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+<span class="fc" id="L2455">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; elementStrategyHolder</span>
+				= new Holder&lt;AttributeStrategy&lt;?&gt;&gt;();
+<span class="fc" id="L2457">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; keyStrategyHolder</span>
+				= new Holder&lt;AttributeStrategy&lt;?&gt;&gt;();
+<span class="fc" id="L2459">		Integer nbrElements = findCollectionSize(mapArguments.getAnnotations(),</span>
+				mapArguments.getElementClass(), elementStrategyHolder,
+				keyStrategyHolder);
+<span class="fc" id="L2462">		AttributeStrategy&lt;?&gt; keyStrategy = keyStrategyHolder.value;</span>
+<span class="fc" id="L2463">		AttributeStrategy&lt;?&gt; elementStrategy = elementStrategyHolder.value;</span>
+
+<span class="fc" id="L2465">		Map&lt;? super Object, ? super Object&gt; map = mapArguments.getMapToBeFilled();</span>
+		try {
+<span class="pc bpc" id="L2467" title="1 of 2 branches missed.">			if (map.size() &gt; nbrElements) {</span>
+
+<span class="nc" id="L2469">				map.clear();</span>
+			}
+
+<span class="fc bfc" id="L2472" title="All 2 branches covered.">			for (int i = map.size(); i &lt; nbrElements; i++) {</span>
+
+<span class="fc" id="L2474">				Object keyValue = null;</span>
+
+<span class="fc" id="L2476">				Object elementValue = null;</span>
+
+<span class="fc" id="L2478">				MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();</span>
+<span class="fc" id="L2479">				valueArguments.setAttributeName(mapArguments.getAttributeName());</span>
+<span class="fc" id="L2480">				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());</span>
+<span class="fc" id="L2481">				valueArguments.setPojos(mapArguments.getPojos());</span>
+<span class="fc" id="L2482">				valueArguments.setAnnotations(mapArguments.getAnnotations());</span>
+<span class="fc" id="L2483">				valueArguments.setKeyOrValueType(mapArguments.getKeyClass());</span>
+<span class="fc" id="L2484">				valueArguments.setElementStrategy(keyStrategy);</span>
+<span class="fc" id="L2485">				valueArguments.setGenericTypeArgs(mapArguments</span>
+						.getKeyGenericTypeArgs());
+
+<span class="fc" id="L2488">				keyValue = getMapKeyOrElementValue(valueArguments);</span>
+
+<span class="fc" id="L2490">				valueArguments.setKeyOrValueType(mapArguments.getElementClass());</span>
+<span class="fc" id="L2491">				valueArguments.setElementStrategy(elementStrategy);</span>
+<span class="fc" id="L2492">				valueArguments.setGenericTypeArgs(mapArguments</span>
+						.getElementGenericTypeArgs());
+
+<span class="fc" id="L2495">				elementValue = getMapKeyOrElementValue(valueArguments);</span>
+
+				/* ConcurrentHashMap doesn't allow null values */
+<span class="fc bfc" id="L2498" title="All 4 branches covered.">				if (elementValue != null || !(map instanceof ConcurrentHashMap)) {</span>
+<span class="fc" id="L2499">					map.put(keyValue, elementValue);</span>
+				}
+			}
+<span class="fc" id="L2502">		} catch (UnsupportedOperationException e) {</span>
+
+<span class="fc" id="L2504">			LOG.warn(&quot;Cannot fill immutable map {}&quot;, map.getClass());</span>
+<span class="fc" id="L2505">		}</span>
+<span class="fc" id="L2506">	}</span>
+
+	/**
+	 * It fills a Map key or value with the appropriate value, considering
+	 * attribute-level customisation.
+	 *
+	 * @param keyOrElementsArguments
+	 *            The arguments POJO
+	 * @return A Map key or value
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws IllegalArgumentException
+	 *             &lt;ul&gt;
+	 *             &lt;li&gt;If an illegal argument was passed&lt;/li&gt;
+	 *             &lt;li&gt;If an invalid value was set for a precise value in an
+	 *             annotation and such value could not be converted to the
+	 *             desired type&lt;/li&gt;
+	 *             &lt;/ul&gt;
+	 * @throws ClassNotFoundException
+	 *             If manufactured class could not be loaded
+	 */
+	private Object getMapKeyOrElementValue(
+			MapKeyOrElementsArguments keyOrElementsArguments)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L2537">		Object retValue = null;</span>
+
+<span class="fc bfc" id="L2539" title="All 6 branches covered.">		if (null != keyOrElementsArguments.getElementStrategy()</span>
+				&amp;&amp; ObjectStrategy.class.isAssignableFrom(keyOrElementsArguments
+						.getElementStrategy().getClass())
+				&amp;&amp; Object.class.equals(keyOrElementsArguments
+						.getKeyOrValueType())) {
+<span class="fc" id="L2544">			LOG.debug(&quot;Element strategy is ObjectStrategy and Map key or value type is of type Object: using the ObjectStrategy strategy&quot;);</span>
+<span class="fc" id="L2545">			retValue = keyOrElementsArguments.getElementStrategy().getValue();</span>
+<span class="fc bfc" id="L2546" title="All 4 branches covered.">		} else if (null != keyOrElementsArguments.getElementStrategy()</span>
+				&amp;&amp; !ObjectStrategy.class
+						.isAssignableFrom(keyOrElementsArguments
+								.getElementStrategy().getClass())) {
+<span class="fc" id="L2550">			LOG.debug(&quot;Map key or value will be filled using the following strategy: &quot;</span>
+					+ keyOrElementsArguments.getElementStrategy());
+<span class="fc" id="L2552">			retValue = returnAttributeDataStrategyValue(</span>
+					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getElementStrategy());
+
+		} else {
+
+<span class="fc" id="L2558">			Map&lt;String, Type&gt; nullTypeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L2559">			retValue = manufactureAttributeValue(</span>
+					keyOrElementsArguments.getMapToBeFilled(),
+					keyOrElementsArguments.getPojos(),
+					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getAnnotations(),
+					keyOrElementsArguments.getAttributeName(),
+					nullTypeArgsMap,
+					keyOrElementsArguments.getGenericTypeArgs());
+		}
+<span class="fc" id="L2569">		return retValue;</span>
+	}
+
+	/**
+	 * It returns an Array with the first element set
+	 *
+	 *
+	 * @param attributeType
+	 *            The array type
+	 * @param genericType
+	 *            The array generic type
+	 * @param attributeName
+	 *            The array attribute name in enclosing POJO class
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param annotations
+	 *            The annotations to be considered
+	 * @param pojo
+	 *            POJO containing attribute
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *            example) with their actual types
+	 * @return Array with the first element set
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object resolveArrayElementValue(Class&lt;?&gt; attributeType,
+			Type genericType, String attributeName, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			List&lt;Annotation&gt; annotations, Object pojo,
+			Map&lt;String, Type&gt; typeArgsMap) throws InstantiationException,
+			IllegalAccessException, InvocationTargetException,
+			ClassNotFoundException {
+
+<span class="fc" id="L2611">		Class&lt;?&gt; componentType = null;</span>
+<span class="fc" id="L2612">		Type genericComponentType = null;</span>
+<span class="fc" id="L2613">		AtomicReference&lt;Type[]&gt; genericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+				NO_TYPES);
+<span class="fc bfc" id="L2615" title="All 2 branches covered.">		if (genericType instanceof GenericArrayType) {</span>
+<span class="fc" id="L2616">			genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();</span>
+<span class="pc bpc" id="L2617" title="1 of 2 branches missed.">			if (genericComponentType instanceof TypeVariable) {</span>
+<span class="fc" id="L2618">				TypeVariable&lt;?&gt; componentTypeVariable</span>
+						= (TypeVariable&lt;?&gt;) genericComponentType;
+<span class="fc" id="L2620">				final Type resolvedType</span>
+						= typeArgsMap.get(componentTypeVariable.getName());
+<span class="fc" id="L2622">				componentType</span>
+						= resolveGenericParameter(resolvedType, typeArgsMap,
+								genericTypeArgs);
+<span class="fc" id="L2625">			}</span>
+<span class="pc bpc" id="L2626" title="1 of 2 branches missed.">		} else if (genericType instanceof Class) {</span>
+<span class="fc" id="L2627">			Class&lt;?&gt; arrayClass = (Class&lt;?&gt;) genericType;</span>
+<span class="fc" id="L2628">			genericComponentType = arrayClass.getComponentType();</span>
+<span class="fc" id="L2629">		} else {</span>
+<span class="nc" id="L2630">			genericComponentType = attributeType.getComponentType();</span>
+		}
+
+<span class="fc bfc" id="L2633" title="All 2 branches covered.">		if (componentType == null) {</span>
+<span class="fc" id="L2634">			componentType = attributeType.getComponentType();</span>
+		}
+
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+<span class="fc" id="L2639">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; elementStrategyHolder</span>
+				= new Holder&lt;AttributeStrategy&lt;?&gt;&gt;();
+<span class="fc" id="L2641">		Holder&lt;AttributeStrategy&lt;?&gt;&gt; keyStrategyHolder = null;</span>
+<span class="fc" id="L2642">		Integer nbrElements = findCollectionSize(annotations, attributeType,</span>
+				elementStrategyHolder, keyStrategyHolder);
+<span class="fc" id="L2644">		AttributeStrategy&lt;?&gt; elementStrategy = elementStrategyHolder.value;</span>
+
+<span class="fc" id="L2646">		Object arrayElement = null;</span>
+<span class="fc" id="L2647">		Object array = Array.newInstance(componentType, nbrElements);</span>
+
+<span class="fc bfc" id="L2649" title="All 2 branches covered.">		for (int i = 0; i &lt; nbrElements; i++) {</span>
+
+			// The default
+<span class="fc bfc" id="L2652" title="All 6 branches covered.">			if (null != elementStrategy</span>
+					&amp;&amp; (elementStrategy instanceof ObjectStrategy)
+					&amp;&amp; Object.class.equals(componentType)) {
+<span class="fc" id="L2655">				LOG.debug(&quot;Element strategy is ObjectStrategy and array element is of type Object: using the ObjectStrategy strategy&quot;);</span>
+<span class="fc" id="L2656">				arrayElement = elementStrategy.getValue();</span>
+<span class="fc bfc" id="L2657" title="All 4 branches covered.">			} else if (null != elementStrategy</span>
+					&amp;&amp; !(elementStrategy instanceof ObjectStrategy)) {
+<span class="fc" id="L2659">				LOG.debug(&quot;Array elements will be filled using the following strategy: &quot;</span>
+						+ elementStrategy);
+<span class="fc" id="L2661">				arrayElement = returnAttributeDataStrategyValue(componentType,</span>
+						elementStrategy);
+
+			} else {
+
+<span class="fc" id="L2666">				arrayElement = manufactureAttributeValue(array, pojos,</span>
+						componentType, genericComponentType, annotations, attributeName,
+						typeArgsMap, genericTypeArgs.get());
+
+			}
+
+<span class="fc" id="L2672">			Array.set(array, i, arrayElement);</span>
+
+		}
+
+<span class="fc" id="L2676">		return array;</span>
+	}
+
+	/**
+	 * Searches for annotation with information about collection/map size
+	 * and filling strategies
+	 *
+	 * @param annotations
+	 *        a list of annotations to inspect
+	 * @param collectionElementType
+	 *        a collection element type
+	 * @param elementStrategyHolder
+	 *        a holder to pass found element strategy back to the caller,
+	 *        can be null
+	 * @param keyStrategyHolder
+	 *        a holder to pass found key strategy back to the caller,
+	 *        can be null
+	 * @return
+	 *        A number of element in collection or null, if no annotation was
+	 *        found
+	 * @throws InstantiationException
+	 *        A strategy cannot be instantiated
+	 * @throws IllegalAccessException
+	 *        A strategy cannot be instantiated
+	 */
+	private Integer findCollectionSize(List&lt;Annotation&gt; annotations,
+			Class&lt;?&gt; collectionElementType,
+			Holder&lt;AttributeStrategy&lt;?&gt;&gt; elementStrategyHolder,
+			Holder&lt;AttributeStrategy&lt;?&gt;&gt; keyStrategyHolder)
+			throws InstantiationException, IllegalAccessException {
+
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+<span class="fc" id="L2709">		Size size = null;</span>
+<span class="fc bfc" id="L2710" title="All 2 branches covered.">		for (Annotation annotation : annotations) {</span>
+<span class="fc bfc" id="L2711" title="All 2 branches covered.">			if (annotation instanceof PodamCollection) {</span>
+
+<span class="fc" id="L2713">				PodamCollection collectionAnnotation = (PodamCollection) annotation;</span>
+<span class="pc bpc" id="L2714" title="1 of 2 branches missed.">				if (null != elementStrategyHolder) {</span>
+
+<span class="fc" id="L2716">					Class&lt;? extends AttributeStrategy&lt;?&gt;&gt; strategy</span>
+							= collectionAnnotation.collectionElementStrategy();
+<span class="pc bpc" id="L2718" title="1 of 4 branches missed.">					if (null == strategy || ObjectStrategy.class.isAssignableFrom(strategy)) {</span>
+<span class="fc" id="L2719">						strategy = collectionAnnotation.mapElementStrategy();</span>
+					}
+<span class="pc bpc" id="L2721" title="1 of 2 branches missed.">					if (null != strategy) {</span>
+<span class="fc" id="L2722">						elementStrategyHolder.value = strategy.newInstance();</span>
+					}
+				}
+<span class="fc bfc" id="L2725" title="All 2 branches covered.">				if (null != keyStrategyHolder) {</span>
+
+<span class="fc" id="L2727">					Class&lt;? extends AttributeStrategy&lt;?&gt;&gt; strategy</span>
+							= collectionAnnotation.mapKeyStrategy();
+<span class="pc bpc" id="L2729" title="1 of 2 branches missed.">					if (null != strategy) {</span>
+<span class="fc" id="L2730">						keyStrategyHolder.value = strategy.newInstance();</span>
+					}
+				}
+<span class="fc" id="L2733">				return collectionAnnotation.nbrElements();</span>
+
+<span class="pc bpc" id="L2735" title="1 of 2 branches missed.">			} else if (annotation instanceof Size) {</span>
+
+<span class="fc" id="L2737">				size = (Size) annotation;</span>
+			}
+<span class="fc" id="L2739">		}</span>
+
+<span class="fc" id="L2741">		Integer nbrElements = strategy</span>
+				.getNumberOfCollectionElements(collectionElementType);
+
+<span class="fc bfc" id="L2744" title="All 2 branches covered.">		if (null != size) {</span>
+<span class="fc bfc" id="L2745" title="All 2 branches covered.">			if (nbrElements &gt; size.max()) {</span>
+<span class="fc" id="L2746">				nbrElements = size.max();</span>
+			}
+<span class="pc bpc" id="L2748" title="1 of 2 branches missed.">			if (nbrElements &lt; size.min()) {</span>
+<span class="nc" id="L2749">				nbrElements = size.min();</span>
+			}
+		}
+
+<span class="fc" id="L2753">		return nbrElements;</span>
+	}
+
+	/**
+	 * Given a collection type it returns an instance
+	 *
+	 * &lt;ul&gt;
+	 * &lt;li&gt;The default type for a {@link List} is an {@link ArrayList}&lt;/li&gt;
+	 * &lt;li&gt;The default type for a {@link Queue} is a {@link LinkedList}&lt;/li&gt;
+	 * &lt;li&gt;The default type for a {@link Set} is a {@link HashSet}&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @param collectionType
+	 *            The collection type *
+	 * @param defaultValue
+	 *            Default value for the collection, can be null
+	 * @return an instance of the collection type or null
+	 */
+	private Collection&lt;? super Object&gt; resolveCollectionType(
+			Class&lt;?&gt; collectionType, Collection&lt;? super Object&gt; defaultValue) {
+
+<span class="fc" id="L2774">		Collection&lt;? super Object&gt; retValue = null;</span>
+
+		// Default list and set are ArrayList and HashSet. If users
+		// wants a particular collection flavour they have to initialise
+		// the collection
+<span class="fc bfc" id="L2779" title="All 4 branches covered.">		if (null != defaultValue &amp;&amp;</span>
+				(defaultValue.getClass().getModifiers() &amp; Modifier.PRIVATE) == 0) {
+			/* Default collection, which is not immutable */
+<span class="fc" id="L2782">			retValue = defaultValue;</span>
+		} else {
+<span class="fc bfc" id="L2784" title="All 2 branches covered.">			if (Queue.class.isAssignableFrom(collectionType)) {</span>
+<span class="pc bpc" id="L2785" title="1 of 2 branches missed.">				if (collectionType.isAssignableFrom(LinkedList.class)) {</span>
+<span class="fc" id="L2786">					retValue = new LinkedList&lt;Object&gt;();</span>
+				}
+<span class="fc bfc" id="L2788" title="All 2 branches covered.">			} else if (Set.class.isAssignableFrom(collectionType)) {</span>
+<span class="pc bpc" id="L2789" title="1 of 2 branches missed.">				if (collectionType.isAssignableFrom(HashSet.class)) {</span>
+<span class="fc" id="L2790">					retValue = new HashSet&lt;Object&gt;();</span>
+				}
+			} else {
+<span class="fc bfc" id="L2793" title="All 2 branches covered.">				if (collectionType.isAssignableFrom(ArrayList.class)) {</span>
+<span class="fc" id="L2794">					retValue = new ArrayList&lt;Object&gt;();</span>
+				}
+			}
+<span class="fc bfc" id="L2797" title="All 4 branches covered.">			if (null != retValue &amp;&amp; null != defaultValue) {</span>
+<span class="fc" id="L2798">				retValue.addAll(defaultValue);</span>
+			}
+		}
+<span class="fc" id="L2801">		return retValue;</span>
+	}
+
+	/**
+	 * It manufactures and returns a default instance for each map type
+	 *
+	 * &lt;p&gt;
+	 * The default implementation for a {@link ConcurrentMap} is
+	 * {@link ConcurrentHashMap}
+	 * &lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The default implementation for a {@link SortedMap} is a {@link TreeMap}
+	 * &lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The default Map is none of the above was recognised is a {@link HashMap}
+	 * &lt;/p&gt;
+	 *
+	 * @param mapType
+	 *            The attribute type implementing Map
+	 * @param defaultValue
+	 *            Default value for map
+	 * @return A default instance for each map type or null
+	 *
+	 */
+	private Map&lt;? super Object, ? super Object&gt; resolveMapType(
+			Class&lt;?&gt; mapType, Map&lt;? super Object, ? super Object&gt; defaultValue) {
+
+<span class="fc" id="L2830">		Map&lt;? super Object, ? super Object&gt; retValue = null;</span>
+
+<span class="fc bfc" id="L2832" title="All 4 branches covered.">		if (null != defaultValue &amp;&amp;</span>
+				(defaultValue.getClass().getModifiers() &amp; Modifier.PRIVATE) == 0) {
+			/* Default map, which is not immutable */
+<span class="fc" id="L2835">			retValue = defaultValue;</span>
+		} else {
+<span class="pc bpc" id="L2837" title="1 of 2 branches missed.">			if (SortedMap.class.isAssignableFrom(mapType)) {</span>
+<span class="nc bnc" id="L2838" title="All 2 branches missed.">				if (mapType.isAssignableFrom(TreeMap.class)) {</span>
+<span class="nc" id="L2839">					retValue = new TreeMap&lt;Object, Object&gt;();</span>
+				}
+<span class="pc bpc" id="L2841" title="1 of 2 branches missed.">			} else if (ConcurrentMap.class.isAssignableFrom(mapType)) {</span>
+<span class="nc bnc" id="L2842" title="All 2 branches missed.">				if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {</span>
+<span class="nc" id="L2843">					retValue = new ConcurrentHashMap&lt;Object, Object&gt;();</span>
+				}
+			} else {
+<span class="fc bfc" id="L2846" title="All 2 branches covered.">				if (mapType.isAssignableFrom(HashMap.class)) {</span>
+<span class="fc" id="L2847">					retValue = new HashMap&lt;Object, Object&gt;();</span>
+				}
+			}
+		}
+
+<span class="fc" id="L2852">		return retValue;</span>
+
+	}
+
+	/**
+	 * Given a constructor it manufactures and returns the parameter values
+	 * required to invoke it
+	 *
+	 * @param constructor
+	 *            The constructor for which parameter values are required
+	 * @param pojoClass
+	 *            The POJO class containing the constructor
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 *
+	 * @return The parameter values required to invoke the constructor
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object[] getParameterValuesForConstructor(
+			Constructor&lt;?&gt; constructor, Class&lt;?&gt; pojoClass,
+			Map&lt;Class&lt;?&gt;, Integer&gt; pojos, Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L2889">		final Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+<span class="fc" id="L2890">		final Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap, pojoClass,</span>
+				genericTypeArgs);
+
+<span class="fc" id="L2893">		Annotation[][] parameterAnnotations = constructor</span>
+				.getParameterAnnotations();
+
+<span class="fc" id="L2896">		Class&lt;?&gt;[] parameterTypes = constructor.getParameterTypes();</span>
+<span class="fc" id="L2897">		Type[] genericTypes = constructor.getGenericParameterTypes();</span>
+<span class="fc" id="L2898">		Object[] parameterValues = new Object[parameterTypes.length];</span>
+
+<span class="fc bfc" id="L2900" title="All 2 branches covered.">		for (int idx = 0; idx &lt; parameterTypes.length; idx++) {</span>
+
+<span class="fc" id="L2902">			List&lt;Annotation&gt; annotations = Arrays</span>
+					.asList(parameterAnnotations[idx]);
+
+<span class="pc bpc" id="L2905" title="1 of 2 branches missed.">			Type genericType = (idx &lt; genericTypes.length) ?</span>
+					genericTypes[idx] : parameterTypes[idx];
+
+<span class="pc bpc" id="L2908" title="1 of 2 branches missed.">			parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],</span>
+					genericType, annotations, typeArgsMap, pojos,
+					genericTypeArgsExtra == null ? NO_TYPES : genericTypeArgsExtra);
+		}
+
+<span class="fc" id="L2913">		return parameterValues;</span>
+
+	}
+
+	/**
+	 * Manufactures and returns the parameter value for method required to
+	 * invoke it
+	 *
+	 * @param parameterType type of parameter
+	 * @param genericType generic type of parameter
+	 * @param annotations parameter annotations
+	 * @param typeArgsMap map for resolving generic types
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 *
+	 * @return The parameter values required to invoke the constructor
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the constructor
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object manufactureParameterValue(Class&lt;?&gt; parameterType,
+			Type genericType, List&lt;Annotation&gt; annotations,
+			final Map&lt;String, Type&gt; typeArgsMap, Map&lt;Class&lt;?&gt;, Integer&gt; pojos,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+<span class="fc" id="L2951">		Object parameterValue = null;</span>
+
+<span class="fc" id="L2953">		AttributeStrategy&lt;?&gt; attributeStrategy</span>
+				= findAttributeStrategy(annotations, parameterType);
+<span class="fc bfc" id="L2955" title="All 2 branches covered.">		if (null != attributeStrategy) {</span>
+
+<span class="fc" id="L2957">			LOG.debug(&quot;The parameter: &quot; + genericType</span>
+					+ &quot; will be filled using the following strategy: &quot;
+					+ attributeStrategy);
+
+<span class="fc" id="L2961">			return returnAttributeDataStrategyValue(parameterType,</span>
+					attributeStrategy);
+		}
+
+<span class="fc bfc" id="L2965" title="All 2 branches covered.">		if (Collection.class.isAssignableFrom(parameterType)) {</span>
+
+<span class="fc" id="L2967">			Collection&lt;? super Object&gt; defaultValue = null;</span>
+<span class="fc" id="L2968">			Collection&lt;? super Object&gt; collection = resolveCollectionType(</span>
+					parameterType, defaultValue);
+
+<span class="fc bfc" id="L2971" title="All 2 branches covered.">			if (collection != null) {</span>
+				Class&lt;?&gt; collectionElementType;
+<span class="fc" id="L2973">				AtomicReference&lt;Type[]&gt; collectionGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+						NO_TYPES);
+<span class="fc bfc" id="L2975" title="All 2 branches covered.">				if (genericType instanceof ParameterizedType) {</span>
+<span class="fc" id="L2976">					ParameterizedType pType = (ParameterizedType) genericType;</span>
+<span class="fc" id="L2977">					Type actualTypeArgument = pType.getActualTypeArguments()[0];</span>
+
+<span class="fc" id="L2979">					collectionElementType = resolveGenericParameter(</span>
+							actualTypeArgument, typeArgsMap,
+							collectionGenericTypeArgs);
+<span class="fc" id="L2982">				} else {</span>
+<span class="fc" id="L2983">					LOG.warn(&quot;Collection parameter {} type is non-generic.&quot;</span>
+							+ &quot;We will assume a Collection&lt;Object&gt; for you.&quot;,
+							genericType);
+<span class="fc" id="L2986">					collectionElementType = Object.class;</span>
+				}
+
+<span class="fc" id="L2989">				Type[] genericTypeArgsAll = mergeTypeArrays(</span>
+						collectionGenericTypeArgs.get(), genericTypeArgs);
+<span class="fc" id="L2991">				String attributeName = null;</span>
+<span class="fc" id="L2992">				fillCollection(pojos, annotations, attributeName,</span>
+						collection, collectionElementType, genericTypeArgsAll);
+
+<span class="fc" id="L2995">				parameterValue = collection;</span>
+			}
+
+<span class="fc bfc" id="L2998" title="All 2 branches covered.">		} else if (Map.class.isAssignableFrom(parameterType)) {</span>
+
+<span class="fc" id="L3000">			Map&lt;? super Object, ? super Object&gt; defaultValue = null;</span>
+<span class="fc" id="L3001">			Map&lt;? super Object, ? super Object&gt; map = resolveMapType(parameterType, defaultValue);</span>
+
+<span class="fc bfc" id="L3003" title="All 2 branches covered.">			if (map != null) {</span>
+				Class&lt;?&gt; keyClass;
+				Class&lt;?&gt; elementClass;
+<span class="fc" id="L3006">				AtomicReference&lt;Type[]&gt; keyGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+						NO_TYPES);
+<span class="fc" id="L3008">				AtomicReference&lt;Type[]&gt; elementGenericTypeArgs = new AtomicReference&lt;Type[]&gt;(</span>
+						NO_TYPES);
+<span class="fc bfc" id="L3010" title="All 2 branches covered.">				if (genericType instanceof ParameterizedType) {</span>
+<span class="fc" id="L3011">					ParameterizedType pType = (ParameterizedType) genericType;</span>
+<span class="fc" id="L3012">					Type[] actualTypeArguments = pType.getActualTypeArguments();</span>
+
+<span class="fc" id="L3014">					keyClass = resolveGenericParameter(actualTypeArguments[0],</span>
+							typeArgsMap, keyGenericTypeArgs);
+<span class="fc" id="L3016">					elementClass = resolveGenericParameter(</span>
+							actualTypeArguments[1], typeArgsMap,
+							elementGenericTypeArgs);
+<span class="fc" id="L3019">				} else {</span>
+<span class="fc" id="L3020">					LOG.warn(&quot;Map parameter {} type is non-generic.&quot;</span>
+							+ &quot;We will assume a Map&lt;Object,Object&gt; for you.&quot;,
+							genericType);
+<span class="fc" id="L3023">					keyClass = Object.class;</span>
+<span class="fc" id="L3024">					elementClass = Object.class;</span>
+				}
+
+<span class="fc" id="L3027">				Type[] genericTypeArgsAll = mergeTypeArrays(</span>
+						elementGenericTypeArgs.get(), genericTypeArgs);
+
+<span class="fc" id="L3030">				MapArguments mapArguments = new MapArguments();</span>
+<span class="fc" id="L3031">				mapArguments.setPojos(pojos);</span>
+<span class="fc" id="L3032">				mapArguments.setAnnotations(annotations);</span>
+<span class="fc" id="L3033">				mapArguments.setMapToBeFilled(map);</span>
+<span class="fc" id="L3034">				mapArguments.setKeyClass(keyClass);</span>
+<span class="fc" id="L3035">				mapArguments.setElementClass(elementClass);</span>
+<span class="fc" id="L3036">				mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());</span>
+<span class="fc" id="L3037">				mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);</span>
+
+<span class="fc" id="L3039">				fillMap(mapArguments);</span>
+
+<span class="fc" id="L3041">				parameterValue = map;</span>
+			}
+		}
+
+<span class="fc bfc" id="L3045" title="All 2 branches covered.">		if (parameterValue == null) {</span>
+
+			Map&lt;String, Type&gt; typeArgsMapForParam;
+<span class="fc bfc" id="L3048" title="All 2 branches covered.">			if (genericType instanceof ParameterizedType) {</span>
+<span class="fc" id="L3049">				typeArgsMapForParam = new HashMap&lt;String, Type&gt;(typeArgsMap);</span>
+<span class="fc" id="L3050">				ParameterizedType parametrizedType =</span>
+						(ParameterizedType) genericType;
+
+<span class="fc" id="L3053">				TypeVariable&lt;?&gt;[] argumentTypes = parameterType.getTypeParameters();</span>
+<span class="fc" id="L3054">				Type[] argumentGenericTypes = parametrizedType.getActualTypeArguments();</span>
+
+<span class="fc bfc" id="L3056" title="All 2 branches covered.">				for (int k = 0; k &lt; argumentTypes.length; k++) {</span>
+<span class="fc bfc" id="L3057" title="All 2 branches covered.">					if (argumentGenericTypes[k] instanceof Class) {</span>
+<span class="fc" id="L3058">						Class&lt;?&gt; genericParam = (Class&lt;?&gt;) argumentGenericTypes[k];</span>
+<span class="fc" id="L3059">						typeArgsMapForParam.put(argumentTypes[k].getName(), genericParam);</span>
+					}
+				}
+<span class="fc" id="L3062">			} else {</span>
+<span class="fc" id="L3063">				typeArgsMapForParam = typeArgsMap;</span>
+			}
+
+<span class="fc" id="L3066">			parameterValue = manufactureParameterValue(pojos, parameterType,</span>
+					genericType, annotations, typeArgsMapForParam,
+					genericTypeArgs);
+		}
+
+<span class="fc" id="L3071">		return parameterValue;</span>
+	}
+
+	/**
+	 * Utility method to merge two arrays
+	 *
+	 * @param original
+	 *            The main array
+	 * @param extra
+	 *            The additional array, optionally may be null
+	 * @return A merged array of original and extra arrays
+	 */
+	private Type[] mergeTypeArrays(Type[] original, Type[] extra) {
+
+		Type[] merged;
+
+<span class="fc bfc" id="L3087" title="All 2 branches covered.">		if (extra != null) {</span>
+<span class="fc" id="L3088">			merged = new Type[original.length + extra.length];</span>
+<span class="fc" id="L3089">			System.arraycopy(original, 0, merged, 0, original.length);</span>
+<span class="fc" id="L3090">			System.arraycopy(extra, 0, merged, original.length, extra.length);</span>
+		} else {
+<span class="fc" id="L3092">			merged = original;</span>
+		}
+
+<span class="fc" id="L3095">		return merged;</span>
+	}
+
+	/**
+	 * It retrieves the value for the {@link PodamStrategyValue} annotation with
+	 * which the attribute was annotated
+	 *
+	 * @param attributeType
+	 *            The attribute type, used for type checking
+	 * @param attributeStrategy
+	 *            The {@link AttributeStrategy} to use
+	 * @return The value for the {@link PodamStrategyValue} annotation with
+	 *         which the attribute was annotated
+	 * @throws IllegalArgumentException
+	 *             If the type of the data strategy defined for the
+	 *             {@link PodamStrategyValue} annotation is not assignable to
+	 *             the annotated attribute. This de facto guarantees type
+	 *             safety.
+	 */
+	private Object returnAttributeDataStrategyValue(Class&lt;?&gt; attributeType,
+			AttributeStrategy&lt;?&gt; attributeStrategy)
+			throws IllegalArgumentException {
+
+<span class="fc" id="L3118">		Object retValue = attributeStrategy.getValue();</span>
+
+<span class="fc bfc" id="L3120" title="All 4 branches covered.">		if (retValue != null</span>
+				&amp;&amp; !attributeType.isAssignableFrom(retValue.getClass())) {
+<span class="fc" id="L3122">			String errMsg = &quot;The type of the Podam Attribute Strategy is not &quot;</span>
+					+ attributeType.getName() + &quot; but &quot;
+					+ retValue.getClass().getName()
+					+ &quot;. An exception will be thrown.&quot;;
+<span class="fc" id="L3126">			LOG.error(errMsg);</span>
+<span class="fc" id="L3127">			throw new IllegalArgumentException(errMsg);</span>
+		}
+
+<span class="fc" id="L3130">		return retValue;</span>
+
+	}
+
+	@Override
+	public ClassInfoStrategy getClassStrategy() {
+<span class="nc" id="L3136">		return classInfoStrategy;</span>
+	}
+
+	@Override
+	public PodamFactory setClassStrategy(ClassInfoStrategy classInfoStrategy) {
+<span class="fc" id="L3141">		this.classInfoStrategy = classInfoStrategy;</span>
+<span class="fc" id="L3142">		return this;</span>
+	}
+
+	// -------------------&gt;&gt; equals() / hashcode() / toString()
+
+	// -------------------&gt;&gt; Inner classes
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
