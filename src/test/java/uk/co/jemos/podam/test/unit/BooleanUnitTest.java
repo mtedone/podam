@@ -34,6 +34,7 @@ public class BooleanUnitTest implements Serializable {
 
 	@BeforeClass
 	public static void init() {
+		classInfoStrategy.addExcludedField(BooleanPojo.class, "value4");
 		classInfoStrategy.addExcludedAnnotation(TestExclude.class);
 		classInfoStrategy.addExcludedAnnotation(PodamExclude.class);
 		Assert.assertEquals("Unexpected number of exluded annotations",
@@ -42,6 +43,7 @@ public class BooleanUnitTest implements Serializable {
 
 	@AfterClass
 	public static void deinit() {
+		classInfoStrategy.removeExcludedField(BooleanPojo.class, "value4");
 		classInfoStrategy.removeExcludedAnnotation(TestExclude.class);
 		Assert.assertEquals("Unexpected number of exluded annotations",
 				1, classInfoStrategy.getExcludedAnnotations().size());
@@ -59,6 +61,8 @@ public class BooleanUnitTest implements Serializable {
 
 		Assert.assertNotNull("Should be filled", pojo.getValue3());
 		Assert.assertEquals("Should be filled", true, pojo.getValue3());
+
+		Assert.assertNull("Should be excluded", pojo.getValue4());
 	}
 
 }
