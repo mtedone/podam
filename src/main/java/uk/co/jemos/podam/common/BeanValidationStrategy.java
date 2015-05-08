@@ -69,20 +69,36 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 */
 	public Object getValue() throws PodamMockeryException {
 
-		Annotation minAnno = null;
-		Annotation maxAnno = null;
-
 		if (null != findTypeFromList(annotations, AssertTrue.class)) {
 
 			return Boolean.TRUE;
+		}
 
-		} else if (null != findTypeFromList(annotations, AssertFalse.class)) {
-			
+		if (null != findTypeFromList(annotations, AssertFalse.class)) {
+
 			return Boolean.FALSE;
+		}
 
-		} else if ((null != (minAnno = findTypeFromList(annotations, DecimalMin.class))
-				&& (null != (maxAnno = findTypeFromList(annotations, DecimalMax.class)))
-				|| (null != minAnno) || (null != maxAnno))) {
+		if (null != findTypeFromList(annotations, Past.class)) {
+
+			int days = RANDOM.nextInt(365) + 1;
+			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(timestamp);
+		}
+
+		if (null != findTypeFromList(annotations, Future.class)) {
+
+			int days = RANDOM.nextInt(365) + 1;
+			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(timestamp);
+		}
+
+		Annotation minAnno = null;
+		Annotation maxAnno = null;
+
+		minAnno = findTypeFromList(annotations, DecimalMin.class);
+		maxAnno = findTypeFromList(annotations, DecimalMax.class);
+		if ((null != minAnno) || (null != maxAnno)) {
 
 			BigDecimal min;
 			if (null != minAnno) {
@@ -99,10 +115,11 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				max = new BigDecimal(Double.MAX_VALUE);
 			}
 			return decimalToReturnType(getValueInRange(min, max));
+		}
 
-		} else if ((null != (minAnno = findTypeFromList(annotations, Min.class))
-				&& (null != (maxAnno = findTypeFromList(annotations, Max.class)))
-				|| (null != minAnno) || (null != maxAnno))) {
+		minAnno = findTypeFromList(annotations, Min.class);
+		maxAnno = findTypeFromList(annotations, Max.class);
+		if ((null != minAnno) || (null != maxAnno)) {
 
 			BigDecimal min;
 			if (null != minAnno) {
@@ -122,8 +139,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			BigInteger intValue = getValueInRange(min, max).toBigInteger();
 			BigDecimal value = new BigDecimal(intValue);
 			return decimalToReturnType(value);
+		}
 
-		} else if (null != (minAnno = findTypeFromList(annotations, Digits.class))) {
+		if (null != (minAnno = findTypeFromList(annotations, Digits.class))) {
 
 			Digits digits = (Digits) minAnno;
 			BigDecimal divisor = BigDecimal.TEN.pow(digits.fraction());
@@ -133,20 +151,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			BigInteger intValue = getValueInRange(min, max).toBigInteger();
 			BigDecimal value = new BigDecimal(intValue).divide(divisor);
 			return decimalToReturnType(value);
+		}
 
-		} else if (null != findTypeFromList(annotations, Past.class)) {
-
-			int days = RANDOM.nextInt(365) + 1;
-			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
-
-		} else if (null != findTypeFromList(annotations, Future.class)) {
-
-			int days = RANDOM.nextInt(365) + 1;
-			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
-
-		} else if (null != (minAnno = findTypeFromList(annotations, Size.class))) {
+		if (null != (minAnno = findTypeFromList(annotations, Size.class))) {
 
 			Size size = (Size) minAnno;
 			long length = PodamUtils.getLongInRange(size.min(), size.max());
@@ -157,7 +164,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			}
 			return sb.toString();
 
-		} else if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {
+		}
+
+		if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {
 
 			Pattern pattern = (Pattern) minAnno;
 			LOG.warn("At the moment PODAM doesn't support @Pattern({}),"

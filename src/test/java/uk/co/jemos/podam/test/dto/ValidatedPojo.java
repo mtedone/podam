@@ -50,12 +50,10 @@ public class ValidatedPojo {
 	@DecimalMax("5.5")
 	private String decimalString;
 
-	@DecimalMin("-5.5")
 	@DecimalMax("5.5")
 	private Double decimalDouble;
 
 	@DecimalMin("-5.5")
-	@DecimalMax("5.5")
 	private Float decimalFloat;
 
 	@Min(-10)
@@ -67,10 +65,8 @@ public class ValidatedPojo {
 	private Integer intNumber;
 
 	@Min(-10)
-	@Max(10)
 	private Short shortNumber;
 
-	@Min(-10)
 	@Max(10)
 	private Byte byteNumber;
 
