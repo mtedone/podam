@@ -255,11 +255,6 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			return result.byteValue();
 
-		} else if (Character.class.equals(attributeType)
-				|| char.class.equals(attributeType)) {
-
-			return Character.valueOf((char)result.byteValue());
-
 		} else if (attributeType.isAssignableFrom(BigDecimal.class)) {
 
 			return result;
@@ -271,10 +266,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 		} else {
 
 			LOG.warn("Unsupported attribute type {}", attributeType);
+			return null;
 
 		}
-
-		return null;
 	}
 
 	/**
@@ -301,10 +295,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 		} else {
 
 			LOG.warn("Unsupported attribute type {}", attributeType);
+			return null;
 
 		}
-
-		return null;
 	}
 
 	// ------------------->> equals() / hashcode() / toString()

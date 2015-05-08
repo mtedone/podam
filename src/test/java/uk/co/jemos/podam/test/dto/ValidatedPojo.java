@@ -7,6 +7,7 @@ package uk.co.jemos.podam.test.dto;
 import org.hibernate.validator.constraints.Email;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -53,9 +54,25 @@ public class ValidatedPojo {
 	@DecimalMax("5.5")
 	private Double decimalDouble;
 
+	@DecimalMin("-5.5")
+	@DecimalMax("5.5")
+	private Float decimalFloat;
+
 	@Min(-10)
 	@Max(10)
-	private Integer intInteger;
+	private BigInteger bigIntNumber;
+
+	@Min(-10)
+	@Max(10)
+	private Integer intNumber;
+
+	@Min(-10)
+	@Max(10)
+	private Short shortNumber;
+
+	@Min(-10)
+	@Max(10)
+	private Byte byteNumber;
 
 	@Min(-10)
 	@Max(10)
@@ -136,12 +153,44 @@ public class ValidatedPojo {
 		this.decimalDouble = decimalDouble;
 	}
 
-	public Integer getIntInteger() {
-		return intInteger;
+	public Float getDecimalFloat() {
+		return decimalFloat;
 	}
 
-	public void setIntInteger(Integer intInteger) {
-		this.intInteger = intInteger;
+	public void setDecimalFloat(Float decimalFloat) {
+		this.decimalFloat = decimalFloat;
+	}
+
+	public BigInteger getBigIntNumber() {
+		return bigIntNumber;
+	}
+
+	public void setBigIntNumber(BigInteger bigIntNumber) {
+		this.bigIntNumber = bigIntNumber;
+	}
+
+	public Integer getIntNumber() {
+		return intNumber;
+	}
+
+	public void setIntNumber(Integer intNumber) {
+		this.intNumber = intNumber;
+	}
+
+	public Short getShortNumber() {
+		return shortNumber;
+	}
+
+	public void setShortNumber(Short shortNumber) {
+		this.shortNumber = shortNumber;
+	}
+
+	public Byte getByteNumber() {
+		return byteNumber;
+	}
+
+	public void setByteNumber(Byte byteNumber) {
+		this.byteNumber = byteNumber;
 	}
 
 	public String getIntString() {

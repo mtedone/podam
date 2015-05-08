@@ -65,8 +65,12 @@ public class ValidatedPojoTest {
 		Assert.assertNotNull("Empty field filledString", pojo.getFilledString());
 		Assert.assertNull("Non empty field emptyString", pojo.getEmptyString());
 		Assert.assertNotNull("Empty field decimalDouble", pojo.getDecimalDouble());
+		Assert.assertNotNull("Empty field decimalFloat", pojo.getDecimalFloat());
 		Assert.assertNotNull("Empty field decimalString", pojo.getDecimalString());
-		Assert.assertNotNull("Empty field intInteger", pojo.getIntInteger());
+		Assert.assertNotNull("Empty field intNumber", pojo.getIntNumber());
+		Assert.assertNotNull("Empty field bigIntNumber", pojo.getBigIntNumber());
+		Assert.assertNotNull("Empty field shortNumber", pojo.getShortNumber());
+		Assert.assertNotNull("Empty field byteNumber", pojo.getByteNumber());
 		Assert.assertNotNull("Empty field intString", pojo.getIntString());
 		Assert.assertNotNull("Empty field fractionDecimal", pojo.getFractionDecimal());
 		Assert.assertNotNull("Empty field fractionString", pojo.getFractionString());
