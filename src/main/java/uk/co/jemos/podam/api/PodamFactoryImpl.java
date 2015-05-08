@@ -457,69 +457,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It resolves and returns the primitive value depending on the type
-	 *
-	 *
-	 * @param primitiveClass
-	 *            The primitive type class
-	 * @param annotations
-	 *            The annotations to consider for this attribute
-	 * @param attributeMetadata
-	 *            Metadata of the attribute being filled
-	 * @return the primitive value depending on the type
-	 *
-	 * @throws IllegalArgumentException
-	 *             If a specific value was set in an annotation but it was not
-	 *             possible to convert such value in the desired type
-	 */
-	private Object resolvePrimitiveValue(Class<?> primitiveClass,
-			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
-
-		Object retValue = null;
-
-		if (primitiveClass.equals(int.class)) {
-
-			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(long.class)) {
-
-			retValue = getLongValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(float.class)) {
-
-			retValue = getFloatValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(double.class)) {
-
-			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(boolean.class)) {
-
-			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(byte.class)) {
-
-			retValue = getByteValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(short.class)) {
-
-			retValue = getShortValueWithinRange(annotations, attributeMetadata);
-
-		} else if (primitiveClass.equals(char.class)) {
-
-			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);
-
-		} else {
-
-			throw new IllegalArgumentException(
-					String.format("%s is unsupported primitive type",
-							primitiveClass));
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * It returns the boolean value indicated in the annotation.
 	 *
 	 * @param annotations
@@ -999,7 +936,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * the case it assigns a random value
 	 *
 	 *
-	 * @param candidateWrapperClass
+	 * @param boxedType
 	 *            The class which might be a wrapper class
 	 * @param annotations
 	 *            The attribute's annotations, if any, used for customisation
@@ -1008,40 +945,40 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @return {@code null} if this is not a wrapper class, otherwise an Object
 	 *         with the value for the wrapper class
 	 */
-	private Object resolveWrapperValue(Class<?> candidateWrapperClass,
+	private Object resolveBoxedValue(Class<?> boxedType,
 			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
 
 		Object retValue = null;
 
-		if (candidateWrapperClass.equals(Integer.class)) {
+		if (boxedType.equals(Integer.class) || boxedType.equals(int.class)) {
 
 			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Long.class)) {
+		} else if (boxedType.equals(Long.class) || boxedType.equals(long.class)) {
 
 			retValue = getLongValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Float.class)) {
+		} else if (boxedType.equals(Float.class) || boxedType.equals(float.class)) {
 
 			retValue = getFloatValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Double.class)) {
+		} else if (boxedType.equals(Double.class) || boxedType.equals(double.class)) {
 
 			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Boolean.class)) {
+		} else if (boxedType.equals(Boolean.class) || boxedType.equals(boolean.class)) {
 
 			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Byte.class)) {
+		} else if (boxedType.equals(Byte.class) || boxedType.equals(byte.class)) {
 
 			retValue = getByteValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Short.class)) {
+		} else if (boxedType.equals(Short.class) || boxedType.equals(short.class)) {
 
 			retValue = getShortValueWithinRange(annotations, attributeMetadata);
 
-		} else if (candidateWrapperClass.equals(Character.class)) {
+		} else if (boxedType.equals(Character.class) || boxedType.equals(char.class)) {
 
 			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);
 
@@ -1049,7 +986,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			throw new IllegalArgumentException(
 					String.format("%s is unsupported wrapper type",
-							candidateWrapperClass));
+							boxedType));
 
 		}
 
@@ -1205,7 +1142,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
-			return (T) resolvePrimitiveValue(pojoClass, Collections.<Annotation>emptyList(),
+			return (T) resolveBoxedValue(pojoClass, Collections.<Annotation>emptyList(),
 					new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
 		}
 
@@ -1656,15 +1593,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				pojo.getClass());
 
 		// Primitive type
-		if (realAttributeType.isPrimitive()) {
+		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType)) {
 
-			attributeValue = resolvePrimitiveValue(realAttributeType,
-					annotations, attributeMetadata);
-
-			// Wrapper type
-		} else if (isWrapper(realAttributeType)) {
-
-			attributeValue = resolveWrapperValue(realAttributeType,
+			attributeValue = resolveBoxedValue(realAttributeType,
 					annotations, attributeMetadata);
 
 			// String type
