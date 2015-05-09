@@ -472,5 +472,33 @@ public final class PodamUtils {
 	public static long getLongInRange(long minValue, long maxValue) {
 <span class="fc" id="L473">		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
 	}
+
+	/**
+	 * Finds boxed type for a primitive type
+	 * 
+	 * @param primitiveType
+	 *            Primitive type to find boxed type for
+	 * @return A boxed type or the same type, if original type was not primitive
+	 */
+	public static Class&lt;?&gt; primitiveToBoxedType(Class&lt;?&gt; primitiveType) {
+
+<span class="fc bfc" id="L485" title="All 2 branches covered.">		if (int.class.equals(primitiveType)) {</span>
+<span class="fc" id="L486">			return Integer.class;</span>
+<span class="fc bfc" id="L487" title="All 2 branches covered.">		} else if (double.class.equals(primitiveType)) {</span>
+<span class="fc" id="L488">			return Double.class;</span>
+<span class="fc bfc" id="L489" title="All 2 branches covered.">		} else if (long.class.equals(primitiveType)) {</span>
+<span class="fc" id="L490">			return Long.class;</span>
+<span class="fc bfc" id="L491" title="All 2 branches covered.">		} else if (byte.class.equals(primitiveType)) {</span>
+<span class="fc" id="L492">			return Byte.class;</span>
+<span class="fc bfc" id="L493" title="All 2 branches covered.">		} else if (float.class.equals(primitiveType)) {</span>
+<span class="fc" id="L494">			return Float.class;</span>
+<span class="pc bpc" id="L495" title="1 of 2 branches missed.">		} else if (char.class.equals(primitiveType)) {</span>
+<span class="nc" id="L496">			return Character.class;</span>
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">		} else if (short.class.equals(primitiveType)) {</span>
+<span class="fc" id="L498">			return Short.class;</span>
+		} else {
+<span class="nc" id="L500">			return primitiveType;</span>
+		}
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

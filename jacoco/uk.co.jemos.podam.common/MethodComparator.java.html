@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.common;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Comparator;
 
 /**
@@ -16,22 +17,42 @@ import java.util.Comparator;
  * @author tedonema
  *
  */
-<span class="fc" id="L19">public class MethodComparator implements Comparator&lt;Method&gt; {</span>
+<span class="fc" id="L20">public class MethodComparator implements Comparator&lt;Method&gt; {</span>
+
+	public int methodComplexity(Method method) {
+
+<span class="fc" id="L24">		int complexity = 0;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">		for (Class&lt;?&gt; parameter : method.getParameterTypes()) {</span>
+<span class="pc bpc" id="L26" title="1 of 8 branches missed.">			if (parameter.isInterface()</span>
+					|| (Modifier.isAbstract(parameter.getModifiers()) &amp;&amp; !parameter.isPrimitive())
+					|| parameter.isAssignableFrom(method.getDeclaringClass())) {
+<span class="fc" id="L29">				complexity++;</span>
+			}
+		}
+<span class="fc" id="L32">		return complexity;</span>
+	}
 
 	@Override
 	public int compare(Method method1, Method method2) {
 		/* Constructors with Podam annotation first */
-<span class="pc bpc" id="L24" title="1 of 2 branches missed.">		boolean choose1 = method1.getAnnotation(PodamConstructor.class) != null;</span>
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">		boolean choose2 = method2.getAnnotation(PodamConstructor.class) != null;</span>
-<span class="pc bpc" id="L26" title="3 of 4 branches missed.">		if (choose1 &amp;&amp; !choose2) {</span>
-<span class="nc" id="L27">			return Integer.MIN_VALUE;</span>
-<span class="pc bpc" id="L28" title="2 of 4 branches missed.">		} else if (!choose1 &amp;&amp; choose2) {</span>
-<span class="nc" id="L29">			return Integer.MAX_VALUE;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		boolean choose1 = method1.getAnnotation(PodamConstructor.class) != null;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		boolean choose2 = method2.getAnnotation(PodamConstructor.class) != null;</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">		if (choose1 &amp;&amp; !choose2) {</span>
+<span class="fc" id="L41">			return Integer.MIN_VALUE;</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">		} else if (!choose1 &amp;&amp; choose2) {</span>
+<span class="fc" id="L43">			return Integer.MAX_VALUE;</span>
 		}
 
 		/* Then constructors with more parameters */
-<span class="fc" id="L33">		return method2.getParameterTypes().length</span>
+<span class="fc" id="L47">		int result = method2.getParameterTypes().length</span>
 				- method1.getParameterTypes().length;
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		if (result != 0) {</span>
+<span class="fc" id="L50">			return result;</span>
+		}
+
+		/* Then less complex method */
+<span class="fc" id="L54">		return methodComplexity(method1)</span>
+				- methodComplexity(method2);
 	}
 
 }
