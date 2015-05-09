@@ -32,6 +32,11 @@ public class ExternalFactoryUnitTest {
 					failures.add(pojoClass);
 					return null;
 				}
+
+				@Override
+				public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+					return pojo;
+				}
 	};
 
 	private final static PodamFactory podam = new PodamFactoryImpl(externalFactory);
@@ -80,9 +85,18 @@ public class ExternalFactoryUnitTest {
 
 	@Test
 	public void testAbstractExternalFactoryMethods() {
-		Assert.assertNull(externalFactory.getClassStrategy());
-		Assert.assertNull(externalFactory.getStrategy());
-		Assert.assertNull(externalFactory.setClassStrategy(null));
+		Assert.assertNull("Class strategy should be null",
+				externalFactory.getClassStrategy());
+		Assert.assertEquals("Should chain",
+				externalFactory, externalFactory.setClassStrategy(null));
+		Assert.assertNull("Strategy should be null",
+				externalFactory.getStrategy());
+		Assert.assertEquals("Should chain",
+				externalFactory, externalFactory.setStrategy(null));
+		Assert.assertNull("External factory should be null",
+				externalFactory.getExternalFactory());
+		Assert.assertEquals("Should chain",
+				externalFactory, externalFactory.setExternalFactory(null));
 	}
 
 	@Test

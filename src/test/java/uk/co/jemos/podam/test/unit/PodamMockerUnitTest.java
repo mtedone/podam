@@ -130,6 +130,20 @@ public class PodamMockerUnitTest {
 				.manufacturePojo(OneDimensionalTestPojo.class);
 		Assert.assertNotNull("The object cannot be null!", pojo);
 
+		validateDimensionalTestPojo(pojo);
+	}
+
+	@Test
+	public void testOneDimensionalTestPojoPopulation() {
+
+		OneDimensionalTestPojo pojo = new OneDimensionalTestPojo();
+		factory.populatePojo(pojo);
+
+		validateDimensionalTestPojo(pojo);
+	}
+
+	public void validateDimensionalTestPojo(OneDimensionalTestPojo pojo) {
+
 		Boolean booleanObjectField = pojo.getBooleanObjectField();
 		Assert.assertTrue(
 				"The boolean object field should have a value of TRUE",
@@ -234,9 +248,21 @@ public class PodamMockerUnitTest {
 
 	@Test
 	public void testRecursiveHierarchyPojo() {
-
 		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
 		Assert.assertNotNull("The recursive pojo cannot be null!", pojo);
+
+		validateRecursiveHierarchyPojo(pojo);
+	}
+
+	@Test
+	public void testRecursiveHierarchyPojoPopulation() {
+		RecursivePojo pojo = new RecursivePojo();
+		factory.populatePojo(pojo);
+
+		validateRecursiveHierarchyPojo(pojo);
+	}
+
+	private void validateRecursiveHierarchyPojo(RecursivePojo pojo) {
 		Assert.assertTrue("The integer value in the pojo should not be zero!",
 				pojo.getIntField() != 0);
 

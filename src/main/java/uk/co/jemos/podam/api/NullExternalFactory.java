@@ -57,4 +57,9 @@ public class NullExternalFactory extends AbstractExternalFactory {
 				pojoClass, Arrays.toString(genericTypeArgs));
 		return null;
 	}
+
+	@Override
+	public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+		return pojo;
+	}
 }

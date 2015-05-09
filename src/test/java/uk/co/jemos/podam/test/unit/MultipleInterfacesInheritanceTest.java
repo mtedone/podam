@@ -31,6 +31,11 @@ public class MultipleInterfacesInheritanceTest {
 			failures.add(pojoClass);
 			return null;
 		}
+
+		@Override
+		public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+			return pojo;
+		}
 	}
 
 	private static class CustomDataProviderStrategy

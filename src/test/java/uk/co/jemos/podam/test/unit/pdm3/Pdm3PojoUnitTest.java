@@ -6,6 +6,7 @@ package uk.co.jemos.podam.test.unit.pdm3;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -33,6 +34,11 @@ public class Pdm3PojoUnitTest {
 		public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 			failures.add(pojoClass);
 			return null;
+		}
+
+		@Override
+		public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+			return pojo;
 		}
 	}
 

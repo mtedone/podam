@@ -23,6 +23,11 @@ public abstract class AbstractExternalFactory implements PodamFactory {
     }
 
     @Override
+    public PodamFactory setStrategy(DataProviderStrategy strategy) {
+        return this;
+    }
+
+    @Override
     public ClassInfoStrategy getClassStrategy() {
         return null;
     }
@@ -30,7 +35,17 @@ public abstract class AbstractExternalFactory implements PodamFactory {
     @Override
     public PodamFactory setClassStrategy(
             ClassInfoStrategy classInfoStrategy) {
+        return this;
+    }
+
+    @Override
+    public PodamFactory getExternalFactory() {
         return null;
+    }
+
+    @Override
+    public PodamFactory setExternalFactory(PodamFactory externalFactory) {
+        return this;
     }
 
 }

@@ -39,6 +39,11 @@ public class ValidatedPojoTest {
 				+ Arrays.toString(genericTypeArgs));
 			return null;
 		}
+
+		@Override
+		public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
+			return pojo;
+		}
 	};
 
 	private static final PodamFactory factory = new PodamFactoryImpl(externalFactory);
