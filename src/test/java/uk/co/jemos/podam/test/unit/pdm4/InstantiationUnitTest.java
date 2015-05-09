@@ -61,12 +61,14 @@ public class InstantiationUnitTest {
 
 		PojoWithFactoryMethods pojo = factory.manufacturePojo(PojoWithFactoryMethods.class);
 		assertNull("POJO should not be created", pojo);
-		assertEquals("Invocation order has changed", 5, PojoWithFactoryMethods.invocationOrder.size());
-		assertEquals("Invocation order has changed", "PodamConstructor", PojoWithFactoryMethods.invocationOrder.get(0));
-		assertEquals("Invocation order has changed", "int,int", PojoWithFactoryMethods.invocationOrder.get(1));
-		assertEquals("Invocation order has changed", "abstract,int", PojoWithFactoryMethods.invocationOrder.get(2));
-		assertEquals("Invocation order has changed", "InputStream", PojoWithFactoryMethods.invocationOrder.get(3));
-		assertEquals("Invocation order has changed", "no-op", PojoWithFactoryMethods.invocationOrder.get(4));
+		assertEquals("Invocation order has changed", 7, PojoWithFactoryMethods.invocationOrder.size());
+		assertEquals("Invocation order has changed", "PodamConstructor(str,bool)", PojoWithFactoryMethods.invocationOrder.get(0));
+		assertEquals("Invocation order has changed", "PodamConstructor(str,abstract)", PojoWithFactoryMethods.invocationOrder.get(1));
+		assertEquals("Invocation order has changed", "PodamConstructor(str)", PojoWithFactoryMethods.invocationOrder.get(2));
+		assertEquals("Invocation order has changed", "int,int", PojoWithFactoryMethods.invocationOrder.get(3));
+		assertEquals("Invocation order has changed", "abstract,int", PojoWithFactoryMethods.invocationOrder.get(4));
+		assertEquals("Invocation order has changed", "InputStream", PojoWithFactoryMethods.invocationOrder.get(5));
+		assertEquals("Invocation order has changed", "no-op", PojoWithFactoryMethods.invocationOrder.get(6));
 	}
 
 	@Test
@@ -102,11 +104,13 @@ public class InstantiationUnitTest {
 
 		PojoWithFactoryMethods pojo = factory.manufacturePojo(PojoWithFactoryMethods.class);
 		assertNull("POJO should not be created", pojo);
-		assertEquals("Invocation order has changed", 5, PojoWithFactoryMethods.invocationOrder.size());
-		assertEquals("Invocation order has changed", "PodamConstructor", PojoWithFactoryMethods.invocationOrder.get(0));
-		assertEquals("Invocation order has changed", "int,int", PojoWithFactoryMethods.invocationOrder.get(1));
-		assertEquals("Invocation order has changed", "abstract,int", PojoWithFactoryMethods.invocationOrder.get(2));
-		assertEquals("Invocation order has changed", "InputStream", PojoWithFactoryMethods.invocationOrder.get(3));
-		assertEquals("Invocation order has changed", "no-op", PojoWithFactoryMethods.invocationOrder.get(4));
+		assertEquals("Invocation order has changed", 7, PojoWithFactoryMethods.invocationOrder.size());
+		assertEquals("Invocation order has changed", "PodamConstructor(str,bool)", PojoWithFactoryMethods.invocationOrder.get(0));
+		assertEquals("Invocation order has changed", "PodamConstructor(str,abstract)", PojoWithFactoryMethods.invocationOrder.get(1));
+		assertEquals("Invocation order has changed", "PodamConstructor(str)", PojoWithFactoryMethods.invocationOrder.get(2));
+		assertEquals("Invocation order has changed", "int,int", PojoWithFactoryMethods.invocationOrder.get(3));
+		assertEquals("Invocation order has changed", "abstract,int", PojoWithFactoryMethods.invocationOrder.get(4));
+		assertEquals("Invocation order has changed", "InputStream", PojoWithFactoryMethods.invocationOrder.get(5));
+		assertEquals("Invocation order has changed", "no-op", PojoWithFactoryMethods.invocationOrder.get(6));
 	}
 }

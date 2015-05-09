@@ -18,6 +18,12 @@ public abstract class PojoWithFactoryMethods {
 
 	private String value;
 	
+	@PodamConstructor(comment = "choose this one")
+	public static PojoWithFactoryMethods getInstance(String str, InputStream is) {
+		invocationOrder.add("PodamConstructor(str,abstract)");
+		throw new IllegalStateException("Cannot use me");
+	}
+
 	public static PojoWithFactoryMethods getInstance(InputStream inputStream) {
 		invocationOrder.add("InputStream");
 		throw new IllegalStateException("Cannot use me also");
@@ -35,7 +41,13 @@ public abstract class PojoWithFactoryMethods {
 
 	@PodamConstructor(comment = "choose this one")
 	public static PojoWithFactoryMethods getInstance(String value) {
-		invocationOrder.add("PodamConstructor");
+		invocationOrder.add("PodamConstructor(str)");
+		throw new IllegalStateException("Cannot use me");
+	}
+
+	@PodamConstructor(comment = "choose this one")
+	public static PojoWithFactoryMethods getInstance(String str, boolean bool) {
+		invocationOrder.add("PodamConstructor(str,bool)");
 		throw new IllegalStateException("Cannot use me");
 	}
 
