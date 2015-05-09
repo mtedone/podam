@@ -3048,14 +3048,17 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Object retValue = attributeStrategy.getValue();
 
-		if (retValue != null
-				&& !attributeType.isAssignableFrom(retValue.getClass())) {
-			String errMsg = "The type of the Podam Attribute Strategy is not "
-					+ attributeType.getName() + " but "
-					+ retValue.getClass().getName()
-					+ ". An exception will be thrown.";
-			LOG.error(errMsg);
-			throw new IllegalArgumentException(errMsg);
+		if (retValue != null) {
+			Class<?> desiredType = attributeType.isPrimitive() ?
+					PodamUtils.primitiveToBoxedType(attributeType) : attributeType;
+			if (!desiredType.isAssignableFrom(retValue.getClass())) {
+				String errMsg = "The type of the Podam Attribute Strategy is not "
+						+ attributeType.getName() + " but "
+						+ retValue.getClass().getName()
+						+ ". An exception will be thrown.";
+				LOG.error(errMsg);
+				throw new IllegalArgumentException(errMsg);
+			}
 		}
 
 		return retValue;

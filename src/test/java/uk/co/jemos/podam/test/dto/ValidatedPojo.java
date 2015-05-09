@@ -62,6 +62,10 @@ public class ValidatedPojo {
 
 	@Min(-10)
 	@Max(10)
+	private Long longNumber;
+
+	@Min(-10)
+	@Max(10)
 	private Integer intNumber;
 
 	@Min(-10)
@@ -100,6 +104,26 @@ public class ValidatedPojo {
 
 	@Email
 	private String email;
+
+	@Min(-5)
+	@Max(5)
+	private long longPrimitive;
+
+	@Min(-5)
+	@Max(5)
+	private int intPrimitive;
+
+	@Min(-5)
+	private short shortPrimitive;
+
+	@Max(5)
+	private byte bytePrimitive;
+
+	@DecimalMax("2.5")
+	private double doublePrimitive;
+
+	@DecimalMin("-2.5")
+	private float floatPrimitive;
 
 	public Boolean getBoolTrue() {
 		return boolTrue;
@@ -163,6 +187,14 @@ public class ValidatedPojo {
 
 	public void setBigIntNumber(BigInteger bigIntNumber) {
 		this.bigIntNumber = bigIntNumber;
+	}
+
+	public Long getLongNumber() {
+		return longNumber;
+	}
+
+	public void setLongNumber(Long longNumber) {
+		this.longNumber = longNumber;
 	}
 
 	public Integer getIntNumber() {
@@ -267,5 +299,53 @@ public class ValidatedPojo {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public long getLongPrimitive() {
+		return longPrimitive;
+	}
+
+	public void setLongPrimitive(long longPrimitive) {
+		this.longPrimitive = longPrimitive;
+	}
+
+	public int getIntPrimitive() {
+		return intPrimitive;
+	}
+
+	public void setIntPrimitive(int intPrimitive) {
+		this.intPrimitive = intPrimitive;
+	}
+
+	public short getShortPrimitive() {
+		return shortPrimitive;
+	}
+
+	public void setShortPrimitive(short shortPrimitive) {
+		this.shortPrimitive = shortPrimitive;
+	}
+
+	public byte getBytePrimitive() {
+		return bytePrimitive;
+	}
+
+	public void setBytePrimitive(byte bytePrimitive) {
+		this.bytePrimitive = bytePrimitive;
+	}
+
+	public double getDoublePrimitive() {
+		return doublePrimitive;
+	}
+
+	public void setDoublePrimitive(double doublePrimitive) {
+		this.doublePrimitive = doublePrimitive;
+	}
+
+	public float getFloatPrimitive() {
+		return floatPrimitive;
+	}
+
+	public void setFloatPrimitive(float floatPrimitive) {
+		this.floatPrimitive = floatPrimitive;
 	}
 }

@@ -472,4 +472,32 @@ public final class PodamUtils {
 	public static long getLongInRange(long minValue, long maxValue) {
 		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);
 	}
+
+	/**
+	 * Finds boxed type for a primitive type
+	 * 
+	 * @param primitiveType
+	 *            Primitive type to find boxed type for
+	 * @return A boxed type or the same type, if original type was not primitive
+	 */
+	public static Class<?> primitiveToBoxedType(Class<?> primitiveType) {
+
+		if (int.class.equals(primitiveType)) {
+			return Integer.class;
+		} else if (double.class.equals(primitiveType)) {
+			return Double.class;
+		} else if (long.class.equals(primitiveType)) {
+			return Long.class;
+		} else if (byte.class.equals(primitiveType)) {
+			return Byte.class;
+		} else if (float.class.equals(primitiveType)) {
+			return Float.class;
+		} else if (char.class.equals(primitiveType)) {
+			return Character.class;
+		} else if (short.class.equals(primitiveType)) {
+			return Short.class;
+		} else {
+			return primitiveType;
+		}
+	}
 }

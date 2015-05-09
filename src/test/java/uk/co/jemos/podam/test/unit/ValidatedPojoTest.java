@@ -67,6 +67,7 @@ public class ValidatedPojoTest {
 		Assert.assertNotNull("Empty field decimalDouble", pojo.getDecimalDouble());
 		Assert.assertNotNull("Empty field decimalFloat", pojo.getDecimalFloat());
 		Assert.assertNotNull("Empty field decimalString", pojo.getDecimalString());
+		Assert.assertNotNull("Empty field longNumber", pojo.getLongNumber());
 		Assert.assertNotNull("Empty field intNumber", pojo.getIntNumber());
 		Assert.assertNotNull("Empty field bigIntNumber", pojo.getBigIntNumber());
 		Assert.assertNotNull("Empty field shortNumber", pojo.getShortNumber());
