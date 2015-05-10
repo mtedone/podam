@@ -23,14 +23,29 @@ import java.lang.reflect.Type;
     }
 
     @Override
+    public PodamFactory setStrategy(DataProviderStrategy strategy) {
+<span class="fc" id="L27">        return this;</span>
+    }
+
+    @Override
     public ClassInfoStrategy getClassStrategy() {
-<span class="fc" id="L27">        return null;</span>
+<span class="fc" id="L32">        return null;</span>
     }
 
     @Override
     public PodamFactory setClassStrategy(
             ClassInfoStrategy classInfoStrategy) {
-<span class="fc" id="L33">        return null;</span>
+<span class="fc" id="L38">        return this;</span>
+    }
+
+    @Override
+    public PodamFactory getExternalFactory() {
+<span class="fc" id="L43">        return null;</span>
+    }
+
+    @Override
+    public PodamFactory setExternalFactory(PodamFactory externalFactory) {
+<span class="fc" id="L48">        return this;</span>
     }
 
 }

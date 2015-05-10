@@ -57,5 +57,10 @@ public class NullExternalFactory extends AbstractExternalFactory {
 				pojoClass, Arrays.toString(genericTypeArgs));
 <span class="fc" id="L58">		return null;</span>
 	}
+
+	@Override
+	public &lt;T&gt; T populatePojo(T pojo, Type... genericTypeArgs) {
+<span class="nc" id="L63">		return pojo;</span>
+	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
