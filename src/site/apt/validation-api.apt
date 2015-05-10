@@ -40,54 +40,54 @@ import javax.validation.constraints.Size;
 */
 public class ValidatedPojo {
 
-@AssertTrue
-private Boolean boolTrue;
+    @AssertTrue
+    private Boolean boolTrue;
 
-@AssertFalse
-private Boolean boolFalse;
+    @AssertFalse
+    private Boolean boolFalse;
 
-@Null
-private String emptyString;
+    @Null
+    private String emptyString;
 
-@DecimalMin("-5.5")
-@DecimalMax("5.5")
-private String decimalString;
+    @DecimalMin("-5.5")
+    @DecimalMax("5.5")
+    private String decimalString;
 
-@DecimalMin("-5.5")
-@DecimalMax("5.5")
-private Double decimalDouble;
+    @DecimalMin("-5.5")
+    @DecimalMax("5.5")
+    private Double decimalDouble;
 
-@Min(-10)
-@Max(10)
-private Integer intInteger;
+    @Min(-10)
+    @Max(10)
+    private Integer intInteger;
 
-@Min(-10)
-@Max(10)
-private String intString;
+    @Min(-10)
+    @Max(10)
+    private String intString;
 
-@Digits(integer = 3, fraction = 2)
-private String fractionString;
+    @Digits(integer = 3, fraction = 2)
+    private String fractionString;
 
-@Digits(integer = 3, fraction = 2)
-private BigDecimal fractionDecimal;
+    @Digits(integer = 3, fraction = 2)
+    private BigDecimal fractionDecimal;
 
-@Past
-private Date pastDate;
+    @Past
+    private Date pastDate;
 
-@Future
-private Calendar futureCalendar;
+    @Future
+    private Calendar futureCalendar;
 
-@Size(min = 7, max = 10)
-private String sizedString;
+    @Size(min = 7, max = 10)
+    private String sizedString;
 
-@Size(max = 2)
-private Collection<String> maxCollection;
+    @Size(max = 2)
+    private Collection<String> maxCollection;
 
-@Size(min = 2)
-private Collection<String> minCollection;
+    @Size(min = 2)
+    private Collection<String> minCollection;
 
-@Pattern(regexp = "^[a-zA-Z0-9_]*$")
-private String identifier;
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$")
+    private String identifier;
 
 	...etc
 
@@ -96,12 +96,15 @@ private String identifier;
 +-----------------------------------
 
   Then just manufacture the POJO as normal.
+  Podam will introspect annotations and will follow constraints.
 
 +-----------------------------------
 ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);
 +-----------------------------------
 
-  To test your POJO you can run something like:
+  To test your POJO you need to add validation provider. For example,
+  <hibernate-validator> artifact provides one.
+  Then you can run something like:
 
 +-----------------------------------
 ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -111,10 +114,47 @@ Assert.assertTrue("Unexpected " + violations.size() + " violations "
     + violations, violations.isEmpty());
 +-----------------------------------
 
-  Podam will introspect annotations and will follow constraints.
+* Custom constraints support
+
+  If you use constraint annotations, which are not part of <javax.validation.constraints>
+  package:
+
++-----------------------------------
+
+public class ValidatedPojo {
+
+    @Email
+    private String email;
+
+    etc...
+}
+
++-----------------------------------
+
+  Then you have to tell Podam how to handle them:
+
++-----------------------------------
+
+Class<AttributeStrategy<?>> attrStrategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
+((RandomDataProviderStrategy)factory.getStrategy()).addAttributeStrategy(Email.class, attrStrategy);
+ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);
+
++-----------------------------------
+
+  <EmailStrategy> implementation:
+
++-----------------------------------
+
+public class EmailStrategy implements AttributeStrategy<String> {
+
+    @Override
+    public String getValue() {
+        return "aaa.bbb@ccc.ddd";
+    }
+}
+
++-----------------------------------
 
 * Limitations
 
   * @Pattern annotation is not yet supported
-
-  * Custom constraints are not yet supported

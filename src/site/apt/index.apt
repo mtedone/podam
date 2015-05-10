@@ -47,6 +47,11 @@ Pojo myPojo = factory.manufacturePojo(Pojo.class);
 // This will use constructor with maximum arguments and
 // then setters to populate POJO
 Pojo myPojo2 = factory.manufacturePojoWithFullData(Pojo.class);
+
+// If object instance is already available,
+// Podam can fill it with random data
+Pojo myPojo3 = MyFactory.getPojoInstance();
+factory.populatePojo(myPojo3);
 +-----------------------------------
 
   PODAM allows users to customise the way data are assigned in several ways: 
