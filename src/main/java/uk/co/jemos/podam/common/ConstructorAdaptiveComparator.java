@@ -37,10 +37,33 @@ public class ConstructorAdaptiveComparator extends AbstractConstructorComparator
 		}
 	}
 
+	/**
+	 * Register class type as heavy-first
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to add as heavy-first class
+	 */
 	public void addHeavyClass(Class<?> heavyFirstClass) {
 		this.heavyFirstClasses.add(heavyFirstClass);
 	}
 
+	/**
+	 * Checks, if class was added to the set of heavy-first classes
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to check
+	 * @return true, if class was added to the set of heavy-first classes
+	 */
+	public boolean isHeavyClass(Class<?> heavyFirstClass) {
+		return this.heavyFirstClasses.contains(heavyFirstClass);
+	}
+
+	/**
+	 * Unregister class type from the set of heavy-first classes
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to remove from the set of heavy-first classes
+	 */
 	public void removeHeavyClass(Class<?> heavyFirstClass) {
 		this.heavyFirstClasses.remove(heavyFirstClass);
 	}
