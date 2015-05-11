@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.co.jemos.podam.api.AbstractExternalFactory;
-import uk.co.jemos.podam.api.NullExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.*;
@@ -25,8 +24,17 @@ public class ExternalFactoryUnitTest {
 
 	private final static List<Class<?>> failures = new ArrayList<Class<?>>();
 
+	private final static List<Class<?>> fullDataCalls = new ArrayList<Class<?>>();
+
 	private final static PodamFactory externalFactory =
 			new AbstractExternalFactory() {
+
+				@Override
+				public <T> T manufacturePojoWithFullData(Class<T> pojoClass,
+						Type... genericTypeArgs) {
+					fullDataCalls.add(pojoClass);
+					return this.manufacturePojo(pojoClass, genericTypeArgs);
+				}
 
 				@Override
 				public <T> T manufacturePojo(Class<T> pojoClass,
@@ -53,6 +61,7 @@ public class ExternalFactoryUnitTest {
 
 	@After
 	public void after() {
+		fullDataCalls.clear();
 		failures.clear();
 	}
 
@@ -68,6 +77,7 @@ public class ExternalFactoryUnitTest {
 		Assert.assertNull("Should not produce interfaces", pojo);
 		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
 		Assert.assertEquals("List " + failures.toString(), InterfacePojo.class, failures.get(0));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
 	}
 
 	@Test
@@ -78,6 +88,18 @@ public class ExternalFactoryUnitTest {
 		Assert.assertEquals("List " + failures.toString(), 2, failures.size());
 		Assert.assertEquals("List " + failures.toString(), ObjectExt.class, failures.get(0));
 		Assert.assertEquals("List " + failures.toString(), InterfacePojo.class, failures.get(1));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
+	}
+
+	@Test
+	public void testPojoWithInterfacesWithFullData() {
+
+		PojoWithInterfaces pojo = podam.manufacturePojoWithFullData(PojoWithInterfaces.class);
+		Assert.assertNotNull("Manufacturing failed", pojo);
+		Assert.assertEquals("List " + failures.toString(), 2, failures.size());
+		Assert.assertEquals("List " + failures.toString(), ObjectExt.class, failures.get(0));
+		Assert.assertEquals("List " + failures.toString(), InterfacePojo.class, failures.get(1));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
 	}
 
 	@Test
@@ -87,6 +109,18 @@ public class ExternalFactoryUnitTest {
 		Assert.assertNull("Should not produce abstract classes", pojo);
 		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
 		Assert.assertEquals("List " + failures.toString(), AbstractClass.class, failures.get(0));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
+	}
+
+	@Test
+	public void testAbstractClassWithFullData() {
+
+		AbstractClass pojo = podam.manufacturePojoWithFullData(AbstractClass.class);
+		Assert.assertNull("Should not produce abstract classes", pojo);
+		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
+		Assert.assertEquals("List " + failures.toString(), AbstractClass.class, failures.get(0));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 1, fullDataCalls.size());
+		Assert.assertEquals("List " + fullDataCalls.toString(), AbstractClass.class, failures.get(0));
 	}
 
 	@Test
@@ -96,6 +130,7 @@ public class ExternalFactoryUnitTest {
 		Assert.assertNull("Should not produce non-instantiatable classes", pojo);
 		Assert.assertEquals("List " + failures.toString(), 1, failures.size());
 		Assert.assertEquals("List " + failures.toString(), NonInstantiatableClass.class, failures.get(0));
+		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
 	}
 
 	@Test
@@ -112,13 +147,5 @@ public class ExternalFactoryUnitTest {
 				externalFactory.getExternalFactory());
 		Assert.assertEquals("Should chain",
 				externalFactory, externalFactory.setExternalFactory(null));
-	}
-
-	@Test
-	public void testExternalFactoryWithFullConstructor() {
-		NullExternalFactory nullFactory = NullExternalFactory.getInstance();
-		PodamFactory factory = new PodamFactoryImpl(nullFactory);
-		PojoWithInterfaces pojo = factory.manufacturePojoWithFullData(PojoWithInterfaces.class);
-		Assert.assertNotNull(pojo);
 	}
 }
