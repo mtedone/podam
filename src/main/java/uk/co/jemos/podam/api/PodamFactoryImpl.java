@@ -1190,6 +1190,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		// reuse object from memoization table
 		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);
 		if (objectToReuse != null) {
+			LOG.debug("Fetched memoized object for {}", pojoClass);
 			return objectToReuse;
 		}
 

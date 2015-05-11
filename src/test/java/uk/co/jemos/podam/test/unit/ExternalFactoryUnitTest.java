@@ -1,7 +1,9 @@
 package uk.co.jemos.podam.test.unit;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.NullExternalFactory;
@@ -21,7 +23,7 @@ import java.util.List;
  */
 public class ExternalFactoryUnitTest {
 
-	private static List<Class<?>> failures = new ArrayList<Class<?>>();
+	private final static List<Class<?>> failures = new ArrayList<Class<?>>();
 
 	private final static PodamFactory externalFactory =
 			new AbstractExternalFactory() {
@@ -41,9 +43,22 @@ public class ExternalFactoryUnitTest {
 
 	private final static PodamFactory podam = new PodamFactoryImpl(externalFactory);
 
+	private final static boolean memoizationBackup
+			= podam.getStrategy().isMemoizationEnabled();
+
+	@BeforeClass
+	public static void init() {
+		podam.getStrategy().setMemoization(false);
+	}
+
 	@After
 	public void after() {
 		failures.clear();
+	}
+
+	@AfterClass
+	public static void cleanup() {
+		podam.getStrategy().setMemoization(memoizationBackup);
 	}
 
 	@Test
@@ -101,9 +116,9 @@ public class ExternalFactoryUnitTest {
 
 	@Test
 	public void testExternalFactoryWithFullConstructor() {
-		NullExternalFactory factory = NullExternalFactory.getInstance();
-		PodamFactory newPodam = new PodamFactoryImpl(factory);
-		PojoWithInterfaces pojo = newPodam.manufacturePojoWithFullData(PojoWithInterfaces.class);
+		NullExternalFactory nullFactory = NullExternalFactory.getInstance();
+		PodamFactory factory = new PodamFactoryImpl(nullFactory);
+		PojoWithInterfaces pojo = factory.manufacturePojoWithFullData(PojoWithInterfaces.class);
 		Assert.assertNotNull(pojo);
 	}
 }
