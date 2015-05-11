@@ -369,12 +369,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Sets the new number of default collection elements.
-	 *
-	 * @param newNumberOfCollectionElements
-	 *            The new number of collection elements.
+	 * {@inheritDoc}
 	 */
-	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
+	@Override
+	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
 		nbrOfCollectionElements = newNumberOfCollectionElements;
 	}
 

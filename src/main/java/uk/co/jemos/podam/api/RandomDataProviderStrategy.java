@@ -67,7 +67,7 @@ public final class RandomDataProviderStrategy extends
 	public static RandomDataProviderStrategy getInstance(
 			int nbrCollectionElements) {
 
-		SINGLETON.setNumberOfCollectionElements(nbrCollectionElements);
+		SINGLETON.setDefaultNumberOfCollectionElements(nbrCollectionElements);
 		return SINGLETON;
 
 	}

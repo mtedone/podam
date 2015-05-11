@@ -8,6 +8,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Test;
 
 import uk.co.jemos.podam.api.DataProviderStrategy;
@@ -27,6 +28,32 @@ import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 public class RandomDataProviderStrategyInitialisationUnitTest {
 
 	private DataProviderStrategy strategy;
+	
+	private static final int numOfCollectionElemsBackup
+			= RandomDataProviderStrategy.getInstance().getNumberOfCollectionElements(Object.class);
+
+	@After
+	public void after() {
+		strategy.setDefaultNumberOfCollectionElements(numOfCollectionElemsBackup);
+	}
+
+	@Test
+	public void testNumberOfCollectionElementChange() {
+
+		strategy = RandomDataProviderStrategy.getInstance();
+		Assert.assertEquals(
+				"An incorrect default number of collection elements",
+				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
+				strategy.getNumberOfCollectionElements(Object.class));
+
+		int aNumberOfCollectionElements = 3;
+		strategy.setDefaultNumberOfCollectionElements(aNumberOfCollectionElements);
+		Assert.assertEquals(
+				"An incorrect default number of collection elements",
+				aNumberOfCollectionElements,
+				strategy.getNumberOfCollectionElements(Object.class));
+
+	}
 
 	@Test
 	public void testInitialization() {

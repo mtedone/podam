@@ -222,6 +222,14 @@ public interface DataProviderStrategy {
 	int getNumberOfCollectionElements(Class<?> type);
 
 	/**
+	 * Sets the new default number of default collection elements.
+	 *
+	 * @param newNumberOfCollectionElements
+	 *            The new number of collection elements.
+	 */
+	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements);
+
+	/**
 	 * Returns how many times it is allowed to PODAM to create an instance
 	 * of the same class in a recursive hierarchy
 	 * <p>
