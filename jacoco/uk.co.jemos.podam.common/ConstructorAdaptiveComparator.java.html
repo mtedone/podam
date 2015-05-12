@@ -37,13 +37,36 @@ public class ConstructorAdaptiveComparator extends AbstractConstructorComparator
 		}
 	}
 
+	/**
+	 * Register class type as heavy-first
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to add as heavy-first class
+	 */
 	public void addHeavyClass(Class&lt;?&gt; heavyFirstClass) {
-<span class="fc" id="L41">		this.heavyFirstClasses.add(heavyFirstClass);</span>
-<span class="fc" id="L42">	}</span>
+<span class="fc" id="L47">		this.heavyFirstClasses.add(heavyFirstClass);</span>
+<span class="fc" id="L48">	}</span>
 
+	/**
+	 * Checks, if class was added to the set of heavy-first classes
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to check
+	 * @return true, if class was added to the set of heavy-first classes
+	 */
+	public boolean isHeavyClass(Class&lt;?&gt; heavyFirstClass) {
+<span class="fc" id="L58">		return this.heavyFirstClasses.contains(heavyFirstClass);</span>
+	}
+
+	/**
+	 * Unregister class type from the set of heavy-first classes
+	 *
+	 * @param heavyFirstClass
+	 *        Class type to remove from the set of heavy-first classes
+	 */
 	public void removeHeavyClass(Class&lt;?&gt; heavyFirstClass) {
-<span class="fc" id="L45">		this.heavyFirstClasses.remove(heavyFirstClass);</span>
-<span class="fc" id="L46">	}</span>
+<span class="fc" id="L68">		this.heavyFirstClasses.remove(heavyFirstClass);</span>
+<span class="fc" id="L69">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

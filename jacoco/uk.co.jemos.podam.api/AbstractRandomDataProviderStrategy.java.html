@@ -132,7 +132,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		byte nextByte;
 		do {
 <span class="fc" id="L134">			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		} while (nextByte == 0);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		} while (nextByte == 0);</span>
 <span class="fc" id="L136">		return nextByte;</span>
 	}
 
@@ -369,21 +369,19 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Sets the new number of default collection elements.
-	 *
-	 * @param newNumberOfCollectionElements
-	 *            The new number of collection elements.
+	 * {@inheritDoc}
 	 */
-	public void setNumberOfCollectionElements(int newNumberOfCollectionElements) {
-<span class="fc" id="L378">		nbrOfCollectionElements = newNumberOfCollectionElements;</span>
-<span class="fc" id="L379">	}</span>
+	@Override
+	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
+<span class="fc" id="L376">		nbrOfCollectionElements = newNumberOfCollectionElements;</span>
+<span class="fc" id="L377">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int getMaxDepth(Class&lt;?&gt; type) {
-<span class="fc" id="L386">		return maxDepth;</span>
+<span class="fc" id="L384">		return maxDepth;</span>
 	}
 
 	/**
@@ -393,15 +391,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            The new max stack trace depth.
 	 */
 	public void setMaxDepth(int newMaxDepth) {
-<span class="nc" id="L396">		maxDepth = newMaxDepth;</span>
-<span class="nc" id="L397">	}</span>
+<span class="nc" id="L394">		maxDepth = newMaxDepth;</span>
+<span class="nc" id="L395">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isMemoizationEnabled() {
-<span class="fc" id="L404">		return isMemoizationEnabled;</span>
+<span class="fc" id="L402">		return isMemoizationEnabled;</span>
 	}
 
 	/**
@@ -409,8 +407,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void setMemoization(boolean isMemoizationEnabled) {
-<span class="fc" id="L412">		this.isMemoizationEnabled = isMemoizationEnabled;</span>
-<span class="fc" id="L413">	}</span>
+<span class="fc" id="L410">		this.isMemoizationEnabled = isMemoizationEnabled;</span>
+<span class="fc" id="L411">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -418,24 +416,24 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
-<span class="fc bfc" id="L421" title="All 2 branches covered.">		if (isMemoizationEnabled) {</span>
+<span class="fc bfc" id="L419" title="All 2 branches covered.">		if (isMemoizationEnabled) {</span>
 			/* No memoization for arrays, collections and maps */
-<span class="fc" id="L423">			Class&lt;?&gt; pojoClass = attributeMetadata.getPojoClass();</span>
-<span class="fc bfc" id="L424" title="All 8 branches covered.">			if (pojoClass == null ||</span>
+<span class="fc" id="L421">			Class&lt;?&gt; pojoClass = attributeMetadata.getPojoClass();</span>
+<span class="fc bfc" id="L422" title="All 8 branches covered.">			if (pojoClass == null ||</span>
 					(!pojoClass.isArray() &amp;&amp;
 					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;
 					!Map.class.isAssignableFrom(pojoClass))) {
-<span class="fc" id="L428">				Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
-<span class="fc bfc" id="L429" title="All 2 branches covered.">				if (map != null) {</span>
-<span class="fc bfc" id="L430" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
-<span class="fc bfc" id="L431" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
-<span class="fc" id="L432">							return entry.getValue();</span>
+<span class="fc" id="L426">				Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc bfc" id="L427" title="All 2 branches covered.">				if (map != null) {</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
+<span class="fc bfc" id="L429" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
+<span class="fc" id="L430">							return entry.getValue();</span>
 						}
-<span class="fc" id="L434">					}</span>
+<span class="fc" id="L432">					}</span>
 				}
 			}
 		}
-<span class="fc" id="L438">		return null;</span>
+<span class="fc" id="L436">		return null;</span>
 	}
 
 	/**
@@ -445,15 +443,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public void cacheMemoizedObject(AttributeMetadata attributeMetadata,
 			Object instance) {
 
-<span class="fc bfc" id="L448" title="All 2 branches covered.">		if (isMemoizationEnabled) {</span>
-<span class="fc" id="L449">			Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
-<span class="fc bfc" id="L450" title="All 2 branches covered.">			if (map == null) {</span>
-<span class="fc" id="L451">				map = new HashMap&lt;Type[], Object&gt;();</span>
-<span class="fc" id="L452">				memoizationTable.put(attributeMetadata.getAttributeType(), map);</span>
+<span class="fc bfc" id="L446" title="All 2 branches covered.">		if (isMemoizationEnabled) {</span>
+<span class="fc" id="L447">			Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">			if (map == null) {</span>
+<span class="fc" id="L449">				map = new HashMap&lt;Type[], Object&gt;();</span>
+<span class="fc" id="L450">				memoizationTable.put(attributeMetadata.getAttributeType(), map);</span>
 			}
-<span class="fc" id="L454">			map.put(attributeMetadata.getAttrGenericArgs(), instance);</span>
+<span class="fc" id="L452">			map.put(attributeMetadata.getAttrGenericArgs(), instance);</span>
 		}
-<span class="fc" id="L456">	}</span>
+<span class="fc" id="L454">	}</span>
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the
@@ -465,8 +463,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Constructor&lt;?&gt;[] constructors) {
-<span class="fc" id="L468">		Arrays.sort(constructors, constructorComparator);</span>
-<span class="fc" id="L469">	}</span>
+<span class="fc" id="L466">		Arrays.sort(constructors, constructorComparator);</span>
+<span class="fc" id="L467">	}</span>
 
 	/**
 	 * Rearranges POJO's methods in order they will be tried to produce the
@@ -478,8 +476,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Method[] methods) {
-<span class="fc" id="L481">		Arrays.sort(methods, METHOD_COMPARATOR);</span>
-<span class="fc" id="L482">	}</span>
+<span class="fc" id="L479">		Arrays.sort(methods, METHOD_COMPARATOR);</span>
+<span class="fc" id="L480">	}</span>
 
 	/**
 	 * Bind an interface/abstract class to a specific implementation. If the
@@ -497,8 +495,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public &lt;T&gt; AbstractRandomDataProviderStrategy addSpecific(
 			final Class&lt;T&gt; abstractClass, final Class&lt;? extends T&gt; specificClass) {
-<span class="fc" id="L500">		specificTypes.put(abstractClass, specificClass);</span>
-<span class="fc" id="L501">		return this;</span>
+<span class="fc" id="L498">		specificTypes.put(abstractClass, specificClass);</span>
+<span class="fc" id="L499">		return this;</span>
 	}
 
 	/**
@@ -512,8 +510,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public &lt;T&gt; AbstractRandomDataProviderStrategy removeSpecific(
 			final Class&lt;T&gt; abstractClass) {
-<span class="fc" id="L515">		specificTypes.remove(abstractClass);</span>
-<span class="fc" id="L516">		return this;</span>
+<span class="fc" id="L513">		specificTypes.remove(abstractClass);</span>
+<span class="fc" id="L514">		return this;</span>
 	}
 
 	/**
@@ -523,12 +521,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public &lt;T&gt; Class&lt;? extends T&gt; getSpecificClass(
 			Class&lt;T&gt; nonInstantiatableClass) {
 		@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L526">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
+<span class="fc" id="L524">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
 				.get(nonInstantiatableClass);
-<span class="fc bfc" id="L528" title="All 2 branches covered.">		if (found == null) {</span>
-<span class="fc" id="L529">			found = nonInstantiatableClass;</span>
+<span class="fc bfc" id="L526" title="All 2 branches covered.">		if (found == null) {</span>
+<span class="fc" id="L527">			found = nonInstantiatableClass;</span>
 		}
-<span class="fc" id="L531">		return found;</span>
+<span class="fc" id="L529">		return found;</span>
 	}
 
 	/**
@@ -546,8 +544,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass,
 			final Class&lt;AttributeStrategy&lt;?&gt;&gt; strategyClass) {
-<span class="fc" id="L549">		attributeStrategies.put(annotationClass, strategyClass);</span>
-<span class="fc" id="L550">		return this;</span>
+<span class="fc" id="L547">		attributeStrategies.put(annotationClass, strategyClass);</span>
+<span class="fc" id="L548">		return this;</span>
 	}
 
 	/**
@@ -559,8 +557,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="fc" id="L562">		attributeStrategies.remove(annotationClass);</span>
-<span class="fc" id="L563">		return this;</span>
+<span class="fc" id="L560">		attributeStrategies.remove(annotationClass);</span>
+<span class="fc" id="L561">		return this;</span>
 	}
 
 	/**
@@ -569,7 +567,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Class&lt;AttributeStrategy&lt;?&gt;&gt; getStrategyForAnnotation(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="fc" id="L572">		return attributeStrategies.get(annotationClass);</span>
+<span class="fc" id="L570">		return attributeStrategies.get(annotationClass);</span>
 	}
 
 	/**
@@ -577,7 +575,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @return current constructor comparator used by strategy
 	 */
 	public AbstractConstructorComparator getConstructorComparator() {
-<span class="fc" id="L580">		return constructorComparator;</span>
+<span class="fc" id="L578">		return constructorComparator;</span>
 	}
 
 	/**
@@ -587,16 +585,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @param constructorComparator constructor comparator to set
 	 */
 	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
-<span class="nc" id="L590">		this.constructorComparator = constructorComparator;</span>
-<span class="nc" id="L591">	}</span>
+<span class="nc" id="L588">		this.constructorComparator = constructorComparator;</span>
+<span class="nc" id="L589">	}</span>
 
 	// -------------------&gt;&gt; Private methods
 
 	private void log(AttributeMetadata attributeMetadata) {
-<span class="fc bfc" id="L596" title="All 2 branches covered.">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
+<span class="fc bfc" id="L594" title="All 2 branches covered.">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
 				attributeMetadata.getPojoClass().getName(),
 				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);
-<span class="fc" id="L599">	}</span>
+<span class="fc" id="L597">	}</span>
 
 	// -------------------&gt;&gt; equals() / hashcode() / toString()
 
