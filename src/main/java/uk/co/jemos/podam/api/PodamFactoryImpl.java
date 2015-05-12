@@ -137,24 +137,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	@Override
 	public <T> T manufacturePojoWithFullData(Class<T> pojoClass, Type... genericTypeArgs) {
-		AbstractRandomDataProviderStrategy sortingStrategy;
-		if (getStrategy() instanceof AbstractRandomDataProviderStrategy) {
-			sortingStrategy = (AbstractRandomDataProviderStrategy) getStrategy();
-		} else {
-			throw new IllegalStateException("manufacturePojoWithFullData can"
-					+ " only be used with strategies derived from"
-					+ " AbstractRandomDataProviderStrategy");
-		}
-		ConstructorAdaptiveComparator constructorComparator;
-		if (sortingStrategy.getConstructorComparator()
-				instanceof ConstructorAdaptiveComparator) {
-			constructorComparator = (ConstructorAdaptiveComparator)
-					sortingStrategy.getConstructorComparator();
-		} else {
-			throw new IllegalStateException("manufacturePojoWithFullData can"
-					+ " only be used with constructor comparators derived from"
-					+ " ConstructorAdaptiveComparator");
-		}
+		ConstructorAdaptiveComparator constructorComparator
+				= findConstructorComparator();
 		constructorComparator.addHeavyClass(pojoClass);
 		T retValue = this.manufacturePojo(pojoClass, genericTypeArgs);
 		constructorComparator.removeHeavyClass(pojoClass);
@@ -1218,11 +1202,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				return this.manufacturePojoInternal(specificClass, pojoMetadata,
 						pojos, genericTypeArgs);
 			} else {
-				LOG.info("{} is an interface. Resorting to {} external factory",
-						pojoClass,
-						externalFactory.getClass().getName());
-				return externalFactory.manufacturePojo(pojoClass,
-						genericTypeArgs);
+				return resortToExternalFactory(
+						"{} is an interface. Resorting to {} external factory",
+						pojoClass, genericTypeArgs);
 			}
 		}
 
@@ -1243,11 +1225,9 @@ public class PodamFactoryImpl implements PodamFactory {
 							pojos, genericTypeArgs);
 				}
 			}
-			LOG.info("Failed to manufacture {}. Resorting to {} external factory",
-					pojoClass,
-					externalFactory.getClass().getName());
-			return externalFactory.manufacturePojo(pojoClass,
-					genericTypeArgs);
+			return resortToExternalFactory(
+					"Failed to manufacture {}. Resorting to {} external factory",
+					pojoClass, genericTypeArgs);
 		}
 
 		// update memoization cache with new object
@@ -1749,15 +1729,66 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				LOG.warn("Loop in {} production detected. Resorting to {} external factory",
-						realAttributeType, externalFactory.getClass().getName());
-				attributeValue = externalFactory.manufacturePojo(
+				attributeValue = resortToExternalFactory(
+						"Loop in {} production detected. Resorting to {} external factory",
 						realAttributeType, genericTypeArgsAll);
 
 			}
 		}
 
 		return attributeValue;
+	}
+
+	/**
+	 * Finds constructor comparator from current strategy.
+	 *
+	 * @return {@link ConstructorAdaptiveComparator} of the current strategy
+	 */
+	private ConstructorAdaptiveComparator findConstructorComparator() {
+		AbstractRandomDataProviderStrategy sortingStrategy;
+		if (getStrategy() instanceof AbstractRandomDataProviderStrategy) {
+			sortingStrategy = (AbstractRandomDataProviderStrategy) getStrategy();
+		} else {
+			throw new IllegalStateException("manufacturePojoWithFullData can"
+					+ " only be used with strategies derived from"
+					+ " AbstractRandomDataProviderStrategy");
+		}
+		if (sortingStrategy.getConstructorComparator()
+				instanceof ConstructorAdaptiveComparator) {
+			return (ConstructorAdaptiveComparator)
+					sortingStrategy.getConstructorComparator();
+		} else {
+			throw new IllegalStateException("manufacturePojoWithFullData can"
+					+ " only be used with constructor comparators derived from"
+					+ " ConstructorAdaptiveComparator");
+		}
+	}
+
+	/**
+	 * Delegates POJO manufacturing to an external factory
+	 *
+	 * @param <T>
+	 *            The type of the instance to return
+	 * @param msg
+	 *            Message to log, must contain two parameters
+	 * @param pojoClass
+	 *            The class of which an instance is required
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return instance of POJO produced by external factory or null
+	 */
+	private <T> T resortToExternalFactory(String msg, Class<T> pojoClass,
+			Type... genericTypeArgs) {
+
+		LOG.warn(msg, pojoClass, externalFactory.getClass().getName());
+		ConstructorAdaptiveComparator constuctorComparator
+				= findConstructorComparator();
+		if (constuctorComparator.isHeavyClass(pojoClass)) {
+			return externalFactory.<T>manufacturePojoWithFullData(pojoClass, genericTypeArgs);
+		} else {
+			return externalFactory.<T>manufacturePojo(pojoClass, genericTypeArgs);
+		}
 	}
 
 	/**
