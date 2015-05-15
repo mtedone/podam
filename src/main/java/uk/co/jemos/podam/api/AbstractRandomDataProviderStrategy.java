@@ -454,6 +454,14 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearMemoizationCache() {
+		memoizationTable.clear();
+	}
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the
 	 * POJO. Default strategy consist of putting constructors with less
 	 * parameters to be tried first.

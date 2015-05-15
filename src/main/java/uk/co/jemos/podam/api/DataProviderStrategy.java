@@ -284,6 +284,11 @@ public interface DataProviderStrategy {
 	void cacheMemoizedObject(AttributeMetadata attributeMetadata, Object instance);
 
 	/**
+	 * Clears memoization cache
+	 */
+	void clearMemoizationCache();
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to
 	 * produce the POJO.
 	 * Default strategy consists of putting constructors with less parameters
