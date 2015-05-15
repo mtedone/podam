@@ -1335,11 +1335,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			String attributeName = PodamUtils
 					.extractFieldNameFromSetterMethod(setter);
 			List<Annotation> pojoAttributeAnnotations
-					= PodamUtils.getFieldAnnotations(pojo.getClass(),
-							attributeName);
-			for (Annotation annotation : setter.getParameterAnnotations()[0]) {
-				pojoAttributeAnnotations.add(annotation);
-			}
+					= PodamUtils.getAttributeAnnotations(
+							attribute.getAttribute(), setter);
 
 			AttributeStrategy<?> attributeStrategy
 					= findAttributeStrategy(pojoAttributeAnnotations, attributeType);

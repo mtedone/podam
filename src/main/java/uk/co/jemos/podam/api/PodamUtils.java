@@ -419,28 +419,28 @@ public final class PodamUtils {
 	}
 
 	/**
-	 * Given the original class and the attribute name, it returns all
-	 * annotations for the field or an empty collection if no custom annotations
-	 * were found on the field
+	 * Given the attribute and setter it combines annotations from them
+	 * or an empty collection if no custom annotations were found
 	 *
-	 * @param clazz
-	 *            The class containing the annotated attribute
+	 * @param attribute
+	 *            The class attribute
 	 * @param attributeName
-	 *            The name of attribute
-	 * @return all annotations for the field
+	 *            The class attribute's setter
+	 * @return all annotations for the attribute
 	 */
-	public static List<Annotation> getFieldAnnotations(Class<?> clazz,
-			final String attributeName) {
+	public static List<Annotation> getAttributeAnnotations(final Field attribute,
+			final Method setter) {
 
-		Field field = PodamUtils.getField(clazz, attributeName);
-
-		Annotation[] annotations = (field != null ? field.getAnnotations() : null);
+		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
 
 		List<Annotation> retValue;
 		if (annotations != null && annotations.length != 0) {
 			retValue = Arrays.asList(annotations);
 		} else {
 			retValue = new ArrayList<Annotation>();
+		}
+		for (Annotation annotation : setter.getParameterAnnotations()[0]) {
+			retValue.add(annotation);
 		}
 
 		return retValue;
