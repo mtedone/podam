@@ -383,39 +383,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				continue;
 			}
 
-			Class<?>[] parameterTypes = candidateConstructor.getParameterTypes();
-
-			if (parameterTypes.length == 0) {
-
-				parameterValues = NO_ARGS;
-
-			} else {
-
-				// This is a factory method with arguments
-
-				parameterValues = new Object[candidateConstructor
-						.getParameterTypes().length];
-
-				Annotation[][] parameterAnnotations = candidateConstructor
-						.getParameterAnnotations();
-
-				int idx = 0;
-
-				for (Class<?> parameterType : parameterTypes) {
-
-					List<Annotation> annotations = Arrays
-							.asList(parameterAnnotations[idx]);
-					Type genericType = candidateConstructor.getGenericParameterTypes()[idx];
-
-					parameterValues[idx] = manufactureParameterValue(parameterType,
-							genericType, annotations, typeArgsMap, pojos,
-							genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
-
-					idx++;
-
-				}
-
-			}
+			parameterValues = getParameterValuesForMethod(candidateConstructor,
+					pojoClass, pojos, typeArgsMap, genericTypeArgs);
 
 			try {
 
@@ -1491,18 +1460,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (null != extraMethods) {
 			for (Method extraMethod : extraMethods) {
 
-				Class<?>[] argTypes = extraMethod.getParameterTypes();
-				Type[] genericTypes = extraMethod.getGenericParameterTypes();
-				Annotation[][] annotations = extraMethod.getParameterAnnotations();
-
-				Object[] args = new Object[argTypes.length];
-				for (int i = 0; i < argTypes.length; i++) {
-
-					List<Annotation> paramAnnotations = Arrays.asList(annotations[i]);
-					args[i] = manufactureParameterValue(pojos, argTypes[i],
-							genericTypes[i], paramAnnotations, typeArgsMap,
-							genericTypeArgs);
-				}
+				Object[] args = getParameterValuesForMethod(extraMethod, pojoClass,
+						pojos, typeArgsMap, genericTypeArgsExtra);
 				extraMethod.invoke(pojo, args);
 			}
 		}
@@ -2910,24 +2869,101 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		Annotation[][] parameterAnnotations = constructor
-				.getParameterAnnotations();
-
+		Object[] parameterValues;
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
-		Type[] genericTypes = constructor.getGenericParameterTypes();
-		Object[] parameterValues = new Object[parameterTypes.length];
 
-		for (int idx = 0; idx < parameterTypes.length; idx++) {
+		if (parameterTypes.length == 0) {
 
-			List<Annotation> annotations = Arrays
-					.asList(parameterAnnotations[idx]);
+			parameterValues = NO_ARGS;
 
-			Type genericType = (idx < genericTypes.length) ?
-					genericTypes[idx] : parameterTypes[idx];
+		} else {
 
-			parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
-					genericType, annotations, typeArgsMap, pojos,
-					genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
+			parameterValues = new Object[parameterTypes.length];
+
+			Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
+			Type[] genericTypes = constructor.getGenericParameterTypes();
+
+			for (int idx = 0; idx < parameterTypes.length; idx++) {
+
+				List<Annotation> annotations = Arrays
+						.asList(parameterAnnotations[idx]);
+
+				Type genericType = (idx < genericTypes.length) ?
+						genericTypes[idx] : parameterTypes[idx];
+
+				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
+						genericType, annotations, typeArgsMap, pojos,
+						genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
+			}
+		}
+
+		return parameterValues;
+
+	}
+
+	/**
+	 * Given a method it manufactures and returns the parameter values
+	 * required to invoke it
+	 *
+	 * @param method
+	 *            The method for which parameter values are required
+	 * @param pojoClass
+	 *            The POJO class containing the constructor
+	 * @param pojos
+	 *            Set of manufactured pojos' types
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 *
+	 * @return The parameter values required to invoke the method
+	 * @throws IllegalArgumentException
+	 *             If an illegal argument was passed to the method
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 */
+	private Object[] getParameterValuesForMethod(
+			Method method, Class<?> pojoClass,
+			Map<Class<?>, Integer> pojos, Map<String, Type> typeArgsMap,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		Object[] parameterValues;
+		Class<?>[] parameterTypes = method.getParameterTypes();
+
+		if (parameterTypes.length == 0) {
+
+			parameterValues = NO_ARGS;
+
+		} else {
+
+			parameterValues = new Object[parameterTypes.length];
+
+			Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+			Type[] genericTypes = method.getGenericParameterTypes();
+
+			for (int idx = 0; idx < parameterTypes.length; idx++) {
+
+				List<Annotation> annotations = Arrays
+						.asList(parameterAnnotations[idx]);
+
+				Type genericType = (idx < genericTypes.length) ?
+						genericTypes[idx] : parameterTypes[idx];
+
+				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
+						genericType, annotations, typeArgsMap, pojos,
+						genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
+			}
 		}
 
 		return parameterValues;
