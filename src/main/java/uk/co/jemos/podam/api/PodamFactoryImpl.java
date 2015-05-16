@@ -292,7 +292,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			genericTypeArgsExtra = Arrays.copyOfRange(genericTypeArgs, i,
 					genericTypeArgs.length);
 		} else {
-			genericTypeArgsExtra = null;
+			genericTypeArgsExtra = NO_TYPES;
 		}
 
 		/* Adding types, which were specified during inheritance */
@@ -1264,7 +1264,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
-		if (genericTypeArgsExtra != null) {
+		if (genericTypeArgsExtra.length > 0) {
 			LOG.warn("Lost generic type arguments {}",
 					Arrays.toString(genericTypeArgsExtra));
 		}
@@ -2893,7 +2893,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
 						genericType, annotations, typeArgsMap, pojos,
-						genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
+						genericTypeArgs);
 			}
 		}
 
@@ -2962,7 +2962,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
 						genericType, annotations, typeArgsMap, pojos,
-						genericTypeArgs == null ? NO_TYPES : genericTypeArgs);
+						genericTypeArgs);
 			}
 		}
 

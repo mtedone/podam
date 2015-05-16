@@ -1,9 +1,7 @@
 package uk.co.jemos.podam.test.unit;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.co.jemos.podam.api.AbstractExternalFactory;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -51,23 +49,11 @@ public class ExternalFactoryUnitTest {
 
 	private final static PodamFactory podam = new PodamFactoryImpl(externalFactory);
 
-	private final static boolean memoizationBackup
-			= podam.getStrategy().isMemoizationEnabled();
-
-	@BeforeClass
-	public static void init() {
-		podam.getStrategy().setMemoization(false);
-	}
-
 	@After
 	public void after() {
 		fullDataCalls.clear();
 		failures.clear();
-	}
-
-	@AfterClass
-	public static void cleanup() {
-		podam.getStrategy().setMemoization(memoizationBackup);
+		podam.getStrategy().clearMemoizationCache();
 	}
 
 	@Test
