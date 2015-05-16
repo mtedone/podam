@@ -375,7 +375,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		// The parameters to pass to the method invocation
 		Object[] parameterValues = null;
-		Object[] noParams = new Object[] {};
 
 		for (Method candidateConstructor : declaredMethods) {
 
@@ -385,18 +384,18 @@ public class PodamFactoryImpl implements PodamFactory {
 				continue;
 			}
 
-			parameterValues = new Object[candidateConstructor
-					.getParameterTypes().length];
-
 			Class<?>[] parameterTypes = candidateConstructor.getParameterTypes();
 
 			if (parameterTypes.length == 0) {
 
-				parameterValues = noParams;
+				parameterValues = NO_ARGS;
 
 			} else {
 
 				// This is a factory method with arguments
+
+				parameterValues = new Object[candidateConstructor
+						.getParameterTypes().length];
 
 				Annotation[][] parameterAnnotations = candidateConstructor
 						.getParameterAnnotations();
