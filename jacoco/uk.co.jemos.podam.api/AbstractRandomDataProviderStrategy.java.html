@@ -311,7 +311,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		short retValue;
 		do {
 <span class="fc" id="L313">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L314" title="1 of 2 branches missed.">		} while (retValue == 0);</span>
+<span class="fc bfc" id="L314" title="All 2 branches covered.">		} while (retValue == 0);</span>
 <span class="fc" id="L315">		return retValue;</span>
 	}
 
@@ -454,6 +454,14 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 <span class="fc" id="L454">	}</span>
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearMemoizationCache() {
+<span class="fc" id="L461">		memoizationTable.clear();</span>
+<span class="fc" id="L462">	}</span>
+
+	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the
 	 * POJO. Default strategy consist of putting constructors with less
 	 * parameters to be tried first.
@@ -463,8 +471,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Constructor&lt;?&gt;[] constructors) {
-<span class="fc" id="L466">		Arrays.sort(constructors, constructorComparator);</span>
-<span class="fc" id="L467">	}</span>
+<span class="fc" id="L474">		Arrays.sort(constructors, constructorComparator);</span>
+<span class="fc" id="L475">	}</span>
 
 	/**
 	 * Rearranges POJO's methods in order they will be tried to produce the
@@ -476,8 +484,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Method[] methods) {
-<span class="fc" id="L479">		Arrays.sort(methods, METHOD_COMPARATOR);</span>
-<span class="fc" id="L480">	}</span>
+<span class="fc" id="L487">		Arrays.sort(methods, METHOD_COMPARATOR);</span>
+<span class="fc" id="L488">	}</span>
 
 	/**
 	 * Bind an interface/abstract class to a specific implementation. If the
@@ -495,8 +503,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public &lt;T&gt; AbstractRandomDataProviderStrategy addSpecific(
 			final Class&lt;T&gt; abstractClass, final Class&lt;? extends T&gt; specificClass) {
-<span class="fc" id="L498">		specificTypes.put(abstractClass, specificClass);</span>
-<span class="fc" id="L499">		return this;</span>
+<span class="fc" id="L506">		specificTypes.put(abstractClass, specificClass);</span>
+<span class="fc" id="L507">		return this;</span>
 	}
 
 	/**
@@ -510,8 +518,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public &lt;T&gt; AbstractRandomDataProviderStrategy removeSpecific(
 			final Class&lt;T&gt; abstractClass) {
-<span class="fc" id="L513">		specificTypes.remove(abstractClass);</span>
-<span class="fc" id="L514">		return this;</span>
+<span class="fc" id="L521">		specificTypes.remove(abstractClass);</span>
+<span class="fc" id="L522">		return this;</span>
 	}
 
 	/**
@@ -521,12 +529,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public &lt;T&gt; Class&lt;? extends T&gt; getSpecificClass(
 			Class&lt;T&gt; nonInstantiatableClass) {
 		@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L524">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
+<span class="fc" id="L532">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
 				.get(nonInstantiatableClass);
-<span class="fc bfc" id="L526" title="All 2 branches covered.">		if (found == null) {</span>
-<span class="fc" id="L527">			found = nonInstantiatableClass;</span>
+<span class="fc bfc" id="L534" title="All 2 branches covered.">		if (found == null) {</span>
+<span class="fc" id="L535">			found = nonInstantiatableClass;</span>
 		}
-<span class="fc" id="L529">		return found;</span>
+<span class="fc" id="L537">		return found;</span>
 	}
 
 	/**
@@ -544,8 +552,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass,
 			final Class&lt;AttributeStrategy&lt;?&gt;&gt; strategyClass) {
-<span class="fc" id="L547">		attributeStrategies.put(annotationClass, strategyClass);</span>
-<span class="fc" id="L548">		return this;</span>
+<span class="fc" id="L555">		attributeStrategies.put(annotationClass, strategyClass);</span>
+<span class="fc" id="L556">		return this;</span>
 	}
 
 	/**
@@ -557,8 +565,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="fc" id="L560">		attributeStrategies.remove(annotationClass);</span>
-<span class="fc" id="L561">		return this;</span>
+<span class="fc" id="L568">		attributeStrategies.remove(annotationClass);</span>
+<span class="fc" id="L569">		return this;</span>
 	}
 
 	/**
@@ -567,7 +575,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Class&lt;AttributeStrategy&lt;?&gt;&gt; getStrategyForAnnotation(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
-<span class="fc" id="L570">		return attributeStrategies.get(annotationClass);</span>
+<span class="fc" id="L578">		return attributeStrategies.get(annotationClass);</span>
 	}
 
 	/**
@@ -575,7 +583,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @return current constructor comparator used by strategy
 	 */
 	public AbstractConstructorComparator getConstructorComparator() {
-<span class="fc" id="L578">		return constructorComparator;</span>
+<span class="fc" id="L586">		return constructorComparator;</span>
 	}
 
 	/**
@@ -585,16 +593,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @param constructorComparator constructor comparator to set
 	 */
 	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
-<span class="nc" id="L588">		this.constructorComparator = constructorComparator;</span>
-<span class="nc" id="L589">	}</span>
+<span class="nc" id="L596">		this.constructorComparator = constructorComparator;</span>
+<span class="nc" id="L597">	}</span>
 
 	// -------------------&gt;&gt; Private methods
 
 	private void log(AttributeMetadata attributeMetadata) {
-<span class="fc bfc" id="L594" title="All 2 branches covered.">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
+<span class="fc bfc" id="L602" title="All 2 branches covered.">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
 				attributeMetadata.getPojoClass().getName(),
 				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);
-<span class="fc" id="L597">	}</span>
+<span class="fc" id="L605">	}</span>
 
 	// -------------------&gt;&gt; equals() / hashcode() / toString()
 

@@ -419,28 +419,28 @@ public final class PodamUtils {
 	}
 
 	/**
-	 * Given the original class and the attribute name, it returns all
-	 * annotations for the field or an empty collection if no custom annotations
-	 * were found on the field
+	 * Given the attribute and setter it combines annotations from them
+	 * or an empty collection if no custom annotations were found
 	 *
-	 * @param clazz
-	 *            The class containing the annotated attribute
+	 * @param attribute
+	 *            The class attribute
 	 * @param attributeName
-	 *            The name of attribute
-	 * @return all annotations for the field
+	 *            The class attribute's setter
+	 * @return all annotations for the attribute
 	 */
-	public static List&lt;Annotation&gt; getFieldAnnotations(Class&lt;?&gt; clazz,
-			final String attributeName) {
+	public static List&lt;Annotation&gt; getAttributeAnnotations(final Field attribute,
+			final Method setter) {
 
-<span class="fc" id="L435">		Field field = PodamUtils.getField(clazz, attributeName);</span>
-
-<span class="fc bfc" id="L437" title="All 2 branches covered.">		Annotation[] annotations = (field != null ? field.getAnnotations() : null);</span>
+<span class="fc bfc" id="L434" title="All 2 branches covered.">		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);</span>
 
 		List&lt;Annotation&gt; retValue;
-<span class="fc bfc" id="L440" title="All 4 branches covered.">		if (annotations != null &amp;&amp; annotations.length != 0) {</span>
-<span class="fc" id="L441">			retValue = Arrays.asList(annotations);</span>
+<span class="fc bfc" id="L437" title="All 4 branches covered.">		if (annotations != null &amp;&amp; annotations.length != 0) {</span>
+<span class="fc" id="L438">			retValue = Arrays.asList(annotations);</span>
 		} else {
-<span class="fc" id="L443">			retValue = new ArrayList&lt;Annotation&gt;();</span>
+<span class="fc" id="L440">			retValue = new ArrayList&lt;Annotation&gt;();</span>
+		}
+<span class="fc bfc" id="L442" title="All 2 branches covered.">		for (Annotation annotation : setter.getParameterAnnotations()[0]) {</span>
+<span class="fc" id="L443">			retValue.add(annotation);</span>
 		}
 
 <span class="fc" id="L446">		return retValue;</span>
