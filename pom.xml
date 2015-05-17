@@ -12,6 +12,7 @@
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
 	<version>5.4.0-SNAPSHOT</version>
+	<url>http://mtedone.github.io/podam/</url>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
