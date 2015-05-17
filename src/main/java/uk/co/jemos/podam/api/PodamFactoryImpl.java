@@ -1337,14 +1337,14 @@ public class PodamFactoryImpl implements PodamFactory {
 				Type[] typeArguments = NO_TYPES;
 				// If the parameter is a generic parameterized type resolve
 				// the actual type arguments
-				if (setter.getGenericParameterTypes()[0] instanceof ParameterizedType) {
-					final ParameterizedType attributeParameterizedType = (ParameterizedType) setter
-							.getGenericParameterTypes()[0];
+				Type genericType = setter.getGenericParameterTypes()[0];
+				if (genericType instanceof ParameterizedType) {
+					final ParameterizedType attributeParameterizedType
+							= (ParameterizedType) genericType;
 					typeArguments = attributeParameterizedType
 							.getActualTypeArguments();
-				} else if (setter.getGenericParameterTypes()[0] instanceof TypeVariable) {
-					final TypeVariable<?> typeVariable = (TypeVariable<?>) setter
-							.getGenericParameterTypes()[0];
+				} else if (genericType instanceof TypeVariable) {
+					final TypeVariable<?> typeVariable = (TypeVariable<?>) genericType;
 					Type type = typeArgsMap.get(typeVariable.getName());
 					if (type instanceof ParameterizedType) {
 						final ParameterizedType attributeParameterizedType = (ParameterizedType) type;
@@ -1370,7 +1370,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				setterArg = manufactureAttributeValue(pojo, pojos,
-						attributeType, setter.getGenericParameterTypes()[0],
+						attributeType, genericType,
 						pojoAttributeAnnotations, attributeName,
 						typeArgsMap, typeArguments);
 			}
