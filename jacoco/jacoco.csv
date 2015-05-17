@@ -11,9 +11,9 @@ podam,uk.co.jemos.podam.api,AttributeMetadata,3,85,0,0,1,24,1,7,1,7
 podam,uk.co.jemos.podam.api,PodamUtils,40,876,7,93,10,137,8,58,1,15
 podam,uk.co.jemos.podam.api,ClassInfo,52,76,15,7,14,20,12,5,1,5
 podam,uk.co.jemos.podam.api,MapKeyOrElementsArguments,48,26,0,0,11,10,1,7,1,7
-podam,uk.co.jemos.podam.api,AbstractRandomDataProviderStrategy,8,465,6,38,4,114,8,54,2,38
+podam,uk.co.jemos.podam.api,AbstractRandomDataProviderStrategy,8,465,7,37,4,114,9,53,2,38
 podam,uk.co.jemos.podam.api,AbstractMapArguments,39,31,0,0,9,13,1,9,1,9
-podam,uk.co.jemos.podam.api,PodamFactoryImpl,318,3985,77,501,76,893,78,264,4,49
+podam,uk.co.jemos.podam.api,PodamFactoryImpl,318,3975,77,501,76,894,78,264,4,49
 podam,uk.co.jemos.podam.api,AbstractExternalFactory,0,20,0,0,0,8,0,8,0,8
 podam,uk.co.jemos.podam.common,PodamConstants,0,7,0,0,0,2,0,1,0,1
 podam,uk.co.jemos.podam.common,AbstractConstructorComparator,0,70,2,20,0,13,2,12,0,3

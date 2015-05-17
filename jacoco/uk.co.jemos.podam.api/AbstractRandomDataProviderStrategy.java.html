@@ -311,7 +311,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		short retValue;
 		do {
 <span class="fc" id="L313">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="fc bfc" id="L314" title="All 2 branches covered.">		} while (retValue == 0);</span>
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">		} while (retValue == 0);</span>
 <span class="fc" id="L315">		return retValue;</span>
 	}
 

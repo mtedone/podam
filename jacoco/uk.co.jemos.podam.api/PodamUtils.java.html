@@ -424,7 +424,7 @@ public final class PodamUtils {
 	 *
 	 * @param attribute
 	 *            The class attribute
-	 * @param attributeName
+	 * @param setter
 	 *            The class attribute's setter
 	 * @return all annotations for the attribute
 	 */
