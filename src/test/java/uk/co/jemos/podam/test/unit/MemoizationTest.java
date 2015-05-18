@@ -31,8 +31,9 @@ public class MemoizationTest {
 		@Override
 		public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 			LOG.info("Memoization request: {}", attributeMetadata);
-			if (attributeMetadata.getPojoClass() != null &&
-					attributeMetadata.getPojoClass() != Object.class) {
+			if (attributeMetadata.getPojoClass() != null
+					&& attributeMetadata.getPojoClass() != Currency.class
+					&& attributeMetadata.getPojoClass() != MemoizationPojo.class) {
 				Assert.assertNotNull(attributeMetadata.getAttributeName());
 			}
 			return super.getMemoizedObject(attributeMetadata);

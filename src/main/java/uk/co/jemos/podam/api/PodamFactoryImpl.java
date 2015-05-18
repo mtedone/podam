@@ -48,8 +48,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final Object[] NO_ARGS = new Object[0];
 
-	private static final Object OBJECT = new Object();
-
 	/** Application logger */
 	private static final Logger LOG = LoggerFactory
 			.getLogger(PodamFactoryImpl.class.getName());
@@ -1522,6 +1520,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 		Object attributeValue = null;
 
+		Class<?> pojoClass = (pojo instanceof Class ? (Class<?>) pojo : pojo.getClass());
 		Class<?> realAttributeType;
 		if (Object.class.equals(attributeType) && attributeType != genericAttributeType) {
 			AtomicReference<Type[]> elementGenericTypeArgs
@@ -1533,7 +1532,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
 				attributeName, realAttributeType, genericTypeArgs, annotations,
-				pojo.getClass());
+				pojoClass);
 
 		// Primitive type
 		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType)) {
@@ -1617,7 +1616,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			if (depth == null) {
 				depth = -1;
 			}
-			if (depth <= strategy.getMaxDepth(pojo.getClass())) {
+			if (depth <= strategy.getMaxDepth(pojoClass)) {
 
 				pojos.put(realAttributeType, depth + 1);
 
@@ -2837,9 +2836,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				Type genericType = (idx < genericTypes.length) ?
 						genericTypes[idx] : parameterTypes[idx];
 
-				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
-						genericType, annotations, typeArgsMap, pojos,
-						genericTypeArgs);
+				parameterValues[idx] = manufactureParameterValue(pojoClass,
+						parameterTypes[idx], genericType, annotations,
+						typeArgsMap, pojos, genericTypeArgs);
 			}
 		}
 
@@ -2906,9 +2905,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				Type genericType = (idx < genericTypes.length) ?
 						genericTypes[idx] : parameterTypes[idx];
 
-				parameterValues[idx] = manufactureParameterValue(parameterTypes[idx],
-						genericType, annotations, typeArgsMap, pojos,
-						genericTypeArgs);
+				parameterValues[idx] = manufactureParameterValue(pojoClass,
+						parameterTypes[idx], genericType, annotations,
+						typeArgsMap, pojos, genericTypeArgs);
 			}
 		}
 
@@ -2920,6 +2919,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * Manufactures and returns the parameter value for method required to
 	 * invoke it
 	 *
+	 * @param pojoClass pojo class
 	 * @param parameterType type of parameter
 	 * @param genericType generic type of parameter
 	 * @param annotations parameter annotations
@@ -2943,7 +2943,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object manufactureParameterValue(Class<?> parameterType,
+	private Object manufactureParameterValue(Class<?> pojoClass, Class<?> parameterType,
 			Type genericType, List<Annotation> annotations,
 			final Map<String, Type> typeArgsMap, Map<Class<?>, Integer> pojos,
 			Type... genericTypeArgs)
@@ -3067,7 +3067,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			String attributeName = null;
 
-			parameterValue = manufactureAttributeValue(OBJECT, pojos, parameterType,
+			parameterValue = manufactureAttributeValue(pojoClass, pojos, parameterType,
 					genericType, annotations, attributeName, typeArgsMapForParam,
 					genericTypeArgs);
 		}
