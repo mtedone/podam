@@ -1470,60 +1470,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It manufactures and returns the value for a POJO method parameter.
-	 *
-	 *
-	 * @param pojos
-	 *            Set of manufactured pojos' types
-	 * @param parameterType
-	 *            The type of the attribute for which a value is being
-	 *            manufactured
-	 * @param genericType
-	 *            The generic type of the attribute for which a value is being
-	 *            manufactured
-	 * @param annotations
-	 *            The annotations for the attribute being considered
-	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
-	 *            example) with their actual types
-	 * @param genericTypeArgs
-	 *            The generic type arguments for the current generic class
-	 *            instance
-	 * @return The value for a parameter
-	 *
-	 * @throws InstantiationException
-	 *             If an exception occurred during instantiation
-	 * @throws IllegalAccessException
-	 *             If security was violated while creating the object
-	 * @throws InvocationTargetException
-	 *             If an exception occurred while invoking the constructor or
-	 *             factory method
-	 * @throws ClassNotFoundException
-	 *             If it was not possible to create a class from a string
-	 * @throws IllegalArgumentException
-	 *             <ul>
-	 *             <li>If an illegal argument was passed</li>
-	 *             <li>If an invalid value was set for a precise value in an
-	 *             annotation and such value could not be converted to the
-	 *             desired type</li>
-	 *             </ul>
-	 *
-	 */
-	private Object manufactureParameterValue(Map<Class<?>, Integer> pojos,
-			Class<?> parameterType, Type genericType,
-			List<Annotation> annotations, Map<String, Type> typeArgsMap,
-			Type... genericTypeArgs)
-			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
-
-		String attributeName = null;
-
-		return manufactureAttributeValue(OBJECT, pojos, parameterType,
-				genericType, annotations, attributeName, typeArgsMap,
-				genericTypeArgs);
-	}
-
-	/**
 	 * It manufactures and returns the value for a POJO attribute.
 	 *
 	 *
@@ -3119,8 +3065,10 @@ public class PodamFactoryImpl implements PodamFactory {
 				typeArgsMapForParam = typeArgsMap;
 			}
 
-			parameterValue = manufactureParameterValue(pojos, parameterType,
-					genericType, annotations, typeArgsMapForParam,
+			String attributeName = null;
+
+			parameterValue = manufactureAttributeValue(OBJECT, pojos, parameterType,
+					genericType, annotations, attributeName, typeArgsMapForParam,
 					genericTypeArgs);
 		}
 
