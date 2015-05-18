@@ -15,6 +15,8 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.common.AbstractConstructorComparator;
+import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
@@ -129,6 +131,32 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 				strategy.getNumberOfCollectionElements(String.class),
 				pojo.size());
 
+	}
+
+	@Test
+	public void testConstructorComparator() {
+
+		strategy = RandomDataProviderStrategy.getInstance();
+		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractConstructorComparator comparator = randomStrategy.getConstructorComparator();
+		Assert.assertNotNull(comparator);
+		randomStrategy.setConstructorComparator(null);
+		Assert.assertEquals(null, randomStrategy.getConstructorComparator());
+		randomStrategy.setConstructorComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getConstructorComparator());
+	}
+
+	@Test
+	public void testMethodComparator() {
+
+		strategy = RandomDataProviderStrategy.getInstance();
+		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractMethodComparator comparator = randomStrategy.getMethodComparator();
+		Assert.assertNotNull(comparator);
+		randomStrategy.setMethodComparator(null);
+		Assert.assertEquals(null, randomStrategy.getMethodComparator());
+		randomStrategy.setMethodComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getMethodComparator());
 	}
 
 }
