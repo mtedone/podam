@@ -17,7 +17,7 @@ import java.util.Comparator;
  * @author tedonema
  *
  */
-public class MethodComparator implements Comparator<Method> {
+public abstract class AbstractMethodComparator implements Comparator<Method> {
 
 	public int methodComplexity(Method method) {
 
@@ -32,8 +32,8 @@ public class MethodComparator implements Comparator<Method> {
 		return complexity;
 	}
 
-	@Override
-	public int compare(Method method1, Method method2) {
+	public int compareAnnotations(Method method1, Method method2) {
+
 		/* Constructors with Podam annotation first */
 		boolean choose1 = method1.getAnnotation(PodamConstructor.class) != null;
 		boolean choose2 = method2.getAnnotation(PodamConstructor.class) != null;
@@ -42,17 +42,7 @@ public class MethodComparator implements Comparator<Method> {
 		} else if (!choose1 && choose2) {
 			return Integer.MAX_VALUE;
 		}
-
-		/* Then constructors with more parameters */
-		int result = method2.getParameterTypes().length
-				- method1.getParameterTypes().length;
-		if (result != 0) {
-			return result;
-		}
-
-		/* Then less complex method */
-		return methodComplexity(method1)
-				- methodComplexity(method2);
+		return 0;
 	}
 
 }

@@ -18,9 +18,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
+import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
-import uk.co.jemos.podam.common.MethodComparator;
+import uk.co.jemos.podam.common.MethodHeavyFirstComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 
 /**
@@ -51,9 +52,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
-
-	/** The constructor comparator */
-	private static final MethodComparator METHOD_COMPARATOR = new MethodComparator();
 
 	/**
 	 * How many times it is allowed to PODAM to create an instance of the same
@@ -92,6 +90,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorComparator =
 			ConstructorAdaptiveComparator.INSTANCE;
+
+	/** The constructor comparator */
+	private AbstractMethodComparator methodComparator
+			= MethodHeavyFirstComparator.INSTANCE;
 
 	// ------------------->> Instance / Static variables
 
@@ -484,7 +486,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void sort(Method[] methods) {
-		Arrays.sort(methods, METHOD_COMPARATOR);
+		Arrays.sort(methods, methodComparator);
 	}
 
 	/**
@@ -594,6 +596,23 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
 		this.constructorComparator = constructorComparator;
+	}
+
+	/**
+	 * Getter for method comparator
+	 * @return current method comparator used by strategy
+	 */
+	public AbstractMethodComparator getMethodComparator() {
+		return methodComparator;
+	}
+
+	/**
+	 * Setter for method comparator. Default implementations is
+	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
+	 * @param methodComparator method comparator to set
+	 */
+	public void setMethodComparator(AbstractMethodComparator methodComparator) {
+		this.methodComparator = methodComparator;
 	}
 
 	// ------------------->> Private methods
