@@ -8,7 +8,6 @@
 		<version>7</version>
 	</parent>
 
-
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
 	<version>5.4.0-SNAPSHOT</version>
@@ -129,6 +128,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jbehave.core.version>4.0-beta-11</jbehave.core.version>
+		<jbehave.site.version>3.1.1</jbehave.site.version>
+		<embeddables>**/*Story.java</embeddables>
 	</properties>
 
 	<build>
@@ -317,9 +319,27 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
+
+		<!-- JBeahve -->
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>${jbehave.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jbehave</groupId>
+			<artifactId>jbehave-core</artifactId>
+			<version>${jbehave.core.version}</version>
+			<classifier>resources</classifier>
+			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jbehave.site</groupId>
+			<artifactId>jbehave-site-resources</artifactId>
+			<version>${jbehave.site.version}</version>
+			<type>zip</type>
+		</dependency>
 	</dependencies>
-
-
 
 	<profiles>
 		<profile>
