@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -59,7 +60,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
 
 	/** Flag to enable/disable the memoization setting. */
-	private boolean isMemoizationEnabled;
+	private final AtomicBoolean isMemoizationEnabled = new AtomicBoolean();
 
 	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
@@ -394,7 +395,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public boolean isMemoizationEnabled() {
-		return isMemoizationEnabled;
+		return isMemoizationEnabled.get();
 	}
 
 	/**
@@ -402,7 +403,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void setMemoization(boolean isMemoizationEnabled) {
-		this.isMemoizationEnabled = isMemoizationEnabled;
+		this.isMemoizationEnabled.set(isMemoizationEnabled);
 	}
 
 	/**
@@ -411,7 +412,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
-		if (isMemoizationEnabled) {
+		if (isMemoizationEnabled.get()) {
 			/* No memoization for arrays, collections and maps */
 			Class<?> pojoClass = attributeMetadata.getPojoClass();
 			if (pojoClass == null ||
@@ -438,11 +439,14 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public void cacheMemoizedObject(AttributeMetadata attributeMetadata,
 			Object instance) {
 
-		if (isMemoizationEnabled) {
+		if (isMemoizationEnabled.get()) {
 			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 			if (map == null) {
 				map = new HashMap<Type[], Object>();
-				memoizationTable.put(attributeMetadata.getAttributeType(), map);
+				Map<Type[], Object> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
+				if (objectMap == null) {
+					objectMap = map;
+				}
 			}
 			map.put(attributeMetadata.getAttrGenericArgs(), instance);
 		}
@@ -498,7 +502,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
-		specificTypes.put(abstractClass, specificClass);
+		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
+		if (aClass == null) {
+			aClass = specificClass;
+		}
 		return this;
 	}
 
@@ -547,7 +554,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
-		attributeStrategies.put(annotationClass, strategyClass);
+		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
+		if (attributeStrategyClass == null) {
+			attributeStrategyClass = strategyClass;
+		}
 		return this;
 	}
 
