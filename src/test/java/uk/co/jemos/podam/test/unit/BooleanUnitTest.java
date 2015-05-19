@@ -1,12 +1,9 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.io.Serializable;
-
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.DefaultClassInfoStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -14,6 +11,8 @@ import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 import uk.co.jemos.podam.common.PodamExclude;
 import uk.co.jemos.podam.test.dto.BooleanPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.TestExclude;
+
+import java.io.Serializable;
 
 /**
  * Test @uk.co.jemos.podam.test.dto.BooleanPojo@ construction
@@ -25,7 +24,7 @@ public class BooleanUnitTest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private final static RandomDataProviderStrategy strategy =
-			RandomDataProviderStrategy.getInstance();
+			new RandomDataProviderStrategy();
 
 	private final static DefaultClassInfoStrategy classInfoStrategy =
 			DefaultClassInfoStrategy.getInstance();

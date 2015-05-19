@@ -3,11 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * Default implementation of an external factory which does nothing.
@@ -25,10 +25,6 @@ public class NullExternalFactory extends AbstractExternalFactory {
 	private static final Logger LOG = LoggerFactory
 			.getLogger(NullExternalFactory.class);
 
-	/** The singleton instance of this implementation */
-	private static final NullExternalFactory SINGLETON
-			= new NullExternalFactory();
-
 	// ------------------->> Constructors
 
 	/**
@@ -45,7 +41,7 @@ public class NullExternalFactory extends AbstractExternalFactory {
 	 * @return A singleton instance of this class
 	 */
 	public static NullExternalFactory getInstance() {
-		return SINGLETON;
+		return new NullExternalFactory();
 	}
 
 	/**

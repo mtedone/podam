@@ -3,25 +3,17 @@
  */
 package uk.co.jemos.podam.test.unit;
 
-import java.util.Calendar;
-import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
-import uk.co.jemos.podam.test.dto.docs.example.Address;
-import uk.co.jemos.podam.test.dto.docs.example.Article;
-import uk.co.jemos.podam.test.dto.docs.example.BankAccount;
-import uk.co.jemos.podam.test.dto.docs.example.Client;
-import uk.co.jemos.podam.test.dto.docs.example.Country;
-import uk.co.jemos.podam.test.dto.docs.example.Order;
-import uk.co.jemos.podam.test.dto.docs.example.OrderItem;
+import uk.co.jemos.podam.test.dto.docs.example.*;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * A set of tests to check the Walk-through example
@@ -39,8 +31,8 @@ public class WalkThroughExampleUnitTest {
 	private PodamFactory factory;
 
 	/** The default data provider strategy */
-	private final DataProviderStrategy strategy = RandomDataProviderStrategy
-			.getInstance();
+	private final DataProviderStrategy strategy = new RandomDataProviderStrategy();
+
 
 	// ------------------->> Constructors
 

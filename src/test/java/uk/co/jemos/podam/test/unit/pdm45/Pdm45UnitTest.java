@@ -3,28 +3,21 @@
  */
 package uk.co.jemos.podam.test.unit.pdm45;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.test.dto.PodamParameterizedType;
 import uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalTestPojo;
-import uk.co.jemos.podam.test.dto.PodamParameterizedType;
+
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Unit tests for <a href="http://www.jemos.eu/jira/browse/PDM-45">PDM-45</a>.
@@ -40,7 +33,7 @@ public class Pdm45UnitTest {
 	@Before
 	public void init() {
 
-		factory = new PodamFactoryImpl(RandomDataProviderStrategy.getInstance());
+		factory = new PodamFactoryImpl(new RandomDataProviderStrategy());
 
 	}
 	

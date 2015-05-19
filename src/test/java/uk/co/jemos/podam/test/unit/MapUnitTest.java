@@ -1,17 +1,16 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author divanov
@@ -21,7 +20,7 @@ import uk.co.jemos.podam.api.RandomDataProviderStrategy;
 public class MapUnitTest {
 
 	private static final DataProviderStrategy strategy =
-			RandomDataProviderStrategy.getInstance();
+			new RandomDataProviderStrategy();
 
 	private static final PodamFactory factory = new PodamFactoryImpl(strategy);
 

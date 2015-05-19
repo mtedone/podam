@@ -3,6 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.ThreadSafe;
+
 /**
  * Default implementation of a {@link DataProviderStrategy}
  * <p>
@@ -23,14 +25,11 @@ package uk.co.jemos.podam.api;
  * @since 1.0.0
  *
  */
-
+@ThreadSafe
 public final class RandomDataProviderStrategy extends
 		AbstractRandomDataProviderStrategy {
 
 	// ------------------->> Constants
-
-	/** The singleton instance of this implementation */
-	private static final RandomDataProviderStrategy SINGLETON = new RandomDataProviderStrategy();
 
 	// ------------------->> Instance / Static variables
 
@@ -39,21 +38,12 @@ public final class RandomDataProviderStrategy extends
 	/**
 	 * Implementation of the Singleton pattern
 	 */
-	private RandomDataProviderStrategy() {
+	public RandomDataProviderStrategy() {
 		super();
 		setMemoization(true);
 	}
 
 	// ------------------->> Public methods
-
-	/**
-	 * Implementation of the Singleton pattern
-	 *
-	 * @return A singleton instance of this class
-	 */
-	public static RandomDataProviderStrategy getInstance() {
-		return SINGLETON;
-	}
 
 	/**
 	 * Other factory method which assigns a default number of collection
@@ -67,8 +57,9 @@ public final class RandomDataProviderStrategy extends
 	public static RandomDataProviderStrategy getInstance(
 			int nbrCollectionElements) {
 
-		SINGLETON.setDefaultNumberOfCollectionElements(nbrCollectionElements);
-		return SINGLETON;
+		RandomDataProviderStrategy strategy = new RandomDataProviderStrategy();
+				strategy.setDefaultNumberOfCollectionElements(nbrCollectionElements);
+		return strategy;
 
 	}
 

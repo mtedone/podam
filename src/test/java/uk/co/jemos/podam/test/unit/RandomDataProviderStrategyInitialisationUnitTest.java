@@ -3,14 +3,9 @@
  */
 package uk.co.jemos.podam.test.unit;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Test;
-
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -20,6 +15,9 @@ import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * It checks that the {@link RandomDataProviderStrategy} is initialised properly
@@ -32,7 +30,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	private DataProviderStrategy strategy;
 	
 	private static final int numOfCollectionElemsBackup
-			= RandomDataProviderStrategy.getInstance().getNumberOfCollectionElements(Object.class);
+			= new RandomDataProviderStrategy().getNumberOfCollectionElements(Object.class);
 
 	@After
 	public void after() {
@@ -42,7 +40,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testNumberOfCollectionElementChange() {
 
-		strategy = RandomDataProviderStrategy.getInstance();
+		strategy = new RandomDataProviderStrategy();
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
 				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
@@ -60,7 +58,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testInitialization() {
 
-		strategy = RandomDataProviderStrategy.getInstance();
+		strategy = new RandomDataProviderStrategy();
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
 				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
@@ -79,7 +77,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testRandomDataProviderStrategy() {
 
-		strategy = RandomDataProviderStrategy.getInstance();
+		strategy = new RandomDataProviderStrategy();
 		PodamFactory factory = new PodamFactoryImpl(strategy);
 		PojoWithMapsAndCollections pojo =
 				factory.manufacturePojo(PojoWithMapsAndCollections.class);
@@ -136,7 +134,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testConstructorComparator() {
 
-		strategy = RandomDataProviderStrategy.getInstance();
+		strategy = new RandomDataProviderStrategy();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractConstructorComparator comparator = randomStrategy.getConstructorComparator();
 		Assert.assertNotNull(comparator);
@@ -149,7 +147,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testMethodComparator() {
 
-		strategy = RandomDataProviderStrategy.getInstance();
+		strategy = new RandomDataProviderStrategy();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractMethodComparator comparator = randomStrategy.getMethodComparator();
 		Assert.assertNotNull(comparator);

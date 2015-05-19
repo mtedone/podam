@@ -3,26 +3,19 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.ThreadSafe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.common.*;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Random;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.common.AbstractConstructorComparator;
-import uk.co.jemos.podam.common.AbstractMethodComparator;
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.ConstructorAdaptiveComparator;
-import uk.co.jemos.podam.common.MethodHeavyFirstComparator;
-import uk.co.jemos.podam.common.PodamConstants;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Default abstract implementation of a {@link DataProviderStrategy}
@@ -41,7 +34,7 @@ import uk.co.jemos.podam.common.PodamConstants;
  * @since 1.0.0
  *
  */
-
+@ThreadSafe
 public abstract class AbstractRandomDataProviderStrategy implements DataProviderStrategy {
 
 	// ------------------->> Constants
@@ -60,10 +53,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public static final int MAX_DEPTH = 1;
 
 	/** The max stack trace depth. */
-	private int maxDepth = MAX_DEPTH;
+	private final AtomicInteger maxDepth = new AtomicInteger(MAX_DEPTH);
 
 	/** The number of collection elements. */
-	private int nbrOfCollectionElements;
+	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
 
 	/** Flag to enable/disable the memoization setting. */
 	private boolean isMemoizationEnabled;
@@ -73,19 +66,19 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private Map<Class<?>, Map<Type[], Object>> memoizationTable = new HashMap<Class<?>, Map<Type[], Object>>();
+	private final Map<Class<?>, Map<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, Map<Type[], Object>>();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
-	private final Map<Class<?>, Class<?>> specificTypes = new HashMap<Class<?>, Class<?>>();
+	private final Map<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
 
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
 	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
-			= new HashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
+			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorComparator =
@@ -107,7 +100,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {
-		this.nbrOfCollectionElements = nbrOfCollectionElements;
+		this.nbrOfCollectionElements.set(nbrOfCollectionElements);
 	}
 
 	// ------------------->> Public methods
@@ -367,7 +360,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public int getNumberOfCollectionElements(Class<?> type) {
-		return nbrOfCollectionElements;
+		return nbrOfCollectionElements.get();
 	}
 
 	/**
@@ -375,7 +368,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
-		nbrOfCollectionElements = newNumberOfCollectionElements;
+		nbrOfCollectionElements.set(newNumberOfCollectionElements);
 	}
 
 	/**
@@ -383,7 +376,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return maxDepth;
+		return maxDepth.get();
 	}
 
 	/**
@@ -393,7 +386,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            The new max stack trace depth.
 	 */
 	public void setMaxDepth(int newMaxDepth) {
-		maxDepth = newMaxDepth;
+		maxDepth.set(newMaxDepth);
 	}
 
 	/**

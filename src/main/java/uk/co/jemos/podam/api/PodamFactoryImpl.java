@@ -5,24 +5,21 @@ package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
+import javax.validation.Constraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.ws.Holder;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.validation.Constraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.ws.Holder;
 
 /**
  * The PODAM factory implementation
@@ -72,7 +69,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * </p>
 	 */
 	private DataProviderStrategy strategy
-			= RandomDataProviderStrategy.getInstance();
+			= new RandomDataProviderStrategy();
 
 	/**
 	 * The strategy to use to introspect data.
@@ -90,7 +87,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	public PodamFactoryImpl() {
 		this(NullExternalFactory.getInstance(),
-				RandomDataProviderStrategy.getInstance());
+				new RandomDataProviderStrategy());
 	}
 
 	/**
@@ -112,7 +109,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            handle
 	 */
 	public PodamFactoryImpl(PodamFactory externalFactory) {
-		this(externalFactory, RandomDataProviderStrategy.getInstance());
+		this(externalFactory, new RandomDataProviderStrategy());
 	}
 
 	/**
