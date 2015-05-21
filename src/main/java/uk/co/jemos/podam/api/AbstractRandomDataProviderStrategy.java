@@ -443,7 +443,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 			if (map == null) {
 				map = new HashMap<Type[], Object>();
-				Map<Type[], Object> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
+				Map<Type[], ?> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
 				if (objectMap == null) {
 					objectMap = map;
 				}
