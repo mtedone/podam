@@ -429,14 +429,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 					(!pojoClass.isArray() &&
 					!Collection.class.isAssignableFrom(pojoClass) &&
 					!Map.class.isAssignableFrom(pojoClass))) {
-				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-				if (map != null) {
-					for (Entry<Type[], Object> entry : map.entrySet()) {
-						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
-							return entry.getValue();
+				synchronized (memoizationTable) {
+					Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+					if (map != null) {
+						for (Entry<Type[], Object> entry : map.entrySet()) {
+							if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+								return entry.getValue();
+							}
 						}
 					}
 				}
+
 			}
 		}
 		return null;
@@ -450,15 +453,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 		if (isMemoizationEnabled.get()) {
-			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-			if (map == null) {
-				map = new HashMap<Type[], Object>();
-				Map<Type[], Object> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
-				if (objectMap == null) {
-					objectMap = map;
+			synchronized (memoizationTable) {
+				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				if (map == null) {
+					map = new HashMap<Type[], Object>();
+
+					memoizationTable.put(attributeMetadata.getAttributeType(), map);
+
 				}
+				map.put(attributeMetadata.getAttrGenericArgs(), instance);
 			}
-			map.put(attributeMetadata.getAttrGenericArgs(), instance);
+
 		}
 	}
 
@@ -467,7 +472,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void clearMemoizationCache() {
-		memoizationTable.clear();
+		synchronized (memoizationTable) {
+			memoizationTable.clear();
+		}
+
 	}
 
 	/**
@@ -534,9 +542,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
-		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
-		if (aClass == null) {
-			aClass = specificClass;
+		synchronized (specificTypes) {
+			specificTypes.put(abstractClass, specificClass);
 		}
 		return this;
 	}
@@ -552,7 +559,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy removeSpecific(
 			final Class<T> abstractClass) {
-		specificTypes.remove(abstractClass);
+		synchronized (specificTypes) {
+			specificTypes.remove(abstractClass);
+		}
+
 		return this;
 	}
 
@@ -562,13 +572,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
-		@SuppressWarnings("unchecked")
-		Class<? extends T> found = (Class<? extends T>) specificTypes
-				.get(nonInstantiatableClass);
-		if (found == null) {
-			found = nonInstantiatableClass;
+
+		synchronized (specificTypes) {
+			Class<? extends T> found = (Class<? extends T>) specificTypes
+					.get(nonInstantiatableClass);
+			if (found == null) {
+				found = nonInstantiatableClass;
+			}
+			return found;
 		}
-		return found;
+
 	}
 
 	/**
@@ -586,9 +599,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
-		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
-		if (attributeStrategyClass == null) {
-			attributeStrategyClass = strategyClass;
+		synchronized (attributeStrategies) {
+			attributeStrategies.put(annotationClass, strategyClass);
 		}
 		return this;
 	}
@@ -602,7 +614,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
 			final Class<? extends Annotation> annotationClass) {
-		attributeStrategies.remove(annotationClass);
+		synchronized (attributeStrategies) {
+			attributeStrategies.remove(annotationClass);
+		}
 		return this;
 	}
 
@@ -612,7 +626,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Class<AttributeStrategy<?>> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
-		return attributeStrategies.get(annotationClass);
+		synchronized (attributeStrategies) {
+			return attributeStrategies.get(annotationClass);
+		}
 	}
 
 	/**
