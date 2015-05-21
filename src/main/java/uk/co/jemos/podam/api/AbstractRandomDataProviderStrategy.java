@@ -567,9 +567,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
-		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
-		if (attributeStrategyClass == null) {
-			attributeStrategyClass = strategyClass;
+		synchronized (attributeStrategies) {
+			attributeStrategies.put(annotationClass, strategyClass);
 		}
 		return this;
 	}
@@ -583,7 +582,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
 			final Class<? extends Annotation> annotationClass) {
-		attributeStrategies.remove(annotationClass);
+		synchronized (attributeStrategies) {
+			attributeStrategies.remove(annotationClass);
+		}
 		return this;
 	}
 
@@ -593,7 +594,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Class<AttributeStrategy<?>> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
-		return attributeStrategies.get(annotationClass);
+		synchronized (attributeStrategies) {
+			return attributeStrategies.get(annotationClass);
+		}
 	}
 
 	/**
