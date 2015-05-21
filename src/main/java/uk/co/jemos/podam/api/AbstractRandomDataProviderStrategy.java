@@ -510,9 +510,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
-		Class<? extends T> aClass = (Class<? extends T>) specificTypes.putIfAbsent(abstractClass, specificClass);
-		if (aClass == null) {
-			aClass = specificClass;
+		synchronized (specificTypes) {
+			specificTypes.put(abstractClass, specificClass);
 		}
 		return this;
 	}
@@ -528,7 +527,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy removeSpecific(
 			final Class<T> abstractClass) {
-		specificTypes.remove(abstractClass);
+		synchronized (specificTypes) {
+			specificTypes.remove(abstractClass);
+		}
+
 		return this;
 	}
 
@@ -538,13 +540,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
-		@SuppressWarnings("unchecked")
-		Class<? extends T> found = (Class<? extends T>) specificTypes
-				.get(nonInstantiatableClass);
-		if (found == null) {
-			found = nonInstantiatableClass;
+
+		synchronized (specificTypes) {
+			Class<? extends T> found = (Class<? extends T>) specificTypes
+					.get(nonInstantiatableClass);
+			if (found == null) {
+				found = nonInstantiatableClass;
+			}
+			return found;
 		}
-		return found;
+
 	}
 
 	/**
