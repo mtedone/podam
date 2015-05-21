@@ -132,29 +132,55 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	}
 
 	@Test
-	public void testConstructorComparator() {
+	public void testConstructorLightComparator() {
 
 		strategy = new RandomDataProviderStrategy();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
-		AbstractConstructorComparator comparator = randomStrategy.getConstructorComparator();
+		AbstractConstructorComparator comparator = randomStrategy.getConstructorLightComparator();
 		Assert.assertNotNull(comparator);
-		randomStrategy.setConstructorComparator(null);
-		Assert.assertEquals(null, randomStrategy.getConstructorComparator());
-		randomStrategy.setConstructorComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getConstructorComparator());
+		randomStrategy.setConstructorLightComparator(null);
+		Assert.assertEquals(null, randomStrategy.getConstructorLightComparator());
+		randomStrategy.setConstructorLightComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getConstructorLightComparator());
 	}
 
 	@Test
-	public void testMethodComparator() {
+	public void testConstructorHeavyComparator() {
 
 		strategy = new RandomDataProviderStrategy();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
-		AbstractMethodComparator comparator = randomStrategy.getMethodComparator();
+		AbstractConstructorComparator comparator = randomStrategy.getConstructorHeavyComparator();
 		Assert.assertNotNull(comparator);
-		randomStrategy.setMethodComparator(null);
-		Assert.assertEquals(null, randomStrategy.getMethodComparator());
-		randomStrategy.setMethodComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getMethodComparator());
+		randomStrategy.setConstructorHeavyComparator(null);
+		Assert.assertEquals(null, randomStrategy.getConstructorHeavyComparator());
+		randomStrategy.setConstructorHeavyComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getConstructorHeavyComparator());
+	}
+
+	@Test
+	public void testMethodLightComparator() {
+
+		strategy = new RandomDataProviderStrategy();
+		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractMethodComparator comparator = randomStrategy.getMethodLightComparator();
+		Assert.assertNotNull(comparator);
+		randomStrategy.setMethodLightComparator(null);
+		Assert.assertEquals(null, randomStrategy.getMethodLightComparator());
+		randomStrategy.setMethodLightComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getMethodLightComparator());
+	}
+
+	@Test
+	public void testMethodHeavyComparator() {
+
+		strategy = new RandomDataProviderStrategy();
+		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractMethodComparator comparator = randomStrategy.getMethodHeavyComparator();
+		Assert.assertNotNull(comparator);
+		randomStrategy.setMethodHeavyComparator(null);
+		Assert.assertEquals(null, randomStrategy.getMethodHeavyComparator());
+		randomStrategy.setMethodHeavyComparator(comparator);
+		Assert.assertEquals(comparator, randomStrategy.getMethodHeavyComparator());
 	}
 
 }

@@ -85,7 +85,7 @@ public class ExternalFactoryUnitTest {
 		Assert.assertEquals("List " + failures.toString(), 2, failures.size());
 		Assert.assertEquals("List " + failures.toString(), ObjectExt.class, failures.get(0));
 		Assert.assertEquals("List " + failures.toString(), InterfacePojo.class, failures.get(1));
-		Assert.assertEquals("List " + fullDataCalls.toString(), 0, fullDataCalls.size());
+		Assert.assertEquals("List " + fullDataCalls.toString(), 2, fullDataCalls.size());
 	}
 
 	@Test

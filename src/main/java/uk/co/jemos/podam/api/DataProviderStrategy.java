@@ -28,6 +28,20 @@ import uk.co.jemos.podam.common.AttributeStrategy;
  */
 public interface DataProviderStrategy {
 
+	/**
+	 * Specifies how to sort constructors
+	 */
+	public enum Order {
+		/**
+		 * Constructors with more parameters have precedence
+		 */
+		HEAVY_FIRST,
+		/**
+		 * Constructors with less parameters have precedence
+		 */
+		LIGHT_FIRST
+	};
+
 	/** It returns a boolean/Boolean value.
 	 * 
 	 * @param attributeMetadata
@@ -296,8 +310,10 @@ public interface DataProviderStrategy {
 	 *
 	 * @param constructors
 	 *            Array of POJO's constructors
+	 * @param order
+	 *            {@link Order} how to sort constructors
 	 */
-	void sort(Constructor<?>[] constructors);
+	void sort(Constructor<?>[] constructors, Order order);
 
 	/**
 	 * Rearranges POJO's methods in order they will be tried to
@@ -307,8 +323,10 @@ public interface DataProviderStrategy {
 	 * 
 	 * @param methods
 	 *            Array of POJO's methods
+	 * @param order
+	 *            {@link Order} how to sort constructors
 	 */
-	void sort(Method[] methods);
+	void sort(Method[] methods, Order order);
 
 	/**
 	 * Resolves abstract classes and interfaces.

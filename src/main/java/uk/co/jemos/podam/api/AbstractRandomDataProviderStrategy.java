@@ -6,6 +6,8 @@ package uk.co.jemos.podam.api;
 import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
@@ -82,12 +84,20 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
-	private AbstractConstructorComparator constructorComparator =
-			ConstructorAdaptiveComparator.INSTANCE;
+	private AbstractConstructorComparator constructorHeavyComparator =
+			ConstructorHeavyFirstComparator.INSTANCE;
 
 	/** The constructor comparator */
-	private AbstractMethodComparator methodComparator
+	private AbstractConstructorComparator constructorLightComparator =
+			ConstructorLightFirstComparator.INSTANCE;
+
+	/** The constructor comparator */
+	private AbstractMethodComparator methodHeavyComparator
 			= MethodHeavyFirstComparator.INSTANCE;
+
+	/** The constructor comparator */
+	private AbstractMethodComparator methodLightComparator
+			= MethodLightFirstComparator.INSTANCE;
 
 	// ------------------->> Instance / Static variables
 
@@ -467,9 +477,20 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *
 	 * @param constructors
 	 *            Array of POJO's constructors
+	 * @param order
+	 *            {@link Order} how to sort constructors
 	 */
 	@Override
-	public void sort(Constructor<?>[] constructors) {
+	public void sort(Constructor<?>[] constructors, Order order) {
+		AbstractConstructorComparator constructorComparator;
+		switch(order) {
+		case HEAVY_FIRST:
+			constructorComparator = constructorHeavyComparator;
+			break;
+		default:
+			constructorComparator = constructorLightComparator;
+			break;
+		}
 		Arrays.sort(constructors, constructorComparator);
 	}
 
@@ -480,9 +501,20 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *
 	 * @param methods
 	 *            Array of POJO's methods
+	 * @param order
+	 *            {@link Order} how to sort constructors
 	 */
 	@Override
-	public void sort(Method[] methods) {
+	public void sort(Method[] methods, Order order) {
+		AbstractMethodComparator methodComparator;
+		switch(order) {
+		case HEAVY_FIRST:
+			methodComparator = methodHeavyComparator;
+			break;
+		default:
+			methodComparator = methodLightComparator;
+			break;
+		}
 		Arrays.sort(methods, methodComparator);
 	}
 
@@ -584,38 +616,73 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Getter for constructor comparator
+	 * Getter for constructor light comparator
 	 * @return current constructor comparator used by strategy
 	 */
-	public AbstractConstructorComparator getConstructorComparator() {
-		return constructorComparator;
+	public AbstractConstructorComparator getConstructorLightComparator() {
+		return constructorLightComparator;
 	}
 
 	/**
-	 * Setter for constructor comparator. Default implementations are
+	 * Setter for constructor öight comparator. Default implementations are
 	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
 	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
 	 * @param constructorComparator constructor comparator to set
 	 */
-	public void setConstructorComparator(AbstractConstructorComparator constructorComparator) {
-		this.constructorComparator = constructorComparator;
+	public void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator) {
+		this.constructorLightComparator = constructorLightComparator;
 	}
 
 	/**
-	 * Getter for method comparator
+	 * Getter for constructor heavy comparator
+	 * @return current constructor comparator used by strategy
+	 */
+	public AbstractConstructorComparator getConstructorHeavyComparator() {
+		return constructorHeavyComparator;
+	}
+
+	/**
+	 * Setter for constructor heavy comparator. Default implementations are
+	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
+	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
+	 * @param constructorComparator constructor comparator to set
+	 */
+	public void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator) {
+		this.constructorHeavyComparator = constructorHeavyComparator;
+	}
+
+	/**
+	 * Getter for method light comparator
 	 * @return current method comparator used by strategy
 	 */
-	public AbstractMethodComparator getMethodComparator() {
-		return methodComparator;
+	public AbstractMethodComparator getMethodLightComparator() {
+		return methodLightComparator;
 	}
 
 	/**
-	 * Setter for method comparator. Default implementations is
+	 * Setter for method light comparator. Default implementations is
 	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
 	 * @param methodComparator method comparator to set
 	 */
-	public void setMethodComparator(AbstractMethodComparator methodComparator) {
-		this.methodComparator = methodComparator;
+	public void setMethodLightComparator(AbstractMethodComparator methodLightComparator) {
+		this.methodLightComparator = methodLightComparator;
+	}
+
+	/**
+	 * Getter for method heavy comparator
+	 * @return current method comparator used by strategy
+	 */
+	public AbstractMethodComparator getMethodHeavyComparator() {
+		return methodHeavyComparator;
+	}
+
+	/**
+	 * Setter for method heavy comparator. Default implementations is
+	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
+	 * @param methodComparator method comparator to set
+	 */
+	public void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator) {
+		this.methodHeavyComparator = methodHeavyComparator;
 	}
 
 	// ------------------->> Private methods
