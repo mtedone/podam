@@ -419,14 +419,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 					(!pojoClass.isArray() &&
 					!Collection.class.isAssignableFrom(pojoClass) &&
 					!Map.class.isAssignableFrom(pojoClass))) {
-				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-				if (map != null) {
-					for (Entry<Type[], Object> entry : map.entrySet()) {
-						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
-							return entry.getValue();
+				synchronized (memoizationTable) {
+					Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+					if (map != null) {
+						for (Entry<Type[], Object> entry : map.entrySet()) {
+							if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+								return entry.getValue();
+							}
 						}
 					}
 				}
+
 			}
 		}
 		return null;
@@ -440,15 +443,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 		if (isMemoizationEnabled.get()) {
-			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-			if (map == null) {
-				map = new HashMap<Type[], Object>();
-				Map<Type[], ?> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
-				if (objectMap == null) {
-					objectMap = map;
+			synchronized (memoizationTable) {
+				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				if (map == null) {
+					map = new HashMap<Type[], Object>();
+
+					memoizationTable.put(attributeMetadata.getAttributeType(), map);
+
 				}
+				map.put(attributeMetadata.getAttrGenericArgs(), instance);
 			}
-			map.put(attributeMetadata.getAttrGenericArgs(), instance);
+
 		}
 	}
 
@@ -457,7 +462,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void clearMemoizationCache() {
-		memoizationTable.clear();
+		synchronized (memoizationTable) {
+			memoizationTable.clear();
+		}
+
 	}
 
 	/**
