@@ -502,7 +502,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
-		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
+		Class<? extends T> aClass = (Class<? extends T>) specificTypes.putIfAbsent(abstractClass, specificClass);
 		if (aClass == null) {
 			aClass = specificClass;
 		}
