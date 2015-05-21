@@ -6,8 +6,6 @@ package uk.co.jemos.podam.api;
 import net.jcip.annotations.ThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
@@ -430,17 +428,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 					(!pojoClass.isArray() &&
 					!Collection.class.isAssignableFrom(pojoClass) &&
 					!Map.class.isAssignableFrom(pojoClass))) {
-				synchronized (memoizationTable) {
-					Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-					if (map != null) {
-						for (Entry<Type[], Object> entry : map.entrySet()) {
-							if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
-								return entry.getValue();
-							}
+
+				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				if (map != null) {
+					for (Entry<Type[], Object> entry : map.entrySet()) {
+						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+							return entry.getValue();
 						}
 					}
 				}
-
 			}
 		}
 		return null;
@@ -454,17 +450,17 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 		if (isMemoizationEnabled.get()) {
-			synchronized (memoizationTable) {
-				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
-				if (map == null) {
-					map = new HashMap<Type[], Object>();
+			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+			if (map == null) {
+				map = new HashMap<Type[], Object>();
 
-					memoizationTable.put(attributeMetadata.getAttributeType(), map);
-
+				Map<Type[], Object> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
+				if (null == objectMap) {
+					objectMap = map;
 				}
-				map.put(attributeMetadata.getAttrGenericArgs(), instance);
-			}
 
+			}
+			map.put(attributeMetadata.getAttrGenericArgs(), instance);
 		}
 	}
 
@@ -473,9 +469,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	@Override
 	public void clearMemoizationCache() {
-		synchronized (memoizationTable) {
-			memoizationTable.clear();
-		}
+
+		memoizationTable.clear();
+
 
 	}
 
@@ -543,9 +539,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
-		synchronized (specificTypes) {
-			specificTypes.put(abstractClass, specificClass);
+
+		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
+		if (null == aClass) {
+			aClass = specificClass;
 		}
+
 		return this;
 	}
 
@@ -560,10 +559,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public <T> AbstractRandomDataProviderStrategy removeSpecific(
 			final Class<T> abstractClass) {
-		synchronized (specificTypes) {
-			specificTypes.remove(abstractClass);
-		}
 
+		specificTypes.remove(abstractClass);
 		return this;
 	}
 
@@ -574,14 +571,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
 
-		synchronized (specificTypes) {
-			Class<? extends T> found = (Class<? extends T>) specificTypes
-					.get(nonInstantiatableClass);
-			if (found == null) {
-				found = nonInstantiatableClass;
-			}
-			return found;
+		Class<? extends T> found = (Class<? extends T>) specificTypes
+				.get(nonInstantiatableClass);
+		if (found == null) {
+			found = nonInstantiatableClass;
 		}
+		return found;
 
 	}
 
@@ -600,9 +595,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public AbstractRandomDataProviderStrategy addAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
-		synchronized (attributeStrategies) {
-			attributeStrategies.put(annotationClass, strategyClass);
+
+		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
+		if (null == attributeStrategyClass) {
+			attributeStrategyClass = strategyClass;
 		}
+
 		return this;
 	}
 
@@ -615,9 +613,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 */
 	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
 			final Class<? extends Annotation> annotationClass) {
-		synchronized (attributeStrategies) {
-			attributeStrategies.remove(annotationClass);
-		}
+
+		attributeStrategies.remove(annotationClass);
+
 		return this;
 	}
 
@@ -627,9 +625,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public Class<AttributeStrategy<?>> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
-		synchronized (attributeStrategies) {
-			return attributeStrategies.get(annotationClass);
-		}
+
+		return attributeStrategies.get(annotationClass);
+
 	}
 
 	/**
@@ -644,7 +642,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * Setter for constructor öight comparator. Default implementations are
 	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
 	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorComparator constructor comparator to set
+	 * @param constructorLightComparator constructor comparator to set
 	 */
 	public void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator) {
 		this.constructorLightComparator = constructorLightComparator;
@@ -662,7 +660,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * Setter for constructor heavy comparator. Default implementations are
 	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
 	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorComparator constructor comparator to set
+	 * @param constructorHeavyComparator constructor comparator to set
 	 */
 	public void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator) {
 		this.constructorHeavyComparator = constructorHeavyComparator;
@@ -679,7 +677,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/**
 	 * Setter for method light comparator. Default implementations is
 	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodComparator method comparator to set
+	 * @param methodLightComparator method comparator to set
 	 */
 	public void setMethodLightComparator(AbstractMethodComparator methodLightComparator) {
 		this.methodLightComparator = methodLightComparator;
@@ -696,7 +694,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/**
 	 * Setter for method heavy comparator. Default implementations is
 	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodComparator method comparator to set
+	 * @param methodHeavyComparator method comparator to set
 	 */
 	public void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator) {
 		this.methodHeavyComparator = methodHeavyComparator;
