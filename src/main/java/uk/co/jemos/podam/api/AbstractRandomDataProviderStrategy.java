@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -69,18 +70,18 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private final Map<Class<?>, Map<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, Map<Type[], Object>>();
+	private final ConcurrentMap<Class<?>, Map<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, Map<Type[], Object>>();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
-	private final Map<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
+	private final ConcurrentMap<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
 
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
-	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
+	private final ConcurrentMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
 			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
