@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ManufacturingContext.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">ManufacturingContext.java</span></div><h1>ManufacturingContext.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.common;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import uk.co.jemos.podam.api.DataProviderStrategy.Order;
+
+/**
+ * Object to hold manufacturing related data
+ * 
+ * @author daivanov
+ * 
+ */
+<span class="fc" id="L14">public class ManufacturingContext {</span>
+
+	/** Constructors sorting order */
+<span class="fc" id="L17">	private Order constructorOrdering = Order.LIGHT_FIRST;</span>
+
+	/** Map with production counts of objects per type, required
+	 * for loop detection */
+<span class="fc" id="L21">	private Map&lt;Class&lt;?&gt;, Integer&gt; pojos = new HashMap&lt;Class&lt;?&gt;, Integer&gt;();</span>
+
+	/**
+	 * Getter for constructor ordering
+	 * @return constructor ordering
+	 */
+	public Order getConstructorOrdering() {
+<span class="fc" id="L28">		return constructorOrdering;</span>
+	}
+
+	/**
+	 * Setter for constructor ordering
+	 * @param constructorOrdering
+	 *        constructor ordering
+	 */
+	public void setConstructorOrdering(Order constructorOrdering) {
+<span class="fc" id="L37">		this.constructorOrdering = constructorOrdering;</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Getter for map with production counts of objects per type
+	 * @return map with production counts of objects per type
+	 */
+	public Map&lt;Class&lt;?&gt;, Integer&gt; getPojos() {
+<span class="fc" id="L45">		return pojos;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

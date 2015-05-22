@@ -31,7 +31,7 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	// -------------------&gt;&gt; Instance / Static variables
 
 <span class="fc" id="L33">	private static final Logger LOG = LoggerFactory</span>
-			.getLogger(BeanValidationStrategy.class);
+<span class="fc" id="L34">			.getLogger(BeanValidationStrategy.class);</span>
 
 	/** A RANDOM generator */
 <span class="fc" id="L37">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
@@ -170,7 +170,7 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 
 <span class="fc" id="L171">			Pattern pattern = (Pattern) minAnno;</span>
 <span class="fc" id="L172">			LOG.warn(&quot;At the moment PODAM doesn't support @Pattern({}),&quot;</span>
-					+ &quot; returning null&quot;, pattern.regexp());
+<span class="fc" id="L173">					+ &quot; returning null&quot;, pattern.regexp());</span>
 <span class="fc" id="L174">			return null;</span>
 
 		}
@@ -234,33 +234,33 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 
 <span class="fc" id="L235">			return result.toPlainString();</span>
 
-<span class="fc bfc" id="L237" title="All 4 branches covered.">		} else if (Double.class.equals(attributeType)</span>
-				|| double.class.equals(attributeType)) {
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		} else if (Double.class.equals(attributeType)</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">				|| double.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L240">			return result.doubleValue();</span>
 
-<span class="fc bfc" id="L242" title="All 4 branches covered.">		} else if (Float.class.equals(attributeType)</span>
-				|| float.class.equals(attributeType)) {
+<span class="fc bfc" id="L242" title="All 2 branches covered.">		} else if (Float.class.equals(attributeType)</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">				|| float.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L245">			return result.floatValue();</span>
 
-<span class="fc bfc" id="L247" title="All 4 branches covered.">		} else if (Long.class.equals(attributeType)</span>
-				|| long.class.equals(attributeType)) {
+<span class="fc bfc" id="L247" title="All 2 branches covered.">		} else if (Long.class.equals(attributeType)</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">				|| long.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L250">			return result.longValue();</span>
 
-<span class="fc bfc" id="L252" title="All 4 branches covered.">		} else if (Integer.class.equals(attributeType)</span>
-				|| int.class.equals(attributeType)) {
+<span class="fc bfc" id="L252" title="All 2 branches covered.">		} else if (Integer.class.equals(attributeType)</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">				|| int.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L255">			return result.intValue();</span>
 
-<span class="fc bfc" id="L257" title="All 4 branches covered.">		} else if (Short.class.equals(attributeType)</span>
-				|| short.class.equals(attributeType)) {
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		} else if (Short.class.equals(attributeType)</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">				|| short.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L260">			return result.shortValue();</span>
 
-<span class="fc bfc" id="L262" title="All 4 branches covered.">		} else if (Byte.class.equals(attributeType)</span>
-				|| byte.class.equals(attributeType)) {
+<span class="fc bfc" id="L262" title="All 2 branches covered.">		} else if (Byte.class.equals(attributeType)</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">				|| byte.class.equals(attributeType)) {</span>
 
 <span class="fc" id="L265">			return result.byteValue();</span>
 

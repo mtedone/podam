@@ -3,11 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
 
 /**
  * Default implementation of an external factory which does nothing.
@@ -23,19 +23,15 @@ public class NullExternalFactory extends AbstractExternalFactory {
 
 	/** Application logger */
 <span class="fc" id="L25">	private static final Logger LOG = LoggerFactory</span>
-			.getLogger(NullExternalFactory.class);
-
-	/** The singleton instance of this implementation */
-<span class="fc" id="L29">	private static final NullExternalFactory SINGLETON</span>
-			= new NullExternalFactory();
+<span class="fc" id="L26">			.getLogger(NullExternalFactory.class);</span>
 
 	// -------------------&gt;&gt; Constructors
 
 	/**
 	 * Implementation of the Singleton pattern
 	 */
-<span class="fc" id="L37">	private NullExternalFactory() {</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L33">	private NullExternalFactory() {</span>
+<span class="fc" id="L34">	}</span>
 
 	// -------------------&gt;&gt; Public methods
 
@@ -45,7 +41,7 @@ public class NullExternalFactory extends AbstractExternalFactory {
 	 * @return A singleton instance of this class
 	 */
 	public static NullExternalFactory getInstance() {
-<span class="fc" id="L48">		return SINGLETON;</span>
+<span class="fc" id="L44">		return new NullExternalFactory();</span>
 	}
 
 	/**
@@ -53,14 +49,14 @@ public class NullExternalFactory extends AbstractExternalFactory {
 	 */
 	@Override
 	public &lt;T&gt; T manufacturePojo(Class&lt;T&gt; pojoClass, Type... genericTypeArgs) {
-<span class="fc" id="L56">		LOG.warn(&quot;Cannot instantiate {} with arguments {}. Returning null.&quot;,</span>
-				pojoClass, Arrays.toString(genericTypeArgs));
-<span class="fc" id="L58">		return null;</span>
+<span class="fc" id="L52">		LOG.warn(&quot;Cannot instantiate {} with arguments {}. Returning null.&quot;,</span>
+<span class="fc" id="L53">				pojoClass, Arrays.toString(genericTypeArgs));</span>
+<span class="fc" id="L54">		return null;</span>
 	}
 
 	@Override
 	public &lt;T&gt; T populatePojo(T pojo, Type... genericTypeArgs) {
-<span class="nc" id="L63">		return pojo;</span>
+<span class="nc" id="L59">		return pojo;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

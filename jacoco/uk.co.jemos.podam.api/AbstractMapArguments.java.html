@@ -16,8 +16,6 @@ import java.util.Map;
 	private String attributeName;
 	/** The Map to be returned. */
 	private Map&lt;? super Object, ? super Object&gt; mapToBeFilled;
-	/** Set of manufactured pojos' types. */
-	private Map&lt;Class&lt;?&gt;, Integer&gt; pojos;
 	/** The annotations for the attribute. */
 	private List&lt;Annotation&gt; annotations;
 
@@ -25,7 +23,7 @@ import java.util.Map;
 	 * @return the attribute name for this map
 	 */
 	public String getAttributeName() {
-<span class="fc" id="L28">		return attributeName;</span>
+<span class="fc" id="L26">		return attributeName;</span>
 	}
 
 	/**
@@ -33,14 +31,14 @@ import java.util.Map;
 	 *            the attribute name for this map
 	 */
 	public void setAttributeName(String attributeName) {
-<span class="fc" id="L36">		this.attributeName = attributeName;</span>
-<span class="fc" id="L37">	}</span>
+<span class="fc" id="L34">		this.attributeName = attributeName;</span>
+<span class="fc" id="L35">	}</span>
 
 	/**
 	 * @return the mapToBeFilled
 	 */
 	public Map&lt;? super Object, ? super Object&gt; getMapToBeFilled() {
-<span class="fc" id="L43">		return mapToBeFilled;</span>
+<span class="fc" id="L41">		return mapToBeFilled;</span>
 	}
 
 	/**
@@ -49,29 +47,14 @@ import java.util.Map;
 	 */
 	public void setMapToBeFilled(
 			Map&lt;? super Object, ? super Object&gt; mapToBeFilled) {
-<span class="fc" id="L52">		this.mapToBeFilled = mapToBeFilled;</span>
-<span class="fc" id="L53">	}</span>
-
-	/**
-	 * @return the pojos
-	 */
-	public Map&lt;Class&lt;?&gt;, Integer&gt; getPojos() {
-<span class="fc" id="L59">		return pojos;</span>
-	}
-
-	/**
-	 * @param pojos
-	 *            the pojos to set
-	 */
-	public void setPojos(Map&lt;Class&lt;?&gt;, Integer&gt; pojos) {
-<span class="fc" id="L67">		this.pojos = pojos;</span>
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L50">		this.mapToBeFilled = mapToBeFilled;</span>
+<span class="fc" id="L51">	}</span>
 
 	/**
 	 * @return the annotations
 	 */
 	public List&lt;Annotation&gt; getAnnotations() {
-<span class="fc" id="L74">		return annotations;</span>
+<span class="fc" id="L57">		return annotations;</span>
 	}
 
 	/**
@@ -79,23 +62,21 @@ import java.util.Map;
 	 *            the annotations to set
 	 */
 	public void setAnnotations(List&lt;Annotation&gt; annotations) {
-<span class="fc" id="L82">		this.annotations = annotations;</span>
-<span class="fc" id="L83">	}</span>
+<span class="fc" id="L65">		this.annotations = annotations;</span>
+<span class="fc" id="L66">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L90">		StringBuilder builder = new StringBuilder();</span>
-<span class="nc" id="L91">		builder.append(&quot;AbstractMapArguments [mapToBeFilled=&quot;);</span>
-<span class="nc" id="L92">		builder.append(mapToBeFilled.getClass());</span>
-<span class="nc" id="L93">		builder.append(&quot;, pojos=&quot;);</span>
-<span class="nc" id="L94">		builder.append(pojos);</span>
-<span class="nc" id="L95">		builder.append(&quot;, annotations=&quot;);</span>
-<span class="nc" id="L96">		builder.append(annotations);</span>
-<span class="nc" id="L97">		builder.append(&quot;]&quot;);</span>
-<span class="nc" id="L98">		return builder.toString();</span>
+<span class="nc" id="L73">		StringBuilder builder = new StringBuilder();</span>
+<span class="nc" id="L74">		builder.append(&quot;AbstractMapArguments [mapToBeFilled=&quot;);</span>
+<span class="nc" id="L75">		builder.append(mapToBeFilled.getClass());</span>
+<span class="nc" id="L76">		builder.append(&quot;, annotations=&quot;);</span>
+<span class="nc" id="L77">		builder.append(annotations);</span>
+<span class="nc" id="L78">		builder.append(&quot;]&quot;);</span>
+<span class="nc" id="L79">		return builder.toString();</span>
 	}
 
 }

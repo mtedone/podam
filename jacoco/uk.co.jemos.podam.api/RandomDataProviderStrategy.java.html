@@ -3,6 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
+import net.jcip.annotations.ThreadSafe;
+
 /**
  * Default implementation of a {@link DataProviderStrategy}
  * &lt;p&gt;
@@ -23,14 +25,11 @@ package uk.co.jemos.podam.api;
  * @since 1.0.0
  *
  */
-
+@ThreadSafe
 public final class RandomDataProviderStrategy extends
 		AbstractRandomDataProviderStrategy {
 
 	// -------------------&gt;&gt; Constants
-
-	/** The singleton instance of this implementation */
-<span class="fc" id="L33">	private static final RandomDataProviderStrategy SINGLETON = new RandomDataProviderStrategy();</span>
 
 	// -------------------&gt;&gt; Instance / Static variables
 
@@ -39,21 +38,12 @@ public final class RandomDataProviderStrategy extends
 	/**
 	 * Implementation of the Singleton pattern
 	 */
-	private RandomDataProviderStrategy() {
-<span class="fc" id="L43">		super();</span>
-<span class="fc" id="L44">		setMemoization(true);</span>
-<span class="fc" id="L45">	}</span>
+	public RandomDataProviderStrategy() {
+<span class="fc" id="L42">		super();</span>
+<span class="fc" id="L43">		setMemoization(true);</span>
+<span class="fc" id="L44">	}</span>
 
 	// -------------------&gt;&gt; Public methods
-
-	/**
-	 * Implementation of the Singleton pattern
-	 *
-	 * @return A singleton instance of this class
-	 */
-	public static RandomDataProviderStrategy getInstance() {
-<span class="fc" id="L55">		return SINGLETON;</span>
-	}
 
 	/**
 	 * Other factory method which assigns a default number of collection
@@ -67,8 +57,9 @@ public final class RandomDataProviderStrategy extends
 	public static RandomDataProviderStrategy getInstance(
 			int nbrCollectionElements) {
 
-<span class="fc" id="L70">		SINGLETON.setDefaultNumberOfCollectionElements(nbrCollectionElements);</span>
-<span class="fc" id="L71">		return SINGLETON;</span>
+<span class="fc" id="L60">		RandomDataProviderStrategy strategy = new RandomDataProviderStrategy();</span>
+<span class="fc" id="L61">				strategy.setDefaultNumberOfCollectionElements(nbrCollectionElements);</span>
+<span class="fc" id="L62">		return strategy;</span>
 
 	}
 

@@ -23,9 +23,9 @@ import java.util.Comparator;
 
 <span class="fc" id="L24">		int complexity = 0;</span>
 <span class="fc bfc" id="L25" title="All 2 branches covered.">		for (Class&lt;?&gt; parameter : constructor.getParameterTypes()) {</span>
-<span class="fc bfc" id="L26" title="All 8 branches covered.">			if (parameter.isInterface()</span>
-					|| (Modifier.isAbstract(parameter.getModifiers()) &amp;&amp; !parameter.isPrimitive())
-					|| parameter.isAssignableFrom(constructor.getDeclaringClass())) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">			if (parameter.isInterface()</span>
+<span class="fc bfc" id="L27" title="All 4 branches covered.">					|| (Modifier.isAbstract(parameter.getModifiers()) &amp;&amp; !parameter.isPrimitive())</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">					|| parameter.isAssignableFrom(constructor.getDeclaringClass())) {</span>
 <span class="fc" id="L29">				complexity++;</span>
 			}
 		}

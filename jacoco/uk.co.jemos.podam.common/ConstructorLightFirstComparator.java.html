@@ -33,14 +33,14 @@ public class ConstructorLightFirstComparator extends AbstractConstructorComparat
 
 		/* Then constructors with less parameters */
 <span class="fc" id="L35">		result = constructor1.getParameterTypes().length</span>
-				- constructor2.getParameterTypes().length;
+<span class="fc" id="L36">				- constructor2.getParameterTypes().length;</span>
 <span class="fc bfc" id="L37" title="All 2 branches covered.">		if (result != 0) {</span>
 <span class="fc" id="L38">			return result;</span>
 		}
 
 		/* Then less complex constructor */
 <span class="fc" id="L42">		return constructorComplexity(constructor1)</span>
-				- constructorComplexity(constructor2);
+<span class="fc" id="L43">				- constructorComplexity(constructor2);</span>
 	}
 
 }

@@ -63,7 +63,7 @@ public final class PodamUtils {
 
 <span class="fc" id="L64">		return getClassInfo(clazz,</span>
 				new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;(),
-				Collections.&lt;String&gt;emptySet(),
+<span class="fc" id="L66">				Collections.&lt;String&gt;emptySet(),</span>
 				attributeApprover);
 	}
 
@@ -111,7 +111,7 @@ public final class PodamUtils {
 <span class="fc" id="L111">		Map&lt;String, ClassAttribute&gt; map = new TreeMap&lt;String, ClassAttribute&gt;();</span>
 <span class="fc bfc" id="L112" title="All 2 branches covered.">		for (Field classField : classFields) {</span>
 <span class="fc" id="L113">			ClassAttribute attribute = new ClassAttribute(classField,</span>
-					Collections.&lt;Method&gt;emptySet(), Collections.&lt;Method&gt;emptySet());
+<span class="fc" id="L114">					Collections.&lt;Method&gt;emptySet(), Collections.&lt;Method&gt;emptySet());</span>
 <span class="fc" id="L115">			map.put(classField.getName(), attribute);</span>
 <span class="fc" id="L116">		}</span>
 
@@ -122,8 +122,8 @@ public final class PodamUtils {
 <span class="fc" id="L122">				attribute.getRawGetters().add(classGetter);</span>
 			} else {
 <span class="fc" id="L124">				attribute = new ClassAttribute(null,</span>
-						Collections.singleton(classGetter),
-						Collections.&lt;Method&gt;emptySet());
+<span class="fc" id="L125">						Collections.singleton(classGetter),</span>
+<span class="fc" id="L126">						Collections.&lt;Method&gt;emptySet());</span>
 <span class="fc" id="L127">				map.put(attributeName, attribute);</span>
 			}
 <span class="fc" id="L129">		}</span>
@@ -135,8 +135,8 @@ public final class PodamUtils {
 <span class="fc" id="L135">				attribute.getRawSetters().add(classSetter);</span>
 			} else {
 <span class="fc" id="L137">				attribute = new ClassAttribute(null,</span>
-						Collections.&lt;Method&gt;emptySet(),
-						Collections.singleton(classSetter));
+<span class="fc" id="L138">						Collections.&lt;Method&gt;emptySet(),</span>
+<span class="fc" id="L139">						Collections.singleton(classSetter));</span>
 <span class="fc" id="L140">				map.put(attributeName, attribute);</span>
 			}
 <span class="fc" id="L142">		}</span>
@@ -162,9 +162,9 @@ public final class PodamUtils {
 <span class="fc" id="L162">			}</span>
 
 <span class="fc" id="L164">			Field field = attribute.getAttribute();</span>
-<span class="fc bfc" id="L165" title="All 6 branches covered.">			if (field != null &amp;&amp; (</span>
-					excludedFields.contains(field.getName())
-					|| containsAnyAnnotation(field, excludeFieldAnnotations))) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">			if (field != null &amp;&amp; (</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">					excludedFields.contains(field.getName())</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">					|| containsAnyAnnotation(field, excludeFieldAnnotations))) {</span>
 <span class="fc" id="L168">				iter.remove();</span>
 <span class="fc" id="L169">				continue;</span>
 			}
@@ -262,11 +262,11 @@ public final class PodamUtils {
 				 */
 <span class="fc bfc" id="L263" title="All 4 branches covered.">				if (!method.isBridge() &amp;&amp; !Modifier.isNative(method.getModifiers())) {</span>
 
-<span class="fc bfc" id="L265" title="All 4 branches covered.">					if (method.getName().startsWith(&quot;set&quot;)</span>
-							&amp;&amp; method.getReturnType().equals(void.class)) {
+<span class="fc bfc" id="L265" title="All 2 branches covered.">					if (method.getName().startsWith(&quot;set&quot;)</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">							&amp;&amp; method.getReturnType().equals(void.class)) {</span>
 <span class="fc" id="L267">						classSetters.add(method);</span>
-<span class="pc bpc" id="L268" title="1 of 8 branches missed.">					} else if ((method.getName().startsWith(GETTER_PREFIX) || method.getName().startsWith(GETTER_PREFIX2)) &amp;&amp;</span>
-							method.getParameterTypes().length == 0 &amp;&amp; !method.getReturnType().equals(void.class)) {
+<span class="fc bfc" id="L268" title="All 4 branches covered.">					} else if ((method.getName().startsWith(GETTER_PREFIX) || method.getName().startsWith(GETTER_PREFIX2)) &amp;&amp;</span>
+<span class="pc bpc" id="L269" title="1 of 4 branches missed.">							method.getParameterTypes().length == 0 &amp;&amp; !method.getReturnType().equals(void.class)) {</span>
 <span class="fc" id="L270">						classGetters.add(method);</span>
 					}
 				}
@@ -303,7 +303,7 @@ public final class PodamUtils {
 <span class="fc" id="L303">		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);</span>
 <span class="fc bfc" id="L304" title="All 2 branches covered.">		if (!&quot;&quot;.equals(candidateField)) {</span>
 <span class="fc" id="L305">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
-					+ candidateField.substring(1);
+<span class="fc" id="L306">					+ candidateField.substring(1);</span>
 		} else {
 <span class="fc" id="L308">			LOG.debug(&quot;Encountered method {}. This will be ignored.&quot;, method);</span>
 		}
@@ -335,7 +335,7 @@ public final class PodamUtils {
 		}
 <span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (!&quot;&quot;.equals(candidateField)) {</span>
 <span class="fc" id="L337">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
-					+ candidateField.substring(1);
+<span class="fc" id="L338">					+ candidateField.substring(1);</span>
 		} else {
 <span class="nc" id="L340">			LOG.debug(&quot;Encountered method {}. This will be ignored.&quot;, method);</span>
 		}
@@ -412,7 +412,7 @@ public final class PodamUtils {
 <span class="nc" id="L412">		} catch (Exception e) {</span>
 
 <span class="nc" id="L414">			LOG.warn(&quot;We couldn't get default value for {}[{}]&quot;,</span>
-					pojo.getClass(), attributeName, e);
+<span class="nc" id="L415">					pojo.getClass(), attributeName, e);</span>
 <span class="fc" id="L416">		}</span>
 
 <span class="fc" id="L418">		return retValue;</span>
@@ -453,8 +453,8 @@ public final class PodamUtils {
 	 */
 	public static Character getNiceCharacter() {
 
-<span class="fc" id="L456">		int randomCharIdx =</span>
-				(int) (Math.random() * (NICE_ASCII_CHARACTERS.length - 1) + 0.5);
+		int randomCharIdx =
+<span class="fc" id="L457">				(int) (Math.random() * (NICE_ASCII_CHARACTERS.length - 1) + 0.5);</span>
 
 <span class="fc" id="L459">		return NICE_ASCII_CHARACTERS[randomCharIdx];</span>
 
