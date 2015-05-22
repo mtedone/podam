@@ -483,7 +483,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @param constructors
 	 *            Array of POJO's constructors
 	 * @param order
-	 *            {@link Order} how to sort constructors
+	 *            {@link uk.co.jemos.podam.api.DataProviderStrategy.Order} how to sort constructors
 	 */
 	@Override
 	public void sort(Constructor<?>[] constructors, Order order) {
@@ -507,7 +507,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * @param methods
 	 *            Array of POJO's methods
 	 * @param order
-	 *            {@link Order} how to sort constructors
+	 *            {@link uk.co.jemos.podam.api.DataProviderStrategy.Order} how to sort constructors
 	 */
 	@Override
 	public void sort(Method[] methods, Order order) {
@@ -540,6 +540,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
+
 		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
 		if (null == aClass) {
 			aClass = specificClass;
@@ -571,6 +572,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
 
+
+		@SuppressWarnings("unchecked")
 		Class<? extends T> found = (Class<? extends T>) specificTypes
 				.get(nonInstantiatableClass);
 		if (found == null) {
