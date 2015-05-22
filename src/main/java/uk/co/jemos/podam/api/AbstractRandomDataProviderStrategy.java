@@ -74,12 +74,12 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
-	private final ConcurrentMap<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
+	private final Map<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
 
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
-	private final ConcurrentMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
+	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
 			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
@@ -540,11 +540,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
-		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
-		if (null == aClass) {
-			aClass = specificClass;
-		}
-
+		specificTypes.put(abstractClass, specificClass);
 		return this;
 	}
 
@@ -597,11 +593,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
 
-		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
-		if (null == attributeStrategyClass) {
-			attributeStrategyClass = strategyClass;
-		}
-
+		attributeStrategies.put(annotationClass, strategyClass);
 		return this;
 	}
 
@@ -616,7 +608,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			final Class<? extends Annotation> annotationClass) {
 
 		attributeStrategies.remove(annotationClass);
-
 		return this;
 	}
 
