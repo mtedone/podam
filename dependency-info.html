@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Podam - </title>
+    <title>Podam - Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -84,8 +84,8 @@
                           <a href="annotations.html" title="Custom Annotations">Custom Annotations</a>
             </li>
                   <li class="none">
-            <strong>Bean Validation Support</strong>
-          </li>
+                          <a href="validation-api.html" title="Bean Validation Support">Bean Validation Support</a>
+            </li>
                   <li class="none">
                           <a href="walk-through-example.html" title="A Walk-through example">A Walk-through example</a>
             </li>
@@ -101,9 +101,50 @@
           </ul>
                        <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                            <li class="collapsed">
+                                                                                                                                                                                                                                                                                                      <li class="expanded">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                  </li>
+                    <ul>
+                      <li class="none">
+                          <a href="index.html" title="About">About</a>
+            </li>
+                      <li class="none">
+                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
+            </li>
+                      <li class="none">
+                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
+            </li>
+                      <li class="none">
+            <strong>Dependency Information</strong>
+          </li>
+                      <li class="none">
+                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
+            </li>
+                      <li class="none">
+                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
+            </li>
+                      <li class="none">
+                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
+            </li>
+                      <li class="none">
+                          <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
+            </li>
+                      <li class="none">
+                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
+            </li>
+                      <li class="none">
+                          <a href="license.html" title="Project License">Project License</a>
+            </li>
+                      <li class="none">
+                          <a href="team-list.html" title="Project Team">Project Team</a>
+            </li>
+                      <li class="none">
+                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
+            </li>
+                      <li class="none">
+                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
+            </li>
+              </ul>
+        </li>
           </ul>
                                                                                                                                      <a href="http://www.jemos.co.uk/projects/podam/index.html" title="Jemos" class="poweredBy">
         <img class="poweredBy"  alt="Jemos Podam" src="images/logo.gif"     />
@@ -115,139 +156,43 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2>Podam Bean Validation Support<a name="Podam_Bean_Validation_Support"></a></h2>
-<p>Podam supports Bean Validation annotation constraints to fill attributes with the values fulfilling these constaints. For the full syntax of Bean Validation annotations, please refer to the <a class="externalLink" href="http://docs.oracle.com/javaee/6/tutorial/doc/gircz.html">http://docs.oracle.com/javaee/6/tutorial/doc/gircz.html</a></p>
+<h2>Dependency Information<a name="Dependency_Information"></a></h2><a name="Dependency_Information"></a>
 <div class="section">
-<h3>Usage<a name="Usage"></a></h3>
-<p>Annotate fields, constructor parameters or setter parameters with constraint annotations</p>
+<h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a>
 <div class="source">
-<pre>
-package uk.co.jemos.podam.test.dto;
-
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-
-import javax.validation.constraints.AssertFalse;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
-/**
-* POJO to test bean validation API
-*
-* @author daivanov
-*
-*/
-public class ValidatedPojo {
-
-    @AssertTrue
-    private Boolean boolTrue;
-
-    @AssertFalse
-    private Boolean boolFalse;
-
-    @Null
-    private String emptyString;
-
-    @DecimalMin(&quot;-5.5&quot;)
-    @DecimalMax(&quot;5.5&quot;)
-    private String decimalString;
-
-    @DecimalMin(&quot;-5.5&quot;)
-    @DecimalMax(&quot;5.5&quot;)
-    private Double decimalDouble;
-
-    @Min(-10)
-    @Max(10)
-    private Integer intInteger;
-
-    @Min(-10)
-    @Max(10)
-    private String intString;
-
-    @Digits(integer = 3, fraction = 2)
-    private String fractionString;
-
-    @Digits(integer = 3, fraction = 2)
-    private BigDecimal fractionDecimal;
-
-    @Past
-    private Date pastDate;
-
-    @Future
-    private Calendar futureCalendar;
-
-    @Size(min = 7, max = 10)
-    private String sizedString;
-
-    @Size(max = 2)
-    private Collection&lt;String&gt; maxCollection;
-
-    @Size(min = 2)
-    private Collection&lt;String&gt; minCollection;
-
-    @Pattern(regexp = &quot;^[a-zA-Z0-9_]*$&quot;)
-    private String identifier;
-
-        ...etc
-
-}
-</pre></div>
-<p>Then just manufacture the POJO as normal. Podam will introspect annotations and will follow constraints.</p>
-<div class="source">
-<pre>ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);</pre></div>
-<p>To test your POJO you need to add validation provider. For example, <i>hibernate-validator</i> artifact provides one. Then you can run something like:</p>
-<div class="source">
-<pre>ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-Validator validator = factory.getValidator();
-Set&lt;ConstraintViolation&lt;ValidatedPojo&gt;&gt; violations = validator.validate(pojo);
-Assert.assertTrue(&quot;Unexpected &quot; + violations.size() + &quot; violations &quot;
-    + violations, violations.isEmpty());</pre></div></div>
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;uk.co.jemos.podam&lt;/groupId&gt;
+  &lt;artifactId&gt;podam&lt;/artifactId&gt;
+  &lt;version&gt;5.4.1-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</pre></div></div>
 <div class="section">
-<h3>Custom constraints support<a name="Custom_constraints_support"></a></h3>
-<p>If you use constraint annotations, which are not part of <i>javax.validation.constraints</i> package:</p>
+<h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a>
 <div class="source">
-<pre>
-public class ValidatedPojo {
-
-    @Email
-    private String email;
-
-    etc...
-}
-</pre></div>
-<p>Then you have to tell Podam how to handle them:</p>
-<div class="source">
-<pre>
-Class&lt;AttributeStrategy&lt;?&gt;&gt; attrStrategy = (Class&lt;AttributeStrategy&lt;?&gt;&gt;)(Class&lt;?&gt;)EmailStrategy.class;
-((RandomDataProviderStrategy)factory.getStrategy()).addAttributeStrategy(Email.class, attrStrategy);
-ValidatedPojo pojo = factory.manufacturePojo(ValidatedPojo.class);
-</pre></div>
-<p><i>EmailStrategy</i> implementation:</p>
-<div class="source">
-<pre>
-public class EmailStrategy implements AttributeStrategy&lt;String&gt; {
-
-    @Override
-    public String getValue() {
-        return &quot;aaa.bbb@ccc.ddd&quot;;
-    }
-}
-</pre></div></div>
+<pre>'uk.co.jemos.podam:podam:jar:5.4.1-SNAPSHOT'</pre></div></div>
 <div class="section">
-<h3>Limitations<a name="Limitations"></a></h3>
-<ul>
-<li>@Pattern annotation is not yet supported</li></ul></div></div>
+<h3>Apache Ant<a name="Apache_Ant"></a></h3><a name="Apache_Ant"></a>
+<div class="source">
+<pre>&lt;dependency org=&quot;uk.co.jemos.podam&quot; name=&quot;podam&quot; rev=&quot;5.4.1-SNAPSHOT&quot;&gt;
+  &lt;artifact name=&quot;podam&quot; type=&quot;jar&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='uk.co.jemos.podam', module='podam', version='5.4.1-SNAPSHOT')
+)</pre></div></div>
+<div class="section">
+<h3>Grails<a name="Grails"></a></h3><a name="Grails"></a>
+<div class="source">
+<pre>compile 'uk.co.jemos.podam:podam:5.4.1-SNAPSHOT'</pre></div></div>
+<div class="section">
+<h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[uk.co.jemos.podam/podam &quot;5.4.1-SNAPSHOT&quot;]</pre></div></div>
+<div class="section">
+<h3>SBT<a name="SBT"></a></h3><a name="SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;uk.co.jemos.podam&quot; %% &quot;podam&quot; % &quot;5.4.1-SNAPSHOT&quot;</pre></div></div></div>
       </div>
     </div>
     <div class="clear">
