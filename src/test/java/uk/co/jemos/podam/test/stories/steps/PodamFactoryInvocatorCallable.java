@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.steps;
+package uk.co.jemos.podam.test.stories.steps;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;

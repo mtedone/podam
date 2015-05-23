@@ -11,6 +11,14 @@
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
 	<version>5.4.1-SNAPSHOT</version>
+	<name>podam</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<thucydides.version>0.9.268</thucydides.version>
+		<thucydides.jbehave.version>0.9.268</thucydides.jbehave.version>
+	</properties>
+
 	<url>http://mtedone.github.io/podam/</url>
 	<licenses>
 		<license>
@@ -126,12 +134,7 @@
 		</contributor>
 	</contributors>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jbehave.core.version>4.0-beta-11</jbehave.core.version>
-		<jbehave.site.version>3.1.1</jbehave.site.version>
-		<embeddables>**/*Story.java</embeddables>
-	</properties>
+
 
 	<build>
 		<extensions>
@@ -266,7 +269,48 @@
 							</rules>
 						</configuration>
 					</execution>
-
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+						<include>**/Test*.java</include>
+						<include>**/When*.java</include>
+						<include>**/*TestSuite.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.thucydides.maven.plugins</groupId>
+				<artifactId>maven-thucydides-plugin</artifactId>
+				<version>${thucydides.version}</version>
+				<executions>
+					<execution>
+						<id>thucydides-reports</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
@@ -280,7 +324,6 @@
 				<reportSets>
 					<reportSet>
 						<reports>
-							<report>dependencies</report>
 							<report>project-team</report>
 							<report>mailing-list</report>
 							<report>cim</report>
@@ -314,6 +357,11 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.4.201502262128</version>
+			</plugin>
+			<plugin>
+				<groupId>net.thucydides.maven.plugins</groupId>
+				<artifactId>maven-thucydides-plugin</artifactId>
+				<version>${thucydides.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -356,7 +404,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -388,30 +436,37 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
-
-		<!-- JBeahve -->
-		<dependency>
-			<groupId>org.jbehave</groupId>
-			<artifactId>jbehave-core</artifactId>
-			<version>${jbehave.core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jbehave</groupId>
-			<artifactId>jbehave-core</artifactId>
-			<version>${jbehave.core.version}</version>
-			<classifier>resources</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
-			<groupId>org.jbehave.site</groupId>
-			<artifactId>jbehave-site-resources</artifactId>
-			<version>${jbehave.site.version}</version>
-			<type>zip</type>
-		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>jbehave-junit-runner</artifactId>
 			<version>1.1.2</version>
+		</dependency>
+
+		<!-- Thucydide -->
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-core</artifactId>
+			<version>${thucydides.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-junit</artifactId>
+			<version>${thucydides.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.thucydides</groupId>
+			<artifactId>thucydides-jbehave-plugin</artifactId>
+			<version>${thucydides.jbehave.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.lambdaj</groupId>
+			<artifactId>lambdaj</artifactId>
+			<version>2.3.3</version>
 		</dependency>
 	</dependencies>
 

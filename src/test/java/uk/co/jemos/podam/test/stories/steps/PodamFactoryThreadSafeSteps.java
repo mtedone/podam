@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.steps;
+package uk.co.jemos.podam.test.stories.steps;
 
 import org.apache.log4j.Logger;
 import org.jbehave.core.annotations.Given;

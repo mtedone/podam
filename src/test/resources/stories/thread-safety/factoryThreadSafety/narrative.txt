@@ -1,0 +1,4 @@
+Narrative:
+As a user
+I want Podam Factory to be thread-safe
+So that I can run multiple factories simultaneously
