@@ -68,7 +68,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private final ConcurrentMap<Class<?>, Map<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, Map<Type[], Object>>();
+	private final ConcurrentMap<Class<?>, ConcurrentMap<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, ConcurrentMap<Type[], Object>>();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
@@ -429,7 +429,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 					!Collection.class.isAssignableFrom(pojoClass) &&
 					!Map.class.isAssignableFrom(pojoClass))) {
 
-				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				ConcurrentMap<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 				if (map != null) {
 					for (Entry<Type[], Object> entry : map.entrySet()) {
 						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
@@ -450,17 +450,13 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 		if (isMemoizationEnabled.get()) {
-			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+			ConcurrentMap<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 			if (map == null) {
-				map = new HashMap<Type[], Object>();
+				map = new ConcurrentHashMap<Type[], Object>();
 
-				Map<Type[], Object> objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
-				if (null == objectMap) {
-					objectMap = map;
-				}
-
+				memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
 			}
-			map.put(attributeMetadata.getAttrGenericArgs(), instance);
+			map.putIfAbsent(attributeMetadata.getAttrGenericArgs(), instance);
 		}
 	}
 
@@ -526,8 +522,9 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/**
 	 * Bind an interface/abstract class to a specific implementation. If the
 	 * strategy previously contained a binding for the interface/abstract class,
-	 * the old value is replaced by the new value. If you want to implement
-	 * more sophisticated binding strategy, override this class.
+	 * the old value will not be replaced by the new value. If you want to force the
+	 * value replacement, invoke removeSpecific before invoking this method.
+	 * If you want to implement more sophisticated binding strategy, override this class.
 	 *
 	 * @param <T> return type
 	 * @param abstractClass
@@ -540,11 +537,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> AbstractRandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
-
-		Class<?> aClass = specificTypes.putIfAbsent(abstractClass, specificClass);
-		if (null == aClass) {
-			aClass = specificClass;
-		}
+		specificTypes.putIfAbsent(abstractClass, specificClass);
 
 		return this;
 	}
@@ -572,8 +565,6 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
 
-
-		@SuppressWarnings("unchecked")
 		Class<? extends T> found = (Class<? extends T>) specificTypes
 				.get(nonInstantiatableClass);
 		if (found == null) {
@@ -586,8 +577,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	/**
 	 * Bind an annotation to attribute strategy class. If the
 	 * strategy previously contained a binding for the annotation,
-	 * the old value is replaced by the new value. If you want to implement
-	 * more sophisticated binding strategy, override this class.
+	 * the old will not be replaced. If you want to force the value
+	 * replacement, invoke removeAttributeStrategy before invoking this
+	 * method. If you want to implement more sophisticated binding strategy,
+	 * override this class.
 	 *
 	 * @param annotationClass
 	 *            the annotation class
@@ -599,10 +592,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
 
-		Class<AttributeStrategy<?>> attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);
-		if (null == attributeStrategyClass) {
-			attributeStrategyClass = strategyClass;
-		}
+		attributeStrategies.putIfAbsent(annotationClass, strategyClass);
 
 		return this;
 	}
