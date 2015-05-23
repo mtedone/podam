@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 @ThreadSafe
-public abstract class AbstractRandomDataProviderStrategy implements DataProviderStrategy {
+public abstract class AbstractRandomDataProviderStrategy implements RandomDataProviderStrategy {
 
 	// -------------------&gt;&gt; Constants
 
@@ -68,7 +68,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-<span class="fc" id="L71">	private final ConcurrentMap&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt; memoizationTable = new ConcurrentHashMap&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt;();</span>
+<span class="fc" id="L71">	private final ConcurrentMap&lt;Class&lt;?&gt;, ConcurrentMap&lt;Type[], Object&gt;&gt; memoizationTable = new ConcurrentHashMap&lt;Class&lt;?&gt;, ConcurrentMap&lt;Type[], Object&gt;&gt;();</span>
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
@@ -316,7 +316,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 		short retValue;
 		do {
 <span class="fc" id="L318">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L319" title="1 of 2 branches missed.">		} while (retValue == 0);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		} while (retValue == 0);</span>
 <span class="fc" id="L320">		return retValue;</span>
 	}
 
@@ -429,7 +429,7 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 <span class="fc bfc" id="L429" title="All 2 branches covered.">					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;</span>
 <span class="fc bfc" id="L430" title="All 2 branches covered.">					!Map.class.isAssignableFrom(pojoClass))) {</span>
 
-<span class="fc" id="L432">				Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc" id="L432">				ConcurrentMap&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
 <span class="fc bfc" id="L433" title="All 2 branches covered.">				if (map != null) {</span>
 <span class="fc bfc" id="L434" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
 <span class="fc bfc" id="L435" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
@@ -450,19 +450,15 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 			Object instance) {
 
 <span class="fc bfc" id="L452" title="All 2 branches covered.">		if (isMemoizationEnabled.get()) {</span>
-<span class="fc" id="L453">			Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc" id="L453">			ConcurrentMap&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
 <span class="fc bfc" id="L454" title="All 2 branches covered.">			if (map == null) {</span>
-<span class="fc" id="L455">				map = new HashMap&lt;Type[], Object&gt;();</span>
+<span class="fc" id="L455">				map = new ConcurrentHashMap&lt;Type[], Object&gt;();</span>
 
-<span class="fc" id="L457">				Map&lt;Type[], Object&gt; objectMap = memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);</span>
-<span class="pc bpc" id="L458" title="1 of 2 branches missed.">				if (null == objectMap) {</span>
-<span class="fc" id="L459">					objectMap = map;</span>
-				}
-
+<span class="fc" id="L457">				memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);</span>
 			}
-<span class="fc" id="L463">			map.put(attributeMetadata.getAttrGenericArgs(), instance);</span>
+<span class="fc" id="L459">			map.putIfAbsent(attributeMetadata.getAttrGenericArgs(), instance);</span>
 		}
-<span class="fc" id="L465">	}</span>
+<span class="fc" id="L461">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -470,10 +466,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public void clearMemoizationCache() {
 
-<span class="fc" id="L473">		memoizationTable.clear();</span>
+<span class="fc" id="L469">		memoizationTable.clear();</span>
 
 
-<span class="fc" id="L476">	}</span>
+<span class="fc" id="L472">	}</span>
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the
@@ -488,16 +484,16 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public void sort(Constructor&lt;?&gt;[] constructors, Order order) {
 		AbstractConstructorComparator constructorComparator;
-<span class="pc bfc" id="L491" title="All 2 branches covered.">		switch(order) {</span>
+<span class="pc bfc" id="L487" title="All 2 branches covered.">		switch(order) {</span>
 		case HEAVY_FIRST:
-<span class="fc" id="L493">			constructorComparator = constructorHeavyComparator;</span>
-<span class="fc" id="L494">			break;</span>
+<span class="fc" id="L489">			constructorComparator = constructorHeavyComparator;</span>
+<span class="fc" id="L490">			break;</span>
 		default:
-<span class="fc" id="L496">			constructorComparator = constructorLightComparator;</span>
+<span class="fc" id="L492">			constructorComparator = constructorLightComparator;</span>
 			break;
 		}
-<span class="fc" id="L499">		Arrays.sort(constructors, constructorComparator);</span>
-<span class="fc" id="L500">	}</span>
+<span class="fc" id="L495">		Arrays.sort(constructors, constructorComparator);</span>
+<span class="fc" id="L496">	}</span>
 
 	/**
 	 * Rearranges POJO's methods in order they will be tried to produce the
@@ -512,22 +508,23 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	@Override
 	public void sort(Method[] methods, Order order) {
 		AbstractMethodComparator methodComparator;
-<span class="fc bfc" id="L515" title="All 2 branches covered.">		switch(order) {</span>
+<span class="fc bfc" id="L511" title="All 2 branches covered.">		switch(order) {</span>
 		case HEAVY_FIRST:
-<span class="fc" id="L517">			methodComparator = methodHeavyComparator;</span>
-<span class="fc" id="L518">			break;</span>
+<span class="fc" id="L513">			methodComparator = methodHeavyComparator;</span>
+<span class="fc" id="L514">			break;</span>
 		default:
-<span class="fc" id="L520">			methodComparator = methodLightComparator;</span>
+<span class="fc" id="L516">			methodComparator = methodLightComparator;</span>
 			break;
 		}
-<span class="fc" id="L523">		Arrays.sort(methods, methodComparator);</span>
-<span class="fc" id="L524">	}</span>
+<span class="fc" id="L519">		Arrays.sort(methods, methodComparator);</span>
+<span class="fc" id="L520">	}</span>
 
 	/**
 	 * Bind an interface/abstract class to a specific implementation. If the
 	 * strategy previously contained a binding for the interface/abstract class,
-	 * the old value is replaced by the new value. If you want to implement
-	 * more sophisticated binding strategy, override this class.
+	 * the old value will not be replaced by the new value. If you want to force the
+	 * value replacement, invoke removeSpecific before invoking this method.
+	 * If you want to implement more sophisticated binding strategy, override this class.
 	 *
 	 * @param &lt;T&gt; return type
 	 * @param abstractClass
@@ -537,32 +534,24 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            {@code abstractClass}.
 	 * @return itself
 	 */
-	public &lt;T&gt; AbstractRandomDataProviderStrategy addSpecific(
+	@Override
+	public &lt;T&gt; RandomDataProviderStrategy addSpecific(
 			final Class&lt;T&gt; abstractClass, final Class&lt;? extends T&gt; specificClass) {
 
+<span class="fc" id="L541">		specificTypes.putIfAbsent(abstractClass, specificClass);</span>
 
-<span class="fc" id="L544">		Class&lt;?&gt; aClass = specificTypes.putIfAbsent(abstractClass, specificClass);</span>
-<span class="pc bpc" id="L545" title="1 of 2 branches missed.">		if (null == aClass) {</span>
-<span class="fc" id="L546">			aClass = specificClass;</span>
-		}
-
-<span class="fc" id="L549">		return this;</span>
+<span class="fc" id="L543">		return this;</span>
 	}
 
 	/**
-	 * Remove binding of an interface/abstract class to a specific
-	 * implementation
-	 *
-	 * @param &lt;T&gt; return type
-	 * @param abstractClass
-	 *            the interface/abstract class to remove binding
-	 * @return itself
+	 * {@inheritDoc}
 	 */
-	public &lt;T&gt; AbstractRandomDataProviderStrategy removeSpecific(
+	@Override
+	public &lt;T&gt; RandomDataProviderStrategy removeSpecific(
 			final Class&lt;T&gt; abstractClass) {
 
-<span class="fc" id="L564">		specificTypes.remove(abstractClass);</span>
-<span class="fc" id="L565">		return this;</span>
+<span class="fc" id="L553">		specificTypes.remove(abstractClass);</span>
+<span class="fc" id="L554">		return this;</span>
 	}
 
 	/**
@@ -572,39 +561,26 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public &lt;T&gt; Class&lt;? extends T&gt; getSpecificClass(
 			Class&lt;T&gt; nonInstantiatableClass) {
 
-
-		@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L577">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
-<span class="fc" id="L578">				.get(nonInstantiatableClass);</span>
-<span class="fc bfc" id="L579" title="All 2 branches covered.">		if (found == null) {</span>
-<span class="fc" id="L580">			found = nonInstantiatableClass;</span>
+<span class="fc" id="L564">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
+<span class="fc" id="L565">				.get(nonInstantiatableClass);</span>
+<span class="fc bfc" id="L566" title="All 2 branches covered.">		if (found == null) {</span>
+<span class="fc" id="L567">			found = nonInstantiatableClass;</span>
 		}
-<span class="fc" id="L582">		return found;</span>
+<span class="fc" id="L569">		return found;</span>
 
 	}
 
 	/**
-	 * Bind an annotation to attribute strategy class. If the
-	 * strategy previously contained a binding for the annotation,
-	 * the old value is replaced by the new value. If you want to implement
-	 * more sophisticated binding strategy, override this class.
-	 *
-	 * @param annotationClass
-	 *            the annotation class
-	 * @param strategyClass
-	 *            the attribute strategy class
-	 * @return itself
+	 * {@inheritDoc}
 	 */
-	public AbstractRandomDataProviderStrategy addAttributeStrategy(
+	@Override
+	public RandomDataProviderStrategy addAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass,
 			final Class&lt;AttributeStrategy&lt;?&gt;&gt; strategyClass) {
 
-<span class="fc" id="L602">		Class&lt;AttributeStrategy&lt;?&gt;&gt; attributeStrategyClass = attributeStrategies.putIfAbsent(annotationClass, strategyClass);</span>
-<span class="pc bpc" id="L603" title="1 of 2 branches missed.">		if (null == attributeStrategyClass) {</span>
-<span class="fc" id="L604">			attributeStrategyClass = strategyClass;</span>
-		}
+<span class="fc" id="L581">		attributeStrategies.putIfAbsent(annotationClass, strategyClass);</span>
 
-<span class="fc" id="L607">		return this;</span>
+<span class="fc" id="L583">		return this;</span>
 	}
 
 	/**
@@ -614,12 +590,13 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            the annotation class to remove binding
 	 * @return itself
 	 */
-	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
+	@Override
+	public RandomDataProviderStrategy removeAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
 
-<span class="fc" id="L620">		attributeStrategies.remove(annotationClass);</span>
+<span class="fc" id="L597">		attributeStrategies.remove(annotationClass);</span>
 
-<span class="fc" id="L622">		return this;</span>
+<span class="fc" id="L599">		return this;</span>
 	}
 
 	/**
@@ -629,87 +606,81 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	public Class&lt;AttributeStrategy&lt;?&gt;&gt; getStrategyForAnnotation(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
 
-<span class="fc" id="L632">		return attributeStrategies.get(annotationClass);</span>
+<span class="fc" id="L609">		return attributeStrategies.get(annotationClass);</span>
 
 	}
 
 	/**
-	 * Getter for constructor light comparator
-	 * @return current constructor comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractConstructorComparator getConstructorLightComparator() {
-<span class="fc" id="L641">		return constructorLightComparator;</span>
+<span class="fc" id="L618">		return constructorLightComparator;</span>
 	}
 
 	/**
-	 * Setter for constructor öight comparator. Default implementations are
-	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
-	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorLightComparator constructor comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator) {
-<span class="fc" id="L651">		this.constructorLightComparator = constructorLightComparator;</span>
-<span class="fc" id="L652">	}</span>
+<span class="fc" id="L626">		this.constructorLightComparator = constructorLightComparator;</span>
+<span class="fc" id="L627">	}</span>
 
 	/**
-	 * Getter for constructor heavy comparator
-	 * @return current constructor comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractConstructorComparator getConstructorHeavyComparator() {
-<span class="fc" id="L659">		return constructorHeavyComparator;</span>
+<span class="fc" id="L634">		return constructorHeavyComparator;</span>
 	}
 
 	/**
-	 * Setter for constructor heavy comparator. Default implementations are
-	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
-	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorHeavyComparator constructor comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator) {
-<span class="fc" id="L669">		this.constructorHeavyComparator = constructorHeavyComparator;</span>
-<span class="fc" id="L670">	}</span>
+<span class="fc" id="L642">		this.constructorHeavyComparator = constructorHeavyComparator;</span>
+<span class="fc" id="L643">	}</span>
 
 	/**
-	 * Getter for method light comparator
-	 * @return current method comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractMethodComparator getMethodLightComparator() {
-<span class="fc" id="L677">		return methodLightComparator;</span>
+<span class="fc" id="L650">		return methodLightComparator;</span>
 	}
 
 	/**
-	 * Setter for method light comparator. Default implementations is
-	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodLightComparator method comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setMethodLightComparator(AbstractMethodComparator methodLightComparator) {
-<span class="fc" id="L686">		this.methodLightComparator = methodLightComparator;</span>
-<span class="fc" id="L687">	}</span>
+<span class="fc" id="L658">		this.methodLightComparator = methodLightComparator;</span>
+<span class="fc" id="L659">	}</span>
 
 	/**
-	 * Getter for method heavy comparator
-	 * @return current method comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractMethodComparator getMethodHeavyComparator() {
-<span class="fc" id="L694">		return methodHeavyComparator;</span>
+<span class="fc" id="L666">		return methodHeavyComparator;</span>
 	}
 
 	/**
-	 * Setter for method heavy comparator. Default implementations is
-	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodHeavyComparator method comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator) {
-<span class="fc" id="L703">		this.methodHeavyComparator = methodHeavyComparator;</span>
-<span class="fc" id="L704">	}</span>
+<span class="fc" id="L674">		this.methodHeavyComparator = methodHeavyComparator;</span>
+<span class="fc" id="L675">	}</span>
 
 	// -------------------&gt;&gt; Private methods
 
 	private void log(AttributeMetadata attributeMetadata) {
-<span class="fc" id="L709">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
-<span class="fc" id="L710">				attributeMetadata.getPojoClass().getName(),</span>
-<span class="fc bfc" id="L711" title="All 2 branches covered.">				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);</span>
-<span class="fc" id="L712">	}</span>
+<span class="fc" id="L680">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
+<span class="fc" id="L681">				attributeMetadata.getPojoClass().getName(),</span>
+<span class="fc bfc" id="L682" title="All 2 branches covered.">				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);</span>
+<span class="fc" id="L683">	}</span>
 
 	// -------------------&gt;&gt; equals() / hashcode() / toString()
 

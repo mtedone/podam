@@ -67,11 +67,11 @@ public class PodamFactoryImpl implements PodamFactory {
 	/**
 	 * The strategy to use to fill data.
 	 * &lt;p&gt;
-	 * The default is {@link RandomDataProviderStrategy}.
+	 * The default is {@link RandomDataProviderStrategyImpl}.
 	 * &lt;/p&gt;
 	 */
 <span class="fc" id="L73">	private DataProviderStrategy strategy</span>
-			= new RandomDataProviderStrategy();
+			= new RandomDataProviderStrategyImpl();
 
 	/**
 	 * The strategy to use to introspect data.
@@ -89,7 +89,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	public PodamFactoryImpl() {
 <span class="fc" id="L91">		this(NullExternalFactory.getInstance(),</span>
-				new RandomDataProviderStrategy());
+				new RandomDataProviderStrategyImpl());
 <span class="fc" id="L93">	}</span>
 
 	/**
@@ -111,7 +111,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            handle
 	 */
 	public PodamFactoryImpl(PodamFactory externalFactory) {
-<span class="fc" id="L114">		this(externalFactory, new RandomDataProviderStrategy());</span>
+<span class="fc" id="L114">		this(externalFactory, new RandomDataProviderStrategyImpl());</span>
 <span class="fc" id="L115">	}</span>
 
 	/**
