@@ -9,7 +9,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.test.dto.docs.example.*;
 
 import java.util.Calendar;
@@ -31,7 +31,7 @@ public class WalkThroughExampleUnitTest {
 	private PodamFactory factory;
 
 	/** The default data provider strategy */
-	private final DataProviderStrategy strategy = new RandomDataProviderStrategy();
+	private final DataProviderStrategy strategy = new RandomDataProviderStrategyImpl();
 
 
 	// ------------------->> Constructors

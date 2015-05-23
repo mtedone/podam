@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit;
 
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;

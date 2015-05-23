@@ -6,10 +6,7 @@ package uk.co.jemos.podam.test.unit;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Test;
-import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
 import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
@@ -20,17 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * It checks that the {@link RandomDataProviderStrategy} is initialised properly
+ * It checks that the {@link RandomDataProviderStrategyImpl} is initialised properly
  * 
  * @author Marco Tedone
  * 
  */
-public class RandomDataProviderStrategyInitialisationUnitTest {
+public class RandomDataProviderStrategyImplInitialisationUnitTest {
 
 	private DataProviderStrategy strategy;
 	
 	private static final int numOfCollectionElemsBackup
-			= new RandomDataProviderStrategy().getNumberOfCollectionElements(Object.class);
+			= new RandomDataProviderStrategyImpl().getNumberOfCollectionElements(Object.class);
 
 	@After
 	public void after() {
@@ -40,7 +37,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testNumberOfCollectionElementChange() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
 				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
@@ -58,14 +55,14 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testInitialization() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
 				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
 				strategy.getNumberOfCollectionElements(Object.class));
 
 		int aNumberOfCollectionElements = 3;
-		strategy = RandomDataProviderStrategy
+		strategy = RandomDataProviderStrategyImpl
 				.getInstance(aNumberOfCollectionElements);
 		Assert.assertEquals(
 				"An incorrect default number of collection elements",
@@ -77,7 +74,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testRandomDataProviderStrategy() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		PodamFactory factory = new PodamFactoryImpl(strategy);
 		PojoWithMapsAndCollections pojo =
 				factory.manufacturePojo(PojoWithMapsAndCollections.class);
@@ -134,7 +131,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testConstructorLightComparator() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractConstructorComparator comparator = randomStrategy.getConstructorLightComparator();
 		Assert.assertNotNull(comparator);
@@ -147,7 +144,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testConstructorHeavyComparator() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractConstructorComparator comparator = randomStrategy.getConstructorHeavyComparator();
 		Assert.assertNotNull(comparator);
@@ -160,7 +157,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testMethodLightComparator() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractMethodComparator comparator = randomStrategy.getMethodLightComparator();
 		Assert.assertNotNull(comparator);
@@ -173,7 +170,7 @@ public class RandomDataProviderStrategyInitialisationUnitTest {
 	@Test
 	public void testMethodHeavyComparator() {
 
-		strategy = new RandomDataProviderStrategy();
+		strategy = new RandomDataProviderStrategyImpl();
 		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
 		AbstractMethodComparator comparator = randomStrategy.getMethodHeavyComparator();
 		Assert.assertNotNull(comparator);

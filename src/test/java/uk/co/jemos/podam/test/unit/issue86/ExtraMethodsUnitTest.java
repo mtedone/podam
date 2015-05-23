@@ -11,7 +11,7 @@ import uk.co.jemos.podam.api.*;
 public class ExtraMethodsUnitTest {
 
 
-    private DataProviderStrategy dataProviderStrategy = new RandomDataProviderStrategy();
+    private DataProviderStrategy dataProviderStrategy = new RandomDataProviderStrategyImpl();
 
     private AbstractClassInfoStrategy classInfoStrategy = DefaultClassInfoStrategy.getInstance();
 

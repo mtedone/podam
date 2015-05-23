@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.test.dto.PodamParameterizedType;
 import uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericPojo;
@@ -33,7 +33,7 @@ public class Pdm45UnitTest {
 	@Before
 	public void init() {
 
-		factory = new PodamFactoryImpl(new RandomDataProviderStrategy());
+		factory = new PodamFactoryImpl(new RandomDataProviderStrategyImpl());
 
 	}
 	

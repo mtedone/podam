@@ -22,7 +22,7 @@ public interface PodamFactory {
 	 * dummy values, using the default data provider strategy.
 	 * 
 	 * <p>
-	 * This method uses {@link RandomDataProviderStrategy} as the default
+	 * This method uses {@link RandomDataProviderStrategyImpl} as the default
 	 * implementation.
 	 * </p>
 	 * 
@@ -47,7 +47,7 @@ public interface PodamFactory {
 	 * instantiate class, constructor with the most parameters is used.
 	 * 
 	 * <p>
-	 * This method uses {@link RandomDataProviderStrategy} as the default
+	 * This method uses {@link RandomDataProviderStrategyImpl} as the default
 	 * implementation.
 	 * </p>
 	 * 
@@ -71,7 +71,7 @@ public interface PodamFactory {
 	 * dummy values, using the default data provider strategy.
 	 * 
 	 * <p>
-	 * This method uses {@link RandomDataProviderStrategy} as the default
+	 * This method uses {@link RandomDataProviderStrategyImpl} as the default
 	 * implementation.
 	 * </p>
 	 * 

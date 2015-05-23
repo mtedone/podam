@@ -6,7 +6,7 @@
 
 	<!-- The definition of the default strategy -->
 	<bean id="randomDataProviderStrategy"
-		class="uk.co.jemos.podam.api.RandomDataProviderStrategy" />
+		class="uk.co.jemos.podam.api.RandomDataProviderStrategyImpl" />
 
 		
 	<!-- The definition of PODAM factory -->

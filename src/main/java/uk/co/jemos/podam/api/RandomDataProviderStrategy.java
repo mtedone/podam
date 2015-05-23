@@ -1,74 +1,139 @@
-/**
- *
- */
 package uk.co.jemos.podam.api;
 
-import net.jcip.annotations.ThreadSafe;
+import uk.co.jemos.podam.common.AbstractConstructorComparator;
+import uk.co.jemos.podam.common.AbstractMethodComparator;
+import uk.co.jemos.podam.common.AttributeStrategy;
+
+import java.lang.annotation.Annotation;
 
 /**
- * Default implementation of a {@link DataProviderStrategy}
- * <p>
- * This default implementation returns values based on a random generator.
- * <b>Don't use this implementation if you seek deterministic values</b>
- * </p>
+ * Adds additional methods for a random data provider strategy.
  *
- * <p>
- * All values returned by this implementation are <b>different from zero</b>.
- * </p>
+ * Created by tedonema on 23/05/2015.
  *
- * <p>
- * This implementation is a Singleton
- * </p>
- *
- * @author mtedone
- *
- * @since 1.0.0
- *
+ * @since 5.4.1
  */
-@ThreadSafe
-public final class RandomDataProviderStrategy extends
-		AbstractRandomDataProviderStrategy {
+public interface RandomDataProviderStrategy extends DataProviderStrategy {
 
-	// ------------------->> Constants
 
-	// ------------------->> Instance / Static variables
+    /**
+     * Bind an interface/abstract class to a specific implementation. If the
+     * strategy previously contained a binding for the interface/abstract class,
+     * the old value will not be replaced by the new value. If you want to force the
+     * value replacement, invoke removeSpecific before invoking this method.
+     * If you want to implement more sophisticated binding strategy, override this class.
+     *
+     * @param <T> return type
+     * @param abstractClass
+     *            the interface/abstract class to bind
+     * @param specificClass
+     *            the specific class implementing or extending
+     *            {@code abstractClass}.
+     * @return itself
+     */
+    <T> RandomDataProviderStrategy addSpecific(
+            Class<T> abstractClass, Class<? extends T> specificClass);
 
-	// ------------------->> Constructors
+    /**
+     * Remove binding of an interface/abstract class to a specific
+     * implementation
+     *
+     * @param <T> return type
+     * @param abstractClass
+     *            the interface/abstract class to remove binding
+     * @return itself
+     */
+    <T> RandomDataProviderStrategy removeSpecific(
+            Class<T> abstractClass);
 
-	/**
-	 * Implementation of the Singleton pattern
-	 */
-	public RandomDataProviderStrategy() {
-		super();
-		setMemoization(true);
-	}
+    /**
+     * Bind an annotation to attribute strategy class. If the
+     * strategy previously contained a binding for the annotation,
+     * the old will not be replaced. If you want to force the value
+     * replacement, invoke removeAttributeStrategy before invoking this
+     * method. If you want to implement more sophisticated binding strategy,
+     * override this class.
+     *
+     * @param annotationClass
+     *            the annotation class
+     * @param strategyClass
+     *            the attribute strategy class
+     * @return itself
+     */
+    RandomDataProviderStrategy addAttributeStrategy(
+            Class<? extends Annotation> annotationClass,
+            Class<AttributeStrategy<?>> strategyClass);
 
-	// ------------------->> Public methods
+    /**
+     * Remove binding of an annotation to attribute strategy
+     *
+     * @param annotationClass
+     *            the annotation class to remove binding
+     * @return itself
+     */
+    RandomDataProviderStrategy removeAttributeStrategy(
+            Class<? extends Annotation> annotationClass);
 
-	/**
-	 * Other factory method which assigns a default number of collection
-	 * elements before returning the singleton.
-	 *
-	 * @param nbrCollectionElements
-	 *            The number of collection elements
-	 * @return The Singleton, set with the number of collection elements set as
-	 *         parameter
-	 */
-	public static RandomDataProviderStrategy getInstance(
-			int nbrCollectionElements) {
+    /**
+     * Getter for constructor light comparator.
+     *
+     * @return current constructor comparator used by strategy
+     */
+    AbstractConstructorComparator getConstructorLightComparator();
 
-		RandomDataProviderStrategy strategy = new RandomDataProviderStrategy();
-				strategy.setDefaultNumberOfCollectionElements(nbrCollectionElements);
-		return strategy;
+    /**
+     * Setter for constructor öight comparator.
+     * <p>Default implementations are
+     * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
+     * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.</p>
+     *
+     * @param constructorLightComparator constructor comparator to set
+     */
+    void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator);
 
-	}
+    /**
+     * Getter for constructor heavy comparator.
+     * @return current constructor comparator used by strategy
+     */
+    AbstractConstructorComparator getConstructorHeavyComparator();
 
-	// ------------------->> Getters / Setters
+    /**
+     * Setter for constructor heavy comparator.
+     * <p>Default implementations are
+     * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
+     * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.</p>
+     *
+     * @param constructorHeavyComparator constructor comparator to set
+     */
+    void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator);
 
-	// ------------------->> Private methods
+    /**
+     * Getter for method light comparator.
+     * @return current method comparator used by strategy
+     */
+    AbstractMethodComparator getMethodLightComparator();
 
-	// ------------------->> equals() / hashcode() / toString()
+    /**
+     * Setter for method light comparator.
+     * <p>Default implementations is
+     * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.</p>
+     *
+     * @param methodLightComparator method comparator to set
+     */
+    void setMethodLightComparator(AbstractMethodComparator methodLightComparator);
 
-	// ------------------->> Inner classes
+    /**
+     * Getter for method heavy comparator.
+     * @return current method comparator used by strategy
+     */
+    AbstractMethodComparator getMethodHeavyComparator();
 
+    /**
+     * Setter for method heavy comparator.
+     * <p>Default implementations is
+     * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.</p>
+     *
+     * @param methodHeavyComparator method comparator to set
+     */
+    void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator);
 }

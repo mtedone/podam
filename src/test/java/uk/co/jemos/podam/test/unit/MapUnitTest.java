@@ -5,7 +5,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import uk.co.jemos.podam.api.RandomDataProviderStrategy;
+import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MapUnitTest {
 
 	private static final DataProviderStrategy strategy =
-			new RandomDataProviderStrategy();
+			new RandomDataProviderStrategyImpl();
 
 	private static final PodamFactory factory = new PodamFactoryImpl(strategy);
 

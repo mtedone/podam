@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  */
 @ThreadSafe
-public abstract class AbstractRandomDataProviderStrategy implements DataProviderStrategy {
+public abstract class AbstractRandomDataProviderStrategy implements RandomDataProviderStrategy {
 
 	// ------------------->> Constants
 
@@ -534,7 +534,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            {@code abstractClass}.
 	 * @return itself
 	 */
-	public <T> AbstractRandomDataProviderStrategy addSpecific(
+	@Override
+	public <T> RandomDataProviderStrategy addSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
 		specificTypes.putIfAbsent(abstractClass, specificClass);
@@ -543,15 +544,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Remove binding of an interface/abstract class to a specific
-	 * implementation
-	 *
-	 * @param <T> return type
-	 * @param abstractClass
-	 *            the interface/abstract class to remove binding
-	 * @return itself
+	 * {@inheritDoc}
 	 */
-	public <T> AbstractRandomDataProviderStrategy removeSpecific(
+	@Override
+	public <T> RandomDataProviderStrategy removeSpecific(
 			final Class<T> abstractClass) {
 
 		specificTypes.remove(abstractClass);
@@ -575,20 +571,10 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Bind an annotation to attribute strategy class. If the
-	 * strategy previously contained a binding for the annotation,
-	 * the old will not be replaced. If you want to force the value
-	 * replacement, invoke removeAttributeStrategy before invoking this
-	 * method. If you want to implement more sophisticated binding strategy,
-	 * override this class.
-	 *
-	 * @param annotationClass
-	 *            the annotation class
-	 * @param strategyClass
-	 *            the attribute strategy class
-	 * @return itself
+	 * {@inheritDoc}
 	 */
-	public AbstractRandomDataProviderStrategy addAttributeStrategy(
+	@Override
+	public RandomDataProviderStrategy addAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
 
@@ -604,7 +590,8 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	 *            the annotation class to remove binding
 	 * @return itself
 	 */
-	public AbstractRandomDataProviderStrategy removeAttributeStrategy(
+	@Override
+	public RandomDataProviderStrategy removeAttributeStrategy(
 			final Class<? extends Annotation> annotationClass) {
 
 		attributeStrategies.remove(annotationClass);
@@ -624,71 +611,65 @@ public abstract class AbstractRandomDataProviderStrategy implements DataProvider
 	}
 
 	/**
-	 * Getter for constructor light comparator
-	 * @return current constructor comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractConstructorComparator getConstructorLightComparator() {
 		return constructorLightComparator;
 	}
 
 	/**
-	 * Setter for constructor öight comparator. Default implementations are
-	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
-	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorLightComparator constructor comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator) {
 		this.constructorLightComparator = constructorLightComparator;
 	}
 
 	/**
-	 * Getter for constructor heavy comparator
-	 * @return current constructor comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractConstructorComparator getConstructorHeavyComparator() {
 		return constructorHeavyComparator;
 	}
 
 	/**
-	 * Setter for constructor heavy comparator. Default implementations are
-	 * {@link uk.co.jemos.podam.common.ConstructorHeavyFirstComparator} and
-	 * {@link uk.co.jemos.podam.common.ConstructorLightFirstComparator}.
-	 * @param constructorHeavyComparator constructor comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator) {
 		this.constructorHeavyComparator = constructorHeavyComparator;
 	}
 
 	/**
-	 * Getter for method light comparator
-	 * @return current method comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractMethodComparator getMethodLightComparator() {
 		return methodLightComparator;
 	}
 
 	/**
-	 * Setter for method light comparator. Default implementations is
-	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodLightComparator method comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setMethodLightComparator(AbstractMethodComparator methodLightComparator) {
 		this.methodLightComparator = methodLightComparator;
 	}
 
 	/**
-	 * Getter for method heavy comparator
-	 * @return current method comparator used by strategy
+	 * {@inheritDoc}
 	 */
+	@Override
 	public AbstractMethodComparator getMethodHeavyComparator() {
 		return methodHeavyComparator;
 	}
 
 	/**
-	 * Setter for method heavy comparator. Default implementations is
-	 * {@link uk.co.jemos.podam.common.MethodHeavyFirstComparator}.
-	 * @param methodHeavyComparator method comparator to set
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator) {
 		this.methodHeavyComparator = methodHeavyComparator;
 	}
