@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Stories</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <link rel="stylesheet" href="css/core.css"/>
+    <link rel="stylesheet" href="css/link.css"/>
+
+    <link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet" />
+    <link rel="stylesheet" type="text/css" href="jqplot/jquery.jqplot.min.css"/>
+
+    <!--[if IE]>
+    <script language="javascript" type="text/javascript" src="jit/Extras/excanvas.js"></script><![endif]-->
+
+    <script type="text/javascript" src="scripts/jquery.js"></script>
+    <script type="text/javascript" src="datatables/media/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="jqplot/jquery.jqplot.min.js"></script>
+    <script type="text/javascript" src="jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+
+    <link type="text/css" href="jqueryui/css/start/jquery-ui-1.8.18.custom.css" rel="Stylesheet"/>
+    <script type="text/javascript" src="jqueryui/js/jquery-ui-1.8.18.custom.min.js"></script>
+
+
+    <script class="code" type="text/javascript">$(document).ready(function () {
+
+        // Results table
+        $('#req-results-table').dataTable({
+            "aaSorting": [
+                [ 2, "asc" ]
+            ],
+            "bJQueryUI": true,
+            "iDisplayLength": 25
+        });
+        $('#test-results-table').dataTable({
+            "aaSorting": [
+                [ 2, "asc" ]
+            ],
+            "bJQueryUI": true,
+            "iDisplayLength": 25
+        });
+        $('#examples-table').dataTable({
+            "aaSorting": [
+                [ 2, "asc" ]
+            ],
+            "bJQueryUI": true,
+            "iDisplayLength": 25
+        });
+        $("#tabs").tabs();
+        $("#test-tabs").tabs();
+    })
+    ;
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".read-more-link").click(function () {
+                $(this).nextAll("div.read-more-text").toggle();
+                var isrc = $(this).find("img").attr('src');
+                if (isrc == 'images/plus.png') {
+                    $(this).find("img").attr("src", function () {
+                        return "images/minus.png";
+                    });
+                } else {
+                    $(this).find("img").attr("src", function () {
+                        return "images/plus.png";
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/logo.jpg" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname"></span>
+        </div>
+    </div>
+</div>
+
+
+<div class="middlecontent">
+<div id="contenttop">
+    <div class="middlebg">
+        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > Requirements > Stories </span>
+    </div>
+    <div class="rightbg"></div>
+</div>
+
+<div class="clr"></div>
+
+<!--/* starts second table*/-->
+<div class="menu">
+    <ul>
+        <li><a href="index.html" >Overall Test Results</a></li>
+        <li><a href="capabilities.html" >Requirements</a></li>
+        <li><a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html" >Capabilities</a></li>
+        <li><a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html" >Features</a></li>
+        <li><a href="2a4631d87648e59c428d4cf0e9247f9d286e4679f436ca2ce872e931eb4dfd58.html" class="current">Stories</a></li>
+    </ul>
+    <span class="date-and-time">Report generated 23-05-2015 21:21</span>
+    <br style="clear:left"/>
+</div>
+
+<div class="clr"></div>
+
+<div id="beforetable"></div>
+<div id="results-dashboard">
+<div class="middlb">
+<div class="table">
+
+    <div id="tabs">
+            <ul>
+                    <li><a href="#tabs-1">
+                    Stories (1)
+                    </a></li>
+            </ul>
+            <div id="tabs-1" class="capabilities-table">
+                <div id="req_list_tests" class="table">
+                    <div class="test-results">
+                        <table id="req-results-table">
+                            <thead>
+                            <tr>
+                                <th width="30" class="test-results-heading">&nbsp;</th>
+                                <th width="65" class="test-results-heading">ID</th>
+                                <th width="525" class="test-results-heading">Story</th>
+                                <th class="test-results-heading" width="75px">Auto.<br/>Tests</th>
+                                <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
+                                                                                 title="Tests passed (automated)"></i>
+                                </th>
+                                <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
+                                                                                 title="Tests skipped or pending (automated)">
+                                </th>
+                                <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
+                                                                                 title="Tests failed (automated)"></th>
+                                <th class="test-results-heading" width="25px"><i
+                                        class="icon-exclamation-sign icon-large"
+                                        title="Tests failed with an error (automated)"></th>
+                                    <th class="test-results-heading" width="75px">Manual<br/>Tests</th>
+                                    <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
+                                                                                     title="Tests passed (manual)"></i>
+                                    </th>
+                                    <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
+                                                                                     title="Tests skipped or pending (manual)">
+                                    </th>
+                                    <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
+                                                                                     title="Tests failed (manual)"></th>
+                                    <th class="test-results-heading" width="25px"><i
+                                            class="icon-exclamation-sign icon-large"
+                                            title="Tests failed with an error (manual)"></th>
+
+
+                                <th width="125px" class="test-results-heading">Coverage</th>
+                            </tr>
+                            <tbody>
+
+
+                                <tr class="test-SUCCESS requirementRow">
+                                    <td class="requirementRowCell">
+                                        <img src="images/traffic-green.gif" class="summary-icon"
+                                             title="SUCCESS"/>
+                                        <span style="display:none">3</span>
+                                    </td>
+                                    <td class="cardNumber requirementRowCell"></td>
+
+                                    <td class="SUCCESS-text requirementRowCell">
+                                        <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
+                                                                                                 height="20"/></a>
+                                        <span class="requirementName"><a
+                                                href="c93304e776a73caef150a69fa88c94d565cb1977404110101762983669883e79.html">Podam factory thread safety</a></span>
+
+                                        <div class="requirementNarrative read-more-text"></div>
+                                    </td>
+
+
+
+                                    <td class="greentext highlighted-value requirementRowCell">2</td>
+                                    <td class="greentext requirementRowCell">2</td>
+                                    <td class="bluetext requirementRowCell">0</td>
+                                    <td class="redtext requirementRowCell">0</td>
+                                    <td class="lightorangetext requirementRowCell">0</td>
+                                        <td class="greentext highlighted-value requirementRowCell">0</td>
+                                        <td class="greentext requirementRowCell">0</td>
+                                        <td class="bluetext requirementRowCell">0</td>
+                                        <td class="redtext requirementRowCell">0</td>
+                                        <td class="lightorangetext requirementRowCell">0</td>
+
+                                    <td width="125px" class="lightgreentext requirementRowCell">
+
+                                        <!--
+                                        Accessing the ESAA Registration screens
+
+                                        Tests implemented: 10
+                                          - Passing tests: 4
+                                          - Failing tests: 3
+
+                                        Requirements specified:   6
+                                        Requiments without tests: 2
+
+                                        Estimated unimplemented tests: 7
+                                        -->
+
+                                        <table>
+                                            <tr>
+                                                <td width="40px">
+                                                    <div class="small">100%</div>
+                                                </td>
+                                                <td width="125px">
+                                                    <div class="percentagebar"
+                                                         title="Podam factory thread safety
+Tests implemented: 2
+  - Passing tests: 2 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%"
+                                                         style="width: 125px;">
+                                                        <div class="ignoredbar"
+                                                             style="width: 125px;"
+                                                             title="Podam factory thread safety
+Tests implemented: 2
+  - Passing tests: 2 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                            <div class="errorbar"
+                                                                 style="width: 125px;"
+                                                                 title="Podam factory thread safety
+Tests implemented: 2
+  - Passing tests: 2 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                                <div class="failingbar"
+                                                                     style="width: 125px;"
+                                                                     title="Podam factory thread safety
+Tests implemented: 2
+  - Passing tests: 2 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                                    <div class="passingbar"
+                                                                         style="width: 125px;"
+                                                                         title="Podam factory thread safety
+Tests implemented: 2
+  - Passing tests: 2 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="beforefooter"></div>
+<div id="bottomfooter">
+    <span class="version">Thucydides version 0.9.268 - Build UNKNOWN</span>
+</div>
+
+
+</body>
+</html>
