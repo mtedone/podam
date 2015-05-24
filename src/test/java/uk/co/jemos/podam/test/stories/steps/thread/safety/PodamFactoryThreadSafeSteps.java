@@ -1,9 +1,7 @@
-package uk.co.jemos.podam.test.stories.steps;
+package uk.co.jemos.podam.test.stories.steps.thread.safety;
 
+import net.thucydides.core.annotations.Step;
 import org.apache.log4j.Logger;
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
 import org.junit.Assert;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -11,12 +9,15 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by tedonema on 19/05/2015.
  */
-public class PodamFactoryThreadSafeSteps  {
+public class PodamFactoryThreadSafeSteps {
 
     /** The application logger */
     private static final Logger LOG = Logger.getLogger(PodamFactoryThreadSafeSteps.class);
@@ -37,35 +38,36 @@ public class PodamFactoryThreadSafeSteps  {
     private int nbrThreads;
 
     //----> Scenario 1
-    @Given("I have a Podam Factory")
+
+    @Step
     public void providePodamFactory() {
         podamFactory = new PodamFactoryImpl();
     }
 
-    @When("I invoke Podam")
+    @Step
     public void invokePodam() {
         pojo = podamFactory.manufacturePojo(SimplePojoToTestSetters.class);
     }
 
-    @Then("The returned POJO should not be null")
+    @Step
     public void verifyPojoIsNotNull() {
         Assert.assertNotNull(pojo);
     }
 
-    @Then("The returned POJO should have some fields filled in with data")
+    @Step
     public void verifyPojoContainsData() {
         Assert.assertNotNull(pojo.getStringField());
     }
 
     //----> Scenario 2
 
-    @Given("I have an executor service with $nbrThreads threads and a callable which returns a String")
+
     public void buildExecutor(int nbrThreads) {
         this.nbrThreads = nbrThreads;
         executor = Executors.newFixedThreadPool(nbrThreads);
     }
 
-    @When("I invoke the executor service for each thread")
+    @Step
     public void submitJobs() throws Exception {
 
         for (int i = 0; i < nbrThreads; i++) {
@@ -74,7 +76,7 @@ public class PodamFactoryThreadSafeSteps  {
         }
     }
 
-    @When("I retrieve the results")
+    @Step
     public void retrieveResults() {
 
         SimplePojoToTestSetters pojo1 = null;
@@ -94,7 +96,7 @@ public class PodamFactoryThreadSafeSteps  {
 
     }
 
-    @Then("I should receive $nbrResults distinct results")
+    @Step
     public void verifyResults(int nbrResults) {
         Assert.assertTrue("There should be two different objects in the Set!", results.size() == nbrResults);
         executor.shutdown();

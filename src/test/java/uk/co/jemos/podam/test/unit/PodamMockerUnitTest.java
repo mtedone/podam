@@ -1,7 +1,8 @@
 package uk.co.jemos.podam.test.unit;
 
-import junit.framework.Assert;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -18,8 +19,10 @@ import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
+import uk.co.jemos.podam.test.utils.OneDimentionalPojoUtils;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
+import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import javax.activation.DataHandler;
 import java.math.BigDecimal;
@@ -42,6 +45,7 @@ public class PodamMockerUnitTest {
 
 	/** Backup of memoization setting */
 	private final static boolean memoizationBackup = strategy.isMemoizationEnabled();
+	private OneDimentionalPojoUtils oneDimentionalPojoUtils;
 
 	/**
 	 * Restores memoization settings after test run
@@ -128,8 +132,9 @@ public class PodamMockerUnitTest {
 		OneDimensionalTestPojo pojo = factory
 				.manufacturePojo(OneDimensionalTestPojo.class);
 		Assert.assertNotNull("The object cannot be null!", pojo);
+		oneDimentionalPojoUtils = new OneDimentionalPojoUtils(pojo, factory.getStrategy());
 
-		validateDimensionalTestPojo(pojo);
+		oneDimentionalPojoUtils.validateDimensionalTestPojo();
 	}
 
 	@Test
@@ -137,112 +142,8 @@ public class PodamMockerUnitTest {
 
 		OneDimensionalTestPojo pojo = new OneDimensionalTestPojo();
 		factory.populatePojo(pojo);
-
-		validateDimensionalTestPojo(pojo);
-	}
-
-	public void validateDimensionalTestPojo(OneDimensionalTestPojo pojo) {
-
-		Boolean booleanObjectField = pojo.getBooleanObjectField();
-		Assert.assertTrue(
-				"The boolean object field should have a value of TRUE",
-				booleanObjectField);
-
-		boolean booleanField = pojo.isBooleanField();
-		Assert.assertTrue("The boolean field should have a value of TRUE",
-				booleanField);
-
-		byte byteField = pojo.getByteField();
-		Assert.assertTrue("The byte field should not be zero", byteField != 0);
-
-		Byte byteObjectField = pojo.getByteObjectField();
-		Assert.assertTrue("The Byte object field should not be zero",
-				byteObjectField != 0);
-
-		short shortField = pojo.getShortField();
-		Assert.assertTrue("The short field should not be zero", shortField != 0);
-
-		Short shortObjectField = pojo.getShortObjectField();
-		Assert.assertTrue("The Short Object field should not be zero",
-				shortObjectField != 0);
-
-		char charField = pojo.getCharField();
-		Assert.assertTrue("The char field should not be zero", charField != 0);
-		Character characterObjectField = pojo.getCharObjectField();
-		Assert.assertTrue("The Character object field should not be zero",
-				characterObjectField != 0);
-
-		int intField = pojo.getIntField();
-		Assert.assertTrue("The int field cannot be zero", intField != 0);
-		Integer integerField = pojo.getIntObjectField();
-		Assert.assertTrue("The Integer object field cannot be zero",
-				integerField != 0);
-
-		long longField = pojo.getLongField();
-		Assert.assertTrue("The long field cannot be zero", longField != 0);
-		Long longObjectField = pojo.getLongObjectField();
-		Assert.assertTrue("The Long object field cannot be zero",
-				longObjectField != 0);
-
-		float floatField = pojo.getFloatField();
-		Assert.assertTrue("The float field cannot be zero", floatField != 0.0);
-		Float floatObjectField = pojo.getFloatObjectField();
-		Assert.assertTrue("The Float object field cannot be zero",
-				floatObjectField != 0.0);
-
-		double doubleField = pojo.getDoubleField();
-		Assert.assertTrue("The double field cannot be zero",
-				doubleField != 0.0d);
-		Double doubleObjectField = pojo.getDoubleObjectField();
-		Assert.assertTrue("The Double object field cannot be zero",
-				doubleObjectField != 0.0d);
-
-		String stringField = pojo.getStringField();
-		Assert.assertNotNull("The String field cannot be null", stringField);
-		Assert.assertFalse("The String field cannot be empty",
-				stringField.equals(""));
-
-		Object objectField = pojo.getObjectField();
-		Assert.assertNotNull("The Object field cannot be null", objectField);
-
-		Calendar calendarField = pojo.getCalendarField();
-		checkCalendarIsValid(calendarField);
-
-		Date dateField = pojo.getDateField();
-		Assert.assertNotNull("The date field is not valid", dateField);
-
-		Random[] randomArray = pojo.getRandomArray();
-		Assert.assertNotNull("The array of Random objects cannot be null!",
-				randomArray);
-		Assert.assertEquals("The array of Random length should be one!",
-				strategy.getNumberOfCollectionElements(Random.class),
-				randomArray.length);
-		Random random = randomArray[0];
-		Assert.assertNotNull(
-				"The Random array element at [0] should not be null", random);
-
-		int[] intArray = pojo.getIntArray();
-		Assert.assertNotNull("The array of ints cannot be null!", intArray);
-		Assert.assertEquals(
-				"The array of ints length should be the same as defined in the strategy!",
-				strategy.getNumberOfCollectionElements(Integer.class),
-				intArray.length);
-		Assert.assertTrue(
-				"The first element in the array of ints must be different from zero!",
-				intArray[0] != 0);
-
-		boolean[] booleanArray = pojo.getBooleanArray();
-		Assert.assertNotNull("The array of booleans cannot be null!",
-				booleanArray);
-		Assert.assertEquals(
-				"The array of boolean length should be the same as the one set in the strategy!",
-				strategy.getNumberOfCollectionElements(Boolean.class),
-				booleanArray.length);
-
-		BigDecimal bigDecimalField = pojo.getBigDecimalField();
-		Assert.assertNotNull("The BigDecimal field cannot be null!",
-				bigDecimalField);
-
+		oneDimentionalPojoUtils = new OneDimentionalPojoUtils(pojo, factory.getStrategy());
+		oneDimentionalPojoUtils.validateDimensionalTestPojo();
 	}
 
 	@Test
@@ -571,7 +472,7 @@ public class PodamMockerUnitTest {
 		Assert.assertTrue("The super int field must be <= 10",
 				parentIntField <= 10);
 		Calendar parentCalendarField = pojo.getParentCalendarField();
-		checkCalendarIsValid(parentCalendarField);
+		TypesUtils.checkCalendarIsValid(parentCalendarField);
 		int intField = pojo.getIntField();
 		Assert.assertTrue("The int field must be different from zero!",
 				intField != 0);
@@ -1419,22 +1320,6 @@ public class PodamMockerUnitTest {
 	}
 
 	// -----------------------------> Private methods
-
-	/**
-	 * It checks that the Calendar instance is valid
-	 * <p>
-	 * If the calendar returns a valid date then it's a valid instance
-	 * </p>
-	 *
-	 * @param calendarField
-	 *            The calendar instance to check
-	 */
-	private void checkCalendarIsValid(Calendar calendarField) {
-		Assert.assertNotNull("The Calendar field cannot be null", calendarField);
-		Date calendarDate = calendarField.getTime();
-		Assert.assertNotNull("It appears the Calendar field is not valid",
-				calendarDate);
-	}
 
 	/**
 	 * It validates that the returned list contains the expected values
