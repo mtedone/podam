@@ -11,7 +11,8 @@ uk.co.jemos.podam.test.dto.pdm5
 uk.co.jemos.podam.test.dto.pdm6
 uk.co.jemos.podam.test.enums
 uk.co.jemos.podam.test.stories
-uk.co.jemos.podam.test.stories.steps
+uk.co.jemos.podam.test.stories.steps.basic.types
+uk.co.jemos.podam.test.stories.steps.thread.safety
 uk.co.jemos.podam.test.strategies
 uk.co.jemos.podam.test.unit
 uk.co.jemos.podam.test.unit.integration
