@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running multiple factories should lead to different results " name="Running multiple factories should lead to different results " steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="46" timestamp="2015-05-23T21:21:30.274+01:00">
+<acceptance-test-run title="Running multiple factories should lead to different results " name="Running multiple factories should lead to different results " steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="41" timestamp="2015-05-24T20:09:03.932+01:00">
   <user-story id="podam-factory-thread-safety" name="Podam-factory-thread-safety" path="stories/thread-safety/factoryThreadSafety/podam-factory-thread-safety.story"/>
   <tags>
     <tag name="Thread safety" type="capability"/>
@@ -7,7 +7,7 @@
     <tag name="Factory thread safety/Podam-factory-thread-safety" type="story"/>
     <tag name="Podam-factory-thread-safety" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="16">
+  <test-step result="SUCCESS" duration="14">
     <description>Given I have an executor service with {2} threads and a callable which returns a String</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
@@ -16,7 +16,7 @@
   <test-step result="SUCCESS" duration="3">
     <description>And I retrieve the results</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then I should receive 2 distinct results</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then I should receive {2} distinct results</description>
   </test-step>
 </acceptance-test-run>

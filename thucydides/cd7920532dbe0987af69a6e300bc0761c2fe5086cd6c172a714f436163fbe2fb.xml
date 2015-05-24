@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running one factory should return a filled in POJO" name="Running one factory should return a filled in POJO" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="180" timestamp="2015-05-23T21:21:29.757+01:00">
+<acceptance-test-run title="Running one factory should return a filled in POJO" name="Running one factory should return a filled in POJO" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="173" timestamp="2015-05-24T20:09:03.411+01:00">
   <user-story id="podam-factory-thread-safety" name="Podam-factory-thread-safety" path="stories/thread-safety/factoryThreadSafety/podam-factory-thread-safety.story"/>
   <tags>
     <tag name="Thread safety" type="capability"/>
@@ -7,10 +7,10 @@
     <tag name="Factory thread safety/Podam-factory-thread-safety" type="story"/>
     <tag name="Podam-factory-thread-safety" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="48">
+  <test-step result="SUCCESS" duration="51">
     <description>Given I have a Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="10">
+  <test-step result="SUCCESS" duration="9">
     <description>When I invoke Podam</description>
   </test-step>
   <test-step result="SUCCESS" duration="5">
