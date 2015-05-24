@@ -1,7 +1,7 @@
 Meta:
 @tag JVMTypes
 
-Story:
+Story: Podam should fill in types contained in the JVM
 As a user
 I want Podam Factory to fill in object graphs for all native types
 So that I can count on the framework to fill in basic POJOs

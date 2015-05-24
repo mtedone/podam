@@ -1,3 +1,11 @@
+Meta:
+@tag Thread-safety
+
+Story: Podam Factory should be thread safe
+As a user
+I want Podam Factory to be thread-safe
+So that I can run multiple factories simultaneously
+
 Scenario: Running one factory should return a filled in POJO
 Given I have a single Podam Factory
 When I invoke only one instance of Podam
