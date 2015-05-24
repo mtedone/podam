@@ -33,4 +33,26 @@ public class ThreadSafetyDefinitionSteps {
     public void andTheReturnedPojoShouldHaveSomeFieldsFilledInWithData() {
         pfThreadSafetySteps.verifyPojoContainsData();
     }
+
+    @Given("I have an executor service with $nbrThreads threads and a callable which returns a String")
+    public void givenIHaveAnExecutorServiceWithNbrThreadsAndACallableWhichReturnsAString(int nbrThreads) {
+        pfThreadSafetySteps.buildExecutor(nbrThreads);
+    }
+
+    @When("I invoke the executor service for each thread")
+    public void iInvokeTheExecutorServiceForEachThread() throws Exception {
+        pfThreadSafetySteps.submitJobs();
+    }
+
+    @When("I retrieve the results")
+    public void iRetrieveTheResults() {
+        pfThreadSafetySteps.retrieveResults();
+    }
+
+    @Then("I should receive $nbrResults distinct results")
+    public void iShouldReceiveNbrDistinctResults(int nbrResults) {
+        pfThreadSafetySteps.verifyResults(nbrResults);
+    }
+
+
 }

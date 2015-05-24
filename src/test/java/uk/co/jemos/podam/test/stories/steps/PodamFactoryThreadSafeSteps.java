@@ -94,9 +94,9 @@ public class PodamFactoryThreadSafeSteps  {
 
     }
 
-    @Then("I should receive 2 distinct results")
-    public void verifyResults() {
-        Assert.assertTrue("There should be two different objects in the Set!", results.size() == nbrThreads);
+    @Then("I should receive $nbrResults distinct results")
+    public void verifyResults(int nbrResults) {
+        Assert.assertTrue("There should be two different objects in the Set!", results.size() == nbrResults);
         executor.shutdown();
     }
 
