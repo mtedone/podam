@@ -77,6 +77,7 @@
       	  <item name="A Walk-through example" href="./walk-through-example.html" />
       	  <item name="Corner Cases" href="./corner-cases.html" />
       	  <item name="FAQS" href="./faqs.html" />
+		  <item name="Serenity BDD Reports" href="./serenity/index.html" />
       	  <item name="Release Notes" href="./release-notes/release-notes.html" />
       </menu>
       
