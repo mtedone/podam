@@ -1,4 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Podam-factory-thread-safety","Running multiple factories should lead to different results ","SUCCESS","2015-05-25T10:55:33.267+01:00","0.0","0.09"
-"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T10:55:32.297+01:00","0.0","0.64"
-"Podam-factory-thread-safety","Running one factory should return a filled in POJO","SUCCESS","2015-05-25T10:55:33.158+01:00","0.0","0.1"
+"Podam-factory-thread-safety","Running multiple factories should lead to different results ","SUCCESS","2015-05-25T11:10:57.919+01:00","0.0","0.05"
+"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T11:10:57.308+01:00","0.0","0.4"
+"Podam-factory-thread-safety","Running one factory should return a filled in POJO","SUCCESS","2015-05-25T11:10:57.847+01:00","0.0","0.07"

@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running one factory should return a basic POJO filled with basic types" name="Running one factory should return a basic POJO filled with basic types" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="641" timestamp="2015-05-25T10:55:32.297+01:00">
+<acceptance-test-run title="Running one factory should return a basic POJO filled with basic types" name="Running one factory should return a basic POJO filled with basic types" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="395" timestamp="2015-05-25T11:10:57.308+01:00">
   <user-story id="basic-types" name="Basic-types" path="stories/jvmTypes/basicTypes/basic-types.story"/>
   <tags>
     <tag name="Podam should fill in types contained in the JVM&#xa;As a user&#xa;I want Podam Factory to fill in object graphs for all native types&#xa;So that I can count on the framework to fill in basic POJOs" type="JVMTypes&#xa;&#xa;Story"/>
@@ -9,22 +9,22 @@
     <tag name="Basic-types" type="story"/>
   </tags>
   <test-group name="Given I have a Podam Factory for simple types" result="SUCCESS">
-    <test-step result="SUCCESS" duration="30">
+    <test-step result="SUCCESS" duration="27">
       <description>Provide podam factory</description>
     </test-step>
   </test-group>
   <test-group name="When I invoke Podam on a POJO with only basic types" result="SUCCESS">
-    <test-step result="SUCCESS" duration="42">
+    <test-step result="SUCCESS" duration="24">
       <description>Invoke podam on pojo with only basic types</description>
     </test-step>
   </test-group>
   <test-group name="Then The returned simple POJO should not be null" result="SUCCESS">
-    <test-step result="SUCCESS" duration="6">
+    <test-step result="SUCCESS" duration="5">
       <description>Validate returned pojo is not null</description>
     </test-step>
   </test-group>
   <test-group name="And The returned simple POJO should have its basic types filled with data" result="SUCCESS">
-    <test-step result="SUCCESS" duration="31">
+    <test-step result="SUCCESS" duration="4">
       <description>Then the returned pojo should have its basic fields validated with data</description>
     </test-step>
   </test-group>

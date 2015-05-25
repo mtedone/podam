@@ -1,2 +1,2 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T10:55:32.297+01:00","0.0","0.64"
+"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T11:10:57.308+01:00","0.0","0.4"
