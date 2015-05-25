@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="0" name="Basic-types" skipped="0" tests="1" time="0.97" timestamp="2015-05-145 07:38:08"><testcase name="Running one factory should return a basic POJO filled with basic types"/></testsuite>

@@ -3,8 +3,9 @@
  */
 package uk.co.jemos.podam.common;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
@@ -30,8 +31,7 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 
 	// -------------------&gt;&gt; Instance / Static variables
 
-<span class="fc" id="L33">	private static final Logger LOG = LoggerFactory</span>
-<span class="fc" id="L34">			.getLogger(BeanValidationStrategy.class);</span>
+<span class="fc" id="L34">	private static final Logger LOG = LogManager.getLogger(BeanValidationStrategy.class);</span>
 
 	/** A RANDOM generator */
 <span class="fc" id="L37">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
