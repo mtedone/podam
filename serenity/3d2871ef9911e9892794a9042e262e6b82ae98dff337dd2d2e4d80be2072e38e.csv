@@ -1,4 +1,5 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Podam-factory-thread-safety","Running multiple factories should lead to different results ","SUCCESS","2015-05-25T11:10:57.919+01:00","0.0","0.05"
-"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T11:10:57.308+01:00","0.0","0.4"
-"Podam-factory-thread-safety","Running one factory should return a filled in POJO","SUCCESS","2015-05-25T11:10:57.847+01:00","0.0","0.07"
+"Strategy-thread-safety","Adding specific implementations for abstract types/interfaces should not lead to original data being lost","SUCCESS","2015-05-25T16:31:32.033+01:00","0.0","0.06"
+"Podam-factory-thread-safety","Running multiple factories should lead to different results ","SUCCESS","2015-05-25T16:31:31.940+01:00","0.0","0.08"
+"Basic-types","Running one factory should return a basic POJO filled with basic types","SUCCESS","2015-05-25T16:31:31.356+01:00","0.0","0.36"
+"Podam-factory-thread-safety","Running one factory should return a filled in POJO","SUCCESS","2015-05-25T16:31:31.865+01:00","0.0","0.07"

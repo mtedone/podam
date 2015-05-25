@@ -1,0 +1,26 @@
+<acceptance-test-run title="Adding specific implementations for abstract types/interfaces should not lead to original data being lost" name="Adding specific implementations for abstract types/interfaces should not lead to original data being lost" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="57" timestamp="2015-05-25T16:31:32.033+01:00">
+  <user-story id="strategy-thread-safety" name="Strategy-thread-safety" path="stories/thread-safety/strategyThreadSafety/strategy-thread-safety.story"/>
+  <tags>
+    <tag name="Podam Strategy should be thread safe&#xa;As a user&#xa;I want Podam Strategy to be thread-safe&#xa;So that it can be shared between factories" type="Thread-safety&#xa;&#xa;Story"/>
+    <tag name="Thread safety" type="capability"/>
+    <tag name="Thread safety/Strategy thread safety" type="feature"/>
+    <tag name="Strategy thread safety/Podam strategy should be thread safe" type="story"/>
+    <tag name="Strategy thread safety/Strategy-thread-safety" type="story"/>
+    <tag name="Strategy-thread-safety" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="21">
+    <description>Given I have an Abstract Strategy</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
+    <description>When I add a specific type for an Abstract type</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>When I add another specific type for the same Abstract type</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>When I retrieve the content of the specific type for the given Abstract type</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then The returned type should be the same as the first added</description>
+  </test-step>
+</acceptance-test-run>

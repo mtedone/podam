@@ -137,7 +137,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		byte nextByte;
 		do {
 <span class="fc" id="L139">			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="fc bfc" id="L140" title="All 2 branches covered.">		} while (nextByte == 0);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">		} while (nextByte == 0);</span>
 <span class="fc" id="L141">		return nextByte;</span>
 	}
 
@@ -208,7 +208,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		double retValue;
 		do {
 <span class="fc" id="L210">			retValue = minValue + Math.random() * (maxValue - minValue + 1);</span>
-<span class="pc bpc" id="L211" title="1 of 2 branches missed.">		} while (retValue &gt; maxValue);</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		} while (retValue &gt; maxValue);</span>
 <span class="fc" id="L212">		return retValue;</span>
 	}
 
@@ -316,7 +316,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		short retValue;
 		do {
 <span class="fc" id="L318">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L319" title="1 of 2 branches missed.">		} while (retValue == 0);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		} while (retValue == 0);</span>
 <span class="fc" id="L320">		return retValue;</span>
 	}
 

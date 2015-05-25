@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running one factory should return a filled in POJO" name="Running one factory should return a filled in POJO" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-05-25T11:10:57.847+01:00">
+<acceptance-test-run title="Running one factory should return a filled in POJO" name="Running one factory should return a filled in POJO" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="73" timestamp="2015-05-25T16:31:31.865+01:00">
   <user-story id="podam-factory-thread-safety" name="Podam-factory-thread-safety" path="stories/thread-safety/factoryThreadSafety/podam-factory-thread-safety.story"/>
   <tags>
     <tag name="Podam Factory should be thread safe&#xa;As a user&#xa;I want Podam Factory to be thread-safe&#xa;So that I can run multiple factories simultaneously" type="Thread-safety&#xa;&#xa;Story"/>
@@ -9,17 +9,17 @@
     <tag name="Podam-factory-thread-safety" type="story"/>
   </tags>
   <test-group name="Given I have a single Podam Factory" result="SUCCESS">
-    <test-step result="SUCCESS" duration="11">
+    <test-step result="SUCCESS" duration="22">
       <description>Provide podam factory</description>
     </test-step>
   </test-group>
   <test-group name="When I invoke only one instance of Podam" result="SUCCESS">
-    <test-step result="SUCCESS" duration="3">
+    <test-step result="SUCCESS" duration="2">
       <description>Invoke podam</description>
     </test-step>
   </test-group>
   <test-group name="Then The returned POJO should not be null" result="SUCCESS">
-    <test-step result="SUCCESS" duration="2">
+    <test-step result="SUCCESS" duration="1">
       <description>Verify pojo is not null</description>
     </test-step>
   </test-group>

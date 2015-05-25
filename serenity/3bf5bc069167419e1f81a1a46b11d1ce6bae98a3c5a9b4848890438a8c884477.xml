@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running multiple factories should lead to different results " name="Running multiple factories should lead to different results " steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="54" timestamp="2015-05-25T11:10:57.919+01:00">
+<acceptance-test-run title="Running multiple factories should lead to different results " name="Running multiple factories should lead to different results " steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="80" timestamp="2015-05-25T16:31:31.940+01:00">
   <user-story id="podam-factory-thread-safety" name="Podam-factory-thread-safety" path="stories/thread-safety/factoryThreadSafety/podam-factory-thread-safety.story"/>
   <tags>
     <tag name="Podam Factory should be thread safe&#xa;As a user&#xa;I want Podam Factory to be thread-safe&#xa;So that I can run multiple factories simultaneously" type="Thread-safety&#xa;&#xa;Story"/>
@@ -8,21 +8,21 @@
     <tag name="Factory thread safety/Podam-factory-thread-safety" type="story"/>
     <tag name="Podam-factory-thread-safety" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="17">
+  <test-step result="SUCCESS" duration="24">
     <description>Given I have an executor service with {2} threads and a callable which returns a String</description>
   </test-step>
   <test-group name="When I invoke the executor service for each thread" result="SUCCESS">
-    <test-step result="SUCCESS" duration="3">
+    <test-step result="SUCCESS" duration="4">
       <description>Submit jobs</description>
     </test-step>
   </test-group>
   <test-group name="And I retrieve the results" result="SUCCESS">
-    <test-step result="SUCCESS" duration="3">
+    <test-step result="SUCCESS" duration="2">
       <description>Retrieve results</description>
     </test-step>
   </test-group>
   <test-group name="Then I should receive {2} distinct results" result="SUCCESS">
-    <test-step result="SUCCESS" duration="2">
+    <test-step result="SUCCESS" duration="4">
       <description>Verify results: &lt;span class=&apos;step-parameter&apos;&gt;2&lt;/span&gt;</description>
     </test-step>
   </test-group>
