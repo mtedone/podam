@@ -19,8 +19,7 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
     /**
      * Bind an interface/abstract class to a specific implementation. If the
      * strategy previously contained a binding for the interface/abstract class,
-     * the old value will not be replaced by the new value. If you want to force the
-     * value replacement, invoke removeSpecific before invoking this method.
+     * the old value will be replaced by the new value.
      * If you want to implement more sophisticated binding strategy, override this class.
      *
      * @param <T> return type
@@ -49,9 +48,8 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
     /**
      * Bind an annotation to attribute strategy class. If the
      * strategy previously contained a binding for the annotation,
-     * the old will not be replaced. If you want to force the value
-     * replacement, invoke removeAttributeStrategy before invoking this
-     * method. If you want to implement more sophisticated binding strategy,
+     * the old will be replaced.
+     * If you want to implement more sophisticated binding strategy,
      * override this class.
      *
      * @param annotationClass
