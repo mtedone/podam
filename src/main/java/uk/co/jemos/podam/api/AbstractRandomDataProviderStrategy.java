@@ -19,8 +19,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Default abstract implementation of a {@link DataProviderStrategy}
@@ -57,13 +56,13 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public static final int MAX_DEPTH = 1;
 
 	/** The max stack trace depth. */
-	private final AtomicInteger maxDepth = new AtomicInteger(MAX_DEPTH);
+	private final int maxDepth = MAX_DEPTH;
 
 	/** The number of collection elements. */
-	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
+	private int nbrOfCollectionElements;
 
 	/** Flag to enable/disable the memoization setting. */
-	private final AtomicBoolean isMemoizationEnabled = new AtomicBoolean();
+	private boolean isMemoizationEnabled =  true;
 
 	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
@@ -112,7 +111,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	}
 
 	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {
-		this.nbrOfCollectionElements.set(nbrOfCollectionElements);
+		this.nbrOfCollectionElements = nbrOfCollectionElements;
 	}
 
 	// ------------------->> Public methods
@@ -372,7 +371,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getNumberOfCollectionElements(Class<?> type) {
-		return nbrOfCollectionElements.get();
+		return nbrOfCollectionElements;
 	}
 
 	/**
@@ -380,7 +379,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
-		nbrOfCollectionElements.set(newNumberOfCollectionElements);
+		nbrOfCollectionElements = newNumberOfCollectionElements;
 	}
 
 	/**
@@ -388,7 +387,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return maxDepth.get();
+		return maxDepth;
 	}
 
 	/**
@@ -396,7 +395,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public boolean isMemoizationEnabled() {
-		return isMemoizationEnabled.get();
+		return isMemoizationEnabled;
 	}
 
 	/**
@@ -404,7 +403,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setMemoization(boolean isMemoizationEnabled) {
-		this.isMemoizationEnabled.set(isMemoizationEnabled);
+		this.isMemoizationEnabled = isMemoizationEnabled;
 	}
 
 	/**
@@ -413,7 +412,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
-		if (isMemoizationEnabled.get()) {
+		if (isMemoizationEnabled) {
 			/* No memoization for arrays, collections and maps */
 			Class<?> pojoClass = attributeMetadata.getPojoClass();
 			if (pojoClass == null ||
@@ -441,7 +440,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public void cacheMemoizedObject(AttributeMetadata attributeMetadata,
 			Object instance) {
 
-		if (isMemoizationEnabled.get()) {
+		if (isMemoizationEnabled) {
 			ConcurrentMap<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 			if (map == null) {
 				map = new ConcurrentHashMap<Type[], Object>();
