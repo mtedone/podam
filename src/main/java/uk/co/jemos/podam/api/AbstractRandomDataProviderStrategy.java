@@ -4,16 +4,19 @@
 package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.ThreadSafe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -42,8 +45,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	// ------------------->> Constants
 
 	/** Application logger */
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AbstractRandomDataProviderStrategy.class);
+	private static final Logger LOG = LogManager.getLogger(AbstractRandomDataProviderStrategy.class);
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());

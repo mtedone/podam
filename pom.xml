@@ -17,6 +17,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.0.47</serenity.version>
 		<serenity.jbehave.version>1.0.21</serenity.jbehave.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 
 	<url>http://mtedone.github.io/podam/</url>
@@ -63,17 +64,17 @@
 			<timezone>UTC</timezone>
 			<url>http://www.linkedin.com/in/mtedone</url>
 		</developer>
-		<developer>
-			<name>Daniil Ivanov</name>
-			<email>daniil.ivanov@gmail.com</email>
-			<roles>
-				<role>Committer</role>
-			</roles>
-			<timezone>EET</timezone>
-		</developer>
 	</developers>
 
 	<contributors>
+		<contributor>
+			<name>Daniil Ivanov</name>
+			<email>daniil.ivanov@gmail.com</email>
+			<roles>
+				<role>Contributor</role>
+			</roles>
+			<timezone>EET</timezone>
+		</contributor>
 		<contributor>
 			<name>Alec Ross</name>
 			<email>haelduksf@gmail.com</email>
@@ -379,15 +380,19 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
-			<scope>test</scope>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+			<version>2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.annotation</groupId>
@@ -409,40 +414,44 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>3.0.5.RELEASE</version>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Spring framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>3.0.5.RELEASE</version>
-			<scope>test</scope>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.0.5.RELEASE</version>
-			<scope>test</scope>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>3.0.5.RELEASE</version>
-			<scope>test</scope>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
 		</dependency>
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>jbehave-junit-runner</artifactId>
-			<version>1.1.2</version>
-		</dependency>
 
-		<!-- Thucydide -->
+
+		<!-- Serenity-BDD -->
 		<dependency>
 			<groupId>net.serenity-bdd</groupId>
 			<artifactId>core</artifactId>

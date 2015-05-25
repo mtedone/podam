@@ -3,8 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -22,8 +22,7 @@ public class NullExternalFactory extends AbstractExternalFactory {
 	// ------------------->> Constants
 
 	/** Application logger */
-	private static final Logger LOG = LoggerFactory
-			.getLogger(NullExternalFactory.class);
+	private static final Logger LOG = LogManager.getLogger(NullExternalFactory.class);
 
 	// ------------------->> Constructors
 

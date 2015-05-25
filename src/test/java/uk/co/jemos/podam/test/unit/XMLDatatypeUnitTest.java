@@ -1,19 +1,19 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.lang.reflect.Type;
-import java.util.GregorianCalendar;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Test;
+import uk.co.jemos.podam.api.AbstractExternalFactory;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.test.dto.XMLDatatypePojo;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.*;
-import uk.co.jemos.podam.test.dto.XMLDatatypePojo;
+import java.lang.reflect.Type;
+import java.util.GregorianCalendar;
 
 /**
  * Test @uk.co.jemos.podam.test.dto.JAXBElementPojo@ construction
@@ -23,7 +23,7 @@ import uk.co.jemos.podam.test.dto.XMLDatatypePojo;
  */
 public class XMLDatatypeUnitTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(XMLDatatypeUnitTest.class);
+	private static final Logger LOG = LogManager.getLogger(XMLDatatypeUnitTest.class);
 
 	private final static PodamFactory externalFactory =
 			new AbstractExternalFactory() {

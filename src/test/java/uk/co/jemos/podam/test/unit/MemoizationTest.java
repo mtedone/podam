@@ -1,31 +1,25 @@
 package uk.co.jemos.podam.test.unit;
 
-import java.util.Currency;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.xml.ws.Holder;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.AbstractRandomDataProviderStrategy;
-import uk.co.jemos.podam.api.AttributeMetadata;
-import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
+import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.MemoizationPojo;
 import uk.co.jemos.podam.test.dto.RecursivePojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
+import javax.xml.ws.Holder;
+import java.util.Currency;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Victor on 21/08/14.
  */
 public class MemoizationTest {
-	private static final Logger LOG = LoggerFactory.getLogger(MemoizationTest.class);
+	private static final Logger LOG = LogManager.getLogger(MemoizationTest.class);
 
 	private static final DataProviderStrategy strategy = new AbstractRandomDataProviderStrategy() {
 		@Override

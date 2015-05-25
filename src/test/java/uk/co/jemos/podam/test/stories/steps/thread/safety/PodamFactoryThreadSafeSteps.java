@@ -1,7 +1,8 @@
 package uk.co.jemos.podam.test.stories.steps.thread.safety;
 
 import net.thucydides.core.annotations.Step;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -20,7 +21,7 @@ import java.util.concurrent.FutureTask;
 public class PodamFactoryThreadSafeSteps {
 
     /** The application logger */
-    private static final Logger LOG = Logger.getLogger(PodamFactoryThreadSafeSteps.class);
+    private static final Logger LOG = LogManager.getLogger(PodamFactoryThreadSafeSteps.class);
 
     private PodamFactory podamFactory;
 

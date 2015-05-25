@@ -5,9 +5,12 @@ package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
@@ -22,6 +25,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
+
 
 /**
  * The PODAM factory implementation
@@ -50,8 +54,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	private static final Object[] NO_ARGS = new Object[0];
 
 	/** Application logger */
-	private static final Logger LOG = LoggerFactory
-			.getLogger(PodamFactoryImpl.class.getName());
+	private static final Logger LOG = LogManager.getLogger(PodamFactoryImpl.class);
+
+
+	private ApplicationContext applicationContext;
 
 	// ------------------->> Instance / variables
 
@@ -127,6 +133,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			DataProviderStrategy strategy) {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
+		applicationContext = new ClassPathXmlApplicationContext("META-INF/spring/podam.xml");
 	}
 
 	// ------------------->> Public methods
