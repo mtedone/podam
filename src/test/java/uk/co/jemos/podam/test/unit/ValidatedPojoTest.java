@@ -47,7 +47,7 @@ public class ValidatedPojoTest {
 	public static void init() {
 		@SuppressWarnings("unchecked")
 		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
-		((RandomDataProviderStrategy)factory.getStrategy()).addAttributeStrategy(Email.class, strategy);
+		((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceAttributeStrategy(Email.class, strategy);
 	}
 
 	@AfterClass

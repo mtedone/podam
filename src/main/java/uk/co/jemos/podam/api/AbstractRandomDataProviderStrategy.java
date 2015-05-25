@@ -3,7 +3,7 @@
  */
 package uk.co.jemos.podam.api;
 
-import net.jcip.annotations.ThreadSafe;
+import net.jcip.annotations.NotThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.common.*;
@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 1.0.0
  *
  */
-@ThreadSafe
+@NotThreadSafe
 public abstract class AbstractRandomDataProviderStrategy implements RandomDataProviderStrategy {
 
 	// ------------------->> Constants
@@ -392,16 +392,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	}
 
 	/**
-	 * Sets the new max stack trace depth.
-	 *
-	 * @param newMaxDepth
-	 *            The new max stack trace depth.
-	 */
-	public void setMaxDepth(int newMaxDepth) {
-		maxDepth.set(newMaxDepth);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -537,10 +527,10 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * @return itself
 	 */
 	@Override
-	public <T> RandomDataProviderStrategy addSpecific(
+	public <T> RandomDataProviderStrategy addOrReplaceSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
-		specificTypes.putIfAbsent(abstractClass, specificClass);
+		specificTypes.put(abstractClass, specificClass);
 
 		return this;
 	}
@@ -576,11 +566,11 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public RandomDataProviderStrategy addAttributeStrategy(
+	public RandomDataProviderStrategy addOrReplaceAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
 			final Class<AttributeStrategy<?>> strategyClass) {
 
-		attributeStrategies.putIfAbsent(annotationClass, strategyClass);
+		attributeStrategies.put(annotationClass, strategyClass);
 
 		return this;
 	}

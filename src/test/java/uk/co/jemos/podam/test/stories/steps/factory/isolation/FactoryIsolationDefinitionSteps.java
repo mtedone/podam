@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.stories.steps.thread.safety;
+package uk.co.jemos.podam.test.stories.steps.factory.isolation;
 
 import net.thucydides.core.annotations.Steps;
 import org.jbehave.core.annotations.Given;
@@ -8,10 +8,10 @@ import org.jbehave.core.annotations.When;
 /**
  * Created by tedonema on 24/05/2015.
  */
-public class FactoryThreadSafetyDefinitionSteps {
+public class FactoryIsolationDefinitionSteps {
 
         @Steps
-        PodamFactoryThreadSafeSteps pfThreadSafetySteps;
+        FactoryIsolationSteps pfThreadSafetySteps;
 
         @Given("I have a single Podam Factory")
         public void createPodamFactory() {

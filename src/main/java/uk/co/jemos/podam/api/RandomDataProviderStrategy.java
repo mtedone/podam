@@ -31,7 +31,7 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
      *            {@code abstractClass}.
      * @return itself
      */
-    <T> RandomDataProviderStrategy addSpecific(
+    <T> RandomDataProviderStrategy addOrReplaceSpecific(
             Class<T> abstractClass, Class<? extends T> specificClass);
 
     /**
@@ -60,7 +60,7 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
      *            the attribute strategy class
      * @return itself
      */
-    RandomDataProviderStrategy addAttributeStrategy(
+    RandomDataProviderStrategy addOrReplaceAttributeStrategy(
             Class<? extends Annotation> annotationClass,
             Class<AttributeStrategy<?>> strategyClass);
 

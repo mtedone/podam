@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.stories.steps.thread.safety;
+package uk.co.jemos.podam.test.stories.steps.factory.isolation;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by tedonema on 19/05/2015.
  */
-public class PodamFactoryInvocatorCallable implements Callable<SimplePojoToTestSetters> {
+public class FactoryInvocatorCallable implements Callable<SimplePojoToTestSetters> {
 
     private final PodamFactory podamFactory;
 
@@ -16,7 +16,7 @@ public class PodamFactoryInvocatorCallable implements Callable<SimplePojoToTestS
      * Full constructor.
      * @param podamFactory The Podam factory
      */
-    public PodamFactoryInvocatorCallable(PodamFactory podamFactory) {
+    public FactoryInvocatorCallable(PodamFactory podamFactory) {
         this.podamFactory = podamFactory;
 
     }

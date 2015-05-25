@@ -4,9 +4,7 @@
 package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
-
-
+import net.jcip.annotations.NotThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -35,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 1.0.0
  *
  */
-@ThreadSafe
+@NotThreadSafe
 @Immutable
 public class PodamFactoryImpl implements PodamFactory {
 

@@ -1,9 +1,9 @@
 Meta:
-@tag Thread-safety
+@tag Factory_isolation
 
-Story: Podam Factory should be thread safe
+Story: It should be possible to run multiple Podam factory instances independently
 As a user
-I want Podam Factory to be thread-safe
+I want to run independent instances of Podam
 So that I can run multiple factories simultaneously
 
 Scenario: Running one factory should return a filled in POJO

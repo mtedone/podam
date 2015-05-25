@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.stories.steps.thread.safety;
+package uk.co.jemos.podam.test.stories.steps.factory.isolation;
 
 import net.thucydides.core.annotations.Step;
 import org.apache.logging.log4j.LogManager;
@@ -18,10 +18,10 @@ import java.util.concurrent.FutureTask;
 /**
  * Created by tedonema on 19/05/2015.
  */
-public class PodamFactoryThreadSafeSteps {
+public class FactoryIsolationSteps {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamFactoryThreadSafeSteps.class);
+    private static final Logger LOG = LogManager.getLogger(FactoryIsolationSteps.class);
 
     private PodamFactory podamFactory;
 
@@ -31,9 +31,9 @@ public class PodamFactoryThreadSafeSteps {
 
     Set<SimplePojoToTestSetters> results = new HashSet<SimplePojoToTestSetters>();
 
-    PodamFactoryInvocatorCallable callable1 = new PodamFactoryInvocatorCallable(new PodamFactoryImpl());
+    FactoryInvocatorCallable callable1 = new FactoryInvocatorCallable(new PodamFactoryImpl());
     FutureTask<SimplePojoToTestSetters> future1  = new FutureTask<SimplePojoToTestSetters>(callable1);
-    PodamFactoryInvocatorCallable callable2 = new PodamFactoryInvocatorCallable(new PodamFactoryImpl());
+    FactoryInvocatorCallable callable2 = new FactoryInvocatorCallable(new PodamFactoryImpl());
     FutureTask<SimplePojoToTestSetters> future2  = new FutureTask<SimplePojoToTestSetters>(callable2);
 
     private int nbrThreads;

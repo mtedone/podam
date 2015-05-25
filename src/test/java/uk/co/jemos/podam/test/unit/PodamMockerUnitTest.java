@@ -79,7 +79,7 @@ public class PodamMockerUnitTest {
 		strategy.setMemoization(false);
 		// Trying to create an abstract class with a specified concrete
 		// implementation should be fine
-		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
+		strategy.addOrReplaceSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
 		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
 		Assert.assertNotNull(
 				"The abstract pojo should not be null since a concrete impl has been specified",
@@ -92,7 +92,7 @@ public class PodamMockerUnitTest {
 		strategy.setMemoization(false);
 		// Trying to create an abstract class with a specified concrete
 		// implementation should be fine
-		strategy.addSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
+		strategy.addOrReplaceSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
 		EmbeddedAbstractFieldTestPojo pojo = factory
 				.manufacturePojo(EmbeddedAbstractFieldTestPojo.class);
 		Assert.assertNotNull("The pojo should not be null", pojo);
