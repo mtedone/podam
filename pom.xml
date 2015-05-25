@@ -15,8 +15,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<thucydides.version>0.9.268</thucydides.version>
-		<thucydides.jbehave.version>0.9.268</thucydides.jbehave.version>
+		<serenity.version>1.0.47</serenity.version>
+		<serenity.jbehave.version>1.0.21</serenity.jbehave.version>
 	</properties>
 
 	<url>http://mtedone.github.io/podam/</url>
@@ -300,9 +300,9 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>net.thucydides.maven.plugins</groupId>
-				<artifactId>maven-thucydides-plugin</artifactId>
-				<version>${thucydides.version}</version>
+				<groupId>net.serenity-bdd.maven.plugins</groupId>
+				<artifactId>serenity-maven-plugin</artifactId>
+				<version>${serenity.version}</version>
 				<executions>
 					<execution>
 						<id>thucydides-reports</id>
@@ -359,9 +359,9 @@
 				<version>0.7.4.201502262128</version>
 			</plugin>
 			<plugin>
-				<groupId>net.thucydides.maven.plugins</groupId>
-				<artifactId>maven-thucydides-plugin</artifactId>
-				<version>${thucydides.version}</version>
+				<groupId>net.serenity-bdd.maven.plugins</groupId>
+				<artifactId>serenity-maven-plugin</artifactId>
+				<version>${serenity.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -444,19 +444,19 @@
 
 		<!-- Thucydide -->
 		<dependency>
-			<groupId>net.thucydides</groupId>
-			<artifactId>thucydides-core</artifactId>
-			<version>${thucydides.version}</version>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>core</artifactId>
+			<version>${serenity.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.thucydides</groupId>
-			<artifactId>thucydides-junit</artifactId>
-			<version>${thucydides.version}</version>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-junit</artifactId>
+			<version>${serenity.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.thucydides</groupId>
-			<artifactId>thucydides-jbehave-plugin</artifactId>
-			<version>${thucydides.jbehave.version}</version>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-jbehave</artifactId>
+			<version>${serenity.jbehave.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easytesting</groupId>
