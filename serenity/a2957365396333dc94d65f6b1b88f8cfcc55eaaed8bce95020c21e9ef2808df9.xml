@@ -1,4 +1,4 @@
-<acceptance-test-run title="Running one factory should return a basic POJO filled with basic types" name="Running one factory should return a basic POJO filled with basic types" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="966" timestamp="2015-05-25T19:38:08.083+01:00">
+<acceptance-test-run title="Running one factory should return a basic POJO filled with basic types" name="Running one factory should return a basic POJO filled with basic types" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="968" timestamp="2015-05-26T06:49:44.674+01:00">
   <user-story id="basic-types" name="Basic-types" path="stories/dataStrategies/jvmTypes/basic-types.story"/>
   <tags>
     <tag name="Podam should fill in types contained in the JVM&#xa;As a user&#xa;I want Podam Factory to fill in object graphs for all native types&#xa;So that I can count on the framework to fill in basic POJOs" type="JVMTypes&#xa;&#xa;Story"/>
@@ -9,12 +9,12 @@
     <tag name="Jvm types/Podam should fill in types contained in the jvm" type="story"/>
   </tags>
   <test-group name="Given I have a Podam Factory for simple types" result="SUCCESS">
-    <test-step result="SUCCESS" duration="603">
+    <test-step result="SUCCESS" duration="607">
       <description>Provide podam factory</description>
     </test-step>
   </test-group>
   <test-group name="When I invoke Podam on a POJO with only basic types" result="SUCCESS">
-    <test-step result="SUCCESS" duration="23">
+    <test-step result="SUCCESS" duration="24">
       <description>Invoke podam on pojo with only basic types</description>
     </test-step>
   </test-group>

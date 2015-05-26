@@ -1,0 +1,31 @@
+<acceptance-test-run title="Running one factory should return a filled in POJO" name="Running one factory should return a filled in POJO" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="184" timestamp="2015-05-26T06:49:45.783+01:00">
+  <user-story id="factory-isolation" name="Factory-isolation" path="stories/factory/isolation/factory-isolation.story"/>
+  <tags>
+    <tag name="It should be possible to run multiple Podam factory instances independently&#xa;As a user&#xa;I want to run independent instances of Podam&#xa;So that I can run multiple factories simultaneously" type="Factory_isolation&#xa;&#xa;Story"/>
+    <tag name="Factory" type="capability"/>
+    <tag name="Factory/Isolation" type="feature"/>
+    <tag name="Factory-isolation" type="story"/>
+    <tag name="Isolation/Factory-isolation" type="story"/>
+    <tag name="Isolation/It should be possible to run multiple podam factory instances independently" type="story"/>
+  </tags>
+  <test-group name="Given I have a single Podam Factory" result="SUCCESS">
+    <test-step result="SUCCESS" duration="50">
+      <description>Provide podam factory</description>
+    </test-step>
+  </test-group>
+  <test-group name="When I invoke only one instance of Podam" result="SUCCESS">
+    <test-step result="SUCCESS" duration="4">
+      <description>Invoke podam</description>
+    </test-step>
+  </test-group>
+  <test-group name="Then The returned POJO should not be null" result="SUCCESS">
+    <test-step result="SUCCESS" duration="2">
+      <description>Verify pojo is not null</description>
+    </test-step>
+  </test-group>
+  <test-group name="And The returned POJO should have some fields filled in with data" result="SUCCESS">
+    <test-step result="SUCCESS" duration="3">
+      <description>Verify pojo contains data</description>
+    </test-step>
+  </test-group>
+</acceptance-test-run>
