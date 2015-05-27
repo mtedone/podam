@@ -15,5 +15,8 @@
         <Logger name="org.springframework" level="WARN" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>
+        <Logger name="net.thucydides" level="INFO" additivity="false">
+            <AppenderRef ref="Console" />
+        </Logger>
     </Loggers>
 </Configuration>
