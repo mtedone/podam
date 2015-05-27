@@ -1,27 +1,20 @@
-package uk.co.jemos.podam.test.utils;
+package uk.co.jemos.podam.test.unit.steps;
 
+import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
+import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class OneDimentionalPojoUtils {
+public class OneDimentionalPojoValidationSteps {
 
-
-    private final OneDimensionalTestPojo pojo;
-
-    private final DataProviderStrategy strategy;
-
-    public OneDimentionalPojoUtils(OneDimensionalTestPojo pojo, DataProviderStrategy strategy) {
-        this.pojo = pojo;
-        this.strategy = strategy;
-    }
-
-    public void validateDimensionalTestPojo() {
+    @Step("Then OneDimensionalTestPojo should be valid")
+    public void validateDimensionalTestPojo(OneDimensionalTestPojo pojo, DataProviderStrategy strategy) {
 
         Boolean booleanObjectField = pojo.getBooleanObjectField();
         Assert.assertTrue(

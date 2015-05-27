@@ -19,7 +19,6 @@ import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
-import uk.co.jemos.podam.test.utils.OneDimentionalPojoUtils;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 import uk.co.jemos.podam.test.utils.TypesUtils;
@@ -45,7 +44,6 @@ public class PodamMockerUnitTest {
 
 	/** Backup of memoization setting */
 	private final static boolean memoizationBackup = strategy.isMemoizationEnabled();
-	private OneDimentionalPojoUtils oneDimentionalPojoUtils;
 
 	/**
 	 * Restores memoization settings after test run
@@ -124,26 +122,6 @@ public class PodamMockerUnitTest {
 		Assert.assertNotNull(
 				"The pojo with private default constructor cannot be null!",
 				pojo);
-	}
-
-	@Test
-	public void testOneDimensionalTestPojo() {
-
-		OneDimensionalTestPojo pojo = factory
-				.manufacturePojo(OneDimensionalTestPojo.class);
-		Assert.assertNotNull("The object cannot be null!", pojo);
-		oneDimentionalPojoUtils = new OneDimentionalPojoUtils(pojo, factory.getStrategy());
-
-		oneDimentionalPojoUtils.validateDimensionalTestPojo();
-	}
-
-	@Test
-	public void testOneDimensionalTestPojoPopulation() {
-
-		OneDimensionalTestPojo pojo = new OneDimensionalTestPojo();
-		factory.populatePojo(pojo);
-		oneDimentionalPojoUtils = new OneDimentionalPojoUtils(pojo, factory.getStrategy());
-		oneDimentionalPojoUtils.validateDimensionalTestPojo();
 	}
 
 	@Test
