@@ -1189,9 +1189,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-<span class="fc bfc" id="L1192" title="All 2 branches covered.">		if (pojoClass.isPrimitive()) {</span>
+<span class="pc bpc" id="L1192" title="1 of 2 branches missed.">		if (pojoClass.isPrimitive()) {</span>
 			// For JDK POJOs we can't retrieve attribute name
-<span class="fc" id="L1194">			return (T) resolveBoxedValue(pojoClass, Collections.&lt;Annotation&gt;emptyList(),</span>
+<span class="nc" id="L1194">			return (T) resolveBoxedValue(pojoClass, Collections.&lt;Annotation&gt;emptyList(),</span>
 					new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
 		}
 
