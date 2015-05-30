@@ -16,7 +16,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.0.47</serenity.version>
-		<serenity.jbehave.version>1.0.21</serenity.jbehave.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 
@@ -466,11 +465,6 @@
 			<groupId>net.serenity-bdd</groupId>
 			<artifactId>serenity-junit</artifactId>
 			<version>${serenity.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.serenity-bdd</groupId>
-			<artifactId>serenity-jbehave</artifactId>
-			<version>${serenity.jbehave.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.easytesting</groupId>
