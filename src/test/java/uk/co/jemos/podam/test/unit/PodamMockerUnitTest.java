@@ -54,20 +54,7 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testMockerForClassWithoutDefaultConstructor() {
-
-		NoDefaultConstructorPojo pojo = factory
-				.manufacturePojo(NoDefaultConstructorPojo.class);
-		Assert.assertNotNull(
-				"The pojo with no default constructors must not be null!", pojo);
-
-	}
-
-	@Test
 	public void testMockerForAbstractClass() {
-		strategy.setMemoization(false);
-		// Trying to create an abstract class should thrown an instantiation
-		// exception
 		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
 		Assert.assertNull("The abstract pojo should be null!", pojo);
 	}
