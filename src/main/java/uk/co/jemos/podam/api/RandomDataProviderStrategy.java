@@ -17,35 +17,6 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
 
 
     /**
-     * Bind an interface/abstract class to a specific implementation. If the
-     * strategy previously contained a binding for the interface/abstract class,
-     * the old value will be replaced by the new value.
-     * If you want to implement more sophisticated binding strategy, override this class.
-     *
-     * @param <T> return type
-     * @param abstractClass
-     *            the interface/abstract class to bind
-     * @param specificClass
-     *            the specific class implementing or extending
-     *            {@code abstractClass}.
-     * @return itself
-     */
-    <T> RandomDataProviderStrategy addOrReplaceSpecific(
-            Class<T> abstractClass, Class<? extends T> specificClass);
-
-    /**
-     * Remove binding of an interface/abstract class to a specific
-     * implementation
-     *
-     * @param <T> return type
-     * @param abstractClass
-     *            the interface/abstract class to remove binding
-     * @return itself
-     */
-    <T> RandomDataProviderStrategy removeSpecific(
-            Class<T> abstractClass);
-
-    /**
      * Bind an annotation to attribute strategy class. If the
      * strategy previously contained a binding for the annotation,
      * the old will be replaced.

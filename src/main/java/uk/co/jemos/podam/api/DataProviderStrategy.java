@@ -3,11 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
+import uk.co.jemos.podam.common.AttributeStrategy;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
-import uk.co.jemos.podam.common.AttributeStrategy;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -27,6 +27,35 @@ import uk.co.jemos.podam.common.AttributeStrategy;
  * 
  */
 public interface DataProviderStrategy {
+
+	/**
+     * Bind an interface/abstract class to a specific implementation. If the
+     * strategy previously contained a binding for the interface/abstract class,
+     * the old value will be replaced by the new value.
+     * If you want to implement more sophisticated binding strategy, override this class.
+     *
+     * @param <T> return type
+     * @param abstractClass
+     *            the interface/abstract class to bind
+     * @param specificClass
+     *            the specific class implementing or extending
+     *            {@code abstractClass}.
+     * @return itself
+     */
+	<T> DataProviderStrategy addOrReplaceSpecific(
+			Class<T> abstractClass, Class<? extends T> specificClass);
+
+	/**
+     * Remove binding of an interface/abstract class to a specific
+     * implementation
+     *
+     * @param <T> return type
+     * @param abstractClass
+     *            the interface/abstract class to remove binding
+     * @return itself
+     */
+	<T> DataProviderStrategy removeSpecific(
+			Class<T> abstractClass);
 
 	/**
 	 * Specifies how to sort constructors

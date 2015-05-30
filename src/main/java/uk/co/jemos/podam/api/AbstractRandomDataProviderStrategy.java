@@ -526,7 +526,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * @return itself
 	 */
 	@Override
-	public <T> RandomDataProviderStrategy addOrReplaceSpecific(
+	public <T> DataProviderStrategy addOrReplaceSpecific(
 			final Class<T> abstractClass, final Class<? extends T> specificClass) {
 
 		specificTypes.put(abstractClass, specificClass);
@@ -538,7 +538,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public <T> RandomDataProviderStrategy removeSpecific(
+	public <T> DataProviderStrategy removeSpecific(
 			final Class<T> abstractClass) {
 
 		specificTypes.remove(abstractClass);

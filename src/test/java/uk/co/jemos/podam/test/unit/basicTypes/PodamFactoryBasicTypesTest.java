@@ -6,13 +6,8 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.test.dto.AbstractTestPojo;
-import uk.co.jemos.podam.test.dto.NoDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
-import uk.co.jemos.podam.test.unit.steps.PodamFactorySteps;
-import uk.co.jemos.podam.test.unit.steps.PodamInvocationSteps;
-import uk.co.jemos.podam.test.unit.steps.PodamValidationSteps;
-import uk.co.jemos.podam.test.unit.steps.OneDimentionalPojoValidationSteps;
+import uk.co.jemos.podam.test.dto.*;
+import uk.co.jemos.podam.test.unit.steps.*;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -31,6 +26,9 @@ public class PodamFactoryBasicTypesTest {
 
     @Steps
     OneDimentionalPojoValidationSteps oneDimentionalPojoValidationSteps;
+
+    @Steps
+    PodamStrategySteps podamStrategySteps;
 
     @Test
     @Title("Podam should fill in a POJO with basic jvm types")
@@ -67,6 +65,29 @@ public class PodamFactoryBasicTypesTest {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         AbstractTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(AbstractTestPojo.class, podamFactory);
         podamValidationSteps.thePojoShouldBeNull(pojo);
+
+    }
+
+    @Test
+    @Title("Podam should generate a non null POJO for Abstract types with a concrete type")
+    public void podamShouldGenerateANonNullPojoForAbstractTypesWithConcreteImplementation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
+        AbstractTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(AbstractTestPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+
+    }
+
+    @Test
+    @Title("Podam should fill embedded abstract classes if a concrete type has been specified")
+    public void podamShouldFillEmbeddedAbstractClassesIfAConcreteTypeHasBeenSpecified() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
+        EmbeddedAbstractFieldTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmbeddedAbstractFieldTestPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo.getPojo());
 
     }
 

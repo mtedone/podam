@@ -54,40 +54,6 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testMockerForAbstractClass() {
-		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
-		Assert.assertNull("The abstract pojo should be null!", pojo);
-	}
-
-	@Test
-	public void testMockerForAbstractClassWithConcreteSpecified() {
-		strategy.setMemoization(false);
-		// Trying to create an abstract class with a specified concrete
-		// implementation should be fine
-		strategy.addOrReplaceSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
-		AbstractTestPojo pojo = factory.manufacturePojo(AbstractTestPojo.class);
-		Assert.assertNotNull(
-				"The abstract pojo should not be null since a concrete impl has been specified",
-				pojo);
-		strategy.removeSpecific(AbstractTestPojo.class);
-	}
-
-	@Test
-	public void testMockerForEmbeddedAbstractClassWithConcreteSpecified() {
-		strategy.setMemoization(false);
-		// Trying to create an abstract class with a specified concrete
-		// implementation should be fine
-		strategy.addOrReplaceSpecific(AbstractTestPojo.class, ConcreteTestPojo.class);
-		EmbeddedAbstractFieldTestPojo pojo = factory
-				.manufacturePojo(EmbeddedAbstractFieldTestPojo.class);
-		Assert.assertNotNull("The pojo should not be null", pojo);
-		Assert.assertNotNull(
-				"The abstract embedded pojo should not be null since a concrete impl has been specified",
-				pojo.getPojo());
-		strategy.removeSpecific(AbstractTestPojo.class);
-	}
-
-	@Test
 	public void testMockerForInterface() {
 		// Trying to create an interface class should thrown an instantiation
 		// exception
