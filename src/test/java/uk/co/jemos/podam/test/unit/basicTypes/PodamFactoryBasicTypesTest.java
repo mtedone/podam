@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
+import uk.co.jemos.podam.test.dto.pdm6.Child;
+import uk.co.jemos.podam.test.dto.pdm6.Parent;
+import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.unit.steps.*;
 
 /**
@@ -123,6 +126,41 @@ public class PodamFactoryBasicTypesTest {
         RecursivePojo recursivePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursivePojo.class, podamFactory);
         podamValidationSteps.thePojoShouldNotBeNull(recursivePojo);
         recursivePojoValidationSteps.allPojosInTheRecursiveStrategyShouldBeValid(recursivePojo);
+    }
+
+    @Test
+    @Title("Podam should fill recursive POJOs when invoking the factory population directly")
+    public void podamShouldFillRecursivePojosWhenInvokingPopulationDirectly() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RecursivePojo pojo = new RecursivePojo();
+        podamInvocationSteps.whenIInvokeThePojoPopulationDirectly(pojo, podamFactory);
+        recursivePojoValidationSteps.allPojosInTheRecursiveStrategyShouldBeValid(pojo);
+
+    }
+
+    @Test
+    @Title("Podam should fill in POJOs which have a circular dependency")
+    public void podamShouldSupportCircularDependencies() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        Parent parent = podamInvocationSteps.whenIInvokeTheFactoryForClass(Parent.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(parent);
+        Child child = parent.getChild();
+        podamValidationSteps.theChildPojoShouldNotBeNull(child);
+
+    }
+
+    @Test
+    @Title("Podam should fill in collections of the containing class type")
+    public void podamShouldSupportRecursiveCollections() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RecursiveList recursiveListPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveList.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(recursiveListPojo);
+        recursivePojoValidationSteps.thePojoListShouldNotBeNull(recursiveListPojo.getList());
+        recursivePojoValidationSteps.thePojoListShouldNotBeEmpty(recursiveListPojo.getList());
+        podamValidationSteps.eachListElementShouldNotBeNull(recursiveListPojo.getList());
     }
 
 }

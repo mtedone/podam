@@ -13,9 +13,6 @@ import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.pdm6.Child;
-import uk.co.jemos.podam.test.dto.pdm6.Parent;
-import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
@@ -51,61 +48,6 @@ public class PodamMockerUnitTest {
 	@After
 	public void cleanup() {
 		strategy.setMemoization(memoizationBackup);
-	}
-
-	@Test
-	public void testRecursiveHierarchyPojo() {
-		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
-		Assert.assertNotNull("The recursive pojo cannot be null!", pojo);
-
-		validateRecursiveHierarchyPojo(pojo);
-	}
-
-	@Test
-	public void testRecursiveHierarchyPojoPopulation() {
-		RecursivePojo pojo = new RecursivePojo();
-		factory.populatePojo(pojo);
-
-		validateRecursiveHierarchyPojo(pojo);
-	}
-
-	private void validateRecursiveHierarchyPojo(RecursivePojo pojo) {
-		Assert.assertTrue("The integer value in the pojo should not be zero!",
-				pojo.getIntField() != 0);
-
-		RecursivePojo parentPojo = pojo.getParent();
-		Assert.assertNotNull("The parent pojo cannot be null!", parentPojo);
-		Assert.assertTrue(
-				"The integer value in the parent pojo should not be zero!",
-				parentPojo.getIntField() != 0);
-		Assert.assertNotNull(
-				"The parent attribute of the parent pojo cannot be null!",
-				parentPojo.getParent());
-
-	}
-
-	@Test
-	public void testCircularDependencyPojos() {
-		Parent parent = factory.manufacturePojo(Parent.class);
-		Assert.assertNotNull("The parent pojo cannot be null!", parent);
-
-		Child child = parent.getChild();
-		Assert.assertNotNull("The child pojo cannot be null!", child);
-	}
-
-	@Test
-	public void testCircularDependencyCollection() {
-
-		RecursiveList pojo = factory.manufacturePojo(RecursiveList.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-		Assert.assertNotNull("The pojo's list cannot be null!", pojo.getList());
-		Assert.assertTrue("The pojo's list cannot be empty!", !pojo.getList()
-				.isEmpty());
-		for (RecursiveList listValue : pojo.getList()) {
-			Assert.assertNotNull("The pojo's list element cannot be null!",
-					listValue);
-		}
-
 	}
 
 	@Test
