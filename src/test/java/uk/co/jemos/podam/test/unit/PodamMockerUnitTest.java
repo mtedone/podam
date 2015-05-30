@@ -13,7 +13,6 @@ import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
-import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
@@ -48,21 +47,6 @@ public class PodamMockerUnitTest {
 	@After
 	public void cleanup() {
 		strategy.setMemoization(memoizationBackup);
-	}
-
-	@Test
-	public void testCircularDependencyMap() {
-
-		RecursiveMap pojo = factory.manufacturePojo(RecursiveMap.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-		Assert.assertNotNull("The pojo's map cannot be null!", pojo.getMap());
-		Assert.assertTrue("The pojo's map cannot be empty!", !pojo.getMap()
-				.isEmpty());
-		for (RecursiveMap mapValue : pojo.getMap().values()) {
-			Assert.assertNotNull("The pojo's map element cannot be null!",
-					mapValue);
-		}
-
 	}
 
 	@Test

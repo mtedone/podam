@@ -4,6 +4,7 @@ import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -47,4 +48,13 @@ public class PodamValidationSteps {
         }
     }
 
+    @Step("Then each of the map elements should not be null")
+    public void eachMapElementShouldNotBeNull(Map<?, ?> map) {
+
+        for (Object mapValue : map.values()) {
+            Assert.assertNotNull("The pojo's map element cannot be null!",
+                    mapValue);
+        }
+        
+    }
 }

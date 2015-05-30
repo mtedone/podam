@@ -10,6 +10,7 @@ import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.pdm6.Child;
 import uk.co.jemos.podam.test.dto.pdm6.Parent;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
+import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.unit.steps.*;
 
 /**
@@ -152,8 +153,8 @@ public class PodamFactoryBasicTypesTest {
     }
 
     @Test
-    @Title("Podam should fill in collections of the containing class type")
-    public void podamShouldSupportRecursiveCollections() throws Exception {
+    @Title("Podam should fill in lists of the containing class type")
+    public void podamShouldSupportRecursiveLists() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveList recursiveListPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveList.class, podamFactory);
@@ -162,5 +163,19 @@ public class PodamFactoryBasicTypesTest {
         recursivePojoValidationSteps.thePojoListShouldNotBeEmpty(recursiveListPojo.getList());
         podamValidationSteps.eachListElementShouldNotBeNull(recursiveListPojo.getList());
     }
+
+    @Test
+    @Title("Podam should fill in Maps of the containing class type")
+    public void podamShouldSupportRecursiveMaps() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RecursiveMap recursiveMap = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveMap.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(recursiveMap);
+        recursivePojoValidationSteps.thePojoMapShouldNotBeNull(recursiveMap.getMap());
+        recursivePojoValidationSteps.thePojoMapShouldNotBeEmpty(recursiveMap.getMap());
+        podamValidationSteps.eachMapElementShouldNotBeNull(recursiveMap.getMap());
+
+    }
+
 
 }
