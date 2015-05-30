@@ -1,0 +1,15 @@
+<acceptance-test-run title="Podam should fill POJOs with non default constructors" name="podamShouldFillPojosWithNonDefaultConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2015-05-30T18:37:49.395+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.basicTypes"/>
+  <tags>
+    <tag name="Podam factory basic types test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="23">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
+    <description>When I invoke the factory for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NoDefaultConstructorPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Pojo should not be null</description>
+  </test-step>
+</acceptance-test-run>

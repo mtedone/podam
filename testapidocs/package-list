@@ -10,12 +10,10 @@ uk.co.jemos.podam.test.dto.pdm45
 uk.co.jemos.podam.test.dto.pdm5
 uk.co.jemos.podam.test.dto.pdm6
 uk.co.jemos.podam.test.enums
-uk.co.jemos.podam.test.stories
-uk.co.jemos.podam.test.stories.steps.basic.types
-uk.co.jemos.podam.test.stories.steps.factory.isolation
+uk.co.jemos.podam.test.integration
 uk.co.jemos.podam.test.strategies
 uk.co.jemos.podam.test.unit
-uk.co.jemos.podam.test.unit.integration
+uk.co.jemos.podam.test.unit.basicTypes
 uk.co.jemos.podam.test.unit.issue86
 uk.co.jemos.podam.test.unit.issue93
 uk.co.jemos.podam.test.unit.pdm3
@@ -23,4 +21,5 @@ uk.co.jemos.podam.test.unit.pdm4
 uk.co.jemos.podam.test.unit.pdm43
 uk.co.jemos.podam.test.unit.pdm45
 uk.co.jemos.podam.test.unit.pdm5
+uk.co.jemos.podam.test.unit.steps
 uk.co.jemos.podam.test.utils

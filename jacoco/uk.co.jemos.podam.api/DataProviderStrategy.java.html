@@ -3,11 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
+import uk.co.jemos.podam.common.AttributeStrategy;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
-import uk.co.jemos.podam.common.AttributeStrategy;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -29,17 +29,46 @@ import uk.co.jemos.podam.common.AttributeStrategy;
 public interface DataProviderStrategy {
 
 	/**
+     * Bind an interface/abstract class to a specific implementation. If the
+     * strategy previously contained a binding for the interface/abstract class,
+     * the old value will be replaced by the new value.
+     * If you want to implement more sophisticated binding strategy, override this class.
+     *
+     * @param &lt;T&gt; return type
+     * @param abstractClass
+     *            the interface/abstract class to bind
+     * @param specificClass
+     *            the specific class implementing or extending
+     *            {@code abstractClass}.
+     * @return itself
+     */
+	&lt;T&gt; DataProviderStrategy addOrReplaceSpecific(
+			Class&lt;T&gt; abstractClass, Class&lt;? extends T&gt; specificClass);
+
+	/**
+     * Remove binding of an interface/abstract class to a specific
+     * implementation
+     *
+     * @param &lt;T&gt; return type
+     * @param abstractClass
+     *            the interface/abstract class to remove binding
+     * @return itself
+     */
+	&lt;T&gt; DataProviderStrategy removeSpecific(
+			Class&lt;T&gt; abstractClass);
+
+	/**
 	 * Specifies how to sort constructors
 	 */
-<span class="pc" id="L34">	public enum Order {</span>
+<span class="pc" id="L63">	public enum Order {</span>
 		/**
 		 * Constructors with more parameters have precedence
 		 */
-<span class="fc" id="L38">		HEAVY_FIRST,</span>
+<span class="fc" id="L67">		HEAVY_FIRST,</span>
 		/**
 		 * Constructors with less parameters have precedence
 		 */
-<span class="fc" id="L42">		LIGHT_FIRST</span>
+<span class="fc" id="L71">		LIGHT_FIRST</span>
 	};
 
 	/** It returns a boolean/Boolean value.

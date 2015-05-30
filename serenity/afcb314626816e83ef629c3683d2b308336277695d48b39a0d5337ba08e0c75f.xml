@@ -1,0 +1,21 @@
+<acceptance-test-run title="Podam should fill embedded abstract classes if a concrete type has been specified" name="podamShouldFillEmbeddedAbstractClassesIfAConcreteTypeHasBeenSpecified" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="235" timestamp="2015-05-30T18:37:48.950+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.basicTypes"/>
+  <tags>
+    <tag name="Podam factory basic types test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="68">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="11">
+    <description>When I add a specific type for an abstract type or interface</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="13">
+    <description>When I invoke the factory for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="13">
+    <description>Then the Pojo should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="10">
+    <description>Then the Pojo should not be null</description>
+  </test-step>
+</acceptance-test-run>
