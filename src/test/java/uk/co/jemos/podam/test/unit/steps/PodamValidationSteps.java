@@ -2,7 +2,6 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
-import uk.co.jemos.podam.test.dto.AbstractTestPojo;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -20,8 +19,18 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the Pojo should be null")
-    public void thePojoShouldBeNull(AbstractTestPojo pojo) {
-
+    public void thePojoShouldBeNull(Object pojo) {
         Assert.assertNull("The pojo should be null", pojo);
     }
+
+    @Step("Then the inner pojo instance variable should not be null")
+    public void theInnerPojoInstanceShouldNotBeNull(Object pojo) {
+        Assert.assertNotNull("The inner pojo instance variable should not be null", pojo);
+    }
+
+    @Step("Then the int field should not be zero")
+    public void theIntFieldShouldNotBeZero(int intField) {
+        Assert.assertFalse("The integer field should not be zero", intField == 0);
+    }
+
 }

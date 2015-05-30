@@ -54,30 +54,6 @@ public class PodamMockerUnitTest {
 	}
 
 	@Test
-	public void testMockerForInterface() {
-		// Trying to create an interface class should thrown an instantiation
-		// exception
-		InterfacePojo pojo = factory.manufacturePojo(InterfacePojo.class);
-		Assert.assertNull("The interface pojo should be null!", pojo);
-
-	}
-
-	@Test
-	public void testMockerForPrimitiveType() {
-		int intValue = factory.manufacturePojo(int.class);
-		Assert.assertTrue("The int value should not be zero!", intValue != 0);
-	}
-
-	@Test
-	public void testMockerForPojoWithPrivateNoArgConstructor() {
-		PrivateNoArgConstructorPojo pojo = factory
-				.manufacturePojo(PrivateNoArgConstructorPojo.class);
-		Assert.assertNotNull(
-				"The pojo with private default constructor cannot be null!",
-				pojo);
-	}
-
-	@Test
 	public void testRecursiveHierarchyPojo() {
 		RecursivePojo pojo = factory.manufacturePojo(RecursivePojo.class);
 		Assert.assertNotNull("The recursive pojo cannot be null!", pojo);

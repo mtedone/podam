@@ -30,6 +30,9 @@ public class PodamFactoryBasicTypesTest {
     @Steps
     PodamStrategySteps podamStrategySteps;
 
+    @Steps
+    RecursivePojoValidationSteps recursivePojoValidationSteps;
+
     @Test
     @Title("Podam should fill in a POJO with basic jvm types")
     public void podamShouldGenerateBasicTypes() throws Exception {
@@ -87,8 +90,39 @@ public class PodamFactoryBasicTypesTest {
         podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
         EmbeddedAbstractFieldTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmbeddedAbstractFieldTestPojo.class, podamFactory);
         podamValidationSteps.thePojoShouldNotBeNull(pojo);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo.getPojo());
+        podamValidationSteps.theInnerPojoInstanceShouldNotBeNull(pojo.getPojo());
 
+    }
+
+    @Test
+    @Title("Invoking Podam on an interface should return an empty POJO")
+    public void invokingPodamOnAnInterfaceShouldReturnAnEmptyPojo() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        InterfacePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(InterfacePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldBeNull(pojo);
+
+    }
+
+    @Test
+    @Title("Invoking Podam on a POJO with a private, no arguments constructor, should return a non null POJO")
+    public void invokingPodamOnaPojoWithPrivateNoArgumentsConstructorShouldReturnANonEmptyPojo() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        PrivateNoArgConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(PrivateNoArgConstructorPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+
+    }
+
+    @Test
+    @Title("Podam should fill recursive POJOs correctly, including all their fields")
+    public void podamShouldFillRecursivePojos() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RecursivePojo recursivePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursivePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(recursivePojo);
+        recursivePojoValidationSteps.allPojosInTheRecursiveStrategyShouldBeValid(recursivePojo);
     }
 
 }

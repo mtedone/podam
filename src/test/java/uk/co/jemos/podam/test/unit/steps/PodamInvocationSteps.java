@@ -8,8 +8,14 @@ import uk.co.jemos.podam.api.PodamFactory;
  */
 public class PodamInvocationSteps {
 
-    @Step("When I invoke the factory for {0}")
+    @Step("When I invoke the factory manufacturing for {0}")
     public <T> T whenIInvokeTheFactoryForClass(Class<T> className, PodamFactory podamFactory) throws Exception {
         return podamFactory.manufacturePojo(className);
     }
+
+    @Step("When I invoke the pojo's population directly for {0}")
+    public <T> T whenIInvokeThePojoPopulationDirectly(T className, PodamFactory podamFactory) throws Exception {
+        return podamFactory.populatePojo(className);
+    }
+
 }

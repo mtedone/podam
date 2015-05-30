@@ -74,9 +74,11 @@ public class RecursivePojo implements Serializable {
 	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
-	 * 
+	 *
+	 * <p>Disabled for Serenity Issue: https://github.com/serenity-bdd/serenity-core/issues/66</p>
+	 *
 	 * @return a <code>String</code> representation of this object.
-	 */
+
 	@Override
 	public String toString() {
 		final String TAB = "    ";
@@ -88,7 +90,7 @@ public class RecursivePojo implements Serializable {
 				.append(parent).append(TAB).append(" )");
 
 		return retValue.toString();
-	}
+	} */
 
 	// ------------------->> Inner classes
 
