@@ -7,4 +7,4 @@ Podam (http://mtedone.github.io/podam/) is a Java testing tool which auto-fills 
 
 Podam can fill any tree of objects with data. It supports generics, collections, arrays and Java native types. 
 
-To get an idea of Podam's full potential, please visit the Podam website.
+To get an idea of Podam's full potential, please visit the [Podam Requirements Page](http://mtedone.github.io/podam/serenity/index.html)
