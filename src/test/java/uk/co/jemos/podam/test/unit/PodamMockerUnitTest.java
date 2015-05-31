@@ -76,56 +76,7 @@ public class PodamMockerUnitTest {
 		factory.manufacturePojo(FloatValueWithErrorPojo.class);
 	}
 
-	@Test
-	public void testDoubleValueAnnotation() {
 
-		DoubleValuePojo pojo = factory.manufacturePojo(DoubleValuePojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-
-		double doubleFieldWithMinValueOnly = pojo
-				.getDoubleFieldWithMinValueOnly();
-		Assert.assertTrue(
-				"The double attribute with min value only must have a value greater than "
-						+ PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE,
-						doubleFieldWithMinValueOnly >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE);
-
-		double doubleFieldWithMaxValueOnly = pojo
-				.getDoubleFieldWithMaxValueOnly();
-		Assert.assertTrue(
-				"The double attribute with max value only must have a value less or equal to "
-						+ PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED,
-						doubleFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED);
-
-		double doubleFieldWithMinAndMaxValue = pojo
-				.getDoubleFieldWithMinAndMaxValue();
-		Assert.assertTrue(
-				"The double attribute with min and mx value must have a value between "
-						+ PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE + " and "
-						+ PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE,
-						doubleFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE
-						&& doubleFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE);
-
-		double doubleFieldWithPreciseValue = pojo
-				.getDoubleFieldWithPreciseValue();
-		Assert.assertTrue(
-				"The double field with precise value should have a value of: "
-						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
-						doubleFieldWithPreciseValue == Double
-						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE));
-
-		Double doubleObjectFieldWithPreciseValue = pojo
-				.getDoubleObjectFieldWithPreciseValue();
-		Assert.assertNotNull(
-				"The double object field with precise value cannot be null!",
-				doubleObjectFieldWithPreciseValue);
-		Assert.assertTrue(
-				"The double object field with precise value should have a value of: "
-						+ PodamTestConstants.DOUBLE_PRECISE_VALUE,
-						doubleObjectFieldWithPreciseValue.doubleValue() == Double
-						.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE)
-						.doubleValue());
-
-	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testDoubleValueAnnotationWithError() {
@@ -134,29 +85,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test
-	public void testStringValueAnnotation() {
 
-		StringValuePojo pojo = factory.manufacturePojo(StringValuePojo.class);
-		String twentyLengthString = pojo.getTwentyLengthString();
-		Assert.assertNotNull("The twentyLengthString cannot be null!",
-				twentyLengthString);
-		Assert.assertTrue(
-				"The twenty length string must have a length of "
-						+ PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH
-						+ "! but it did have a length of "
-						+ twentyLengthString.length(),
-						twentyLengthString.length() == PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH);
-
-		String preciseValueString = pojo.getPreciseValueString();
-		Assert.assertNotNull("The precise value string cannot be null!",
-				preciseValueString);
-		Assert.assertEquals(
-				"The expected and actual String values don't match",
-				PodamTestConstants.STR_ANNOTATION_PRECISE_VALUE,
-				preciseValueString);
-
-	}
 
 	@Test
 	public void testCollectionAnnotation() {

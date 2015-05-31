@@ -331,4 +331,39 @@ public class PodamValidationSteps {
         Assert.assertTrue("The float value should be precisely " + preciseValue,
                 floatValue == preciseValue);
     }
+
+    @Step("Then the double value (0} should be greater or equal than {1}")
+    public void theDoubleValueShouldBeGreaterOrEqualThan(double doubleValue, double minValue) {
+        Assert.assertTrue("The double value should be >= " + minValue,
+                doubleValue >= minValue);
+    }
+
+    @Step("Then the double value {0} should be lower or equal than {1}")
+    public void theDoubleValueShouldBeLowerOrEqualThan(double doubleValue, double maxValue) {
+        Assert.assertTrue("The double value should be <= " + maxValue,
+                doubleValue <= maxValue);
+    }
+
+    @Step("Then the double value {0} should be between {1} and {2}")
+    public void theDoubleValueShouldBeBetween(double doubleValue, double minValue, double maxValue) {
+        Assert.assertTrue("The double value should be between " + minValue + " and " + maxValue,
+                doubleValue >= minValue && doubleValue <= maxValue);
+    }
+
+    @Step("Then the double value {0} should be exactly {1}")
+    public void theDoubleValueShouldBeExactly(double doubleValue, double preciseValue) {
+        Assert.assertTrue("The double value should be exactly " + doubleValue,
+                doubleValue == preciseValue);
+    }
+
+    @Step("Then the string value {0} should have the length of {1}")
+    public void theStringValueShouldHaveTheExactLengthOf(String stringValue, int stringLength) {
+        Assert.assertTrue("The length of the string should be " + stringLength,
+                stringValue.length() == stringLength);
+    }
+
+    @Step("Then string [{0}] should be exactly like string [{1}]")
+    public void theStringValueShouldBeExactly(String stringValue, String annotationPreciseValue) {
+        Assert.assertEquals(stringValue, annotationPreciseValue);
+    }
 }

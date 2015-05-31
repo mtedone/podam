@@ -343,4 +343,66 @@ public class AnnotationsTest extends AbstractPodamSteps {
     }
 
 
+    @Test
+    @Title("Podam should handle both native and wrapped double values with @PodamDoubleValue annotation")
+    public void podamShouldHandleDoubleValuesWithThePodamDoubleValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        DoubleValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(DoubleValuePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+
+        double doubleFieldWithMinValueOnly = pojo
+                .getDoubleFieldWithMinValueOnly();
+        podamValidationSteps.theDoubleValueShouldBeGreaterOrEqualThan(doubleFieldWithMinValueOnly,
+                PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE);
+
+        double doubleFieldWithMaxValueOnly = pojo
+                .getDoubleFieldWithMaxValueOnly();
+        podamValidationSteps.theDoubleValueShouldBeLowerOrEqualThan(doubleFieldWithMaxValueOnly,
+                PodamTestConstants.NUMBER_DOUBLE_ONE_HUNDRED);
+
+        double doubleFieldWithMinAndMaxValue = pojo
+                .getDoubleFieldWithMinAndMaxValue();
+        podamValidationSteps.theDoubleValueShouldBeBetween(doubleFieldWithMinAndMaxValue,
+                PodamTestConstants.NUMBER_DOUBLE_MIN_VALUE, PodamTestConstants.NUMBER_DOUBLE_MAX_VALUE);
+
+        double doubleFieldWithPreciseValue = pojo
+                .getDoubleFieldWithPreciseValue();
+        podamValidationSteps.theDoubleValueShouldBeExactly(doubleFieldWithPreciseValue,
+                Double.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE));
+
+        Double doubleObjectFieldWithPreciseValue = pojo
+                .getDoubleObjectFieldWithPreciseValue();
+        podamValidationSteps.thePojoShouldNotBeNull(doubleObjectFieldWithPreciseValue);
+        Assert.assertTrue(
+                "The double object field with precise value should have a value of: "
+                        + PodamTestConstants.DOUBLE_PRECISE_VALUE,
+                doubleObjectFieldWithPreciseValue.doubleValue() == Double
+                        .valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE)
+                        .doubleValue());
+        podamValidationSteps.theDoubleValueShouldBeExactly(doubleObjectFieldWithPreciseValue,
+                Double.valueOf(PodamTestConstants.DOUBLE_PRECISE_VALUE));
+
+    }
+
+    @Test
+    @Title("Podam should assign precise values and lengths when a String is annotated with @PodamStringValue")
+    public void podamShouldAssignPreciseValuesWithTheStringValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        StringValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(StringValuePojo.class, podamFactory);
+
+        String twentyLengthString = pojo.getTwentyLengthString();
+        podamValidationSteps.thePojoShouldNotBeNull(twentyLengthString);
+        podamValidationSteps.theStringValueShouldHaveTheExactLengthOf(twentyLengthString,
+                PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH);
+
+        String preciseValueString = pojo.getPreciseValueString();
+        podamValidationSteps.thePojoShouldNotBeNull(preciseValueString);
+        podamValidationSteps.theStringValueShouldBeExactly(
+                preciseValueString, PodamTestConstants.STR_ANNOTATION_PRECISE_VALUE);
+
+    }
+
+
 }
