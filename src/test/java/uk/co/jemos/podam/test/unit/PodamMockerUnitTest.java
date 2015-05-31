@@ -21,7 +21,6 @@ import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import javax.activation.DataHandler;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -47,15 +46,6 @@ public class PodamMockerUnitTest {
 	@After
 	public void cleanup() {
 		strategy.setMemoization(memoizationBackup);
-	}
-
-	@Test
-	public void testJREPojoWithDependencyLoopInConstructor() {
-
-		URL pojo = factory.manufacturePojo(URL.class);
-		Assert.assertNull("Default strategy cannot create java.net.URL object",
-				pojo);
-
 	}
 
 	@Test

@@ -13,6 +13,9 @@ import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.unit.steps.*;
 
+import javax.activation.DataHandler;
+import java.net.URL;
+
 /**
  * Created by tedonema on 27/05/2015.
  */
@@ -175,6 +178,25 @@ public class PodamFactoryBasicTypesTest {
         recursivePojoValidationSteps.thePojoMapShouldNotBeEmpty(recursiveMap.getMap());
         podamValidationSteps.eachMapElementShouldNotBeNull(recursiveMap.getMap());
 
+    }
+
+    @Test
+    @Title("Invoking Podam on a POJO with a circular constructor (e.g. java.net.URL) leads to a null POJO")
+    public void podamCannotHandleCircularConstructors() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        URL pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(URL.class, podamFactory);
+        podamValidationSteps.thePojoShouldBeNull(pojo);
+
+    }
+
+    @Test
+    @Title("Invoking Podam on a POJO with both circular and non circular constructors (e.g. javax.activation.DataHandler) should lead to a non empty POJO" )
+    public void podamShouldHandlePojosWithAMixOfCircularAndNonCircularConstructors() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        DataHandler pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(DataHandler.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
     }
 
 
