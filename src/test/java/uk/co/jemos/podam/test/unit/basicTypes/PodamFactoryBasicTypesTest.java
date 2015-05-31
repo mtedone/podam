@@ -199,5 +199,20 @@ public class PodamFactoryBasicTypesTest {
         podamValidationSteps.thePojoShouldNotBeNull(pojo);
     }
 
+    @Test
+    @Title("Podam should handle immutable POJOs annotated with @PodamConstructor")
+    public void podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ImmutableNoHierarchicalAnnotatedPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNoHierarchicalAnnotatedPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+        podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
+        podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
+        podamValidationSteps.theLongArrayShouldNotBeNullOrEmpty(pojo.getLongArray());
+        podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
+    }
+
 
 }

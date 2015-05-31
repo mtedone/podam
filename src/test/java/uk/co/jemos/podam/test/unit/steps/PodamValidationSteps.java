@@ -3,6 +3,8 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,5 +58,26 @@ public class PodamValidationSteps {
                     mapValue);
         }
         
+    }
+
+    @Step("Then the calendar object should not be null")
+    public void theCalendarFieldShouldNotBeNull(Calendar dateCreated) {
+        Assert.assertNotNull("The calendar object should not be null", dateCreated);
+    }
+
+    @Step("Then the Date object should not be null")
+    public void theDateObjectShouldNotBeNull(Date time) {
+        Assert.assertNotNull("The Date object should not be null", time);
+    }
+
+    @Step("Then the long[] array should not be null or empty")
+    public void theLongArrayShouldNotBeNullOrEmpty(long[] array) {
+        Assert.assertNotNull("The given long[] array cannot be null", array);
+        Assert.assertTrue("The given long[] array should not be null or empty", array.length > 0);
+    }
+
+    @Step("The long value cannot be zero")
+    public void theLongValueShouldNotBeZero(long value) {
+        Assert.assertTrue("The long value cannot be zero", value > 0);
     }
 }

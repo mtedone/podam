@@ -19,7 +19,6 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
-import javax.activation.DataHandler;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,39 +45,6 @@ public class PodamMockerUnitTest {
 	@After
 	public void cleanup() {
 		strategy.setMemoization(memoizationBackup);
-	}
-
-	@Test
-	public void testJREPojoWithDependencyLoopInConstructor2() {
-
-		DataHandler pojo2 = factory.manufacturePojo(DataHandler.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo2);
-
-	}
-
-	@Test
-	public void testImmutableNoHierarchicalAnnotatedPojo() {
-
-		ImmutableNoHierarchicalAnnotatedPojo pojo = factory
-				.manufacturePojo(ImmutableNoHierarchicalAnnotatedPojo.class);
-		Assert.assertNotNull("The Immutable Simple Pojo cannot be null!", pojo);
-		int intField = pojo.getIntField();
-		Assert.assertTrue("The int field cannot be zero", intField != 0);
-		Calendar dateCreated = pojo.getDateCreated();
-		Assert.assertNotNull(
-				"The Date Created Calendar object cannot be null!", dateCreated);
-		Assert.assertNotNull(
-				"The Date object within the dateCreated Calendar object cannot be null!",
-				dateCreated.getTime());
-		long[] longArray = pojo.getLongArray();
-		Assert.assertNotNull("The array of longs cannot be null!", longArray);
-		Assert.assertTrue("The array of longs cannot be empty!",
-				longArray.length > 0);
-		long longElement = longArray[0];
-		Assert.assertTrue(
-				"The long element within the long array cannot be zero!",
-				longElement != 0);
-
 	}
 
 	@Test
