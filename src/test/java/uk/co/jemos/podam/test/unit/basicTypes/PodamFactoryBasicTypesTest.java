@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit.basicTypes;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
-import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,7 @@ import uk.co.jemos.podam.test.dto.pdm6.Child;
 import uk.co.jemos.podam.test.dto.pdm6.Parent;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
-import uk.co.jemos.podam.test.unit.steps.*;
+import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.activation.DataHandler;
 import java.net.URL;
@@ -20,25 +19,7 @@ import java.net.URL;
  * Created by tedonema on 27/05/2015.
  */
 @RunWith(SerenityRunner.class)
-public class PodamFactoryBasicTypesTest {
-
-    @Steps
-    PodamFactorySteps podamFactorySteps;
-
-    @Steps
-    PodamInvocationSteps podamInvocationSteps;
-
-    @Steps
-    PodamValidationSteps podamValidationSteps;
-
-    @Steps
-    OneDimentionalPojoValidationSteps oneDimentionalPojoValidationSteps;
-
-    @Steps
-    PodamStrategySteps podamStrategySteps;
-
-    @Steps
-    RecursivePojoValidationSteps recursivePojoValidationSteps;
+public class PodamFactoryBasicTypesTest extends AbstractPodamSteps{
 
     @Test
     @Title("Podam should fill in a POJO with basic jvm types")
@@ -206,6 +187,21 @@ public class PodamFactoryBasicTypesTest {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ImmutableNoHierarchicalAnnotatedPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNoHierarchicalAnnotatedPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+        podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
+        podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
+        podamValidationSteps.theLongArrayShouldNotBeNullOrEmpty(pojo.getLongArray());
+        podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
+    }
+
+    @Test
+    @Title("Podam should handle immutable non annotated POJOs")
+    public void podamShouldHandleImmutableNonAnnotatedPojos() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ImmutableNonAnnotatedPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNonAnnotatedPojo.class, podamFactory);
         podamValidationSteps.thePojoShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());

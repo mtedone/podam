@@ -47,27 +47,7 @@ public class PodamMockerUnitTest {
 		strategy.setMemoization(memoizationBackup);
 	}
 
-	@Test
-	public void testImmutableNonAnnotatedPojo() {
 
-		ImmutableNonAnnotatedPojo pojo = factory
-				.manufacturePojo(ImmutableNonAnnotatedPojo.class);
-		Assert.assertNotNull(
-				"The immutable non annotated POJO should not be null!", pojo);
-
-		Assert.assertNotNull("The date created cannot be null!",
-				pojo.getDateCreated());
-
-		Assert.assertTrue("The int field cannot be zero!",
-				pojo.getIntField() != 0);
-
-		long[] longArray = pojo.getLongArray();
-		Assert.assertNotNull("The array of longs cannot be null!", longArray);
-		Assert.assertEquals("The array of longs must have 1 element!",
-				strategy.getNumberOfCollectionElements(Long.class),
-				longArray.length);
-
-	}
 
 	@Test
 	public void testPojoWithSelfReferencesInConstructor() {
