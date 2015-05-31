@@ -1,47 +1,47 @@
-<acceptance-test-run title="Podam should handle long values, both native and wrapped" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="68" timestamp="2015-05-31T17:22:02.682+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped long values with @PodamLongValue annotation" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="96" timestamp="2015-05-31T18:57:26.529+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="15">
+  <test-step result="SUCCESS" duration="22">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="6">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.LongValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;LongRangeValuesPojo ( longFieldWithMinValueOnly = 0    longFieldWithMaxValueOnly = 76    longFieldWithMinAndMaxValue = 423    longFieldWithPreciseValue = 12345678912    longObjectFieldWithMinValueOnly = 0    longObjectFieldWithMaxValueOnly = 81    longObjectFieldWithMinAndMaxValue = 824    longObjectFieldWithPreciseValue = 12345678912     )&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;LongRangeValuesPojo ( longFieldWithMinValueOnly = 0    longFieldWithMaxValueOnly = 98    longFieldWithMinAndMaxValue = 967    longFieldWithPreciseValue = 12345678912    longObjectFieldWithMinValueOnly = 0    longObjectFieldWithMaxValueOnly = 77    longObjectFieldWithMinAndMaxValue = 878    longObjectFieldWithPreciseValue = 12345678912     )&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="5">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;76 should be less than 100&lt;/span&gt;</description>
+    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;98 should be less than 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the long field 423&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the long field 967&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="5">
     <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="6">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;81&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;77&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0 should be less than 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;824&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the long field 824&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;878&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
+    <description>Then the long field 878&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
     <description>Then the long value should be precisely 12345678912&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">

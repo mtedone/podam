@@ -1,21 +1,21 @@
-<acceptance-test-run title="Podam should handle basic inheritance scenarios" name="podamShouldHandleBasicInheritance" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2015-05-31T17:22:06.000+01:00">
+<acceptance-test-run title="Podam should handle basic inheritance scenarios" name="podamShouldHandleBasicInheritance" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="33" timestamp="2015-05-31T18:57:30.361+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.InheritanceTest" name="Inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>
     <tag name="Inheritance test" type="stories"/>
     <tag name="Inheritance test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="12">
+  <test-step result="SUCCESS" duration="14">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalChildPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;AbstractOneDimensionalPojo ( parentIntField = 7    parentCalendarField = Sun May 31 17:22:06 BST 2015     )    OneDimensionalChildPojo ( intField = -1416183997    strField = cnu7aLSQJx     )&lt;/span&gt; should not be null</description>
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;AbstractOneDimensionalPojo ( parentIntField = 5    parentCalendarField = Sun May 31 18:57:30 BST 2015     )    OneDimensionalChildPojo ( intField = 313161024    strField = 1QYZ_iJ0qJ     )&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the int value &lt;span class=&apos;step-parameter&apos;&gt;7 should be less or equal to 10&lt;/span&gt;</description>
+    <description>Then the int value &lt;span class=&apos;step-parameter&apos;&gt;5 should be less or equal to 10&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the calendar value should be valid</description>
@@ -24,6 +24,6 @@
     <description>Then the int field should not be zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;cnu7aLSQJx&lt;/span&gt; cannot be null or empty</description>
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;1QYZ_iJ0qJ&lt;/span&gt; cannot be null or empty</description>
   </test-step>
 </acceptance-test-run>

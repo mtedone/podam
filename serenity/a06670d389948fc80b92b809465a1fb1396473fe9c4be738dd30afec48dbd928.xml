@@ -1,4 +1,4 @@
-<acceptance-test-run title="Invoking Podam on an Abstract class should return a null pojo" name="invokingPodamOnAbstractClassShouldReturnANullPojo" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-05-31T17:22:04.659+01:00">
+<acceptance-test-run title="Invoking Podam on an Abstract class should return a null pojo" name="invokingPodamOnAbstractClassShouldReturnANullPojo" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-05-31T18:57:29.131+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="14">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.AbstractTestPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
