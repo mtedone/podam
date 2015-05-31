@@ -17,5 +17,4 @@ public class PodamInvocationSteps {
     public <T> T whenIInvokeThePojoPopulationDirectly(T className, PodamFactory podamFactory) throws Exception {
         return podamFactory.populatePojo(className);
     }
-
 }
