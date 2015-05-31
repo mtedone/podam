@@ -1,0 +1,68 @@
+<acceptance-test-run title="Podam should handle standard collections" name="podamShouldHandleStandardCollections" steps="20" successful="20" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="134" timestamp="2015-05-31T17:22:05.153+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
+  <tags>
+    <tag name="Collections" type="epics"/>
+    <tag name="Collections test" type="stories"/>
+    <tag name="Collections test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="14">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="48">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.CollectionsPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.CollectionsPojo@5be0cb4&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the List&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[eW5RobBQKU should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the List&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[CGDGTVvDZk should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the List&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[ylPqak6Sg0 should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Set&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[r284WB7KFU should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the List&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[kwP3sr7kEb should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Set&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[kwP3sr7kEb should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Set&lt;String&gt; &lt;span class=&apos;step-parameter&apos;&gt;[iPlQHAJ2id should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Map&lt;String, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{A85iyPWX5E=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 61    byteObjectField = 2    shortField = 68    shortObjectField = 17    charField = M    charObjectField = 0    intField = -1187890013    intObjectField = -871180658    longField = 217932960861011    longObjectField = 217932959830090    floatField = 0.27563965    floatObjectField = 0.1092509    doubleField = 0.2384386052748788    doubleObjectField = 0.9048567945047246    stringField = 89ujw_voVM    objectField = java.lang.Object@393db9fa    calendarField = Sun May 31 17:22:05 BST 2015    dateField = Sun May 31 17:22:05 BST 2015    randomArray = [Ljava.util.Random;@347d6885    intArray = [I@12af47f4    booleanArray = [Z@670132b9    bigDecimalField = 78720729659     ) should contain at least one non empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Map&lt;String, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{cXYCI5SWDC=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 78    byteObjectField = 33    shortField = 20    shortObjectField = 97    charField = Z    charObjectField = 6    intField = 2139740800    intObjectField = -347110594    longField = 217932968505194    longObjectField = 217932968444552    floatField = 0.9551643    floatObjectField = 0.1788047    doubleField = 0.5733115963296042    doubleObjectField = 0.7572203037173789    stringField = RA7QZCfogM    objectField = java.lang.Object@77b3c429    calendarField = Sun May 31 17:22:05 BST 2015    dateField = Sun May 31 17:22:05 BST 2015    randomArray = [Ljava.util.Random;@36bef8fb    intArray = [I@6c8e0773    booleanArray = [Z@5b5db3a    bigDecimalField = 78720729659     ) should contain at least one non empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the ConcurrentHashMap&lt;String, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{bnnqbBcb2U=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 19    byteObjectField = 85    shortField = 18    shortObjectField = 83    charField = 3    charObjectField = q    intField = -1162721670    intObjectField = -293970075    longField = 217932946745322    longObjectField = 217932946656769    floatField = 0.5390288    floatObjectField = 0.37760156    doubleField = 0.1454001823774702    doubleObjectField = 0.03886631296088916    stringField = 9H9TZFvnhp    objectField = java.lang.Object@393db9fa    calendarField = Sun May 31 17:22:05 BST 2015    dateField = Sun May 31 17:22:05 BST 2015    randomArray = [Ljava.util.Random;@3c9788c    intArray = [I@6873c7e6    booleanArray = [Z@4c2ff77    bigDecimalField = 78720729659     ) should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the ConcurrentHashMap&lt;String, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{r00E4N1HDL=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 115    byteObjectField = 59    shortField = 8    shortObjectField = 103    charField = D    charObjectField = Y    intField = -354018096    intObjectField = -2085098212    longField = 217932930588479    longObjectField = 217932929020124    floatField = 0.7941927    floatObjectField = 0.038590193    doubleField = 0.5726722491982927    doubleObjectField = 0.19307813652637684    stringField = v0U78drCke    objectField = java.lang.Object@393db9fa    calendarField = Sun May 31 17:22:05 BST 2015    dateField = Sun May 31 17:22:05 BST 2015    randomArray = [Ljava.util.Random;@46ddf016    intArray = [I@1cf89848    booleanArray = [Z@36072e34    bigDecimalField = 78720729659     ) should contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the queue &lt;span class=&apos;step-parameter&apos;&gt;[SimplePojoToTestSetters ( stringField = i9Orc4du_K    intField = -1928524452     ) cannot be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Queue &lt;span class=&apos;step-parameter&apos;&gt;[SimplePojoToTestSetters ( stringField = i9Orc4du_K    intField = -1928524452     ) should be an instance of SimplePojoToTestSetters ( stringField = tsTCFA9rrk    intField = 1962783465     )</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;SimplePojoToTestSetters ( stringField = i9Orc4du_K    intField = -1928524452     )&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the non generified List &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@393db9fa should not be null or empty</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the non generified Map &lt;span class=&apos;step-parameter&apos;&gt;{java.lang.Object@42ec207f=java.lang.Object@2c9369c3 should not be null or empty</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;java.lang.Object@2c9369c3&lt;/span&gt; should not be null</description>
+  </test-step>
+</acceptance-test-run>

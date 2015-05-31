@@ -1,0 +1,6 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Annotations test","Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor","SUCCESS","2015-05-31T17:22:02.638+01:00","0.0","0.04"
+"Annotations test","Podam should handle immutable POJOs annotated with @PodamConstructor","SUCCESS","2015-05-31T17:22:02.560+01:00","0.0","0.08"
+"Annotations test","Podam should handle integer values, both native and wrapped","SUCCESS","2015-05-31T17:22:02.466+01:00","0.0","0.09"
+"Annotations test","Podam should handle long values, both native and wrapped","SUCCESS","2015-05-31T17:22:02.682+01:00","0.0","0.07"
+"Annotations test","Podam should not fill POJO's attributes annotated with @PodamExclude","SUCCESS","2015-05-31T17:22:02.099+01:00","0.0","0.22"

@@ -1,0 +1,7 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Abnormal pojos test","Invoking Podam on a POJO with a circular constructor (e.g. java.net.URL) leads to a null POJO","SUCCESS","2015-05-31T17:22:05.643+01:00","0.0","0.04"
+"Abnormal pojos test","Invoking Podam on a POJO with a private, no arguments constructor, should return a non null POJO","SUCCESS","2015-05-31T17:22:05.620+01:00","0.0","0.02"
+"Abnormal pojos test","Invoking Podam on a POJO with both circular and non circular constructors (e.g. javax.activation.DataHandler) should lead to a non empty POJO","SUCCESS","2015-05-31T17:22:05.761+01:00","0.0","0.04"
+"Abnormal pojos test","Podam should fill embedded abstract classes if a concrete type has been specified","SUCCESS","2015-05-31T17:22:05.683+01:00","0.0","0.03"
+"Abnormal pojos test","Podam should generate a non null POJO for Abstract types with a concrete type","SUCCESS","2015-05-31T17:22:05.712+01:00","0.0","0.02"
+"Abnormal pojos test","Podam should handle POJOs with self reference constructors but not default constructors without the need for the @PodamConstructor annotation","SUCCESS","2015-05-31T17:22:05.735+01:00","0.0","0.02"

@@ -1,0 +1,23 @@
+<acceptance-test-run title="Podam should handle POJOs with self reference constructors but not default constructors without the need for the @PodamConstructor annotation" name="podamShouldHandlePojosWithSelfReferenceConstructorsButNotDefaultConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="24" timestamp="2015-05-31T17:22:05.735+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
+  <tags>
+    <tag name="Edge cases" type="epics"/>
+    <tag name="Abnormal pojos test" type="stories"/>
+    <tag name="Abnormal pojos test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="13">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesButNoDefaultConstructorPojo@46c2451a&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the first self-reference for a POJO without default constructor should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the first self-reference for a POJO without default constructor should not be null</description>
+  </test-step>
+</acceptance-test-run>

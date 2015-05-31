@@ -1,0 +1,23 @@
+<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="40" timestamp="2015-05-31T17:22:04.618+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
+  <tags>
+    <tag name="Basic types" type="epics"/>
+    <tag name="Podam factory basic types test" type="stories"/>
+    <tag name="Podam factory basic types test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="14">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="9">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalTestPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 75    byteObjectField = 90    shortField = 91    shortObjectField = 9    charField = 9    charObjectField = w    intField = -608647050    intObjectField = -198764580    longField = 217932390708343    longObjectField = 217932389006731    floatField = 0.9918056    floatObjectField = 0.14905626    doubleField = 0.7330603520350619    doubleObjectField = 0.45237923688787374    stringField = _heuY1v8tK    objectField = java.lang.Object@379ddfda    calendarField = Sun May 31 17:22:04 BST 2015    dateField = Sun May 31 17:22:04 BST 2015    randomArray = [Ljava.util.Random;@9dc9aa4    intArray = [I@7e6c990f    booleanArray = [Z@5f2383a0    bigDecimalField = 241008261718     )&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Pojo should contain some data</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="8">
+    <description>Then OneDimensionalTestPojo should be valid</description>
+  </test-step>
+</acceptance-test-run>
