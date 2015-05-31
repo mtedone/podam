@@ -6,8 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor;
+import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
+import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
+import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
 /**
  * Created by tedonema on 31/05/2015.
@@ -43,6 +47,54 @@ public class AnnotationsTest extends AbstractPodamSteps {
         constructorSelfReferenceValidationSteps.theFirstSelfReferenceForPojoWithDefaultConstructorShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theSecondSelfReferenceForPojoWithDefaultConstructorShouldNotBeNull(pojo);
 
+    }
+
+    @Test
+    @Title("Podam should not fill POJO's attributes annotated with @PodamExclude")
+    public void podamShouldNotFillFieldsAnnotatedWithExcludeAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ExcludeAnnotationPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ExcludeAnnotationPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+        podamValidationSteps.anyFieldWithPodamExcludeAnnotationShouldBeNull(pojo.getSomePojo());
+
+    }
+
+    @Test
+    @Title("Podam should handle integer values, both native and wrapped")
+    public void podamShouldHandleIntegerValues() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        IntegerValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValuePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntFieldWithMinValueOnly());
+        int maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
+        podamValidationSteps.theIntFieldShouldHaveValueNotGreaterThan(pojo.getIntFieldWithMaxValueOnly(), maxValue);
+        int minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE;
+        maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
+        podamValidationSteps.theIntFieldShouldHaveValueBetween(minValue, maxValue, pojo.getIntFieldWithMinAndMaxValue());
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMinValueOnly());
+        podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntegerObjectFieldWithMinValueOnly());
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMaxValueOnly());
+        maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
+        podamValidationSteps.theIntFieldShouldHaveValueNotGreaterThan(pojo.getIntegerObjectFieldWithMaxValueOnly(), maxValue);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMinAndMaxValue());
+        maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
+        podamValidationSteps.theIntFieldShouldHaveValueBetween(minValue, maxValue, pojo.getIntegerObjectFieldWithMinAndMaxValue());
+        int preciseValue = Integer.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE);
+        podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(pojo.getIntFieldWithPreciseValue(), preciseValue);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithPreciseValue());
+        podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(pojo.getIntegerObjectFieldWithPreciseValue(), preciseValue);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an IllegalArgumentException if the @PodamIntValue annotation contains invalid format")
+    public void podamShouldThrowExceptionWhenThePodamIntValueAnnotationHasGotAnInvalidFormat() throws Exception {
+        //factory.manufacturePojo(IntegerValueWithErrorPojo.class);
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValueWithErrorPojo.class, podamFactory);
     }
 
 }

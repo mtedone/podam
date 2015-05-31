@@ -80,4 +80,36 @@ public class PodamValidationSteps {
     public void theLongValueShouldNotBeZero(long value) {
         Assert.assertTrue("The long value cannot be zero", value > 0);
     }
+
+    @Step("Then any field annotated with @PodamExclude should be null")
+    public void anyFieldWithPodamExcludeAnnotationShouldBeNull(Object someObject) {
+        Assert.assertNull("The field should be null", someObject);
+    }
+
+    @Step("Then the integer field should be greater or equal to zero")
+    public void theIntFieldShouldBeGreaterOrEqualToZero(int greaterOrEqualToZeroIntField) {
+        Assert.assertTrue("The integer field should be greater or equal to zero", greaterOrEqualToZeroIntField >= 0);
+    }
+
+    @Step("Then the integer field {0} should have a value not greater than {1}")
+    public void theIntFieldShouldHaveValueNotGreaterThan(int intFieldWithMaxValueOnly, int maxValue) {
+        Assert.assertTrue("The int field should have a value <= " + maxValue, intFieldWithMaxValueOnly <= maxValue);
+    }
+
+    @Step("Then the integer field {2} should have a value between {0} and {1}")
+    public void theIntFieldShouldHaveValueBetween(int minValue, int maxValue, int intFieldWithMinAndMaxValue) {
+        Assert.assertTrue("The integer field value " + intFieldWithMinAndMaxValue +
+                " should be between " + minValue + " and " + maxValue,
+                intFieldWithMinAndMaxValue >= minValue && intFieldWithMinAndMaxValue <= maxValue);
+    }
+
+    @Step("Then the integer field should not be null")
+    public void theIntegerObjectFieldShouldNotBeNull(Integer integerObjectField) {
+        Assert.assertNotNull("The integer object field should not be null", integerObjectField);
+    }
+
+    @Step("Then the integer field {0} should have the precise value of {1}")
+    public void theIntFieldShouldHaveThePreciseValueOf(int intFieldWithPreciseValue, int preciseValue) {
+        Assert.assertTrue("The int field hasn't got a precise value", intFieldWithPreciseValue == preciseValue);
+    }
 }
