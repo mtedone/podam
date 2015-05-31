@@ -1,18 +1,18 @@
-<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="63" timestamp="2015-05-30T21:08:55.923+01:00">
+<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="54" timestamp="2015-05-31T09:27:38.867+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.basicTypes"/>
   <tags>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="19">
+  <test-step result="SUCCESS" duration="18">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="15">
+  <test-step result="SUCCESS" duration="18">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalTestPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="7">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Pojo should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Pojo should contain some data</description>
   </test-step>
   <test-step result="SUCCESS" duration="10">
