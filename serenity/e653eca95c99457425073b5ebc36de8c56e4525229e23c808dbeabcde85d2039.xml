@@ -1,0 +1,35 @@
+<acceptance-test-run title="Podam should handle both native and wrapped double values with @PodamDoubleValue annotation" name="podamShouldHandleDoubleValuesWithThePodamDoubleValueAnnotation" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="54" timestamp="2015-05-31T21:29:59.367+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
+  <tags>
+    <tag name="Annotations" type="epics"/>
+    <tag name="Annotations test" type="stories"/>
+    <tag name="Annotations test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="17">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="6">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.DoubleValuePojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;DoubleRangeValuesPojo ( doubleFieldWithMinValueOnly = 0.0    doubleFieldWithMaxValueOnly = 5.848515416550628    doubleFieldWithMinAndMaxValue = 610.2021879160499    doubleFieldWithPreciseValue = 10.1245    doubleObjectFieldWithMinValueOnly = 0.0    doubleObjectFieldWithMaxValueOnly = 25.437686852473757    doubleObjectFieldWithMinAndMaxValue = 558.0613203559047    doubleObjectFieldWithPreciseValue = 10.1245     )&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the double value (0} should be greater or equal than 0.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the double value &lt;span class=&apos;step-parameter&apos;&gt;5.848515416550628 should be lower or equal than 100.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the double value &lt;span class=&apos;step-parameter&apos;&gt;610.2021879160499 should be between 0.0 and 1000.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the double value &lt;span class=&apos;step-parameter&apos;&gt;10.1245 should be exactly 10.1245&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;10.1245&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the double value &lt;span class=&apos;step-parameter&apos;&gt;10.1245 should be exactly 10.1245&lt;/span&gt;</description>
+  </test-step>
+</acceptance-test-run>

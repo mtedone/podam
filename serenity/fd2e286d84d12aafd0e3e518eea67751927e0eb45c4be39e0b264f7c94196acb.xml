@@ -1,21 +1,21 @@
-<acceptance-test-run title="Podam should fill embedded abstract classes if a concrete type has been specified" name="podamShouldFillEmbeddedAbstractClassesIfAConcreteTypeHasBeenSpecified" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="26" timestamp="2015-05-31T18:57:30.161+01:00">
+<acceptance-test-run title="Podam should fill embedded abstract classes if a concrete type has been specified" name="podamShouldFillEmbeddedAbstractClassesIfAConcreteTypeHasBeenSpecified" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-05-31T21:30:03.107+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="12">
+  <test-step result="SUCCESS" duration="11">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>When I add a specific type for an abstract type or interface</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo@d9c54e6&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.EmbeddedAbstractFieldTestPojo@30081ff4&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the inner pojo instance variable should not be null</description>

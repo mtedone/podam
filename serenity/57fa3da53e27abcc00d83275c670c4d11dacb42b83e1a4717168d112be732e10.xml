@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle both native and wrapped float values with @PodamFloatValue annotation" name="podamShouldHandleFloatValuesWithThePodamFloatValueAnnotation" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="80" timestamp="2015-05-31T18:57:26.379+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped float values with @PodamFloatValue annotation" name="podamShouldHandleFloatValuesWithThePodamFloatValueAnnotation" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="71" timestamp="2015-05-31T21:29:59.498+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
@@ -12,40 +12,40 @@
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.FloatValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;FloatRangeValuesPojo ( floatFieldWithMinValueOnly = 0.0    floatFieldWithMaxValueOnly = 86.513    floatFieldWithMinAndMaxValue = 976.63007    floatFieldWithPreciseValue = 123456.0    floatObjectFieldWithMinValueOnly = 0.0    floatObjectFieldWithMaxValueOnly = 95.57347    floatObjectFieldWithMinAndMaxValue = 61.771793    floatObjectFieldWithPreciseValue = 123456.0     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;FloatRangeValuesPojo ( floatFieldWithMinValueOnly = 0.0    floatFieldWithMaxValueOnly = 61.37383    floatFieldWithMinAndMaxValue = 422.49286    floatFieldWithPreciseValue = 123456.0    floatObjectFieldWithMinValueOnly = 0.0    floatObjectFieldWithMaxValueOnly = 63.29256    floatObjectFieldWithMinAndMaxValue = 155.66605    floatObjectFieldWithPreciseValue = 123456.0     )&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Float value &lt;span class=&apos;step-parameter&apos;&gt;0.0 should be greater or equal than 0.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;61.37383 should be lower or equal than 100.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;422.49286 should be between 0.0 and 1000.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;0.0&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the Float value &lt;span class=&apos;step-parameter&apos;&gt;0.0 should be greater or equal than 0.0&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;86.513 should be lower or equal than 100.0&lt;/span&gt;</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;63.29256&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;976.63007 should be between 0.0 and 1000.0&lt;/span&gt;</description>
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;63.29256 should be lower or equal than 100.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;0.0&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;155.66605&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the Float value &lt;span class=&apos;step-parameter&apos;&gt;0.0 should be greater or equal than 0.0&lt;/span&gt;</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;155.66605 should be between 0.0 and 1000.0&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;95.57347&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;95.57347 should be lower or equal than 100.0&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;61.771793&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;61.771793 should be between 0.0 and 1000.0&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;123456.0 should be precisely 123456.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;123456.0&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;123456.0&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;123456.0 should be precisely 123456.0&lt;/span&gt;</description>

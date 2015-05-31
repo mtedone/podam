@@ -1,42 +1,42 @@
-<acceptance-test-run title="Podam should handle both native and wrapped char values with @PodamCharValue annotation" name="podamShouldHandleCharValuesWithThePodamCharValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="71" timestamp="2015-05-31T18:57:26.225+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped char values with @PodamCharValue annotation" name="podamShouldHandleCharValuesWithThePodamCharValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-05-31T21:29:59.295+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="16">
+  <test-step result="SUCCESS" duration="17">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="6">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.CharValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;CharValuePojo ( charFieldWithMinValueOnly = &#x0;    charFieldWithMaxValueOnly = 5    charFieldWithMinAndMaxValue = 	    charFieldWithBlankInPreciseValue = &#x0;    charObjectFieldWithMinValueOnly = &#x0;    charObjectFieldWithMaxValueOnly = &#xc;    charObjectFieldWithMinAndMaxValue = &apos;    charFieldWithPreciseValue = a     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;CharValuePojo ( charFieldWithMinValueOnly = &#x0;    charFieldWithMaxValueOnly = should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x0; should be greater or equal than &#x0;&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="4">
-    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x0; should be greater or equal than 0&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;5 should be lower or equal than 100&lt;/span&gt;</description>
+    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt; should be lower or equal than </description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt; should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;&#x0;&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x0; should be greater or equal than 0&lt;/span&gt;</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;&#x0;&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt; should be lower or equal than 100&lt;/span&gt;</description>
+    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x0; should be greater or equal than &#x0;&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;&apos;&lt;/span&gt; should not be null</description>
+    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;F should be lower or equal than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&apos; should be between 0 and 100&lt;/span&gt;</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;&#x1;&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x1; should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;a should be exactly a&lt;/span&gt;</description>

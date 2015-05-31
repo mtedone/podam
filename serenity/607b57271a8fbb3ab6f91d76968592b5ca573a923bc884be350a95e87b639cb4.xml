@@ -1,45 +1,45 @@
-<acceptance-test-run title="Podam should handle both native and wrapped short values with @PodamShortValue annotation" name="podamShouldHandleShortValuesWithThePodamShortValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="73" timestamp="2015-05-31T18:57:26.628+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped short values with @PodamShortValue annotation" name="podamShouldHandleShortValuesWithThePodamShortValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="75" timestamp="2015-05-31T21:29:59.698+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="27">
+  <test-step result="SUCCESS" duration="15">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="6">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.ShortValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;ShortRangeValuesPojo ( shortFieldWithMinValueOnly = 0    shortFieldWithMaxValueOnly = 62    shortFieldWithMinAndMaxValue = 68    shortObjectFieldWithMinValueOnly = 0    shortObjectFieldWithMaxValueOnly = 47    shortObjectFieldWithMinAndMaxValue = 24    shortFieldWithPreciseValue = 17     )&lt;/span&gt; should not be null</description>
-  </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;62 should be lower or equal than 100&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;68 should be between 0 and 1000&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ShortRangeValuesPojo ( shortFieldWithMinValueOnly = 0    shortFieldWithMaxValueOnly = 94    shortFieldWithMinAndMaxValue = 25    shortObjectFieldWithMinValueOnly = 0    shortObjectFieldWithMaxValueOnly = 77    shortObjectFieldWithMinAndMaxValue = 10    shortFieldWithPreciseValue = 17     )&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;62&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;94 should be lower or equal than 100&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;25 should be between 0 and 1000&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;47 should be lower or equal than 100&lt;/span&gt;</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Pojo &lt;span class=&apos;step-parameter&apos;&gt;24&lt;/span&gt; should not be null</description>
+    <description>Then the value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;24 should be between 0 and 100&lt;/span&gt;</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;94&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;77 should be lower or equal than 100&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;10&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;10 should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;17 should be precisely 17&lt;/span&gt;</description>
