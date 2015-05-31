@@ -19,6 +19,9 @@ public class PodamTestConstants {
 	/** A max value for numeric custom annotations */
 	public static final int NUMBER_INT_ONE_HUNDRED = 100;
 
+	/** The value 10 for numeric custom annotations */
+	public static final int NUMBER_INT_TEN = 10;
+
 	/** A maximum value for numeric custom annotations */
 	public static final int NUMBER_INT_MAX_VALUE = 1000;
 

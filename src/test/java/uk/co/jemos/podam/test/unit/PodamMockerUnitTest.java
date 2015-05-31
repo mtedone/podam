@@ -17,7 +17,6 @@ import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
-import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -47,25 +46,15 @@ public class PodamMockerUnitTest {
 		strategy.setMemoization(memoizationBackup);
 	}
 
-	@Test
-	public void testInheritance() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testIntegerValueAnnotationWithNumberFormatError() {
+		factory.manufacturePojo(IntegerValueWithErrorPojo.class);
+	}
 
-		OneDimensionalChildPojo pojo = factory
-				.manufacturePojo(OneDimensionalChildPojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-		int parentIntField = pojo.getParentIntField();
-		Assert.assertTrue("The super int field must be <= 10",
-				parentIntField <= 10);
-		Calendar parentCalendarField = pojo.getParentCalendarField();
-		TypesUtils.checkCalendarIsValid(parentCalendarField);
-		int intField = pojo.getIntField();
-		Assert.assertTrue("The int field must be different from zero!",
-				intField != 0);
-		String strField = pojo.getStrField();
-		Assert.assertNotNull("The string field cannot be null!", strField);
-		Assert.assertTrue("The String field cannot be empty",
-				strField.length() != 0);
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testLongValueAnnotationWithNumberFormatException() {
+		factory.manufacturePojo(LongValueWithErrorPojo.class);
 	}
 
 	@Test

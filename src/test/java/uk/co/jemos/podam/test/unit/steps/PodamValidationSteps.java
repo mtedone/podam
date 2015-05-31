@@ -2,18 +2,19 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
+import org.springframework.util.StringUtils;
+import uk.co.jemos.podam.test.utils.TypesUtils;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by tedonema on 27/05/2015.
  */
 public class PodamValidationSteps {
 
-    @Step("Then the Pojo should not be null")
+    @Step("Then the Pojo {0} should not be null")
     public boolean thePojoShouldNotBeNull(Object pojo) {
         return pojo == null;
     }
@@ -141,5 +142,90 @@ public class PodamValidationSteps {
         Assert.assertTrue("The value " + longValueWithPreciseValue + " should be exactly " + preciseValue,
                 longValueWithPreciseValue == preciseValue);
 
+    }
+
+    @Step("Then the int value {0} should be less or equal to {1}")
+    public void theIntFieldShouldHaveValueLessThen(int intField, int maxValue) {
+        Assert.assertTrue("The int value " + intField + " should be <= " + maxValue, intField <= maxValue);
+    }
+
+    @Step("Then the calendar value should be valid")
+    public void theCalendarFieldShouldBeValid(Calendar calendarField) {
+        TypesUtils.checkCalendarIsValid(calendarField);
+    }
+
+    @Step("Then the String field {0} cannot be null or empty")
+    public void theStringFieldCannotBeNullOrEmpty(String strField) {
+        Assert.assertTrue(StringUtils.hasText(strField));
+    }
+
+    @Step("Then the List<String> {0} should contain at least one non-empty element")
+    public void theListOfStringsShouldContainAtLeastOneNonEmptyElement(List<String> list) {
+        Assert.assertNotNull("The List<String> should not be null!", list);
+        Assert.assertFalse("The List<String> cannot be empty!", list.isEmpty());
+        String element = list.get(0);
+        Assert.assertNotNull(
+                "The List<String> must have a non-null String element", element);
+    }
+
+    @Step("Then the Set<String> {0} should contain at least one non-empty element")
+    public void theSetOfStringsShouldContainAtleastOneNonEmptyElement(Set<String> set) {
+
+        Assert.assertNotNull("The Set<String> should not be null!", set);
+        Assert.assertFalse("The Set<String> cannot be empty!", set.isEmpty());
+        String element = set.iterator().next();
+        Assert.assertNotNull(
+                "The Set<String> must have a non-null String element", element);
+
+    }
+
+    @Step("Then the Map<String, ?> {0} should contain at least one non empty element")
+    public void theMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(Map<String, ?> map) {
+        Assert.assertTrue("The map attribute must be of type HashMap",
+                map instanceof HashMap);
+        Assert.assertNotNull("The map object in the POJO cannot be null", map);
+        Set<String> keySet = map.keySet();
+        Assert.assertNotNull("The Map must have at least one element", keySet);
+        Object o = map.get(keySet
+                .iterator().next());
+
+        Assert.assertNotNull("The map element must not be null!",
+                o);
+    }
+
+    @Step("Then the queue {0} cannot be null")
+    public void theQueueCannotBeNull(Queue<?> queue) {
+        Assert.assertNotNull("The Queue cannot be null", queue);
+    }
+
+    @Step("Then the Queue {0} should be an instance of {1}")
+    public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<LinkedList> linkedListClass) {
+        Assert.assertTrue(queue.getClass().isAssignableFrom(linkedListClass));
+    }
+
+    @Step("Then the ConcurrentHashMap<String, ?> {0} should contain at least one non-empty element")
+    public void theConcurrentHashMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(ConcurrentMap<String, ?> map) {
+        Assert.assertTrue("The map attribute must be of type HashMap",
+                map instanceof ConcurrentHashMap);
+        Assert.assertNotNull("The map object in the POJO cannot be null", map);
+        Set<String> keySet = map.keySet();
+        Assert.assertNotNull("The Map must have at least one element", keySet);
+        Object o = map.get(keySet
+                .iterator().next());
+
+        Assert.assertNotNull("The map element must not be null!",
+                o);
+    }
+
+    @Step("Then the non generified List {0} should not be null or empty")
+    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List nonGenerifiedList) {
+        Assert.assertNotNull(nonGenerifiedList);
+        Assert.assertTrue("The non generified list should at least have one element", nonGenerifiedList.size() > 0);
+    }
+
+    @Step("Then the non generified Map {0} should not be null or empty")
+    public void theNonGenerifiedMapShouldNotBeNullOrEmpty(Map<?, ?> nonGenerifiedMap) {
+        Assert.assertNotNull(nonGenerifiedMap);
+        Assert.assertTrue("The non generified Map should at least have one element", nonGenerifiedMap.size() > 0);
     }
 }

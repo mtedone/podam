@@ -9,9 +9,7 @@ import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultCon
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
 import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
 import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -117,20 +115,6 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithPreciseValue());
         podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongObjectFieldWithPreciseValue(), preciseValue);
 
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @Title("Podam should throw an IllegalArgumentException if the @PodamIntValue annotation contains invalid format")
-    public void podamShouldThrowExceptionWhenThePodamIntValueAnnotationHasGotAnInvalidFormat() throws Exception {
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValueWithErrorPojo.class, podamFactory);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @Title("Podam should throw an IllegalArgumentException if the @PodamLongValue annotation contains invalid format")
-    public void podamShouldThrowExceptionWhenThePodamLongValueAnnotationHasGotAnInvalidFormat() throws Exception {
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        podamInvocationSteps.whenIInvokeTheFactoryForClass(LongValueWithErrorPojo.class, podamFactory);
     }
 
 }
