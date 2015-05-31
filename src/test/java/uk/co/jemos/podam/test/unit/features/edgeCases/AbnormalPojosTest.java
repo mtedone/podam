@@ -24,7 +24,7 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
         AbstractTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(AbstractTestPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
     }
 
@@ -35,7 +35,7 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
         EmbeddedAbstractFieldTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmbeddedAbstractFieldTestPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theInnerPojoInstanceShouldNotBeNull(pojo.getPojo());
 
     }
@@ -46,7 +46,7 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         PrivateNoArgConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(PrivateNoArgConstructorPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
 
     }
@@ -67,7 +67,7 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         DataHandler pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(DataHandler.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ConstructorWithSelfReferencesButNoDefaultConstructorPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ConstructorWithSelfReferencesButNoDefaultConstructorPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theFirstSelfReferenceForPojoWithoutDefaultConstructorShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theSecondSelfReferenceForPojoWithoutDefaultConstructorShouldNotBeNull(pojo);
 

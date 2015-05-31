@@ -27,27 +27,27 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         CollectionsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionsPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         List<String> strList = pojo.getStrList();
-        podamValidationSteps.theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
         ArrayList<String> arrayListStr = pojo.getArrayListStr();
-        podamValidationSteps.theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(arrayListStr);
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(arrayListStr);
         List<String> copyOnWriteList = pojo.getCopyOnWriteList();
-        podamValidationSteps.theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(copyOnWriteList);
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(copyOnWriteList);
         HashSet<String> hashSetStr = pojo.getHashSetStr();
         podamValidationSteps.theSetOfStringsShouldContainAtleastOneNonEmptyElement(hashSetStr);
         List<String> listStrCollection = new ArrayList<String>(
                 pojo.getStrCollection());
-        podamValidationSteps.theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(listStrCollection);
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(listStrCollection);
         Set<String> setStrCollection = new HashSet<String>(
                 pojo.getStrCollection());
         podamValidationSteps.theSetOfStringsShouldContainAtleastOneNonEmptyElement(setStrCollection);
         Set<String> strSet = pojo.getStrSet();
         podamValidationSteps.theSetOfStringsShouldContainAtleastOneNonEmptyElement(strSet);
         Map<String, OneDimensionalTestPojo> map = pojo.getMap();
-        podamValidationSteps.theMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(map);
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(map);
         HashMap<String, OneDimensionalTestPojo> hashMap = pojo.getHashMap();
-        podamValidationSteps.theMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(hashMap);
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(hashMap);
         ConcurrentMap<String, OneDimensionalTestPojo> concurrentHashMap = pojo
                 .getConcurrentHashMap();
         podamValidationSteps.theConcurrentHashMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(concurrentHashMap);
@@ -59,7 +59,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         podamValidationSteps.theQueueMustBeAnInstanceOf(queue, LinkedList.class);
 
         SimplePojoToTestSetters pojoQueueElement = queue.poll();
-        podamValidationSteps.thePojoShouldNotBeNull(pojoQueueElement);
+        podamValidationSteps.theObjectShouldNotBeNull(pojoQueueElement);
         List nonGenerifiedList = pojo.getNonGenerifiedList();
         podamValidationSteps.theNonGenerifiedListShouldNotBeNullOrEmpty(nonGenerifiedList);
 
@@ -68,7 +68,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         Object object = nonGenerifiedMap.get(nonGenerifiedMap.keySet()
                 .iterator().next());
-        podamValidationSteps.thePojoShouldNotBeNull(object);
+        podamValidationSteps.theObjectShouldNotBeNull(object);
     }
 
     @Test
@@ -78,9 +78,9 @@ public class CollectionsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         NoSetterWithCollectionInConstructorPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(NoSetterWithCollectionInConstructorPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         List<String> strList = pojo.getStrList();
-        podamValidationSteps.theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
         int intField = pojo.getIntField();
         podamValidationSteps.theIntFieldShouldNotBeZero(intField);
 

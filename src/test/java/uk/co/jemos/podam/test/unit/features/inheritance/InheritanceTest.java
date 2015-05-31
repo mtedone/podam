@@ -22,7 +22,7 @@ public class InheritanceTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         OneDimensionalChildPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(OneDimensionalChildPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         int maxValue = PodamTestConstants.NUMBER_INT_TEN;
         podamValidationSteps.theIntFieldShouldHaveValueLessThen(pojo.getParentIntField(), maxValue);
         podamValidationSteps.theCalendarFieldShouldBeValid(pojo.getParentCalendarField());

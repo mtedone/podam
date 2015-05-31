@@ -85,46 +85,6 @@ public class PodamMockerUnitTest {
 
 	}
 
-
-
-	@Test
-	public void testCollectionAnnotation() {
-
-		CollectionAnnotationPojo pojo = factory
-				.manufacturePojo(CollectionAnnotationPojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-
-		List<String> strList = pojo.getStrList();
-		Assert.assertNotNull("The string list cannot be null!", strList);
-		Assert.assertFalse("The string list cannot be empty!",
-				strList.isEmpty());
-		Assert.assertTrue(
-				"The string list must have "
-						+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS
-						+ " elements but it had only " + strList.size(),
-						strList.size() == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
-
-		String[] strArray = pojo.getStrArray();
-		Assert.assertNotNull("The array cannot be null!", strArray);
-		Assert.assertFalse("The array cannot be empty!", strArray.length == 0);
-		Assert.assertTrue(
-				"The number of elements in the array (" + strArray.length
-				+ ") does not match "
-				+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
-				strArray.length == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
-
-		Map<String, String> stringMap = pojo.getStringMap();
-		Assert.assertNotNull("The map cannot be null!", stringMap);
-		Assert.assertFalse("The map of strings cannot be empty!",
-				stringMap.isEmpty());
-		Assert.assertTrue(
-				"The number of elements in the map (" + stringMap.size()
-				+ ") does not match "
-				+ PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS,
-				stringMap.size() == PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
-
-	}
-
 	@Test
 	public void testImmutablePojoWithNonGenericCollections() {
 

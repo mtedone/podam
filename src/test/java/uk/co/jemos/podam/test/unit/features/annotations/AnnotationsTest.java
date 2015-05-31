@@ -13,6 +13,9 @@ import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by tedonema on 31/05/2015.
  */
@@ -27,7 +30,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ImmutableNoHierarchicalAnnotatedPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNoHierarchicalAnnotatedPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
@@ -43,7 +46,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ConstructorWithSelfReferencesPojoAndDefaultConstructor pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ConstructorWithSelfReferencesPojoAndDefaultConstructor.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theFirstSelfReferenceForPojoWithDefaultConstructorShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theSecondSelfReferenceForPojoWithDefaultConstructorShouldNotBeNull(pojo);
 
@@ -55,7 +58,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ExcludeAnnotationPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ExcludeAnnotationPojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.anyFieldWithPodamExcludeAnnotationShouldBeNull(pojo.getSomePojo());
 
@@ -67,7 +70,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         IntegerValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValuePojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntFieldWithMinValueOnly());
         int maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
         podamValidationSteps.theIntFieldShouldHaveValueNotGreaterThan(pojo.getIntFieldWithMaxValueOnly(), maxValue);
@@ -95,7 +98,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         LongValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(LongValuePojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theLongFieldShouldBeGreaterOrEqualToZero(pojo.getLongFieldWithMinValueOnly());
         int maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
         podamValidationSteps.theLongFieldShouldHaveValueNotGreaterThan(pojo.getLongFieldWithMaxValueOnly(), maxValue);
@@ -123,7 +126,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ByteValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ByteValuePojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         byte byteFieldWithMinValueOnly = pojo.getByteFieldWithMinValueOnly();
         podamValidationSteps.theByteValueShouldBeGreaterOrEqualThan(
@@ -140,19 +143,19 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Byte byteObjectFieldWithMinValueOnly = pojo
                 .getByteObjectFieldWithMinValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(byteObjectFieldWithMinValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(byteObjectFieldWithMinValueOnly);
         podamValidationSteps.theByteValueShouldBeGreaterOrEqualThan(
                 byteObjectFieldWithMinValueOnly, PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
         Byte byteObjectFieldWithMaxValueOnly = pojo
                 .getByteObjectFieldWithMaxValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(byteFieldWithMaxValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(byteFieldWithMaxValueOnly);
         podamValidationSteps.theByteValueShouldBeLowerOrEqualThan(
                 byteObjectFieldWithMaxValueOnly, PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
         Byte byteObjectFieldWithMinAndMaxValue = pojo
                 .getByteObjectFieldWithMinAndMaxValue();
-        podamValidationSteps.thePojoShouldNotBeNull(byteObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theObjectShouldNotBeNull(byteObjectFieldWithMinAndMaxValue);
         podamValidationSteps.theByteValueShouldBeBetween(byteObjectFieldWithMinAndMaxValue,
                 PodamTestConstants.NUMBER_INT_MIN_VALUE,
                 PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
@@ -169,7 +172,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ShortValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ShortValuePojo.class, podamFactory);
 
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         short shortFieldWithMinValueOnly = pojo.getShortFieldWithMinValueOnly();
         podamValidationSteps.theShortValueShouldBeGreaterOrEqualThan(
@@ -186,20 +189,20 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Short shortObjectFieldWithMinValueOnly = pojo
                 .getShortObjectFieldWithMinValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(shortFieldWithMinValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(shortFieldWithMinValueOnly);
         podamValidationSteps.theShortValueShouldBeGreaterOrEqualThan(shortObjectFieldWithMinValueOnly,
                 PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
         Short shortObjectFieldWithMaxValueOnly = pojo
                 .getShortObjectFieldWithMaxValueOnly();
 
-        podamValidationSteps.thePojoShouldNotBeNull(shortFieldWithMaxValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(shortFieldWithMaxValueOnly);
         podamValidationSteps.theShortValueShouldBeLowerOrEqualThan(shortObjectFieldWithMaxValueOnly,
                 PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
         Short shortObjectFieldWithMinAndMaxValue = pojo
                 .getShortObjectFieldWithMinAndMaxValue();
-        podamValidationSteps.thePojoShouldNotBeNull(shortObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theObjectShouldNotBeNull(shortObjectFieldWithMinAndMaxValue);
         podamValidationSteps.theShortValueShouldBeBetween(shortObjectFieldWithMinAndMaxValue,
                 PodamTestConstants.NUMBER_INT_MIN_VALUE,
                 PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
@@ -216,11 +219,11 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         CharValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CharValuePojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         char charFieldWithMinValueOnly = pojo.getCharFieldWithMinValueOnly();
         podamValidationSteps.theCharValueShouldBeGreaterOrEqualThan(
-                charFieldWithMinValueOnly, PodamTestConstants.NUMBER_INT_MIN_VALUE);
+                charFieldWithMinValueOnly, (char) PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
         char charFieldWithMaxValueOnly = pojo.getCharFieldWithMaxValueOnly();
         podamValidationSteps.theCharValueShouldBeLowerOrEqualThan(charFieldWithMaxValueOnly,
@@ -234,9 +237,9 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Character charObjectFieldWithMinValueOnly = pojo
                 .getCharObjectFieldWithMinValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(charObjectFieldWithMinValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(charObjectFieldWithMinValueOnly);
         podamValidationSteps.theCharValueShouldBeGreaterOrEqualThan(charObjectFieldWithMinValueOnly,
-                PodamTestConstants.NUMBER_INT_MIN_VALUE);
+                (char)PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
         Character charObjectFieldWithMaxValueOnly = pojo
                 .getCharObjectFieldWithMaxValueOnly();
@@ -245,7 +248,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Character charObjectFieldWithMinAndMaxValue = pojo
                 .getCharObjectFieldWithMinAndMaxValue();
-        podamValidationSteps.thePojoShouldNotBeNull(charObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theObjectShouldNotBeNull(charObjectFieldWithMinAndMaxValue);
 
         podamValidationSteps.theCharValueShouldBeBetween(charObjectFieldWithMinAndMaxValue,
                 PodamTestConstants.NUMBER_INT_MIN_VALUE,
@@ -269,7 +272,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         BooleanValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BooleanValuePojo.class, podamFactory);
 
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         boolean boolDefaultToTrue = pojo.isBoolDefaultToTrue();
         podamValidationSteps.theBooleanValueIsTrue(boolDefaultToTrue);
@@ -278,11 +281,11 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theBooleanValueShouldBeFalse(boolDefaultToFalse);
 
         Boolean boolObjectDefaultToFalse = pojo.getBoolObjectDefaultToFalse();
-        podamValidationSteps.thePojoShouldNotBeNull(boolObjectDefaultToFalse);
+        podamValidationSteps.theObjectShouldNotBeNull(boolObjectDefaultToFalse);
         podamValidationSteps.theBooleanValueShouldBeFalse(boolObjectDefaultToFalse);
 
         Boolean boolObjectDefaultToTrue = pojo.getBoolObjectDefaultToTrue();
-        podamValidationSteps.thePojoShouldNotBeNull(boolObjectDefaultToTrue);
+        podamValidationSteps.theObjectShouldNotBeNull(boolObjectDefaultToTrue);
         podamValidationSteps.theBooleanValueIsTrue(boolObjectDefaultToTrue);
 
     }
@@ -295,7 +298,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         FloatValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(FloatValuePojo.class, podamFactory);
 
         Assert.assertNotNull("The pojo cannot be null!", pojo);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         float floatFieldWithMinValueOnly = pojo.getFloatFieldWithMinValueOnly();
         podamValidationSteps.theFloatValueShouldBeGreaterOrEqualThan(floatFieldWithMinValueOnly,
@@ -313,19 +316,19 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Float floatObjectFieldWithMinValueOnly = pojo
                 .getFloatObjectFieldWithMinValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(floatObjectFieldWithMinValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(floatObjectFieldWithMinValueOnly);
         podamValidationSteps.theFloatValueShouldBeGreaterOrEqualThan(floatObjectFieldWithMinValueOnly,
                 PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
 
         Float floatObjectFieldWithMaxValueOnly = pojo
                 .getFloatObjectFieldWithMaxValueOnly();
-        podamValidationSteps.thePojoShouldNotBeNull(floatObjectFieldWithMaxValueOnly);
+        podamValidationSteps.theObjectShouldNotBeNull(floatObjectFieldWithMaxValueOnly);
         podamValidationSteps.theFloatValueShouldBeLowerOrEqualThan(floatObjectFieldWithMaxValueOnly,
                 PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
 
         Float floatObjectFieldWithMinAndMaxValue = pojo
                 .getFloatObjectFieldWithMinAndMaxValue();
-        podamValidationSteps.thePojoShouldNotBeNull(floatObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theObjectShouldNotBeNull(floatObjectFieldWithMinAndMaxValue);
         podamValidationSteps.theFloatValueShouldBeBetween(floatObjectFieldWithMinAndMaxValue,
                 PodamTestConstants.NUMBER_FLOAT_MIN_VALUE,
                 PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
@@ -336,7 +339,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Float floatObjectFieldWithPreciseValue = pojo
                 .getFloatObjectFieldWithPreciseValue();
-        podamValidationSteps.thePojoShouldNotBeNull(floatObjectFieldWithPreciseValue);
+        podamValidationSteps.theObjectShouldNotBeNull(floatObjectFieldWithPreciseValue);
         podamValidationSteps.theFloatValueShouldBePrecisely(floatObjectFieldWithPreciseValue,
                 Float.valueOf(PodamTestConstants.FLOAT_PRECISE_VALUE));
 
@@ -349,7 +352,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         DoubleValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(DoubleValuePojo.class, podamFactory);
-        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         double doubleFieldWithMinValueOnly = pojo
                 .getDoubleFieldWithMinValueOnly();
@@ -373,7 +376,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         Double doubleObjectFieldWithPreciseValue = pojo
                 .getDoubleObjectFieldWithPreciseValue();
-        podamValidationSteps.thePojoShouldNotBeNull(doubleObjectFieldWithPreciseValue);
+        podamValidationSteps.theObjectShouldNotBeNull(doubleObjectFieldWithPreciseValue);
         Assert.assertTrue(
                 "The double object field with precise value should have a value of: "
                         + PodamTestConstants.DOUBLE_PRECISE_VALUE,
@@ -393,14 +396,41 @@ public class AnnotationsTest extends AbstractPodamSteps {
         StringValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(StringValuePojo.class, podamFactory);
 
         String twentyLengthString = pojo.getTwentyLengthString();
-        podamValidationSteps.thePojoShouldNotBeNull(twentyLengthString);
+        podamValidationSteps.theObjectShouldNotBeNull(twentyLengthString);
         podamValidationSteps.theStringValueShouldHaveTheExactLengthOf(twentyLengthString,
                 PodamTestConstants.STR_ANNOTATION_TWENTY_LENGTH);
 
         String preciseValueString = pojo.getPreciseValueString();
-        podamValidationSteps.thePojoShouldNotBeNull(preciseValueString);
+        podamValidationSteps.theObjectShouldNotBeNull(preciseValueString);
         podamValidationSteps.theStringValueShouldBeExactly(
                 preciseValueString, PodamTestConstants.STR_ANNOTATION_PRECISE_VALUE);
+
+    }
+
+
+    @Test
+    @Title("The @PodamCollection annotation should allow to set sizes on all collections and arrays")
+    public void thePodamCollectionAnnotationShouldWorkOnAllCollections() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        CollectionAnnotationPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionAnnotationPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        List<String> strList = pojo.getStrList();
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
+        podamValidationSteps.theListShouldHaveExactlyTheExpectedNumberOfElements(strList,
+                PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
+
+        String[] strArray = pojo.getStrArray();
+        podamValidationSteps.theArrayOfStringsShouldNotBeNullOrEmpty(strArray);
+        podamValidationSteps.theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(strArray,
+                PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
+
+        Map<String, String> stringMap = pojo.getStringMap();
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(stringMap);
+        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(stringMap,
+                PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
     }
 
