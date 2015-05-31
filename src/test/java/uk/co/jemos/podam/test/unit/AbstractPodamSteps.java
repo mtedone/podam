@@ -26,5 +26,8 @@ public abstract class AbstractPodamSteps {
     @Steps
     protected RecursivePojoValidationSteps recursivePojoValidationSteps;
 
+    @Steps
+    protected ConstructorSelfReferenceValidationSteps constructorSelfReferenceValidationSteps;
+
 
 }

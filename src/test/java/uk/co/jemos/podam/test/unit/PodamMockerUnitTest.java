@@ -48,20 +48,6 @@ public class PodamMockerUnitTest {
 	}
 
 
-
-	@Test
-	public void testPojoWithSelfReferencesInConstructor() {
-
-		ConstructorWithSelfReferencesPojo pojo = factory
-				.manufacturePojo(ConstructorWithSelfReferencesPojo.class);
-		Assert.assertNotNull("The POJO cannot be null!", pojo);
-		Assert.assertNotNull("The first self-reference cannot be null!",
-				pojo.getParent());
-		Assert.assertNotNull("The second self-reference cannot be null!",
-				pojo.getAnotherParent());
-
-	}
-
 	@Test
 	public void testPojoWithSelfReferenceInConstructorButNoDefaultConstructor() {
 

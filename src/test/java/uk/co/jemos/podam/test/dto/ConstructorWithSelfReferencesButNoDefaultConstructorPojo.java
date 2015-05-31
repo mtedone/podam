@@ -3,10 +3,9 @@
  */
 package uk.co.jemos.podam.test.dto;
 
-import java.io.Serializable;
-
-import uk.co.jemos.podam.common.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
+import java.io.Serializable;
 
 /**
  * Immutable-like POJO with constructor which receives self-types but no default
@@ -44,7 +43,6 @@ public class ConstructorWithSelfReferencesButNoDefaultConstructorPojo implements
 	 * @param parent
 	 * @param anotherParent
 	 */
-	@PodamConstructor
 	public ConstructorWithSelfReferencesButNoDefaultConstructorPojo(
 			int intField,
 			ConstructorWithSelfReferencesButNoDefaultConstructorPojo parent,
