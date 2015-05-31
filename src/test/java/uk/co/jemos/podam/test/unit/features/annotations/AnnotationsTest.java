@@ -10,6 +10,8 @@ import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
 import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
 import uk.co.jemos.podam.test.dto.annotations.IntegerValueWithErrorPojo;
+import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.LongValueWithErrorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -89,12 +91,46 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("Podam should handle long values, both native and wrapped")
+    public void podamShouldHandleLongValues() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        LongValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(LongValuePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+        podamValidationSteps.theLongFieldShouldBeGreaterOrEqualToZero(pojo.getLongFieldWithMinValueOnly());
+        int maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
+        podamValidationSteps.theLongFieldShouldHaveValueNotGreaterThan(pojo.getLongFieldWithMaxValueOnly(), maxValue);
+        int minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE;
+        maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
+        podamValidationSteps.theLongFieldShouldHaveValueBetween(minValue, maxValue, pojo.getLongFieldWithMinAndMaxValue());
+        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMinValueOnly());
+        podamValidationSteps.theLongFieldShouldBeGreaterOrEqualToZero(pojo.getLongObjectFieldWithMinValueOnly());
+        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMaxValueOnly());
+        maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
+        podamValidationSteps.theLongFieldShouldHaveValueNotGreaterThan(pojo.getLongObjectFieldWithMinValueOnly(), maxValue);
+        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMinAndMaxValue());
+        maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
+        podamValidationSteps.theLongFieldShouldHaveValueBetween(minValue, maxValue, pojo.getLongObjectFieldWithMinAndMaxValue());
+        long preciseValue = Long.valueOf(PodamTestConstants.LONG_PRECISE_VALUE);
+        podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongFieldWithPreciseValue(), preciseValue);
+        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithPreciseValue());
+        podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongObjectFieldWithPreciseValue(), preciseValue);
+
+    }
+
     @Test(expected = IllegalArgumentException.class)
     @Title("Podam should throw an IllegalArgumentException if the @PodamIntValue annotation contains invalid format")
     public void podamShouldThrowExceptionWhenThePodamIntValueAnnotationHasGotAnInvalidFormat() throws Exception {
-        //factory.manufacturePojo(IntegerValueWithErrorPojo.class);
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValueWithErrorPojo.class, podamFactory);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an IllegalArgumentException if the @PodamLongValue annotation contains invalid format")
+    public void podamShouldThrowExceptionWhenThePodamLongValueAnnotationHasGotAnInvalidFormat() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(LongValueWithErrorPojo.class, podamFactory);
     }
 
 }

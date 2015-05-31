@@ -87,20 +87,20 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the integer field should be greater or equal to zero")
-    public void theIntFieldShouldBeGreaterOrEqualToZero(int greaterOrEqualToZeroIntField) {
-        Assert.assertTrue("The integer field should be greater or equal to zero", greaterOrEqualToZeroIntField >= 0);
+    public void theIntFieldShouldBeGreaterOrEqualToZero(int intField) {
+        Assert.assertTrue("The integer field should be greater or equal to zero", intField >= 0);
     }
 
     @Step("Then the integer field {0} should have a value not greater than {1}")
-    public void theIntFieldShouldHaveValueNotGreaterThan(int intFieldWithMaxValueOnly, int maxValue) {
-        Assert.assertTrue("The int field should have a value <= " + maxValue, intFieldWithMaxValueOnly <= maxValue);
+    public void theIntFieldShouldHaveValueNotGreaterThan(int intField, int maxValue) {
+        Assert.assertTrue("The int field should have a value <= " + maxValue, intField <= maxValue);
     }
 
     @Step("Then the integer field {2} should have a value between {0} and {1}")
-    public void theIntFieldShouldHaveValueBetween(int minValue, int maxValue, int intFieldWithMinAndMaxValue) {
-        Assert.assertTrue("The integer field value " + intFieldWithMinAndMaxValue +
+    public void theIntFieldShouldHaveValueBetween(int minValue, int maxValue, int intField) {
+        Assert.assertTrue("The integer field value " + intField +
                 " should be between " + minValue + " and " + maxValue,
-                intFieldWithMinAndMaxValue >= minValue && intFieldWithMinAndMaxValue <= maxValue);
+                intField >= minValue && intField <= maxValue);
     }
 
     @Step("Then the integer field should not be null")
@@ -111,5 +111,35 @@ public class PodamValidationSteps {
     @Step("Then the integer field {0} should have the precise value of {1}")
     public void theIntFieldShouldHaveThePreciseValueOf(int intFieldWithPreciseValue, int preciseValue) {
         Assert.assertTrue("The int field hasn't got a precise value", intFieldWithPreciseValue == preciseValue);
+    }
+
+    @Step("Then the long field {0} should be greater or equal to zero")
+    public void theLongFieldShouldBeGreaterOrEqualToZero(long longFieldValue) {
+        Assert.assertTrue("The long field should be >= 0", longFieldValue >= 0);
+
+    }
+
+    @Step("Then the long field {0} should be less than {1}")
+    public void theLongFieldShouldHaveValueNotGreaterThan(long longValue, int maxValue) {
+        Assert.assertTrue("The long value " + longValue + " should be <= " + maxValue, longValue <= maxValue);
+    }
+
+    @Step("Then the long field {2} should have a value comprised between {0} and {1}")
+    public void theLongFieldShouldHaveValueBetween(int minValue, int maxValue, long longValue) {
+        Assert.assertTrue("The long value should have a value between " +
+                minValue + " and " + maxValue,
+                longValue >= minValue && longValue <= maxValue);
+    }
+
+    @Step("Then the long object value {0} should not be null")
+    public void theLongObjectFieldShouldNotBeNull(Long longObjectValue) {
+        Assert.assertNotNull("The long object value should not be null", longObjectValue);
+    }
+
+    @Step("Then the long value should be precisely {1}")
+    public void theLongFieldShouldHaveThePreciseValueOf(long longValueWithPreciseValue, long preciseValue) {
+        Assert.assertTrue("The value " + longValueWithPreciseValue + " should be exactly " + preciseValue,
+                longValueWithPreciseValue == preciseValue);
+
     }
 }
