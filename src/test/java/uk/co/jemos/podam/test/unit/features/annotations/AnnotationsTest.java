@@ -2,14 +2,14 @@ package uk.co.jemos.podam.test.unit.features.annotations;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
-import uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo;
-import uk.co.jemos.podam.test.dto.annotations.LongValuePojo;
+import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -62,7 +62,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam should handle integer values, both native and wrapped")
+    @Title("Podam should handle both native and wrapped integer values with @PodamIntValue annotation")
     public void podamShouldHandleIntegerValues() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
@@ -90,7 +90,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam should handle long values, both native and wrapped")
+    @Title("Podam should handle both native and wrapped long values with @PodamLongValue annotation")
     public void podamShouldHandleLongValues() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
@@ -116,5 +116,300 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongObjectFieldWithPreciseValue(), preciseValue);
 
     }
+
+    @Test
+    @Title("Podam should handle both native and wrapped byte values with @PodamByteValue annotation")
+    public void podamShouldHandleByteValuesWithThePodamByteValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ByteValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ByteValuePojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+
+        byte byteFieldWithMinValueOnly = pojo.getByteFieldWithMinValueOnly();
+        podamValidationSteps.theByteValueShouldBeGreaterOrEqualThan(
+                byteFieldWithMinValueOnly, PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        byte byteFieldWithMaxValueOnly = pojo.getByteFieldWithMaxValueOnly();
+        podamValidationSteps.theByteValueShouldBeLowerOrEqualThan(
+                byteFieldWithMaxValueOnly, PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        byte byteFieldWithMinAndMaxValue = pojo
+                .getByteFieldWithMinAndMaxValue();
+        podamValidationSteps.theByteValueShouldBeBetween(byteFieldWithMinAndMaxValue,
+                PodamTestConstants.NUMBER_INT_MIN_VALUE, PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        Byte byteObjectFieldWithMinValueOnly = pojo
+                .getByteObjectFieldWithMinValueOnly();
+        podamValidationSteps.thePojoShouldNotBeNull(byteObjectFieldWithMinValueOnly);
+        podamValidationSteps.theByteValueShouldBeGreaterOrEqualThan(
+                byteObjectFieldWithMinValueOnly, PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        Byte byteObjectFieldWithMaxValueOnly = pojo
+                .getByteObjectFieldWithMaxValueOnly();
+        podamValidationSteps.thePojoShouldNotBeNull(byteFieldWithMaxValueOnly);
+        podamValidationSteps.theByteValueShouldBeLowerOrEqualThan(
+                byteObjectFieldWithMaxValueOnly, PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        Byte byteObjectFieldWithMinAndMaxValue = pojo
+                .getByteObjectFieldWithMinAndMaxValue();
+        podamValidationSteps.thePojoShouldNotBeNull(byteObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theByteValueShouldBeBetween(byteObjectFieldWithMinAndMaxValue,
+                PodamTestConstants.NUMBER_INT_MIN_VALUE,
+                PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+        byte byteFieldWithPreciseValue = pojo.getByteFieldWithPreciseValue();
+        podamValidationSteps.theByteValueShouldHavePreciselyValueOf(byteFieldWithPreciseValue,
+                Byte.valueOf(PodamTestConstants.BYTE_PRECISE_VALUE));
+
+    }
+
+    @Test
+    @Title("Podam should handle both native and wrapped short values with @PodamShortValue annotation")
+    public void podamShouldHandleShortValuesWithThePodamShortValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ShortValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ShortValuePojo.class, podamFactory);
+
+        podamValidationSteps.thePojoShouldNotBeNull(pojo);
+
+        short shortFieldWithMinValueOnly = pojo.getShortFieldWithMinValueOnly();
+        podamValidationSteps.theShortValueShouldBeGreaterOrEqualThan(
+                shortFieldWithMinValueOnly, PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        short shortFieldWithMaxValueOnly = pojo.getShortFieldWithMaxValueOnly();
+        podamValidationSteps.theShortValueShouldBeLowerOrEqualThan(
+                shortFieldWithMaxValueOnly, PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        short shortFieldWithMinAndMaxValue = pojo
+                .getShortFieldWithMinAndMaxValue();
+        podamValidationSteps.theShortValueShouldBeBetween(shortFieldWithMinAndMaxValue,
+                PodamTestConstants.NUMBER_INT_MIN_VALUE, PodamTestConstants.NUMBER_INT_MAX_VALUE);
+
+        Short shortObjectFieldWithMinValueOnly = pojo
+                .getShortObjectFieldWithMinValueOnly();
+        podamValidationSteps.thePojoShouldNotBeNull(shortFieldWithMinValueOnly);
+        podamValidationSteps.theShortValueShouldBeGreaterOrEqualThan(shortObjectFieldWithMinValueOnly,
+                PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        Short shortObjectFieldWithMaxValueOnly = pojo
+                .getShortObjectFieldWithMaxValueOnly();
+
+        podamValidationSteps.thePojoShouldNotBeNull(shortFieldWithMaxValueOnly);
+        podamValidationSteps.theShortValueShouldBeLowerOrEqualThan(shortObjectFieldWithMaxValueOnly,
+                PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        Short shortObjectFieldWithMinAndMaxValue = pojo
+                .getShortObjectFieldWithMinAndMaxValue();
+        podamValidationSteps.thePojoShouldNotBeNull(shortObjectFieldWithMinAndMaxValue);
+        podamValidationSteps.theShortValueShouldBeBetween(shortObjectFieldWithMinAndMaxValue,
+                PodamTestConstants.NUMBER_INT_MIN_VALUE,
+                PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        short shortFieldWithPreciseValue = pojo.getShortFieldWithPreciseValue();
+        podamValidationSteps.theShortPreciseValueShouldBe(shortFieldWithPreciseValue,
+                Short.valueOf(PodamTestConstants.SHORT_PRECISE_VALUE));
+
+    }
+
+    @Test
+    @Title("Podam should handle both native and wrapped char values with @PodamCharValue annotation")
+    public void podamShouldHandleCharValuesWithThePodamCharValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        CharValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CharValuePojo.class, podamFactory);
+
+        //TODO To Serenify it
+
+        Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+        char charFieldWithMinValueOnly = pojo.getCharFieldWithMinValueOnly();
+        Assert.assertTrue(
+                "The char attribute with min value only should have a value greater than "
+                        + PodamTestConstants.NUMBER_INT_MIN_VALUE,
+                charFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        char charFieldWithMaxValueOnly = pojo.getCharFieldWithMaxValueOnly();
+        Assert.assertTrue(
+                "The char attribute with max value only should have a value less or equal than "
+                        + PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
+                charFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        char charFieldWithMinAndMaxValue = pojo
+                .getCharFieldWithMinAndMaxValue();
+        Assert.assertTrue(
+                "The char attribute with min and max value must have a value between "
+                        + PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
+                        + PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
+                charFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+                        && charFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        Character charObjectFieldWithMinValueOnly = pojo
+                .getCharObjectFieldWithMinValueOnly();
+        Assert.assertNotNull(
+                "The char object attribute with min value only  cannot be null!",
+                charObjectFieldWithMinValueOnly);
+        Assert.assertTrue(
+                "The char object attribute with min value only should have a value greater than "
+                        + PodamTestConstants.NUMBER_INT_MIN_VALUE,
+                charObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_INT_MIN_VALUE);
+
+        Character charObjectFieldWithMaxValueOnly = pojo
+                .getCharObjectFieldWithMaxValueOnly();
+        Assert.assertNotNull(
+                "The char object attribute with max value only cannot be null!",
+                charObjectFieldWithMaxValueOnly);
+        Assert.assertTrue(
+                "The char object attribute with max value only should have a value less or equal than "
+                        + PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
+                charObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        Character charObjectFieldWithMinAndMaxValue = pojo
+                .getCharObjectFieldWithMinAndMaxValue();
+        Assert.assertNotNull(
+                "The char object attribute with min and max value cannot be null!",
+                charObjectFieldWithMinAndMaxValue);
+        Assert.assertTrue(
+                "The char object attribute with min and max value must have a value between "
+                        + PodamTestConstants.NUMBER_INT_MIN_VALUE + " and "
+                        + PodamTestConstants.NUMBER_INT_ONE_HUNDRED,
+                charObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_INT_MIN_VALUE
+                        && charObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+
+        char charFieldWithPreciseValue = pojo.getCharFieldWithPreciseValue();
+        Assert.assertTrue(
+                "The character field with precise value should have a value of "
+                        + PodamTestConstants.CHAR_PRECISE_VALUE,
+                charFieldWithPreciseValue == PodamTestConstants.CHAR_PRECISE_VALUE);
+
+        char charFieldWithBlankInPreciseValue = pojo
+                .getCharFieldWithBlankInPreciseValue();
+
+        Assert.assertTrue(
+                "The value for the char field with an empty char in the precise value and no other annotation attributes should be zero",
+                charFieldWithBlankInPreciseValue == 0);
+    }
+
+
+    @Test
+    @Title("Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation")
+    public void podamShouldHandleBooleanValuesWithThePodamBooleanValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        BooleanValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BooleanValuePojo.class, podamFactory);
+
+        //TODO To Serenify it
+
+        Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+        boolean boolDefaultToTrue = pojo.isBoolDefaultToTrue();
+        Assert.assertTrue(
+                "The boolean attribute forced to true should be true!",
+                boolDefaultToTrue);
+
+        boolean boolDefaultToFalse = pojo.isBoolDefaultToFalse();
+        Assert.assertFalse(
+                "The boolean attribute forced to false should be false!",
+                boolDefaultToFalse);
+
+        Boolean boolObjectDefaultToFalse = pojo.getBoolObjectDefaultToFalse();
+        Assert.assertNotNull(
+                "The boolean object forced to false should not be null!",
+                boolObjectDefaultToFalse);
+        Assert.assertFalse(
+                "The boolean object forced to false should have a value of false!",
+                boolObjectDefaultToFalse);
+
+        Boolean boolObjectDefaultToTrue = pojo.getBoolObjectDefaultToTrue();
+        Assert.assertNotNull(
+                "The boolean object forced to true should not be null!",
+                boolObjectDefaultToTrue);
+        Assert.assertTrue(
+                "The boolean object forced to true should have a value of true!",
+                boolObjectDefaultToTrue);
+
+    }
+
+    @Test
+    @Title("Podam should handle both native and wrapped float values with @PodamFloatValue annotation")
+    public void podamShouldHandleFloatValuesWithThePodamFloatValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        FloatValuePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(FloatValuePojo.class, podamFactory);
+
+        Assert.assertNotNull("The pojo cannot be null!", pojo);
+
+        float floatFieldWithMinValueOnly = pojo.getFloatFieldWithMinValueOnly();
+        Assert.assertTrue(
+                "The float field with min value only must have value greater than "
+                        + PodamTestConstants.NUMBER_FLOAT_MIN_VALUE,
+                floatFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
+
+        float floatFieldWithMaxValueOnly = pojo.getFloatFieldWithMaxValueOnly();
+        Assert.assertTrue(
+                "The float field with max value only can only have a value less or equal than "
+                        + PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED,
+                floatFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
+
+        float floatFieldWithMinAndMaxValue = pojo
+                .getFloatFieldWithMinAndMaxValue();
+        Assert.assertTrue(
+                "The float field with min and max value must have a value between "
+                        + PodamTestConstants.NUMBER_FLOAT_MIN_VALUE + " and "
+                        + PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
+                floatFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+                        && floatFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
+
+        Float floatObjectFieldWithMinValueOnly = pojo
+                .getFloatObjectFieldWithMinValueOnly();
+        Assert.assertNotNull(
+                "The float object attribute with min value only cannot be null!",
+                floatObjectFieldWithMinValueOnly);
+        Assert.assertTrue(
+                "The float object attribute with min value only must have a value greater or equal than "
+                        + PodamTestConstants.NUMBER_FLOAT_MIN_VALUE,
+                floatObjectFieldWithMinValueOnly >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE);
+
+        Float floatObjectFieldWithMaxValueOnly = pojo
+                .getFloatObjectFieldWithMaxValueOnly();
+        Assert.assertNotNull(
+                "The float object attribute with max value only cannot be null!",
+                floatObjectFieldWithMaxValueOnly);
+        Assert.assertTrue(
+                "The float object attribute with max value only must have a value less than or equal to "
+                        + PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED,
+                floatObjectFieldWithMaxValueOnly <= PodamTestConstants.NUMBER_FLOAT_ONE_HUNDRED);
+
+        Float floatObjectFieldWithMinAndMaxValue = pojo
+                .getFloatObjectFieldWithMinAndMaxValue();
+        Assert.assertNotNull(
+                "The float object attribute with min and max value cannot be null!",
+                floatObjectFieldWithMinAndMaxValue);
+        Assert.assertTrue(
+                "The float object attribute with min and max value only must have a value between "
+                        + PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+                        + " and "
+                        + PodamTestConstants.NUMBER_FLOAT_MAX_VALUE,
+                floatObjectFieldWithMinAndMaxValue >= PodamTestConstants.NUMBER_FLOAT_MIN_VALUE
+                        && floatObjectFieldWithMinAndMaxValue <= PodamTestConstants.NUMBER_FLOAT_MAX_VALUE);
+
+        float floatFieldWithPreciseValue = pojo.getFloatFieldWithPreciseValue();
+        Assert.assertTrue(
+                "The float field with precise value should have a value of "
+                        + PodamTestConstants.FLOAT_PRECISE_VALUE,
+                floatFieldWithPreciseValue == Float
+                        .valueOf(PodamTestConstants.FLOAT_PRECISE_VALUE));
+
+        Float floatObjectFieldWithPreciseValue = pojo
+                .getFloatObjectFieldWithPreciseValue();
+        Assert.assertNotNull(
+                "The float object field with precise value cannot be null!",
+                floatObjectFieldWithPreciseValue);
+        Assert.assertTrue(
+                "The float object field with precise value should have a value of "
+                        + PodamTestConstants.FLOAT_PRECISE_VALUE,
+                floatObjectFieldWithPreciseValue.floatValue() == Float.valueOf(
+                        PodamTestConstants.FLOAT_PRECISE_VALUE).floatValue());
+
+    }
+
 
 }

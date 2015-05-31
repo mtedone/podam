@@ -159,8 +159,8 @@ public class PodamValidationSteps {
         Assert.assertTrue(StringUtils.hasText(strField));
     }
 
-    @Step("Then the List<String> {0} should contain at least one non-empty element")
-    public void theListOfStringsShouldContainAtLeastOneNonEmptyElement(List<String> list) {
+    @Step("Then the List<String> {0} should not be null and contain at least one non-empty element")
+    public void theListOfStringsShouldNotBeNullAndContainAtLeastOneNonEmptyElement(List<String> list) {
         Assert.assertNotNull("The List<String> should not be null!", list);
         Assert.assertFalse("The List<String> cannot be empty!", list.isEmpty());
         String element = list.get(0);
@@ -227,5 +227,50 @@ public class PodamValidationSteps {
     public void theNonGenerifiedMapShouldNotBeNullOrEmpty(Map<?, ?> nonGenerifiedMap) {
         Assert.assertNotNull(nonGenerifiedMap);
         Assert.assertTrue("The non generified Map should at least have one element", nonGenerifiedMap.size() > 0);
+    }
+
+    @Step("Then the byte value {0} should be greater or equal than {1}")
+    public void theByteValueShouldBeGreaterOrEqualThan(byte byteValue, int minValue) {
+        Assert.assertTrue("The byte value should be >= " + minValue, byteValue >= minValue);
+    }
+
+    @Step("Then the byte value {0} should be lower or equal to {1}")
+    public void theByteValueShouldBeLowerOrEqualThan(byte byteValue, int maxValue) {
+        Assert.assertTrue("The byte value " + byteValue + " should be <= " + maxValue, byteValue <= maxValue);
+    }
+
+    @Step("Then the byte value {0} should be between {1} and {2}")
+    public void theByteValueShouldBeBetween(byte byteValue, int minValue, int maxValue) {
+        Assert.assertTrue("The byte value should be between " + minValue + " and " + maxValue,
+                byteValue >= minValue && byteValue <= maxValue);
+    }
+
+    @Step("The byte value {0} should be precisely {1}")
+    public void theByteValueShouldHavePreciselyValueOf(byte byteValue, byte preciseValue) {
+        Assert.assertTrue("The byte value " + byteValue + " should have a precise value of " + preciseValue,
+                byteValue == preciseValue);
+    }
+
+    @Step("Then the value {0} should be greater or equal than {1}")
+    public void theShortValueShouldBeGreaterOrEqualThan(short shortValue, int minValue) {
+        Assert.assertTrue("The value " + shortValue + " should be >= " + minValue, shortValue >= minValue);
+    }
+
+    @Step("Then the short value {0} should be lower or equal than {1}")
+    public void theShortValueShouldBeLowerOrEqualThan(short shortValue, int maxValue) {
+        Assert.assertTrue("The short value " + shortValue + "should be <= " + maxValue,
+                shortValue <= maxValue);
+    }
+
+    @Step("Then the short value {0} should be between {1} and {2}")
+    public void theShortValueShouldBeBetween(short shortValue, int minValue, int maxValue) {
+        Assert.assertTrue("The short value " + shortValue + " should be between " + minValue + " and " + maxValue,
+                shortValue >= minValue && shortValue <= maxValue);
+    }
+
+    @Step("Then the short value {0} should be precisely {1}")
+    public void theShortPreciseValueShouldBe(short shortFieldWithPreciseValue, short preciseValue) {
+        Assert.assertTrue("The short value " + shortFieldWithPreciseValue + " should be precisely " + preciseValue,
+                shortFieldWithPreciseValue == preciseValue);
     }
 }
