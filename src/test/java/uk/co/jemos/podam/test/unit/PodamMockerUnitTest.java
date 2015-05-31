@@ -47,11 +47,6 @@ public class PodamMockerUnitTest {
 		strategy.setMemoization(memoizationBackup);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testLongValueAnnotationWithNumberFormatException() {
-		factory.manufacturePojo(LongValueWithErrorPojo.class);
-	}
-
 	@Test
 	public void testInheritance() {
 
