@@ -273,4 +273,62 @@ public class PodamValidationSteps {
         Assert.assertTrue("The short value " + shortFieldWithPreciseValue + " should be precisely " + preciseValue,
                 shortFieldWithPreciseValue == preciseValue);
     }
+
+    @Step("Then the char value {0} should be greater or equal than {1}")
+    public void theCharValueShouldBeGreaterOrEqualThan(char charValue, int minValue) {
+        Assert.assertTrue("The char value " + charValue + " should be >= " + minValue,
+                charValue >= minValue);
+    }
+
+    @Step("Then the char value {0} should be lower or equal than {1}")
+    public void theCharValueShouldBeLowerOrEqualThan(char charValue, int maxValue) {
+        Assert.assertTrue("The char value " + charValue + " should be <= " + maxValue,
+                charValue <= maxValue);
+    }
+
+    @Step("Then the char value {0} should be between {1} and {2}")
+    public void theCharValueShouldBeBetween(char charValue, int minValue, int maxValue) {
+        Assert.assertTrue("The char value should be between " + minValue + " and " + maxValue,
+                charValue >= minValue && charValue <= maxValue);
+    }
+
+    @Step("Then the char value {0} should be exactly {1}")
+    public void theCharValueShouldBeExactly(char charValue, char preciseValue) {
+        Assert.assertTrue("The char value should be exactly " + preciseValue,
+                charValue == preciseValue);
+    }
+
+    @Step("Then the boolean value {0} should be true")
+    public void theBooleanValueIsTrue(boolean boolValue) {
+        Assert.assertTrue("The boolean value should be true", boolValue);
+    }
+
+    @Step("The boolean value {0} should be false")
+    public void theBooleanValueShouldBeFalse(boolean boolValue) {
+        Assert.assertFalse("The boolean value should be false", boolValue);
+    }
+
+    @Step("Then the Float value {0} should be greater or equal than {1}")
+    public void theFloatValueShouldBeGreaterOrEqualThan(float floatValue, float minValue) {
+        Assert.assertTrue("The Float value should be <= " + minValue,
+                floatValue <= minValue);
+    }
+
+    @Step("Then the float value {0} should be lower or equal than {1}")
+    public void theFloatValueShouldBeLowerOrEqualThan(float floatValue, float maxValue) {
+        Assert.assertTrue("The float value should be >= " + maxValue,
+                floatValue <= maxValue);
+    }
+
+    @Step("Then the float value {0} should be between {1} and {2}")
+    public void theFloatValueShouldBeBetween(float floatValue, float minValue, float maxValue) {
+        Assert.assertTrue("The float value should be between " + minValue + " and " + maxValue,
+                floatValue >= minValue && floatValue <= maxValue);
+    }
+
+    @Step("Then the float value {0} should be precisely {1}")
+    public void theFloatValueShouldBePrecisely(float floatValue, float preciseValue) {
+        Assert.assertTrue("The float value should be precisely " + preciseValue,
+                floatValue == preciseValue);
+    }
 }
