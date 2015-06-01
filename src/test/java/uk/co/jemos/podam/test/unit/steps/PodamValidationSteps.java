@@ -367,38 +367,68 @@ public class PodamValidationSteps {
         Assert.assertEquals(stringValue, annotationPreciseValue);
     }
 
-    @Step("Then the List {0} should have exactly {1} elements")
+    @Step("Then the List should have exactly {1} elements")
     public void theListShouldHaveExactlyTheExpectedNumberOfElements(List<?> strList, int nbrElements) {
         Assert.assertTrue("The List doesn't have the correct number of elements",
                 strList.size() == nbrElements);
     }
 
-    @Step("Then the array {0} should not be null or empty")
+    @Step("Then the array should not be null or empty")
     public void theArrayOfStringsShouldNotBeNullOrEmpty(String[] strArray) {
         Assert.assertNotNull(strArray);
         Assert.assertNotNull(strArray[0]);
     }
 
-    @Step("Then the array {0} should have exactly {1} elements")
+    @Step("Then the array should have exactly {1} elements")
     public void theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(String[] strArray, int nbrElements) {
 
     }
 
-    @Step("Then the map {0} should have exactly {1} elements")
+    @Step("Then the map should have exactly {1} elements")
     public void theMapShouldHaveExactlyTheExpectedNumberOfElements(Map<?, ?> map, int nbrElements) {
         Assert.assertTrue("The map should have exactly " + nbrElements + " elements",
                 map.size() == nbrElements);
     }
 
-    @Step("Then the collection {0} should not be null or empty")
+    @Step("Then the collection should not be null or empty")
     public void theCollectionShouldNotBeNullOrEmpty(Collection<?> collection) {
         Assert.assertNotNull("The collection should not be null", collection);
         Assert.assertFalse("The collection should not be empty", collection.isEmpty());
     }
 
-    @Step("Then the collection {0} should have exactly {1} elements")
+    @Step("Then the collection should have exactly {1} elements")
     public void theCollectionShouldHaveExactlyTheExpectedNumberOfElements(Collection<?> collection, int nbrElements) {
         Assert.assertTrue("The collection should have exactly " + nbrElements + " elements",
                 collection.size() == nbrElements);
+    }
+
+    @Step("Then the array should not be null or empty")
+    public void theArrayOfBytesShouldNotBeNullOrEmpty(byte[] byteData) {
+        Assert.assertNotNull("The array of bytes should not be null", byteData);
+        Assert.assertTrue("The array of bytes should contain at least one element", byteData.length > 0);
+    }
+
+    @Step("Then the array should have exactly {1} elements")
+    public void theArrayOfBytesShouldBeExactlyOfLength(byte[] byteData, int length) {
+        Assert.assertTrue("The array should have length " + length, byteData.length == length);
+    }
+
+    @Step("Then the calendar object should have exactly the value of calendar object {1}")
+    public void theTwoCalendarObjectsShouldHaveTheSameTime(Calendar expectedValue, Calendar actualValue) {
+        Assert.assertTrue(expectedValue.getTime().getTime() == actualValue.getTime().getTime());
+    }
+
+    @Step("Then the array of calendar should not be null or empty")
+    public void theArrayOfCalendarsShouldNotBeNullOrEmpty(Calendar[] calendarArray) {
+        Assert.assertNotNull("The calendar array should not be null", calendarArray);
+        Assert.assertTrue("The calendar array should have at least one element",
+                calendarArray.length > 0);
+    }
+
+    @Step("Then the array of objects should not be null or empty")
+    public void theArrayOfObjectsShouldNotBeNullOrEmpty(Object[] objectArray) {
+        Assert.assertNotNull("The array of objects should not be null", objectArray);
+        Assert.assertTrue("The array of objects should contain at least one element",
+                objectArray.length > 0);
     }
 }

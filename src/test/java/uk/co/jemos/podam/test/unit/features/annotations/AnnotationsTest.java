@@ -10,11 +10,15 @@ import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultCon
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
 import uk.co.jemos.podam.test.dto.annotations.*;
+import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
+import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by tedonema on 31/05/2015.
@@ -431,6 +435,69 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(stringMap);
         podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(stringMap,
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
+
+    }
+
+
+    @Test
+    @Title("Podam should assign exactly the values specified with the @PodamStrategyValue annotation")
+    public void podamShouldAssignExactValuesDefinedInPodamStrategyValueAnnotation() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        PodamStrategyPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(PodamStrategyPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        String postCode = pojo.getPostCode();
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode);
+        podamValidationSteps.theStringValueShouldBeExactly(postCode, PodamTestConstants.POST_CODE);
+
+        String postCode2 = pojo.getPostCode2();
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode2);
+        podamValidationSteps.theStringValueShouldBeExactly(postCode2, PodamTestConstants.POST_CODE);
+
+        String postCode3 = pojo.getPostCode3();
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode3);
+        podamValidationSteps.theStringValueShouldBeExactly(postCode3, PodamTestConstants.POST_CODE);
+
+        podamValidationSteps.theArrayOfBytesShouldNotBeNullOrEmpty(pojo.getByteData());
+        podamValidationSteps.theArrayOfBytesShouldBeExactlyOfLength(pojo.getByteData(),
+                ByteArrayStrategy.LENGTH);
+
+        Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
+        Calendar myBirthday = pojo.getMyBirthday();
+        podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, myBirthday);
+
+        List<Calendar> myBirthdays = pojo.getMyBirthdays();
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(myBirthdays);
+
+        for (Calendar birthday : myBirthdays) {
+            podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, birthday);
+        }
+
+        Calendar[] myBirthdaysArray = pojo.getMyBirthdaysArray();
+        podamValidationSteps.theArrayOfCalendarsShouldNotBeNullOrEmpty(myBirthdaysArray);
+
+        for (Calendar birthday : myBirthdaysArray) {
+            podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, birthday);
+        }
+
+        List<Object> objectList = pojo.getObjectList();
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(objectList);
+
+        Object[] myObjectArray = pojo.getMyObjectArray();
+        podamValidationSteps.theArrayOfObjectsShouldNotBeNullOrEmpty(myObjectArray);
+
+        List nonGenericObjectList = pojo.getNonGenericObjectList();
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(nonGenericObjectList);
+
+        Map<String, Calendar> myBirthdaysMap = pojo.getMyBirthdaysMap();
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(myBirthdaysMap);
+
+        Set<String> keySet = myBirthdaysMap.keySet();
+        for (String key : keySet) {
+            podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, myBirthdaysMap.get(key));
+
+        }
 
     }
 

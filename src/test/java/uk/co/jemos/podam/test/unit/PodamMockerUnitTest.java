@@ -7,13 +7,11 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategy;
-import uk.co.jemos.podam.test.dto.*;
-import uk.co.jemos.podam.test.dto.EnumsPojo.RatePodamInternal;
+import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
 import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
-import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
@@ -86,109 +84,6 @@ public class PodamMockerUnitTest {
 	}
 
 
-
-
-
-	@Test
-	public void testEnumPojo() {
-
-		ExternalRatePodamEnum pojo = factory
-				.manufacturePojo(ExternalRatePodamEnum.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-	}
-
-	@Test
-	public void testPodamStrategyValueAnnotation() {
-
-		PodamStrategyPojo pojo = factory
-				.manufacturePojo(PodamStrategyPojo.class);
-		Assert.assertNotNull("The post code pojo cannot be null!", pojo);
-
-		String postCode = pojo.getPostCode();
-		Assert.assertNotNull("The post code cannot be null!", postCode);
-		Assert.assertEquals("The post code does not match the expected value",
-				PodamTestConstants.POST_CODE, postCode);
-
-		String postCode2 = pojo.getPostCode2();
-		Assert.assertNotNull("The post code 2 cannot be null!", postCode2);
-		Assert.assertEquals("The post code 2 does not match the expected value",
-				PodamTestConstants.POST_CODE, postCode2);
-
-		String postCode3 = pojo.getPostCode3();
-		Assert.assertNotNull("The post code 3 cannot be null!", postCode3);
-		Assert.assertEquals("The post code 3 does not match the expected value",
-				PodamTestConstants.POST_CODE, postCode3);
-
-		Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
-
-		Calendar myBirthday = pojo.getMyBirthday();
-
-		Assert.assertNotNull("byte array manufacturing failed",
-				pojo.getByteData());
-		Assert.assertEquals("byte array wrong length",
-				ByteArrayStrategy.LENGTH, pojo.getByteData().length);
-
-		Assert.assertEquals(
-				"The expected and actual calendar objects are not the same",
-				expectedBirthday.getTime(), myBirthday.getTime());
-
-		List<Calendar> myBirthdays = pojo.getMyBirthdays();
-		Assert.assertNotNull("The birthdays collection cannot be null!",
-				myBirthdays);
-		Assert.assertFalse("The birthdays collection cannot be empty!",
-				myBirthdays.isEmpty());
-
-		for (Calendar birthday : myBirthdays) {
-			Assert.assertEquals(
-					"The expected birthday element does not match the actual",
-					expectedBirthday.getTime(), birthday.getTime());
-		}
-
-		Calendar[] myBirthdaysArray = pojo.getMyBirthdaysArray();
-		Assert.assertNotNull("The birthdays array cannot be null!",
-				myBirthdaysArray);
-		Assert.assertFalse("The birthdays array cannot be empty!",
-				myBirthdaysArray.length == 0);
-
-		for (Calendar birthday : myBirthdaysArray) {
-			Assert.assertEquals(
-					"The expected birthday element does not match the actual",
-					expectedBirthday.getTime(), birthday.getTime());
-		}
-
-		List<Object> objectList = pojo.getObjectList();
-		Assert.assertNotNull("The list of objects cannot be null!", objectList);
-		Assert.assertFalse("The list of objects cannot be empty!",
-				objectList.isEmpty());
-
-		Object[] myObjectArray = pojo.getMyObjectArray();
-		Assert.assertNotNull("The array of objects cannot be null!",
-				myObjectArray);
-		Assert.assertTrue("The array of objects cannot be empty",
-				myObjectArray.length > 0);
-
-		@SuppressWarnings("rawtypes")
-		List nonGenericObjectList = pojo.getNonGenericObjectList();
-		Assert.assertNotNull("The non generified object list cannot be null!",
-				nonGenericObjectList);
-		Assert.assertFalse("The non generified object list cannot be empty!",
-				nonGenericObjectList.isEmpty());
-
-		Map<String, Calendar> myBirthdaysMap = pojo.getMyBirthdaysMap();
-		Assert.assertNotNull("The birthday map cannot be null!", myBirthdaysMap);
-		Assert.assertFalse("The birthday map cannot be empty!",
-				myBirthdaysMap.isEmpty());
-
-		Set<String> keySet = myBirthdaysMap.keySet();
-		for (String key : keySet) {
-
-			Assert.assertEquals("The map element is not my birthday!",
-					expectedBirthday.getTime(), myBirthdaysMap.get(key)
-					.getTime());
-
-		}
-
-	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testStringPojoWithWrongTypeForAnnotationStrategy() {
