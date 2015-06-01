@@ -10,6 +10,7 @@ import uk.co.jemos.podam.test.dto.pdm6.Child;
 import uk.co.jemos.podam.test.dto.pdm6.Parent;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
 import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
+import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 /**
@@ -138,6 +139,23 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
         podamValidationSteps.theLongArrayShouldNotBeNullOrEmpty(pojo.getLongArray());
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
+    }
+
+
+    @Test
+    @Title("Podam should fill in POJOs with Enums")
+    public void podamShouldFillPojoWithEnums() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        EnumsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EnumsPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        ExternalRatePodamEnum ratePodamExternal = pojo.getRatePodamExternal();
+        podamValidationSteps.theObjectShouldNotBeNull(ratePodamExternal);
+
+        EnumsPojo.RatePodamInternal ratePodamInternal = pojo.getRatePodamInternal();
+        podamValidationSteps.theObjectShouldNotBeNull(ratePodamInternal);
+
     }
 
 }

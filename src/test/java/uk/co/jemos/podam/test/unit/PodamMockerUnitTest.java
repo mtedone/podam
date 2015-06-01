@@ -87,23 +87,7 @@ public class PodamMockerUnitTest {
 
 
 
-	@Test
-	public void testPojoWithEnums() {
 
-		EnumsPojo pojo = factory.manufacturePojo(EnumsPojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-
-		ExternalRatePodamEnum ratePodamExternal = pojo.getRatePodamExternal();
-		Assert.assertNotNull("The external enum attribute cannot be null!",
-				ratePodamExternal);
-
-		RatePodamInternal ratePodamInternal = pojo.getRatePodamInternal();
-
-		// Can't test for equality since internal enum is not visible
-		Assert.assertNotNull("The internal enum cannot be null!",
-				ratePodamInternal);
-
-	}
 
 	@Test
 	public void testEnumPojo() {
