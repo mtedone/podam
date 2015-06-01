@@ -116,4 +116,33 @@ public class CollectionsTest extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("Podam should handle immutable POJOs with generified collections in the constructor")
+    public void podamShouldHandleImmutablePojoWithGenerifiedCollectionsInConstructor() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ImmutableWithGenericCollectionsPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithGenericCollectionsPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        Collection<OneDimensionalTestPojo> generifiedCollection = pojo
+                .getGenerifiedCollection();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(generifiedCollection);
+        podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(generifiedCollection,
+                ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+
+        Map<String, Calendar> generifiedMap = pojo.getGenerifiedMap();
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(generifiedMap);
+        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(generifiedMap,
+                ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+        Set<ImmutableWithNonGenericCollectionsPojo> generifiedSet = pojo
+                .getGenerifiedSet();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(generifiedSet);
+        podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(generifiedSet,
+                ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+
+    }
+
+
+
 }
