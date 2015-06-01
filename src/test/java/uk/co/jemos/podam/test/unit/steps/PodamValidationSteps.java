@@ -168,14 +168,14 @@ public class PodamValidationSteps {
                 "The List<String> must have a non-null String element", element);
     }
 
-    @Step("Then the Set<String> {0} should contain at least one non-empty element")
-    public void theSetOfStringsShouldContainAtleastOneNonEmptyElement(Set<String> set) {
+    @Step("Then the Set<?> {0} should contain at least one non-empty element")
+    public void theSetShouldContainAtleastOneNonEmptyElement(Set<?> set) {
 
-        Assert.assertNotNull("The Set<String> should not be null!", set);
-        Assert.assertFalse("The Set<String> cannot be empty!", set.isEmpty());
-        String element = set.iterator().next();
+        Assert.assertNotNull("The Set<?> should not be null!", set);
+        Assert.assertFalse("The Set<?> cannot be empty!", set.isEmpty());
+        Object element = set.iterator().next();
         Assert.assertNotNull(
-                "The Set<String> must have a non-null String element", element);
+                "The Set<?> must have a non-null String element", element);
 
     }
 
@@ -388,5 +388,17 @@ public class PodamValidationSteps {
     public void theMapShouldHaveExactlyTheExpectedNumberOfElements(Map<?, ?> map, int nbrElements) {
         Assert.assertTrue("The map should have exactly " + nbrElements + " elements",
                 map.size() == nbrElements);
+    }
+
+    @Step("Then the collection {0} should not be null or empty")
+    public void theCollectionShouldNotBeNullOrEmpty(Collection<?> collection) {
+        Assert.assertNotNull("The collection should not be null", collection);
+        Assert.assertFalse("The collection should not be empty", collection.isEmpty());
+    }
+
+    @Step("Then the collection {0} should have exactly {1} elements")
+    public void theCollectionShouldHaveExactlyTheExpectedNumberOfElements(Collection<?> collection, int nbrElements) {
+        Assert.assertTrue("The collection should have exactly " + nbrElements + " elements",
+                collection.size() == nbrElements);
     }
 }
