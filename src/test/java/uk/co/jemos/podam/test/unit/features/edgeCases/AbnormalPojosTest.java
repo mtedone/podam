@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
+import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.activation.DataHandler;
@@ -81,6 +82,19 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theFirstSelfReferenceForPojoWithoutDefaultConstructorShouldNotBeNull(pojo);
         constructorSelfReferenceValidationSteps.theSecondSelfReferenceForPojoWithoutDefaultConstructorShouldNotBeNull(pojo);
+
+    }
+
+    @Test
+    @Title("Podam should handle POJOs with private constructors only")
+    public void podamShouldHandlePojosWithPrivateOnlyConstructors() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        PrivateOnlyConstructorPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(PrivateOnlyConstructorPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
 
     }
 }

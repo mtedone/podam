@@ -92,18 +92,7 @@ public class PodamMockerUnitTest {
 
 	}
 
-	@Test
-	public void testPrivateOnlyConstructorPojo() {
 
-		PrivateOnlyConstructorPojo pojo = factory
-				.manufacturePojo(PrivateOnlyConstructorPojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-		Assert.assertNotNull("The string attribute in pojo cannot be null!",
-				pojo.getFirstName());
-		Assert.assertTrue("The int field in pojo cannot be zero!",
-				pojo.getIntField() != 0);
-
-	}
 
 	@Test
 	public void testNoDefaultPublicConstructorPojo() {
