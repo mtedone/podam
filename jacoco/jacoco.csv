@@ -15,7 +15,7 @@ podam,uk.co.jemos.podam.api,DefaultClassInfoStrategy,2,10,0,0,1,4,1,3,1,3
 podam,uk.co.jemos.podam.api,AbstractRandomDataProviderStrategy.new Object() {...},1,11,0,0,0,1,0,1,0,1
 podam,uk.co.jemos.podam.api,AbstractExternalFactory,0,20,0,0,0,8,0,8,0,8
 podam,uk.co.jemos.podam.api,MapKeyOrElementsArguments,48,26,0,0,11,10,1,7,1,7
-podam,uk.co.jemos.podam.api,PodamFactoryImpl,386,4013,80,494,90,947,79,259,4,47
+podam,uk.co.jemos.podam.api,PodamFactoryImpl,411,3988,82,492,94,943,80,258,4,47
 podam,uk.co.jemos.podam.api,ClassInfo,52,76,15,7,16,20,12,5,1,5
 podam,uk.co.jemos.podam.api,ObjectStrategy,0,7,0,0,0,2,0,2,0,2
 podam,uk.co.jemos.podam.api,NullExternalFactory,2,27,0,0,1,7,1,4,1,4

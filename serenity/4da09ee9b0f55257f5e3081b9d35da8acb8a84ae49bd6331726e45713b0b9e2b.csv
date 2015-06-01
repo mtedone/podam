@@ -1,3 +1,5 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Collections test","Podam should handle POJOs with no setters and collections in the constructor","SUCCESS","2015-05-31T21:30:02.709+01:00","0.0","0.05"
-"Collections test","Podam should handle standard collections","SUCCESS","2015-05-31T21:30:02.601+01:00","0.0","0.11"
+"Collections test","Podam should handle POJOs with no setters and collections in the constructor","SUCCESS","2015-06-01T23:05:23.329+01:00","0.0","0.06"
+"Collections test","Podam should handle immutable POJOs with generified collections in the constructor","SUCCESS","2015-06-01T23:05:23.391+01:00","0.0","0.06"
+"Collections test","Podam should handle immutable Pojos with non generic collections","SUCCESS","2015-06-01T23:05:23.454+01:00","0.0","0.04"
+"Collections test","Podam should handle standard collections","SUCCESS","2015-06-01T23:05:23.236+01:00","0.0","0.09"

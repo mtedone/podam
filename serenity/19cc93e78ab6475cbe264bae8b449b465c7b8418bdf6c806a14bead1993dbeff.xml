@@ -1,0 +1,29 @@
+<acceptance-test-run title="Podam should handle Singletons with parameters in the static method" name="podamShouldHandleSingletonsWithParametersInPublicStaticMethod" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="41" timestamp="2015-06-01T23:05:24.257+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.singletons.SingletonsTest" name="Singletons test" path="uk.co.jemos.podam.test.unit.features.singletons"/>
+  <tags>
+    <tag name="Singletons" type="epics"/>
+    <tag name="Singletons test" type="stories"/>
+    <tag name="Singletons test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="11">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="12">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SingletonWithParametersInStaticFactoryPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;SingletonWithParametersInStaticFactoryPojo ( createDate = Mon Jun 01 23:05:24 BST 2015    pojoList = [OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 39    byteObjectField = 45    shortField = 55    shortObjectField = 7    charField = O    charObjectField = t    intField = -2021297728    intObjectField = -223908159    longField = 324934504890972    longObjectField = 324934504763729    floatField = 0.2282911    floatObjectField = 0.90172297    doubleField = 0.9253687571327507    doubleObjectField = 0.767877617249492    stringField = U3OvMTE4LD    objectField = java.lang.Object@14d6f58f    calendarField = Mon Jun 01 23:05:24 BST 2015    dateField = Mon Jun 01 23:05:24 BST 2015    randomArray = [Ljava.util.Random;@5506ff53    intArray = [I@41c22d59    booleanArray = [Z@5ea52724    bigDecimalField = 35907723866     ) should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the calendar object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;uKLmO72Yt3&lt;/span&gt; cannot be null or empty</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 39    byteObjectField = 45    shortField = 55    shortObjectField = 7    charField = O    charObjectField = t    intField = -2021297728    intObjectField = -223908159    longField = 324934504890972    longObjectField = 324934504763729    floatField = 0.2282911    floatObjectField = 0.90172297    doubleField = 0.9253687571327507    doubleObjectField = 0.767877617249492    stringField = U3OvMTE4LD    objectField = java.lang.Object@14d6f58f    calendarField = Mon Jun 01 23:05:24 BST 2015    dateField = Mon Jun 01 23:05:24 BST 2015    randomArray = [Ljava.util.Random;@5506ff53    intArray = [I@41c22d59    booleanArray = [Z@5ea52724    bigDecimalField = 35907723866     ) should not be null and contain at least one non-empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{HJhg7QMAOx=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 95    byteObjectField = 36    shortField = 70    shortObjectField = 75    charField = _    charObjectField = o    intField = -2113650773    intObjectField = 1440763006    longField = 324934509333991    longObjectField = 324934509295274    floatField = 0.19696754    floatObjectField = 0.4566298    doubleField = 0.08890656564362076    doubleObjectField = 0.7631256441464943    stringField = mYakp6MvJj    objectField = java.lang.Object@14d6f58f    calendarField = Mon Jun 01 23:05:24 BST 2015    dateField = Mon Jun 01 23:05:24 BST 2015    randomArray = [Ljava.util.Random;@61c98b6c    intArray = [I@7e9e125f    booleanArray = [Z@6cf4325b    bigDecimalField = 35907723866     ) should contain at least one non empty element</description>
+  </test-step>
+</acceptance-test-run>

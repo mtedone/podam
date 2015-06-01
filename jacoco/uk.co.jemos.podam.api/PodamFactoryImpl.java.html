@@ -1178,14 +1178,14 @@ public class PodamFactoryImpl implements PodamFactory {
 <span class="fc" id="L1178">			return objectToReuse;</span>
 		}
 
-<span class="fc bfc" id="L1181" title="All 2 branches covered.">		if (pojoClass.isEnum()) {</span>
+<span class="pc bpc" id="L1181" title="1 of 2 branches missed.">		if (pojoClass.isEnum()) {</span>
 
-<span class="fc" id="L1183">			int enumConstantsLength = pojoClass.getEnumConstants().length;</span>
-<span class="pc bpc" id="L1184" title="1 of 2 branches missed.">			if (enumConstantsLength &gt; 0) {</span>
-<span class="fc" id="L1185">				int enumIndex = strategy.getIntegerInRange(0,</span>
+<span class="nc" id="L1183">			int enumConstantsLength = pojoClass.getEnumConstants().length;</span>
+<span class="nc bnc" id="L1184" title="All 2 branches missed.">			if (enumConstantsLength &gt; 0) {</span>
+<span class="nc" id="L1185">				int enumIndex = strategy.getIntegerInRange(0,</span>
 						enumConstantsLength - 1,
 						new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
-<span class="fc" id="L1188">				return  pojoClass.getEnumConstants()[enumIndex];</span>
+<span class="nc" id="L1188">				return  pojoClass.getEnumConstants()[enumIndex];</span>
 			}
 		}
 

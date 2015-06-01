@@ -18,6 +18,7 @@ uk.co.jemos.podam.test.unit.features.basicTypes
 uk.co.jemos.podam.test.unit.features.collections
 uk.co.jemos.podam.test.unit.features.edgeCases
 uk.co.jemos.podam.test.unit.features.inheritance
+uk.co.jemos.podam.test.unit.features.singletons
 uk.co.jemos.podam.test.unit.issue86
 uk.co.jemos.podam.test.unit.issue93
 uk.co.jemos.podam.test.unit.pdm3

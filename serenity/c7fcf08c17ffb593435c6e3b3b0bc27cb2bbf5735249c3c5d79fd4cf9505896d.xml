@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill recursive POJOs correctly, including all their fields" name="podamShouldFillRecursivePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-05-31T21:30:02.155+01:00">
+<acceptance-test-run title="Podam should fill recursive POJOs correctly, including all their fields" name="podamShouldFillRecursivePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-06-01T23:05:22.777+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -12,7 +12,7 @@
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.RecursivePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.RecursivePojo@46ddf016&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.RecursivePojo@785d194d&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then all the POJOs in the recursive hierarchy should be valid</description>

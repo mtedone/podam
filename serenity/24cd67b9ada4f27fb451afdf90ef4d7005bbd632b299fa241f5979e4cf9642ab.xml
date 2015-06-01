@@ -1,4 +1,4 @@
-<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="46" timestamp="2015-05-31T21:29:59.775+01:00">
+<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="38" timestamp="2015-06-01T23:05:20.492+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
@@ -8,28 +8,28 @@
   <test-step result="SUCCESS" duration="15">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="7">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;CollectionAnnotationPojo ( strList = [SYUskOW8uD should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[SYUskOW8uD should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;CollectionAnnotationPojo ( strList = [2Z04bPQOLK should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the List &lt;span class=&apos;step-parameter&apos;&gt;[SYUskOW8uD should have exactly tvRWkTxQxZ elements</description>
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[2Z04bPQOLK should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the array &lt;span class=&apos;step-parameter&apos;&gt;{rWHSEAFCdZ should not be null or empty</description>
+    <description>Then the List should have exactly 4qSdprR6Pi elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the array &lt;span class=&apos;step-parameter&apos;&gt;{rWHSEAFCdZ should have exactly vEJx5F4FGZ elements</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the array should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{ZWu1y3WTxn=y2xzLhvxTU should contain at least one non empty element</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the array should have exactly lhKrtDGQGk elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the map &lt;span class=&apos;step-parameter&apos;&gt;{ZWu1y3WTxn=y2xzLhvxTU should have exactly Voy26IONdf=etNbXBuVUt elements</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{qnOemSMGNE=RkiJdl0NDx should contain at least one non empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the map should have exactly VGFhb_JCBa=U2WD8rF7Ox elements</description>
   </test-step>
 </acceptance-test-run>
