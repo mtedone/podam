@@ -86,27 +86,6 @@ public class PodamMockerUnitTest {
 	}
 
 
-	public void testSingletonWithParametersInPublicStaticMethod() {
-
-		SingletonWithParametersInStaticFactoryPojo pojo = factory
-				.manufacturePojo(SingletonWithParametersInStaticFactoryPojo.class);
-		Assert.assertNotNull("The pojo cannot be null!", pojo);
-
-		Assert.assertNotNull("The calendar object cannot be null!",
-				pojo.getCreateDate());
-
-		Assert.assertNotNull("The first name cannot be null!",
-				pojo.getFirstName());
-
-		List<OneDimensionalTestPojo> pojoList = pojo.getPojoList();
-		Assert.assertNotNull("The pojo list cannot be null!", pojoList);
-		Assert.assertFalse("The pojo list cannot be empty", pojoList.isEmpty());
-
-		Map<String, OneDimensionalTestPojo> pojoMap = pojo.getPojoMap();
-		Assert.assertNotNull("The pojo map cannot be null!", pojoMap);
-		Assert.assertFalse("The pojo map cannot be empty!", pojoMap.isEmpty());
-
-	}
 
 	@Test
 	public void testPojoWithEnums() {
