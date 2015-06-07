@@ -1,0 +1,17 @@
+<acceptance-test-run title="Podam should throw an exception if the @PodamDoubleValue annotation contains invalid characters" name="podamShouldThrowExceptionWhenPodamDoubleValueContainsInvalidCharacters" steps="2" successful="1" failures="0" errors="1" skipped="0" ignored="0" pending="0" annotated-result="ERROR" result="ERROR" duration="26" timestamp="2015-06-07T20:50:57.377+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
+  <tags>
+    <tag name="Annotations" type="epics"/>
+    <tag name="Annotations test" type="stories"/>
+    <tag name="Annotations test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="21">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="ERROR" duration="4">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.DoubleValueWithErrorPojo</description>
+    <error>The annotation value: fajhfakh could not be converted to a Double. An exception will be thrown.</error>
+    <exception>java.lang.IllegalArgumentException:The annotation value: fajhfakh could not be converted to a Double. An exception will be thrown.
+[uk.co.jemos.podam.api.PodamFactoryImpl.getDoubleValueWithinRange(PodamFactoryImpl.java:882), uk.co.jemos.podam.api.PodamFactoryImpl.resolveBoxedValue(PodamFactoryImpl.java:1011), uk.co.jemos.podam.api.PodamFactoryImpl.manufactureAttributeValue(PodamFactoryImpl.java:1557), uk.co.jemos.podam.api.PodamFactoryImpl.populatePojoInternal(PodamFactoryImpl.java:1395), uk.co.jemos.podam.api.PodamFactoryImpl.manufacturePojoInternal(PodamFactoryImpl.java:1244), uk.co.jemos.podam.api.PodamFactoryImpl.manufacturePojo(PodamFactoryImpl.java:175), uk.co.jemos.podam.test.unit.steps.PodamInvocationSteps.whenIInvokeTheFactoryForClass(PodamInvocationSteps.java:13), uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest.podamShouldThrowExceptionWhenPodamDoubleValueContainsInvalidCharacters(AnnotationsTest.java:548)]</exception>
+  </test-step>
+</acceptance-test-run>

@@ -1,45 +1,45 @@
-<acceptance-test-run title="Podam should handle both native and wrapped integer values with @PodamIntValue annotation" name="podamShouldHandleIntegerValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="95" timestamp="2015-06-01T23:05:19.732+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped integer values with @PodamIntValue annotation" name="podamShouldHandleIntegerValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="108" timestamp="2015-06-07T20:50:56.755+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="19">
+  <test-step result="SUCCESS" duration="25">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="8">
+  <test-step result="SUCCESS" duration="9">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.IntegerValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;IntegerRangeValuesPojo ( intFieldWithMinValueOnly = 0    intFieldWithPreciseValue = 145241    intFieldWithMaxValueOnly = 71    intFieldWithMinAndMaxValue = 89    integerObjectFieldWithMinValueOnly = 0    integerObjectFieldWithMaxValueOnly = 41    integerObjectFieldWithMinAndMaxValue = 902    integerObjectFieldWithPreciseValue = 145241     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;IntegerRangeValuesPojo ( intFieldWithMinValueOnly = 0    intFieldWithPreciseValue = 145241    intFieldWithMaxValueOnly = 70    intFieldWithMinAndMaxValue = 634    integerObjectFieldWithMinValueOnly = 0    integerObjectFieldWithMaxValueOnly = 35    integerObjectFieldWithMinAndMaxValue = 130    integerObjectFieldWithPreciseValue = 145241     )&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the integer field should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the integer field &lt;span class=&apos;step-parameter&apos;&gt;71 should have a value not greater than 100&lt;/span&gt;</description>
+    <description>Then the integer field &lt;span class=&apos;step-parameter&apos;&gt;70 should have a value not greater than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the integer field 89&lt;/span&gt; should have a value between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+    <description>Then the integer field 634&lt;/span&gt; should have a value between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the integer field should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the integer field should be greater or equal to zero</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the integer field should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the integer field &lt;span class=&apos;step-parameter&apos;&gt;41 should have a value not greater than 100&lt;/span&gt;</description>
+    <description>Then the integer field should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the integer field &lt;span class=&apos;step-parameter&apos;&gt;35 should have a value not greater than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the integer field should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the integer field 902&lt;/span&gt; should have a value between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+    <description>Then the integer field 130&lt;/span&gt; should have a value between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the integer field &lt;span class=&apos;step-parameter&apos;&gt;145241 should have the precise value of 145241&lt;/span&gt;</description>

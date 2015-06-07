@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should fill in Maps of the containing class type" name="podamShouldSupportRecursiveMaps" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="95" timestamp="2015-06-01T23:05:22.570+01:00">
+<acceptance-test-run title="Podam should fill in Maps of the containing class type" name="podamShouldSupportRecursiveMaps" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="162" timestamp="2015-06-07T20:51:00.230+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="36">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="50">
+  <test-step result="SUCCESS" duration="107">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm6.RecursiveMap</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.pdm6.RecursiveMap@1a23e131&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.pdm6.RecursiveMap@355c236b&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="8">
+  <test-step result="SUCCESS" duration="9">
     <description>Then the recursive map should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

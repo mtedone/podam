@@ -36,7 +36,7 @@
     <script class="code" type="text/javascript">$(document).ready(function () {
         var test_results_plot = $.jqplot('test_results_pie_chart', [
             [
-                ['Passing', 1],
+                ['Passing', 0.714286],
                 
                 ['Pending', 0],
                 
@@ -44,7 +44,7 @@
                 
                 ['Failing', 0],
                 
-                ['Errors',  0]
+                ['Errors',  0.285714]
             ]
         ], {
 
@@ -73,17 +73,17 @@
                 marginTop: '15px'
             },
             series: [
-                {label: '14 / 14 tests passed' },
-                {label: '0 / 14 tests pending'},
-                {label: '0 / 14 tests not executed'},
-                {label: '0 / 14 tests failed'},
-                {label: '0 / 14 errors'}
+                {label: '15 / 21 tests passed' },
+                {label: '0 / 21 tests pending'},
+                {label: '0 / 21 tests not executed'},
+                {label: '0 / 21 tests failed'},
+                {label: '6 / 21 errors'}
             ]
         });
 
         var weighted_test_results_plot = $.jqplot('weighted_test_results_pie_chart', [
             [
-                ['Passing', 1],
+                ['Passing', 0.930636],
                 
                 ['Pending', 0],
                 
@@ -91,7 +91,7 @@
                 
                 ['Failing', 0],
                 
-                ['Errors', 0]
+                ['Errors', 0.069364]
             ]
         ], {
 
@@ -121,11 +121,11 @@
                 marginTop: '15px'
             },
             series: [
-                {label: '14 / 14 tests passed (1% of all test steps)' },
-                {label: '0 / 14 tests pending'},
-                {label: '0 / 14 tests not executed'},
-                {label: '0 / 14 tests failed (0% of all test steps)'},
-                {label: '0 / 14 errors (0% of all test steps)'}
+                {label: '15 / 21 tests passed (0.930636% of all test steps)' },
+                {label: '0 / 21 tests pending'},
+                {label: '0 / 21 tests not executed'},
+                {label: '0 / 21 tests failed (0% of all test steps)'},
+                {label: '6 / 21 errors (0.069364% of all test steps)'}
             ]
         });
 
@@ -193,7 +193,7 @@
             <a href="90cdeeb336e1f777b7e46a11cd41dee136f2bb3f86eb7096929265f3f550946d.html"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 01-06-2015 23:05</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 07-06-2015 20:51</span>
     <br style="clear:left"/>
 </div>
 <div class="clr"></div>
@@ -206,12 +206,12 @@
     <tr>
         <td width="375px" valign="top">
             <div class="test-count-summary">
-                <span class="test-count-title">14
+                <span class="test-count-title">21
                     test scenarios </span>
                 <div>
 
                 <span class="test-count">
-                    14
+                    15
                         <a href="dd3a392830dc697c93d343d69d7b74eeeaa1b8550c8f3f1894456b180d016868.html">passed</a>
                     ,
                 </span>
@@ -224,8 +224,9 @@ pending,
 failed,
                 </span>
                 <span class="test-count">
-                    0
-errors,
+                    6
+                        <a href="2817fbf5194d3c595f3d5d72513236e6dea0837a06f14d32ec1cc50ad0354c6e.html">with errors</a>
+                    ,
                 </span>
                 <span class="test-count">
                     0
@@ -280,9 +281,9 @@ skipped
         <body>
         <tr>
             <td class="summary-leading-column">Automated</td>
-            <td>14</td>
-            <td>14 (100%)</td>
-            <td>0 (0%)</td>
+            <td>21</td>
+            <td>15 (71%)</td>
+            <td>6 (29%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -296,9 +297,9 @@ skipped
         </tr>
         <tr>
             <td class="summary-leading-column">Total</td>
-            <td>14</td>
-            <td>14 (100%)</td>
-            <td>0 (0%)</td>
+            <td>21</td>
+            <td>15 (71%)</td>
+            <td>6 (0%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -323,7 +324,7 @@ skipped
             </tr>
                 <tr>
                     <td class="bluetext" class="tag-title">
-                        <span class="SUCCESS-text ellipsis">
+                        <span class="ERROR-text ellipsis">
                                 <a href="5dcb4888799b424dcd8426fdb80fd9ce187a33a98fd23db19a4cf36fa1335130.html" title="Annotations">Annotations</a>
                         </span>
                     </td>
@@ -332,24 +333,24 @@ skipped
 
                         <table>
                             <tr>
-                                <td class="related-tag-percentage"><span title="14 out of 14 tests (159 steps) passing">100%</span></td>
+                                <td class="related-tag-percentage"><span title="15 out of 21 tests (161 steps) passing">71.4%</span></td>
                                 <td width="150px">
                                     <a href="5dcb4888799b424dcd8426fdb80fd9ce187a33a98fd23db19a4cf36fa1335130.html">
                                         <div class="percentagebar"
-                                             title="0 out of 14 tests (0 steps) pending"
+                                             title="0 out of 21 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
-                                                 title="0 out of 14 tests (0 steps) skipped or ignored">
+                                                 title="0 out of 21 tests (0 steps) skipped or ignored">
                                                 <div class="errorbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 14 tests (0 steps) broken">
+                                                     title="6 out of 21 tests (12 steps) broken">
                                                     <div class="failingbar"
-                                                         style="width: 150px;"
-                                                         title="0 out of 14 tests (0 steps) failing">
+                                                         style="width: 107px;"
+                                                         title="0 out of 21 tests (0 steps) failing">
                                                         <div class="passingbar"
-                                                             style="width: 150px;"
-                                                             title="14 out of 14 tests (159 steps) passing">
+                                                             style="width: 107px;"
+                                                             title="15 out of 21 tests (161 steps) passing">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,7 +358,7 @@ skipped
                                         </div>
                                     </a>
                                 </td>
-                                <td class="related-tag-count"><span class="result-test-count" title="14 tests">14</span></td>
+                                <td class="related-tag-count"><span class="result-test-count" title="21 tests">21</span></td>
                             </tr>
                         </table>
                     </td>
@@ -372,7 +373,7 @@ skipped
                     <table>
                         <tr>
                             <td colspan="2">
-                                <span class="caption">Test results weighted by test size in steps (average steps per test: 11.357143) .</span>
+                                <span class="caption">Test results weighted by test size in steps (average steps per test: 8.238095) .</span>
                                 <span class="togglePieChart" id="toggleWeightedPieChart"><a href="#">Show/Hide Pie
                                     Chart</a></span>
                             </td>
@@ -404,9 +405,9 @@ skipped
         <body>
         <tr>
             <td class="summary-leading-column">Automated</td>
-            <td>14</td>
-            <td>14 (100%)</td>
-            <td>0 (0%)</td>
+            <td>21</td>
+            <td>15 (71%)</td>
+            <td>6 (29%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -420,9 +421,9 @@ skipped
         </tr>
         <tr>
             <td class="summary-leading-column">Total</td>
-            <td>14</td>
-            <td>14 (100%)</td>
-            <td>0 (0%)</td>
+            <td>21</td>
+            <td>15 (71%)</td>
+            <td>6 (0%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -447,7 +448,7 @@ skipped
             </tr>
                 <tr>
                     <td class="bluetext" class="tag-title">
-                        <span class="SUCCESS-text ellipsis">
+                        <span class="ERROR-text ellipsis">
                                 <a href="5dcb4888799b424dcd8426fdb80fd9ce187a33a98fd23db19a4cf36fa1335130.html" title="Annotations">Annotations</a>
                         </span>
                     </td>
@@ -456,24 +457,24 @@ skipped
 
                         <table>
                             <tr>
-                                <td class="related-tag-percentage"><span title="14 out of 14 tests (159 steps) passing">100%</span></td>
+                                <td class="related-tag-percentage"><span title="15 out of 21 tests (161 steps) passing">93.1%</span></td>
                                 <td width="150px">
                                     <a href="5dcb4888799b424dcd8426fdb80fd9ce187a33a98fd23db19a4cf36fa1335130.html">
                                         <div class="percentagebar"
-                                             title="0 out of 14 tests (0 steps) pending"
+                                             title="0 out of 21 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
-                                                 title="0 out of 14 tests (0 steps) skipped or ignored">
+                                                 title="0 out of 21 tests (0 steps) skipped or ignored">
                                                 <div class="errorbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 14 tests (0 steps) broken">
+                                                     title="6 out of 21 tests (12 steps) broken">
                                                     <div class="failingbar"
-                                                         style="width: 150px;"
-                                                         title="0 out of 14 tests (0 steps) failing">
+                                                         style="width: 140px;"
+                                                         title="0 out of 21 tests (0 steps) failing">
                                                         <div class="passingbar"
-                                                             style="width: 150px;"
-                                                             title="14 out of 14 tests (159 steps) passing">
+                                                             style="width: 140px;"
+                                                             title="15 out of 21 tests (161 steps) passing">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -481,7 +482,7 @@ skipped
                                         </div>
                                     </a>
                                 </td>
-                                <td class="related-tag-count"><span class="result-test-count" title="14 tests">14</span></td>
+                                <td class="related-tag-count"><span class="result-test-count" title="21 tests">21</span></td>
                             </tr>
                         </table>
                     </td>
@@ -540,7 +541,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.15</td>
+                            <td class="lightgreentext">0.14</td>
                         </tr>
 
 
@@ -566,7 +567,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.03</td>
                         </tr>
 
 
@@ -592,7 +593,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.04</td>
+                            <td class="lightgreentext">0.05</td>
                         </tr>
 
 
@@ -644,7 +645,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.07</td>
+                            <td class="lightgreentext">0.06</td>
                         </tr>
 
 
@@ -722,7 +723,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.08</td>
                         </tr>
 
 
@@ -748,7 +749,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.1</td>
+                            <td class="lightgreentext">0.11</td>
                         </tr>
 
 
@@ -826,7 +827,7 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.07</td>
                         </tr>
 
 
@@ -852,7 +853,189 @@ skipped
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.21</td>
+                            <td class="lightgreentext">0.24</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="728b5332cb030b78f14338546b46d6c9742392aa1926a82fb60831d238f57c8c.html" class="ellipsis" title="The precise value: afasdfafa cannot be converted to a byte type. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamByteValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="701d5b336b5b48a2c32098758bac392693c345e975b2ef13d1abfa626dcf27e8.html" class="ellipsis" title="The annotation value: fajhfakh could not be converted to a Double. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamDoubleValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="9cdc5934262e72b544572703c1b9d0a49e6880fc34b1e950fbb895976bd247a6.html" class="ellipsis" title="The annotation value: fafhakljhf could not be converted to a Float. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamFloatValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="053f22bba029b9b75158f50977fe3ed06f37bd10bba2a7b87ffb1673232ff622.html" class="ellipsis" title="The annotation value: hfajkfhalfh could not be converted to an Integer. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamIntegerValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="6fd419a18a3816c94abf1f45212d445a4cb7ce8face12eb314bf5f6990591983.html" class="ellipsis" title="The annotation value: afhafhakflh could not be converted to a Long. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamLongValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text">
+                                <a href="e8fd18dcff32a63458c4372b4307f34cd91eeef92ecc0e4a88b2cb2be62bd805.html" class="ellipsis" title="The precise value: fajkfhaf cannot be converted to a short type. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamShortValue annotation contains invalid characters 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/>
+                                
+                                <span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text">
+                                <a href="3b82bffd0392c12c0b1ac6ee35295adc1edcfba1987349de6b82890e3ea27937.html" class="ellipsis" title="The type of the Podam Attribute Strategy is not java.lang.String but uk.co.jemos.podam.test.dto.OneDimensionalTestPojo. An exception will be thrown.">
+                                    Podam should throw an exception if the @PodamStrategyValue annotation contains the wrong strateg type 
+                                </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+
+
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
                         </tr>
 
 
@@ -894,7 +1077,7 @@ skipped
 </div>
 <div id="beforefooter"></div>
 <div id="bottomfooter">
-    <span class="version">Serenity version 1.0.47</span>
+    <span class="version">Serenity version 1.0.50</span>
 </div>
 
 </body>

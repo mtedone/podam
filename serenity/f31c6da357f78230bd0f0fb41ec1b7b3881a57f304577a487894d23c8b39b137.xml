@@ -1,21 +1,21 @@
-<acceptance-test-run title="Podam should handle POJOs with no setters and collections in the constructor" name="podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="61" timestamp="2015-06-01T23:05:23.329+01:00">
+<acceptance-test-run title="Podam should handle POJOs with no setters and collections in the constructor" name="podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-07T20:51:01.031+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="11">
+  <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NoSetterWithCollectionInConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;NoSetterWithCollectionInConstructorPojo ( strList = [lMkA43bdMv should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;NoSetterWithCollectionInConstructorPojo ( strList = [AkcNewi9Vl should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[lMkA43bdMv should not be null and contain at least one non-empty element</description>
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[AkcNewi9Vl should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>

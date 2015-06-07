@@ -1436,7 +1436,7 @@ ul.second-level-requirements  {
 #slider {
     position:relative;
     width:1000px; /* Change this to your images width */
-    height:800px; /* Change this to your images height */
+    height:auto; /* Change this to your images height */
 }
 #slider img {
     position:absolute;
@@ -1461,4 +1461,24 @@ ul.second-level-requirements  {
 
 .build-info table td,th {
     overflow: hidden;
+}
+
+.modal-body p {
+    word-wrap: break-word;
+}
+
+#restModal .modal-content
+{
+    height:500px;
+    overflow:auto;
+}
+
+#stacktraceModal .modal-content
+{
+    height:500px;
+    overflow:auto;
+}
+
+.rest-query {
+    padding-left : 10px;
 }

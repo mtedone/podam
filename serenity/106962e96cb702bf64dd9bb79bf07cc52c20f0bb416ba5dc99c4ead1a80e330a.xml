@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-06-01T23:05:23.795+01:00">
+<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-07T20:51:01.591+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
@@ -8,14 +8,14 @@
   <test-step result="SUCCESS" duration="11">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;PrivateOnlyPojo ( firstName = mDlGPw1sK0    intField = -473365514     )&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;PrivateOnlyPojo ( firstName = CwwJ8pJPyr    intField = -2124975327     )&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;mDlGPw1sK0&lt;/span&gt; cannot be null or empty</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;CwwJ8pJPyr&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>

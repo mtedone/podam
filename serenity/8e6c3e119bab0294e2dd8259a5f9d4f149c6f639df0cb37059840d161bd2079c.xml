@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill POJOs with non default constructors" name="podamShouldFillPojosWithNonDefaultConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="18" timestamp="2015-06-01T23:05:22.798+01:00">
+<acceptance-test-run title="Podam should fill POJOs with non default constructors" name="podamShouldFillPojosWithNonDefaultConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="19" timestamp="2015-06-07T20:51:00.534+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -12,6 +12,6 @@
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NoDefaultConstructorPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;NoDefaultConstructorPojo ( intField = 1605285835     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;NoDefaultConstructorPojo ( intField = 1210560384     )&lt;/span&gt; should not be null</description>
   </test-step>
 </acceptance-test-run>

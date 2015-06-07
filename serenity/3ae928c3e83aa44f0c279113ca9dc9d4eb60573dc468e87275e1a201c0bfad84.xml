@@ -1,18 +1,18 @@
-<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="36" timestamp="2015-06-01T23:05:22.687+01:00">
+<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2015-06-07T20:51:00.413+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="13">
+  <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="8">
+  <test-step result="SUCCESS" duration="7">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalTestPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 9    byteObjectField = 59    shortField = 37    shortObjectField = 36    charField = I    charObjectField = 9    intField = 1476454356    intObjectField = -1506331644    longField = 324932938050547    longObjectField = 324932936302339    floatField = 0.65182585    floatObjectField = 0.94517404    doubleField = 0.2925156864034225    doubleObjectField = 0.169567852235891    stringField = RdzT34lvmj    objectField = java.lang.Object@71daf5d6    calendarField = Mon Jun 01 23:05:22 BST 2015    dateField = Mon Jun 01 23:05:22 BST 2015    randomArray = [Ljava.util.Random;@1d0305fb    intArray = [I@714f1dc4    booleanArray = [Z@5d5f010a    bigDecimalField = 486261938490     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 82    byteObjectField = 73    shortField = 38    shortObjectField = 119    charField = o    charObjectField = f    intField = -363872650    intObjectField = -865227223    longField = 835282523881451    longObjectField = 835282522570935    floatField = 0.5710789    floatObjectField = 0.26154095    doubleField = 0.9192986603474024    doubleObjectField = 0.5838589732300554    stringField = DRW5QkMnfh    objectField = java.lang.Object@61ad4b83    calendarField = Sun Jun 07 20:51:00 BST 2015    dateField = Sun Jun 07 20:51:00 BST 2015    randomArray = [Ljava.util.Random;@7977ed32    intArray = [I@16ec7988    booleanArray = [Z@5dc09bca    bigDecimalField = 525917897250     )&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Pojo should contain some data</description>

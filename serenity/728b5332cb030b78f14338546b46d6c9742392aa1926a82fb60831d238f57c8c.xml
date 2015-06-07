@@ -1,0 +1,17 @@
+<acceptance-test-run title="Podam should throw an exception if the @PodamByteValue annotation contains invalid characters" name="podamShouldThrowExceptionWhenPodamByteValueContainsInvalidCharacters" steps="2" successful="1" failures="0" errors="1" skipped="0" ignored="0" pending="0" annotated-result="ERROR" result="ERROR" duration="23" timestamp="2015-06-07T20:50:57.284+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
+  <tags>
+    <tag name="Annotations" type="epics"/>
+    <tag name="Annotations test" type="stories"/>
+    <tag name="Annotations test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="17">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="ERROR" duration="4">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.ByteValueWithErrorPojo</description>
+    <error>The precise value: afasdfafa cannot be converted to a byte type. An exception will be thrown.</error>
+    <exception>java.lang.IllegalArgumentException:The precise value: afasdfafa cannot be converted to a byte type. An exception will be thrown.
+[uk.co.jemos.podam.api.PodamFactoryImpl.getByteValueWithinRange(PodamFactoryImpl.java:570), uk.co.jemos.podam.api.PodamFactoryImpl.resolveBoxedValue(PodamFactoryImpl.java:1019), uk.co.jemos.podam.api.PodamFactoryImpl.manufactureAttributeValue(PodamFactoryImpl.java:1557), uk.co.jemos.podam.api.PodamFactoryImpl.populatePojoInternal(PodamFactoryImpl.java:1395), uk.co.jemos.podam.api.PodamFactoryImpl.manufacturePojoInternal(PodamFactoryImpl.java:1244), uk.co.jemos.podam.api.PodamFactoryImpl.manufacturePojo(PodamFactoryImpl.java:175), uk.co.jemos.podam.test.unit.steps.PodamInvocationSteps.whenIInvokeTheFactoryForClass(PodamInvocationSteps.java:13), uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest.podamShouldThrowExceptionWhenPodamByteValueContainsInvalidCharacters(AnnotationsTest.java:524)]</exception>
+  </test-step>
+</acceptance-test-run>

@@ -33,11 +33,11 @@
     <script class="code" type="text/javascript">$(document).ready(function () {
         var plot1 = $.jqplot('coverage_pie_chart', [
             [
-                ['Passing', 1],
+                ['Passing', 0.886792],
                 ['Pending', 0],
                 ['Ignored', 0],
                 ['Failing', 0],
-                ['Errors',  0]
+                ['Errors',  0.113208]
             ]
         ], {
             gridPadding: {top: 0, bottom: 38, left: 0, right: 0},
@@ -65,10 +65,10 @@
                 marginTop: '15px'
             },
             series: [
-                {label: '100% requirements tested successfully' },
+                {label: '88.7% requirements tested successfully' },
                 {label: '0% requirements untested'},
                 {label: '0%} requirements failing'},
-                {label: '0%} requirements with errors'}
+                {label: '11.3%} requirements with errors'}
             ]
         });
         // Results table
@@ -153,7 +153,7 @@
             <a href="90cdeeb336e1f777b7e46a11cd41dee136f2bb3f86eb7096929265f3f550946d.html"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 01-06-2015 23:05</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 07-06-2015 20:51</span>
     <br style="clear:left"/>
 </div>
 
@@ -184,26 +184,26 @@
                 <body>
                     <tr>
                         <td class="summary-leading-column">Epics</td>
+                        <td>7</td>
                         <td>6</td>
-                        <td>6</td>
-                        <td>0</td>
+                        <td>1</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td class="summary-leading-column">Stories</td>
-                        <td>6</td>
-                        <td>6</td>
-                        <td>0</td>
+                        <td>8</td>
+                        <td>7</td>
+                        <td>1</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
                     </tr>
                     <tr>
                         <td class="summary-leading-column">Acceptance Criteria (tests)</td>
-                        <td>38</td>
-                        <td>38</td>
+                        <td>53</td>
+                        <td>47</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -233,9 +233,9 @@
         <body>
         <tr>
             <td class="summary-leading-column">Automated</td>
-            <td>38</td>
-            <td>38 (100%)</td>
-            <td>0 (0%)</td>
+            <td>53</td>
+            <td>47 (89%)</td>
+            <td>6 (11%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -249,9 +249,9 @@
         </tr>
         <tr>
             <td class="summary-leading-column">Total</td>
-            <td>38</td>
-            <td>38 (100%)</td>
-            <td>0 (0%)</td>
+            <td>53</td>
+            <td>47 (89%)</td>
+            <td>6 (0%)</td>
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
@@ -265,7 +265,7 @@
 <div id="tabs">
     <ul>
             <li><a href="#tabs-1">
-            Epics (6)
+            Epics (7)
             </a></li>
     </ul>
     <div id="tabs-1" class="capabilities-table">
@@ -306,15 +306,15 @@
                     </tr>
                     <tbody>
 
-                        <tr class="test-SUCCESS requirementRow">
+                        <tr class="test-ERROR requirementRow">
                             <td class="requirementRowCell">
-                                <img src="images/traffic-green.gif" class="summary-icon"
-                                     title="SUCCESS"/>
-                                <span style="display:none">3</span>
+                                <img src="images/traffic-orange.gif" class="summary-icon"
+                                     title="ERROR"/>
+                                <span style="display:none">1</span>
                             </td>
                             <td class="cardNumber requirementRowCell"></td>
 
-                            <td class="SUCCESS-text requirementRowCell">
+                            <td class="ERROR-text requirementRowCell">
                                     <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
                                                                                              height="20"/></a>
                                 <span class="requirementName"><a
@@ -324,11 +324,11 @@
                                 <td class="bluetext requirementRowCell">1</td>
 
 
-                            <td class="greentext highlighted-value requirementRowCell">14</td>
-                            <td class="greentext requirementRowCell">14</td>
+                            <td class="greentext highlighted-value requirementRowCell">21</td>
+                            <td class="greentext requirementRowCell">15</td>
                             <td class="bluetext requirementRowCell">0</td>
                             <td class="redtext requirementRowCell">0</td>
-                            <td class="lightorangetext requirementRowCell">0</td>
+                            <td class="lightorangetext requirementRowCell">6</td>
                                 <td class="greentext highlighted-value requirementRowCell">0</td>
                                 <td class="greentext requirementRowCell">0</td>
                                 <td class="bluetext requirementRowCell">0</td>
@@ -353,15 +353,15 @@
                                 <table>
                                     <tr>
                                         <td width="40px">
-                                            <div class="small">100%</div>
+                                            <div class="small">71.4%</div>
                                         </td>
                                         <td width="125px">
                                             <div class="percentagebar"
                                                  title="Annotations
-Tests implemented: 14
-  - Passing tests: 14 (100% of specified requirements)
+Tests implemented: 21
+  - Passing tests: 15 (71.4% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
+  - Tests with errors: 6 (28.6% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -378,10 +378,10 @@ Estimated ignored or skipped requirements: 0%"
                                                 <div class="ignoredbar"
                                                      style="width: 125px;"
                                                      title="Annotations
-Tests implemented: 14
-  - Passing tests: 14 (100% of specified requirements)
+Tests implemented: 21
+  - Passing tests: 15 (71.4% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
+  - Tests with errors: 6 (28.6% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -397,10 +397,10 @@ Estimated ignored or skipped requirements: 0%">
                                                     <div class="errorbar"
                                                          style="width: 125px;"
                                                          title="Annotations
-Tests implemented: 14
-  - Passing tests: 14 (100% of specified requirements)
+Tests implemented: 21
+  - Passing tests: 15 (71.4% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
+  - Tests with errors: 6 (28.6% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -414,12 +414,12 @@ Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
                                                         <div class="failingbar"
-                                                             style="width: 125px;"
+                                                             style="width: 89px;"
                                                              title="Annotations
-Tests implemented: 14
-  - Passing tests: 14 (100% of specified requirements)
+Tests implemented: 21
+  - Passing tests: 15 (71.4% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
+  - Tests with errors: 6 (28.6% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -433,12 +433,12 @@ Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
                                                             <div class="passingbar"
-                                                                 style="width: 125px;"
+                                                                 style="width: 89px;"
                                                                  title="Annotations
-Tests implemented: 14
-  - Passing tests: 14 (100% of specified requirements)
+Tests implemented: 21
+  - Passing tests: 15 (71.4% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
+  - Tests with errors: 6 (28.6% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -476,11 +476,11 @@ Estimated ignored or skipped requirements: 0%">
                                         href="f8bb5d953394a2395b7e3c8dcf6adb92197de3e8ac2b3a438b50656353eb8c1b.html">Basic types</a></span>
                             </td>
 
-                                <td class="bluetext requirementRowCell">1</td>
+                                <td class="bluetext requirementRowCell">2</td>
 
 
-                            <td class="greentext highlighted-value requirementRowCell">11</td>
-                            <td class="greentext requirementRowCell">11</td>
+                            <td class="greentext highlighted-value requirementRowCell">14</td>
+                            <td class="greentext requirementRowCell">14</td>
                             <td class="bluetext requirementRowCell">0</td>
                             <td class="redtext requirementRowCell">0</td>
                             <td class="lightorangetext requirementRowCell">0</td>
@@ -513,8 +513,8 @@ Estimated ignored or skipped requirements: 0%">
                                         <td width="125px">
                                             <div class="percentagebar"
                                                  title="Basic types
-Tests implemented: 11
-  - Passing tests: 11 (100% of specified requirements)
+Tests implemented: 14
+  - Passing tests: 14 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -522,7 +522,7 @@ Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
   - Ignored or skipped tests: 0 (0% of specified requirements)
 
-Requirements specified:     2
+Requirements specified:     3
 Requirements with no tests: 0
 
 
@@ -533,8 +533,8 @@ Estimated ignored or skipped requirements: 0%"
                                                 <div class="ignoredbar"
                                                      style="width: 125px;"
                                                      title="Basic types
-Tests implemented: 11
-  - Passing tests: 11 (100% of specified requirements)
+Tests implemented: 14
+  - Passing tests: 14 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -542,7 +542,7 @@ Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
   - Ignored or skipped tests: 0 (0% of specified requirements)
 
-Requirements specified:     2
+Requirements specified:     3
 Requirements with no tests: 0
 
 
@@ -552,8 +552,8 @@ Estimated ignored or skipped requirements: 0%">
                                                     <div class="errorbar"
                                                          style="width: 125px;"
                                                          title="Basic types
-Tests implemented: 11
-  - Passing tests: 11 (100% of specified requirements)
+Tests implemented: 14
+  - Passing tests: 14 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -561,7 +561,7 @@ Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
   - Ignored or skipped tests: 0 (0% of specified requirements)
 
-Requirements specified:     2
+Requirements specified:     3
 Requirements with no tests: 0
 
 
@@ -571,8 +571,8 @@ Estimated ignored or skipped requirements: 0%">
                                                         <div class="failingbar"
                                                              style="width: 125px;"
                                                              title="Basic types
-Tests implemented: 11
-  - Passing tests: 11 (100% of specified requirements)
+Tests implemented: 14
+  - Passing tests: 14 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -580,7 +580,7 @@ Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
   - Ignored or skipped tests: 0 (0% of specified requirements)
 
-Requirements specified:     2
+Requirements specified:     3
 Requirements with no tests: 0
 
 
@@ -590,8 +590,8 @@ Estimated ignored or skipped requirements: 0%">
                                                             <div class="passingbar"
                                                                  style="width: 125px;"
                                                                  title="Basic types
-Tests implemented: 11
-  - Passing tests: 11 (100% of specified requirements)
+Tests implemented: 14
+  - Passing tests: 14 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -599,7 +599,7 @@ Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
   - Ignored or skipped tests: 0 (0% of specified requirements)
 
-Requirements specified:     2
+Requirements specified:     3
 Requirements with no tests: 0
 
 
@@ -789,8 +789,8 @@ Estimated ignored or skipped requirements: 0%">
                                 <td class="bluetext requirementRowCell">1</td>
 
 
-                            <td class="greentext highlighted-value requirementRowCell">7</td>
-                            <td class="greentext requirementRowCell">7</td>
+                            <td class="greentext highlighted-value requirementRowCell">11</td>
+                            <td class="greentext requirementRowCell">11</td>
                             <td class="bluetext requirementRowCell">0</td>
                             <td class="redtext requirementRowCell">0</td>
                             <td class="lightorangetext requirementRowCell">0</td>
@@ -823,8 +823,8 @@ Estimated ignored or skipped requirements: 0%">
                                         <td width="125px">
                                             <div class="percentagebar"
                                                  title="Edge cases
-Tests implemented: 7
-  - Passing tests: 7 (100% of specified requirements)
+Tests implemented: 11
+  - Passing tests: 11 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -843,8 +843,8 @@ Estimated ignored or skipped requirements: 0%"
                                                 <div class="ignoredbar"
                                                      style="width: 125px;"
                                                      title="Edge cases
-Tests implemented: 7
-  - Passing tests: 7 (100% of specified requirements)
+Tests implemented: 11
+  - Passing tests: 11 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -862,8 +862,8 @@ Estimated ignored or skipped requirements: 0%">
                                                     <div class="errorbar"
                                                          style="width: 125px;"
                                                          title="Edge cases
-Tests implemented: 7
-  - Passing tests: 7 (100% of specified requirements)
+Tests implemented: 11
+  - Passing tests: 11 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -881,8 +881,8 @@ Estimated ignored or skipped requirements: 0%">
                                                         <div class="failingbar"
                                                              style="width: 125px;"
                                                              title="Edge cases
-Tests implemented: 7
-  - Passing tests: 7 (100% of specified requirements)
+Tests implemented: 11
+  - Passing tests: 11 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -900,8 +900,163 @@ Estimated ignored or skipped requirements: 0%">
                                                             <div class="passingbar"
                                                                  style="width: 125px;"
                                                                  title="Edge cases
-Tests implemented: 7
-  - Passing tests: 7 (100% of specified requirements)
+Tests implemented: 11
+  - Passing tests: 11 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     2
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+                        <tr class="test-SUCCESS requirementRow">
+                            <td class="requirementRowCell">
+                                <img src="images/traffic-green.gif" class="summary-icon"
+                                     title="SUCCESS"/>
+                                <span style="display:none">3</span>
+                            </td>
+                            <td class="cardNumber requirementRowCell"></td>
+
+                            <td class="SUCCESS-text requirementRowCell">
+                                    <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
+                                                                                             height="20"/></a>
+                                <span class="requirementName"><a
+                                        href="b7b20e8a7cd5667788780ee0a82a6f2a544971f5067a550acdc4fe613150e637.html">Extensions</a></span>
+                            </td>
+
+                                <td class="bluetext requirementRowCell">1</td>
+
+
+                            <td class="greentext highlighted-value requirementRowCell">1</td>
+                            <td class="greentext requirementRowCell">1</td>
+                            <td class="bluetext requirementRowCell">0</td>
+                            <td class="redtext requirementRowCell">0</td>
+                            <td class="lightorangetext requirementRowCell">0</td>
+                                <td class="greentext highlighted-value requirementRowCell">0</td>
+                                <td class="greentext requirementRowCell">0</td>
+                                <td class="bluetext requirementRowCell">0</td>
+                                <td class="redtext requirementRowCell">0</td>
+                                <td class="lightorangetext requirementRowCell">0</td>
+
+                            <td width="125px" class="lightgreentext requirementRowCell">
+
+                                <!--
+                                Accessing the ESAA Registration screens
+
+                                Tests implemented: 10
+                                  - Passing tests: 4
+                                  - Failing tests: 3
+
+                                Requirements specified:   6
+                                Requiments without tests: 2
+
+                                Estimated unimplemented tests: 7
+                                -->
+
+                                <table>
+                                    <tr>
+                                        <td width="40px">
+                                            <div class="small">100%</div>
+                                        </td>
+                                        <td width="125px">
+                                            <div class="percentagebar"
+                                                 title="Extensions
+Tests implemented: 1
+  - Passing tests: 1 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     2
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%"
+                                                 style="width: 125px;">
+                                                <div class="ignoredbar"
+                                                     style="width: 125px;"
+                                                     title="Extensions
+Tests implemented: 1
+  - Passing tests: 1 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     2
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                    <div class="errorbar"
+                                                         style="width: 125px;"
+                                                         title="Extensions
+Tests implemented: 1
+  - Passing tests: 1 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     2
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                        <div class="failingbar"
+                                                             style="width: 125px;"
+                                                             title="Extensions
+Tests implemented: 1
+  - Passing tests: 1 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     2
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                            <div class="passingbar"
+                                                                 style="width: 125px;"
+                                                                 title="Extensions
+Tests implemented: 1
+  - Passing tests: 1 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
 
@@ -1244,7 +1399,7 @@ Estimated ignored or skipped requirements: 0%">
 
     <div id="test-tabs">
         <ul>
-            <li><a href="#test-tabs-1">Acceptance Tests (38)</a></li>
+            <li><a href="#test-tabs-1">Acceptance Tests (53)</a></li>
         </ul>
         <div id="test_list_tests" class="table">
             <div class="test-results">
@@ -1293,7 +1448,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.02</td>
+                            <td class="lightgreentext">0.03</td>
                         </tr>
 
 
@@ -1329,7 +1484,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.03</td>
+                            <td class="lightgreentext">0.02</td>
                         </tr>
 
 
@@ -1365,7 +1520,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.15</td>
+                            <td class="lightgreentext">0.14</td>
                         </tr>
 
 
@@ -1383,7 +1538,43 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="338967e46dad2d8285cb0914028cdec82c195d48b46ec172840c98772772b344.html" title="">Podam should fill AttributeMetadata with the attribute name </a>
+                            </td>
+
+                            <td class="lightgreentext">7</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="3556b96bcb1da5430e1bf8790954777fb4b12ddb0f0074a09574e1be67408a95.html" title="">Podam should fill Java native types </a>
+                            </td>
+
+                            <td class="lightgreentext">11</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.05</td>
                         </tr>
 
 
@@ -1409,7 +1600,7 @@ Estimated ignored or skipped requirements: 0%">
                             <td><img src="images/success.png" title="SUCCESS"
                                      class="summary-icon"/><span style="display:none">SUCCESS</span></td>
                             <td class="SUCCESS-text"><a
-                                    href="fd2e286d84d12aafd0e3e518eea67751927e0eb45c4be39e0b264f7c94196acb.html" title="">Podam should fill embedded abstract classes if a concrete type has been specified </a>
+                                    href="f00c8342cca40bfa560801357343f00dca073eecdbeed462ce8e5d7a1d4b4984.html" title="">Podam should fill POJOs with protected, non default constructors </a>
                             </td>
 
                             <td class="lightgreentext">5</td>
@@ -1427,6 +1618,60 @@ Estimated ignored or skipped requirements: 0%">
                             <td><img src="images/success.png" title="SUCCESS"
                                      class="summary-icon"/><span style="display:none">SUCCESS</span></td>
                             <td class="SUCCESS-text"><a
+                                    href="390a33a8ce40f091fef3cd9c921e43c377478a6b1496d7a286c3b528fcbe0ad8.html" title="">Podam should fill POJOs with public, non default constructors </a>
+                            </td>
+
+                            <td class="lightgreentext">5</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="6a8debf31d6fc26ea40938ec4acb086606824fba86f5f888a5447c21d23f2fa9.html" title="">Podam should fill arrays with elements </a>
+                            </td>
+
+                            <td class="lightgreentext">4</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="fd2e286d84d12aafd0e3e518eea67751927e0eb45c4be39e0b264f7c94196acb.html" title="">Podam should fill embedded abstract classes if a concrete type has been specified </a>
+                            </td>
+
+                            <td class="lightgreentext">5</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
                                     href="d618f5b7ae31a95e797f6004991ffddb407df624563bd35b5652ba7b33eb2d23.html" title="">Podam should fill in Maps of the containing class type </a>
                             </td>
 
@@ -1437,7 +1682,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.1</td>
+                            <td class="lightgreentext">0.16</td>
                         </tr>
 
 
@@ -1491,7 +1736,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.04</td>
+                            <td class="lightgreentext">0.03</td>
                         </tr>
 
 
@@ -1553,6 +1798,24 @@ Estimated ignored or skipped requirements: 0%">
                             <td><img src="images/success.png" title="SUCCESS"
                                      class="summary-icon"/><span style="display:none">SUCCESS</span></td>
                             <td class="SUCCESS-text"><a
+                                    href="0ac4addb93c7a963f48ec106f2d7c7109462b7a9ed21a6557e91aeecf8b00b7e.html" title="">Podam should fill values invoking children setters accepting a type different from the parent type </a>
+                            </td>
+
+                            <td class="lightgreentext">3</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
                                     href="64b2a2fcf82ab0bdb028b8ee20b632268374ed52b3ccdb4bd270846ee1329f8d.html" title="">Podam should generate a non null POJO for Abstract types with a concrete type </a>
                             </td>
 
@@ -1581,7 +1844,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.04</td>
+                            <td class="lightgreentext">0.05</td>
                         </tr>
 
 
@@ -1599,7 +1862,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.02</td>
                         </tr>
 
 
@@ -1679,6 +1942,24 @@ Estimated ignored or skipped requirements: 0%">
                             <td><img src="images/success.png" title="SUCCESS"
                                      class="summary-icon"/><span style="display:none">SUCCESS</span></td>
                             <td class="SUCCESS-text"><a
+                                    href="ede023522f4e6957128e2bb263107940f50743fb82ccbb3fb61b4974f16c69c9.html" title="">Podam should handle booleans correctly </a>
+                            </td>
+
+                            <td class="lightgreentext">7</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
                                     href="55ba90e2a7b53ece77391d2c2c9cff9d4b4b1e224fc10f04f9a7d618e5696e9b.html" title="">Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation </a>
                             </td>
 
@@ -1707,7 +1988,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.07</td>
+                            <td class="lightgreentext">0.06</td>
                         </tr>
 
 
@@ -1761,7 +2042,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.08</td>
                         </tr>
 
 
@@ -1779,7 +2060,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.1</td>
+                            <td class="lightgreentext">0.11</td>
                         </tr>
 
 
@@ -1833,7 +2114,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.06</td>
+                            <td class="lightgreentext">0.07</td>
                         </tr>
 
 
@@ -1869,7 +2150,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.04</td>
+                            <td class="lightgreentext">0.03</td>
                         </tr>
 
 
@@ -1905,7 +2186,7 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.09</td>
+                            <td class="lightgreentext">0.1</td>
                         </tr>
 
 
@@ -1923,7 +2204,151 @@ Estimated ignored or skipped requirements: 0%">
                                      class="summary-icon"/>
                                 <span style="display:none">0</span>
                             </td>
-                            <td class="lightgreentext">0.21</td>
+                            <td class="lightgreentext">0.24</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="40629ef300f4ea44b163cd24d250599a51ab49c5034c09ad4115074d7ca24027.html" title="">Podam should throw an exception if a POJO contains invalid getters or setters </a>
+                            </td>
+
+                            <td class="lightgreentext">1</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.01</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="728b5332cb030b78f14338546b46d6c9742392aa1926a82fb60831d238f57c8c.html" title="The precise value: afasdfafa cannot be converted to a byte type. An exception will be thrown.">Podam should throw an exception if the @PodamByteValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="701d5b336b5b48a2c32098758bac392693c345e975b2ef13d1abfa626dcf27e8.html" title="The annotation value: fajhfakh could not be converted to a Double. An exception will be thrown.">Podam should throw an exception if the @PodamDoubleValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="9cdc5934262e72b544572703c1b9d0a49e6880fc34b1e950fbb895976bd247a6.html" title="The annotation value: fafhakljhf could not be converted to a Float. An exception will be thrown.">Podam should throw an exception if the @PodamFloatValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="053f22bba029b9b75158f50977fe3ed06f37bd10bba2a7b87ffb1673232ff622.html" title="The annotation value: hfajkfhalfh could not be converted to an Integer. An exception will be thrown.">Podam should throw an exception if the @PodamIntegerValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.03</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="6fd419a18a3816c94abf1f45212d445a4cb7ce8face12eb314bf5f6990591983.html" title="The annotation value: afhafhakflh could not be converted to a Long. An exception will be thrown.">Podam should throw an exception if the @PodamLongValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-ERROR">
+                            <td><img src="images/cross.png" title="ERROR"
+                                     class="summary-icon"/><span style="display:none">ERROR</span></td>
+                            <td class="ERROR-text"><a
+                                    href="e8fd18dcff32a63458c4372b4307f34cd91eeef92ecc0e4a88b2cb2be62bd805.html" title="The precise value: fajkfhaf cannot be converted to a short type. An exception will be thrown.">Podam should throw an exception if the @PodamShortValue annotation contains invalid characters </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
+                        </tr>
+
+
+                        <tr class="test-SUCCESS">
+                            <td><img src="images/success.png" title="SUCCESS"
+                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
+                            <td class="SUCCESS-text"><a
+                                    href="3b82bffd0392c12c0b1ac6ee35295adc1edcfba1987349de6b82890e3ea27937.html" title="The type of the Podam Attribute Strategy is not java.lang.String but uk.co.jemos.podam.test.dto.OneDimensionalTestPojo. An exception will be thrown.">Podam should throw an exception if the @PodamStrategyValue annotation contains the wrong strateg type </a>
+                            </td>
+
+                            <td class="lightgreentext">2</td>
+                            <td class="bluetext">
+                                <img src="images/traffic-in-progress.gif"
+                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
+                                     class="summary-icon"/>
+                                <span style="display:none">0</span>
+                            </td>
+                            <td class="lightgreentext">0.02</td>
                         </tr>
 
 
@@ -1956,7 +2381,7 @@ Estimated ignored or skipped requirements: 0%">
 </div>
 </div>
 <div id="bottomfooter">
-    <span class="version">Serenity BDD version 1.0.47</span>
+    <span class="version">Serenity BDD version 1.0.50</span>
 </div>
 </body>
 </html>
