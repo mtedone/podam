@@ -440,4 +440,9 @@ public class PodamValidationSteps {
             Assert.assertEquals("Wrong element type", elementType, element.getClass());
         }
     }
+
+    @Step("Then the object should be null")
+    public void theValueShouldBeNull(Object value) {
+        Assert.assertNull("The value is not null", value);
+    }
 }

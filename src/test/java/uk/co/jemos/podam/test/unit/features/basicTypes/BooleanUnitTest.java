@@ -1,18 +1,16 @@
-package uk.co.jemos.podam.test.unit;
+package uk.co.jemos.podam.test.unit.features.basicTypes;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Title;
+import org.junit.*;
+import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.DefaultClassInfoStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.common.PodamExclude;
 import uk.co.jemos.podam.test.dto.BooleanPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.TestExclude;
-
-import java.io.Serializable;
+import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 /**
  * Test @uk.co.jemos.podam.test.dto.BooleanPojo@ construction
@@ -20,16 +18,14 @@ import java.io.Serializable;
  * @author daivanov
  *
  */
-public class BooleanUnitTest implements Serializable {
-	private static final long serialVersionUID = 1L;
+@RunWith(SerenityRunner.class)
+public class BooleanUnitTest extends AbstractPodamSteps {
 
 	private final static RandomDataProviderStrategyImpl strategy =
 			new RandomDataProviderStrategyImpl();
 
 	private final static DefaultClassInfoStrategy classInfoStrategy =
 			DefaultClassInfoStrategy.getInstance();
-
-	private final static PodamFactory podam = new PodamFactoryImpl(strategy);
 
 	@BeforeClass
 	public static void init() {
@@ -49,19 +45,17 @@ public class BooleanUnitTest implements Serializable {
 	}
 
 	@Test
-	public void testBooleanFieldsSetting() throws Exception {
-	
-		BooleanPojo pojo = podam.manufacturePojo(BooleanPojo.class);
-		Assert.assertNotNull("Construction failed", pojo);
+	@Title("Podam should handle booleans correctly")
+	public void podamShouldHandleBooleansCorrect() throws Exception {
 
-		Assert.assertEquals("Should be filled", true, pojo.isValue1());
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+		BooleanPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BooleanPojo.class, podamFactory);
 
-		Assert.assertNull("Should be excluded", pojo.isValue2());
-
-		Assert.assertNotNull("Should be filled", pojo.getValue3());
-		Assert.assertEquals("Should be filled", true, pojo.getValue3());
-
-		Assert.assertNull("Should be excluded", pojo.getValue4());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theBooleanValueIsTrue(pojo.isValue1());
+		podamValidationSteps.theValueShouldBeNull(pojo.isValue2());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue3());
+		podamValidationSteps.theValueShouldBeNull(pojo.getValue4());
 	}
 
 }
