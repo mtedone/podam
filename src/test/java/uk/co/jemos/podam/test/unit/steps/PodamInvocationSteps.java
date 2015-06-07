@@ -17,4 +17,10 @@ public class PodamInvocationSteps {
     public <T> T whenIInvokeThePojoPopulationDirectly(T className, PodamFactory podamFactory) throws Exception {
         return podamFactory.populatePojo(className);
     }
+
+    @Step("When I invoke the factory to manufacture {0} with the fullest constructor")
+    public <T> T whenIInvokeTheFactoryForClassWithFullConstructor(Class<T> className, PodamFactory podamFactory)
+    throws Exception {
+        return podamFactory.manufacturePojoWithFullData(className);
+    }
 }

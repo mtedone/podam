@@ -13,6 +13,11 @@ import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 /**
  * Created by tedonema on 27/05/2015.
  */
@@ -155,6 +160,29 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         EnumsPojo.RatePodamInternal ratePodamInternal = pojo.getRatePodamInternal();
         podamValidationSteps.theObjectShouldNotBeNull(ratePodamInternal);
+
+    }
+
+    @Test
+    @Title("Podam should fill Java native types")
+    public void podamShouldFillJavaNativeTypes() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        String pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(String.class, podamFactory);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo);
+
+        Integer integerPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Integer.class, podamFactory);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(integerPojo);
+
+        Calendar calendarPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(GregorianCalendar.class, podamFactory);
+        podamValidationSteps.theCalendarFieldShouldNotBeNull(calendarPojo);
+
+        Date datePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Date.class, podamFactory);
+        podamValidationSteps.theDateObjectShouldNotBeNull(datePojo);
+
+        BigDecimal bigDecimalPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BigDecimal.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(bigDecimalPojo);
 
     }
 

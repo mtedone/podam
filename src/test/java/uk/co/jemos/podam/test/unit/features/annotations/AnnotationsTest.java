@@ -501,5 +501,59 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamIntegerValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamIntegerValueContainsInvalidCharacters() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(IntegerValueWithErrorPojo.class, podamFactory);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamLongValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamLongValueContainsInvalidCharacters() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(LongValueWithErrorPojo.class, podamFactory);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamByteValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamByteValueContainsInvalidCharacters() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(ByteValueWithErrorPojo.class, podamFactory);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamShortValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamShortValueContainsInvalidCharacters() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(ShortValueWithErrorPojo.class, podamFactory);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamFloatValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamFloatValueContainsInvalidCharacters() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(FloatValueWithErrorPojo.class, podamFactory);
+    }
+
+
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamDoubleValue annotation contains invalid characters")
+    public void podamShouldThrowExceptionWhenPodamDoubleValueContainsInvalidCharacters() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(DoubleValueWithErrorPojo.class, podamFactory);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Title("Podam should throw an exception if the @PodamStrategyValue annotation contains the wrong strateg type")
+    public void podamShouldThrowExceptionWhenPodamStrategyValueContainsInvalidStrategy() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamInvocationSteps.whenIInvokeTheFactoryForClass(StringWithWrongStrategyTypePojo.class, podamFactory);
+    }
+
 
 }

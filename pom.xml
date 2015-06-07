@@ -15,7 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<serenity.version>1.0.47</serenity.version>
+		<serenity.version>1.0.50</serenity.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 
@@ -458,7 +458,7 @@
 		<!-- Serenity-BDD -->
 		<dependency>
 			<groupId>net.serenity-bdd</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>serenity-core</artifactId>
 			<version>${serenity.version}</version>
 			<scope>test</scope>
 		</dependency>

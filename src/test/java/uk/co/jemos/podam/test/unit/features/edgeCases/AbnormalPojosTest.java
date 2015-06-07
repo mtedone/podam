@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
+import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
+import uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.activation.DataHandler;
@@ -97,4 +99,31 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
 
     }
+
+    @Test
+    @Title("Podam should fill POJOs with public, non default constructors")
+    public void podamShouldFillPojosWithPublicNonDefaultPublicConstructors() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        NoDefaultPublicConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(NoDefaultPublicConstructorPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+
+    }
+
+
+    @Test
+    @Title("Podam should fill POJOs with protected, non default constructors")
+    public void podamShouldFillPojosWithProtectedNonDefaultConstructors() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ProtectedNonDefaultConstructorPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(ProtectedNonDefaultConstructorPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
+        podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
+
+    }
+
 }
