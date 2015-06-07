@@ -186,4 +186,16 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("Podam should fill arrays with elements")
+    public void podamShouldFillArraysWithElements() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        ArrayPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ArrayPojo.class, podamFactory);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(
+                pojo.getMyStringArray(), String.class);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(
+                pojo.getMyObjectArray(), Object.class);
+    }
+
 }

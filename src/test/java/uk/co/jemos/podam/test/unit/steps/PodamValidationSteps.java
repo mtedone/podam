@@ -431,4 +431,13 @@ public class PodamValidationSteps {
         Assert.assertTrue("The array of objects should contain at least one element",
                 objectArray.length > 0);
     }
+
+    @Step("Then the given array should not be null or empty and contain elements of type {1}")
+    public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(Object[] array, Class<?> elementType) {
+        Assert.assertNotNull("Array should not be null", array);
+        Assert.assertTrue("Array should not be empty", array.length > 0);
+        for (Object element : array) {
+            Assert.assertEquals("Wrong element type", elementType, element.getClass());
+        }
+    }
 }
