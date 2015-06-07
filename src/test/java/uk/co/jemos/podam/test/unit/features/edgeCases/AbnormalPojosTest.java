@@ -2,9 +2,11 @@ package uk.co.jemos.podam.test.unit.features.edgeCases;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo;
@@ -124,6 +126,28 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
 
+    }
+
+
+    @Test(expected=PodamMockeryException.class)
+    @Title("Podam should throw an exception if a POJO contains invalid getters or setters")
+    public void podamShouldThrowAnExceptionIfAPojoContainsInvalidGettersOrSetters() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        //TODO To Serenify once issue #71 has been fixed
+        BadlyTypedPojo pojo = podamFactory.manufacturePojo(BadlyTypedPojo.class);
+        Assert.assertNotNull("Manufacturing failed", pojo);
+
+    }
+
+
+    @Test
+    @Title("Podam should fill values invoking children setters accepting a type different from the parent type")
+    public void podamShouldFillValuesInvokingChildrenSettersHavingDifferentTypesThanParent() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        BadlyTypedFixedPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BadlyTypedFixedPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
     }
 
 }
