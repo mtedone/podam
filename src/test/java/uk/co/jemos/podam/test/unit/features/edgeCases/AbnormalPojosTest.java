@@ -134,7 +134,6 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
     public void podamShouldThrowAnExceptionIfAPojoContainsInvalidGettersOrSetters() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        //TODO To Serenify once issue #71 has been fixed
         BadlyTypedPojo pojo = podamFactory.manufacturePojo(BadlyTypedPojo.class);
         Assert.assertNotNull("Manufacturing failed", pojo);
 

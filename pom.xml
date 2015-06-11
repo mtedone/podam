@@ -15,7 +15,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<serenity.version>1.0.50</serenity.version>
+		<serenity.version>1.0.51</serenity.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 	</properties>
 
