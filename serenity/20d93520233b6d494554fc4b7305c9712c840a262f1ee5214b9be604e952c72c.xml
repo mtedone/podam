@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-06-07T20:50:57.309+01:00">
+<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="48" timestamp="2015-06-12T00:13:30.340+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="25">
+  <test-step result="SUCCESS" duration="14">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="10">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ImmutableNoHierarchicalPojo [intField=-1248155955 should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ImmutableNoHierarchicalPojo [intField=1222004644 should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the int field should not be zero</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the calendar object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

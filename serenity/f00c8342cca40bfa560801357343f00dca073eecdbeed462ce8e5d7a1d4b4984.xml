@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should fill POJOs with protected, non default constructors" name="podamShouldFillPojosWithProtectedNonDefaultConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="19" timestamp="2015-06-07T20:51:01.517+01:00">
+<acceptance-test-run title="Podam should fill POJOs with protected, non default constructors" name="podamShouldFillPojosWithProtectedNonDefaultConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-06-12T00:13:34.169+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="10">
+  <test-step result="SUCCESS" duration="11">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm33.ProtectedNonDefaultConstructorPojo</description>
   </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ProtectedNonDefaultConstructorPojo ( firstName = jlCoVvq0yp    intField = 753149499     )&lt;/span&gt; should not be null</description>
+  </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ProtectedNonDefaultConstructorPojo ( firstName = oA8bnWRL7h    intField = 482639017     )&lt;/span&gt; should not be null</description>
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;jlCoVvq0yp&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;oA8bnWRL7h&lt;/span&gt; cannot be null or empty</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>
   </test-step>
 </acceptance-test-run>
