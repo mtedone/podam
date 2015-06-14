@@ -465,7 +465,7 @@ public class PodamValidationSteps {
         }
     }
 
-    @Step("Then the Map should not be null or empty and each element should be of type {1}")
+    @Step("Then the Map should not be null or empty and each element should have key of type {1} and value of type {2}")
     public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
         Assert.assertNotNull("Map should not be null", map);
         Assert.assertFalse("Map should not be empty", map.isEmpty());
@@ -473,5 +473,15 @@ public class PodamValidationSteps {
             Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
             Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
         }
+    }
+
+    @Step("Then the map should be empty")
+    public void theMapShouldBeEmtpy(Map<?, ?> map) {
+        Assert.assertTrue("The Map should be empty", map.isEmpty());
+    }
+
+    @Step("Then the collection should be empty")
+    public void theCollectionShouldBeEmpty(Collection<?> collection) {
+        Assert.assertTrue("The Map should be empty", collection.isEmpty());
     }
 }
