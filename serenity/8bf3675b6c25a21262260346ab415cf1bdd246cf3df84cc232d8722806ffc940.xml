@@ -1,0 +1,20 @@
+<acceptance-test-run title="Podam should be able to manufacture any type of Maps" name="podamShouldBeAbleToManufactureAnyTypeOfMaps" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="17" timestamp="2015-06-14T20:05:35.362+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
+  <tags>
+    <tag name="Constructors" type="epics"/>
+    <tag name="Constructors unit test" type="stories"/>
+    <tag name="Constructors unit test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="10">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map should not be null or empty and each element should have key of type lo7YIImGuV=-1659866339 and value of type Hf95ghVzC5=-885162310</description>
+  </test-step>
+</acceptance-test-run>

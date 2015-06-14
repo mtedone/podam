@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle both native and wrapped short values with @PodamShortValue annotation" name="podamShouldHandleShortValuesWithThePodamShortValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="48" timestamp="2015-06-14T14:20:11.511+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped short values with @PodamShortValue annotation" name="podamShouldHandleShortValuesWithThePodamShortValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="44" timestamp="2015-06-14T20:05:31.153+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
@@ -12,36 +12,36 @@
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.ShortValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ShortRangeValuesPojo ( shortFieldWithMinValueOnly = 0    shortFieldWithMaxValueOnly = 23    shortFieldWithMinAndMaxValue = 38    shortObjectFieldWithMinValueOnly = 0    shortObjectFieldWithMaxValueOnly = 54    shortObjectFieldWithMinAndMaxValue = 96    shortFieldWithPreciseValue = 17     )&lt;/span&gt; should not be null</description>
+    <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;23 should be lower or equal than 100&lt;/span&gt;</description>
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;57 should be lower or equal than 100&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;68 should be between 0 and 1000&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;38 should be between 0 and 1000&lt;/span&gt;</description>
+    <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;23&lt;/span&gt; should not be null</description>
+    <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;54 should be lower or equal than 100&lt;/span&gt;</description>
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;27 should be lower or equal than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;96&lt;/span&gt; should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;96 should be between 0 and 100&lt;/span&gt;</description>
+    <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
+    <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;65 should be between 0 and 100&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
     <description>Then the short value &lt;span class=&apos;step-parameter&apos;&gt;17 should be precisely 17&lt;/span&gt;</description>
   </test-step>
 </acceptance-test-run>

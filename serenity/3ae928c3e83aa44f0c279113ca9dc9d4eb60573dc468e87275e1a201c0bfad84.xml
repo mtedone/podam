@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2015-06-14T14:20:14.609+01:00">
+<acceptance-test-run title="Podam should fill in a POJO with basic jvm types" name="podamShouldGenerateBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2015-06-14T20:05:34.030+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -8,16 +8,16 @@
   <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="7">
+  <test-step result="SUCCESS" duration="6">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalTestPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 67    byteObjectField = 66    shortField = 114    shortObjectField = 31    charField = T    charObjectField = r    intField = 790398657    intObjectField = 1400570179    longField = 370791328717647    longObjectField = 370791326974005    floatField = 0.1231361    floatObjectField = 0.29834694    doubleField = 0.020375136984985054    doubleObjectField = 0.37170377070729    stringField = Dzf8DOSWlQ    objectField = java.lang.Object@7c83aa9a    calendarField = Sun Jun 14 14:20:14 BST 2015    dateField = Sun Jun 14 14:20:14 BST 2015    randomArray = [Ljava.util.Random;@6fe40fa8    intArray = [I@37f76752    booleanArray = [Z@48f7f8cc    bigDecimalField = 495354782990     )&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Pojo should contain some data</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="4">
     <description>Then OneDimensionalTestPojo should be valid</description>
   </test-step>
 </acceptance-test-run>

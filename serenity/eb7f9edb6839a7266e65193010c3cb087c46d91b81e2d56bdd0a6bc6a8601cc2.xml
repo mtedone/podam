@@ -1,0 +1,29 @@
+<acceptance-test-run title="The management of external factories should be correct and chaining should work" name="theManagementOfExternalFactoriesShouldBeCorrectAndChainingShouldWord" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="15" timestamp="2015-06-14T20:05:36.424+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
+  <tags>
+    <tag name="External factory" type="epics"/>
+    <tag name="External factory unit test" type="stories"/>
+    <tag name="External factory unit test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="2">
+    <description>Given an external factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the object should be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644 and uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644&lt;/span&gt; should be equal</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the object should be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644 and uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644&lt;/span&gt; should be equal</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the object should be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644 and uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory@40d2a644&lt;/span&gt; should be equal</description>
+  </test-step>
+</acceptance-test-run>
