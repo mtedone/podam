@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
@@ -69,5 +70,15 @@ public class PodamFactorySteps {
             retValue.add(excludedFields[i]);
         }
         return retValue;
+    }
+
+    @Step("Given an external factory")
+    public PodamFactory givenAnExternalFactory() {
+        return new TestExternalFactory();
+    }
+
+    @Step("Given a Podam Factory with external factory")
+    public PodamFactory givenAdPodamFactoryWithExternalFactory(PodamFactory externalFactory) {
+        return new PodamFactoryImpl(externalFactory);
     }
 }
