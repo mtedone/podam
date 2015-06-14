@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.unit;
+package uk.co.jemos.podam.test.unit.features.annotations;
 
 import net.thucydides.core.annotations.Title;
 import org.junit.Before;

@@ -445,4 +445,9 @@ public class PodamValidationSteps {
     public void theValueShouldBeNull(Object value) {
         Assert.assertNull("The value is not null", value);
     }
+
+    @Step("Then the two objects {0} and {1} should be equal")
+    public void theTwoObjectsShouldBeEqual(Object expectedObject, Object actualObject) {
+        Assert.assertEquals("The two objects are not equal", expectedObject, actualObject);
+    }
 }

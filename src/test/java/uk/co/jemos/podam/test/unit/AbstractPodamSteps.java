@@ -29,4 +29,7 @@ public abstract class AbstractPodamSteps {
     @Steps
     protected ConstructorSelfReferenceValidationSteps constructorSelfReferenceValidationSteps;
 
+    @Steps
+    protected ClassInfoValidationSteps classInfoValidationSteps;
+
 }
