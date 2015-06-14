@@ -450,4 +450,37 @@ public class PodamValidationSteps {
     public void theTwoObjectsShouldBeEqual(Object expectedObject, Object actualObject) {
         Assert.assertEquals("The two objects are not equal", expectedObject, actualObject);
     }
+
+    @Step("Then the object should be null")
+    public void theObjectShouldBeNull(Object pojo) {
+        Assert.assertNull("The object should be null", pojo);
+    }
+
+    @Step("Then the collection should not be null or empty and each element should be of type {1}")
+    public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> clazz) {
+        Assert.assertNotNull("The collection should not be null", collection);
+        Assert.assertFalse("The collection should not be empty", collection.isEmpty());
+        for (Object e : collection) {
+            Assert.assertTrue("The element is not of type " + clazz, e.getClass().isAssignableFrom(clazz));
+        }
+    }
+
+    @Step("Then the array should not be null or empty and each element should be of type {1}")
+    public void theArrayOfStringsShouldNotBeNullOrEmptyAndContainElementsOfType(String[] array, Class<?> clazz) {
+        Assert.assertNotNull("The array should not be null", array);
+        Assert.assertFalse("The array should not be empty", array.length == 0);
+        for (Object e : array) {
+            Assert.assertTrue("The element is not of type " + clazz, e.getClass().isAssignableFrom(clazz));
+        }
+    }
+
+    @Step("Then the collection should not be null or empty and each element should be of type {1}")
+    public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
+        Assert.assertNotNull("Map should not be null", map);
+        Assert.assertFalse("Map should not be empty", map.isEmpty());
+        for (Map.Entry<?, ?> element : map.entrySet()) {
+            Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
+            Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
+        }
+    }
 }

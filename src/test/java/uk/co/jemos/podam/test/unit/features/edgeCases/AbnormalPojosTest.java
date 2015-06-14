@@ -149,4 +149,13 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
     }
 
+    @Test
+    @Title("Podam should return a null value for non instantiable POJOs")
+    public void podamShouldReturnANullValueForNonInstantiablePojos() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        NonInstantiatableClass innerClassPojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(NonInstantiatableClass.class, podamFactory);
+        podamValidationSteps.theObjectShouldBeNull(innerClassPojo);
+    }
+
 }
