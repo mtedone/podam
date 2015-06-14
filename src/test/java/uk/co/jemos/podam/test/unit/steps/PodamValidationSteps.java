@@ -465,16 +465,7 @@ public class PodamValidationSteps {
         }
     }
 
-    @Step("Then the array should not be null or empty and each element should be of type {1}")
-    public void theArrayOfStringsShouldNotBeNullOrEmptyAndContainElementsOfType(String[] array, Class<?> clazz) {
-        Assert.assertNotNull("The array should not be null", array);
-        Assert.assertFalse("The array should not be empty", array.length == 0);
-        for (Object e : array) {
-            Assert.assertTrue("The element is not of type " + clazz, e.getClass().isAssignableFrom(clazz));
-        }
-    }
-
-    @Step("Then the collection should not be null or empty and each element should be of type {1}")
+    @Step("Then the Map should not be null or empty and each element should be of type {1}")
     public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
         Assert.assertNotNull("Map should not be null", map);
         Assert.assertFalse("Map should not be empty", map.isEmpty());
