@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should fill in POJOs with Enums" name="podamShouldFillPojoWithEnums" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="24" timestamp="2015-06-12T00:13:32.759+01:00">
+<acceptance-test-run title="Podam should fill in POJOs with Enums" name="podamShouldFillPojoWithEnums" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="26" timestamp="2015-06-14T14:20:14.483+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="13">
+  <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EnumsPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;EnumsPojo ( ratePodamInternal = COOL    ratePodamExternal = EXTERNAL_SUPERCOOL     )&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;EnumsPojo ( ratePodamInternal = ROCKS    ratePodamExternal = EXTERNAL_COOL     )&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;EXTERNAL_SUPERCOOL&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;EXTERNAL_COOL&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;COOL&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;ROCKS&lt;/span&gt; should not be null</description>
   </test-step>
 </acceptance-test-run>

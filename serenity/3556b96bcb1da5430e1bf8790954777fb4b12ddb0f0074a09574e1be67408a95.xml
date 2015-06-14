@@ -1,18 +1,18 @@
-<acceptance-test-run title="Podam should fill Java native types" name="podamShouldFillJavaNativeTypes" steps="11" successful="11" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="52" timestamp="2015-06-12T00:13:32.705+01:00">
+<acceptance-test-run title="Podam should fill Java native types" name="podamShouldFillJavaNativeTypes" steps="11" successful="11" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="72" timestamp="2015-06-14T14:20:14.410+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="12">
+  <test-step result="SUCCESS" duration="25">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="16">
     <description>When I invoke the factory to manufacture &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.String with the fullest constructor</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;昄晛昧昆晎&lt;/span&gt; cannot be null or empty</description>
+  <test-step result="SUCCESS" duration="5">
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;艤艅舜舠舟&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.Integer</description>
@@ -26,7 +26,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the calendar object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.util.Date</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -35,7 +35,7 @@
   <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.math.BigDecimal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;9937969014&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;130867400463&lt;/span&gt; should not be null</description>
   </test-step>
 </acceptance-test-run>

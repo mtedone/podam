@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should assign precise values and lengths when a String is annotated with @PodamStringValue" name="podamShouldAssignPreciseValuesWithTheStringValueAnnotation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2015-06-12T00:13:30.634+01:00">
+<acceptance-test-run title="Podam should assign precise values and lengths when a String is annotated with @PodamStringValue" name="podamShouldAssignPreciseValuesWithTheStringValueAnnotation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2015-06-14T14:20:11.609+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
@@ -8,14 +8,14 @@
   <test-step result="SUCCESS" duration="13">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="6">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.StringValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uPBaNM66fBbj3mM6SUEv&lt;/span&gt; should not be null</description>
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;WvpgU9Ds2uq5rhdklMJM&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the string value &lt;span class=&apos;step-parameter&apos;&gt;uPBaNM66fBbj3mM6SUEv should have the length of 20&lt;/span&gt;</description>
+    <description>Then the string value &lt;span class=&apos;step-parameter&apos;&gt;WvpgU9Ds2uq5rhdklMJM should have the length of 20&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;preciseStringValue&lt;/span&gt; should not be null</description>

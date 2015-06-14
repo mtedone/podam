@@ -1,21 +1,21 @@
-<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="24" timestamp="2015-06-12T00:13:34.244+01:00">
+<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-14T14:20:16.120+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;PrivateOnlyPojo ( firstName = 21OtZm87k6    intField = -2082339262     )&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;PrivateOnlyPojo ( firstName = TuxkbpnsZl    intField = -1638176456     )&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;21OtZm87k6&lt;/span&gt; cannot be null or empty</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;TuxkbpnsZl&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>

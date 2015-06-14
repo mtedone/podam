@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill arrays with elements" name="podamShouldFillArraysWithElements" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="21" timestamp="2015-06-12T00:13:33.021+01:00">
+<acceptance-test-run title="Podam should fill arrays with elements" name="podamShouldFillArraysWithElements" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-14T14:20:14.687+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -12,9 +12,9 @@
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ArrayPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the given array should not be null or empty and contain elements of type uUNI5KZeM8</description>
+    <description>Then the given array should not be null or empty and contain elements of type e9nCUvoPXi</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the given array should not be null or empty and contain elements of type java.lang.Object@30336205</description>
+    <description>Then the given array should not be null or empty and contain elements of type java.lang.Object@5e04bfe5</description>
   </test-step>
 </acceptance-test-run>

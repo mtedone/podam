@@ -1,0 +1,20 @@
+<acceptance-test-run title="Podam should generate a ClassInfo which contains information for the setters contained in the POJO" name="podamShouldReturnAClassInfoObjectWhichContainsTheSameAttributesAsThePojoBeingProcessed" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2015-06-14T14:20:15.215+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
+  <tags>
+    <tag name="Class info" type="epics"/>
+    <tag name="Class info test" type="stories"/>
+    <tag name="Class info test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="2">
+    <description>When I invoke Podam Utils method to get class info for class &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters and approver &lt;null&gt;&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.api.ClassInfo@61024f2e&lt;/span&gt; should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters and class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters&lt;/span&gt; should be equal</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the attributes contains in ClassInfo should match the ones contains in the POJO</description>
+  </test-step>
+</acceptance-test-run>

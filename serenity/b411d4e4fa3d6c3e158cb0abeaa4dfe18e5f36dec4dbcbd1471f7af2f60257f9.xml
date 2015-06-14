@@ -1,0 +1,17 @@
+<acceptance-test-run title="Podam should return valid class info for POJOs with no attributes" name="podamShouldReturnAValidClassInfoForPojoWithNoAttributes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2015-06-14T14:20:15.180+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
+  <tags>
+    <tag name="Class info" type="epics"/>
+    <tag name="Class info test" type="stories"/>
+    <tag name="Class info test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="2">
+    <description>Given a ClassInfo for class &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmptyTestPojo with empty attributes</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>When I invoke Podam Utils method to get class info for class &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmptyTestPojo and approver &lt;null&gt;&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.api.ClassInfo@5fdcc93f and uk.co.jemos.podam.api.ClassInfo@5fdcc93f&lt;/span&gt; should be equal</description>
+  </test-step>
+</acceptance-test-run>
