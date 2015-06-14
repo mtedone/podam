@@ -248,7 +248,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         Character charObjectFieldWithMaxValueOnly = pojo
                 .getCharObjectFieldWithMaxValueOnly();
         podamValidationSteps.theCharValueShouldBeLowerOrEqualThan(charObjectFieldWithMaxValueOnly,
-                PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+                 PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
         Character charObjectFieldWithMinAndMaxValue = pojo
                 .getCharObjectFieldWithMinAndMaxValue();

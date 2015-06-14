@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class PodamValidationSteps {
 
-    @Step("Then the Object {0} should not be null")
+    @Step("Then the Object should not be null")
     public boolean theObjectShouldNotBeNull(Object pojo) {
         return pojo == null;
     }
