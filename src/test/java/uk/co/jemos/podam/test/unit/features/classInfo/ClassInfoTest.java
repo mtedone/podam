@@ -74,6 +74,30 @@ public class ClassInfoTest extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("In Presence of excluded attributes, the Class Info object should not contain those attributes")
+    public void inPresenceOfExcludedAttributesTheClassInfoObjectShouldNotContainThoseAttributes() {
+
+        Set<Class<? extends Annotation>> excludeAnnotations =
+                podamFactorySteps.givenASetOfExcludedAnnotationsToBeExcluded();
+
+        Set<String> excludeFields = podamFactorySteps.givenASetOfExcludedFields(
+                "excludeField1",
+                "excludeField2",
+                "excludeField3");
+
+        ClassInfo classInfo = podamFactorySteps.givenAClassInfoForPojoWithWithExcludedAnnotationsAndFields(
+                SimplePojoWithExcludeAnnotationToTestSetters.class,
+                excludeAnnotations, excludeFields);
+
+        podamValidationSteps.theObjectShouldNotBeNull(classInfo);
+        Set<String> attribs = new HashSet<String>();
+        attribs.add("stringField");
+        attribs.add("intField");
+        classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, classInfo.getClassAttributes());
+
+    }
+
 
 
 }

@@ -60,4 +60,14 @@ public class PodamFactorySteps {
         return PodamUtils.getClassInfo(pojoClass, excludeAnnotations, excludeFields, nullApprover);
 
     }
+
+    @Step("Given a set of excluded fields")
+    public Set<String> givenASetOfExcludedFields(String...excludedFields) {
+
+        Set<String> retValue = new HashSet<String>();
+        for (int i = 0; i < excludedFields.length; i++) {
+            retValue.add(excludedFields[i]);
+        }
+        return retValue;
+    }
 }
