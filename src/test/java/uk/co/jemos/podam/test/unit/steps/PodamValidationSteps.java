@@ -286,7 +286,7 @@ public class PodamValidationSteps {
                 charValue <= maxValue);
     }
 
-    @Step("Then the char value {0} should be between {1} and {2}")
+    @Step("Then the char value should be between {1} and {2}")
     public void theCharValueShouldBeBetween(char charValue, int minValue, int maxValue) {
         Assert.assertTrue("The char value should be between " + minValue + " and " + maxValue,
                 charValue >= minValue && charValue <= maxValue);

@@ -8,7 +8,9 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
+import java.util.Date;
 import java.util.Observable;
+import java.util.TimeZone;
 
 /**
  * @author daivanov
@@ -157,6 +159,58 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 				ImmutableHashtable.class, podamFactory, String.class, Integer.class);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 		podamValidationSteps.theMapShouldBeEmtpy(pojo);
+	}
+
+	@Test
+	@Title("Podam should be able to create instances of abstract POJOs with factory methods which return concrete types")
+	public void podamShouldInstantiateAbstractClassesForWhichItKnowsConcreteTypes() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		TimeZone pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(TimeZone.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+	}
+
+	@Test
+	@Title("Podam should be able to create instances of generic POJOs with factory methods when the concrete type is known")
+	public void podamShouldCreateInstancesOfGenericPojosWithFactoryMethodsWhenTheConcreteTypeIsKnown() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		FactoryInstantiablePojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+				FactoryInstantiablePojo.class, podamFactory, Date.class);
+
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+		Object value = pojo.getTypedValue();
+		podamValidationSteps.theObjectShouldNotBeNull(value);
+		podamValidationSteps.theTwoObjectsShouldBeEqual(Date.class, value.getClass());
+	}
+
+
+	@Test
+	@Title("Podam should choose the fullest constructor when invoked for full data")
+	public void podamShouldChooseTheFullestConstructorWhenInvokedForFullData() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		ImmutablePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(
+				ImmutablePojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue2());
+	}
+
+	@Test
+	@Title("Podam should choose the lightest constructor when the standard manufacturing method is invoked")
+	public void testImmutablePojoConstructionFailure() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		ImmutablePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutablePojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldBeNull(pojo.getValue());
+		podamValidationSteps.theObjectShouldBeNull(pojo.getValue2());
 	}
 
 }

@@ -422,6 +422,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				LOG.debug("Could create an instance using "
 						+ candidateConstructor);
 
+				//If Podam has created the POJO, we're done
+				if (retValue != null) {
+					break;
+				}
+
 			} catch (Exception t) {
 
 				LOG.debug(
