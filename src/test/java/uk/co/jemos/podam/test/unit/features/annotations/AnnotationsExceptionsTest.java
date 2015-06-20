@@ -14,6 +14,8 @@ public class AnnotationsExceptionsTest {
 
     private PodamFactory podamFactory;
 
+    //TODO Can't serenify until issue #79 has been resolved
+
     @Before
     public void init() {
         podamFactory = new PodamFactoryImpl();

@@ -8,6 +8,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
+import javax.xml.bind.JAXBElement;
 import java.util.Date;
 import java.util.Observable;
 import java.util.TimeZone;
@@ -211,6 +212,47 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 		podamValidationSteps.theObjectShouldBeNull(pojo.getValue());
 		podamValidationSteps.theObjectShouldBeNull(pojo.getValue2());
+	}
+
+	@Test
+	@Title("Podam should be able to create instances of inner classes")
+	public void podamShouldCreateInstancesOfInnerClasses() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		InnerClassPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(InnerClassPojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getIp());
+	}
+
+
+	@Test
+	@Title("Podam should be able to create instances of JAXBElement")
+	public void podamShouldCreateInstancesOfJAXBElements() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		JAXBElement<String> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+				JAXBElement.class, podamFactory, String.class);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getName());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getValue().getClass());
+	}
+
+	@Test
+	@Title("Podam should be able to create instances of JAXBElements declared as instance variables in a POJO")
+	public void podamShouldCreateInstancesOfJAXBElementsDeclaredAsInstanceVariablesInAPojo() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		JAXBElementPojo<String> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+				JAXBElementPojo.class, podamFactory, String.class);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue().getName());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue().getValue());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getValue().getValue().getClass());
 	}
 
 }

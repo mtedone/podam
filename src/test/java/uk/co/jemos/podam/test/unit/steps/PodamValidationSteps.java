@@ -484,4 +484,14 @@ public class PodamValidationSteps {
     public void theCollectionShouldBeEmpty(Collection<?> collection) {
         Assert.assertTrue("The Map should be empty", collection.isEmpty());
     }
+
+    @Step("Then the two objects should be strictly equal (e.g. according to == operator)")
+    public void theTwoObjectsShouldBeStrictlyEqual(Object pojo1, Object pojo2) {
+        Assert.assertTrue("The two objects are not strictly equal", pojo1 == pojo2);
+    }
+
+    @Step("Then the two objects should be different")
+    public void theTwoObjectsShouldBeDifferent(Object pojo1, Object pojo2) {
+        Assert.assertTrue("The two objects should be different", pojo1 != pojo2);
+    }
 }

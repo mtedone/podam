@@ -19,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MapUnitTest {
 
+	//TODO Can't serenify until issue #80 has been resolved
+
 	private static final DataProviderStrategy strategy =
 			new RandomDataProviderStrategyImpl();
 
