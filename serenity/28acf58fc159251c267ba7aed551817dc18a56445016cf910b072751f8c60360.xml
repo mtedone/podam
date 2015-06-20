@@ -1,35 +1,35 @@
-<acceptance-test-run title="Podam should handle immutable POJOs with generified collections in the constructor" name="podamShouldHandleImmutablePojoWithGenerifiedCollectionsInConstructor" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-06-14T20:05:34.921+01:00">
+<acceptance-test-run title="Podam should handle immutable POJOs with generified collections in the constructor" name="podamShouldHandleImmutablePojoWithGenerifiedCollectionsInConstructor" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="60" timestamp="2015-06-20T21:17:18.060+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="11">
+  <test-step result="SUCCESS" duration="12">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="20">
+  <test-step result="SUCCESS" duration="22">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableWithGenericCollectionsPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the collection should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should have exactly OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 110    byteObjectField = 83    shortField = 25    shortObjectField = 25    charField = O    charObjectField = Q    intField = -452493227    intObjectField = 64938763    longField = 391512101913669    longObjectField = 391512101867989    floatField = 0.5414738    floatObjectField = 0.50533056    doubleField = 0.5789465042787812    doubleObjectField = 0.7018240933295256    stringField = HB248K7Qyc    objectField = java.lang.Object@1a35f99a    calendarField = Sun Jun 14 20:05:34 BST 2015    dateField = Sun Jun 14 20:05:34 BST 2015    randomArray = [Ljava.util.Random;@60aee4ca    intArray = [I@6a3a3b93    booleanArray = [Z@50f71f48    bigDecimalField = 482437066498     ) elements</description>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the collection should have exactly OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 4    byteObjectField = 106    shortField = 82    shortObjectField = 26    charField = g    charObjectField = t    intField = 598010874    intObjectField = 1785281576    longField = 247971669882220    longObjectField = 247971669792735    floatField = 0.5256783    floatObjectField = 0.20585531    doubleField = 0.9263040420138985    doubleObjectField = 0.6056165694495148    stringField = pRJHfcrmUX    objectField = java.lang.Object@a3ece9d    calendarField = Sat Jun 20 21:17:18 BST 2015    dateField = Sat Jun 20 21:17:18 BST 2015    randomArray = [Ljava.util.Random;@34a5dc29    intArray = [I@3a7243e1    booleanArray = [Z@6ecd9708    bigDecimalField = 43927231042     ) elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{3ZEJOSyRwd=java.util.GregorianCalendar[time=1434308734939 should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{rIqjc1LRE8=java.util.GregorianCalendar[time=1434831438078 should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the map should have exactly areFieldsSet=true elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the collection should not be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should have exactly java.lang.Object@1205d422 elements</description>
+    <description>Then the collection should have exactly java.lang.Object@241eba9 elements</description>
   </test-step>
 </acceptance-test-run>

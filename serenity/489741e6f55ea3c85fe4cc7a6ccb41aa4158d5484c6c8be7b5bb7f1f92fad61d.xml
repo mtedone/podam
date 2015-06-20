@@ -1,0 +1,29 @@
+<acceptance-test-run title="Memoization should work with Generics" name="memoizationShouldWorkWithGenerics" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="30" timestamp="2015-06-20T21:17:21.414+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
+  <tags>
+    <tag name="Memoization" type="epics"/>
+    <tag name="Memoization test" type="stories"/>
+    <tag name="Memoization test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="15">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects should be strictly equal (e.g. according to == operator)</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects should be strictly equal (e.g. according to == operator)</description>
+  </test-step>
+</acceptance-test-run>

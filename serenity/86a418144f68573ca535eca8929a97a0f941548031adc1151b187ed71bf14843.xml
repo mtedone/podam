@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle the manufacturing of POJOs with generic types in constructor" name="podamShouldHandleTheManufacturingOfPojosWithGenericTypesInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2015-06-14T20:05:33.394+01:00">
+<acceptance-test-run title="Podam should handle the manufacturing of POJOs with generic types in constructor" name="podamShouldHandleTheManufacturingOfPojosWithGenericTypesInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2015-06-20T21:17:16.408+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.ClassUnitTest" name="Class unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -14,7 +14,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

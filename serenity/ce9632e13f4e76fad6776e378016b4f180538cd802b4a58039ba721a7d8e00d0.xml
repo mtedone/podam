@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle the manufacturing of generic POJOs" name="podamShouldHandleTheManufacturingOfGenericPojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-14T20:05:33.450+01:00">
+<acceptance-test-run title="Podam should handle the manufacturing of generic POJOs" name="podamShouldHandleTheManufacturingOfGenericPojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="25" timestamp="2015-06-20T21:17:16.464+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.ClassUnitTest" name="Class unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>

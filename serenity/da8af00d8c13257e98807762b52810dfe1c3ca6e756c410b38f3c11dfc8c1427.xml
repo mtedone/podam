@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle basic inheritance scenarios" name="podamShouldHandleBasicInheritance" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2015-06-14T20:05:36.801+01:00">
+<acceptance-test-run title="Podam should handle basic inheritance scenarios" name="podamShouldHandleBasicInheritance" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="25" timestamp="2015-06-20T21:17:20.778+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.InheritanceTest" name="Inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>
@@ -8,22 +8,22 @@
   <test-step result="SUCCESS" duration="9">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.OneDimensionalChildPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the int value &lt;span class=&apos;step-parameter&apos;&gt;7 should be less or equal to 10&lt;/span&gt;</description>
+    <description>Then the int value &lt;span class=&apos;step-parameter&apos;&gt;8 should be less or equal to 10&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the calendar value should be valid</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;YEJSML2mj6&lt;/span&gt; cannot be null or empty</description>
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;3i0QSdoYJ6&lt;/span&gt; cannot be null or empty</description>
   </test-step>
 </acceptance-test-run>

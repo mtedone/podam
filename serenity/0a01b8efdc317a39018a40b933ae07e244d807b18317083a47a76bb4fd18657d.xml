@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should handle both native and wrapped long values with @PodamLongValue annotation" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-06-14T20:05:31.096+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped long values with @PodamLongValue annotation" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="52" timestamp="2015-06-20T21:17:14.291+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="13">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.LongValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -18,10 +18,10 @@
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;32 should be less than 100&lt;/span&gt;</description>
+    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;87 should be less than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long field 464&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+    <description>Then the long field 109&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
@@ -30,16 +30,16 @@
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;47&lt;/span&gt; should not be null</description>
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;4&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0 should be less than 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;866&lt;/span&gt; should not be null</description>
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;891&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long field 866&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+    <description>Then the long field 891&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the long value should be precisely 12345678912&lt;/span&gt;</description>

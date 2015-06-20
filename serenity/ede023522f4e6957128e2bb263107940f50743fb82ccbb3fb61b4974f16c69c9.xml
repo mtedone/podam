@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle booleans correctly" name="podamShouldHandleBooleansCorrect" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="30" timestamp="2015-06-14T20:05:33.134+01:00">
+<acceptance-test-run title="Podam should handle booleans correctly" name="podamShouldHandleBooleansCorrect" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="39" timestamp="2015-06-20T21:17:16.086+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.BooleanUnitTest" name="Boolean unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Boolean unit test" type="stories"/>
     <tag name="Boolean unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="16">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="8">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.BooleanPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the boolean value &lt;span class=&apos;step-parameter&apos;&gt;true&lt;/span&gt; should be true</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

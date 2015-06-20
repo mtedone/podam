@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should handle classes with generic Key/Value types" name="podamShouldHandleClassesWithKeyValueGenericTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="18" timestamp="2015-06-14T20:05:35.326+01:00">
+<acceptance-test-run title="Podam should handle classes with generic Key/Value types" name="podamShouldHandleClassesWithKeyValueGenericTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-20T21:17:18.641+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="8">
+  <test-step result="SUCCESS" duration="10">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map should not be null or empty and each element should have key of type d4MXRYcTP6=391512499659720 and value of type jmUYcr00VH=391512499668239</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Map should not be null or empty and each element should have key of type 8Z2X525lqt=247972245646450 and value of type cf8LW_zWkI=247972245656563</description>
   </test-step>
 </acceptance-test-run>

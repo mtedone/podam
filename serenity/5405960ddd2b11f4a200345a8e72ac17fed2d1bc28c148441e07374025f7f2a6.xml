@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should not create instances of non-instantiable classes" name="podamShouldNotcreateInstancesOfNonInstantiableClasses" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-06-14T20:05:36.401+01:00">
+<acceptance-test-run title="Podam should not create instances of non-instantiable classes" name="podamShouldNotcreateInstancesOfNonInstantiableClasses" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-20T21:17:20.383+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -20,7 +20,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;1 and 1&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NonInstantiatableClass and class uk.co.jemos.podam.test.dto.NonInstantiatableClass&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

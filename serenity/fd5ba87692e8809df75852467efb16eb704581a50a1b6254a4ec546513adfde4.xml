@@ -1,26 +1,26 @@
-<acceptance-test-run title="Podam should assign exactly the values specified with the @PodamStrategyValue annotation" name="podamShouldAssignExactValuesDefinedInPodamStrategyValueAnnotation" steps="24" successful="24" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="144" timestamp="2015-06-14T20:05:30.798+01:00">
+<acceptance-test-run title="Podam should assign exactly the values specified with the @PodamStrategyValue annotation" name="podamShouldAssignExactValuesDefinedInPodamStrategyValueAnnotation" steps="24" successful="24" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="141" timestamp="2015-06-20T21:17:13.879+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="20">
+  <test-step result="SUCCESS" duration="16">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="13">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.PodamStrategyPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;W1E X9P&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then string [&lt;span class=&apos;step-parameter&apos;&gt;W1E X9P] should be exactly like string [W1E X9P&lt;/span&gt;]</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;W1E X9P&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -36,7 +36,7 @@
     <description>Then the array should not be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the array should have exactly -82 elements</description>
+    <description>Then the array should have exactly -104 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the calendar object should have exactly the value of calendar object areFieldsSet=false</description>
@@ -59,17 +59,17 @@
   <test-step result="SUCCESS" duration="3">
     <description>Then the calendar object should have exactly the value of calendar object areFieldsSet=true</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@8d40f07 should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@c9a18ed should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the array of objects should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@307ca947 should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@5bcda4a6 should not be null and contain at least one non-empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{H28UdVQvTG=java.util.GregorianCalendar[time=? should contain at least one non empty element</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{WSvHsYg7JJ=java.util.GregorianCalendar[time=? should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the calendar object should have exactly the value of calendar object areFieldsSet=true</description>

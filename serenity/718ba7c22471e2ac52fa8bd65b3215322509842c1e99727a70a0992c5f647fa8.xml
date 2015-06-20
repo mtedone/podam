@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should generate a ClassInfo which contains information for the setters contained in the POJO" name="podamShouldReturnAClassInfoObjectWhichContainsTheSameAttributesAsThePojoBeingProcessed" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2015-06-14T20:05:34.602+01:00">
+<acceptance-test-run title="Podam should generate a ClassInfo which contains information for the setters contained in the POJO" name="podamShouldReturnAClassInfoObjectWhichContainsTheSameAttributesAsThePojoBeingProcessed" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10" timestamp="2015-06-20T21:17:17.671+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>
@@ -14,7 +14,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters and class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the attributes contains in ClassInfo should match the ones contains in the POJO</description>
   </test-step>
 </acceptance-test-run>

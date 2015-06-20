@@ -1,2 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2015-06-14T20:05:36.177+01:00","0.0","0.03"
+"Extensions test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2015-06-20T21:17:19.946+01:00","0.0","0.03"
+"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2015-06-20T21:17:19.973+01:00","0.0","0.02"
+"Non EJB pojo test","Podam should handle attributes in accordance with custom Class Info Strategies","SUCCESS","2015-06-20T21:17:20.168+01:00","0.0","0.02"

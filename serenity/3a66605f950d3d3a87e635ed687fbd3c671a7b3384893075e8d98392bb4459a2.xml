@@ -1,0 +1,38 @@
+<acceptance-test-run title="Podam will create an instance of a POJO but its interface types won&apos;t be instantiated" name="testHolderOfPojoWithMultiInterfaces" steps="10" successful="10" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31" timestamp="2015-06-20T21:17:21.061+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.MultipleInterfacesInheritanceTest" name="Multiple interfaces inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
+  <tags>
+    <tag name="Inheritance" type="epics"/>
+    <tag name="Multiple interfaces inheritance test" type="stories"/>
+    <tag name="Multiple interfaces inheritance test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="2">
+    <description>Given a Tracking External Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Given a Custom Data Provider Strategy</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="9">
+    <description>Given a Podam Factory with external factory and custom data provider strategy</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the object should be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the object should be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;2 and 2&lt;/span&gt; should be equal</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the collection should contain at least one element of type interface uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo]</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the collection should contain at least one element of type interface uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo]</description>
+  </test-step>
+</acceptance-test-run>

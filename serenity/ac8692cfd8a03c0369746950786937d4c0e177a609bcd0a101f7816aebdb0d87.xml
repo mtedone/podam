@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should be able to instantiate POJOs with immutable Collections" name="podamShouldBeAbleToInstantiatePojosWithImmutableCollections" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-14T20:05:35.220+01:00">
+<acceptance-test-run title="Podam should be able to instantiate POJOs with immutable Collections" name="podamShouldBeAbleToInstantiatePojosWithImmutableCollections" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="26" timestamp="2015-06-20T21:17:18.468+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="15">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
