@@ -4,6 +4,8 @@ import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
+import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
+import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
@@ -80,5 +82,21 @@ public class PodamFactorySteps {
     @Step("Given a Podam Factory with external factory")
     public PodamFactory givenAdPodamFactoryWithExternalFactory(PodamFactory externalFactory) {
         return new PodamFactoryImpl(externalFactory);
+    }
+
+    @Step("Given a Tracking External Factory")
+    public TrackingExternalFactory givenATrackingExternalFactory() {
+        return new TrackingExternalFactory();
+    }
+
+    @Step("Given a Custom Data Provider Strategy")
+    public CustomDataProviderStrategy givenACustomDataProviderStrategy() {
+        return new CustomDataProviderStrategy();
+    }
+
+    @Step("Given a Podam Factory with external factory and custom data provider strategy")
+    public PodamFactory givenAPodamFactoryWithExternalFactoryAndCustomStrategy(PodamFactory externalFactory,
+                                                                               DataProviderStrategy customDataProviderStrategy) {
+        return new PodamFactoryImpl(externalFactory, customDataProviderStrategy);
     }
 }

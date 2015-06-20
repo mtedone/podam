@@ -494,4 +494,9 @@ public class PodamValidationSteps {
     public void theTwoObjectsShouldBeDifferent(Object pojo1, Object pojo2) {
         Assert.assertTrue("The two objects should be different", pojo1 != pojo2);
     }
+
+    @Step("Then the collection should contain at least one element of type {1}")
+    public void theCollectionShouldContainAtLeastOneElementOfType(Collection<?> accessed, Class<?> type) {
+        Assert.assertTrue("The collection doesn't contain an element of type " + type, accessed.contains(type));
+    }
 }
