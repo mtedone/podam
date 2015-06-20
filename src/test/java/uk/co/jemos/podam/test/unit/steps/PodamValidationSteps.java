@@ -499,4 +499,11 @@ public class PodamValidationSteps {
     public void theCollectionShouldContainAtLeastOneElementOfType(Collection<?> accessed, Class<?> type) {
         Assert.assertTrue("The collection doesn't contain an element of type " + type, accessed.contains(type));
     }
+
+    @Step("Then the array of the given type should not be null or empty and contain exactly {1} elements")
+    public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
+            Object[] array, int size) {
+        Assert.assertNotNull("The array should not be null", array);
+        Assert.assertTrue("The array should have exactly " + size + " elements.", array.length == size);
+    }
 }

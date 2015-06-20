@@ -5,8 +5,10 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
 import uk.co.jemos.podam.test.dto.annotations.PojoClassic;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 /**
@@ -31,6 +33,28 @@ public class ExtensionsTest extends AbstractPodamSteps {
 
         podamValidationSteps.theStringValueShouldBeExactly(pojoClassic.getAtt(), "classic");
         podamValidationSteps.theStringValueShouldBeExactly(pojoSpecific.getAtt(), "specific");
+
+    }
+
+    @Test
+    @Title("Podam should create POJOs in accordance with custom data provider strategies")
+    public void podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies() throws Exception {
+
+        CustomRandomDataProviderStrategy strategy = podamFactorySteps.givenACustomRandomDataProviderStrategy();
+
+
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
+
+        PojoWithMapsAndCollections pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(PojoWithMapsAndCollections.class, podamFactory);
+
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
+                pojo.getArray(), 2);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(pojo.getList());
+        podamValidationSteps.theListShouldHaveExactlyTheExpectedNumberOfElements(pojo.getList(), 3);
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(pojo.getMap());
+        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(pojo.getMap(), 4);
 
     }
 

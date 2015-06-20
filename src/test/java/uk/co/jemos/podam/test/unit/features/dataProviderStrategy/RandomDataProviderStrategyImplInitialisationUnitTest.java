@@ -1,17 +1,20 @@
 /**
  * 
  */
-package uk.co.jemos.podam.test.unit;
+package uk.co.jemos.podam.test.unit.features.dataProviderStrategy;
 
 import junit.framework.Assert;
-import org.junit.After;
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Title;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
 import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
+import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,80 +25,32 @@ import java.util.Map;
  * @author Marco Tedone
  * 
  */
-public class RandomDataProviderStrategyImplInitialisationUnitTest {
+@RunWith(SerenityRunner.class)
+public class RandomDataProviderStrategyImplInitialisationUnitTest extends AbstractPodamSteps {
 
 	private DataProviderStrategy strategy;
-	
-	private static final int numOfCollectionElemsBackup
-			= new RandomDataProviderStrategyImpl().getNumberOfCollectionElements(Object.class);
 
-	@After
-	public void after() {
-		strategy.setDefaultNumberOfCollectionElements(numOfCollectionElemsBackup);
-	}
 
 	@Test
-	public void testNumberOfCollectionElementChange() {
+	@Title("The Random Data Provider Strategy should be initialised correctly and allow for changes in " +
+			"the number of collection elements")
+	public void randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements() {
 
-		strategy = new RandomDataProviderStrategyImpl();
-		Assert.assertEquals(
-				"An incorrect default number of collection elements",
-				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
-				strategy.getNumberOfCollectionElements(Object.class));
+		DataProviderStrategy dataProviderStrategy =
+				podamFactorySteps.givenARandomDataProviderStrategy();
+
+		podamValidationSteps.theTwoObjectsShouldBeEqual(PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
+				dataProviderStrategy.getNumberOfCollectionElements(Object.class));
 
 		int aNumberOfCollectionElements = 3;
-		strategy.setDefaultNumberOfCollectionElements(aNumberOfCollectionElements);
-		Assert.assertEquals(
-				"An incorrect default number of collection elements",
-				aNumberOfCollectionElements,
-				strategy.getNumberOfCollectionElements(Object.class));
+		dataProviderStrategy.setDefaultNumberOfCollectionElements(aNumberOfCollectionElements);
+		podamValidationSteps.theTwoObjectsShouldBeEqual(aNumberOfCollectionElements,
+				dataProviderStrategy.getNumberOfCollectionElements(Object.class));
 
 	}
 
 	@Test
-	public void testInitialization() {
-
-		strategy = new RandomDataProviderStrategyImpl();
-		Assert.assertEquals(
-				"An incorrect default number of collection elements",
-				PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS,
-				strategy.getNumberOfCollectionElements(Object.class));
-
-		int aNumberOfCollectionElements = 3;
-		strategy = RandomDataProviderStrategyImpl
-				.getInstance(aNumberOfCollectionElements);
-		Assert.assertEquals(
-				"An incorrect default number of collection elements",
-				aNumberOfCollectionElements,
-				strategy.getNumberOfCollectionElements(Object.class));
-
-	}
-
-	@Test
-	public void testRandomDataProviderStrategy() {
-
-		strategy = new RandomDataProviderStrategyImpl();
-		PodamFactory factory = new PodamFactoryImpl(strategy);
-		PojoWithMapsAndCollections pojo =
-				factory.manufacturePojo(PojoWithMapsAndCollections.class);
-
-		Assert.assertNotNull("POJO manufacturing failed", pojo);
-		Assert.assertNotNull("Array is null", pojo.getArray());
-		Assert.assertEquals(
-				strategy.getNumberOfCollectionElements(Object.class),
-				pojo.getArray().length);
-		Assert.assertNotNull("List is null", pojo.getList());
-		Assert.assertEquals(
-				strategy.getNumberOfCollectionElements(Object.class),
-				pojo.getList().size());
-		Assert.assertNotNull("Map is null", pojo.getMap());
-		Assert.assertEquals(
-				strategy.getNumberOfCollectionElements(Object.class),
-				pojo.getMap().size());
-
-	}
-
-	@Test
+	@Title("Podam should create POJOs in accordance with custom data provider strategies")
 	public void testCustomRandomDataProviderStrategy() {
 
 		strategy = new CustomRandomDataProviderStrategy();

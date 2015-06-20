@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.unit;
+package uk.co.jemos.podam.test.dto;
 
 /**
  * @author divanov

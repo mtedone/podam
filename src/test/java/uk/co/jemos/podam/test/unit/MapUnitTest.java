@@ -6,6 +6,7 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
+import uk.co.jemos.podam.test.dto.PodamTestInterface;
 
 import java.util.HashMap;
 import java.util.Map;

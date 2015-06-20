@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.ClassInheritedPojo;
 import uk.co.jemos.podam.test.dto.OneDimensionalChildPojo;
+import uk.co.jemos.podam.test.dto.pdm42.A;
+import uk.co.jemos.podam.test.dto.pdm42.B;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -43,5 +45,20 @@ public class InheritanceTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theObjectShouldNotBeNull(pojo.getClazz());
         podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getClazz());
+    }
+
+
+    @Test
+    @Title("Podam should manufacture all POJOs in a tree hierarchy")
+    public void podamShouldManufactureAllPojosInATreeHierarchy() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        A pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(A.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        B b = pojo.getB();
+        podamValidationSteps.theObjectShouldNotBeNull(b);
+        podamValidationSteps.theObjectShouldNotBeNull(b.getCustomValue());
+
     }
 }

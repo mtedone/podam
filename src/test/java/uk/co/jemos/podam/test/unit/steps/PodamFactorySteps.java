@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
@@ -109,5 +110,19 @@ public class PodamFactorySteps {
     @Step("Given a Podam Factory with custom Class Info Strategy")
     public PodamFactory givenAPodamFactoryWithCustomClassInfoStrategy(ClassInfoStrategy classInfoStrategy) {
         return new PodamFactoryImpl().setClassStrategy(classInfoStrategy);
+    }
+
+    @Step("Given a Random Data Provider Strategy")
+    public DataProviderStrategy givenARandomDataProviderStrategy() {
+        return new RandomDataProviderStrategyImpl();
+    }
+
+    @Step("Given a Podam Factory with custom data provider strategy")
+    public PodamFactory givenAPodamFactoryWithCustomDataProviderStrategy(DataProviderStrategy strategy) {
+        return new PodamFactoryImpl(strategy);
+    }
+
+    public CustomRandomDataProviderStrategy givenACustomRandomDataProviderStrategy() {
+        return new CustomRandomDataProviderStrategy();
     }
 }

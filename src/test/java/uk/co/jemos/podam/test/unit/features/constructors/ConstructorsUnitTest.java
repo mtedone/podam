@@ -255,4 +255,17 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getValue().getValue().getClass());
 	}
 
+	@Test
+	@Title("Podam should manufacture package private POJOs")
+	public void podamShouldManufacturePackagePrivatePojos() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		PackagePrivatePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
+				PackagePrivatePojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+
+	}
+
 }
