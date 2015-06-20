@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
@@ -98,5 +99,15 @@ public class PodamFactorySteps {
     public PodamFactory givenAPodamFactoryWithExternalFactoryAndCustomStrategy(PodamFactory externalFactory,
                                                                                DataProviderStrategy customDataProviderStrategy) {
         return new PodamFactoryImpl(externalFactory, customDataProviderStrategy);
+    }
+
+    @Step("Given a Class Info Strategy which approves only attributes belonging to NonEJBPojo")
+    public NonEJBClassInfoStrategy givenANonEJBClassInfoStrategy() {
+        return new NonEJBClassInfoStrategy();
+    }
+
+    @Step("Given a Podam Factory with custom Class Info Strategy")
+    public PodamFactory givenAPodamFactoryWithCustomClassInfoStrategy(ClassInfoStrategy classInfoStrategy) {
+        return new PodamFactoryImpl().setClassStrategy(classInfoStrategy);
     }
 }
