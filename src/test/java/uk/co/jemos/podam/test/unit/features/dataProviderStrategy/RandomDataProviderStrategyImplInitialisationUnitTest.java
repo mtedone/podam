@@ -3,17 +3,18 @@
  */
 package uk.co.jemos.podam.test.unit.features.dataProviderStrategy;
 
-import junit.framework.Assert;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import uk.co.jemos.podam.api.*;
+import uk.co.jemos.podam.api.AbstractRandomDataProviderStrategy;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.common.AbstractConstructorComparator;
 import uk.co.jemos.podam.common.AbstractMethodComparator;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections;
-import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import java.util.HashMap;
@@ -27,8 +28,6 @@ import java.util.Map;
  */
 @RunWith(SerenityRunner.class)
 public class RandomDataProviderStrategyImplInitialisationUnitTest extends AbstractPodamSteps {
-
-	private DataProviderStrategy strategy;
 
 
 	@Test
@@ -51,88 +50,92 @@ public class RandomDataProviderStrategyImplInitialisationUnitTest extends Abstra
 
 	@Test
 	@Title("Podam should create POJOs in accordance with custom data provider strategies")
-	public void testCustomRandomDataProviderStrategy() {
+	public void podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies() throws Exception {
 
-		strategy = new CustomRandomDataProviderStrategy();
-		PodamFactory factory = new PodamFactoryImpl(strategy);
+		DataProviderStrategy strategy = podamFactorySteps.givenACustomRandomDataProviderStrategy();
+		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 		PojoWithMapsAndCollections pojo =
-				factory.manufacturePojo(PojoWithMapsAndCollections.class);
-
-		Assert.assertNotNull("POJO manufacturing failed", pojo);
-		Assert.assertNotNull("Array is null", pojo.getArray());
-		Assert.assertEquals(2, pojo.getArray().length);
-		Assert.assertNotNull("List is null", pojo.getList());
-		Assert.assertEquals(3, pojo.getList().size());
-		Assert.assertNotNull("Map is null", pojo.getMap());
-		Assert.assertEquals(4, pojo.getMap().size());
+				podamInvocationSteps.whenIInvokeTheFactoryForClass(PojoWithMapsAndCollections.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
+				pojo.getArray(), 2);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(pojo.getList());
+		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(pojo.getList(), 3);
+		podamValidationSteps.theMapShouldNotBeNullOrEmpty(pojo.getMap());
+		podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(pojo.getMap(), 4);
 
 	}
 
 	@Test
-	public void testRandomProviderStrategyForLong() {
+	@Title("Podam should correctly generate HashMaps with Long as key type")
+	public void podamShouldCorrectGenerateHashMapsWithLongAsKeyType() throws Exception {
 
-		strategy = new CustomRandomDataProviderStrategy();
-		PodamFactory factory = new PodamFactoryImpl(strategy);
+		DataProviderStrategy strategy = podamFactorySteps.givenACustomRandomDataProviderStrategy();
+		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 		Map<?, ?> pojo =
-				factory.manufacturePojo(HashMap.class, Long.class, String.class);
+				podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+						HashMap.class, podamFactory, Long.class, String.class);
 
-		Assert.assertNotNull("POJO manufacturing failed", pojo);
-		Assert.assertEquals("Wrong map size",
-				strategy.getNumberOfCollectionElements(String.class),
-				pojo.size());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theTwoObjectsShouldBeEqual(strategy.getNumberOfCollectionElements(
+				String.class), pojo.size());
 
 	}
 
 	@Test
-	public void testConstructorLightComparator() {
+	@Title("Creating a Random Data Provider Strategy should create a constructor light comparator")
+	public void creatingARandomDataProviderStrategyShouldCreateAConstructorLightComparator() throws Exception {
 
-		strategy = new RandomDataProviderStrategyImpl();
-		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractRandomDataProviderStrategy randomStrategy =
+				(AbstractRandomDataProviderStrategy) podamFactorySteps.givenARandomDataProviderStrategy();
 		AbstractConstructorComparator comparator = randomStrategy.getConstructorLightComparator();
-		Assert.assertNotNull(comparator);
+		podamValidationSteps.theObjectShouldNotBeNull(comparator);
 		randomStrategy.setConstructorLightComparator(null);
-		Assert.assertEquals(null, randomStrategy.getConstructorLightComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(null, randomStrategy.getConstructorLightComparator());
 		randomStrategy.setConstructorLightComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getConstructorLightComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(comparator, randomStrategy.getConstructorLightComparator());
 	}
 
 	@Test
-	public void testConstructorHeavyComparator() {
+	@Title("Creating a Random Data Provider Strategy should create a constructor heavy comparator")
+	public void creatingARandomDataProviderStrategyShouldCreateAConstructorHeavyComparator() throws Exception {
 
-		strategy = new RandomDataProviderStrategyImpl();
-		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractRandomDataProviderStrategy randomStrategy =
+				(AbstractRandomDataProviderStrategy) podamFactorySteps.givenARandomDataProviderStrategy();
 		AbstractConstructorComparator comparator = randomStrategy.getConstructorHeavyComparator();
-		Assert.assertNotNull(comparator);
+		podamValidationSteps.theObjectShouldNotBeNull(comparator);
 		randomStrategy.setConstructorHeavyComparator(null);
-		Assert.assertEquals(null, randomStrategy.getConstructorHeavyComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(null, randomStrategy.getConstructorHeavyComparator());
 		randomStrategy.setConstructorHeavyComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getConstructorHeavyComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(comparator, randomStrategy.getConstructorHeavyComparator());
 	}
 
 	@Test
-	public void testMethodLightComparator() {
+	@Title("Creating a Random Data Provider Strategy should create a Method light comparator")
+	public void creatingARandomDataProviderStrategyShouldCreateAMethodLightComparator() throws Exception {
 
-		strategy = new RandomDataProviderStrategyImpl();
-		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractRandomDataProviderStrategy randomStrategy =
+				(AbstractRandomDataProviderStrategy) podamFactorySteps.givenARandomDataProviderStrategy();
 		AbstractMethodComparator comparator = randomStrategy.getMethodLightComparator();
-		Assert.assertNotNull(comparator);
+		podamValidationSteps.theObjectShouldNotBeNull(comparator);
 		randomStrategy.setMethodLightComparator(null);
-		Assert.assertEquals(null, randomStrategy.getMethodLightComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(null, randomStrategy.getMethodLightComparator());
 		randomStrategy.setMethodLightComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getMethodLightComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(comparator, randomStrategy.getMethodLightComparator());
 	}
 
 	@Test
-	public void testMethodHeavyComparator() {
+	@Title("Creating a Random Data Provider Strategy should create a Method heavy comparator")
+	public void creatingARandomDataProviderStrategyShouldCreateAMethodHeavyComparator() throws Exception {
 
-		strategy = new RandomDataProviderStrategyImpl();
-		RandomDataProviderStrategy randomStrategy = (RandomDataProviderStrategy) strategy;
+		AbstractRandomDataProviderStrategy randomStrategy =
+				(AbstractRandomDataProviderStrategy) podamFactorySteps.givenARandomDataProviderStrategy();
 		AbstractMethodComparator comparator = randomStrategy.getMethodHeavyComparator();
-		Assert.assertNotNull(comparator);
+		podamValidationSteps.theObjectShouldNotBeNull(comparator);
 		randomStrategy.setMethodHeavyComparator(null);
-		Assert.assertEquals(null, randomStrategy.getMethodHeavyComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(null, randomStrategy.getMethodHeavyComparator());
 		randomStrategy.setMethodHeavyComparator(comparator);
-		Assert.assertEquals(comparator, randomStrategy.getMethodHeavyComparator());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(comparator, randomStrategy.getMethodHeavyComparator());
 	}
 
 }

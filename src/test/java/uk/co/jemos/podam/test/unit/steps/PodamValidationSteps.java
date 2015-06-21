@@ -506,4 +506,10 @@ public class PodamValidationSteps {
         Assert.assertNotNull("The array should not be null", array);
         Assert.assertTrue("The array should have exactly " + size + " elements.", array.length == size);
     }
+
+    @Step("Then the map should not be null or empty")
+    public void theMapShouldNotBeNullOrEmpty(Map<?, ?> map) {
+        Assert.assertNotNull("The map should not be null", map);
+        Assert.assertFalse("The map should not be empty", map.isEmpty());
+    }
 }

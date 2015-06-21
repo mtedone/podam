@@ -2,7 +2,6 @@ package uk.co.jemos.podam.test.unit.features.collections;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.DataProviderStrategy;
@@ -107,11 +106,6 @@ public class CollectionsTest extends AbstractPodamSteps {
                 nonGenerifiedSet, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
         Map<Object, Object> nonGenerifiedMap = pojo.getNonGenerifiedMap();
         podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(nonGenerifiedMap);
-        Assert.assertTrue(
-                "The number of elements in the map: " + nonGenerifiedMap.size()
-                        + " does not match the expected value: "
-                        + ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS,
-                nonGenerifiedMap.size() == ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
         podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(nonGenerifiedMap,
                 ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
