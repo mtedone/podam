@@ -157,6 +157,37 @@ public class CollectionsTest extends AbstractPodamSteps {
         testMap(HashMap.class);
     }
 
+
+    @Test
+    @Title("Podam should fill in POJOs with attributes containing wildcards")
+    public void podamShouldFillInPojosWithAttributesContainingWildcards() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        ReadOnlyWildcardFieldsPojo pojo	= podamInvocationSteps.whenIInvokeTheFactoryForClass(
+                ReadOnlyWildcardFieldsPojo.class, podamFactory);
+
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Object.class);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
+                pojo.getMap(), Object.class, Object.class);
+    }
+
+    @Test
+    @Title("Podam should be able to fill in POJOs with raw type collection attributes and default values to Object")
+    public void podamShouldBeAbleToFillInPojosWithRawTypeCollectionAttributesAndDefaultValueToObject() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        ReadOnlyRawFieldsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
+                ReadOnlyRawFieldsPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Object.class);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
+                pojo.getMap(), Object.class, Object.class);
+    }
+
+
     //------------------> Private methods
 
     private void testMap(Class<? extends Map> mapType) {
