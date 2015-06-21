@@ -35,4 +35,7 @@ public abstract class AbstractPodamSteps {
     @Steps
     protected ValidatorSteps validatorSteps;
 
+    @Steps
+    protected WalkThroughSteps walkThroughSteps;
+
 }

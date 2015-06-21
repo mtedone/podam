@@ -274,13 +274,13 @@ public class PodamValidationSteps {
                 shortFieldWithPreciseValue == preciseValue);
     }
 
-    @Step("Then the char value {0} should be greater or equal than {1}")
+    @Step("Then the char value should be greater or equal than {1}")
     public void theCharValueShouldBeGreaterOrEqualThan(char charValue, char minValue) {
         Assert.assertTrue("The char value " + charValue + " should be >= " + minValue,
                 charValue >= minValue);
     }
 
-    @Step("Then the char value {0} should be lower or equal than {1}")
+    @Step("Then the char value should be lower or equal than {1}")
     public void theCharValueShouldBeLowerOrEqualThan(char charValue, int maxValue) {
         Assert.assertTrue("The char value " + charValue + " should be <= " + maxValue,
                 charValue <= maxValue);
