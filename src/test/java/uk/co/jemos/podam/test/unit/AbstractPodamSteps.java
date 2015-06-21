@@ -32,4 +32,7 @@ public abstract class AbstractPodamSteps {
     @Steps
     protected ClassInfoValidationSteps classInfoValidationSteps;
 
+    @Steps
+    protected ValidatorSteps validatorSteps;
+
 }

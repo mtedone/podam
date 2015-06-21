@@ -1,14 +1,20 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
+import org.hibernate.validator.constraints.Email;
 import uk.co.jemos.podam.api.*;
+import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
+import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.List;
@@ -122,7 +128,24 @@ public class PodamFactorySteps {
         return new PodamFactoryImpl(strategy);
     }
 
+    @Step("Given a Custom Random Data Provider Strategy")
     public CustomRandomDataProviderStrategy givenACustomRandomDataProviderStrategy() {
         return new CustomRandomDataProviderStrategy();
+    }
+
+    @Step("Given a Podam Factory with Email strategy")
+    public PodamFactory givenAPodamFactoryWithEmailStrategy() {
+
+        PodamFactory factory = new PodamFactoryImpl();
+
+        Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
+        ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceAttributeStrategy(Email.class, strategy);
+        return factory;
+    }
+
+    @Step("Given a Javax Validator")
+    public Validator givenAJavaxValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        return factory.getValidator();
     }
 }
