@@ -85,14 +85,4 @@ public class PodamTestConstants {
 		throw new AssertionError();
 	}
 
-	// ------------------->> Public methods
-
-	// ------------------->> Getters / Setters
-
-	// ------------------->> Private methods
-
-	// ------------------->> equals() / hashcode() / toString()
-
-	// ------------------->> Inner classes
-
 }

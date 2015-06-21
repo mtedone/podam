@@ -4,12 +4,7 @@
 package uk.co.jemos.podam.test.utils;
 
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Map;
 import java.util.TimeZone;
-import java.util.Map.Entry;
-
-import org.junit.Assert;
 
 /**
  * Test utility class
@@ -48,64 +43,5 @@ public class PodamTestUtils {
 
 		return myBirthday;
 	}
-
-	/**
-	 * Asserts collection is non-empty and elements are of certain type
-	 * 
-	 * @param collection
-	 *            Collection to examine
-	 * @param elementType
-	 *            Element type to ensure
-	 */
-	public static void assertCollectionElementsType(Collection<?> collection, Class<?> elementType) {
-		Assert.assertNotNull("List should not be null", collection);
-		Assert.assertFalse("List should not be empty", collection.isEmpty());
-		for (Object element : collection) {
-			Assert.assertEquals("Wrong element type", elementType, element.getClass());
-		}
-	}
-
-	/**
-	 * Asserts map is non-empty and key and values are of certain type
-	 *
-	 * @param map
-	 *           Map to examine
-	 * @param keyType
-	 *           Key type to ensure
-	 * @param valueType
-	 *           Value type to ensure
-	 */
-	public static void assertMapElementsType(Map<?, ?> map, Class<?> keyType, Class<?> valueType) {
-		Assert.assertNotNull("Map should not be null", map);
-		Assert.assertFalse("Map should not be empty", map.isEmpty());
-		for (Entry<?, ?> element : map.entrySet()) {
-			Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
-			Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
-		}
-	}
-
-	/**
-	 * Asserts array is non-empty and elements are of certain type
-	 *
-	 * @param array
-	 *           Array to examine
-	 * @param elementType
-	 *           Element type to ensure
-	 */
-	public static void assertArrayElementsType(Object[] array, Class<?> elementType) {
-		Assert.assertNotNull("Array should not be null", array);
-		Assert.assertTrue("Array should not be empty", array.length > 0);
-		for (Object element : array) {
-			Assert.assertEquals("Wrong element type", elementType, element.getClass());
-		}
-	}
-
-	// ------------------->> Getters / Setters
-
-	// ------------------->> Private methods
-
-	// ------------------->> equals() / hashcode() / toString()
-
-	// ------------------->> Inner classes
 
 }

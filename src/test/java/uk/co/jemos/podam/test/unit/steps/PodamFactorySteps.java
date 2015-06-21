@@ -11,6 +11,7 @@ import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
+import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -147,5 +148,13 @@ public class PodamFactorySteps {
     public Validator givenAJavaxValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         return factory.getValidator();
+    }
+
+    @Step("Given a Podam factory with XML Types external factory")
+    public PodamFactory givenAPodamFactoryWithXmlTypesExternalFactory() {
+
+        PodamFactory externalFactory = new XmlTypesExternalFactory();
+        PodamFactory factory = new PodamFactoryImpl(externalFactory);
+        return factory;
     }
 }
