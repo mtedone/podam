@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam will create an instance of a POJO but its interface types won&apos;t be instantiated" name="testHolderOfPojoWithMultiInterfaces" steps="10" successful="10" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31" timestamp="2015-06-20T21:17:21.061+01:00">
+<acceptance-test-run title="Podam will create an instance of a POJO but its interface types won&apos;t be instantiated" name="testHolderOfPojoWithMultiInterfaces" steps="10" successful="10" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="29" timestamp="2015-06-21T21:03:09.201+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.MultipleInterfacesInheritanceTest" name="Multiple interfaces inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>
@@ -17,7 +17,7 @@
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

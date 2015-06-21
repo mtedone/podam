@@ -1,4 +1,4 @@
-<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="7" timestamp="2015-06-20T21:17:19.087+01:00">
+<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="6" timestamp="2015-06-21T21:03:07.044+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>

@@ -1,4 +1,4 @@
-<acceptance-test-run title="When memoization is set to false Podam should return different instances for different invocations" name="whenMemoizationIsFalsePodamShouldReturnDifferentInstancesForDifferentInvocations" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="21" timestamp="2015-06-20T21:17:21.328+01:00">
+<acceptance-test-run title="When memoization is set to false Podam should return different instances for different invocations" name="whenMemoizationIsFalsePodamShouldReturnDifferentInstancesForDifferentInvocations" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-21T21:03:09.455+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>

@@ -1,0 +1,128 @@
+<acceptance-test-run title="Podam should fill the Client POJO correctly" name="testClientSetup" steps="26" successful="26" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="154" timestamp="2015-06-21T21:03:10.542+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
+  <tags>
+    <tag name="Walk through example" type="epics"/>
+    <tag name="Walk through example unit test" type="stories"/>
+    <tag name="Walk through example unit test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="11">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="10">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.docs.example.Client</description>
+  </test-step>
+  <test-group name="Then the Client POJO should be correctly filled" result="SUCCESS">
+    <test-group name="Then the Order POJO should be correctly filled" result="SUCCESS">
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="4">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="2">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then the Order POJO should be correctly filled" result="SUCCESS">
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then the Order POJO should be correctly filled" result="SUCCESS">
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+      <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
+        <test-step result="SUCCESS" duration="3">
+          <description>Then the Article POJO should be correctly filled</description>
+        </test-step>
+      </test-group>
+    </test-group>
+    <test-group name="Then the Address POJO should be correctly filled" result="SUCCESS">
+      <test-step result="SUCCESS" duration="2">
+        <description>Then the Country POJO should be correctly filled</description>
+      </test-step>
+    </test-group>
+    <test-group name="Then the Address POJO should be correctly filled" result="SUCCESS">
+      <test-step result="SUCCESS" duration="3">
+        <description>Then the Country POJO should be correctly filled</description>
+      </test-step>
+    </test-group>
+    <test-step result="SUCCESS" duration="2">
+      <description>Then the BankAccount POJO should be correctly filled</description>
+    </test-step>
+    <test-step result="SUCCESS" duration="2">
+      <description>Then the BankAccount POJO should be correctly filled</description>
+    </test-step>
+    <test-step result="SUCCESS" duration="2">
+      <description>Then the BankAccount POJO should be correctly filled</description>
+    </test-step>
+    <test-step result="SUCCESS" duration="2">
+      <description>Then the BankAccount POJO should be correctly filled</description>
+    </test-step>
+    <test-step result="SUCCESS" duration="2">
+      <description>Then the BankAccount POJO should be correctly filled</description>
+    </test-step>
+  </test-group>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should not be null or empty</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;5 and 5&lt;/span&gt; should be equal</description>
+  </test-step>
+</acceptance-test-run>

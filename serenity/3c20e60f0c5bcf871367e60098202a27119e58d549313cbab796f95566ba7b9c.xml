@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle the manufacturing of POJOs which inherit from other classes" name="podamShouldHandleTheManufacturingOfPojosWhichInheritFromOtherClasses" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-06-20T21:17:20.825+01:00">
+<acceptance-test-run title="Podam should handle the manufacturing of POJOs which inherit from other classes" name="podamShouldHandleTheManufacturingOfPojosWhichInheritFromOtherClasses" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="18" timestamp="2015-06-21T21:03:08.933+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.InheritanceTest" name="Inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>

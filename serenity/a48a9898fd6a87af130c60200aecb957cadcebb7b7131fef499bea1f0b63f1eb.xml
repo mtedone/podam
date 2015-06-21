@@ -1,0 +1,17 @@
+<acceptance-test-run title="Podam should fill in POJOs which contain internal loops (e.g. objects that reference parents)" name="podamShouldFillInPojosWhichContainInternalLoops" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-06-21T21:03:06.764+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
+  <tags>
+    <tag name="Constructors" type="epics"/>
+    <tag name="Read only complex types test" type="stories"/>
+    <tag name="Read only complex types test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="9">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="8">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.beans.beancontext.BeanContextServicesSupport</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+</acceptance-test-run>

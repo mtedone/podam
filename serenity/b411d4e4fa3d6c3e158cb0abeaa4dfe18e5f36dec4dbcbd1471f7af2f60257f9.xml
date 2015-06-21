@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should return valid class info for POJOs with no attributes" name="podamShouldReturnAValidClassInfoForPojoWithNoAttributes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10" timestamp="2015-06-20T21:17:17.632+01:00">
+<acceptance-test-run title="Podam should return valid class info for POJOs with no attributes" name="podamShouldReturnAValidClassInfoForPojoWithNoAttributes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10" timestamp="2015-06-21T21:03:05.110+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>
     <tag name="Class info test" type="stories"/>
     <tag name="Class info test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Given a ClassInfo for class &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmptyTestPojo with empty attributes</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>When I invoke Podam Utils method to get class info for class &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.EmptyTestPojo and approver &lt;null&gt;&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.api.ClassInfo@3f36d748 and uk.co.jemos.podam.api.ClassInfo@3f36d748&lt;/span&gt; should be equal</description>
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.api.ClassInfo@68d21915 and uk.co.jemos.podam.api.ClassInfo@68d21915&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

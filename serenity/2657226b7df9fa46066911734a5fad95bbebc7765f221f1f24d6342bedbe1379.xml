@@ -1,0 +1,26 @@
+<acceptance-test-run title="Podam should create instances of POJOs extending generic classes" name="podamShouldCreateInstancesOfPojosExtendingGenericClasses" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="24" timestamp="2015-06-21T21:03:06.195+01:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
+  <tags>
+    <tag name="Constructors" type="epics"/>
+    <tag name="Constructors unit test" type="stories"/>
+    <tag name="Constructors unit test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="11">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.TypedClassPojo2</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.String and class java.lang.String&lt;/span&gt; should be equal</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the collection should not be null or empty and each element should be of type pFcEm48zuT</description>
+  </test-step>
+</acceptance-test-run>

@@ -25,6 +25,9 @@ uk.co.jemos.podam.test.unit.features.externalFactory
 uk.co.jemos.podam.test.unit.features.inheritance
 uk.co.jemos.podam.test.unit.features.memoization
 uk.co.jemos.podam.test.unit.features.singletons
+uk.co.jemos.podam.test.unit.features.validatorFramework
+uk.co.jemos.podam.test.unit.features.walkThroughExample
+uk.co.jemos.podam.test.unit.features.xmlTypes
 uk.co.jemos.podam.test.unit.issue86
 uk.co.jemos.podam.test.unit.issue93
 uk.co.jemos.podam.test.unit.pdm3
