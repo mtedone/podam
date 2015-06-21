@@ -5,6 +5,7 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -141,6 +142,48 @@ public class CollectionsTest extends AbstractPodamSteps {
         podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(generifiedSet,
                 ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
+    }
+
+
+    @Test
+    @Title("Podam should be able to create instances of Sorted Maps")
+    public void testSortedMapCreation() {
+        testMap(TreeMap.class);
+    }
+
+    @Test
+    @Title("Podam should be able to create instances of Concurrent Hash Maps")
+    public void testConcurrentMapCreation() {
+        testMap(ConcurrentHashMap.class);
+    }
+
+    @Test
+    @Title("Podam should be able to create instances of Hash Maps")
+    public void testHashMapCreation() {
+        testMap(HashMap.class);
+    }
+
+    //------------------> Private methods
+
+    private void testMap(Class<? extends Map> mapType) {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        DataProviderStrategy strategy = podamFactory.getStrategy();
+
+        int mapSize = strategy.getNumberOfCollectionElements(PodamTestInterface.class);
+
+        if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+            mapSize = 0;
+        }
+
+        Map<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                mapType, podamFactory, String.class, PodamTestInterface.class);
+
+
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.keySet().size());
+        podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.values().size());
     }
 
 
