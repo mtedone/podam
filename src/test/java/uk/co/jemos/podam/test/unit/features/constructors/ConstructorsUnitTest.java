@@ -268,4 +268,18 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 	}
 
+
+	@Test
+	@Title("Podam should create instances of POJOs extending generic classes")
+	public void podamShouldCreateInstancesOfPojosExtendingGenericClasses() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		TypedClassPojo2 pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(TypedClassPojo2.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getTypedValue());
+		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getTypedValue().getClass());
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getTypedList(), String.class);
+	}
+
 }
