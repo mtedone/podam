@@ -156,7 +156,15 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 		if (null != (minAnno = findTypeFromList(annotations, Size.class))) {
 
 			Size size = (Size) minAnno;
-			long length = PodamUtils.getLongInRange(size.min(), size.max());
+
+			int minValue = size.min();
+			int maxValue = size.max();
+
+			if (maxValue == Integer.MAX_VALUE) {
+				maxValue = PodamConstants.STR_DEFAULT_LENGTH;
+			}
+
+			long length = PodamUtils.getLongInRange(minValue, maxValue);
 
 			StringBuilder sb = new StringBuilder();
 			while (sb.length() < length) {
