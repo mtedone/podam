@@ -28,7 +28,7 @@ public class AnnotationsExceptionsTest {
         podamFactory.manufacturePojo(IntegerValueWithErrorPojo.class);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = MessageHandlingException.class)
     @Title("Podam should throw an exception if the @PodamLongValue annotation contains invalid characters")
     public void podamShouldThrowExceptionWhenPodamLongValueContainsInvalidCharacters() throws Exception {
         podamFactory.manufacturePojo(LongValueWithErrorPojo.class);

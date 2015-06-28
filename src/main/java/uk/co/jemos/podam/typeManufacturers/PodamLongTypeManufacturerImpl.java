@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.common.PodamIntValue;
+import uk.co.jemos.podam.common.PodamLongValue;
 
 import java.lang.annotation.Annotation;
 
@@ -16,52 +16,50 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamIntTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class PodamLongTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamIntTypeManufacturerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(PodamLongTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Integer getType(TypeManufacturerParamsWrapper wrapper) {
+    public Long getType(TypeManufacturerParamsWrapper wrapper) {
 
         super.checkWrapperIsValid(wrapper);
 
         DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
 
-        Integer retValue = null;
+        Long retValue = null;
 
         for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
 
-            if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamIntValue intStrategy = (PodamIntValue) annotation;
+            if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
+                PodamLongValue longStrategy = (PodamLongValue) annotation;
 
-                String numValueStr = intStrategy.numValue();
+                String numValueStr = longStrategy.numValue();
                 if (null != numValueStr && !"".equals(numValueStr)) {
                     try {
-                        retValue = Integer.valueOf(numValueStr);
+                        retValue = Long.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {
                         String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
                                 + numValueStr
-                                + " could not be converted to an Integer. An exception will be thrown.";
+                                + " could not be converted to a Long. An exception will be thrown.";
                         LOG.error(errMsg);
                         throw new IllegalArgumentException(errMsg, nfe);
-
                     }
-
                 } else {
 
-                    int minValue = intStrategy.minValue();
-                    int maxValue = intStrategy.maxValue();
+                    long minValue = longStrategy.minValue();
+                    long maxValue = longStrategy.maxValue();
 
                     // Sanity check
                     if (minValue > maxValue) {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getIntegerInRange(minValue, maxValue,
+                    retValue = strategy.getLongInRange(minValue, maxValue,
                             wrapper.getAttributeMetadata());
 
                 }
@@ -73,7 +71,7 @@ public class PodamIntTypeManufacturerImpl extends AbstractTypeManufacturer {
         }
 
         if (retValue == null) {
-            retValue = strategy.getInteger(wrapper.getAttributeMetadata());
+            retValue = strategy.getLong(wrapper.getAttributeMetadata());
         }
 
         return retValue;

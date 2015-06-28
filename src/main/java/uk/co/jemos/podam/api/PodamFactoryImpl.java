@@ -50,9 +50,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String UNCHECKED_STR = "unchecked";
 
-	public static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
-
-	private static final Type[] NO_TYPES = new Type[0];
+    private static final Type[] NO_TYPES = new Type[0];
 
 	private static final Object[] NO_ARGS = new Object[0];
 
@@ -544,7 +542,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Float.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = THE_ANNOTATION_VALUE_STR
+						String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to a Float. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -605,7 +603,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					try {
 						retValue = Double.valueOf(numValueStr);
 					} catch (NumberFormatException nfe) {
-						String errMsg = THE_ANNOTATION_VALUE_STR
+						String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
 								+ numValueStr
 								+ " could not be converted to a Double. An exception will be thrown.";
 						LOG.error(errMsg);
@@ -641,71 +639,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * Returns either a customised long value if a {@link PodamLongValue}
-	 * annotation was provided or a random long if this was not the case
-	 *
-	 * @param annotations
-	 *            The list of annotations for the int attribute
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 * @return Either a customised long value if a {@link PodamLongValue}
-	 *         annotation was provided or a random long if this was not the case
-	 *
-	 * @throws IllegalArgumentException
-	 *             If it was not possible to convert
-	 *             {@link PodamLongValue#numValue()} to a Long
-	 */
-	private Long getLongValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-
-		Long retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamLongValue longStrategy = (PodamLongValue) annotation;
-
-				String numValueStr = longStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-					try {
-						retValue = Long.valueOf(numValueStr);
-					} catch (NumberFormatException nfe) {
-						String errMsg = THE_ANNOTATION_VALUE_STR
-								+ numValueStr
-								+ " could not be converted to a Long. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-					}
-				} else {
-
-					long minValue = longStrategy.minValue();
-					long maxValue = longStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getLongInRange(minValue, maxValue,
-							attributeMetadata);
-
-				}
-
-				break;
-
-			}
-
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getLong(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * It attempts to resolve the given class as a wrapper class and if this is
 	 * the case it assigns a random value
 	 *
@@ -730,7 +663,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Long.class) || boxedType.equals(long.class)) {
 
-			retValue = getLongValueWithinRange(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Float.class) || boxedType.equals(float.class)) {
 
