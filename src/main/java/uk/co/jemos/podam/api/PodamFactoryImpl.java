@@ -511,37 +511,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It returns the boolean value indicated in the annotation.
-	 *
-	 * @param annotations
-	 *            The collection of annotations for the annotated attribute
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 * @return The boolean value indicated in the annotation
-	 */
-	private Boolean getBooleanValueForAnnotation(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-
-		Boolean retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamBooleanValue localStrategy = (PodamBooleanValue) annotation;
-				retValue = localStrategy.boolValue();
-
-				break;
-			}
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getBoolean(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * It returns a random byte if the attribute was annotated with
 	 * {@link PodamByteValue} or {@code null} otherwise
 	 *
@@ -939,19 +908,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (boxedType.equals(Integer.class) || boxedType.equals(int.class)) {
 
-            MessageChannel inputChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
-
-            TypeManufacturerParamsWrapper wrapper =
-                    new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
-
-            Message<? extends Object> intMessage = MessageBuilder.withPayload(wrapper).setHeader(
-                    PodamConstants.HEADER_NAME, int.class.toString())
-                    .build();
-
-            MessagingTemplate template = new MessagingTemplate();
-            retValue = template.sendAndReceive(inputChannel, intMessage).getPayload();
-
-			//retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
+            retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Long.class) || boxedType.equals(long.class)) {
 
@@ -967,7 +924,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Boolean.class) || boxedType.equals(boolean.class)) {
 
-			retValue = getBooleanValueForAnnotation(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Byte.class) || boxedType.equals(byte.class)) {
 
@@ -992,7 +949,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 	}
 
-	/**
+
+
+    /**
 	 * It creates and returns an instance of the given class if at least one of
 	 * its constructors has been annotated with {@link PodamConstructor}
 	 *
@@ -3087,6 +3046,29 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 
 	}
+
+    /**
+     * Obtains a type value
+     * @param attributeMetadata The AttributeMetadata information
+     * @param clazz The class of the requested type
+     * @return The type value
+     */
+    private Object getTypeValue(AttributeMetadata attributeMetadata, Class<?> clazz) {
+        Object retValue = null;
+
+        MessageChannel inputChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
+
+        TypeManufacturerParamsWrapper wrapper =
+                new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
+
+        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+                PodamConstants.HEADER_NAME, clazz.getName())
+                .build();
+
+        MessagingTemplate template = new MessagingTemplate();
+        retValue = template.sendAndReceive(inputChannel, message).getPayload();
+        return retValue;
+    }
 
 	// ------------------->> equals() / hashcode() / toString()
 

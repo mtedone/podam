@@ -16,10 +16,10 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamIntType implements PodamTypes {
+public class PodamIntTypeManufacturerImpl implements PodamTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamIntType.class);
+    private static final Logger LOG = LogManager.getLogger(PodamIntTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}

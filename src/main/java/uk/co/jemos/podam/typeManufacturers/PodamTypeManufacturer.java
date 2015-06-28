@@ -8,7 +8,7 @@ import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
  *
  * @since 6.0.0.RELEASE
  */
-public interface PodamTypes {
+public interface PodamTypeManufacturer {
 
     /**
      * Returns a type value conforming to the annotations and the AttributeMetadata provided.

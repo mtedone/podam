@@ -174,8 +174,8 @@ public class PodamFactorySteps {
 
     }
 
-    @Step("Given a Message Channel for Integer values from the given application context")
-    public MessageChannel givenAMessageChannelForIntegerValues(ApplicationContext applicationContext) {
+    @Step("Given a Message Channel to manufacture types")
+    public MessageChannel givenAMessageChannelToManufactureValues(ApplicationContext applicationContext) {
 
         return applicationContext.getBean("podamInputChannel", MessageChannel.class);
     }
@@ -203,7 +203,7 @@ public class PodamFactorySteps {
                                                                     String headerName,
                                                                     Class<?> clazz) {
         Message<? extends Object> message = MessageBuilder.withPayload(
-                paramsWrapper).setHeader("type", int.class.toString()).build();
+                paramsWrapper).setHeader("type", clazz.getName()).build();
         return message;
     }
 }

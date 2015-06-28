@@ -1,0 +1,56 @@
+package uk.co.jemos.podam.typeManufacturers;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.common.PodamBooleanValue;
+
+import java.lang.annotation.Annotation;
+
+/**
+ * Default boolean type manufacturer.
+ *
+ * Created by tedonema on 17/05/2015.
+ *
+ * @since 6.0.0.RELEASE
+ */
+public class PodamBooleanTypeManufacturerImpl implements PodamTypeManufacturer {
+
+    /** The application logger */
+    private static final Logger LOG = LogManager.getLogger(PodamBooleanTypeManufacturerImpl.class);
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException If the wrapper object or the AttributeMetadata or the annotations are null.
+     */
+    @Override
+    public Boolean getType(TypeManufacturerParamsWrapper wrapper) {
+
+        if (null == wrapper ||
+                null == wrapper.getAttributeMetadata() ||
+                null == wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+            throw new IllegalArgumentException("The wrapper / attribute metadata / annotations cannot be null!");
+        }
+
+        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+
+        Boolean retValue = null;
+
+        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+
+            if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {
+                PodamBooleanValue localStrategy = (PodamBooleanValue) annotation;
+                retValue = localStrategy.boolValue();
+
+                break;
+            }
+        }
+
+        if (retValue == null) {
+            retValue = strategy.getBoolean(wrapper.getAttributeMetadata());
+        }
+
+        return retValue;
+    }
+}

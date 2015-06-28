@@ -22,8 +22,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
 
     @Test
-        @Title("Podam Spring application context should return an int primitive value")
-        public void podamApplicationContextShouldReturnAnIntValue() throws Exception {
+    @Title("Podam Spring application context should return an int primitive value")
+    public void podamApplicationContextShouldReturnAnIntValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -31,7 +31,7 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
 
         try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelForIntegerValues(applicationContext);
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
             podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
             AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
@@ -67,7 +67,7 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
 
         try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelForIntegerValues(applicationContext);
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
             podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
             AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
@@ -89,6 +89,84 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
             if (null != applicationContext) {
                 applicationContext.close();
             }
+        }
+
+    }
+
+    @Test
+    @Title("Podam Spring application context should return a boolean primitive value")
+    public void podamApplicationContextShouldReturnABooleanPrimitiveValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  boolean.class);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
+        }
+
+    }
+
+    @Test
+    @Title("Podam Spring application context should return a boolean wrapped value")
+    public void podamApplicationContextShouldReturnABooleanWrappedValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  Boolean.class);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
         }
 
     }

@@ -9,18 +9,26 @@
 
     <!-- Types channels -->
     <channel id="podamInputChannel" />
+    <channel id="booleanChannel" />
     <channel id="intChannel" />
 
     <!-- Will direct messages to the appropriate channel depending on the header value -->
     <header-value-router input-channel="podamInputChannel" header-name="type">
         <mapping value="int" channel="intChannel" />
         <mapping value="java.lang.Integer" channel="intChannel" />
+        <mapping value="boolean" channel="booleanChannel" />
+        <mapping value="java.lang.Boolean" channel="booleanChannel" />
     </header-value-router>
 
-    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntType" />
+    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntTypeManufacturerImpl" />
+    <beans:bean id="booleanProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamBooleanTypeManufacturerImpl" />
 
     <service-activator input-channel="intChannel"
                        ref="intProcessor"
+                       method="getType" />
+
+    <service-activator input-channel="booleanChannel"
+                       ref="booleanProcessor"
                        method="getType" />
 
 </beans:beans>
