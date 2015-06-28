@@ -32,8 +32,9 @@ public final class PodamConstants {
 
 	/** The default encoding for Strings */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
+    public static final String HEADER_NAME = "type";
 
-	/** Non-instantiable constructor */
+    /** Non-instantiable constructor */
 	private PodamConstants() {
 		throw new AssertionError("Non instantiable");
 	}

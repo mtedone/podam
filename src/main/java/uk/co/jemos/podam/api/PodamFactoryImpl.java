@@ -9,6 +9,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.MessageHandlingException;
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
@@ -45,7 +50,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String UNCHECKED_STR = "unchecked";
 
-	private static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
+	public static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
 
 	private static final Type[] NO_TYPES = new Type[0];
 
@@ -131,7 +136,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			DataProviderStrategy strategy) {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
-		applicationContext = new ClassPathXmlApplicationContext("META-INF/spring/podam.xml");
+		applicationContext = new ClassPathXmlApplicationContext("META-INF/spring/podam-config.xml");
 	}
 
 	// ------------------->> Public methods
@@ -1001,7 +1006,19 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (boxedType.equals(Integer.class) || boxedType.equals(int.class)) {
 
-			retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
+            MessageChannel inputChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
+
+            TypeManufacturerParamsWrapper wrapper =
+                    new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
+
+            Message<? extends Object> intMessage = MessageBuilder.withPayload(wrapper).setHeader(
+                    PodamConstants.HEADER_NAME, int.class.toString())
+                    .build();
+
+            MessagingTemplate template = new MessagingTemplate();
+            retValue = template.sendAndReceive(inputChannel, intMessage).getPayload();
+
+			//retValue = getIntegerValueWithinRange(annotations, attributeMetadata);
 
 		} else if (boxedType.equals(Long.class) || boxedType.equals(long.class)) {
 
@@ -1531,6 +1548,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             annotation and such value could not be converted to the
 	 *             desired type</li>
 	 *             </ul>
+     * @throws MessageHandlingException If there was a problem handling the message
 	 *
 	 */
 	private Object manufactureAttributeValue(Object pojo,
@@ -1539,7 +1557,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			String attributeName, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException {
+			InvocationTargetException, ClassNotFoundException, MessageHandlingException {
 		Object attributeValue = null;
 
 		Class<?> pojoClass = (pojo instanceof Class ? (Class<?>) pojo : pojo.getClass());

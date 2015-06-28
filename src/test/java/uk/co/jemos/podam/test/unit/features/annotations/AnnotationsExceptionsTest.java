@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.features.annotations;
 import net.thucydides.core.annotations.Title;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.messaging.MessageHandlingException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.annotations.*;
@@ -21,7 +22,7 @@ public class AnnotationsExceptionsTest {
         podamFactory = new PodamFactoryImpl();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = MessageHandlingException.class)
     public void podamShouldThrowExceptionWhenPodamIntegerValueContainsInvalidCharacters() throws Exception {
 
         podamFactory.manufacturePojo(IntegerValueWithErrorPojo.class);

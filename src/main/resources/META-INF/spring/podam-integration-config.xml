@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/integration
+                  http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <!-- Types channels -->
+    <channel id="podamInputChannel" />
+    <channel id="intChannel" />
+
+    <!-- Will direct messages to the appropriate channel depending on the header value -->
+    <header-value-router input-channel="podamInputChannel" header-name="type">
+        <mapping value="int" channel="intChannel" />
+        <mapping value="java.lang.Integer" channel="intChannel" />
+    </header-value-router>
+
+    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntType" />
+
+    <service-activator input-channel="intChannel"
+                       ref="intProcessor"
+                       method="getType" />
+
+</beans:beans>

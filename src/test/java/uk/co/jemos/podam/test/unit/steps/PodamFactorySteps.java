@@ -2,6 +2,12 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
@@ -17,6 +23,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,5 +164,45 @@ public class PodamFactorySteps {
         PodamFactory externalFactory = new XmlTypesExternalFactory();
         PodamFactory factory = new PodamFactoryImpl(externalFactory);
         return factory;
+    }
+
+    @Step("Given Podam Root application context")
+    public AbstractApplicationContext givenPodamRootApplicationContext() {
+
+        return new ClassPathXmlApplicationContext("classpath:META-INF/spring/podam-config.xml");
+
+    }
+
+    @Step("Given a Message Channel for Integer values from the given application context")
+    public MessageChannel givenAMessageChannelForIntegerValues(ApplicationContext applicationContext) {
+
+        return applicationContext.getBean("podamInputChannel", MessageChannel.class);
+    }
+
+    @Step("Given an empty AttributeMetadata object")
+    public AttributeMetadata givenAnEmptyAttributeMetadata(Class<?> pojoClass) {
+
+        if (null == pojoClass) {
+            throw new IllegalArgumentException("pojoClass cannot be null");
+        }
+
+        String attributeName = null;
+        Class<?> realAttributeType = null;
+        Type[] genericTypeArgs = new Type[0];
+        List<Annotation> annotations = Collections.emptyList();
+        AttributeMetadata attributeMetadata = new AttributeMetadata(
+                attributeName, realAttributeType, genericTypeArgs, annotations,
+                pojoClass);
+
+        return attributeMetadata;
+    }
+
+    @Step("Given a Message with header {1} and class {2}")
+    public Message<? extends Object> givenATypeManufacturingMessage(TypeManufacturerParamsWrapper paramsWrapper,
+                                                                    String headerName,
+                                                                    Class<?> clazz) {
+        Message<? extends Object> message = MessageBuilder.withPayload(
+                paramsWrapper).setHeader("type", int.class.toString()).build();
+        return message;
     }
 }

@@ -1,6 +1,9 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -39,5 +42,11 @@ public class PodamInvocationSteps {
             Class<T> pojoClass,
             PodamFactory podamFactory, Type... genericTypeArgs) {
         return podamFactory.manufacturePojo(pojoClass, genericTypeArgs);
+    }
+
+    @Step("When I send a Message to the channel {0}")
+    public Message whenISendAMessageToTheChannel(MessageChannel inputChannel, Message<? extends Object> message) {
+        MessagingTemplate template = new MessagingTemplate();
+        return template.sendAndReceive(inputChannel, message);
     }
 }
