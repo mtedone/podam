@@ -509,74 +509,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * Returns either a customised float value if a {@link PodamFloatValue}
-	 * annotation was provided or a random float if this was not the case
-	 *
-	 * @param annotations
-	 *            The list of annotations for the int attribute
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 *
-	 * @return Either a customised float value if a {@link PodamFloatValue}
-	 *         annotation was provided or a random float if this was not the
-	 *         case
-	 *
-	 * @throws IllegalArgumentException
-	 *             If {@link PodamFloatValue#numValue()} contained a value not
-	 *             convertible to a Float type
-	 */
-	private Float getFloatValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-
-		Float retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamFloatValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamFloatValue floatStrategy = (PodamFloatValue) annotation;
-
-				String numValueStr = floatStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-					try {
-						retValue = Float.valueOf(numValueStr);
-					} catch (NumberFormatException nfe) {
-						String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
-								+ numValueStr
-								+ " could not be converted to a Float. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-					}
-				} else {
-
-					float minValue = floatStrategy.minValue();
-					float maxValue = floatStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getFloatInRange(minValue, maxValue,
-							attributeMetadata);
-
-				}
-
-				break;
-
-			}
-
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getFloat(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * It creates and returns a random {@link Double} value
 	 *
 	 * @param annotations
@@ -667,7 +599,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Float.class) || boxedType.equals(float.class)) {
 
-			retValue = getFloatValueWithinRange(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Double.class) || boxedType.equals(double.class)) {
 
