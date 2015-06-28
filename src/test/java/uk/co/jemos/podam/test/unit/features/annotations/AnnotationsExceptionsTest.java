@@ -42,7 +42,7 @@ public class AnnotationsExceptionsTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = MessageHandlingException.class)
     @Title("Podam should throw an exception if the @PodamShortValue annotation contains invalid characters")
     public void podamShouldThrowExceptionWhenPodamShortValueContainsInvalidCharacters() throws Exception {
         podamFactory.manufacturePojo(ShortValueWithErrorPojo.class);

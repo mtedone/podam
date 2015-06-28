@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamCharTypeManufacturerImpl implements PodamTypeManufacturer {
+public class PodamCharTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
     private static final Logger LOG = LogManager.getLogger(PodamCharTypeManufacturerImpl.class);
@@ -25,6 +25,8 @@ public class PodamCharTypeManufacturerImpl implements PodamTypeManufacturer {
      */
     @Override
     public Character getType(TypeManufacturerParamsWrapper wrapper) {
+
+        super.checkWrapperIsValid(wrapper);
 
         DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
 

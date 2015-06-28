@@ -574,71 +574,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It returns a random short if the attribute was annotated with
-	 * {@link PodamShortValue} or {@code null} otherwise
-	 *
-	 * @param annotations
-	 *            The annotations with which the attribute was annotated
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 * @return A random short if the attribute was annotated with
-	 *         {@link PodamShortValue} or {@code null} otherwise
-	 *
-	 * @throws IllegalArgumentException
-	 *             If {@link PodamShortValue#numValue()} was set and its value
-	 *             could not be converted to a Short type
-	 */
-	private Short getShortValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-
-		Short retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamShortValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamShortValue shortStrategy = (PodamShortValue) annotation;
-
-				String numValueStr = shortStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-					try {
-						retValue = Short.valueOf(numValueStr);
-					} catch (NumberFormatException nfe) {
-						String errMsg = "The precise value: "
-								+ numValueStr
-								+ " cannot be converted to a short type. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-					}
-				} else {
-
-					short minValue = shortStrategy.minValue();
-					short maxValue = shortStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getShortInRange(minValue, maxValue,
-							attributeMetadata);
-
-				}
-
-				break;
-
-			}
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getShort(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * Returns either a customised float value if a {@link PodamFloatValue}
 	 * annotation was provided or a random float if this was not the case
 	 *
@@ -878,7 +813,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Short.class) || boxedType.equals(short.class)) {
 
-			retValue = getShortValueWithinRange(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Character.class) || boxedType.equals(char.class)) {
 

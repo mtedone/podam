@@ -15,23 +15,18 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamBooleanTypeManufacturerImpl implements PodamTypeManufacturer {
+public class PodamBooleanTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
     private static final Logger LOG = LogManager.getLogger(PodamBooleanTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}
-     * @throws IllegalArgumentException If the wrapper object or the AttributeMetadata or the annotations are null.
      */
     @Override
     public Boolean getType(TypeManufacturerParamsWrapper wrapper) {
 
-        if (null == wrapper ||
-                null == wrapper.getAttributeMetadata() ||
-                null == wrapper.getAttributeMetadata().getAttributeAnnotations()) {
-            throw new IllegalArgumentException("The wrapper / attribute metadata / annotations cannot be null!");
-        }
+        super.checkWrapperIsValid(wrapper);
 
         DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
 
@@ -53,4 +48,5 @@ public class PodamBooleanTypeManufacturerImpl implements PodamTypeManufacturer {
 
         return retValue;
     }
+
 }
