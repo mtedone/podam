@@ -639,60 +639,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It creates and returns a random {@link Character} value
-	 *
-	 * @param annotations
-	 *            The list of annotations which might customise the return value
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 * @return A random {@link Character} value
-	 */
-	private Character getCharacterValueWithinRange(
-			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
-
-		Character retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamCharValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamCharValue annotationStrategy = (PodamCharValue) annotation;
-
-				char charValue = annotationStrategy.charValue();
-				if (charValue != ' ') {
-					retValue = charValue;
-
-				} else {
-
-					char minValue = annotationStrategy.minValue();
-					char maxValue = annotationStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getCharacterInRange(minValue, maxValue,
-							attributeMetadata);
-
-				}
-
-				break;
-
-			}
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getCharacter(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-
-
-	/**
 	 * Returns either a customised float value if a {@link PodamFloatValue}
 	 * annotation was provided or a random float if this was not the case
 	 *
@@ -936,7 +882,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Character.class) || boxedType.equals(char.class)) {
 
-			retValue = getCharacterValueWithinRange(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else {
 
