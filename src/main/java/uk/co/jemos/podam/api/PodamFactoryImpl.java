@@ -7,7 +7,7 @@ import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Immutable
 public class PodamFactoryImpl implements PodamFactory {
 
-	// ------------------->> Constants
+    // ------------------->> Constants
 
 	private static final String RESOLVING_COLLECTION_EXCEPTION_STR = "An exception occurred while resolving the collection";
 
@@ -60,7 +60,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	private static final Logger LOG = LogManager.getLogger(PodamFactoryImpl.class);
 
 
-	private ApplicationContext applicationContext;
+	private AbstractApplicationContext applicationContext;
 
 	// ------------------->> Instance / variables
 
@@ -136,7 +136,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			DataProviderStrategy strategy) {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
-		applicationContext = new ClassPathXmlApplicationContext("META-INF/spring/podam-config.xml");
+		applicationContext = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
 	}
 
 	// ------------------->> Public methods
@@ -164,7 +164,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		} catch (ClassNotFoundException e) {
 			throw new PodamMockeryException(e.getMessage(), e);
 		}
-	}
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -721,74 +721,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		return retValue;
 	}
 
-	/**
-	 * Returns either a customised int value if a {@link PodamIntValue}
-	 * annotation was provided or a random integer if this was not the case
-	 *
-	 * @param annotations
-	 *            The list of annotations for the int attribute
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 * @return Either a customised int value if a {@link PodamIntValue}
-	 *         annotation was provided or a random integer if this was not the
-	 *         case
-	 *
-	 * @throws IllegalArgumentException
-	 *             If it was not possible to convert the
-	 *             {@link PodamIntValue#numValue()} to an Integer
-	 */
-	private Integer getIntegerValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
 
-		Integer retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamIntValue intStrategy = (PodamIntValue) annotation;
-
-				String numValueStr = intStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-					try {
-						retValue = Integer.valueOf(numValueStr);
-					} catch (NumberFormatException nfe) {
-						String errMsg = THE_ANNOTATION_VALUE_STR
-								+ numValueStr
-								+ " could not be converted to an Integer. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-
-					}
-
-				} else {
-
-					int minValue = intStrategy.minValue();
-					int maxValue = intStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getIntegerInRange(minValue, maxValue,
-							attributeMetadata);
-
-				}
-
-				break;
-
-			}
-
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getInteger(attributeMetadata);
-		}
-
-		return retValue;
-	}
 
 	/**
 	 * Returns either a customised float value if a {@link PodamFloatValue}

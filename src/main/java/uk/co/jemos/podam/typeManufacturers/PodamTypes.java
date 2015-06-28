@@ -1,6 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.springframework.messaging.Message;
+import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
 
 /**
  * Interface for a type manufacturer
@@ -12,7 +12,10 @@ public interface PodamTypes {
 
     /**
      * Returns a type value conforming to the annotations and the AttributeMetadata provided.
+     *
+     * @param wrapper The Wrapper object containing parameters required by type manufacturers to work correctly
+     *
      * @return A type value conforming to the annotations and the AttributeMetadata provided.
      */
-    Object getType(Message<? extends Object> message);
+    Object getType(TypeManufacturerParamsWrapper wrapper);
 }

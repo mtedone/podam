@@ -10,6 +10,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
@@ -169,7 +170,7 @@ public class PodamFactorySteps {
     @Step("Given Podam Root application context")
     public AbstractApplicationContext givenPodamRootApplicationContext() {
 
-        return new ClassPathXmlApplicationContext("classpath:META-INF/spring/podam-config.xml");
+        return new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
 
     }
 

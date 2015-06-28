@@ -33,6 +33,7 @@ public final class PodamConstants {
 	/** The default encoding for Strings */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
     public static final String HEADER_NAME = "type";
+    public static final String SPRING_ROOT_CONFIG_LOCATION = "META-INF/spring/podam-config.xml";
 
     /** Non-instantiable constructor */
 	private PodamConstants() {

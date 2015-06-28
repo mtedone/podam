@@ -22,8 +22,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
 
     @Test
-    @Title("Podam Spring application context should return an integer value")
-    public void podamApplicationContextShouldReturnAnIntegerValue() throws Exception {
+        @Title("Podam Spring application context should return an int primitive value")
+        public void podamApplicationContextShouldReturnAnIntValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -55,7 +55,41 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
             }
         }
 
+    }
 
+    @Test
+    @Title("Podam Spring application context should return an integer value")
+    public void podamApplicationContextShouldReturnAnIntegerValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelForIntegerValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> intMessage = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  Integer.class);
+            podamValidationSteps.theObjectShouldNotBeNull(intMessage);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, intMessage);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theIntFieldShouldNotBeZero((Integer) value.getPayload());
+        } finally {
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+        }
 
     }
 

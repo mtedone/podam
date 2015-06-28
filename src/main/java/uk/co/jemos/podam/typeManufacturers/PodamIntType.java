@@ -2,7 +2,6 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.messaging.Message;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
@@ -26,9 +25,7 @@ public class PodamIntType implements PodamTypes {
      * {@inheritDoc}
      */
     @Override
-    public Integer getType(Message<? extends Object> message) {
-
-        TypeManufacturerParamsWrapper wrapper = (TypeManufacturerParamsWrapper) message.getPayload();
+    public Integer getType(TypeManufacturerParamsWrapper wrapper) {
 
         DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
 
