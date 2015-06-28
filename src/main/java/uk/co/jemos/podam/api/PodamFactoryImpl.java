@@ -511,69 +511,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It returns a random byte if the attribute was annotated with
-	 * {@link PodamByteValue} or {@code null} otherwise
-	 *
-	 * @param annotations
-	 *            The list of annotations for this attribute
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 *
-	 * @return A random byte if the attribute was annotated with
-	 *
-	 * @throws IllegalArgumentException
-	 *             If the {@link PodamByteValue#numValue()} value has been set
-	 *             and it is not convertible to a byte type
-	 */
-	private Byte getByteValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-		Byte retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamByteValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamByteValue intStrategy = (PodamByteValue) annotation;
-
-				String numValueStr = intStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-					try {
-
-						retValue = Byte.valueOf(numValueStr);
-
-					} catch (NumberFormatException nfe) {
-						String errMsg = "The precise value: "
-								+ numValueStr
-								+ " cannot be converted to a byte type. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-					}
-				} else {
-					byte minValue = intStrategy.minValue();
-					byte maxValue = intStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getByteInRange(minValue, maxValue,
-							attributeMetadata);
-				}
-
-				break;
-
-			}
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getByte(attributeMetadata);
-		}
-
-		return retValue;
-	}
-
-	/**
 	 * Returns either a customised float value if a {@link PodamFloatValue}
 	 * annotation was provided or a random float if this was not the case
 	 *
@@ -809,7 +746,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (boxedType.equals(Byte.class) || boxedType.equals(byte.class)) {
 
-			retValue = getByteValueWithinRange(annotations, attributeMetadata);
+			retValue = getTypeValue(attributeMetadata, boxedType);
 
 		} else if (boxedType.equals(Short.class) || boxedType.equals(short.class)) {
 

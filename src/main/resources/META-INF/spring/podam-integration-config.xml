@@ -10,12 +10,15 @@
     <!-- Types channels -->
     <channel id="podamInputChannel" />
     <channel id="booleanChannel" />
+    <channel id="byteChannel" />
     <channel id="charChannel" />
     <channel id="shortChannel" />
     <channel id="intChannel" />
 
     <!-- Will direct messages to the appropriate channel depending on the header value -->
     <header-value-router input-channel="podamInputChannel" header-name="type">
+        <mapping value="byte" channel="byteChannel" />
+        <mapping value="java.lang.Byte" channel="byteChannel" />
         <mapping value="boolean" channel="booleanChannel" />
         <mapping value="java.lang.Boolean" channel="booleanChannel" />
         <mapping value="char" channel="charChannel" />
@@ -26,10 +29,19 @@
         <mapping value="java.lang.Integer" channel="intChannel" />
     </header-value-router>
 
-    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntTypeManufacturerImpl" />
+    <beans:bean id="byteProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamByteTypeManufacturerImpl" />
     <beans:bean id="booleanProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamBooleanTypeManufacturerImpl" />
     <beans:bean id="charProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamCharTypeManufacturerImpl" />
     <beans:bean id="shortProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamShortTypeManufacturerImpl" />
+    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntTypeManufacturerImpl" />
+
+    <service-activator input-channel="booleanChannel"
+                       ref="booleanProcessor"
+                       method="getType" />
+
+    <service-activator input-channel="byteChannel"
+                       ref="byteProcessor"
+                       method="getType" />
 
     <service-activator input-channel="charChannel"
                        ref="charProcessor"
@@ -41,10 +53,6 @@
 
     <service-activator input-channel="intChannel"
                        ref="intProcessor"
-                       method="getType" />
-
-    <service-activator input-channel="booleanChannel"
-                       ref="booleanProcessor"
                        method="getType" />
 
 </beans:beans>

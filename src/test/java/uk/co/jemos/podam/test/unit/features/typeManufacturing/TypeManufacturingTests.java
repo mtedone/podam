@@ -327,4 +327,82 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("Podam Spring application context should return a byte primitive value")
+    public void podamApplicationContextShouldReturnABytePrimitiveValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  byte.class);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
+        }
+
+    }
+
+    @Test
+    @Title("Podam Spring application context should return a Byte wrapped value")
+    public void podamApplicationContextShouldReturnAByteWrappedValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  Byte.class);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
+        }
+
+    }
+
 }
