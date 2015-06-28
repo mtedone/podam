@@ -508,131 +508,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		return parameterType;
 	}
 
-	/**
-	 * It creates and returns a random {@link Double} value
-	 *
-	 * @param annotations
-	 *            The list of annotations which might customise the return value
-	 *
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation *
-	 *
-	 * @return a random {@link Double} value
-	 */
-	private Double getDoubleValueWithinRange(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) {
-
-		Double retValue = null;
-
-		for (Annotation annotation : annotations) {
-
-			if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {
-				PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;
-
-				String numValueStr = doubleStrategy.numValue();
-				if (null != numValueStr && !"".equals(numValueStr)) {
-
-					try {
-						retValue = Double.valueOf(numValueStr);
-					} catch (NumberFormatException nfe) {
-						String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
-								+ numValueStr
-								+ " could not be converted to a Double. An exception will be thrown.";
-						LOG.error(errMsg);
-						throw new IllegalArgumentException(errMsg, nfe);
-					}
-
-				} else {
-
-					double minValue = doubleStrategy.minValue();
-					double maxValue = doubleStrategy.maxValue();
-
-					// Sanity check
-					if (minValue > maxValue) {
-						maxValue = minValue;
-					}
-
-					retValue = strategy.getDoubleInRange(minValue, maxValue,
-							attributeMetadata);
-				}
-
-				break;
-
-			}
-
-		}
-
-		if (retValue == null) {
-			retValue = strategy.getDouble(attributeMetadata);
-		}
-
-		return retValue;
-
-	}
-
-	/**
-	 * It attempts to resolve the given class as a wrapper class and if this is
-	 * the case it assigns a random value
-	 *
-	 *
-	 * @param boxedType
-	 *            The class which might be a wrapper class
-	 * @param annotations
-	 *            The attribute's annotations, if any, used for customisation
-	 * @param attributeMetadata
-	 *            The attribute's metadata, if any, used for customisation
-	 * @return {@code null} if this is not a wrapper class, otherwise an Object
-	 *         with the value for the wrapper class
-	 */
-	private Object resolveBoxedValue(Class<?> boxedType,
-			List<Annotation> annotations, AttributeMetadata attributeMetadata) {
-
-		Object retValue = null;
-
-		if (boxedType.equals(Integer.class) || boxedType.equals(int.class)) {
-
-            retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Long.class) || boxedType.equals(long.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Float.class) || boxedType.equals(float.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Double.class) || boxedType.equals(double.class)) {
-
-			retValue = getDoubleValueWithinRange(annotations, attributeMetadata);
-
-		} else if (boxedType.equals(Boolean.class) || boxedType.equals(boolean.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Byte.class) || boxedType.equals(byte.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Short.class) || boxedType.equals(short.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else if (boxedType.equals(Character.class) || boxedType.equals(char.class)) {
-
-			retValue = getTypeValue(attributeMetadata, boxedType);
-
-		} else {
-
-			throw new IllegalArgumentException(
-					String.format("%s is unsupported wrapper type",
-							boxedType));
-
-		}
-
-		return retValue;
-	}
-
-
 
     /**
 	 * It creates and returns an instance of the given class if at least one of
@@ -788,8 +663,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
-			return (T) resolveBoxedValue(pojoClass, Collections.<Annotation>emptyList(),
-					new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass));
+            AttributeMetadata attributeMetadata = new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass);
+            return (T) getTypeValue(attributeMetadata, pojoClass);
 		}
 
 		if (pojoClass.isInterface()) {
@@ -1152,8 +1027,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		// Primitive type
 		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType)) {
 
-			attributeValue = resolveBoxedValue(realAttributeType,
-					annotations, attributeMetadata);
+			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
 
 			// String type
 		} else if (realAttributeType.equals(String.class)) {
