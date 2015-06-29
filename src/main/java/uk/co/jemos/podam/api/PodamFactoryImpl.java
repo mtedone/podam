@@ -1945,16 +1945,31 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
+			Type actualTypeArgument = null;
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
-
-				LOG.warn("The collection attribute: "
-						+ attributeName
-						+ " does not have a type. We will assume Object for you");
-				// Support for non-generified collections
-				typeClass = Object.class;
+				for (Type iface : collectionType.getGenericInterfaces()) {
+					if (iface instanceof ParameterizedType) {
+						ParameterizedType paramIface = (ParameterizedType) iface;
+						if (paramIface.getRawType().equals(List.class)) {
+							actualTypeArgument = paramIface.getActualTypeArguments()[0];
+							break;
+						}
+					}
+				}
+				
+				if (actualTypeArgument == null) {
+					LOG.warn("The collection attribute: "
+							+ attributeName
+							+ " does not have a type. We will assume Object for you");
+					// Support for non-generified collections
+					typeClass = Object.class;
+				} else {
+					typeClass = resolveGenericParameter(actualTypeArgument,
+							typeArgsMap, elementGenericTypeArgs);
+				}
 
 			} else {
-				Type actualTypeArgument = genericTypeArgs[0];
+				actualTypeArgument = genericTypeArgs[0];
 
 				typeClass = resolveGenericParameter(actualTypeArgument,
 						typeArgsMap, elementGenericTypeArgs);
@@ -2198,33 +2213,43 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		try {
 
-			Class<?> keyClass = null;
-
-			Class<?> elementClass = null;
-
 			AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
-			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
-				LOG.warn("Map attribute: "
-						+ attributeName
-						+ " is non-generic. We will assume a Map<Object, Object> for you.");
-
-				keyClass = Object.class;
-
-				elementClass = Object.class;
-
-			} else {
-
+			Type[] actualTypeArguments = null;
+			if (genericTypeArgs != null && genericTypeArgs.length != 0) {
 				// Expected only key, value type
 				if (genericTypeArgs.length != 2) {
 					throw new IllegalStateException(
 							"In a Map only key value generic type are expected.");
 				}
+				actualTypeArguments = genericTypeArgs;
+			} else {
+				for (Type iface : attributeType.getGenericInterfaces()) {
+					if (iface instanceof ParameterizedType) {
+						ParameterizedType paramIface = (ParameterizedType) iface;
+						if (paramIface.getRawType().equals(Map.class)) {
+							actualTypeArguments = paramIface.getActualTypeArguments();
+							break;
+						}
+					}
+				}
+			}
 
-				Type[] actualTypeArguments = genericTypeArgs;
+			Class<?> keyClass = null;
+			Class<?> elementClass = null;
+
+			if (actualTypeArguments == null) {
+				LOG.warn("Map attribute: "
+						+ attributeName
+						+ " is non-generic. We will assume a Map<Object, Object> for you.");
+
+				keyClass = Object.class;
+				elementClass = Object.class;
+
+			} else {
 				keyClass = resolveGenericParameter(actualTypeArguments[0],
 						typeArgsMap, keyGenericTypeArgs);
 				elementClass = resolveGenericParameter(actualTypeArguments[1],
