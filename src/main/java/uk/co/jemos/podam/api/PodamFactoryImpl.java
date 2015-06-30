@@ -1032,7 +1032,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			// String type
 		} else if (realAttributeType.equals(String.class)) {
 
-			attributeValue = resolveStringValue(annotations, attributeMetadata);
+			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
 
 		} else if (realAttributeType.isArray()) {
 
@@ -1196,72 +1196,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Type[] resolved = resolvedTypes.toArray(new Type[resolvedTypes.size()]);
 		Type[] supplied = substitutionTypes.toArray(new Type[substitutionTypes.size()]);
 		return mergeTypeArrays(resolved, supplied);
-	}
-
-	/**
-	 * It creates and returns a String value, eventually customised by
-	 * annotations
-	 *
-	 * @param annotations
-	 *            The list of annotations used to customise the String value, if
-	 *            any
-	 * @param attributeMetadata
-	 *            Metadata of the attribute to be filled with string
-	 * @return a String value, eventually customised by annotations
-	 * @throws IllegalAccessException
-	 *             If an exception occurred while creating an instance of the
-	 *             strategy
-	 * @throws InstantiationException
-	 *             If an exception occurred while creating an instance of the
-	 *             strategy
-	 *
-	 * @throws IllegalArgumentException
-	 *             If {@link PodamStrategyValue} was specified but the type was
-	 *             not correct for the attribute being set
-	 */
-	private String resolveStringValue(List<Annotation> annotations,
-			AttributeMetadata attributeMetadata) throws InstantiationException,
-			IllegalAccessException {
-
-		String retValue = null;
-
-		if (annotations == null || annotations.isEmpty()) {
-
-			retValue = strategy.getStringValue(attributeMetadata);
-
-		} else {
-
-			for (Annotation annotation : annotations) {
-
-				if (!PodamStringValue.class.isAssignableFrom(annotation
-						.getClass())) {
-					continue;
-				}
-
-				// A specific value takes precedence over the length
-				PodamStringValue podamAnnotation = (PodamStringValue) annotation;
-
-				if (podamAnnotation.strValue() != null
-						&& podamAnnotation.strValue().length() > 0) {
-
-					retValue = podamAnnotation.strValue();
-
-				} else {
-
-					retValue = strategy.getStringOfLength(
-							podamAnnotation.length(), attributeMetadata);
-
-				}
-
-			}
-
-			if (retValue == null) {
-				retValue = strategy.getStringValue(attributeMetadata);
-			}
-
-		}
-
-		return retValue;
 	}
 
 	/**

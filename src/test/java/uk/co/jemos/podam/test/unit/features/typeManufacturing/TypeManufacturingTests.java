@@ -639,4 +639,44 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
     }
 
+
+    @Test
+    @Title("Podam Spring application context should return a String value")
+    public void podamApplicationContextShouldReturnAStringValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            TypeManufacturerParamsWrapper paramsWrapper =
+                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessage(
+                    paramsWrapper, PodamConstants.HEADER_NAME,  String.class);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theObjectShouldNotBeNull((String) value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
+        }
+
+    }
+
 }
