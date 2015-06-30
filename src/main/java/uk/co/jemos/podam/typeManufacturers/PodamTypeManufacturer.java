@@ -1,6 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
 
 /**
  * Interface for a type manufacturer

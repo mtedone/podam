@@ -2,7 +2,7 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
 
 /**
  * Parent of all type manufacturer.

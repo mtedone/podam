@@ -3,9 +3,9 @@ package uk.co.jemos.podam.typeManufacturers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
 
 import java.lang.annotation.Annotation;
 

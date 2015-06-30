@@ -10,7 +10,9 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
@@ -19,16 +21,15 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapperForArray;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -205,5 +206,37 @@ public class PodamFactorySteps {
         Message<? extends Object> message = MessageBuilder.withPayload(
                 paramsWrapper).setHeader("type", clazz.getName()).build();
         return message;
+    }
+
+    @Step("Given a type manufacturer wrapper for arrays")
+    public TypeManufacturerParamsWrapperForArray givenATypeManufacturerWrapperForArrays() {
+
+        CollectionAnnotationPojo pojo = new CollectionAnnotationPojo();
+        Type genericType = null;
+        Class<?> attributeType = String.class;
+        String attributeName = "strArray";
+        ManufacturingContext manufacturingContext = new ManufacturingContext();
+        List<Annotation> annotations = Collections.emptyList();
+        Map<String, Type> genericArgumentTypeMap = Collections.EMPTY_MAP;
+
+        TypeManufacturerParamsWrapperForArray wrapperForArray =
+                new TypeManufacturerParamsWrapperForArray(pojo,
+                        attributeType, attributeName, genericType, manufacturingContext, annotations,
+                        genericArgumentTypeMap);
+
+        return wrapperForArray;
+
+
+    }
+
+    @Step("Given a type manufacturer message for arrays")
+    public Message<? extends Object> givenATypeManufacturingMessageForArray(
+            TypeManufacturerParamsWrapperForArray paramsWrapper,
+            String headerName) {
+
+        Message<? extends Object> message = MessageBuilder.withPayload(
+                paramsWrapper).setHeader("type", java.lang.reflect.Array.class.getName()).build();
+        return message;
+
     }
 }

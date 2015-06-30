@@ -18,6 +18,7 @@
     <channel id="floatChannel" />
     <channel id="doubleChannel" />
     <channel id="stringChannel" />
+    <channel id="arrayChannel" />
 
     <!-- Will direct messages to the appropriate channel depending on the header value -->
     <header-value-router input-channel="podamInputChannel" header-name="type">
@@ -39,6 +40,7 @@
         <mapping value="double" channel="doubleChannel" />
         <mapping value="java.lang.Double" channel="doubleChannel" />
         <mapping value="java.lang.String" channel="stringChannel" />
+        <mapping value="java.lang.reflect.Array" channel="arrayChannel" />
     </header-value-router>
 
     <beans:bean id="byteProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamByteTypeManufacturerImpl" />
@@ -50,6 +52,7 @@
     <beans:bean id="floatProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamFloatTypeManufacturerImpl" />
     <beans:bean id="doubleProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamDoubleTypeManufacturerImpl" />
     <beans:bean id="stringProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamStringTypeManufacturerImpl" />
+    <beans:bean id="arrayProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamArrayTypeManufacturerImpl" />
 
     <service-activator input-channel="booleanChannel"
                        ref="booleanProcessor"
@@ -85,6 +88,10 @@
 
     <service-activator input-channel="stringChannel"
                        ref="stringProcessor"
+                       method="getType" />
+
+    <service-activator input-channel="arrayChannel"
+                       ref="arrayProcessor"
                        method="getType" />
 
 </beans:beans>

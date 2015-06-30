@@ -17,6 +17,7 @@ import org.springframework.messaging.MessageHandlingException;
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
 
 import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;

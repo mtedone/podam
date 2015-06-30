@@ -1,4 +1,7 @@
-package uk.co.jemos.podam.api;
+package uk.co.jemos.podam.typeManufacturers.wrappers;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 
 /**
  * Wraps parameters for the Message Channel
