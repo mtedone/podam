@@ -14,10 +14,10 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamShortTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamShortTypeManufacturerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ShortTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}

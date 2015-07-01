@@ -4,65 +4,64 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.common.PodamIntValue;
+import uk.co.jemos.podam.common.PodamDoubleValue;
 
 import java.lang.annotation.Annotation;
 
 /**
- * Default int type manufacturer.
+ * Default double type manufacturer.
  *
  * Created by tedonema on 17/05/2015.
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamIntTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamIntTypeManufacturerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(DoubleTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Integer getType(TypeManufacturerParamsWrapper wrapper) {
+    public Double getType(TypeManufacturerParamsWrapper wrapper) {
 
         super.checkWrapperIsValid(wrapper);
 
         DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
 
-        Integer retValue = null;
+        Double retValue = null;
 
         for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
 
-            if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamIntValue intStrategy = (PodamIntValue) annotation;
+            if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {
+                PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;
 
-                String numValueStr = intStrategy.numValue();
+                String numValueStr = doubleStrategy.numValue();
                 if (null != numValueStr && !"".equals(numValueStr)) {
+
                     try {
-                        retValue = Integer.valueOf(numValueStr);
+                        retValue = Double.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {
                         String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
                                 + numValueStr
-                                + " could not be converted to an Integer. An exception will be thrown.";
+                                + " could not be converted to a Double. An exception will be thrown.";
                         LOG.error(errMsg);
                         throw new IllegalArgumentException(errMsg, nfe);
-
                     }
 
                 } else {
 
-                    int minValue = intStrategy.minValue();
-                    int maxValue = intStrategy.maxValue();
+                    double minValue = doubleStrategy.minValue();
+                    double maxValue = doubleStrategy.maxValue();
 
                     // Sanity check
                     if (minValue > maxValue) {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getIntegerInRange(minValue, maxValue,
+                    retValue = strategy.getDoubleInRange(minValue, maxValue,
                             wrapper.getAttributeMetadata());
-
                 }
 
                 break;
@@ -72,7 +71,7 @@ public class PodamIntTypeManufacturerImpl extends AbstractTypeManufacturer {
         }
 
         if (retValue == null) {
-            retValue = strategy.getInteger(wrapper.getAttributeMetadata());
+            retValue = strategy.getDouble(wrapper.getAttributeMetadata());
         }
 
         return retValue;

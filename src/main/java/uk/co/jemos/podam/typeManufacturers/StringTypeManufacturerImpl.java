@@ -16,10 +16,10 @@ import java.util.List;
  *
  * @since 6.0.0.RELEASE
  */
-public class PodamStringTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class StringTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(PodamStringTypeManufacturerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(StringTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}

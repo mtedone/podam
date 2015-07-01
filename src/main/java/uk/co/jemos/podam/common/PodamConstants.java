@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.common;
 
 
+import java.lang.reflect.Type;
 
 /**
  * PODAM constants.
@@ -35,6 +36,12 @@ public final class PodamConstants {
 
     /** A String used for messages. */
     public static final String THE_ANNOTATION_VALUE_STR = "The annotation value: ";
+
+    /** An empty array of Types. */
+    public static final Type[] NO_TYPES = new Type[0];
+
+    /** An empty object array. */
+    public static final Object[] NO_ARGS = new Object[0];
 
     /** Non-instantiable constructor */
 	private PodamConstants() {

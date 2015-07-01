@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @since 6.0.0.RELEASE
  */
-public abstract class AbstractTypeManufacturer implements PodamTypeManufacturer{
+public abstract class AbstractTypeManufacturer implements TypeManufacturer {
 
 
     /** The application logger */

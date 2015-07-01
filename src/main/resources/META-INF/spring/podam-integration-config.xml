@@ -41,15 +41,15 @@
         <mapping value="java.lang.String" channel="stringChannel" />
     </header-value-router>
 
-    <beans:bean id="byteProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamByteTypeManufacturerImpl" />
-    <beans:bean id="booleanProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamBooleanTypeManufacturerImpl" />
-    <beans:bean id="charProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamCharTypeManufacturerImpl" />
-    <beans:bean id="shortProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamShortTypeManufacturerImpl" />
-    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamIntTypeManufacturerImpl" />
-    <beans:bean id="longProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamLongTypeManufacturerImpl" />
-    <beans:bean id="floatProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamFloatTypeManufacturerImpl" />
-    <beans:bean id="doubleProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamDoubleTypeManufacturerImpl" />
-    <beans:bean id="stringProcessor" class="uk.co.jemos.podam.typeManufacturers.PodamStringTypeManufacturerImpl" />
+    <beans:bean id="byteProcessor" class="uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl" />
+    <beans:bean id="booleanProcessor" class="uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl" />
+    <beans:bean id="charProcessor" class="uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl" />
+    <beans:bean id="shortProcessor" class="uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl" />
+    <beans:bean id="intProcessor" class="uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl" />
+    <beans:bean id="longProcessor" class="uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl" />
+    <beans:bean id="floatProcessor" class="uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl" />
+    <beans:bean id="doubleProcessor" class="uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl" />
+    <beans:bean id="stringProcessor" class="uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl" />
 
     <service-activator input-channel="booleanChannel"
                        ref="booleanProcessor"

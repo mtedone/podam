@@ -6,7 +6,7 @@ package uk.co.jemos.podam.typeManufacturers;
  *
  * @since 6.0.0.RELEASE
  */
-public interface PodamTypeManufacturer {
+public interface TypeManufacturer {
 
     /**
      * Returns a type value conforming to the annotations and the AttributeMetadata provided.
