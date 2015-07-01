@@ -1,7 +1,5 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
-
 /**
  * Interface for a type manufacturer
  * Created by tedonema on 17/05/2015.

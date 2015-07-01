@@ -17,7 +17,7 @@ import org.springframework.messaging.MessageHandlingException;
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
-import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 
 import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
@@ -1026,14 +1026,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				pojoClass);
 
 		// Primitive type
-		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType)) {
+		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType) ||
+                realAttributeType.equals(String.class)) {
 
 			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
 
-			// String type
-		} else if (realAttributeType.equals(String.class)) {
-
-			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
 
 		} else if (realAttributeType.isArray()) {
 
@@ -1966,7 +1963,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
 		Integer nbrElements = findCollectionSize(annotations, attributeType,
-				elementStrategyHolder, keyStrategyHolder);
+                elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
 		Object arrayElement = null;

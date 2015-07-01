@@ -11,11 +11,10 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
-import uk.co.jemos.podam.typeManufacturers.wrappers.TypeManufacturerParamsWrapperForArray;
 
 /**
  * Created by tedonema on 28/06/2015.
@@ -684,42 +683,6 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
     }
 
-    @Test
-    @Title("Podam Spring application context should return a String value")
-    public void podamApplicationContextShouldReturnAnArrayValue() throws Exception {
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
-
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
-
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-            TypeManufacturerParamsWrapperForArray paramsWrapper =
-                    podamFactorySteps.givenATypeManufacturerWrapperForArrays();
-
-            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageForArray(
-                    paramsWrapper, PodamConstants.HEADER_NAME);
-            
-            podamValidationSteps.theObjectShouldNotBeNull(message);
-
-            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull(value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
-    }
 
 }

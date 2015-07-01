@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.typeManufacturers.wrappers;
+package uk.co.jemos.podam.typeManufacturers;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
