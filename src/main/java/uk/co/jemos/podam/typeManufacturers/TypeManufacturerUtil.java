@@ -4,12 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.common.PodamConstants;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
-import java.util.Arrays;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -19,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @since 6.0.0.RELEASE
  */
-public class TypeManufacturerUtil {
+public final class TypeManufacturerUtil {
     
     /** The application logger */
     private static final Logger LOG = LogManager.getLogger(TypeManufacturerUtil.class);
@@ -29,7 +27,53 @@ public class TypeManufacturerUtil {
         throw new AssertionError("Non instantiable");
     }
 
+    /**
+     * Given a collection type it returns an instance
+     *
+     * <ul>
+     * <li>The default type for a {@link List} is an {@link ArrayList}</li>
+     * <li>The default type for a {@link Queue} is a {@link LinkedList}</li>
+     * <li>The default type for a {@link Set} is a {@link HashSet}</li>
+     * </ul>
+     *
+     * @param collectionType
+     *            The collection type *
+     * @param defaultValue
+     *            Default value for the collection, can be null
+     * @return an instance of the collection type or null
+     */
+    public static Collection<? super Object> resolveCollectionType(
+            Class<?> collectionType, Collection<? super Object> defaultValue) {
 
+        Collection<? super Object> retValue = null;
+
+        // Default list and set are ArrayList and HashSet. If users
+        // wants a particular collection flavour they have to initialise
+        // the collection
+        if (null != defaultValue &&
+                (defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default collection, which is not immutable */
+            retValue = defaultValue;
+        } else {
+            if (Queue.class.isAssignableFrom(collectionType)) {
+                if (collectionType.isAssignableFrom(LinkedList.class)) {
+                    retValue = new LinkedList<Object>();
+                }
+            } else if (Set.class.isAssignableFrom(collectionType)) {
+                if (collectionType.isAssignableFrom(HashSet.class)) {
+                    retValue = new HashSet<Object>();
+                }
+            } else {
+                if (collectionType.isAssignableFrom(ArrayList.class)) {
+                    retValue = new ArrayList<Object>();
+                }
+            }
+            if (null != retValue && null != defaultValue) {
+                retValue.addAll(defaultValue);
+            }
+        }
+        return retValue;
+    }
     /**
      * It resolves generic parameter type
      *
@@ -86,4 +130,58 @@ public class TypeManufacturerUtil {
         }
         return parameterType;
     }
+
+
+    /**
+     * It manufactures and returns a default instance for each map type
+     *
+     * <p>
+     * The default implementation for a {@link ConcurrentMap} is
+     * {@link ConcurrentHashMap}
+     * </p>
+     *
+     * <p>
+     * The default implementation for a {@link SortedMap} is a {@link TreeMap}
+     * </p>
+     *
+     * <p>
+     * The default Map is none of the above was recognised is a {@link HashMap}
+     * </p>
+     *
+     * @param mapType
+     *            The attribute type implementing Map
+     * @param defaultValue
+     *            Default value for map
+     * @return A default instance for each map type or null
+     *
+     */
+    public static Map<? super Object, ? super Object> resolveMapType(
+            Class<?> mapType, Map<? super Object, ? super Object> defaultValue) {
+
+        Map<? super Object, ? super Object> retValue = null;
+
+        if (null != defaultValue &&
+                (defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default map, which is not immutable */
+            retValue = defaultValue;
+        } else {
+            if (SortedMap.class.isAssignableFrom(mapType)) {
+                if (mapType.isAssignableFrom(TreeMap.class)) {
+                    retValue = new TreeMap<Object, Object>();
+                }
+            } else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
+                if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+                    retValue = new ConcurrentHashMap<Object, Object>();
+                }
+            } else {
+                if (mapType.isAssignableFrom(HashMap.class)) {
+                    retValue = new HashMap<Object, Object>();
+                }
+            }
+        }
+
+        return retValue;
+
+    }
+
 }

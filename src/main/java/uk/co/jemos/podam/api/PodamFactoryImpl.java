@@ -28,7 +28,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -150,7 +149,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
 					genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
-					manufacturingCtx, genericTypeArgs);
+                    manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -174,7 +173,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
 					genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
-					manufacturingCtx, genericTypeArgs);
+                    manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -1271,7 +1270,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
-		retValue = resolveCollectionType(collectionType, retValue);
+		retValue = TypeManufacturerUtil.resolveCollectionType(collectionType, retValue);
 
 		if (null == retValue) {
 			return null;
@@ -1447,7 +1446,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
 		Integer nbrElements = findCollectionSize(annotations,
-				collectionElementType, elementStrategyHolder, keyStrategyHolder);
+                collectionElementType, elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
 		try {
@@ -1528,7 +1527,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
-		retValue = resolveMapType(attributeType, retValue);
+		retValue = TypeManufacturerUtil.resolveMapType(attributeType, retValue);
 
 		if (null == retValue) {
 			return null;
@@ -2017,105 +2016,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		return nbrElements;
 	}
 
-	/**
-	 * Given a collection type it returns an instance
-	 *
-	 * <ul>
-	 * <li>The default type for a {@link List} is an {@link ArrayList}</li>
-	 * <li>The default type for a {@link Queue} is a {@link LinkedList}</li>
-	 * <li>The default type for a {@link Set} is a {@link HashSet}</li>
-	 * </ul>
-	 *
-	 * @param collectionType
-	 *            The collection type *
-	 * @param defaultValue
-	 *            Default value for the collection, can be null
-	 * @return an instance of the collection type or null
-	 */
-	private Collection<? super Object> resolveCollectionType(
-			Class<?> collectionType, Collection<? super Object> defaultValue) {
 
-		Collection<? super Object> retValue = null;
-
-		// Default list and set are ArrayList and HashSet. If users
-		// wants a particular collection flavour they have to initialise
-		// the collection
-		if (null != defaultValue &&
-				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
-			/* Default collection, which is not immutable */
-			retValue = defaultValue;
-		} else {
-			if (Queue.class.isAssignableFrom(collectionType)) {
-				if (collectionType.isAssignableFrom(LinkedList.class)) {
-					retValue = new LinkedList<Object>();
-				}
-			} else if (Set.class.isAssignableFrom(collectionType)) {
-				if (collectionType.isAssignableFrom(HashSet.class)) {
-					retValue = new HashSet<Object>();
-				}
-			} else {
-				if (collectionType.isAssignableFrom(ArrayList.class)) {
-					retValue = new ArrayList<Object>();
-				}
-			}
-			if (null != retValue && null != defaultValue) {
-				retValue.addAll(defaultValue);
-			}
-		}
-		return retValue;
-	}
-
-	/**
-	 * It manufactures and returns a default instance for each map type
-	 *
-	 * <p>
-	 * The default implementation for a {@link ConcurrentMap} is
-	 * {@link ConcurrentHashMap}
-	 * </p>
-	 *
-	 * <p>
-	 * The default implementation for a {@link SortedMap} is a {@link TreeMap}
-	 * </p>
-	 *
-	 * <p>
-	 * The default Map is none of the above was recognised is a {@link HashMap}
-	 * </p>
-	 *
-	 * @param mapType
-	 *            The attribute type implementing Map
-	 * @param defaultValue
-	 *            Default value for map
-	 * @return A default instance for each map type or null
-	 *
-	 */
-	private Map<? super Object, ? super Object> resolveMapType(
-			Class<?> mapType, Map<? super Object, ? super Object> defaultValue) {
-
-		Map<? super Object, ? super Object> retValue = null;
-
-		if (null != defaultValue &&
-				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
-			/* Default map, which is not immutable */
-			retValue = defaultValue;
-		} else {
-			if (SortedMap.class.isAssignableFrom(mapType)) {
-				if (mapType.isAssignableFrom(TreeMap.class)) {
-					retValue = new TreeMap<Object, Object>();
-				}
-			} else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
-				if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
-					retValue = new ConcurrentHashMap<Object, Object>();
-				}
-			} else {
-				if (mapType.isAssignableFrom(HashMap.class)) {
-					retValue = new HashMap<Object, Object>();
-				}
-			}
-		}
-
-		return retValue;
-
-	}
 
 	/**
 	 * Given a constructor it manufactures and returns the parameter values
@@ -2307,8 +2208,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (Collection.class.isAssignableFrom(parameterType)) {
 
 			Collection<? super Object> defaultValue = null;
-			Collection<? super Object> collection = resolveCollectionType(
-					parameterType, defaultValue);
+			Collection<? super Object> collection = TypeManufacturerUtil.resolveCollectionType(
+                    parameterType, defaultValue);
 
 			if (collection != null) {
 				Class<?> collectionElementType;
@@ -2340,7 +2241,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Map.class.isAssignableFrom(parameterType)) {
 
 			Map<? super Object, ? super Object> defaultValue = null;
-			Map<? super Object, ? super Object> map = resolveMapType(parameterType, defaultValue);
+			Map<? super Object, ? super Object> map = TypeManufacturerUtil.resolveMapType(parameterType, defaultValue);
 
 			if (map != null) {
 				Class<?> keyClass;
