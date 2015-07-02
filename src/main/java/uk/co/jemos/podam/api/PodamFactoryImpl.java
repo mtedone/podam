@@ -20,8 +20,6 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
-import javax.validation.Constraint;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.ws.Holder;
 import java.lang.annotation.Annotation;
@@ -756,7 +754,7 @@ public class PodamFactoryImpl implements PodamFactory {
 							attribute.getAttribute(), setter);
 
 			AttributeStrategy<?> attributeStrategy
-					= findAttributeStrategy(pojoAttributeAnnotations, attributeType);
+					= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
 			if (null != attributeStrategy) {
 
 				LOG.debug("The attribute: " + attributeName
@@ -964,7 +962,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				pojoClass);
 
 		// Primitive type
-		if (realAttributeType.isPrimitive() || isWrapper(realAttributeType) ||
+		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
                 realAttributeType.equals(String.class)) {
 
 			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
@@ -983,8 +981,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-					pojo, manufacturingCtx, realAttributeType, attributeName,
-					annotations, typeArgsMap, genericTypeArgs);
+                    pojo, manufacturingCtx, realAttributeType, attributeName,
+                    annotations, typeArgsMap, genericTypeArgs);
 
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
@@ -1034,8 +1032,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (attributeValue == null) {
 
 			TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
-			Type[] genericTypeArgsAll = mergeActualAndSuppliedGenericTypes(
-					typeParams, genericTypeArgs, typeArgsMap);
+			Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
+                    typeParams, genericTypeArgs, typeArgsMap);
 
 			Integer depth = manufacturingCtx.getPojos().get(realAttributeType);
 			if (depth == null) {
@@ -1089,146 +1087,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 	}
 
-	/**
-	 * Utility to merge actual types with supplied array of generic type
-	 * substitutions
-	 *
-	 * @param actualTypes
-	 *            an array of types used for field or POJO declaration 
-	 * @param suppliedTypes
-	 *            an array of supplied types for generic type substitution 
-	 * @param typeArgsMap
-	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
-	 *            example) with their actual types
-	 * @return An array of merged actual and supplied types with generic types
-	 *            resolved
-	 */
-	private Type[] mergeActualAndSuppliedGenericTypes(
-			Type[] actualTypes, Type[] suppliedTypes,
-			Map<String, Type> typeArgsMap) {
 
-		List<Type> resolvedTypes = new ArrayList<Type>();
-		List<Type> substitutionTypes = new ArrayList<Type>(Arrays.asList(suppliedTypes));
-		for (int i = 0; i < actualTypes.length; i++) {
 
-			Type type = null;
-			if (actualTypes[i] instanceof TypeVariable) {
-				type = typeArgsMap.get(((TypeVariable<?>)actualTypes[i]).getName());
-			} else if (actualTypes[i] instanceof Class) {
-				type = actualTypes[i];
-			} else if (actualTypes[i] instanceof WildcardType) {
-				AtomicReference<Type[]> methodGenericTypeArgs
-						= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-				type = TypeManufacturerUtil.resolveGenericParameter(actualTypes[i], typeArgsMap,
-                        methodGenericTypeArgs);
-			}
-			if (type != null) {
-				resolvedTypes.add(type);
-				if (!substitutionTypes.isEmpty() && substitutionTypes.get(0).equals(type)) {
-					substitutionTypes.remove(0);
-				}
-			}
-		}
-		Type[] resolved = resolvedTypes.toArray(new Type[resolvedTypes.size()]);
-		Type[] supplied = substitutionTypes.toArray(new Type[substitutionTypes.size()]);
-		return mergeTypeArrays(resolved, supplied);
-	}
-
-	/**
-	 * It returns a {@link AttributeStrategy} if one was specified in
-	 * annotations, or {@code null} otherwise.
-	 *
-	 * @param annotations
-	 *            The list of annotations
-	 * @param attributeType
-	 *            Type of attribute expected to be returned
-	 * @return {@link AttributeStrategy}, if {@link PodamStrategyValue} or bean
-	 *         validation constraint annotation was found among annotations
-	 * @throws IllegalAccessException
-	 *         if attribute strategy cannot be instantiated
-	 * @throws InstantiationException 
-	 *         if attribute strategy cannot be instantiated
-	 */
-	private AttributeStrategy<?> findAttributeStrategy(
-			List<Annotation> annotations, Class<?> attributeType)
-					throws InstantiationException, IllegalAccessException {
-
-		List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
-		Iterator<Annotation> iter = localAnnotations.iterator();
-		while (iter.hasNext()) {
-			Annotation annotation = iter.next();
-			if (annotation instanceof PodamStrategyValue) {
-				PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
-				return strategyAnnotation.value().newInstance();
-			}
-
-			/* Find real class out of proxy */
-			Class<? extends Annotation> annotationClass = annotation.getClass();
-			if (Proxy.isProxyClass(annotationClass)) {
-				Class<?>[] interfaces = annotationClass.getInterfaces();
-				if (interfaces.length == 1) {
-					@SuppressWarnings("unchecked")
-					Class<? extends Annotation> tmp = (Class<? extends Annotation>) interfaces[0];
-					annotationClass = tmp;
-				}
-			}
-
-			Class<AttributeStrategy<?>> attrStrategyClass;
-			if ((attrStrategyClass = strategy.getStrategyForAnnotation(annotationClass)) != null) {
-				return attrStrategyClass.newInstance();
-			}
-
-			if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
-				if (annotation instanceof NotNull) {
-					/* We don't need to do anything for NotNull constraint */
-					iter.remove();
-				} else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
-					LOG.warn("Please, registrer AttributeStratergy for custom "
-							+ "constraint {}, in DataProviderStrategy! Value "
-							+ "will be left to null", annotation);
-				}
-			} else {
-				iter.remove();
-			}
-		}
-
-		AttributeStrategy<?> retValue = null;
-		if (!localAnnotations.isEmpty()
-				&& !Collection.class.isAssignableFrom(attributeType)
-				&& !Map.class.isAssignableFrom(attributeType)
-				&& !attributeType.isArray()) {
-
-			retValue = new BeanValidationStrategy(localAnnotations, attributeType);
-		}
-
-		return retValue;
-	}
-
-	/**
-	 * It returns {@code true} if this class is a wrapper class, {@code false}
-	 * otherwise
-	 *
-	 * @param candidateWrapperClass
-	 *            The class to check
-	 * @return {@code true} if this class is a wrapper class, {@code false}
-	 *         otherwise
-	 */
-	private boolean isWrapper(Class<?> candidateWrapperClass) {
-
-		return candidateWrapperClass.equals(Byte.class) ? true
-				: candidateWrapperClass.equals(Boolean.class) ? true
-						: candidateWrapperClass.equals(Character.class) ? true
-								: candidateWrapperClass.equals(Short.class) ? true
-										: candidateWrapperClass
-												.equals(Integer.class) ? true
-												: candidateWrapperClass
-														.equals(Long.class) ? true
-														: candidateWrapperClass
-																.equals(Float.class) ? true
-																: candidateWrapperClass
-																		.equals(Double.class) ? true
-																		: false;
-	}
 
 	/**
 	 * It returns a collection of some sort with some data in it.
@@ -1393,8 +1253,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		Class<?> elementTypeClass = TypeManufacturerUtil.resolveGenericParameter(typeParams[0],
                 typeArgsMap, elementGenericTypeArgs);
-		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),
-				genericTypeArgs);
+		Type[] elementGenericArgs = TypeManufacturerUtil.mergeTypeArrays(elementGenericTypeArgs.get(),
+                genericTypeArgs);
 		String attributeName = null;
 		fillCollection(manufacturingCtx, Arrays.asList(annotations), attributeName,
 				collection, elementTypeClass, elementGenericArgs);
@@ -1668,10 +1528,10 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> elementClass = TypeManufacturerUtil.resolveGenericParameter(typeParams[1],
                 typeArgsMap, elementGenericTypeArgs);
 
-		Type[] keyGenericArgs = mergeTypeArrays(keyGenericTypeArgs.get(),
-				genericTypeArgs);
-		Type[] elementGenericArgs = mergeTypeArrays(elementGenericTypeArgs.get(),
-				genericTypeArgs);
+		Type[] keyGenericArgs = TypeManufacturerUtil.mergeTypeArrays(keyGenericTypeArgs.get(),
+                genericTypeArgs);
+		Type[] elementGenericArgs = TypeManufacturerUtil.mergeTypeArrays(elementGenericTypeArgs.get(),
+                genericTypeArgs);
 
 		MapArguments mapArguments = new MapArguments();
 		mapArguments.setAnnotations(Arrays.asList(pojoClass.getAnnotations()));
@@ -2194,7 +2054,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object parameterValue = null;
 
 		AttributeStrategy<?> attributeStrategy
-				= findAttributeStrategy(annotations, parameterType);
+				= TypeManufacturerUtil.findAttributeStrategy(strategy, annotations, parameterType);
 		if (null != attributeStrategy) {
 
 			LOG.debug("The parameter: " + genericType
@@ -2229,7 +2089,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					collectionElementType = Object.class;
 				}
 
-				Type[] genericTypeArgsAll = mergeTypeArrays(
+				Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeTypeArrays(
 						collectionGenericTypeArgs.get(), genericTypeArgs);
 				String attributeName = null;
 				fillCollection(manufacturingCtx, annotations, attributeName,
@@ -2267,8 +2127,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					elementClass = Object.class;
 				}
 
-				Type[] genericTypeArgsAll = mergeTypeArrays(
-						elementGenericTypeArgs.get(), genericTypeArgs);
+				Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeTypeArrays(
+                        elementGenericTypeArgs.get(), genericTypeArgs);
 
 				MapArguments mapArguments = new MapArguments();
 				mapArguments.setAnnotations(annotations);
@@ -2315,29 +2175,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		return parameterValue;
 	}
 
-	/**
-	 * Utility method to merge two arrays
-	 *
-	 * @param original
-	 *            The main array
-	 * @param extra
-	 *            The additional array, optionally may be null
-	 * @return A merged array of original and extra arrays
-	 */
-	private Type[] mergeTypeArrays(Type[] original, Type[] extra) {
 
-		Type[] merged;
-
-		if (extra != null) {
-			merged = new Type[original.length + extra.length];
-			System.arraycopy(original, 0, merged, 0, original.length);
-			System.arraycopy(extra, 0, merged, original.length, extra.length);
-		} else {
-			merged = original;
-		}
-
-		return merged;
-	}
 
 	/**
 	 * It retrieves the value for the {@link PodamStrategyValue} annotation with
