@@ -92,12 +92,16 @@ public final class TypeManufacturerUtil {
                                              AtomicReference<Type[]> methodGenericTypeArgs) {
 
         Class<?> parameterType = null;
+
+        //Safe copy
+        Map<String, Type> localMap = new HashMap<String, Type>(typeArgsMap);
+
         methodGenericTypeArgs.set(PodamConstants.NO_TYPES);
         if (paramType instanceof TypeVariable<?>) {
             final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
-            final Type type = typeArgsMap.get(typeVariable.getName());
+            final Type type = localMap.get(typeVariable.getName());
             if (type != null) {
-                parameterType = resolveGenericParameter(type, typeArgsMap,
+                parameterType = resolveGenericParameter(type, localMap,
                         methodGenericTypeArgs);
             }
         } else if (paramType instanceof ParameterizedType) {
@@ -116,7 +120,7 @@ public final class TypeManufacturerUtil {
             }
             if (bounds != null && bounds.length > 0) {
                 LOG.debug(msg + Arrays.toString(bounds));
-                parameterType = resolveGenericParameter(bounds[0], typeArgsMap,
+                parameterType = resolveGenericParameter(bounds[0], localMap,
                         methodGenericTypeArgs);
             }
         } else if (paramType instanceof Class) {
