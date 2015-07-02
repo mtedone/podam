@@ -20,7 +20,6 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
-import javax.validation.constraints.Size;
 import javax.xml.ws.Holder;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -191,8 +190,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
 		manufacturingCtx.getPojos().put(pojo.getClass(), 0);
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-				pojo.getClass(), genericTypeArgs);
+		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
+                pojo.getClass(), genericTypeArgs);
 		try {
 			return this.populatePojoInternal(pojo, manufacturingCtx, typeArgsMap,
 					genericTypeArgsExtra);
@@ -261,88 +260,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	// ------------------->> Private methods
-
-	/**
-	 * Fills type agruments map
-	 * <p>
-	 * This method places required and provided types for object creation into a
-	 * map, which will be used for type mapping.
-	 * </p>
-	 *
-	 * @param typeArgsMap
-	 *            a map to fill
-	 * @param pojoClass
-	 *            Typed class
-	 * @param genericTypeArgs
-	 *            Type arguments provided for a generics object by caller
-	 * @return Array of unused provided generic type arguments
-	 * @throws IllegalStateException
-	 *             If number of typed parameters doesn't match number of
-	 *             provided generic types
-	 */
-	private Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
-			final Class<?> pojoClass, final Type[] genericTypeArgs) {
-
-		TypeVariable<?>[] array = pojoClass.getTypeParameters();
-		List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(array));
-		Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
-		/* Removing types, which are already in typeArgsMap */
-		while (iterator.hasNext()) {
-			if (typeArgsMap.containsKey(iterator.next().getName())) {
-				iterator.remove();
-			}
-		}
-
-		List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
-		Iterator<Type> iterator2 = genericTypes.iterator();
-		/* Removing types, which are type variables */
-		while (iterator2.hasNext()) {
-			if (iterator2.next() instanceof TypeVariable) {
-				iterator2.remove();
-			}
-		}
-
-		if (typeParameters.size() > genericTypes.size()) {
-			String msg = pojoClass.getCanonicalName()
-					+ " is missing generic type arguments, expected "
-					+ typeParameters + " found "
-					+ Arrays.toString(genericTypeArgs);
-			throw new IllegalStateException(msg);
-		}
-
-		int i;
-		for (i = 0; i < typeParameters.size(); i++) {
-			typeArgsMap.put(typeParameters.get(i).getName(), genericTypes.get(0));
-			genericTypes.remove(0);
-		}
-		Type[] genericTypeArgsExtra;
-		if (genericTypes.size() > 0) {
-			genericTypeArgsExtra = genericTypes.toArray(new Type[genericTypes.size()]);
-		} else {
-			genericTypeArgsExtra = PodamConstants.NO_TYPES;
-		}
-
-		/* Adding types, which were specified during inheritance */
-		Class<?> clazz = pojoClass;
-		while (clazz != null) {
-			Type superType = clazz.getGenericSuperclass();
-			clazz = clazz.getSuperclass();
-			if (superType instanceof ParameterizedType) {
-				ParameterizedType paramType = (ParameterizedType) superType;
-				Type[] actualParamTypes = paramType.getActualTypeArguments();
-				TypeVariable<?>[] paramTypes = clazz.getTypeParameters();
-				for (i = 0; i < actualParamTypes.length
-						&& i < paramTypes.length; i++) {
-					if (actualParamTypes[i] instanceof Class) {
-						typeArgsMap.put(paramTypes[i].getName(),
-								actualParamTypes[i]);
-					}
-				}
-			}
-		}
-
-		return genericTypeArgsExtra;
-	}
 
 	/**
 	 * It attempts to create an instance of the given class
@@ -618,8 +535,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-		Type[] genericTypeArgsExtra = fillTypeArgMap(typeArgsMap,
-					pojoClass, genericTypeArgs);
+		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
+                pojoClass, genericTypeArgs);
 
 		try {
 
@@ -761,8 +678,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						+ " will be filled using the following strategy: "
 						+ attributeStrategy);
 
-				setterArg = returnAttributeDataStrategyValue(attributeType,
-						attributeStrategy);
+				setterArg = TypeManufacturerUtil.returnAttributeDataStrategyValue(attributeType,
+                        attributeStrategy);
 
 			} else {
 
@@ -844,10 +761,10 @@ public class PodamFactoryImpl implements PodamFactory {
 							ParameterizedType paramType
 									= (ParameterizedType) getter.getGenericReturnType();
 							Type[] actualTypes = paramType.getActualTypeArguments();
-							fillTypeArgMap(paramTypeArgsMap,
+							TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
 									getter.getReturnType(), actualTypes);
-							genericTypeArgsAll = fillTypeArgMap(paramTypeArgsMap,
-									getter.getReturnType(), genericTypeArgs);
+							genericTypeArgsAll = TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
+                                    getter.getReturnType(), genericTypeArgs);
 
 						} else {
 
@@ -1305,7 +1222,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> elementStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = findCollectionSize(annotations,
+		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy, annotations,
                 collectionElementType, elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
@@ -1328,8 +1245,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						&& !(elementStrategy instanceof ObjectStrategy)) {
 					LOG.debug("Collection elements will be filled using the following strategy: "
 							+ elementStrategy);
-					element = returnAttributeDataStrategyValue(
-							collectionElementType, elementStrategy);
+					element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+                            collectionElementType, elementStrategy);
 				} else {
 					Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 					element = manufactureAttributeValue(collection, manufacturingCtx,
@@ -1577,9 +1494,9 @@ public class PodamFactoryImpl implements PodamFactory {
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
-		Integer nbrElements = findCollectionSize(mapArguments.getAnnotations(),
-				mapArguments.getElementClass(), elementStrategyHolder,
-				keyStrategyHolder);
+		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy, mapArguments.getAnnotations(),
+                mapArguments.getElementClass(), elementStrategyHolder,
+                keyStrategyHolder);
 		AttributeStrategy<?> keyStrategy = keyStrategyHolder.value;
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
@@ -1672,9 +1589,9 @@ public class PodamFactoryImpl implements PodamFactory {
 								.getElementStrategy().getClass())) {
 			LOG.debug("Map key or value will be filled using the following strategy: "
 					+ keyOrElementsArguments.getElementStrategy());
-			retValue = returnAttributeDataStrategyValue(
-					keyOrElementsArguments.getKeyOrValueType(),
-					keyOrElementsArguments.getElementStrategy());
+			retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+                    keyOrElementsArguments.getKeyOrValueType(),
+                    keyOrElementsArguments.getElementStrategy());
 
 		} else {
 
@@ -1762,7 +1679,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> elementStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = findCollectionSize(annotations, attributeType,
+		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy, annotations, attributeType,
                 elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
@@ -1781,7 +1698,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					&& !(elementStrategy instanceof ObjectStrategy)) {
 				LOG.debug("Array elements will be filled using the following strategy: "
 						+ elementStrategy);
-				arrayElement = returnAttributeDataStrategyValue(componentType,
+				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
 						elementStrategy);
 
 			} else {
@@ -1798,84 +1715,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		return array;
 	}
-
-	/**
-	 * Searches for annotation with information about collection/map size
-	 * and filling strategies
-	 *
-	 * @param annotations
-	 *        a list of annotations to inspect
-	 * @param collectionElementType
-	 *        a collection element type
-	 * @param elementStrategyHolder
-	 *        a holder to pass found element strategy back to the caller,
-	 *        can be null
-	 * @param keyStrategyHolder
-	 *        a holder to pass found key strategy back to the caller,
-	 *        can be null
-	 * @return
-	 *        A number of element in collection or null, if no annotation was
-	 *        found
-	 * @throws InstantiationException
-	 *        A strategy cannot be instantiated
-	 * @throws IllegalAccessException
-	 *        A strategy cannot be instantiated
-	 */
-	private Integer findCollectionSize(List<Annotation> annotations,
-			Class<?> collectionElementType,
-			Holder<AttributeStrategy<?>> elementStrategyHolder,
-			Holder<AttributeStrategy<?>> keyStrategyHolder)
-			throws InstantiationException, IllegalAccessException {
-
-		// If the user defined a strategy to fill the collection elements,
-		// we use it
-		Size size = null;
-		for (Annotation annotation : annotations) {
-			if (annotation instanceof PodamCollection) {
-
-				PodamCollection collectionAnnotation = (PodamCollection) annotation;
-				if (null != elementStrategyHolder) {
-
-					Class<? extends AttributeStrategy<?>> strategy
-							= collectionAnnotation.collectionElementStrategy();
-					if (null == strategy || ObjectStrategy.class.isAssignableFrom(strategy)) {
-						strategy = collectionAnnotation.mapElementStrategy();
-					}
-					if (null != strategy) {
-						elementStrategyHolder.value = strategy.newInstance();
-					}
-				}
-				if (null != keyStrategyHolder) {
-
-					Class<? extends AttributeStrategy<?>> strategy
-							= collectionAnnotation.mapKeyStrategy();
-					if (null != strategy) {
-						keyStrategyHolder.value = strategy.newInstance();
-					}
-				}
-				return collectionAnnotation.nbrElements();
-
-			} else if (annotation instanceof Size) {
-
-				size = (Size) annotation;
-			}
-		}
-
-		Integer nbrElements = strategy
-				.getNumberOfCollectionElements(collectionElementType);
-
-		if (null != size) {
-			if (nbrElements > size.max()) {
-				nbrElements = size.max();
-			}
-			if (nbrElements < size.min()) {
-				nbrElements = size.min();
-			}
-		}
-
-		return nbrElements;
-	}
-
 
 
 	/**
@@ -2058,11 +1897,11 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (null != attributeStrategy) {
 
 			LOG.debug("The parameter: " + genericType
-					+ " will be filled using the following strategy: "
-					+ attributeStrategy);
+                    + " will be filled using the following strategy: "
+                    + attributeStrategy);
 
-			return returnAttributeDataStrategyValue(parameterType,
-					attributeStrategy);
+			return TypeManufacturerUtil.returnAttributeDataStrategyValue(parameterType,
+                    attributeStrategy);
 		}
 
 		if (Collection.class.isAssignableFrom(parameterType)) {
@@ -2090,7 +1929,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				}
 
 				Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeTypeArrays(
-						collectionGenericTypeArgs.get(), genericTypeArgs);
+                        collectionGenericTypeArgs.get(), genericTypeArgs);
 				String attributeName = null;
 				fillCollection(manufacturingCtx, annotations, attributeName,
 						collection, collectionElementType, genericTypeArgsAll);
@@ -2177,44 +2016,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 
 
-	/**
-	 * It retrieves the value for the {@link PodamStrategyValue} annotation with
-	 * which the attribute was annotated
-	 *
-	 * @param attributeType
-	 *            The attribute type, used for type checking
-	 * @param attributeStrategy
-	 *            The {@link AttributeStrategy} to use
-	 * @return The value for the {@link PodamStrategyValue} annotation with
-	 *         which the attribute was annotated
-	 * @throws IllegalArgumentException
-	 *             If the type of the data strategy defined for the
-	 *             {@link PodamStrategyValue} annotation is not assignable to
-	 *             the annotated attribute. This de facto guarantees type
-	 *             safety.
-	 */
-	private Object returnAttributeDataStrategyValue(Class<?> attributeType,
-			AttributeStrategy<?> attributeStrategy)
-			throws IllegalArgumentException {
 
-		Object retValue = attributeStrategy.getValue();
-
-		if (retValue != null) {
-			Class<?> desiredType = attributeType.isPrimitive() ?
-					PodamUtils.primitiveToBoxedType(attributeType) : attributeType;
-			if (!desiredType.isAssignableFrom(retValue.getClass())) {
-				String errMsg = "The type of the Podam Attribute Strategy is not "
-						+ attributeType.getName() + " but "
-						+ retValue.getClass().getName()
-						+ ". An exception will be thrown.";
-				LOG.error(errMsg);
-				throw new IllegalArgumentException(errMsg);
-			}
-		}
-
-		return retValue;
-
-	}
 
     /**
      * Obtains a type value

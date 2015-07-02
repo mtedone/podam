@@ -3,13 +3,14 @@ package uk.co.jemos.podam.typeManufacturers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.BeanValidationStrategy;
-import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.common.PodamStrategyValue;
+import uk.co.jemos.podam.api.ObjectStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.*;
 
 import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.ws.Holder;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -103,6 +104,166 @@ public final class TypeManufacturerUtil {
         }
 
         return retValue;
+    }
+
+    /**
+     * Fills type agruments map
+     * <p>
+     * This method places required and provided types for object creation into a
+     * map, which will be used for type mapping.
+     * </p>
+     *
+     * @param typeArgsMap
+     *            a map to fill
+     * @param pojoClass
+     *            Typed class
+     * @param genericTypeArgs
+     *            Type arguments provided for a generics object by caller
+     * @return Array of unused provided generic type arguments
+     * @throws IllegalStateException
+     *             If number of typed parameters doesn't match number of
+     *             provided generic types
+     */
+    public static Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
+                                  final Class<?> pojoClass, final Type[] genericTypeArgs) {
+
+        TypeVariable<?>[] array = pojoClass.getTypeParameters();
+        List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(array));
+        Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
+		/* Removing types, which are already in typeArgsMap */
+        while (iterator.hasNext()) {
+            if (typeArgsMap.containsKey(iterator.next().getName())) {
+                iterator.remove();
+            }
+        }
+
+        List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
+        Iterator<Type> iterator2 = genericTypes.iterator();
+		/* Removing types, which are type variables */
+        while (iterator2.hasNext()) {
+            if (iterator2.next() instanceof TypeVariable) {
+                iterator2.remove();
+            }
+        }
+
+        if (typeParameters.size() > genericTypes.size()) {
+            String msg = pojoClass.getCanonicalName()
+                    + " is missing generic type arguments, expected "
+                    + typeParameters + " found "
+                    + Arrays.toString(genericTypeArgs);
+            throw new IllegalStateException(msg);
+        }
+
+        int i;
+        for (i = 0; i < typeParameters.size(); i++) {
+            typeArgsMap.put(typeParameters.get(i).getName(), genericTypes.get(0));
+            genericTypes.remove(0);
+        }
+        Type[] genericTypeArgsExtra;
+        if (genericTypes.size() > 0) {
+            genericTypeArgsExtra = genericTypes.toArray(new Type[genericTypes.size()]);
+        } else {
+            genericTypeArgsExtra = PodamConstants.NO_TYPES;
+        }
+
+		/* Adding types, which were specified during inheritance */
+        Class<?> clazz = pojoClass;
+        while (clazz != null) {
+            Type superType = clazz.getGenericSuperclass();
+            clazz = clazz.getSuperclass();
+            if (superType instanceof ParameterizedType) {
+                ParameterizedType paramType = (ParameterizedType) superType;
+                Type[] actualParamTypes = paramType.getActualTypeArguments();
+                TypeVariable<?>[] paramTypes = clazz.getTypeParameters();
+                for (i = 0; i < actualParamTypes.length
+                        && i < paramTypes.length; i++) {
+                    if (actualParamTypes[i] instanceof Class) {
+                        typeArgsMap.put(paramTypes[i].getName(),
+                                actualParamTypes[i]);
+                    }
+                }
+            }
+        }
+
+        return genericTypeArgsExtra;
+    }
+
+    /**
+     * Searches for annotation with information about collection/map size
+     * and filling strategies
+     *
+     * @param annotations
+     *        a list of annotations to inspect
+     * @param collectionElementType
+     *        a collection element type
+     * @param elementStrategyHolder
+     *        a holder to pass found element strategy back to the caller,
+     *        can be null
+     * @param keyStrategyHolder
+     *        a holder to pass found key strategy back to the caller,
+     *        can be null
+     * @return
+     *        A number of element in collection or null, if no annotation was
+     *        found
+     * @throws InstantiationException
+     *        A strategy cannot be instantiated
+     * @throws IllegalAccessException
+     *        A strategy cannot be instantiated
+     */
+    public static Integer findCollectionSize( DataProviderStrategy strategy,
+                                        List<Annotation> annotations,
+                                        Class<?> collectionElementType,
+                                        Holder<AttributeStrategy<?>> elementStrategyHolder,
+                                        Holder<AttributeStrategy<?>> keyStrategyHolder)
+            throws InstantiationException, IllegalAccessException {
+
+        // If the user defined a strategy to fill the collection elements,
+        // we use it
+        Size size = null;
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof PodamCollection) {
+
+                PodamCollection collectionAnnotation = (PodamCollection) annotation;
+                if (null != elementStrategyHolder) {
+
+                    Class<? extends AttributeStrategy<?>> attributeStrategy
+                            = collectionAnnotation.collectionElementStrategy();
+                    if (null == attributeStrategy || ObjectStrategy.class.isAssignableFrom(attributeStrategy)) {
+                        attributeStrategy = collectionAnnotation.mapElementStrategy();
+                    }
+                    if (null != attributeStrategy) {
+                        elementStrategyHolder.value = attributeStrategy.newInstance();
+                    }
+                }
+                if (null != keyStrategyHolder) {
+
+                    Class<? extends AttributeStrategy<?>> attributeStrategy
+                            = collectionAnnotation.mapKeyStrategy();
+                    if (null != attributeStrategy) {
+                        keyStrategyHolder.value = attributeStrategy.newInstance();
+                    }
+                }
+                return collectionAnnotation.nbrElements();
+
+            } else if (annotation instanceof Size) {
+
+                size = (Size) annotation;
+            }
+        }
+
+        Integer nbrElements = strategy
+                .getNumberOfCollectionElements(collectionElementType);
+
+        if (null != size) {
+            if (nbrElements > size.max()) {
+                nbrElements = size.max();
+            }
+            if (nbrElements < size.min()) {
+                nbrElements = size.min();
+            }
+        }
+
+        return nbrElements;
     }
 
     /**
@@ -355,6 +516,45 @@ public final class TypeManufacturerUtil {
                 if (mapType.isAssignableFrom(HashMap.class)) {
                     retValue = new HashMap<Object, Object>();
                 }
+            }
+        }
+
+        return retValue;
+
+    }
+
+    /**
+     * It retrieves the value for the {@link PodamStrategyValue} annotation with
+     * which the attribute was annotated
+     *
+     * @param attributeType
+     *            The attribute type, used for type checking
+     * @param attributeStrategy
+     *            The {@link AttributeStrategy} to use
+     * @return The value for the {@link PodamStrategyValue} annotation with
+     *         which the attribute was annotated
+     * @throws IllegalArgumentException
+     *             If the type of the data strategy defined for the
+     *             {@link PodamStrategyValue} annotation is not assignable to
+     *             the annotated attribute. This de facto guarantees type
+     *             safety.
+     */
+    public static Object returnAttributeDataStrategyValue(Class<?> attributeType,
+                                                    AttributeStrategy<?> attributeStrategy)
+            throws IllegalArgumentException {
+
+        Object retValue = attributeStrategy.getValue();
+
+        if (retValue != null) {
+            Class<?> desiredType = attributeType.isPrimitive() ?
+                    PodamUtils.primitiveToBoxedType(attributeType) : attributeType;
+            if (!desiredType.isAssignableFrom(retValue.getClass())) {
+                String errMsg = "The type of the Podam Attribute Strategy is not "
+                        + attributeType.getName() + " but "
+                        + retValue.getClass().getName()
+                        + ". An exception will be thrown.";
+                LOG.error(errMsg);
+                throw new IllegalArgumentException(errMsg);
             }
         }
 
