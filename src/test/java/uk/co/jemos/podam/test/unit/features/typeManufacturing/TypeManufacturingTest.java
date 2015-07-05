@@ -27,10 +27,10 @@ import java.util.Map;
  * Created by tedonema on 28/06/2015.
  */
 @RunWith(SerenityRunner.class)
-public class TypeManufacturingTests extends AbstractPodamSteps {
+public class TypeManufacturingTest extends AbstractPodamSteps {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(TypeManufacturingTests.class);
+    private static final Logger LOG = LogManager.getLogger(TypeManufacturingTest.class);
 
     @Test
     @Title("Podam Messaging System should return an int primitive value")
