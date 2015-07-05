@@ -12,6 +12,7 @@ import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -32,8 +33,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     private static final Logger LOG = LogManager.getLogger(TypeManufacturingTests.class);
 
     @Test
-    @Title("Podam Spring application context should return an int primitive value")
-    public void podamApplicationContextShouldReturnAnIntValue() throws Exception {
+    @Title("Podam Messaging System should return an int primitive value")
+    public void podamMessagingSystemShouldReturnAnIntValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -68,8 +69,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return an integer value")
-    public void podamApplicationContextShouldReturnAnIntegerValue() throws Exception {
+    @Title("Podam Messaging System should return an integer value")
+    public void podamMessagingSystemShouldReturnAnIntegerValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -104,8 +105,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a boolean primitive value")
-    public void podamApplicationContextShouldReturnABooleanPrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a boolean primitive value")
+    public void podamMessagingSystemShouldReturnABooleanPrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -143,8 +144,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a boolean wrapped value")
-    public void podamApplicationContextShouldReturnABooleanWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a boolean wrapped value")
+    public void podamMessagingSystemShouldReturnABooleanWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -182,8 +183,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a char primitive value")
-    public void podamApplicationContextShouldReturnACharacterPrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a char primitive value")
+    public void podamMessagingSystemShouldReturnACharacterPrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -221,8 +222,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Character wrapped value")
-    public void podamApplicationContextShouldReturnACharacterWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Character wrapped value")
+    public void podamMessagingSystemShouldReturnACharacterWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -260,8 +261,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a short primitive value")
-    public void podamApplicationContextShouldReturnAShortPrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a short primitive value")
+    public void podamMessagingSystemShouldReturnAShortPrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -299,8 +300,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Short wrapped value")
-    public void podamApplicationContextShouldReturnAShortWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Short wrapped value")
+    public void podamMessagingSystemShouldReturnAShortWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -338,8 +339,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a byte primitive value")
-    public void podamApplicationContextShouldReturnABytePrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a byte primitive value")
+    public void podamMessagingSystemShouldReturnABytePrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -377,8 +378,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Byte wrapped value")
-    public void podamApplicationContextShouldReturnAByteWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Byte wrapped value")
+    public void podamMessagingSystemShouldReturnAByteWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -416,8 +417,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a long primitive value")
-    public void podamApplicationContextShouldReturnALongPrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a long primitive value")
+    public void podamMessagingSystemShouldReturnALongPrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -455,8 +456,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Long wrapped value")
-    public void podamApplicationContextShouldReturnALongWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Long wrapped value")
+    public void podamMessagingSystemShouldReturnALongWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -494,8 +495,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a float primitive value")
-    public void podamApplicationContextShouldReturnAFloatPrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a float primitive value")
+    public void podamMessagingSystemShouldReturnAFloatPrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -533,8 +534,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Float wrapped value")
-    public void podamApplicationContextShouldReturnAFloatWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Float wrapped value")
+    public void podamMessagingSystemShouldReturnAFloatWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -572,8 +573,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a double primitive value")
-    public void podamApplicationContextShouldReturnADoublePrimitiveValue() throws Exception {
+    @Title("Podam Messaging System should return a double primitive value")
+    public void podamMessagingSystemShouldReturnADoublePrimitiveValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -611,8 +612,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Double wrapped value")
-    public void podamApplicationContextShouldReturnADoubleWrappedValue() throws Exception {
+    @Title("Podam Messaging System should return a Double wrapped value")
+    public void podamMessagingSystemShouldReturnADoubleWrappedValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -651,8 +652,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
 
     @Test
-    @Title("Podam Spring application context should return a String value")
-    public void podamApplicationContextShouldReturnAStringValue() throws Exception {
+    @Title("Podam Messaging System should return a String value")
+    public void podamMessagingSystemShouldReturnAStringValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -690,8 +691,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return an Enum value")
-    public void podamApplicationContextShouldReturnAnEnumValue() throws Exception {
+    @Title("Podam Messaging System should return an Enum value")
+    public void podamMessagingSystemShouldReturnAnEnumValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -729,8 +730,8 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam Spring application context should return a Generic Type value")
-    public void podamApplicationContextShouldReturnAGenericTypeValue() throws Exception {
+    @Title("Podam Messaging System should return a Generic Type value")
+    public void podamMessagingSystemShouldReturnAGenericTypeValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
@@ -742,14 +743,14 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
             podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
             AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
-                    (SimplePojoToTestSetters.class);
+                    (ClassGenericConstructorPojo.class);
             podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
             Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
             Type[] attrGenericArgs = attributeMetadata.getAttrGenericArgs();
             for (int i = 0; i < attrGenericArgs.length; i++) {
                 Type attrGenericArg = attrGenericArgs[i];
-                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), attrGenericArg);
+                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), String.class);
             }
 
             TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
@@ -763,7 +764,9 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
             Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
             podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            podamValidationSteps.theObjectShouldNotBeNull(value.getPayload());
+            Object payload = value.getPayload();
+            podamValidationSteps.theObjectShouldNotBeNull(payload);
+            podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
 
         } finally {
 

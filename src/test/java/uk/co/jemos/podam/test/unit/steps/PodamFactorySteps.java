@@ -11,7 +11,6 @@ import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.test.dto.GenericPojo;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
@@ -244,13 +243,11 @@ public class PodamFactorySteps {
         }
 
         String attributeName = null;
-        Class<?> realAttributeType = GenericPojo.class;
-        Type[] genericTypeArgs = new Type[2];
-        genericTypeArgs[0] = String.class;
-        genericTypeArgs[1] = String.class;
+        Class<?> realAttributeType = pojoClass;
+        Type[] typeParams = pojoClass.getTypeParameters();
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
-                attributeName, realAttributeType, genericTypeArgs, annotations,
+                attributeName, realAttributeType, typeParams, annotations,
                 pojoClass);
 
         return attributeMetadata;
