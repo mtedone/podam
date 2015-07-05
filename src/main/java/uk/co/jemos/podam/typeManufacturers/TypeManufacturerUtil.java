@@ -51,14 +51,14 @@ public final class TypeManufacturerUtil {
     public static Object getTypeValue(DataProviderStrategy strategy,
                                       MessageChannel channel,
                                       AttributeMetadata attributeMetadata,
-                                      Class<?> clazz) {
+                                      String qualifier) {
         Object retValue = null;
 
         TypeManufacturerParamsWrapper wrapper =
                 new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
 
         Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
-                PodamConstants.HEADER_NAME, clazz.getName())
+                PodamConstants.HEADER_NAME, qualifier)
                 .build();
 
         MessagingTemplate template = new MessagingTemplate();

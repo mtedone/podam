@@ -522,7 +522,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
             AttributeMetadata attributeMetadata = new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass);
-            return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata, pojoClass);
+            return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata, pojoClass.getName());
 		}
 
 		if (pojoClass.isInterface()) {
@@ -887,7 +887,7 @@ public class PodamFactoryImpl implements PodamFactory {
                 realAttributeType.equals(String.class)) {
 
 			attributeValue = TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata,
-                    realAttributeType);
+                    realAttributeType.getName());
 
 
 		} else if (realAttributeType.isArray()) {
@@ -914,15 +914,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (realAttributeType.isEnum()) {
 
-			// Enum type
-			int enumConstantsLength = realAttributeType.getEnumConstants().length;
-
-			if (enumConstantsLength > 0) {
-				int enumIndex = strategy.getIntegerInRange(0,
-						enumConstantsLength, attributeMetadata)
-						% enumConstantsLength;
-				attributeValue = realAttributeType.getEnumConstants()[enumIndex];
-			}
+            attributeValue = TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata,
+                    PodamConstants.ENUMERATION_QUALIFIER);
 
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
@@ -1003,9 +996,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		LOG.warn(msg, pojoClass, externalFactory.getClass().getName());
 		if (manufacturingCtx.getConstructorOrdering() == Order.HEAVY_FIRST) {
-			return externalFactory.<T>manufacturePojoWithFullData(pojoClass, genericTypeArgs);
+			return externalFactory.manufacturePojoWithFullData(pojoClass, genericTypeArgs);
 		} else {
-			return externalFactory.<T>manufacturePojo(pojoClass, genericTypeArgs);
+			return externalFactory.manufacturePojo(pojoClass, genericTypeArgs);
 		}
 	}
 

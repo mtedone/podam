@@ -43,6 +43,9 @@ public final class PodamConstants {
     /** An empty object array. */
     public static final Object[] NO_ARGS = new Object[0];
 
+    /** The Enumeration qualifier for the Message Channel. */
+    public static final String ENUMERATION_QUALIFIER = "Enumeration";
+
     /** Non-instantiable constructor */
 	private PodamConstants() {
 		throw new AssertionError("Non instantiable");

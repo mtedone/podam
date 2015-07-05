@@ -12,6 +12,7 @@ import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
@@ -208,4 +209,30 @@ public class PodamFactorySteps {
         return message;
     }
 
+    @Step("Given a Message with header {1} and qualifier {2}")
+    public Message<? extends Object> givenATypeManufacturingMessageWithStringQualifier(
+            TypeManufacturerParamsWrapper paramsWrapper,
+            String headerName,
+            String qualifier) {
+        Message<? extends Object> message = MessageBuilder.withPayload(
+                paramsWrapper).setHeader(headerName, qualifier).build();
+        return message;
+    }
+
+    @Step("Given an Attribute Meta Data object for Enums")
+    public AttributeMetadata givenAnAttributeMetadataForEnums(Class<ExternalRatePodamEnum> pojoClass) {
+        if (null == pojoClass) {
+            throw new IllegalArgumentException("pojoClass cannot be null");
+        }
+
+        String attributeName = null;
+        Class<?> realAttributeType = pojoClass;
+        Type[] genericTypeArgs = new Type[0];
+        List<Annotation> annotations = Collections.emptyList();
+        AttributeMetadata attributeMetadata = new AttributeMetadata(
+                attributeName, realAttributeType, genericTypeArgs, annotations,
+                pojoClass);
+
+        return attributeMetadata;
+    }
 }
