@@ -18,6 +18,7 @@ import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapperForGenericTypes;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -747,10 +748,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
             podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
             Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
-            Type[] attrGenericArgs = attributeMetadata.getAttrGenericArgs();
-            for (int i = 0; i < attrGenericArgs.length; i++) {
-                Type attrGenericArg = attrGenericArgs[i];
-                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), String.class);
+            Type[] attrGenericArgsExtra = TypeManufacturerUtil.fillTypeArgMap(genericTypeArgumentsMap,
+                    ClassGenericConstructorPojo.class, new Type[] {String.class});
+            for (int i = 0; i < attrGenericArgsExtra.length; i++) {
+                Type attrGenericArg = attrGenericArgsExtra[i];
+                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), attrGenericArg);
             }
 
             TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =

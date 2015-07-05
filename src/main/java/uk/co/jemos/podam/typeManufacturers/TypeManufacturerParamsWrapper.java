@@ -5,7 +5,10 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 
 /**
  * Wraps parameters for the Message Channel
+ *
  * Created by tedonema on 28/06/2015.
+ *
+ * @since 6.0.0.RELEASE
  */
 public class TypeManufacturerParamsWrapper {
 

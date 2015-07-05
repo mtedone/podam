@@ -8,8 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Wraps parameters for the Message Channel
+ * Wraps parameters for the Message Channel.
+ *
  * Created by tedonema on 28/06/2015.
+ *
+ * @since 6.0.0.RELEASE
  */
 public class TypeManufacturerParamsWrapperForGenericTypes extends TypeManufacturerParamsWrapper {
 
@@ -55,12 +58,4 @@ public class TypeManufacturerParamsWrapperForGenericTypes extends TypeManufactur
         return attributeGenericType;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("TypeManufacturerParamsWrapperForGenericTypes{");
-        sb.append("typeArgumentsMap=").append(typeArgumentsMap);
-        sb.append(", attributeGenericType=").append(attributeGenericType);
-        sb.append('}');
-        return sb.toString();
-    }
 }
