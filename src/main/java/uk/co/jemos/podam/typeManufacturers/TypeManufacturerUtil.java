@@ -2,6 +2,11 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.ObjectStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
@@ -33,6 +38,32 @@ public final class TypeManufacturerUtil {
     /** Non instantiable. */
     private TypeManufacturerUtil() {
         throw new AssertionError("Non instantiable");
+    }
+
+    /**
+     * Obtains a type value
+     * @param strategy The Data Provider strategy
+     * @param channel The Message Channel where to send/receive the message for the required value
+     * @param attributeMetadata The AttributeMetadata information
+     * @param clazz The class of the requested type
+     * @return The type value
+     */
+    public static Object getTypeValue(DataProviderStrategy strategy,
+                                      MessageChannel channel,
+                                      AttributeMetadata attributeMetadata,
+                                      Class<?> clazz) {
+        Object retValue = null;
+
+        TypeManufacturerParamsWrapper wrapper =
+                new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
+
+        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+                PodamConstants.HEADER_NAME, clazz.getName())
+                .build();
+
+        MessagingTemplate template = new MessagingTemplate();
+        retValue = template.sendAndReceive(channel, message).getPayload();
+        return retValue;
     }
 
 

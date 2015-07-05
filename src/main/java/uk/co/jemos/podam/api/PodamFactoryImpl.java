@@ -9,15 +9,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandlingException;
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
-import uk.co.jemos.podam.common.*;
+import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
+import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.common.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import javax.xml.ws.Holder;
@@ -47,6 +46,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	private static final String MAP_CREATION_EXCEPTION_STR = "An exception occurred while creating a Map object";
 
 	private static final String UNCHECKED_STR = "unchecked";
+
+    /** The message channel where to send/receive the type request */
+    private static MessageChannel messageChannel;
+
 
     /** Application logger */
 	private static final Logger LOG = LogManager.getLogger(PodamFactoryImpl.class);
@@ -129,6 +132,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
 		applicationContext = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
+        this.messageChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
 	}
 
 	// ------------------->> Public methods
@@ -518,7 +522,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (pojoClass.isPrimitive()) {
 			// For JDK POJOs we can't retrieve attribute name
             AttributeMetadata attributeMetadata = new AttributeMetadata(pojoClass, genericTypeArgs, pojoClass);
-            return (T) getTypeValue(attributeMetadata, pojoClass);
+            return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata, pojoClass);
 		}
 
 		if (pojoClass.isInterface()) {
@@ -882,7 +886,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
                 realAttributeType.equals(String.class)) {
 
-			attributeValue = getTypeValue(attributeMetadata, realAttributeType);
+			attributeValue = TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata,
+                    realAttributeType);
 
 
 		} else if (realAttributeType.isArray()) {
@@ -2015,31 +2020,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 
-
-
-
-    /**
-     * Obtains a type value
-     * @param attributeMetadata The AttributeMetadata information
-     * @param clazz The class of the requested type
-     * @return The type value
-     */
-    private Object getTypeValue(AttributeMetadata attributeMetadata, Class<?> clazz) {
-        Object retValue = null;
-
-        MessageChannel inputChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
-
-        TypeManufacturerParamsWrapper wrapper =
-                new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
-
-        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
-                PodamConstants.HEADER_NAME, clazz.getName())
-                .build();
-
-        MessagingTemplate template = new MessagingTemplate();
-        retValue = template.sendAndReceive(inputChannel, message).getPayload();
-        return retValue;
-    }
 
 	// ------------------->> equals() / hashcode() / toString()
 
