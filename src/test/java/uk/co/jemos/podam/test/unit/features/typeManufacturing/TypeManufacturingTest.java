@@ -17,6 +17,11 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapperForGenericTypes;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tedonema on 28/06/2015.
@@ -741,28 +746,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                     (ClassGenericConstructorPojo.class);
             podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-//            Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
-//            Type[] attrGenericArgsExtra = TypeManufacturerUtil.fillTypeArgMap(genericTypeArgumentsMap,
-//                    ClassGenericConstructorPojo.class, new Type[] {String.class});
-//            for (int i = 0; i < attrGenericArgsExtra.length; i++) {
-//                Type attrGenericArg = attrGenericArgsExtra[i];
-//                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), attrGenericArg);
-//            }
-//
-//            TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
-//                    new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
-//                            genericTypeArgumentsMap, String.class);
-//
-//            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
-//                    paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
-//            podamValidationSteps.theObjectShouldNotBeNull(message);
-//
-//            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-//            podamValidationSteps.theObjectShouldNotBeNull(value);
-//
-//            Object payload = value.getPayload();
-//            podamValidationSteps.theObjectShouldNotBeNull(payload);
-//            podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
+            Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+
+            genericTypeArgumentsMap.put("T", String.class);
+
+            TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
+                    new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
+                            genericTypeArgumentsMap, String.class);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
+                    paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            Object payload = value.getPayload();
+            podamValidationSteps.theObjectShouldNotBeNull(payload);
+            podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
 
         } finally {
 
