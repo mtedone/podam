@@ -919,27 +919,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
-			Type paremeterType = null;
-			if (genericAttributeType instanceof ParameterizedType) {
-				ParameterizedType parametrized =  (ParameterizedType) genericAttributeType;
-				Type[] arguments = parametrized.getActualTypeArguments();
-				if (arguments.length > 0) {
-					paremeterType = arguments[0];
-				}
-			} else if (realAttributeType.getTypeParameters().length > 0) {
-				paremeterType = realAttributeType.getTypeParameters()[0];
-			}
-
-			if (paremeterType != null) {
-				AtomicReference<Type[]> elementGenericTypeArgs
-						= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-				attributeValue = TypeManufacturerUtil.resolveGenericParameter(paremeterType,
-                        typeArgsMap, elementGenericTypeArgs);
-			} else {
-				LOG.error("{} is missing generic type argument, supplied {} {}",
-						genericAttributeType, typeArgsMap,
-						Arrays.toString(genericTypeArgs));
-			}
+			attributeValue = TypeManufacturerUtil.getTypeValueForGenericTypes(strategy, messageChannel, attributeMetadata,
+                    genericAttributeType, typeArgsMap, PodamConstants.GENERIC_TYPE_QUALIFIER);
 
 		}
 

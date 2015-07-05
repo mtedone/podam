@@ -46,6 +46,9 @@ public final class PodamConstants {
     /** The Enumeration qualifier for the Message Channel. */
     public static final String ENUMERATION_QUALIFIER = "Enumeration";
 
+    /** The Generic Type qualifier for the Message Channel. */
+    public static final String GENERIC_TYPE_QUALIFIER = "GenericType";
+
     /** Non-instantiable constructor */
 	private PodamConstants() {
 		throw new AssertionError("Non instantiable");

@@ -11,11 +11,16 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
+import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapperForGenericTypes;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tedonema on 28/06/2015.
@@ -706,6 +711,53 @@ public class TypeManufacturingTests extends AbstractPodamSteps {
 
             Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
                     paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.ENUMERATION_QUALIFIER);
+            podamValidationSteps.theObjectShouldNotBeNull(message);
+
+            Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+            podamValidationSteps.theObjectShouldNotBeNull(value);
+
+            podamValidationSteps.theObjectShouldNotBeNull(value.getPayload());
+
+        } finally {
+
+            if (null != applicationContext) {
+                applicationContext.close();
+            }
+
+        }
+
+    }
+
+    @Test
+    @Title("Podam Spring application context should return a Generic Type value")
+    public void podamApplicationContextShouldReturnAGenericTypeValue() throws Exception {
+
+        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
+
+        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
+        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+
+        try {
+            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
+            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+
+            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
+                    (SimplePojoToTestSetters.class);
+            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+
+            Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+            Type[] attrGenericArgs = attributeMetadata.getAttrGenericArgs();
+            for (int i = 0; i < attrGenericArgs.length; i++) {
+                Type attrGenericArg = attrGenericArgs[i];
+                genericTypeArgumentsMap.put(attrGenericArg.getTypeName(), attrGenericArg);
+            }
+
+            TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
+                    new TypeManufacturerParamsWrapperForGenericTypes(
+                            dataProviderStrategy, attributeMetadata, genericTypeArgumentsMap, String.class);
+
+            Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
+                    paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
             podamValidationSteps.theObjectShouldNotBeNull(message);
 
             Message value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);

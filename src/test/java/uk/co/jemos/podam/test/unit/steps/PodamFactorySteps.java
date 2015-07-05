@@ -11,8 +11,8 @@ import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.test.dto.GenericPojo;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
-import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
@@ -220,7 +220,7 @@ public class PodamFactorySteps {
     }
 
     @Step("Given an Attribute Meta Data object for Enums")
-    public AttributeMetadata givenAnAttributeMetadataForEnums(Class<ExternalRatePodamEnum> pojoClass) {
+    public AttributeMetadata givenAnAttributeMetadataForEnums(Class<?> pojoClass) {
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
         }
@@ -228,6 +228,26 @@ public class PodamFactorySteps {
         String attributeName = null;
         Class<?> realAttributeType = pojoClass;
         Type[] genericTypeArgs = new Type[0];
+        List<Annotation> annotations = Collections.emptyList();
+        AttributeMetadata attributeMetadata = new AttributeMetadata(
+                attributeName, realAttributeType, genericTypeArgs, annotations,
+                pojoClass);
+
+        return attributeMetadata;
+    }
+
+    @Step("Given an Attribute Meta Data for Generic Types")
+    public AttributeMetadata givenAnAttributeMetadataForGenericTypes(Class<?> pojoClass) {
+
+        if (null == pojoClass) {
+            throw new IllegalArgumentException("pojoClass cannot be null");
+        }
+
+        String attributeName = null;
+        Class<?> realAttributeType = GenericPojo.class;
+        Type[] genericTypeArgs = new Type[2];
+        genericTypeArgs[0] = String.class;
+        genericTypeArgs[1] = String.class;
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
                 attributeName, realAttributeType, genericTypeArgs, annotations,

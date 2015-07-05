@@ -15,5 +15,5 @@ public interface TypeManufacturer {
      *
      * @return A type value conforming to the annotations and the AttributeMetadata provided.
      */
-    Object getType(TypeManufacturerParamsWrapper wrapper);
+    <T extends TypeManufacturerParamsWrapper> Object  getType(T wrapper);
 }

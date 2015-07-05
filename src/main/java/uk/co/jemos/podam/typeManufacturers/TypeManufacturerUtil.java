@@ -45,7 +45,7 @@ public final class TypeManufacturerUtil {
      * @param strategy The Data Provider strategy
      * @param channel The Message Channel where to send/receive the message for the required value
      * @param attributeMetadata The AttributeMetadata information
-     * @param clazz The class of the requested type
+     * @param qualifier The class of the requested type
      * @return The type value
      */
     public static Object getTypeValue(DataProviderStrategy strategy,
@@ -56,6 +56,35 @@ public final class TypeManufacturerUtil {
 
         TypeManufacturerParamsWrapper wrapper =
                 new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
+
+        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+                PodamConstants.HEADER_NAME, qualifier)
+                .build();
+
+        MessagingTemplate template = new MessagingTemplate();
+        retValue = template.sendAndReceive(channel, message).getPayload();
+        return retValue;
+    }
+
+    /**
+     * Obtains a type value
+     * @param strategy The Data Provider strategy
+     * @param channel The Message Channel where to send/receive the message for the required value
+     * @param attributeMetadata The AttributeMetadata information
+     * @param genericAttributeType The generic attribute type
+     *@param qualifier The class of the requested type  @return The type value
+     */
+    public static Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
+                                                     MessageChannel channel,
+                                                     AttributeMetadata attributeMetadata,
+                                                     Type genericAttributeType,
+                                                     Map<String, Type> genericTypesArgumentsMap,
+                                                     String qualifier) {
+        Object retValue = null;
+
+        TypeManufacturerParamsWrapperForGenericTypes wrapper =
+                new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
+                        genericAttributeType);
 
         Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
                 PodamConstants.HEADER_NAME, qualifier)
