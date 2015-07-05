@@ -754,8 +754,8 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
             }
 
             TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
-                    new TypeManufacturerParamsWrapperForGenericTypes(
-                            dataProviderStrategy, attributeMetadata, genericTypeArgumentsMap, String.class);
+                    new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
+                            genericTypeArgumentsMap, String.class);
 
             Message<? extends Object> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
                     paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
