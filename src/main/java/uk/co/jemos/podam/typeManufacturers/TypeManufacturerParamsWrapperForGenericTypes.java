@@ -26,6 +26,7 @@ public class TypeManufacturerParamsWrapperForGenericTypes extends TypeManufactur
      * @param dataProviderStrategy The DataProviderStrategy
      * @param attributeMetadata    The AttributeMetadata
      * @param typeArgumentsMap The map of type arguments
+     * @param attributeGenericType The attribute generic type
      */
     public TypeManufacturerParamsWrapperForGenericTypes(DataProviderStrategy dataProviderStrategy,
                                                         AttributeMetadata attributeMetadata,
