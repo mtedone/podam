@@ -2023,19 +2023,25 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
-	 * It finds type arguments in superclass, then in superclass of superclass, etc.
+	 * It finds type arguments among all extended classes and implemented interfaces.
 	 * @param clazz
 	 *          the class which hierarchy is discovered
 	 * @param typeArgsMap
 	 *          a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *          example) with their actual types
-	 * @return a collection of type arguments found in the closest of superclasses
+	 * @return collection of type arguments found in the closest of parents (classes or interfaces)
 	 */
 	private Type[] findGenericTypeArgumentsInHierarchy(Class<?> clazz, Map<String, Type> typeArgsMap) {
 		while (clazz != null) {
-			final Type[] genericTypeArgs = resolveActualTypeArguments(typeArgsMap, clazz.getGenericSuperclass());
+			Type[] genericTypeArgs = resolveActualTypeArguments(typeArgsMap, clazz.getGenericSuperclass());
 			if (genericTypeArgs.length != 0) {
 				return genericTypeArgs;
+			}
+			for (Type type : clazz.getGenericInterfaces()) {
+				genericTypeArgs = resolveActualTypeArguments(typeArgsMap, type);
+				if (genericTypeArgs.length != 0) {
+					return genericTypeArgs;
+				}
 			}
 			clazz = clazz.getSuperclass();
 		}
