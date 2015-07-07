@@ -1,7 +1,8 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamDoubleValue;
@@ -18,7 +19,7 @@ import java.lang.annotation.Annotation;
 public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(DoubleTypeManufacturerImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DoubleTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}

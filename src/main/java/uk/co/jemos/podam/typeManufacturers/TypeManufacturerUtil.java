@@ -1,7 +1,7 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class TypeManufacturerUtil {
     
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(TypeManufacturerUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TypeManufacturerUtil.class);
     
     /** Non instantiable. */
     private TypeManufacturerUtil() {

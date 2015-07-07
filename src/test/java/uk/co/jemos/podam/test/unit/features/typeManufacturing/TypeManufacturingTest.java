@@ -2,10 +2,10 @@ package uk.co.jemos.podam.test.unit.features.typeManufacturing;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class TypeManufacturingTest extends AbstractPodamSteps {
 
     /** The application logger */
-    private static final Logger LOG = LogManager.getLogger(TypeManufacturingTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TypeManufacturingTest.class);
 
     @Test
     @Title("Podam Messaging System should return an int primitive value")

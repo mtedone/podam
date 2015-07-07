@@ -5,8 +5,8 @@ package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.messaging.MessageChannel;
@@ -52,7 +52,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 
     /** Application logger */
-	private static final Logger LOG = LogManager.getLogger(PodamFactoryImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PodamFactoryImpl.class);
 
 
 	private AbstractApplicationContext applicationContext;
@@ -847,6 +847,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException, MessageHandlingException {
+
 		Object attributeValue = null;
 
 		Class<?> pojoClass = (pojo instanceof Class ? (Class<?>) pojo : pojo.getClass());

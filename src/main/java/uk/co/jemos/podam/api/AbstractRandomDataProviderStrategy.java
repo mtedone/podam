@@ -4,8 +4,8 @@
 package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.NotThreadSafe;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
@@ -44,7 +44,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	// ------------------->> Constants
 
 	/** Application logger */
-	private static final Logger LOG = LogManager.getLogger(AbstractRandomDataProviderStrategy.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractRandomDataProviderStrategy.class);
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());

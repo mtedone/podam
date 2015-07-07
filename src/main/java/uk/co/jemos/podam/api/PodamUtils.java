@@ -3,9 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.common.PodamExclude;
 
 import java.lang.annotation.Annotation;
@@ -40,7 +39,7 @@ public final class PodamUtils {
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
 	/** The application logger. */
-	private static final Logger LOG = LogManager.getLogger(PodamUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
 
 	/** Non instantiable constructor */
 	private PodamUtils() {
