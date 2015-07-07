@@ -1362,39 +1362,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				Type[] typeArguments = NO_TYPES;
-				// If the parameter is a generic parameterized type resolve
-				// the actual type arguments
 				Type genericType = setter.getGenericParameterTypes()[0];
-				if (genericType instanceof ParameterizedType) {
-					final ParameterizedType attributeParameterizedType
-							= (ParameterizedType) genericType;
-					typeArguments = attributeParameterizedType
-							.getActualTypeArguments();
-				} else if (genericType instanceof TypeVariable) {
-					final TypeVariable<?> typeVariable = (TypeVariable<?>) genericType;
-					Type type = typeArgsMap.get(typeVariable.getName());
-					if (type instanceof ParameterizedType) {
-						final ParameterizedType attributeParameterizedType = (ParameterizedType) type;
-
-						typeArguments = attributeParameterizedType
-								.getActualTypeArguments();
-						attributeType = (Class<?>) attributeParameterizedType
-								.getRawType();
-					} else {
-						attributeType = (Class<?>) type;
-					}
-				}
-				AtomicReference<Type[]> typeGenericTypeArgs
-						= new AtomicReference<Type[]>(NO_TYPES);
-				for (int i = 0; i < typeArguments.length; i++) {
-					if (typeArguments[i] instanceof TypeVariable) {
-						Class<?> resolvedType = resolveGenericParameter(typeArguments[i],
-								typeArgsMap, typeGenericTypeArgs);
-						if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
-							typeArguments[i] = resolvedType;
-						}
-					}
+				Type[] typeArguments = resolveActualTypeArguments(typeArgsMap, genericType);
+				if (genericType instanceof TypeVariable) {
+					attributeType = resolveActualTypeByTypeVariable(typeArgsMap, (TypeVariable<?>) genericType);
 				}
 
 				setterArg = manufactureAttributeValue(pojo, manufacturingCtx,
@@ -1487,6 +1458,69 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return pojo;
+	}
+
+	/**
+	 * It resolves the actual type arguments when a generic type is actually
+	 * a parameterized type or type variable.
+	 *
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @param genericType
+	 *            a parameterized type or type variable
+	 * @return collection of actual type arguments of the specified type
+	 */
+	private Type[] resolveActualTypeArguments(Map<String, Type> typeArgsMap, Type genericType) {
+		Type[] typeArguments = NO_TYPES;
+		// If the parameter is a generic parameterized type resolve
+		// the actual type arguments
+		if (genericType instanceof ParameterizedType) {
+			final ParameterizedType attributeParameterizedType
+					= (ParameterizedType) genericType;
+			typeArguments = attributeParameterizedType
+					.getActualTypeArguments();
+		} else if (genericType instanceof TypeVariable) {
+			final TypeVariable<?> typeVariable = (TypeVariable<?>) genericType;
+			Type type = typeArgsMap.get(typeVariable.getName());
+			if (type instanceof ParameterizedType) {
+				final ParameterizedType attributeParameterizedType = (ParameterizedType) type;
+
+				typeArguments = attributeParameterizedType
+						.getActualTypeArguments();
+			}
+		}
+		AtomicReference<Type[]> typeGenericTypeArgs
+				= new AtomicReference<Type[]>(NO_TYPES);
+		for (int i = 0; i < typeArguments.length; i++) {
+			if (typeArguments[i] instanceof TypeVariable) {
+				Class<?> resolvedType = resolveGenericParameter(typeArguments[i],
+						typeArgsMap, typeGenericTypeArgs);
+				if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
+					typeArguments[i] = resolvedType;
+				}
+			}
+		}
+		return typeArguments;
+	}
+
+	/**
+	 * It resolves the actual type of a type variable
+	 *
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @param typeVariable
+	 *            a type variable to investigate
+	 * @return actual class of the type variable
+	 */
+	private Class<?> resolveActualTypeByTypeVariable(Map<String, Type> typeArgsMap, TypeVariable<?> typeVariable) {
+		Type type = typeArgsMap.get(typeVariable.getName());
+		if (type instanceof ParameterizedType) {
+			final ParameterizedType parameterizedType = (ParameterizedType) type;
+			return (Class<?>) parameterizedType.getRawType();
+		}
+		return (Class<?>) type;
 	}
 
 	/**
@@ -1946,7 +1980,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
 			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
-
+				genericTypeArgs = findGenericTypeArgumentsInHierarchy(collectionType, typeArgsMap);
+			}
+			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 				LOG.warn("The collection attribute: "
 						+ attributeName
 						+ " does not have a type. We will assume Object for you");
@@ -1984,6 +2020,32 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return retValue;
+	}
+
+	/**
+	 * It finds type arguments among all extended classes and implemented interfaces.
+	 * @param clazz
+	 *          the class which hierarchy is discovered
+	 * @param typeArgsMap
+	 *          a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *          example) with their actual types
+	 * @return collection of type arguments found in the closest of parents (classes or interfaces)
+	 */
+	private Type[] findGenericTypeArgumentsInHierarchy(Class<?> clazz, Map<String, Type> typeArgsMap) {
+		while (clazz != null) {
+			Type[] genericTypeArgs = resolveActualTypeArguments(typeArgsMap, clazz.getGenericSuperclass());
+			if (genericTypeArgs.length != 0) {
+				return genericTypeArgs;
+			}
+			for (Type type : clazz.getGenericInterfaces()) {
+				genericTypeArgs = resolveActualTypeArguments(typeArgsMap, type);
+				if (genericTypeArgs.length != 0) {
+					return genericTypeArgs;
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+		return NO_TYPES;
 	}
 
 	/**
@@ -2199,31 +2261,29 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 
 			Class<?> keyClass = null;
-
 			Class<?> elementClass = null;
 
 			AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					NO_TYPES);
-			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 
+			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
+				genericTypeArgs = findGenericTypeArgumentsInHierarchy(attributeType, typeArgsMap);
+			}
+			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
 				LOG.warn("Map attribute: "
 						+ attributeName
 						+ " is non-generic. We will assume a Map<Object, Object> for you.");
 
 				keyClass = Object.class;
-
 				elementClass = Object.class;
-
 			} else {
-
 				// Expected only key, value type
 				if (genericTypeArgs.length != 2) {
 					throw new IllegalStateException(
 							"In a Map only key value generic type are expected.");
 				}
-
 				Type[] actualTypeArguments = genericTypeArgs;
 				keyClass = resolveGenericParameter(actualTypeArguments[0],
 						typeArgsMap, keyGenericTypeArgs);
