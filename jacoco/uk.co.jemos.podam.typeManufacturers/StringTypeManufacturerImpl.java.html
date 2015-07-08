@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>StringTypeManufacturerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">StringTypeManufacturerImpl.java</span></div><h1>StringTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.PodamStringValue;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
+
+/**
+ * Default String type manufacturer.
+ *
+ * Created by tedonema on 17/05/2015.
+ *
+ * @since 6.0.0.RELEASE
+ */
+<span class="fc" id="L19">public class StringTypeManufacturerImpl extends AbstractTypeManufacturer {</span>
+
+    /** The application logger */
+<span class="fc" id="L22">    private static final Logger LOG = LoggerFactory.getLogger(StringTypeManufacturerImpl.class);</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getType(TypeManufacturerParamsWrapper wrapper) {
+
+<span class="fc" id="L30">        super.checkWrapperIsValid(wrapper);</span>
+
+<span class="fc" id="L32">        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();</span>
+
+<span class="fc" id="L34">        String retValue = null;</span>
+
+<span class="fc" id="L36">        AttributeMetadata attributeMetadata = wrapper.getAttributeMetadata();</span>
+
+<span class="fc" id="L38">        List&lt;Annotation&gt; annotations = attributeMetadata.getAttributeAnnotations();</span>
+
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">        if (annotations == null || annotations.isEmpty()) {</span>
+
+<span class="fc" id="L42">            retValue = strategy.getStringValue(attributeMetadata);</span>
+
+        } else {
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            for (Annotation annotation : annotations) {</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">                if (!PodamStringValue.class.isAssignableFrom(annotation</span>
+<span class="fc" id="L49">                        .getClass())) {</span>
+<span class="fc" id="L50">                    continue;</span>
+                }
+
+                // A specific value takes precedence over the length
+<span class="fc" id="L54">                PodamStringValue podamAnnotation = (PodamStringValue) annotation;</span>
+
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">                if (podamAnnotation.strValue() != null</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                        &amp;&amp; podamAnnotation.strValue().length() &gt; 0) {</span>
+
+<span class="fc" id="L59">                    retValue = podamAnnotation.strValue();</span>
+
+                } else {
+
+<span class="fc" id="L63">                    retValue = strategy.getStringOfLength(</span>
+<span class="fc" id="L64">                            podamAnnotation.length(), attributeMetadata);</span>
+
+                }
+
+<span class="fc" id="L68">            }</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (retValue == null) {</span>
+<span class="fc" id="L71">                retValue = strategy.getStringValue(attributeMetadata);</span>
+            }
+
+        }
+
+<span class="fc" id="L76">        return retValue;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

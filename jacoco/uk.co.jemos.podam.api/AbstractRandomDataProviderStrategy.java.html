@@ -4,8 +4,8 @@
 package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.NotThreadSafe;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
@@ -44,7 +44,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	// -------------------&gt;&gt; Constants
 
 	/** Application logger */
-<span class="fc" id="L47">	private static final Logger LOG = LogManager.getLogger(AbstractRandomDataProviderStrategy.class);</span>
+<span class="fc" id="L47">	private static final Logger LOG = LoggerFactory.getLogger(AbstractRandomDataProviderStrategy.class);</span>
 
 	/** A RANDOM generator */
 <span class="fc" id="L50">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
@@ -138,7 +138,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		byte nextByte;
 		do {
 <span class="fc" id="L140">			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L141" title="1 of 2 branches missed.">		} while (nextByte == 0);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">		} while (nextByte == 0);</span>
 <span class="fc" id="L142">		return nextByte;</span>
 	}
 

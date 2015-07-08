@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GenericTypeManufacturerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">GenericTypeManufacturerImpl.java</span></div><h1>GenericTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.PodamConstants;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+
+/**
+ * Default byte type manufacturer.
+ *
+ * Created by tedonema on 17/05/2015.
+ *
+ * @since 6.0.0.RELEASE
+ */
+<span class="fc" id="L22">public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {</span>
+
+    /** The application logger */
+<span class="fc" id="L25">    private static final Logger LOG = LoggerFactory.getLogger(GenericTypeManufacturerImpl.class);</span>
+
+
+
+    @Override
+    public &lt;T extends TypeManufacturerParamsWrapper&gt; Object getType(T wrapper) {
+<span class="fc" id="L31">        super.checkWrapperIsValid(wrapper);</span>
+
+<span class="fc" id="L33">        TypeManufacturerParamsWrapperForGenericTypes localWrapper = (TypeManufacturerParamsWrapperForGenericTypes) wrapper;</span>
+
+<span class="fc" id="L35">        DataProviderStrategy strategy = localWrapper.getDataProviderStrategy();</span>
+
+<span class="fc" id="L37">        AttributeMetadata attributeMetadata = localWrapper.getAttributeMetadata();</span>
+
+<span class="fc" id="L39">        Type[] genericArgs = attributeMetadata.getAttrGenericArgs();</span>
+
+<span class="fc" id="L41">        Class&lt;?&gt; attributeType = attributeMetadata.getAttributeType();</span>
+
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (null == genericArgs) {</span>
+<span class="nc" id="L44">            String errorMessage = &quot;For generic type arguments, the attribute metadata&quot; +</span>
+                    &quot; should contain a non null Type[]&quot;;
+<span class="nc" id="L46">            LOG.error(errorMessage);</span>
+<span class="nc" id="L47">            throw new IllegalArgumentException(errorMessage);</span>
+
+        }
+
+<span class="fc" id="L51">        Type genericAttributeType = localWrapper.getAttributeGenericType();</span>
+
+<span class="fc" id="L53">        Map&lt;String, Type&gt; typeArgumentsMap = localWrapper.getTypeArgumentsMap();</span>
+
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (null == typeArgumentsMap) {</span>
+<span class="nc" id="L56">            String errMsg = &quot;The type arguments map in the wrapper cannot be null&quot;;</span>
+<span class="nc" id="L57">            LOG.error(errMsg);</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(errMsg);</span>
+        }
+
+<span class="fc" id="L61">        Object retValue = null;</span>
+
+<span class="fc" id="L63">        Type paremeterType = null;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (genericAttributeType instanceof ParameterizedType) {</span>
+<span class="fc" id="L65">            ParameterizedType parametrized =  (ParameterizedType) genericAttributeType;</span>
+<span class="fc" id="L66">            Type[] arguments = parametrized.getActualTypeArguments();</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            if (arguments.length &gt; 0) {</span>
+<span class="fc" id="L68">                paremeterType = arguments[0];</span>
+            }
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        } else if (attributeType.getTypeParameters().length &gt; 0) {</span>
+<span class="fc" id="L71">            paremeterType = attributeType.getTypeParameters()[0];</span>
+        }
+
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (paremeterType != null) {</span>
+<span class="fc" id="L75">            AtomicReference&lt;Type[]&gt; elementGenericTypeArgs</span>
+                    = new AtomicReference&lt;Type[]&gt;(PodamConstants.NO_TYPES);
+<span class="fc" id="L77">            retValue = TypeManufacturerUtil.resolveGenericParameter(paremeterType,</span>
+                    typeArgumentsMap, elementGenericTypeArgs);
+<span class="fc" id="L79">        } else {</span>
+<span class="nc" id="L80">            LOG.error(&quot;{} is missing generic type argument, supplied {} {}&quot;,</span>
+                    genericAttributeType, typeArgumentsMap,
+<span class="nc" id="L82">                    Arrays.toString(genericArgs));</span>
+        }
+
+<span class="fc" id="L85">        return retValue;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

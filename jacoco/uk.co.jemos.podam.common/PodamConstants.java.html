@@ -4,6 +4,7 @@
 package uk.co.jemos.podam.common;
 
 
+import java.lang.reflect.Type;
 
 /**
  * PODAM constants.
@@ -15,38 +16,44 @@ package uk.co.jemos.podam.common;
  */
 public final class PodamConstants {
 
-	// -------------------&gt;&gt; Constants
-
-	// -------------------&gt;&gt; Instance / Static variables
-
-	// -------------------&gt;&gt; Constructors
-
 	/**
 	 * The default string length that Podam will assign to an annotated
 	 * attribute
 	 */
 	public static final int STR_DEFAULT_LENGTH = 10;
 
-	/** The default number of elements for a collection-type element */
+	/** The default number of elements for a collection-type element. */
 	public static final int DEFAULT_NBR_COLLECTION_ELEMENTS = 5;
 
-	/** The default encoding for Strings */
+	/** The default encoding for Strings. */
 	public static final String STR_DEFAULT_ENCODING = &quot;UTF-8&quot;;
 
-	/** Non-instantiable constructor */
-<span class="nc" id="L37">	private PodamConstants() {</span>
-<span class="nc" id="L38">		throw new AssertionError(&quot;Non instantiable&quot;);</span>
+    /** The Spring integration header name which will drive the type manufacturing. */
+    public static final String HEADER_NAME = &quot;type&quot;;
+
+    /** The Podam Spring rool configuration file name. */
+    public static final String SPRING_ROOT_CONFIG_LOCATION = &quot;META-INF/spring/podam-config.xml&quot;;
+
+    /** A String used for messages. */
+    public static final String THE_ANNOTATION_VALUE_STR = &quot;The annotation value: &quot;;
+
+    /** An empty array of Types. */
+<span class="fc" id="L41">    public static final Type[] NO_TYPES = new Type[0];</span>
+
+    /** An empty object array. */
+<span class="fc" id="L44">    public static final Object[] NO_ARGS = new Object[0];</span>
+
+    /** The Enumeration qualifier for the Message Channel. */
+    public static final String ENUMERATION_QUALIFIER = &quot;Enumeration&quot;;
+
+    /** The Generic Type qualifier for the Message Channel. */
+    public static final String GENERIC_TYPE_QUALIFIER = &quot;GenericType&quot;;
+
+    /** Non-instantiable constructor */
+<span class="nc" id="L53">	private PodamConstants() {</span>
+<span class="nc" id="L54">		throw new AssertionError(&quot;Non instantiable&quot;);</span>
 	}
 
-	// -------------------&gt;&gt; Public methods
-
-	// -------------------&gt;&gt; Getters / Setters
-
-	// -------------------&gt;&gt; Private methods
-
-	// -------------------&gt;&gt; equals() / hashcode() / toString()
-
-	// -------------------&gt;&gt; Inner classes
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>

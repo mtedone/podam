@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should fill in the Bank Account POJO correctly" name="testBankAccountSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="12" timestamp="2015-06-21T21:03:10.751+01:00">
+<acceptance-test-run title="Podam should fill in the Bank Account POJO correctly" name="testBankAccountSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="41" timestamp="2015-07-08T23:32:19.227+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
     <tag name="Walk through example unit test" type="stories"/>
     <tag name="Walk through example unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="36">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.docs.example.BankAccount</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

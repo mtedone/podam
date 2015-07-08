@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should fill in read-only POJOs" name="podamShouldFillReadOnlyTypes" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="21" timestamp="2015-06-21T21:03:06.787+01:00">
+<acceptance-test-run title="Podam should fill in read-only POJOs" name="podamShouldFillReadOnlyTypes" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="54" timestamp="2015-07-08T23:32:11.938+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Read only complex types test" type="stories"/>
     <tag name="Read only complex types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="38">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ReadOnlyComplexTypesPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
@@ -18,12 +18,12 @@
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type -1646705367</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map should not be null or empty and each element should have key of type 333522330937051=YW0liu_Bye and value of type 333522330964670=U7YaUVlQ6M</description>
+    <description>Then the collection should not be null or empty and each element should be of type -685158872</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
+    <description>Then the Map should not be null or empty and each element should have key of type 664606618357417=OdCTtgWEHq and value of type 664606617904191=gulbuGPERV</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
 </acceptance-test-run>

@@ -1,11 +1,11 @@
-<acceptance-test-run title="In Presence of excluded attributes, the Class Info object should not contain those attributes" name="inPresenceOfExcludedAttributesTheClassInfoObjectShouldNotContainThoseAttributes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="15" timestamp="2015-06-21T21:03:05.134+01:00">
+<acceptance-test-run title="In Presence of excluded attributes, the Class Info object should not contain those attributes" name="inPresenceOfExcludedAttributesTheClassInfoObjectShouldNotContainThoseAttributes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="17" timestamp="2015-07-08T23:32:08.444+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>
     <tag name="Class info test" type="stories"/>
     <tag name="Class info test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Given a Set of annotations to be excluded</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
@@ -14,10 +14,10 @@
   <test-step result="SUCCESS" duration="3">
     <description>Given a ClassInfo with excluded annotations and excluded fields</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the attributes contains in ClassInfo should match the ones contains in the POJO</description>
   </test-step>
 </acceptance-test-run>

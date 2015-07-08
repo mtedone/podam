@@ -1,26 +1,26 @@
-<acceptance-test-run title="Podam should handle constructors with multiple generics during Pojo instantiation" name="podamShouldHandleConstructorsWithMultipleGenericsDuringPojoInstantiation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-06-21T21:03:06.326+01:00">
+<acceptance-test-run title="Podam should handle constructors with multiple generics during Pojo instantiation" name="podamShouldHandleConstructorsWithMultipleGenericsDuringPojoInstantiation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-07-08T23:32:11.209+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="10">
+  <test-step result="SUCCESS" duration="49">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="6">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.String and class java.lang.String&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type 2</description>
+    <description>Then the collection should not be null or empty and each element should be of type F</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map should not be null or empty and each element should have key of type 71=-309871125 and value of type 9=-1352854443</description>
+    <description>Then the Map should not be null or empty and each element should have key of type 55=2091890735 and value of type 29=72127653</description>
   </test-step>
 </acceptance-test-run>

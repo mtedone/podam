@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should be able to manufacture any type of Maps" name="podamShouldBeAbleToManufactureAnyTypeOfMaps" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2015-06-21T21:03:06.266+01:00">
+<acceptance-test-run title="Podam should be able to manufacture any type of Maps" name="podamShouldBeAbleToManufactureAnyTypeOfMaps" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="53" timestamp="2015-07-08T23:32:11.036+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="11">
+  <test-step result="SUCCESS" duration="42">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map should not be null or empty and each element should have key of type 9dZQjKcJvh=356414388 and value of type QZwlc3lmZN=1507526548</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Map should not be null or empty and each element should have key of type szmfnGt4O4=-1458007710 and value of type Isjd4hUM6H=224403896</description>
   </test-step>
 </acceptance-test-run>

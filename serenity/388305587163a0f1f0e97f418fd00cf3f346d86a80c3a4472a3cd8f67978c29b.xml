@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should choose the fullest constructor when invoked for full data" name="podamShouldChooseTheFullestConstructorWhenInvokedForFullData" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="21" timestamp="2015-06-21T21:03:06.368+01:00">
+<acceptance-test-run title="Podam should choose the fullest constructor when invoked for full data" name="podamShouldChooseTheFullestConstructorWhenInvokedForFullData" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-07-08T23:32:11.329+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="11">
+  <test-step result="SUCCESS" duration="44">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

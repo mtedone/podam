@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should handle classes with generic Key/Value types" name="podamShouldHandleClassesWithKeyValueGenericTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2015-06-21T21:03:06.220+01:00">
+<acceptance-test-run title="Podam should handle classes with generic Key/Value types" name="podamShouldHandleClassesWithKeyValueGenericTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="58" timestamp="2015-07-08T23:32:10.921+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="12">
+  <test-step result="SUCCESS" duration="44">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -18,6 +18,6 @@
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map should not be null or empty and each element should have key of type B3wjKfz3gc=333521766966301 and value of type XsqLtov7oY=333521767049741</description>
+    <description>Then the Map should not be null or empty and each element should have key of type W3bqXCVeK1=664605606581279 and value of type m4B5WXE9GG=664605606356091</description>
   </test-step>
 </acceptance-test-run>

@@ -1,4 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Inheritance test","Podam should handle basic inheritance scenarios","SUCCESS","2015-06-21T21:03:08.886+01:00","0.0","0.02"
-"Inheritance test","Podam should handle the manufacturing of POJOs which inherit from other classes","SUCCESS","2015-06-21T21:03:08.933+01:00","0.0","0.02"
-"Inheritance test","Podam should manufacture all POJOs in a tree hierarchy","SUCCESS","2015-06-21T21:03:08.911+01:00","0.0","0.02"
+"Inheritance test","Podam should handle basic inheritance scenarios","SUCCESS","2015-07-08T23:32:14.983+01:00","0.0","0.06"
+"Inheritance test","Podam should handle the manufacturing of POJOs which inherit from other classes","SUCCESS","2015-07-08T23:32:15.098+01:00","0.0","0.05"
+"Inheritance test","Podam should manufacture all POJOs in a tree hierarchy","SUCCESS","2015-07-08T23:32:15.043+01:00","0.0","0.05"

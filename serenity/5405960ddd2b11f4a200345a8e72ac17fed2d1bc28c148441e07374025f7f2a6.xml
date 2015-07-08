@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should not create instances of non-instantiable classes" name="podamShouldNotcreateInstancesOfNonInstantiableClasses" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-06-21T21:03:08.436+01:00">
+<acceptance-test-run title="Podam should not create instances of non-instantiable classes" name="podamShouldNotcreateInstancesOfNonInstantiableClasses" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="56" timestamp="2015-07-08T23:32:14.365+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="41">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -20,10 +20,10 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;1 and 1&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NonInstantiatableClass and class uk.co.jemos.podam.test.dto.NonInstantiatableClass&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;0 and 0&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

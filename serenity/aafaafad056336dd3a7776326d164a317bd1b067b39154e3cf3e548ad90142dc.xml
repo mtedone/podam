@@ -1,47 +1,47 @@
-<acceptance-test-run title="Podam should handle both native and wrapped byte values with @PodamByteValue annotation" name="podamShouldHandleByteValuesWithThePodamByteValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="62" timestamp="2015-06-21T21:03:01.138+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped byte values with @PodamByteValue annotation" name="podamShouldHandleByteValuesWithThePodamByteValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="151" timestamp="2015-07-08T23:32:02.728+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="18">
+  <test-step result="SUCCESS" duration="91">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="9">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.ByteValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;33 should be lower or equal to 100&lt;/span&gt;</description>
+    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;64 should be lower or equal to 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;95 should be between 0 and 100&lt;/span&gt;</description>
+  <test-step result="SUCCESS" duration="4">
+    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;60 should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;0 should be greater or equal than 0&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;37 should be lower or equal to 100&lt;/span&gt;</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;54 should be between 0 and 100&lt;/span&gt;</description>
+    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;34 should be lower or equal to 100&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the byte value &lt;span class=&apos;step-parameter&apos;&gt;0 should be between 0 and 100&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="4">
     <description>The byte value &lt;span class=&apos;step-parameter&apos;&gt;12 should be precisely 12&lt;/span&gt;</description>
   </test-step>
 </acceptance-test-run>

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle the manufacturing of generic POJOs" name="podamShouldHandleTheManufacturingOfGenericPojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2015-06-21T21:03:03.771+01:00">
+<acceptance-test-run title="Podam should handle the manufacturing of generic POJOs" name="podamShouldHandleTheManufacturingOfGenericPojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="89" timestamp="2015-07-08T23:32:06.435+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.ClassUnitTest" name="Class unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Class unit test" type="stories"/>
     <tag name="Class unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="13">
+  <test-step result="SUCCESS" duration="76">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

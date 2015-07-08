@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should be able to create instances of abstract POJOs with factory methods which return concrete types" name="podamShouldInstantiateAbstractClassesForWhichItKnowsConcreteTypes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="17" timestamp="2015-06-21T21:03:06.349+01:00">
+<acceptance-test-run title="Podam should be able to create instances of abstract POJOs with factory methods which return concrete types" name="podamShouldInstantiateAbstractClassesForWhichItKnowsConcreteTypes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="52" timestamp="2015-07-08T23:32:11.276+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="10">
+  <test-step result="SUCCESS" duration="44">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.util.TimeZone</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
 </acceptance-test-run>

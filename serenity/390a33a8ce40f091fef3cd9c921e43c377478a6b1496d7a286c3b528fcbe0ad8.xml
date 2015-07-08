@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should fill POJOs with public, non default constructors" name="podamShouldFillPojosWithPublicNonDefaultPublicConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="16" timestamp="2015-06-21T21:03:07.393+01:00">
+<acceptance-test-run title="Podam should fill POJOs with public, non default constructors" name="podamShouldFillPojosWithPublicNonDefaultPublicConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="56" timestamp="2015-07-08T23:32:12.832+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="43">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm33.NoDefaultPublicConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;hCGFSRo1fG&lt;/span&gt; cannot be null or empty</description>
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;uxtBFnsz3A&lt;/span&gt; cannot be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>
   </test-step>
 </acceptance-test-run>

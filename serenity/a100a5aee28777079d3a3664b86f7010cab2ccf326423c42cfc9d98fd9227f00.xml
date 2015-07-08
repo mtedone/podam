@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2015-06-21T21:03:08.555+01:00">
+<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="56" timestamp="2015-07-08T23:32:14.629+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,25 +8,25 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="41">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory to manufacture &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithInterfaces with the fullest constructor</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;2 and 2&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.ObjectExt and interface uk.co.jemos.podam.test.dto.ObjectExt&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.InterfacePojo and interface uk.co.jemos.podam.test.dto.InterfacePojo&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;2 and 2&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>
