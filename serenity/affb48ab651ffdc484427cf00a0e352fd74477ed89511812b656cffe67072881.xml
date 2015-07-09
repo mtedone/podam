@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-07-08T23:32:14.510+01:00">
+<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="127" timestamp="2015-07-10T00:17:33.525+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
     <tag name="External factory unit test" type="stories"/>
     <tag name="External factory unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="12">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="40">
+  <test-step result="SUCCESS" duration="75">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="14">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithInterfaces</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

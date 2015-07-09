@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should fill POJOs with non default constructors" name="podamShouldFillPojosWithNonDefaultConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="100" timestamp="2015-07-08T23:32:07.734+01:00">
+<acceptance-test-run title="Podam should fill POJOs with non default constructors" name="podamShouldFillPojosWithNonDefaultConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="69" timestamp="2015-07-10T00:17:25.995+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="76">
+  <test-step result="SUCCESS" duration="63">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="18">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NoDefaultConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
 </acceptance-test-run>

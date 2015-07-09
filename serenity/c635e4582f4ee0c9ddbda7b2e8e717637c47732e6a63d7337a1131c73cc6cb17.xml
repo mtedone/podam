@@ -1,33 +1,33 @@
-<acceptance-test-run title="Memoization should work correctly for collections and arrays" name="memoizationShouldWorkCorrectlyForCollectionsAndArrays" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="82" timestamp="2015-07-08T23:32:15.910+01:00">
+<acceptance-test-run title="Memoization should work correctly for collections and arrays" name="memoizationShouldWorkCorrectlyForCollectionsAndArrays" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="93" timestamp="2015-07-10T00:17:35.192+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
     <tag name="Memoization test" type="stories"/>
     <tag name="Memoization test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="34">
+  <test-step result="SUCCESS" duration="38">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="32">
+  <test-step result="SUCCESS" duration="38">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.MemoizationPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the given array should not be null or empty and contain elements of type TJWDqzkquH</description>
+    <description>Then the given array should not be null or empty and contain elements of type EBxGh_C4oe</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should have exactly OPt81NF3JF elements</description>
+    <description>Then the collection should have exactly cE8VB0HkXI elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type oNwOlbxnE6</description>
+    <description>Then the collection should not be null or empty and each element should be of type zkR3cJCJll</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;5 and 5&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map should not be null or empty and each element should have key of type Z3JoY32wp7=1pS5k7LWcO and value of type 5uFYEP3Gle=2fTbT813yN</description>
+    <description>Then the Map should not be null or empty and each element should have key of type J7v4zIHKXy=MFLA06j27N and value of type 1CeOlO0u9E=7cUJ0PYrEZ</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;5 and 5&lt;/span&gt; should be equal</description>

@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should create an instance of an Abstract class with a factory method which returns a concrete type even if the concrete type has got read-only attributes. These will be empty." name="podamShouldCreateAnInstanceOfAnAbstractClassWithAFactoryMethodWhichReturnsAConcreteType" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="50" timestamp="2015-07-08T23:32:11.757+01:00">
+<acceptance-test-run title="Podam should create an instance of an Abstract class with a factory method which returns a concrete type even if the concrete type has got read-only attributes. These will be empty." name="podamShouldCreateAnInstanceOfAnAbstractClassWithAFactoryMethodWhichReturnsAConcreteType" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="50" timestamp="2015-07-10T00:17:30.085+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Read only complex types test" type="stories"/>
     <tag name="Read only complex types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="43">
+  <test-step result="SUCCESS" duration="44">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">

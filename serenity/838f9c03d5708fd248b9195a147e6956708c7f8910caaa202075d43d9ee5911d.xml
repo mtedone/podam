@@ -1,35 +1,35 @@
-<acceptance-test-run title="Podam Messaging System should return an Enum value" name="podamMessagingSystemShouldReturnAnEnumValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="68" timestamp="2015-07-08T23:32:16.906+01:00">
+<acceptance-test-run title="Podam Messaging System should return an Enum value" name="podamMessagingSystemShouldReturnAnEnumValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="57" timestamp="2015-07-10T00:17:36.264+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.typeManufacturing.TypeManufacturingTest" name="Type manufacturing test" path="uk.co.jemos.podam.test.unit.features.typeManufacturing"/>
   <tags>
     <tag name="Type manufacturing" type="epics"/>
     <tag name="Type manufacturing test" type="stories"/>
     <tag name="Type manufacturing test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="39">
+  <test-step result="SUCCESS" duration="37">
     <description>Given Podam Root application context</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Message Channel to manufacture types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="1">
     <description>Given an Attribute Meta Data object for Enums</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Message with header attributeMetadata=AttributeMetadata [attributeName=null and qualifier attributeType=class uk.co.jemos.podam.test.enums.ExternalRatePodamEnum</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

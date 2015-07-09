@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should be able to fulfill most of the javax Validation framework" name="podamShouldFulfillMostOfTheJavaxValidationFramework" steps="27" successful="27" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="137" timestamp="2015-07-08T23:32:18.403+01:00">
+<acceptance-test-run title="Podam should be able to fulfill most of the javax Validation framework" name="podamShouldFulfillMostOfTheJavaxValidationFramework" steps="27" successful="27" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="132" timestamp="2015-07-10T00:17:37.979+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.validatorFramework.ValidatedPojoTest" name="Validated pojo test" path="uk.co.jemos.podam.test.unit.features.validatorFramework"/>
   <tags>
     <tag name="Validator framework" type="epics"/>
     <tag name="Validated pojo test" type="stories"/>
     <tag name="Validated pojo test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="35">
+  <test-step result="SUCCESS" duration="40">
     <description>Given a Podam Factory with Email strategy</description>
   </test-step>
   <test-step result="SUCCESS" duration="33">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ValidatedPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -21,17 +21,11 @@
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;JYXPoHAvvE&lt;/span&gt; cannot be null or empty</description>
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;ejoKX9BFS5&lt;/span&gt; cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the object should be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Object should not be null</description>
-  </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
@@ -44,13 +38,10 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -68,22 +59,31 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
     <description>Then the object should be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Given a Javax Validator</description>
   </test-step>
-  <test-step result="SUCCESS" duration="23">
-    <description>Then the POJO should not have any Validator violations for uk.co.jemos.podam.test.dto.ValidatedPojo@78a41c94&lt;/span&gt;</description>
+  <test-step result="SUCCESS" duration="19">
+    <description>Then the POJO should not have any Validator violations for uk.co.jemos.podam.test.dto.ValidatedPojo@1e89b7d6&lt;/span&gt;</description>
   </test-step>
 </acceptance-test-run>

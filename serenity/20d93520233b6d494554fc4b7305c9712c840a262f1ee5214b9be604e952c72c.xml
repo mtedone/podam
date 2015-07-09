@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="131" timestamp="2015-07-08T23:32:03.441+01:00">
+<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="128" timestamp="2015-07-10T00:17:21.398+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="77">
+  <test-step result="SUCCESS" duration="81">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="24">
@@ -17,7 +17,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the int field should not be zero</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the calendar object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -26,7 +26,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the long[] array should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="3">
     <description>The long value cannot be zero</description>
   </test-step>
 </acceptance-test-run>

@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should handle both native and wrapped char values with @PodamCharValue annotation" name="podamShouldHandleCharValuesWithThePodamCharValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="207" timestamp="2015-07-08T23:32:02.882+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped char values with @PodamCharValue annotation" name="podamShouldHandleCharValuesWithThePodamCharValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="158" timestamp="2015-07-10T00:17:20.852+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="115">
+  <test-step result="SUCCESS" duration="99">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="11">
+  <test-step result="SUCCESS" duration="10">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.CharValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
@@ -20,13 +20,13 @@
   <test-step result="SUCCESS" duration="3">
     <description>Then the char value should be lower or equal than 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="8">
+  <test-step result="SUCCESS" duration="5">
     <description>Then the char value should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="6">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the char value should be greater or equal than &#x0;&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
@@ -38,10 +38,10 @@
   <test-step result="SUCCESS" duration="3">
     <description>Then the char value should be between 0 and 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;a should be exactly a&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="27">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the char value &lt;span class=&apos;step-parameter&apos;&gt;&#x0; should be exactly &#x0;&lt;/span&gt;</description>
   </test-step>
 </acceptance-test-run>

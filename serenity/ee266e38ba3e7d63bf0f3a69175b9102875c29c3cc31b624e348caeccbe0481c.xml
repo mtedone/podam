@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should assign precise values and lengths when a String is annotated with @PodamStringValue" name="podamShouldAssignPreciseValuesWithTheStringValueAnnotation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="80" timestamp="2015-07-08T23:32:04.111+01:00">
+<acceptance-test-run title="Podam should assign precise values and lengths when a String is annotated with @PodamStringValue" name="podamShouldAssignPreciseValuesWithTheStringValueAnnotation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="88" timestamp="2015-07-10T00:17:22.107+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="63">
+  <test-step result="SUCCESS" duration="72">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="5">
@@ -14,8 +14,8 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the string value &lt;span class=&apos;step-parameter&apos;&gt;0gB4yWmwJg6DHwUhbLIq should have the length of 20&lt;/span&gt;</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the string value &lt;span class=&apos;step-parameter&apos;&gt;oopmHHnbmCO8EZfBR9P4 should have the length of 20&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>

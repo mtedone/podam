@@ -1,24 +1,24 @@
-<acceptance-test-run title="Podam should fill in complex (e.g. with more than two generic types), read-only POJOs" name="podamShouldFillReadOnlyComplexTypes" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-07-08T23:32:11.809+01:00">
+<acceptance-test-run title="Podam should fill in complex (e.g. with more than two generic types), read-only POJOs" name="podamShouldFillReadOnlyComplexTypes" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-07-10T00:17:30.136+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Read only complex types test" type="stories"/>
     <tag name="Read only complex types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="46">
+  <test-step result="SUCCESS" duration="42">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="6">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type 664606498531642</description>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the collection should not be null or empty and each element should be of type 753726828340756</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map should not be null or empty and each element should have key of type 1207989250=yr6z9k2YVW and value of type 884912068=3Goe5QPeTv</description>
+    <description>Then the Map should not be null or empty and each element should have key of type 997302432=d2hNm95hSl and value of type 386176678=1goNZxjfce</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>

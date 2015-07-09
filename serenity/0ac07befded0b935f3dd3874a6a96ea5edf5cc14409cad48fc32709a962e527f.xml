@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle generics in static constructors during POJO instantiation" name="podamShouldHandleGenericsInStaticConstructorsDuringPojoInstantiation" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="57" timestamp="2015-07-08T23:32:11.385+01:00">
+<acceptance-test-run title="Podam should handle generics in static constructors during POJO instantiation" name="podamShouldHandleGenericsInStaticConstructorsDuringPojoInstantiation" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="57" timestamp="2015-07-10T00:17:29.568+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="45">
+  <test-step result="SUCCESS" duration="48">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.GenericInStaticConstructorPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type phxRFx8kMF</description>
+    <description>Then the collection should not be null or empty and each element should be of type A4lD7htLPQ</description>
   </test-step>
 </acceptance-test-run>

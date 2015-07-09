@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-07-08T23:32:09.369+01:00">
+<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="69" timestamp="2015-07-10T00:17:27.666+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="55">
+  <test-step result="SUCCESS" duration="54">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="6">
+  <test-step result="SUCCESS" duration="8">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should manufacture package private POJOs" name="podamShouldManufacturePackagePrivatePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="74" timestamp="2015-07-08T23:32:10.077+01:00">
+<acceptance-test-run title="Podam should manufacture package private POJOs" name="podamShouldManufacturePackagePrivatePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="63" timestamp="2015-07-10T00:17:28.296+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="62">
+  <test-step result="SUCCESS" duration="54">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
@@ -14,7 +14,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
 </acceptance-test-run>

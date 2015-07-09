@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should fill in the Bank Account POJO correctly" name="testBankAccountSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="41" timestamp="2015-07-08T23:32:19.227+01:00">
+<acceptance-test-run title="Podam should fill in the Bank Account POJO correctly" name="testBankAccountSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="48" timestamp="2015-07-10T00:17:38.689+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
     <tag name="Walk through example unit test" type="stories"/>
     <tag name="Walk through example unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="36">
+  <test-step result="SUCCESS" duration="43">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should fill the Article POJO correctly" name="testArticleSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="83" timestamp="2015-07-08T23:32:19.143+01:00">
+<acceptance-test-run title="Podam should fill the Article POJO correctly" name="testArticleSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="51" timestamp="2015-07-10T00:17:38.636+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
     <tag name="Walk through example unit test" type="stories"/>
     <tag name="Walk through example unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="78">
+  <test-step result="SUCCESS" duration="43">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.docs.example.Article</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="5">
     <description>Then the Article POJO should be correctly filled</description>
   </test-step>
 </acceptance-test-run>

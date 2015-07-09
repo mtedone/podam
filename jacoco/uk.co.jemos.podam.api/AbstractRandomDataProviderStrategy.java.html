@@ -245,7 +245,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		do {
 <span class="fc" id="L246">			retValue = (float) (minValue</span>
 <span class="fc" id="L247">					+ Math.random() * (maxValue - minValue + 1));</span>
-<span class="pc bpc" id="L248" title="1 of 2 branches missed.">		} while (retValue &gt; maxValue);</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">		} while (retValue &gt; maxValue);</span>
 <span class="fc" id="L249">		return retValue;</span>
 	}
 
@@ -317,7 +317,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		short retValue;
 		do {
 <span class="fc" id="L319">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="pc bpc" id="L320" title="1 of 2 branches missed.">		} while (retValue == 0);</span>
+<span class="fc bfc" id="L320" title="All 2 branches covered.">		} while (retValue == 0);</span>
 <span class="fc" id="L321">		return retValue;</span>
 	}
 
@@ -416,17 +416,17 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			/* No memoization for arrays, collections and maps */
 <span class="fc" id="L417">			Class&lt;?&gt; pojoClass = attributeMetadata.getPojoClass();</span>
 <span class="fc bfc" id="L418" title="All 2 branches covered.">			if (pojoClass == null ||</span>
-<span class="fc bfc" id="L419" title="All 2 branches covered.">					(!pojoClass.isArray() &amp;&amp;</span>
-<span class="fc bfc" id="L420" title="All 2 branches covered.">					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;</span>
-<span class="fc bfc" id="L421" title="All 2 branches covered.">					!Map.class.isAssignableFrom(pojoClass))) {</span>
+<span class="pc bpc" id="L419" title="1 of 2 branches missed.">					(!pojoClass.isArray() &amp;&amp;</span>
+<span class="pc bpc" id="L420" title="1 of 2 branches missed.">					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;</span>
+<span class="pc bpc" id="L421" title="1 of 2 branches missed.">					!Map.class.isAssignableFrom(pojoClass))) {</span>
 
 <span class="fc" id="L423">				ConcurrentMap&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
 <span class="fc bfc" id="L424" title="All 2 branches covered.">				if (map != null) {</span>
-<span class="fc bfc" id="L425" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
-<span class="fc bfc" id="L426" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
+<span class="pc bpc" id="L425" title="1 of 2 branches missed.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
+<span class="pc bpc" id="L426" title="1 of 2 branches missed.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
 <span class="fc" id="L427">							return entry.getValue();</span>
 						}
-<span class="fc" id="L429">					}</span>
+<span class="nc" id="L429">					}</span>
 				}
 			}
 		}
@@ -442,7 +442,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 <span class="fc bfc" id="L443" title="All 2 branches covered.">		if (isMemoizationEnabled) {</span>
 <span class="fc" id="L444">			ConcurrentMap&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
-<span class="fc bfc" id="L445" title="All 2 branches covered.">			if (map == null) {</span>
+<span class="pc bpc" id="L445" title="1 of 2 branches missed.">			if (map == null) {</span>
 <span class="fc" id="L446">				map = new ConcurrentHashMap&lt;Type[], Object&gt;();</span>
 
 <span class="fc" id="L448">				memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);</span>
