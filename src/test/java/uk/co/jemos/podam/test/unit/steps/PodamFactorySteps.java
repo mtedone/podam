@@ -252,4 +252,12 @@ public class PodamFactorySteps {
 
         return attributeMetadata;
     }
+
+    @Step("Given a Random Data Provider Strategy with memoization set to true")
+    public DataProviderStrategy givenADataProviderStrategyWithMemoizationSetToTrue() {
+
+        DataProviderStrategy strategy = new RandomDataProviderStrategyImpl();
+        strategy.setMemoization(true);
+        return strategy;
+    }
 }

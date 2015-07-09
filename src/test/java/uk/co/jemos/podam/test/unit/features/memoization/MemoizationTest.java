@@ -4,6 +4,7 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.MemoizationPojo;
 import uk.co.jemos.podam.test.dto.RecursivePojo;
@@ -25,7 +26,9 @@ public class MemoizationTest extends AbstractPodamSteps {
     @Title("When memoization is set to true Podam should return the same instance for different invocations")
     public void whenMemoizationIsTruePodamShouldReturnTheSameInstanceForDifferentInvocations() throws Exception {
 
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        DataProviderStrategy strategy = podamFactorySteps.givenADataProviderStrategyWithMemoizationSetToTrue();
+
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 
         SimplePojoToTestSetters pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForClass(
                 SimplePojoToTestSetters.class, podamFactory);
@@ -57,9 +60,11 @@ public class MemoizationTest extends AbstractPodamSteps {
 
     @Test
     @Title("Memoization should work for recursive Pojos")
-    public void memoizationShouldWorkForRecursiveOPojos() throws Exception {
+    public void memoizationShouldWorkForRecursivePojos() throws Exception {
 
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        DataProviderStrategy strategy = podamFactorySteps.givenADataProviderStrategyWithMemoizationSetToTrue();
+
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 
         RecursivePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursivePojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
@@ -70,7 +75,9 @@ public class MemoizationTest extends AbstractPodamSteps {
     @Title("Memoization should work with Generics")
     public void memoizationShouldWorkWithGenerics() throws Exception {
 
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        DataProviderStrategy strategy = podamFactorySteps.givenADataProviderStrategyWithMemoizationSetToTrue();
+
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 
         Holder<String> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 Holder.class, podamFactory, String.class);

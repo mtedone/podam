@@ -40,7 +40,7 @@ public final class RandomDataProviderStrategyImpl extends
 	 */
 	public RandomDataProviderStrategyImpl() {
 		super();
-		setMemoization(true);
+		setMemoization(false);
 	}
 
 	// ------------------->> Public methods
