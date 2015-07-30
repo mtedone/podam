@@ -10,13 +10,13 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>6.0.1.RELEASE</version>
+	<version>6.0.2-SNAPSHOT</version>
 	<name>podam</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.0.59</serenity.version>
-		<spring.version>4.1.7-SNAPSHOT</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
         <spring.integration.version>4.1.3.RELEASE</spring.integration.version>
 	</properties>
 
