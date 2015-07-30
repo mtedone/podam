@@ -436,7 +436,7 @@ public final class PodamUtils {
 
 		List<Annotation> retValue;
 		if (annotations != null && annotations.length != 0) {
-			retValue = Arrays.asList(annotations);
+			retValue = new ArrayList<Annotation>(Arrays.asList(annotations));
 		} else {
 			retValue = new ArrayList<Annotation>();
 		}
