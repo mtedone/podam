@@ -1,14 +1,14 @@
-<acceptance-test-run title="When given an external factory, Podam should be able to create instances of XMLGregorianCalendar" name="testXMLGregorianCalendarManufacturing" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="49" timestamp="2015-07-10T00:17:39.181+01:00">
+<acceptance-test-run title="When given an external factory, Podam should be able to create instances of XMLGregorianCalendar" name="testXMLGregorianCalendarManufacturing" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="63" timestamp="2015-09-27T14:32:33.081+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.xmlTypes.XMLDatatypeUnitTest" name="XML datatype unit test" path="uk.co.jemos.podam.test.unit.features.xmlTypes"/>
   <tags>
     <tag name="Xml types" type="epics"/>
     <tag name="Xml datatype unit test" type="stories"/>
     <tag name="XML datatype unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="43">
+  <test-step result="SUCCESS" duration="54">
     <description>Given a Podam factory with XML Types external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class javax.xml.datatype.XMLGregorianCalendar</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

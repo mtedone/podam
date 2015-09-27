@@ -1,4 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Class unit test","Podam should handle the manufacturing of POJOs with generic types in constructor","SUCCESS","2015-07-10T00:17:24.344+01:00","0.0","0.11"
-"Class unit test","Podam should handle the manufacturing of basic types","SUCCESS","2015-07-10T00:17:24.458+01:00","0.0","0.11"
-"Class unit test","Podam should handle the manufacturing of generic POJOs","SUCCESS","2015-07-10T00:17:24.571+01:00","0.0","0.15"
+"Class unit test","Podam should handle the manufacturing of POJOs with generic types in constructor","SUCCESS","2015-09-27T14:32:18.548+01:00","0.0","0.1"
+"Class unit test","Podam should handle the manufacturing of basic types","SUCCESS","2015-09-27T14:32:18.645+01:00","0.0","0.1"
+"Class unit test","Podam should handle the manufacturing of generic POJOs","SUCCESS","2015-09-27T14:32:18.742+01:00","0.0","0.11"

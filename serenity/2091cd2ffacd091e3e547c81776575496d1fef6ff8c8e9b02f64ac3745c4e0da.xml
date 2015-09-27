@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should fill in the Country POJO correctly" name="testCountrySetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="53" timestamp="2015-07-10T00:17:38.296+01:00">
+<acceptance-test-run title="Podam should fill in the Country POJO correctly" name="testCountrySetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-09-27T14:32:32.069+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
     <tag name="Walk through example unit test" type="stories"/>
     <tag name="Walk through example unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="42">
+  <test-step result="SUCCESS" duration="45">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">

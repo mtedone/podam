@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should fill arrays with elements" name="podamShouldFillArraysWithElements" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="75" timestamp="2015-07-10T00:17:25.844+01:00">
+<acceptance-test-run title="Podam should fill arrays with elements" name="podamShouldFillArraysWithElements" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="113" timestamp="2015-09-27T14:32:19.935+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="63">
+  <test-step result="SUCCESS" duration="99">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="7">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ArrayPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the given array should not be null or empty and contain elements of type kK3leJdcOd</description>
-  </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the given array should not be null or empty and contain elements of type java.lang.Object@5d8a0b6</description>
+    <description>Then the given array should not be null or empty and contain elements of type wD3COSRu7_</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the given array should not be null or empty and contain elements of type java.lang.Object@5022aaa3</description>
   </test-step>
 </acceptance-test-run>

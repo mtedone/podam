@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should not be able to create instances of an Abstract class if the external factory does not provide a concrete implementation" name="podamDoesNotCreateInstancesOfAbstractClassesIfExternalFactoryDoesNotDefineThem" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="108" timestamp="2015-07-10T00:17:33.416+01:00">
+<acceptance-test-run title="Podam should not be able to create instances of an Abstract class if the external factory does not provide a concrete implementation" name="podamDoesNotCreateInstancesOfAbstractClassesIfExternalFactoryDoesNotDefineThem" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="75" timestamp="2015-09-27T14:32:27.161+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,19 +8,19 @@
   <test-step result="SUCCESS" duration="3">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="88">
+  <test-step result="SUCCESS" duration="56">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.AbstractClass</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the object should be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;1 and 1&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.AbstractClass and class uk.co.jemos.podam.test.dto.AbstractClass&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

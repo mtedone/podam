@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="128" timestamp="2015-07-10T00:17:21.398+01:00">
+<acceptance-test-run title="Podam should handle immutable POJOs annotated with @PodamConstructor" name="podamShouldHandleImmutablePojosAnnotatedWithPodamConstructor" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="98" timestamp="2015-09-27T14:32:15.888+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="81">
+  <test-step result="SUCCESS" duration="64">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="24">
+  <test-step result="SUCCESS" duration="15">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -26,7 +26,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the long[] array should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>The long value cannot be zero</description>
   </test-step>
 </acceptance-test-run>

@@ -1,4 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Extensions test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2015-07-10T00:17:32.481+01:00","0.0","0.07"
-"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2015-07-10T00:17:32.547+01:00","0.0","0.07"
-"Non EJB pojo test","Podam should handle attributes in accordance with custom Class Info Strategies","SUCCESS","2015-07-10T00:17:32.834+01:00","0.0","0.07"
+"Extensions test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2015-09-27T14:32:26.248+01:00","0.0","0.07"
+"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2015-09-27T14:32:26.318+01:00","0.0","0.06"
+"Non EJB pojo test","Podam should handle attributes in accordance with custom Class Info Strategies","SUCCESS","2015-09-27T14:32:26.655+01:00","0.0","0.06"

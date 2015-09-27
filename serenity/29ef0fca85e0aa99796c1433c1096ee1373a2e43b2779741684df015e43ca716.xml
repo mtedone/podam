@@ -1,4 +1,4 @@
-<acceptance-test-run title="Creating a Random Data Provider Strategy should create a Method light comparator" name="creatingARandomDataProviderStrategyShouldCreateAMethodLightComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10" timestamp="2015-07-10T00:17:30.643+01:00">
+<acceptance-test-run title="Creating a Random Data Provider Strategy should create a Method light comparator" name="creatingARandomDataProviderStrategyShouldCreateAMethodLightComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2015-09-27T14:32:24.854+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
@@ -15,6 +15,6 @@
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;&lt;null&gt; and &lt;null&gt;&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.common.MethodLightFirstComparator@7e70042 and uk.co.jemos.podam.common.MethodLightFirstComparator@7e70042&lt;/span&gt; should be equal</description>
+    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.common.MethodLightFirstComparator@5a52e060 and uk.co.jemos.podam.common.MethodLightFirstComparator@5a52e060&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

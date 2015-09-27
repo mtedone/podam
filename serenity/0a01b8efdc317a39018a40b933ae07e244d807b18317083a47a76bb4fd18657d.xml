@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should handle both native and wrapped long values with @PodamLongValue annotation" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="123" timestamp="2015-07-10T00:17:21.770+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped long values with @PodamLongValue annotation" name="podamShouldHandleLongValues" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="103" timestamp="2015-09-27T14:32:16.193+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="76">
+  <test-step result="SUCCESS" duration="62">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="6">
@@ -18,33 +18,33 @@
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;18 should be less than 100&lt;/span&gt;</description>
+    <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;23 should be less than 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the long field 271&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the long field 359&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0&lt;/span&gt; should be greater or equal to zero</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;20&lt;/span&gt; should not be null</description>
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;51&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the long field &lt;span class=&apos;step-parameter&apos;&gt;0 should be less than 100&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
-    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;114&lt;/span&gt; should not be null</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;479&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the long field 114&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
+    <description>Then the long field 479&lt;/span&gt; should have a value comprised between &lt;span class=&apos;step-parameter&apos;&gt;0 and 1000</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the long value should be precisely 12345678912&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the long object value &lt;span class=&apos;step-parameter&apos;&gt;12345678912&lt;/span&gt; should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

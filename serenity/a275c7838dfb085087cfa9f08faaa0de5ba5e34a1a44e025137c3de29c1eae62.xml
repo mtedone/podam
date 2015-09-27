@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should return a null value for non instantiable POJOs" name="podamShouldReturnANullValueForNonInstantiablePojos" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="51" timestamp="2015-07-10T00:17:31.441+01:00">
+<acceptance-test-run title="Podam should return a null value for non instantiable POJOs" name="podamShouldReturnANullValueForNonInstantiablePojos" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="50" timestamp="2015-09-27T14:32:25.634+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
@@ -11,7 +11,7 @@
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.NonInstantiatableClass</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the object should be null</description>
   </test-step>
 </acceptance-test-run>

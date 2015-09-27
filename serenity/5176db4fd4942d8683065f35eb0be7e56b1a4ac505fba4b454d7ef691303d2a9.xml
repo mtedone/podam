@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam Messaging System should return a Short wrapped value" name="podamMessagingSystemShouldReturnAShortWrappedValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="65" timestamp="2015-07-10T00:17:36.956+01:00">
+<acceptance-test-run title="Podam Messaging System should return a Short wrapped value" name="podamMessagingSystemShouldReturnAShortWrappedValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-09-27T14:32:30.726+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.typeManufacturing.TypeManufacturingTest" name="Type manufacturing test" path="uk.co.jemos.podam.test.unit.features.typeManufacturing"/>
   <tags>
     <tag name="Type manufacturing" type="epics"/>
@@ -17,7 +17,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given a Message Channel to manufacture types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

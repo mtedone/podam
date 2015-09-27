@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor" name="podamShouldHandleConstructorsWithOneOrMoreSelfReferences" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="112" timestamp="2015-07-10T00:17:21.655+01:00">
+<acceptance-test-run title="Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor" name="podamShouldHandleConstructorsWithOneOrMoreSelfReferences" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="96" timestamp="2015-09-27T14:32:16.095+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="74">
+  <test-step result="SUCCESS" duration="68">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="21">
+  <test-step result="SUCCESS" duration="14">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

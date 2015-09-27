@@ -1,26 +1,26 @@
-<acceptance-test-run title="When memoization is set to false Podam should return different instances for different invocations" name="whenMemoizationIsFalsePodamShouldReturnDifferentInstancesForDifferentInvocations" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="54" timestamp="2015-07-10T00:17:35.088+01:00">
+<acceptance-test-run title="When memoization is set to false Podam should return different instances for different invocations" name="whenMemoizationIsFalsePodamShouldReturnDifferentInstancesForDifferentInvocations" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-09-27T14:32:28.672+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
     <tag name="Memoization test" type="stories"/>
     <tag name="Memoization test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="43">
+  <test-step result="SUCCESS" duration="50">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects should be different</description>
   </test-step>
 </acceptance-test-run>

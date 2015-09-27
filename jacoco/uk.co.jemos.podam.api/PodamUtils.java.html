@@ -435,7 +435,7 @@ public final class PodamUtils {
 
 		List&lt;Annotation&gt; retValue;
 <span class="fc bfc" id="L437" title="All 4 branches covered.">		if (annotations != null &amp;&amp; annotations.length != 0) {</span>
-<span class="fc" id="L438">			retValue = Arrays.asList(annotations);</span>
+<span class="fc" id="L438">			retValue = new ArrayList&lt;Annotation&gt;(Arrays.asList(annotations));</span>
 		} else {
 <span class="fc" id="L440">			retValue = new ArrayList&lt;Annotation&gt;();</span>
 		}

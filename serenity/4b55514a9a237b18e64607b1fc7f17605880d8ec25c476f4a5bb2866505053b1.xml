@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="63" timestamp="2015-07-10T00:17:28.769+01:00">
+<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="67" timestamp="2015-09-27T14:32:23.155+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="48">
+  <test-step result="SUCCESS" duration="51">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -18,12 +18,12 @@
     <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[key should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the List should have exactly sOmb8gBK8h elements</description>
+    <description>Then the List should have exactly 2z860vn2l8 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{8Y38iioO1U=-737163785 should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{NXnI9jDR0T=-703530143 should contain at least one non empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the map should have exactly 5tfGceIc0w=763181768 elements</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the map should have exactly 2tBlVkNlZF=322350585 elements</description>
   </test-step>
 </acceptance-test-run>

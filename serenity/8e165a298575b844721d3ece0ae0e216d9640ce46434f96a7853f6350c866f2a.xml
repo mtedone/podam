@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should be able to fill in POJOs with raw type collection attributes and default values to Object" name="podamShouldBeAbleToFillInPojosWithRawTypeCollectionAttributesAndDefaultValueToObject" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-07-10T00:17:26.984+01:00">
+<acceptance-test-run title="Podam should be able to fill in POJOs with raw type collection attributes and default values to Object" name="podamShouldBeAbleToFillInPojosWithRawTypeCollectionAttributesAndDefaultValueToObject" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-09-27T14:32:21.247+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
@@ -8,16 +8,16 @@
   <test-step result="SUCCESS" duration="53">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ReadOnlyRawFieldsPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type java.lang.Object@28feec4f</description>
+    <description>Then the collection should not be null or empty and each element should be of type java.lang.Object@5ce4c15a</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Map should not be null or empty and each element should have key of type java.lang.Object@1d3433c7=java.lang.Object@561deed3 and value of type java.lang.Object@1aed255e=java.lang.Object@1319b8b9</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map should not be null or empty and each element should have key of type java.lang.Object@6d54bb1=java.lang.Object@5f2cccc0 and value of type java.lang.Object@33a8ae90=java.lang.Object@1adac232</description>
   </test-step>
 </acceptance-test-run>

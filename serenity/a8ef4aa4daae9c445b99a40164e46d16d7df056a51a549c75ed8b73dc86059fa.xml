@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should be able to manufacture instances of the Observable class" name="podamShouldBeAbleToManufactureInstancesOfTheObservableClass" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="59" timestamp="2015-07-10T00:17:28.360+01:00">
+<acceptance-test-run title="Podam should be able to manufacture instances of the Observable class" name="podamShouldBeAbleToManufactureInstancesOfTheObservableClass" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="66" timestamp="2015-09-27T14:32:22.762+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="54">
+  <test-step result="SUCCESS" duration="59">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class java.util.Observable</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
 </acceptance-test-run>

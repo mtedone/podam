@@ -1,4 +1,4 @@
-<acceptance-test-run title="Memoization should work with Generics" name="memoizationShouldWorkWithGenerics" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="56" timestamp="2015-07-10T00:17:35.335+01:00">
+<acceptance-test-run title="Memoization should work with Generics" name="memoizationShouldWorkWithGenerics" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="72" timestamp="2015-09-27T14:32:29.002+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
@@ -8,10 +8,10 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given a Random Data Provider Strategy with memoization set to true</description>
   </test-step>
-  <test-step result="SUCCESS" duration="40">
+  <test-step result="SUCCESS" duration="50">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -20,13 +20,13 @@
   <test-step result="SUCCESS" duration="2">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>Then the two objects should be strictly equal (e.g. according to == operator)</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects should be strictly equal (e.g. according to == operator)</description>
   </test-step>
 </acceptance-test-run>

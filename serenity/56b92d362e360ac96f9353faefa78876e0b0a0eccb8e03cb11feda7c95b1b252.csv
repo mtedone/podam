@@ -1,4 +1,4 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Multiple interfaces inheritance test","Podam cannot instantiate interfaces","SUCCESS","2015-07-10T00:17:34.771+01:00","0.0","0.06"
-"Multiple interfaces inheritance test","Podam cannot instantiate interfaces which extend Map","SUCCESS","2015-07-10T00:17:34.631+01:00","0.0","0.06"
-"Multiple interfaces inheritance test","Podam will create an instance of a POJO but its interface types won't be instantiated","SUCCESS","2015-07-10T00:17:34.693+01:00","0.0","0.08"
+"Multiple interfaces inheritance test","Podam cannot instantiate interfaces","SUCCESS","2015-09-27T14:32:28.323+01:00","0.0","0.06"
+"Multiple interfaces inheritance test","Podam cannot instantiate interfaces which extend Map","SUCCESS","2015-09-27T14:32:28.194+01:00","0.0","0.06"
+"Multiple interfaces inheritance test","Podam will create an instance of a POJO but its interface types won't be instantiated","SUCCESS","2015-09-27T14:32:28.255+01:00","0.0","0.07"

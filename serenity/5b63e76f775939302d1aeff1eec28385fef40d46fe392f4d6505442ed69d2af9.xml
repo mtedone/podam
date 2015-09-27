@@ -1,17 +1,17 @@
-<acceptance-test-run title="The ClassInfo object created for a class should handle @PodamExcludeAnnotations" name="inPresenceOfExcludeAnnotationsTheClassInfoObjectShouldContainAValidSetOfPojoAttributes" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="11" timestamp="2015-07-10T00:17:26.692+01:00">
+<acceptance-test-run title="The ClassInfo object created for a class should handle @PodamExcludeAnnotations" name="inPresenceOfExcludeAnnotationsTheClassInfoObjectShouldContainAValidSetOfPojoAttributes" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="14" timestamp="2015-09-27T14:32:20.929+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>
     <tag name="Class info test" type="stories"/>
     <tag name="Class info test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>Given a Set of annotations to be excluded</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Given a ClassInfo with excluded annotations and excluded fields</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="4">

@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should be able to create instances of Hash Maps" name="testHashMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="59" timestamp="2015-07-10T00:17:27.819+01:00">
+<acceptance-test-run title="Podam should be able to create instances of Hash Maps" name="testHashMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="55" timestamp="2015-09-27T14:32:22.016+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="48">
+  <test-step result="SUCCESS" duration="45">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="4">

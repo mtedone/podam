@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should not create instances of an interface when given an external factory which does not manufacture the concrete type" name="podamShouldNotBeAbleToCreateInterfaceInstancesGivenAnExternalFactoryWhichDoesNotManufactureTheConcreteType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="72" timestamp="2015-07-10T00:17:33.653+01:00">
+<acceptance-test-run title="Podam should not create instances of an interface when given an external factory which does not manufacture the concrete type" name="podamShouldNotBeAbleToCreateInterfaceInstancesGivenAnExternalFactoryWhichDoesNotManufactureTheConcreteType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="76" timestamp="2015-09-27T14:32:27.315+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,22 +8,22 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="54">
+  <test-step result="SUCCESS" duration="57">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.InterfacePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the object should be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;1 and 1&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.InterfacePojo and interface uk.co.jemos.podam.test.dto.InterfacePojo&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;0 and 0&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

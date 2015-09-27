@@ -1,35 +1,35 @@
-<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="107" timestamp="2015-07-10T00:17:21.998+01:00">
+<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="92" timestamp="2015-09-27T14:32:16.407+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="75">
+  <test-step result="SUCCESS" duration="62">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="9">
+  <test-step result="SUCCESS" duration="10">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[P9cbeykNOF should not be null and contain at least one non-empty element</description>
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[BQJEgmCKqm should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>Then the List should have exactly F59NRUtPwE elements</description>
+    <description>Then the List should have exactly H0K9Eis8vv elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the array should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the array should have exactly PwjbFbxK79 elements</description>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the array should have exactly SBmO14I5Vl elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{p1UT4akxLQ=rLns3uHroX should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{dMU5Thq6z4=7Kg28iwfwr should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the map should have exactly nhrfVdDrn_=fLkNvlS7DF elements</description>
+    <description>Then the map should have exactly sKe2eTUHRl=gwQbR_WM2A elements</description>
   </test-step>
 </acceptance-test-run>

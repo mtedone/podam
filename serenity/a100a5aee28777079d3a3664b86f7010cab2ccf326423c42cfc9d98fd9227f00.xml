@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="72" timestamp="2015-07-10T00:17:33.726+01:00">
+<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="144" timestamp="2015-09-27T14:32:27.392+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,16 +8,16 @@
   <test-step result="SUCCESS" duration="2">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="52">
+  <test-step result="SUCCESS" duration="55">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory to manufacture &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithInterfaces with the fullest constructor</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="72">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;2 and 2&lt;/span&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle the manufacturing of basic types" name="podamShouldHandleTheManufacturingOfBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="111" timestamp="2015-07-10T00:17:24.458+01:00">
+<acceptance-test-run title="Podam should handle the manufacturing of basic types" name="podamShouldHandleTheManufacturingOfBasicTypes" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="96" timestamp="2015-09-27T14:32:18.645+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.ClassUnitTest" name="Class unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Class unit test" type="stories"/>
     <tag name="Class unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="98">
+  <test-step result="SUCCESS" duration="78">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ClassPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">

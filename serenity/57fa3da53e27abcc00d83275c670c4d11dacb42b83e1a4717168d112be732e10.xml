@@ -1,14 +1,14 @@
-<acceptance-test-run title="Podam should handle both native and wrapped float values with @PodamFloatValue annotation" name="podamShouldHandleFloatValuesWithThePodamFloatValueAnnotation" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="123" timestamp="2015-07-10T00:17:21.530+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped float values with @PodamFloatValue annotation" name="podamShouldHandleFloatValuesWithThePodamFloatValueAnnotation" steps="15" successful="15" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="105" timestamp="2015-09-27T14:32:15.988+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="74">
+  <test-step result="SUCCESS" duration="63">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="7">
+  <test-step result="SUCCESS" duration="6">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.FloatValuePojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -18,10 +18,10 @@
     <description>Then the Float value &lt;span class=&apos;step-parameter&apos;&gt;0.0 should be greater or equal than 0.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;26.245678 should be lower or equal than 100.0&lt;/span&gt;</description>
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;36.721798 should be lower or equal than 100.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;644.63245 should be between 0.0 and 1000.0&lt;/span&gt;</description>
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;898.882 should be between 0.0 and 1000.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
@@ -29,17 +29,17 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Float value &lt;span class=&apos;step-parameter&apos;&gt;0.0 should be greater or equal than 0.0&lt;/span&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;91.167305 should be lower or equal than 100.0&lt;/span&gt;</description>
-  </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;388.03467 should be between 0.0 and 1000.0&lt;/span&gt;</description>
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;42.967453 should be lower or equal than 100.0&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="2">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="3">
+    <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;237.15564 should be between 0.0 and 1000.0&lt;/span&gt;</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;123456.0 should be precisely 123456.0&lt;/span&gt;</description>
@@ -47,7 +47,7 @@
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the float value &lt;span class=&apos;step-parameter&apos;&gt;123456.0 should be precisely 123456.0&lt;/span&gt;</description>
   </test-step>
 </acceptance-test-run>

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should be able to manufacture any type of Lists" name="podamShouldBeAbleToManufactureAnyTypeOfCollections" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="84" timestamp="2015-07-10T00:17:28.567+01:00">
+<acceptance-test-run title="Podam should be able to manufacture any type of Lists" name="podamShouldBeAbleToManufactureAnyTypeOfCollections" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="114" timestamp="2015-09-27T14:32:22.983+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="74">
+  <test-step result="SUCCESS" duration="58">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="49">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should not be null or empty and each element should be of type SMQvyzHq5U</description>
+    <description>Then the collection should not be null or empty and each element should be of type eijRioqaR0</description>
   </test-step>
 </acceptance-test-run>
