@@ -31,6 +31,19 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getVector(), String.class);
 	}
+
+	@Test
+	@Title("Podam should handle several generics in the constructor")
+	public void podamShouldHandleSeveralGenericsInConstructor() throws Exception {
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+		GenericsInConstructorPojo pojo
+				= podamInvocationSteps.whenIInvokeTheFactoryForClass(GenericsInConstructorPojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getObjVector(), Object.class);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getStrVector(), String.class);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getIntVector(), Integer.class);
+	}
+
 	@Test
 	@Title("Podam should handle generics in setters during Pojo instantiation")
 	public void podamShouldHandleGenericsInSettersDuringPojoInstantiation() throws Exception {

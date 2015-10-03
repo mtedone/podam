@@ -1,5 +1,8 @@
 package uk.co.jemos.podam.test.unit.steps;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 import org.springframework.util.StringUtils;
@@ -15,13 +18,15 @@ import java.util.concurrent.ConcurrentMap;
 public class PodamValidationSteps {
 
     @Step("Then the Object should not be null")
-    public boolean theObjectShouldNotBeNull(Object pojo) {
-        return pojo == null;
+    public void theObjectShouldNotBeNull(Object pojo) {
+        assertThat(pojo, is(notNullValue()));
     }
 
     @Step("Then the Pojo should contain some data")
-    public boolean thePojoShouldContainSomeData(Object pojo) {
-        return pojo.getClass().getDeclaredFields()[0] != null;
+    public void thePojoShouldContainSomeData(Object pojo) {
+        assertThat(
+                pojo.getClass().getDeclaredFields(),
+                arrayWithSize(greaterThan(0)));
     }
 
     @Step("Then the Pojo should be null")
