@@ -1,6 +1,5 @@
 package uk.co.jemos.podam.test.dto.issue123;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -11,15 +10,17 @@ public class GenericCollectionsConstructorPojo {
 
     private final List<Long> list1;
     private final List<String> list2;
+    private final List<?> list3;
 
     /**
      * Full constructor
      * @param list1 First List
      * @param list2 Second List
      */
-    public GenericCollectionsConstructorPojo(List<Long> list1, List<String> list2) {
-        this.list1  = new ArrayList<Long>(list1);
-        this.list2 = new ArrayList<String>(list2);
+    public GenericCollectionsConstructorPojo(List<Long> list1, List<String> list2, List<?> list3) {
+        this.list1  = new Vector<Long>(list1);
+        this.list2 = new Vector<String>(list2);
+        this.list3 = new Vector<Object>(list3);
     }
 
     public Vector<Long> getList1() {
@@ -30,11 +31,16 @@ public class GenericCollectionsConstructorPojo {
         return new Vector<String>(list2);
     }
 
+    public Vector<?> getList3() {
+        return new Vector<Object>(list3);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GenericCollectionsConstructorPojo{");
         sb.append("list1=").append(list1);
         sb.append(", list2=").append(list2);
+        sb.append(", list3=").append(list3);
         sb.append('}');
         return sb.toString();
     }
