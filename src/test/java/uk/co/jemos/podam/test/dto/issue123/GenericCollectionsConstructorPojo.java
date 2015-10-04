@@ -8,19 +8,19 @@ import java.util.Vector;
  */
 public class GenericCollectionsConstructorPojo {
 
-    private final List<Long> list1;
+    private final Vector<Long> list1;
     private final List<String> list2;
-    private final List<?> list3;
+    private final Vector<Integer> list3;
 
     /**
      * Full constructor
      * @param list1 First List
      * @param list2 Second List
      */
-    public GenericCollectionsConstructorPojo(List<Long> list1, List<String> list2, List<?> list3) {
+    public GenericCollectionsConstructorPojo(Vector<Long> list1, Vector<String> list2, Vector<Integer> list3) {
         this.list1  = new Vector<Long>(list1);
         this.list2 = new Vector<String>(list2);
-        this.list3 = new Vector<Object>(list3);
+        this.list3 = new Vector<Integer>(list3);
     }
 
     public Vector<Long> getList1() {
@@ -31,8 +31,8 @@ public class GenericCollectionsConstructorPojo {
         return new Vector<String>(list2);
     }
 
-    public Vector<?> getList3() {
-        return new Vector<Object>(list3);
+    public Vector<Integer> getList3() {
+        return new Vector<Integer>(list3);
     }
 
     @Override
