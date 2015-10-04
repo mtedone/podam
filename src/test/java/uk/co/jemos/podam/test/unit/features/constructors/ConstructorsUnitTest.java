@@ -2,6 +2,7 @@ package uk.co.jemos.podam.test.unit.features.constructors;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -301,6 +302,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Ignore("Until issue #125 has been resolved")
     @Title("Podam should correctly handle generic collections in constructor with memoization enabled")
     public void podamShouldHandleGenericCollectionsInConstructorWithMemoizationEnabled() throws Exception {
 
@@ -312,8 +314,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList1(), Long.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList2(), String.class);
-        //podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList3(), Object
-        //        .class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList3(), Integer
+                .class);
 
     }
 

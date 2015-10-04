@@ -8,9 +8,9 @@ import java.util.Vector;
  */
 public class GenericCollectionsConstructorPojo {
 
-    private final Vector<Long> list1;
+    private final List<Long> list1;
     private final List<String> list2;
-    private final Vector<Integer> list3;
+    private final List<Integer> list3;
 
     /**
      * Full constructor
