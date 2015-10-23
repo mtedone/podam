@@ -3,7 +3,7 @@ machine:
    version: openjdk7
   
     
-    test:
+test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit
     - cp /target/surefire-reports/*.xml $CIRCLE_TEST_REPORTS/junit
