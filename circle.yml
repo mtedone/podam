@@ -7,7 +7,4 @@ machine:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit
     - cp /target/surefire-reports/*.xml $CIRCLE_TEST_REPORTS/junit
-general:
-  artifacts:
-    - "test" # relative to the build directory
     
