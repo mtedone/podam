@@ -11,6 +11,3 @@ general:
   artifacts:
     - "test" # relative to the build directory
     
- 
-  general:
-  build_dir: src
