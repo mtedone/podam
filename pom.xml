@@ -163,7 +163,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+				
 				</configuration>
 			</plugin>
 			<plugin>
@@ -177,7 +177,7 @@
 					<footer>Jemos 2002 - 2014: All Rights Reserved. Podam runs under
 						the MIT license</footer>
 					<additionalparam>${javadoc.opts}</additionalparam>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					
 				</configuration>
 			</plugin>
 			<plugin>
@@ -224,7 +224,7 @@
 						<descriptor>src/main/assembly/project.xml</descriptor>
 						<descriptor>src/main/assembly/bin.xml</descriptor>
 					</descriptors>
-					<redirectTestOutputToFile>true</redirectTestOutputToFile>
+					
 				</configuration>
 			</plugin>					
 			<plugin>
