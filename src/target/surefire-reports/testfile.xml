@@ -1,8 +1,5 @@
 
-<testsuite failures="0" time="0.723" errors="0" skipped="0" tests="4" name="soapui.SoapUITest">
-<properties>...</properties>
-<testcase time="0.279" classname="soapui.SoapUITest" name="simpleSearchTestCase"/>
-<testcase time="0.144" classname="soapui.SoapUITest" name="simpleLoginAndLogoutPropExpansion"/>
-<testcase time="0.162" classname="soapui.SoapUITest" name="simpleLoginAndLogoutAndLoginAgain"/>
-<testcase time="0.138" classname="soapui.SoapUITest" name="simpleLoginAndLogoutWithPropSteps"/>
+<testsuite failures="0" time="0" errors="0" skipped="0" tests="" name="">
+<properties></properties>
+
 </testsuite>
