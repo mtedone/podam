@@ -1,6 +1,6 @@
 machine:
   java:
-   version: openjdk8
+   version: openjdk7
   
 test:
   post:
