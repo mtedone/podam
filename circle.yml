@@ -4,8 +4,8 @@ machine:
   
 test:
   post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/test/resources/test/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - mkdir -p $CIRCLE_TEST_REPORTS/test/
+    - find . -type f -regex ".*/resources.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/test/ \;
     
 general:
   artifacts:
