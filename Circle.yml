@@ -1,3 +1,6 @@
+general:
+  build_dir: api;
+
 + post:
 + - mkdir -p $CIRCLE_TEST_REPORTS/junit/
 + - find . -type f -regex ".*/target/.*-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
