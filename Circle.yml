@@ -1,4 +1,10 @@
 test:
+<<<<<<< HEAD
+ post:
+   - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+   - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+=======
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - bundle exec cucumber --format json --out $CIRCLE_TEST_REPORTS/cucumber/tests.cucumber
+>>>>>>> parent of 5c7c481... Changes in Circle.yml file
