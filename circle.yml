@@ -2,21 +2,5 @@ test:
  post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-deployment:
-  production:
-    branch: production
-    commands:
-      - ./deploy_prod.sh
-  staging:
-    branch: master
-    commands:
-      - ./deploy_staging.sh
- machine:
-  java:
-    version: openjdk7
-    version: openjdk6
-    version: openjdk8
-    version: openjdk5
-    maven 3.2.1
-    
+
  
