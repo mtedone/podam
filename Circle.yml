@@ -2,3 +2,16 @@ test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+  machine:
+  java:
+    version: openjdk7
+    version: openjdk8
+    
+  checkout:
+  post:
+    - mv config/.app.yml config/app.yml
+  
+  post:
+    - bundle exec rake spinach:
+        environment:
+          RAILS_ENV: test
