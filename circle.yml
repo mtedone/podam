@@ -1,6 +1,6 @@
 test:
   override:
-    -podam podam/src/test/resources/log4j2.xml
+    -podam/src/test/resources/log4j2.xml
     
   post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
