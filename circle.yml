@@ -1,4 +1,8 @@
 test:
+  override:
+    - podam/src/test/resources/log4j2.xml
+    - podam/src/test/resources/podam-test-appContext.xml
+    
  post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
