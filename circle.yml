@@ -1,6 +1,6 @@
 test:
   override:
-    - podam
+    
     
   post:
    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
