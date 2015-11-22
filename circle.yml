@@ -1,1 +1,10 @@
 
+dependencies:
+  pre:
+    - sudo curl -L -o /usr/bin/docker 'http://s3-external-1.amazonaws.com/circle-downloads/docker-1.6.0-circleci'; chmod 0755 /usr/bin/docker; true
+    - sudo service docker start
+
+test:
+  override:
+    - ./dcycle/deploy.sh -p80 -etest
+    
