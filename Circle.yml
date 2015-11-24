@@ -1,13 +1,16 @@
 general:
-build_dir: api
+  build_dir: app2
+  curl -X POST --header "Content-Type: application/json" -d '{"hostname":"hostname","private_key":"RSA private key"}' https://circleci.com/api/v1/project/:username/:project/ssh-key?circle-token=:token
 test:
+  override:
+  - mvn clean
+  - mvn dependency:resolve
+  - mvn test -Dtest=UnitTestSuite
+  - mvn test -Dtest=IntegrationTestSuite
   post:
-  - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-  - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-dependencies:
-  override:
-  - exit 0
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+[MAVENSMATE UI]: {"id": "v1quc21w", "status": "pending"}
+[MAVENSMATE UI]: >>> got a response body
+[MAVENSMATE UI]: {"body": "<div id=\"warnings_wrapper\"><!-- WARNINGS --><div class=\"alert-message block-message-custom white\" style=\"margin-bottom:0px;padding: 5px;-webkit-border-radius: 4px 4px 0px 0px;\"><p style=\"float:left;\"><strong>Test Coverage Warnings</strong></p><div style=\"clear:both;\"></div></div><table class=\"table table-striped test_result\" style=\"-webkit-border-radius: 0px 0px 4px 4px;\"><thead><tr><th>Metadata</th><th>Message</th></tr></thead><tbody></tbody></table><!-- END WARNINGS --></div><div id=\"class_wrapper\"><!-- START CLASS PROCESSING --><!-- END CLASS PROCESSING --></div><div id=\"trigger_wrapper\"><!-- START TRIGGER PROCESSING --><!-- END TRIGGER PROCESSING --></div><div id=\"log_wrapper\" style=\"position:relative;\"><a href=\"javascript:void(0)\" class=\"btn btn-success btn-embossed\" onclick=\"$('#log_selector').selectText();\" style=\"padding: 3px 5px;font-size: .9em;top:0;right:10px;position:absolute;\">Select Log Text</a><div style=\"padding:10px;\" id=\"log_selector\">Log&nbsp;not&nbsp;available.</div></div><script>\n\t$(\".stack-trace-tip\").popover({})\n</script>", "body_type": "html", "success": true, "time": "8.158194065093994"}
 
-test:
-  override:
-  - exit 0
