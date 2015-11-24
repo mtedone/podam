@@ -1,6 +1,6 @@
-+{ "podam" :
-+  { "install" : "podam/install.js"
-+  , "postinstall" : "podam/install.js"
-+  , "uninstall" : "podam/uninstall.js"
-+  }
-+}
+{ "podam" :
+  { "install" : "podam/install.js"
+  , "postinstall" : "podam/install.js"
+  , "uninstall" : "podam/uninstall.js"
+  }
+}
