@@ -54,7 +54,8 @@ public class PodamFactoryInjectionIntegrationTest
 		Assert.assertTrue("The int field cannot be zero!", intField != 0);
 
 		String stringField = pojo.getStringField();
-		Assert.assertNotNull("The string field cannot be null!", stringField);
+		/*Made this Change on purpose to see the TestFailure Table in Circle CI*/
+		Assert.assertNull("The string field cannot be null!", stringField);
 	}
 
 	// ------------------->> Getters / Setters
