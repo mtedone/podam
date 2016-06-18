@@ -260,4 +260,13 @@ public class PodamFactorySteps {
         strategy.setMemoization(true);
         return strategy;
     }
+
+    @Step("Given a Standard Podam Factory with memoization enabled")
+    public PodamFactory givenAStandardPodamFactoryWithMemoizationEnabled() {
+
+        DataProviderStrategy strategyWithMemoization = givenADataProviderStrategyWithMemoizationSetToTrue();
+        PodamFactory podamFactory = new PodamFactoryImpl(strategyWithMemoization);
+        return podamFactory;
+
+    }
 }
