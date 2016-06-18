@@ -1,0 +1,15 @@
+machine:
+  ruby:
+    version: rbx-2.2.6
+
+general:
+   artifacts:
+     - $CIRCLE_TEST_REPORTS
+     - target
+     
+test:
+  override:
+    - mvn clean install
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
