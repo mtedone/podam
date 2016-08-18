@@ -238,7 +238,7 @@ public final class PodamUtils {
 	 * @param excludedFields
 	 *            The {@link Set} containing field names to be excluded
 	 */
-	public static void fillPojoSets(Class<?> clazz, Set<Field> classFields,
+	private static void fillPojoSets(Class<?> clazz, Set<Field> classFields,
 			Set<Method> classGetters, Set<Method> classSetters,
 			Set<Class<? extends Annotation>> excludeAnnotations,
 			Set<String> excludedFields) {
@@ -250,7 +250,7 @@ public final class PodamUtils {
 
 		Class<?> workClass = clazz;
 
-		while (workClass != null) {
+		while (!Object.class.equals(workClass)) {
 
 			Method[] declaredMethods = workClass.getDeclaredMethods();
 
