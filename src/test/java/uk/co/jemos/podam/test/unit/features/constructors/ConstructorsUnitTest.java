@@ -302,7 +302,6 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
     }
 
     @Test
-    @Ignore("Until issue #125 has been resolved")
     @Title("Podam should correctly handle generic collections in constructor with memoization enabled")
     public void podamShouldHandleGenericCollectionsInConstructorWithMemoizationEnabled() throws Exception {
 
