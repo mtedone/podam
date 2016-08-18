@@ -1984,7 +1984,7 @@ public class PodamFactoryImpl implements PodamFactory {
      * @param manufacturingCtx The manufacturing context
      * @param genericTypeArgs The generic type arguments map
      * @param <T> The type of the value to be returned
-     * @return
+     * @return a value or null, if manufacturing didn't succeed
      * @throws InstantiationException If a problem occurred while instantiating the object
      * @throws IllegalAccessException If a problem occurred while instantiating the object
      * @throws InvocationTargetException If a problem occurred while instantiating the object

@@ -72,7 +72,9 @@ public final class TypeManufacturerUtil {
      * @param channel The Message Channel where to send/receive the message for the required value
      * @param attributeMetadata The AttributeMetadata information
      * @param genericAttributeType The generic attribute type
-     *@param qualifier The class of the requested type  @return The type value
+     * @param genericTypesArgumentsMap The generic attribute type argument types
+     * @param qualifier The class of the requested type  @return The type value
+     * @return value for a specified type
      */
     public static Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
                                                      MessageChannel channel,
@@ -100,6 +102,8 @@ public final class TypeManufacturerUtil {
      * It returns a {@link AttributeStrategy} if one was specified in
      * annotations, or {@code null} otherwise.
      *
+     * @param strategy
+     *            The data provider strategy
      * @param annotations
      *            The list of annotations
      * @param attributeType
@@ -252,6 +256,8 @@ public final class TypeManufacturerUtil {
      * Searches for annotation with information about collection/map size
      * and filling strategies
      *
+     * @param strategy
+     *        a data provider strategy
      * @param annotations
      *        a list of annotations to inspect
      * @param collectionElementType
