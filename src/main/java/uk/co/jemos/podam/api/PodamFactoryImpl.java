@@ -490,16 +490,15 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		LOG.debug("Manufacturing {} with parameters {}",
-				pojoClass, Arrays.toString(genericTypeArgs));
-
-		T retValue = null;
-
 		// reuse object from memoization table
 		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);
 		if (objectToReuse != null) {
-			LOG.debug("Fetched memoized object for {}", pojoClass);
+			LOG.debug("Fetched memoized object for {} with parameters {}",
+					pojoClass, Arrays.toString(genericTypeArgs));
 			return objectToReuse;
+		} else {
+			LOG.debug("Manufacturing {} with parameters {}",
+					pojoClass, Arrays.toString(genericTypeArgs));
 		}
 
 		if (pojoClass.isEnum()) {
@@ -523,6 +522,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
                 pojoClass, genericTypeArgs);
+
+		T retValue = null;
 
 		try {
 

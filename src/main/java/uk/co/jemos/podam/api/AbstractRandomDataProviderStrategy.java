@@ -425,9 +425,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 				if (map != null) {
-                    LOG.debug("XXX {} {} {}", pojoClass, attributeMetadata.getAttributeType(), map.keySet());
 					for (Entry<Type[], Object> entry : map.entrySet()) {
 						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+							LOG.trace("Found memoized {}<{}>", attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());
 							return entry.getValue();
 						}
 					}
@@ -450,6 +450,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 				map = new HashMap<Type[], Object>();
 				memoizationTable.put(attributeMetadata.getAttributeType(), map);
 			}
+			LOG.trace("Saving memoized {}<{}>", attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());
 			map.put(attributeMetadata.getAttrGenericArgs(), instance);
 		}
 	}
