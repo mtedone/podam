@@ -460,21 +460,21 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the collection should not be null or empty and each element should be of type {1}")
-    public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> clazz) {
+    public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> elementType) {
         Assert.assertNotNull("The collection should not be null", collection);
-        Assert.assertFalse("The collection should not be empty", collection.isEmpty());
-        for (Object e : collection) {
-            Assert.assertTrue("The element is not of type " + clazz, e.getClass().isAssignableFrom(clazz));
+        assertThat("The collection should not be empty", collection, is(not(empty())));
+        for (Object element : collection) {
+            assertThat("Wrong element type", element, instanceOf(elementType));
         }
     }
 
     @Step("Then the Map should not be null or empty and each element should have key of type {1} and value of type {2}")
     public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
         Assert.assertNotNull("Map should not be null", map);
-        Assert.assertFalse("Map should not be empty", map.isEmpty());
+        assertThat("The map should not be empty", map.keySet(), is(not(empty())));
         for (Map.Entry<?, ?> element : map.entrySet()) {
-            Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
-            Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
+            assertThat("Wrong key type", element.getKey(), instanceOf(keyType));
+            assertThat("Wrong value type", element.getValue(), instanceOf(valueType));
         }
     }
 
