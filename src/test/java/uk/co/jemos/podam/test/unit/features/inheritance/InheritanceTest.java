@@ -9,6 +9,7 @@ import uk.co.jemos.podam.test.dto.ClassInheritedPojo;
 import uk.co.jemos.podam.test.dto.OneDimensionalChildPojo;
 import uk.co.jemos.podam.test.dto.pdm42.A;
 import uk.co.jemos.podam.test.dto.pdm42.B;
+import uk.co.jemos.podam.test.dto.PojoWithCollectionAndMap;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 
@@ -60,5 +61,20 @@ public class InheritanceTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(b);
         podamValidationSteps.theObjectShouldNotBeNull(b.getCustomValue());
 
+    }
+
+    @Test
+    @Title("Podam should manufacture attributes implementing Collection and Map interfaces")
+    public void podamShouldManufactureAttributesImplementingCollectionAndMapInterfaces() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        PojoWithCollectionAndMap pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(PojoWithCollectionAndMap.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), String.class);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getMap(), Integer.class, String.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList2(), String.class);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getMap2(), Integer.class, String.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList3(), String.class);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getMap3(), Integer.class, String.class);
     }
 }
