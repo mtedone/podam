@@ -17,7 +17,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.0.59</serenity.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
-        <spring.integration.version>4.1.3.RELEASE</spring.integration.version>
+		<spring.integration.version>4.1.3.RELEASE</spring.integration.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<url>http://mtedone.github.io/podam/</url>
