@@ -3,7 +3,6 @@ package uk.co.jemos.podam.typeManufacturers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.AttributeMetadata;
-import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 
 import java.lang.reflect.ParameterizedType;
@@ -31,8 +30,6 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
         super.checkWrapperIsValid(wrapper);
 
         TypeManufacturerParamsWrapperForGenericTypes localWrapper = (TypeManufacturerParamsWrapperForGenericTypes) wrapper;
-
-        DataProviderStrategy strategy = localWrapper.getDataProviderStrategy();
 
         AttributeMetadata attributeMetadata = localWrapper.getAttributeMetadata();
 

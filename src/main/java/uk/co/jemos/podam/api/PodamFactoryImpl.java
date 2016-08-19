@@ -48,8 +48,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String MAP_CREATION_EXCEPTION_STR = "An exception occurred while creating a Map object";
 
-	private static final String UNCHECKED_STR = "unchecked";
-
     /** The message channel where to send/receive the type request */
     private static MessageChannel messageChannel;
 
@@ -135,7 +133,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
 		this.applicationContext = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
-        this.messageChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
+		PodamFactoryImpl.messageChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
 	}
 
 	// ------------------->> Public methods
@@ -345,6 +343,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			try {
 
+				@SuppressWarnings("unchecked")
 				T retValue = (T) candidateConstructor.invoke(factoryInstance,
 						parameterValues);
 				LOG.debug("Could create an instance using "
@@ -394,7 +393,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws SecurityException
 	 *             If an security was violated
 	 */
-	@SuppressWarnings({ UNCHECKED_STR })
 	private <T> T instantiatePojo(Class<T> pojoClass,
 			ManufacturingContext manufacturingCtx, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs)
@@ -406,7 +404,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (constructors.length == 0 || Modifier.isAbstract(pojoClass.getModifiers())) {
 			/* No public constructors, we will try static factory methods */
 			try {
-				retValue = (T) instantiatePojoWithFactory(
+				retValue = instantiatePojoWithFactory(
 						pojoClass, pojoClass, manufacturingCtx, typeArgsMap, genericTypeArgs);
 			} catch (Exception e) {
 				LOG.debug("We couldn't create an instance for pojo: "
@@ -436,7 +434,9 @@ public class PodamFactoryImpl implements PodamFactory {
 						constructor.setAccessible(true);
 					}
 
-					retValue = (T) constructor.newInstance(parameterValues);
+					@SuppressWarnings("unchecked")
+					T tmp = (T) constructor.newInstance(parameterValues);
+					retValue = tmp;
 					if (retValue != null) {
 						LOG.debug("We could create an instance with constructor: "
 								+ constructor);
@@ -488,7 +488,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             if a problem occurred while creating a POJO instance or while
 	 *             setting its state
 	 */
-	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T manufacturePojoInternal(Class<T> pojoClass,
 			AttributeMetadata pojoMetadata, ManufacturingContext manufacturingCtx,
 			Type... genericTypeArgs)
@@ -496,6 +495,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		// reuse object from memoization table
+		@SuppressWarnings("unchecked")
 		T objectToReuse = (T) strategy.getMemoizedObject(pojoMetadata);
 		if (objectToReuse != null) {
 			LOG.debug("Fetched memoized object for {} with parameters {}",
@@ -508,13 +508,18 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (pojoClass.isEnum()) {
 
-			return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, pojoMetadata, PodamConstants
-                    .ENUMERATION_QUALIFIER);
+			@SuppressWarnings("unchecked")
+			T tmp = (T) TypeManufacturerUtil.getTypeValue(
+					strategy, messageChannel, pojoMetadata, PodamConstants.ENUMERATION_QUALIFIER);
+			return tmp;
 		}
 
 		if (pojoClass.isPrimitive()) {
 
-            return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, pojoMetadata, pojoClass.getName());
+			@SuppressWarnings("unchecked")
+			T tmp = (T) TypeManufacturerUtil.getTypeValue(
+					strategy, messageChannel, pojoMetadata, pojoClass.getName());
+			return tmp;
 		}
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
@@ -584,7 +589,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If manufactured class cannot be loaded
 	 */
-	@SuppressWarnings(UNCHECKED_STR)
 	private <T> T populatePojoInternal(T pojo, ManufacturingContext manufacturingCtx,
 			Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs)
@@ -592,8 +596,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		Class<?> pojoClass = pojo.getClass();
-		if (pojo instanceof Collection && ((Collection<?>)pojo).size() == 0) {
-			Collection<? super Object> collection = (Collection<? super Object>)pojo;
+		if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
+			@SuppressWarnings("unchecked")
+			Collection<Object> collection = (Collection<Object>) pojo;
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					PodamConstants.NO_TYPES);
 			Class<?> elementTypeClass = findInheretedCollectionElementType(collection,
@@ -602,10 +607,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			Annotation[] annotations = collection.getClass().getAnnotations();
 			fillCollection(manufacturingCtx, Arrays.asList(annotations), attributeName,
 					collection, elementTypeClass, elementGenericTypeArgs.get());
-		} else if (pojo instanceof Map && ((Map<?,?>)pojo).size() == 0) {
+		} else if (pojo instanceof Map && ((Map<?,?>)pojo).isEmpty()) {
+			@SuppressWarnings("unchecked")
+			Map<Object,Object> map = (Map<Object,Object>)pojo;
 			MapArguments mapArguments = findInheretedMapElementType(
-					(Map<? super Object,? super Object>)pojo,
-					manufacturingCtx, typeArgsMap, genericTypeArgs);
+					map, manufacturingCtx, typeArgsMap, genericTypeArgs);
 			fillMap(mapArguments, manufacturingCtx);
 		}
 

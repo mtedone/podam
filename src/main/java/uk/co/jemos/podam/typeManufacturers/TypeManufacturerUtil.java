@@ -52,18 +52,15 @@ public final class TypeManufacturerUtil {
                                       MessageChannel channel,
                                       AttributeMetadata attributeMetadata,
                                       String qualifier) {
-        Object retValue = null;
-
         TypeManufacturerParamsWrapper wrapper =
                 new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
 
-        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
                 PodamConstants.HEADER_NAME, qualifier)
                 .build();
 
         MessagingTemplate template = new MessagingTemplate();
-        retValue = template.sendAndReceive(channel, message).getPayload();
-        return retValue;
+        return template.sendAndReceive(channel, message).getPayload();
     }
 
     /**
@@ -88,7 +85,7 @@ public final class TypeManufacturerUtil {
                 new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
                         genericAttributeType);
 
-        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
                 PodamConstants.HEADER_NAME, qualifier)
                 .build();
 

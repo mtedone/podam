@@ -1,7 +1,5 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamCharValue;
 
@@ -15,9 +13,6 @@ import java.lang.annotation.Annotation;
  * @since 6.0.0.RELEASE
  */
 public class CharTypeManufacturerImpl extends AbstractTypeManufacturer {
-
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(CharTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}
