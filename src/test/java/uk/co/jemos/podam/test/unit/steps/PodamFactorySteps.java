@@ -154,6 +154,14 @@ public class PodamFactorySteps {
         return factory;
     }
 
+    @Step("Given a Podam Factory with Defined Factory for an Abstract Class")
+    public PodamFactory givenAPodamFactoryWithDefinedFactoryForAnAbstractClass(Class<?> abstractClass, Class<?> factoryClass) {
+
+        PodamFactory factory = new PodamFactoryImpl();
+        ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceFactory(abstractClass, factoryClass);
+        return factory;
+    }
+
     @Step("Given a Javax Validator")
     public Validator givenAJavaxValidator() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
