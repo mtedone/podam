@@ -537,14 +537,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (retValue == null) {
             return getValueForAbstractType(pojoClass, pojoMetadata, manufacturingCtx, genericTypeArgs);
-		}
+		} else {
 
-		// update memoization cache with new object
-		// the reference is stored before properties are set so that recursive
-		// properties can use it
-		strategy.cacheMemoizedObject(pojoMetadata, retValue);
+			// update memoization cache with new object
+			// the reference is stored before properties are set so that recursive
+			// properties can use it
+			strategy.cacheMemoizedObject(pojoMetadata, retValue);
 
-		if (retValue != null) {
 			populatePojoInternal(retValue, manufacturingCtx, typeArgsMap, genericTypeArgsExtra);
 		}
 
