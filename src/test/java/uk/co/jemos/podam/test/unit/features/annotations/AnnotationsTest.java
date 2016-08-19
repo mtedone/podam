@@ -487,7 +487,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         Object[] myObjectArray = pojo.getMyObjectArray();
         podamValidationSteps.theArrayOfObjectsShouldNotBeNullOrEmpty(myObjectArray);
 
-        List nonGenericObjectList = pojo.getNonGenericObjectList();
+        List<?> nonGenericObjectList = pojo.getNonGenericObjectList();
         podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(nonGenericObjectList);
 
         Map<String, Calendar> myBirthdaysMap = pojo.getMyBirthdaysMap();
@@ -502,5 +502,17 @@ public class AnnotationsTest extends AbstractPodamSteps {
     }
 
 
+    @Test
+    @Title("Podam should handle POJOs with annotated field and setter")
+    public void podamShouldHandlePojosWithAnnotatedFieldAndSetter() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        AnnotatedFieldAndSetterPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(AnnotatedFieldAndSetterPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getPostCode());
+        podamValidationSteps.theStringValueShouldBeExactly(
+                PodamTestConstants.POST_CODE, pojo.getPostCode());
+    }
 
 }
