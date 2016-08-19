@@ -1,7 +1,5 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 
@@ -13,9 +11,6 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
  * @since 6.0.0.RELEASE
  */
 public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer {
-
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(EnumTypeManufacturerImpl.class);
 
     /**
      * {@inheritDoc}

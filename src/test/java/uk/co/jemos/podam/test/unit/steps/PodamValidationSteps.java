@@ -2,12 +2,14 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
-import org.springframework.util.StringUtils;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -15,13 +17,13 @@ import java.util.concurrent.ConcurrentMap;
 public class PodamValidationSteps {
 
     @Step("Then the Object should not be null")
-    public boolean theObjectShouldNotBeNull(Object pojo) {
-        return pojo == null;
+    public void theObjectShouldNotBeNull(Object pojo) {
+        assertThat(pojo, is(notNullValue()));
     }
 
     @Step("Then the Pojo should contain some data")
-    public boolean thePojoShouldContainSomeData(Object pojo) {
-        return pojo.getClass().getDeclaredFields()[0] != null;
+    public void thePojoShouldContainSomeData(Object pojo) {
+         assertThat(pojo.getClass().getDeclaredFields(), arrayWithSize(greaterThan(0)));
     }
 
     @Step("Then the Pojo should be null")
@@ -156,7 +158,8 @@ public class PodamValidationSteps {
 
     @Step("Then the String field {0} cannot be null or empty")
     public void theStringFieldCannotBeNullOrEmpty(String strField) {
-        Assert.assertTrue(StringUtils.hasText(strField));
+        Assert.assertNotNull("The string object value should not be null", strField);
+        assertThat(strField, not(isEmptyOrNullString()));
     }
 
     @Step("Then the List<?> {0} should not be null and contain at least one non-empty element")
@@ -218,7 +221,7 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the non generified List {0} should not be null or empty")
-    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List nonGenerifiedList) {
+    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List<?> nonGenerifiedList) {
         Assert.assertNotNull(nonGenerifiedList);
         Assert.assertTrue("The non generified list should at least have one element", nonGenerifiedList.size() > 0);
     }
@@ -457,21 +460,21 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the collection should not be null or empty and each element should be of type {1}")
-    public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> clazz) {
+    public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> elementType) {
         Assert.assertNotNull("The collection should not be null", collection);
-        Assert.assertFalse("The collection should not be empty", collection.isEmpty());
-        for (Object e : collection) {
-            Assert.assertTrue("The element is not of type " + clazz, e.getClass().isAssignableFrom(clazz));
+        assertThat("The collection should not be empty", collection, is(not(empty())));
+        for (Object element : collection) {
+            assertThat("Wrong element type", element, instanceOf(elementType));
         }
     }
 
     @Step("Then the Map should not be null or empty and each element should have key of type {1} and value of type {2}")
     public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
         Assert.assertNotNull("Map should not be null", map);
-        Assert.assertFalse("Map should not be empty", map.isEmpty());
+        assertThat("The map should not be empty", map.keySet(), is(not(empty())));
         for (Map.Entry<?, ?> element : map.entrySet()) {
-            Assert.assertEquals("Wrong key type", keyType, element.getKey().getClass());
-            Assert.assertEquals("Wrong value type", valueType, element.getValue().getClass());
+            assertThat("Wrong key type", element.getKey(), instanceOf(keyType));
+            assertThat("Wrong value type", element.getValue(), instanceOf(valueType));
         }
     }
 

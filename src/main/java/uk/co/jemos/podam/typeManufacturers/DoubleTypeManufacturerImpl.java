@@ -39,7 +39,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;
 
                 String numValueStr = doubleStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
 
                     try {
                         retValue = Double.valueOf(numValueStr);

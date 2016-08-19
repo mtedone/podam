@@ -5,10 +5,8 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.ClassGenericPojo;
-import uk.co.jemos.podam.test.dto.ClassInheritedPojo;
 import uk.co.jemos.podam.test.dto.ClassPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
@@ -20,8 +18,6 @@ import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
  */
 @RunWith(SerenityRunner.class)
 public class ClassUnitTest extends AbstractPodamSteps {
-
-	private final static PodamFactory podam = new PodamFactoryImpl();
 
 	@Test
 	@Title("Podam should handle the manufacturing of basic types")

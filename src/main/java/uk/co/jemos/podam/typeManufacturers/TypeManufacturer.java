@@ -11,6 +11,7 @@ public interface TypeManufacturer {
     /**
      * Returns a type value conforming to the annotations and the AttributeMetadata provided.
      *
+     * @param <T> The type of the value to be returned
      * @param wrapper The Wrapper object containing parameters required by type manufacturers to work correctly
      *
      * @return A type value conforming to the annotations and the AttributeMetadata provided.

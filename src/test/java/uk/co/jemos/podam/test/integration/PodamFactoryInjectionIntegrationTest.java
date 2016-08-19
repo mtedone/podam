@@ -5,8 +5,7 @@ package uk.co.jemos.podam.test.integration;
 
 import javax.annotation.Resource;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;

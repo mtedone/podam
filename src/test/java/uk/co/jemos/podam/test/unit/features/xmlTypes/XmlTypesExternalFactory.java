@@ -2,11 +2,13 @@ package uk.co.jemos.podam.test.unit.features.xmlTypes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import uk.co.jemos.podam.api.AbstractExternalFactory;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
 import javax.xml.datatype.XMLGregorianCalendar;
+
 import java.lang.reflect.Type;
 import java.util.GregorianCalendar;
 
@@ -24,6 +26,7 @@ public class XmlTypesExternalFactory extends AbstractExternalFactory {
         try {
             if (pojoClass.isAssignableFrom(XMLGregorianCalendar.class)) {
                 DatatypeFactory factory = DatatypeFactory.newInstance();
+                @SuppressWarnings("unchecked")
                 T calendar = (T) factory.newXMLGregorianCalendar(new GregorianCalendar());
                 LOG.info("Externally created XMLGregorianCalendar");
                 return calendar;

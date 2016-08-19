@@ -4,8 +4,6 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.XMLDatatypePojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -21,9 +19,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 @RunWith(SerenityRunner.class)
 public class XMLDatatypeUnitTest extends AbstractPodamSteps{
-
-	private static final Logger LOG = LoggerFactory.getLogger(XMLDatatypeUnitTest.class);
-
 
 	@Test
 	@Title("When given an external factory, Podam should be able to create instances of XMLGregorianCalendar")

@@ -38,7 +38,7 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamByteValue intStrategy = (PodamByteValue) annotation;
 
                 String numValueStr = intStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
                     try {
 
                         retValue = Byte.valueOf(numValueStr);

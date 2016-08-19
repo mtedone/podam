@@ -238,7 +238,7 @@ public final class PodamUtils {
 	 * @param excludedFields
 	 *            The {@link Set} containing field names to be excluded
 	 */
-	public static void fillPojoSets(Class<?> clazz, Set<Field> classFields,
+	private static void fillPojoSets(Class<?> clazz, Set<Field> classFields,
 			Set<Method> classGetters, Set<Method> classSetters,
 			Set<Class<? extends Annotation>> excludeAnnotations,
 			Set<String> excludedFields) {
@@ -250,7 +250,7 @@ public final class PodamUtils {
 
 		Class<?> workClass = clazz;
 
-		while (workClass != null) {
+		while (!Object.class.equals(workClass)) {
 
 			Method[] declaredMethods = workClass.getDeclaredMethods();
 
@@ -301,7 +301,7 @@ public final class PodamUtils {
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
 		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
-		if (!"".equals(candidateField)) {
+		if (!candidateField.isEmpty()) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {
@@ -333,7 +333,7 @@ public final class PodamUtils {
 		} else if (candidateField.startsWith(GETTER_PREFIX2)) {
 			candidateField = candidateField.substring(GETTER_PREFIX2.length());
 		}
-		if (!"".equals(candidateField)) {
+		if (!candidateField.isEmpty()) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {
@@ -431,13 +431,13 @@ public final class PodamUtils {
 	public static List<Annotation> getAttributeAnnotations(final Field attribute,
 			final Method setter) {
 
-		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
+		List<Annotation> retValue = new ArrayList<Annotation>();
 
-		List<Annotation> retValue;
-		if (annotations != null && annotations.length != 0) {
-			retValue = new ArrayList<Annotation>(Arrays.asList(annotations));
-		} else {
-			retValue = new ArrayList<Annotation>();
+		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
+		if (annotations != null) {
+			for (Annotation annotation : annotations) {
+				retValue.add(annotation);
+			}
 		}
 		for (Annotation annotation : setter.getParameterAnnotations()[0]) {
 			retValue.add(annotation);

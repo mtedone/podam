@@ -3,9 +3,11 @@
  */
 package uk.co.jemos.podam.api;
 
-import net.jcip.annotations.NotThreadSafe;
+import net.jcip.annotations.ThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import uk.co.jemos.podam.common.*;
 
 import java.lang.annotation.Annotation;
@@ -14,12 +16,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Default abstract implementation of a {@link DataProviderStrategy}
@@ -38,7 +41,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 1.0.0
  *
  */
-@NotThreadSafe
+@ThreadSafe
 public abstract class AbstractRandomDataProviderStrategy implements RandomDataProviderStrategy {
 
 	// ------------------->> Constants
@@ -56,31 +59,36 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public static final int MAX_DEPTH = 1;
 
 	/** The max stack trace depth. */
-	private final int maxDepth = MAX_DEPTH;
+	private final AtomicInteger maxDepth = new AtomicInteger(MAX_DEPTH);
 
 	/** The number of collection elements. */
-	private int nbrOfCollectionElements;
+	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
 
 	/** Flag to enable/disable the memoization setting. */
-	private boolean isMemoizationEnabled =  true;
+	private final AtomicBoolean isMemoizationEnabled = new AtomicBoolean();
 
 	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-	private final ConcurrentMap<Class<?>, ConcurrentMap<Type[], Object>> memoizationTable = new ConcurrentHashMap<Class<?>, ConcurrentMap<Type[], Object>>();
+	private final Map<Class<?>, Map<Type[], Object>> memoizationTable = new HashMap<Class<?>, Map<Type[], Object>>();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
-	private final ConcurrentMap<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
+	private final Map<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
+
+	/**
+	 * A list of user-submitted factories to build interfaces and abstract classes
+	 */
+	private final Map<Class<?>, Class<?>> factoryTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
 
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
-	private final ConcurrentMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
+	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
 			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
@@ -111,7 +119,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	}
 
 	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {
-		this.nbrOfCollectionElements = nbrOfCollectionElements;
+		this.nbrOfCollectionElements.set(nbrOfCollectionElements);
 	}
 
 	// ------------------->> Public methods
@@ -371,7 +379,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getNumberOfCollectionElements(Class<?> type) {
-		return nbrOfCollectionElements;
+		return nbrOfCollectionElements.get();
 	}
 
 	/**
@@ -379,7 +387,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
-		nbrOfCollectionElements = newNumberOfCollectionElements;
+		nbrOfCollectionElements.set(newNumberOfCollectionElements);
 	}
 
 	/**
@@ -387,7 +395,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return maxDepth;
+		return maxDepth.get();
 	}
 
 	/**
@@ -395,7 +403,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public boolean isMemoizationEnabled() {
-		return isMemoizationEnabled;
+		return isMemoizationEnabled.get();
 	}
 
 	/**
@@ -403,16 +411,16 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setMemoization(boolean isMemoizationEnabled) {
-		this.isMemoizationEnabled = isMemoizationEnabled;
+		this.isMemoizationEnabled.set(isMemoizationEnabled);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object getMemoizedObject(AttributeMetadata attributeMetadata) {
+	public synchronized Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
-		if (isMemoizationEnabled) {
+		if (isMemoizationEnabled.get()) {
 			/* No memoization for arrays, collections and maps */
 			Class<?> pojoClass = attributeMetadata.getPojoClass();
 			if (pojoClass == null ||
@@ -420,10 +428,11 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 					!Collection.class.isAssignableFrom(pojoClass) &&
 					!Map.class.isAssignableFrom(pojoClass))) {
 
-				ConcurrentMap<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+				Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 				if (map != null) {
 					for (Entry<Type[], Object> entry : map.entrySet()) {
 						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {
+							LOG.trace("Found memoized {}<{}>", attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());
 							return entry.getValue();
 						}
 					}
@@ -437,17 +446,17 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void cacheMemoizedObject(AttributeMetadata attributeMetadata,
+	public synchronized void cacheMemoizedObject(AttributeMetadata attributeMetadata,
 			Object instance) {
 
-		if (isMemoizationEnabled) {
-			ConcurrentMap<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
+		if (isMemoizationEnabled.get()) {
+			Map<Type[], Object> map = memoizationTable.get(attributeMetadata.getAttributeType());
 			if (map == null) {
-				map = new ConcurrentHashMap<Type[], Object>();
-
-				memoizationTable.putIfAbsent(attributeMetadata.getAttributeType(), map);
+				map = new HashMap<Type[], Object>();
+				memoizationTable.put(attributeMetadata.getAttributeType(), map);
 			}
-			map.putIfAbsent(attributeMetadata.getAttrGenericArgs(), instance);
+			LOG.trace("Saving memoized {}<{}>", attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());
+			map.put(attributeMetadata.getAttrGenericArgs(), instance);
 		}
 	}
 
@@ -455,10 +464,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void clearMemoizationCache() {
+	public synchronized void clearMemoizationCache() {
 
 		memoizationTable.clear();
-
 
 	}
 
@@ -508,6 +516,37 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			break;
 		}
 		Arrays.sort(methods, methodComparator);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> AbstractRandomDataProviderStrategy addOrReplaceFactory(
+			final Class<T> abstractClass, final Class<?> factoryClass) {
+
+		factoryTypes.put(abstractClass, factoryClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> AbstractRandomDataProviderStrategy removeFactory(
+			final Class<T> abstractClass) {
+
+		factoryTypes.remove(abstractClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Class<?> getFactoryClass(Class<?> nonInstantiatableClass) {
+
+		return factoryTypes.get(nonInstantiatableClass);
 	}
 
 	/**

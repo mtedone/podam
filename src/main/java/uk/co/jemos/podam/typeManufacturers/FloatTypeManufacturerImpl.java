@@ -38,7 +38,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamFloatValue floatStrategy = (PodamFloatValue) annotation;
 
                 String numValueStr = floatStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
                     try {
                         retValue = Float.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {

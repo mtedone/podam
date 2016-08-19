@@ -52,18 +52,15 @@ public final class TypeManufacturerUtil {
                                       MessageChannel channel,
                                       AttributeMetadata attributeMetadata,
                                       String qualifier) {
-        Object retValue = null;
-
         TypeManufacturerParamsWrapper wrapper =
                 new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
 
-        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
                 PodamConstants.HEADER_NAME, qualifier)
                 .build();
 
         MessagingTemplate template = new MessagingTemplate();
-        retValue = template.sendAndReceive(channel, message).getPayload();
-        return retValue;
+        return template.sendAndReceive(channel, message).getPayload();
     }
 
     /**
@@ -72,7 +69,9 @@ public final class TypeManufacturerUtil {
      * @param channel The Message Channel where to send/receive the message for the required value
      * @param attributeMetadata The AttributeMetadata information
      * @param genericAttributeType The generic attribute type
-     *@param qualifier The class of the requested type  @return The type value
+     * @param genericTypesArgumentsMap The generic attribute type argument types
+     * @param qualifier The class of the requested type  @return The type value
+     * @return value for a specified type
      */
     public static Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
                                                      MessageChannel channel,
@@ -86,7 +85,7 @@ public final class TypeManufacturerUtil {
                 new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
                         genericAttributeType);
 
-        Message<? extends Object> message = MessageBuilder.withPayload(wrapper).setHeader(
+        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
                 PodamConstants.HEADER_NAME, qualifier)
                 .build();
 
@@ -100,6 +99,8 @@ public final class TypeManufacturerUtil {
      * It returns a {@link AttributeStrategy} if one was specified in
      * annotations, or {@code null} otherwise.
      *
+     * @param strategy
+     *            The data provider strategy
      * @param annotations
      *            The list of annotations
      * @param attributeType
@@ -209,9 +210,9 @@ public final class TypeManufacturerUtil {
         if (typeParameters.size() > genericTypes.size()) {
             String msg = pojoClass.getCanonicalName()
                     + " is missing generic type arguments, expected "
-                    + typeParameters + " found "
+                    + typeParameters + ", provided "
                     + Arrays.toString(genericTypeArgs);
-            throw new IllegalStateException(msg);
+            throw new IllegalArgumentException(msg);
         }
 
         int i;
@@ -252,6 +253,8 @@ public final class TypeManufacturerUtil {
      * Searches for annotation with information about collection/map size
      * and filling strategies
      *
+     * @param strategy
+     *        a data provider strategy
      * @param annotations
      *        a list of annotations to inspect
      * @param collectionElementType
@@ -358,6 +361,8 @@ public final class TypeManufacturerUtil {
      *
      * @param actualTypes
      *            an array of types used for field or POJO declaration
+     * @param genericAttributeType
+     *            generic type of object
      * @param suppliedTypes
      *            an array of supplied types for generic type substitution
      * @param typeArgsMap
@@ -367,8 +372,20 @@ public final class TypeManufacturerUtil {
      *            resolved
      */
     public static Type[] mergeActualAndSuppliedGenericTypes(
-            Type[] actualTypes, Type[] suppliedTypes,
+            Type[] actualTypes, Type genericAttributeType, Type[] suppliedTypes,
             Map<String, Type> typeArgsMap) {
+
+        Type[] genericTypes = null;
+        if (genericAttributeType instanceof ParameterizedType) {
+            ParameterizedType paramType = (ParameterizedType) genericAttributeType;
+            genericTypes = paramType.getActualTypeArguments();
+        } else if (genericAttributeType instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) genericAttributeType;
+            genericTypes = wildcardType.getLowerBounds();
+            if ((genericTypes == null) || (genericTypes.length == 0)) {
+                genericTypes = wildcardType.getUpperBounds();
+            }
+        }
 
         List<Type> resolvedTypes = new ArrayList<Type>();
         List<Type> substitutionTypes = new ArrayList<Type>(Arrays.asList(suppliedTypes));
@@ -385,6 +402,18 @@ public final class TypeManufacturerUtil {
                 type = TypeManufacturerUtil.resolveGenericParameter(actualTypes[i], typeArgsMap,
                         methodGenericTypeArgs);
             }
+
+            if ((type == null) && (genericTypes != null)) {
+                if (genericTypes[i] instanceof Class) {
+                    type = genericTypes[i];
+                } else if (genericTypes[i] instanceof WildcardType) {
+                    AtomicReference<Type[]> methodGenericTypeArgs
+                            = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
+                    type = resolveGenericParameter(genericTypes[i], typeArgsMap,
+                            methodGenericTypeArgs);
+                }
+            }
+
             if (type != null) {
                 resolvedTypes.add(type);
                 if (!substitutionTypes.isEmpty() && substitutionTypes.get(0).equals(type)) {

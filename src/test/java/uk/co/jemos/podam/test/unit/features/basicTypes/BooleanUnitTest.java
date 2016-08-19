@@ -6,7 +6,6 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.DefaultClassInfoStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.common.PodamExclude;
 import uk.co.jemos.podam.test.dto.BooleanPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters.TestExclude;
@@ -20,9 +19,6 @@ import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
  */
 @RunWith(SerenityRunner.class)
 public class BooleanUnitTest extends AbstractPodamSteps {
-
-	private final static RandomDataProviderStrategyImpl strategy =
-			new RandomDataProviderStrategyImpl();
 
 	private final static DefaultClassInfoStrategy classInfoStrategy =
 			DefaultClassInfoStrategy.getInstance();

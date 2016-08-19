@@ -45,7 +45,7 @@ public class PodamInvocationSteps {
     }
 
     @Step("When I send a Message to the channel {0}")
-    public Message whenISendAMessageToTheChannel(MessageChannel inputChannel, Message<? extends Object> message) {
+    public Message<?> whenISendAMessageToTheChannel(MessageChannel inputChannel, Message<?> message) {
         MessagingTemplate template = new MessagingTemplate();
         return template.sendAndReceive(inputChannel, message);
     }
