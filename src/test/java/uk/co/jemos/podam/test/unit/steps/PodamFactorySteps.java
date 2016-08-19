@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 
@@ -22,6 +21,7 @@ import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrate
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -215,9 +215,8 @@ public class PodamFactorySteps {
     public Message<?> givenATypeManufacturingMessage(TypeManufacturerParamsWrapper paramsWrapper,
                                                                     String headerName,
                                                                     Class<?> clazz) {
-        Message<?> message = MessageBuilder.withPayload(
-                paramsWrapper).setHeader(headerName, clazz.getName()).build();
-        return message;
+        return TypeManufacturerUtil.createMessage(
+                paramsWrapper, headerName, clazz.getName());
     }
 
     @Step("Given a Message with header {1} and qualifier {2}")
@@ -225,9 +224,9 @@ public class PodamFactorySteps {
             TypeManufacturerParamsWrapper paramsWrapper,
             String headerName,
             String qualifier) {
-        Message<?> message = MessageBuilder.withPayload(
-                paramsWrapper).setHeader(headerName, qualifier).build();
-        return message;
+
+        return TypeManufacturerUtil.createMessage(
+                paramsWrapper, headerName, qualifier);
     }
 
     @Step("Given an Attribute Meta Data object for Enums")

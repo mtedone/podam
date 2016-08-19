@@ -54,13 +54,7 @@ public final class TypeManufacturerUtil {
                                       String qualifier) {
         TypeManufacturerParamsWrapper wrapper =
                 new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
-
-        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
-                PodamConstants.HEADER_NAME, qualifier)
-                .build();
-
-        MessagingTemplate template = new MessagingTemplate();
-        return template.sendAndReceive(channel, message).getPayload();
+        return getValueForType(channel, wrapper, qualifier);
     }
 
     /**
@@ -79,21 +73,42 @@ public final class TypeManufacturerUtil {
                                                      Type genericAttributeType,
                                                      Map<String, Type> genericTypesArgumentsMap,
                                                      String qualifier) {
-        Object retValue = null;
 
         TypeManufacturerParamsWrapperForGenericTypes wrapper =
                 new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
                         genericAttributeType);
-
-        Message<?> message = MessageBuilder.withPayload(wrapper).setHeader(
-                PodamConstants.HEADER_NAME, qualifier)
-                .build();
-
-        MessagingTemplate template = new MessagingTemplate();
-        retValue = template.sendAndReceive(channel, message).getPayload();
-        return retValue;
+        return getValueForType(channel, wrapper, qualifier);
     }
 
+    /**
+     * Obtains a type value
+     * @param channel The Message Channel where to send/receive the message for the required value
+     * @param wrapper The package with data about type to manufacture
+     * @param qualifier The class of the requested type  @return The type value
+     * @return value for a specified type
+     */
+    private static Object getValueForType(MessageChannel channel,
+                TypeManufacturerParamsWrapper wrapper, String qualifier) {
+
+        Message<?> message = createMessage(wrapper, PodamConstants.HEADER_NAME,
+                qualifier);
+
+        MessagingTemplate template = new MessagingTemplate();
+        return template.sendAndReceive(channel, message).getPayload();
+    }
+
+    /**
+     * Creates a message for channel
+     * @param payload The payload to be sent
+     * @param header The message header
+     * @param qualifier The class of the requested type  @return The type value
+     * @return value for a specified type
+     */
+    public static Message<?> createMessage(
+                Object payload, String header, String qualifier) {
+        return MessageBuilder.withPayload(payload).setHeader(
+                header, qualifier).build();
+    }
 
     /**
      * It returns a {@link AttributeStrategy} if one was specified in
