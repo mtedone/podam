@@ -431,13 +431,13 @@ public final class PodamUtils {
 	public static List<Annotation> getAttributeAnnotations(final Field attribute,
 			final Method setter) {
 
-		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
+		List<Annotation> retValue = new ArrayList<Annotation>();
 
-		List<Annotation> retValue;
-		if (annotations != null && annotations.length != 0) {
-			retValue = new ArrayList<Annotation>(Arrays.asList(annotations));
-		} else {
-			retValue = new ArrayList<Annotation>();
+		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
+		if (annotations != null) {
+			for (Annotation annotation : annotations) {
+				retValue.add(annotation);
+			}
 		}
 		for (Annotation annotation : setter.getParameterAnnotations()[0]) {
 			retValue.add(annotation);
