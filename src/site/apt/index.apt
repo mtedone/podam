@@ -330,6 +330,19 @@ Pojo pojo = factory.manufacturePojo(Pojo.class);
 }
 +-----------------------------------
 
+** Specifing factories for POJOs
+
+  DataProviderStrategy can be extended to hint Podam with factory classes to
+  initialize POJOs.
+
++-----------------------------------
+RandomDataProviderStrategy strategy = (RandomDataProviderStrategy) factory.getStrategy();
+strategy.addOrReplaceFactory(
+        javax.xml.transform.Transformer.class,
+        javax.xml.transform.TransformerFactory.class);
+Transformer pojo = factory.manufacturePojo(javax.xml.transform.Transformer.class);
++-----------------------------------
+
 ** Manufacturing generic types
 
   Sometimes you may want to manufacture a generic type directly without a wrapper class or a subclass.

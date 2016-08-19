@@ -5,12 +5,14 @@ package uk.co.jemos.podam.api;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandlingException;
+
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.ManufacturingContext;
@@ -20,6 +22,7 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import javax.xml.ws.Holder;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -514,16 +517,16 @@ public class PodamFactoryImpl implements PodamFactory {
             return (T) TypeManufacturerUtil.getTypeValue(strategy, messageChannel, pojoMetadata, pojoClass.getName());
 		}
 
-		if (pojoClass.isInterface()) {
-
-            return getValueForAbstractType(pojoClass, pojoMetadata, manufacturingCtx, genericTypeArgs);
-
-		}
-
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
                 pojoClass, genericTypeArgs);
+
+		if (pojoClass.isInterface()) {
+
+			return getValueForAbstractType(pojoClass, pojoMetadata,
+					manufacturingCtx, typeArgsMap, genericTypeArgs);
+
+		}
 
 		T retValue = null;
 
@@ -538,7 +541,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-            return getValueForAbstractType(pojoClass, pojoMetadata, manufacturingCtx, genericTypeArgs);
+			return getValueForAbstractType(pojoClass, pojoMetadata,
+					manufacturingCtx, typeArgsMap, genericTypeArgs);
 		} else {
 
 			// update memoization cache with new object
@@ -1965,6 +1969,9 @@ public class PodamFactoryImpl implements PodamFactory {
      * @param pojoMetadata The Pojo metadata
      * @param manufacturingCtx The manufacturing context
      * @param genericTypeArgs The generic type arguments map
+     * @param typeArgsMap 
+     *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+     *            example) with their actual types
      * @param <T> The type of the value to be returned
      * @return a value or null, if manufacturing didn't succeed
      * @throws InstantiationException If a problem occurred while instantiating the object
@@ -1975,8 +1982,10 @@ public class PodamFactoryImpl implements PodamFactory {
     private <T> T getValueForAbstractType(Class<T> pojoClass,
                                           AttributeMetadata pojoMetadata,
                                           ManufacturingContext manufacturingCtx,
-                                          Type[] genericTypeArgs) throws InstantiationException,
-            IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+                                          Map<String, Type> typeArgsMap,
+                                          Type[] genericTypeArgs)
+            throws InstantiationException, IllegalAccessException,
+            InvocationTargetException, ClassNotFoundException {
 
         Class<T> specificClass = (Class<T>) strategy.getSpecificClass(pojoClass);
 
@@ -1984,14 +1993,20 @@ public class PodamFactoryImpl implements PodamFactory {
 
             return this.manufacturePojoInternal(specificClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
-
-        } else {
-
-            return resortToExternalFactory(manufacturingCtx,
-                    "{} is an abstract class or interface. Resorting to {} external factory",
-                    pojoClass, genericTypeArgs);
-
         }
+
+        Class<?> factory = strategy.getFactoryClass(pojoClass);
+        if (factory != null) {
+            T retValue = instantiatePojoWithFactory(factory, pojoClass,
+                manufacturingCtx, typeArgsMap, genericTypeArgs);
+            if (retValue != null) {
+                return retValue;
+            }
+        }
+
+        return resortToExternalFactory(manufacturingCtx,
+                "{} is an abstract class or interface. Resorting to {} external factory",
+                pojoClass, genericTypeArgs);
     }
 
 

@@ -358,6 +358,20 @@ public interface DataProviderStrategy {
 	void sort(Method[] methods, Order order);
 
 	/**
+	 * Resolves factory classes for abstract classes and interfaces.
+	 * <p>
+	 * Should return factory class type, which can be used to instantiate
+	 * an abstract class type or interface.
+	 * </p>
+	 * 
+	 * @param nonInstantiatableClass
+	 *            Abstract class type or interface
+	 * @return Non-abstract factory class type to instantiate
+	 *         {@code nonInstantiatableClass}.
+	 */
+	Class<?> getFactoryClass(Class<?> nonInstantiatableClass);
+
+	/**
 	 * Resolves abstract classes and interfaces.
 	 * <p>
 	 * Should return specific class type, which can be instantiated and assigned

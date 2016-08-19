@@ -81,6 +81,11 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	private final Map<Class<?>, Class<?>> specificTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
 
 	/**
+	 * A list of user-submitted factories to build interfaces and abstract classes
+	 */
+	private final Map<Class<?>, Class<?>> factoryTypes = new ConcurrentHashMap<Class<?>, Class<?>>();
+
+	/**
 	 * Mapping between annotations and attribute strategies
 	 */
 	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
@@ -511,6 +516,37 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			break;
 		}
 		Arrays.sort(methods, methodComparator);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> AbstractRandomDataProviderStrategy addOrReplaceFactory(
+			final Class<T> abstractClass, final Class<?> factoryClass) {
+
+		factoryTypes.put(abstractClass, factoryClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> AbstractRandomDataProviderStrategy removeFactory(
+			final Class<T> abstractClass) {
+
+		factoryTypes.remove(abstractClass);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Class<?> getFactoryClass(Class<?> nonInstantiatableClass) {
+
+		return factoryTypes.get(nonInstantiatableClass);
 	}
 
 	/**
