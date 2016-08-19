@@ -2,7 +2,6 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
-import org.springframework.util.StringUtils;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.util.*;
@@ -159,7 +158,8 @@ public class PodamValidationSteps {
 
     @Step("Then the String field {0} cannot be null or empty")
     public void theStringFieldCannotBeNullOrEmpty(String strField) {
-        Assert.assertTrue(StringUtils.hasText(strField));
+        Assert.assertNotNull("The string object value should not be null", strField);
+        assertThat(strField, not(isEmptyOrNullString()));
     }
 
     @Step("Then the List<?> {0} should not be null and contain at least one non-empty element")
