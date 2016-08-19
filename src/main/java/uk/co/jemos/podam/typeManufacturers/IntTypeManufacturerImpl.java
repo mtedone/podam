@@ -38,7 +38,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamIntValue intStrategy = (PodamIntValue) annotation;
 
                 String numValueStr = intStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
                     try {
                         retValue = Integer.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {

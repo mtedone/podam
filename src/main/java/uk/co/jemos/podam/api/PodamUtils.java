@@ -301,7 +301,7 @@ public final class PodamUtils {
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
 		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);
-		if (!"".equals(candidateField)) {
+		if (!candidateField.isEmpty()) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {
@@ -333,7 +333,7 @@ public final class PodamUtils {
 		} else if (candidateField.startsWith(GETTER_PREFIX2)) {
 			candidateField = candidateField.substring(GETTER_PREFIX2.length());
 		}
-		if (!"".equals(candidateField)) {
+		if (!candidateField.isEmpty()) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		} else {

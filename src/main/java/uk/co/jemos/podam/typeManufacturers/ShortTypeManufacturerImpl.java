@@ -37,7 +37,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamShortValue shortStrategy = (PodamShortValue) annotation;
 
                 String numValueStr = shortStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
                     try {
                         retValue = Short.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {

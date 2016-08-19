@@ -38,7 +38,7 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer {
                 PodamLongValue longStrategy = (PodamLongValue) annotation;
 
                 String numValueStr = longStrategy.numValue();
-                if (null != numValueStr && !"".equals(numValueStr)) {
+                if (null != numValueStr && !numValueStr.isEmpty()) {
                     try {
                         retValue = Long.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {
