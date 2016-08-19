@@ -221,7 +221,7 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the non generified List {0} should not be null or empty")
-    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List nonGenerifiedList) {
+    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List<?> nonGenerifiedList) {
         Assert.assertNotNull(nonGenerifiedList);
         Assert.assertTrue("The non generified list should at least have one element", nonGenerifiedList.size() > 0);
     }

@@ -58,7 +58,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         SimplePojoToTestSetters pojoQueueElement = queue.poll();
         podamValidationSteps.theObjectShouldNotBeNull(pojoQueueElement);
-        List nonGenerifiedList = pojo.getNonGenerifiedList();
+        List<?> nonGenerifiedList = pojo.getNonGenerifiedList();
         podamValidationSteps.theNonGenerifiedListShouldNotBeNullOrEmpty(nonGenerifiedList);
 
         Map<?,?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
@@ -94,17 +94,16 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
-        Collection<Object> nonGenerifiedCollection = pojo
-                .getNonGenerifiedCollection();
+        Collection<?> nonGenerifiedCollection = pojo.getNonGenerifiedCollection();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(pojo.getNonGenerifiedCollection());
         podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(nonGenerifiedCollection,
                 ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
-        Set<Object> nonGenerifiedSet = pojo.getNonGenerifiedSet();
+        Set<?> nonGenerifiedSet = pojo.getNonGenerifiedSet();
         podamValidationSteps.theSetShouldContainAtleastOneNonEmptyElement(nonGenerifiedSet);
         podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(
                 nonGenerifiedSet, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
-        Map<Object, Object> nonGenerifiedMap = pojo.getNonGenerifiedMap();
+        Map<?, ?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
         podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(nonGenerifiedMap);
         podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(nonGenerifiedMap,
                 ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);

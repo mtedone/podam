@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
+
 import org.hibernate.validator.constraints.Email;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -8,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
@@ -24,6 +26,7 @@ import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -149,6 +152,7 @@ public class PodamFactorySteps {
 
         PodamFactory factory = new PodamFactoryImpl();
 
+        @SuppressWarnings("unchecked")
         Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
         ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceAttributeStrategy(Email.class, strategy);
         return factory;
@@ -208,20 +212,20 @@ public class PodamFactorySteps {
     }
 
     @Step("Given a Message with header {1} and class {2}")
-    public Message<? extends Object> givenATypeManufacturingMessage(TypeManufacturerParamsWrapper paramsWrapper,
+    public Message<?> givenATypeManufacturingMessage(TypeManufacturerParamsWrapper paramsWrapper,
                                                                     String headerName,
                                                                     Class<?> clazz) {
-        Message<? extends Object> message = MessageBuilder.withPayload(
+        Message<?> message = MessageBuilder.withPayload(
                 paramsWrapper).setHeader(headerName, clazz.getName()).build();
         return message;
     }
 
     @Step("Given a Message with header {1} and qualifier {2}")
-    public Message<? extends Object> givenATypeManufacturingMessageWithStringQualifier(
+    public Message<?> givenATypeManufacturingMessageWithStringQualifier(
             TypeManufacturerParamsWrapper paramsWrapper,
             String headerName,
             String qualifier) {
-        Message<? extends Object> message = MessageBuilder.withPayload(
+        Message<?> message = MessageBuilder.withPayload(
                 paramsWrapper).setHeader(headerName, qualifier).build();
         return message;
     }

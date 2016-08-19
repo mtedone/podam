@@ -79,11 +79,11 @@ public class MemoizationTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
 
-        Holder<String> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+        Holder<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 Holder.class, podamFactory, String.class);
         podamValidationSteps.theObjectShouldNotBeNull(pojo1);
 
-        Holder<String> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+        Holder<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 Holder.class, podamFactory, String.class);
         podamValidationSteps.theObjectShouldNotBeNull(pojo2);
         podamValidationSteps.theTwoObjectsShouldBeStrictlyEqual(pojo1, pojo2);
@@ -96,11 +96,11 @@ public class MemoizationTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
-        Holder<String> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+        Holder<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 Holder.class, podamFactory, String.class);
         podamValidationSteps.theObjectShouldNotBeNull(pojo1);
 
-        Holder<Integer> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+        Holder<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 Holder.class, podamFactory, Integer.class);
         podamValidationSteps.theObjectShouldNotBeNull(pojo2);
         podamValidationSteps.theTwoObjectsShouldBeDifferent(pojo1, pojo2);

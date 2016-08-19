@@ -2,11 +2,9 @@ package uk.co.jemos.podam.test.unit.features.inheritance;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesHolderPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo;
@@ -19,20 +17,6 @@ import java.util.List;
  */
 @RunWith(SerenityRunner.class)
 public class MultipleInterfacesInheritanceTest extends AbstractPodamSteps {
-
-
-	private static final TrackingExternalFactory externalFactory
-			= new TrackingExternalFactory();
-
-	private static final CustomDataProviderStrategy strategy
-			= new CustomDataProviderStrategy();
-
-	private static final PodamFactory factory
-			= new PodamFactoryImpl(externalFactory, strategy);
-
-
-
-
 
 	@Test
 	@Title("Podam cannot instantiate interfaces")

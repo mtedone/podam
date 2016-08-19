@@ -2,7 +2,6 @@ package uk.co.jemos.podam.test.unit.features.constructors;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -234,7 +233,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
-		JAXBElement<String> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+		JAXBElement<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 JAXBElement.class, podamFactory, String.class);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getName());
@@ -248,7 +247,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
-		JAXBElementPojo<String> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+		JAXBElementPojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				JAXBElementPojo.class, podamFactory, String.class);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
