@@ -266,19 +266,19 @@ public class PodamFactoryImpl implements PodamFactory {
 	// ------------------->> Private methods
 
 	/**
-	 * It attempts to create an instance of the given class
+	 * It attempts to create an instance of the given class with a static method
+	 * of the factory
 	 * <p>
-	 * This method attempts to create an instance of the given argument for
-	 * classes without setters. These may be either immutable classes (e.g. with
-	 * final attributes and no setters) or Java classes (e.g. belonging to the
-	 * java / javax namespace). In case the class does not provide a public,
-	 * no-arg constructor (e.g. Calendar), this method attempts to find a ,
-	 * no-args, factory method (e.g. getInstance()) and it invokes it
+	 * This method attempts to instantiate POJO with a static method of provided
+	 * factory, for example, getInstance().
 	 * </p>
 	 *
+	 * @param <T>
+	 *            The type of Pojo class
+	 * @param factoryClass
+	 *            The factory class, which will be used for POJO instantiation
 	 * @param pojoClass
 	 *            The name of the class for which an instance filled with values
-	 *            is required
 	 * @param manufacturingCtx
 	 *            the manufacturing context
 	 * @param typeArgsMap
@@ -302,19 +302,18 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object instantiatePojoWithoutConstructors(
-			Class<?> pojoClass, ManufacturingContext manufacturingCtx,
+	private <T> T instantiatePojoWithFactory(
+			Class<?> factoryClass, Class<T> pojoClass,
+			ManufacturingContext manufacturingCtx,
 			Map<String, Type> typeArgsMap, Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
-
-		Object retValue = null;
 
 		// If no publicly accessible constructors are available,
 		// the best we can do is to find a constructor (e.g.
 		// getInstance())
 
-		Method[] declaredMethods = pojoClass.getDeclaredMethods();
+		Method[] declaredMethods = factoryClass.getDeclaredMethods();
 		strategy.sort(declaredMethods, manufacturingCtx.getConstructorOrdering());
 
 		// A candidate factory method is a method which returns the
@@ -325,10 +324,17 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Method candidateConstructor : declaredMethods) {
 
-			if (!Modifier.isStatic(candidateConstructor.getModifiers())
-					|| !candidateConstructor.getReturnType().equals(pojoClass)
-					|| retValue != null) {
+			if (!candidateConstructor.getReturnType().equals(pojoClass)) {
 				continue;
+			}
+
+			Object factoryInstance = null;
+			if (!Modifier.isStatic(candidateConstructor.getModifiers())) {
+				if (factoryClass.equals(pojoClass)) {
+					continue;
+				} else {
+					factoryInstance = manufacturePojo(factoryClass);
+				}
 			}
 
 			parameterValues = getParameterValuesForMethod(candidateConstructor,
@@ -336,14 +342,13 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			try {
 
-				retValue = candidateConstructor.invoke(pojoClass,
+				T retValue = (T) candidateConstructor.invoke(factoryInstance,
 						parameterValues);
 				LOG.debug("Could create an instance using "
 						+ candidateConstructor);
 
-				//If Podam has created the POJO, we're done
 				if (retValue != null) {
-					break;
+					return retValue;
 				}
 
 			} catch (Exception t) {
@@ -357,13 +362,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		}
 
-		if (retValue == null) {
-			LOG.debug("For class {} PODAM could not possibly create"
-					+ " a value statically. Will try other means.",
-					pojoClass);
-		}
-
-		return retValue;
+		LOG.debug("For class {} PODAM could not possibly create"
+				+ " a value statically. Will try other means.",
+				pojoClass);
+		return null;
 
 	}
 
@@ -401,8 +403,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (constructors.length == 0 || Modifier.isAbstract(pojoClass.getModifiers())) {
 			/* No public constructors, we will try static factory methods */
 			try {
-				retValue = (T) instantiatePojoWithoutConstructors(
-						pojoClass, manufacturingCtx, typeArgsMap, genericTypeArgs);
+				retValue = (T) instantiatePojoWithFactory(
+						pojoClass, pojoClass, manufacturingCtx, typeArgsMap, genericTypeArgs);
 			} catch (Exception e) {
 				LOG.debug("We couldn't create an instance for pojo: "
 						+ pojoClass + " with factory methods, will "
