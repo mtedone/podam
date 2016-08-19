@@ -213,9 +213,9 @@ public final class TypeManufacturerUtil {
         if (typeParameters.size() > genericTypes.size()) {
             String msg = pojoClass.getCanonicalName()
                     + " is missing generic type arguments, expected "
-                    + typeParameters + " found "
+                    + typeParameters + ", provided "
                     + Arrays.toString(genericTypeArgs);
-            throw new IllegalStateException(msg);
+            throw new IllegalArgumentException(msg);
         }
 
         int i;
