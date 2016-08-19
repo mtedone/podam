@@ -864,7 +864,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> pojoClass = (pojo instanceof Class ? (Class<?>) pojo : pojo.getClass());
 		Class<?> realAttributeType;
-		if (Object.class.equals(attributeType) && attributeType != genericAttributeType) {
+		if (attributeType != genericAttributeType
+				&& Object.class.equals(attributeType)
+				&& genericAttributeType instanceof TypeVariable) {
 			AtomicReference<Type[]> elementGenericTypeArgs
 					= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
 			realAttributeType = TypeManufacturerUtil.resolveGenericParameter(genericAttributeType,
@@ -872,8 +874,18 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else {
 			realAttributeType = attributeType;
 		}
+
+		TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
+		Type[] genericTypeArgsAll;
+		if (typeParams.length > genericTypeArgs.length) {
+			genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
+					typeParams, genericAttributeType, genericTypeArgs, typeArgsMap);
+		} else {
+			genericTypeArgsAll = genericTypeArgs;
+		}
+
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, genericTypeArgs, annotations,
+				attributeName, realAttributeType, genericTypeArgsAll, annotations,
 				pojoClass);
 
 		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
@@ -896,14 +908,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
                     pojo, manufacturingCtx, realAttributeType, attributeName,
-                    annotations, typeArgsMap, genericTypeArgs);
+                    annotations, typeArgsMap, genericTypeArgsAll);
 
             // Map
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
 					manufacturingCtx, realAttributeType, attributeName, annotations,
-					typeArgsMap, genericTypeArgs);
+					typeArgsMap, genericTypeArgsAll);
 
             //Enum
 		} else if (realAttributeType.isEnum()) {
@@ -921,10 +933,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		// For any other type, we use the PODAM strategy
 		if (attributeValue == null) {
-
-			TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
-			Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
-                    typeParams, genericTypeArgs, typeArgsMap);
 
 			Integer depth = manufacturingCtx.getPojos().get(realAttributeType);
 			if (depth == null) {

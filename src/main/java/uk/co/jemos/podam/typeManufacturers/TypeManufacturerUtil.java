@@ -364,6 +364,8 @@ public final class TypeManufacturerUtil {
      *
      * @param actualTypes
      *            an array of types used for field or POJO declaration
+     * @param genericAttributeType
+     *            generic type of object
      * @param suppliedTypes
      *            an array of supplied types for generic type substitution
      * @param typeArgsMap
@@ -373,8 +375,20 @@ public final class TypeManufacturerUtil {
      *            resolved
      */
     public static Type[] mergeActualAndSuppliedGenericTypes(
-            Type[] actualTypes, Type[] suppliedTypes,
+            Type[] actualTypes, Type genericAttributeType, Type[] suppliedTypes,
             Map<String, Type> typeArgsMap) {
+
+        Type[] genericTypes = null;
+        if (genericAttributeType instanceof ParameterizedType) {
+            ParameterizedType paramType = (ParameterizedType) genericAttributeType;
+            genericTypes = paramType.getActualTypeArguments();
+        } else if (genericAttributeType instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) genericAttributeType;
+            genericTypes = wildcardType.getLowerBounds();
+            if ((genericTypes == null) || (genericTypes.length == 0)) {
+                genericTypes = wildcardType.getUpperBounds();
+            }
+        }
 
         List<Type> resolvedTypes = new ArrayList<Type>();
         List<Type> substitutionTypes = new ArrayList<Type>(Arrays.asList(suppliedTypes));
@@ -391,6 +405,18 @@ public final class TypeManufacturerUtil {
                 type = TypeManufacturerUtil.resolveGenericParameter(actualTypes[i], typeArgsMap,
                         methodGenericTypeArgs);
             }
+
+            if ((type == null) && (genericTypes != null)) {
+                if (genericTypes[i] instanceof Class) {
+                    type = genericTypes[i];
+                } else if (genericTypes[i] instanceof WildcardType) {
+                    AtomicReference<Type[]> methodGenericTypeArgs
+                            = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
+                    type = resolveGenericParameter(genericTypes[i], typeArgsMap,
+                            methodGenericTypeArgs);
+                }
+            }
+
             if (type != null) {
                 resolvedTypes.add(type);
                 if (!substitutionTypes.isEmpty() && substitutionTypes.get(0).equals(type)) {
