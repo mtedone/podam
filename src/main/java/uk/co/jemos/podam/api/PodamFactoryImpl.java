@@ -1034,7 +1034,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs) {
 
 		// This needs to be generic because collections can be of any type
-		Collection<? super Object> retValue = null;
+		Collection<Object> retValue = null;
 		if (null != pojo && null != attributeName) {
 
 			retValue = PodamUtils.getFieldValue(pojo, attributeName);
@@ -1270,7 +1270,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
-		Map<? super Object, ? super Object> retValue = null;
+		Map<Object, Object> retValue = null;
 		if (null != pojo && null != attributeName) {
 
 			retValue = PodamUtils.getFieldValue(pojo, attributeName);
@@ -1862,8 +1862,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (Collection.class.isAssignableFrom(parameterType)) {
 
-			Collection<? super Object> defaultValue = null;
-			Collection<? super Object> collection = TypeManufacturerUtil.resolveCollectionType(
+			Collection<Object> defaultValue = null;
+			Collection<Object> collection = TypeManufacturerUtil.resolveCollectionType(
                     parameterType, defaultValue);
 
 			if (collection != null) {
@@ -1895,8 +1895,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else if (Map.class.isAssignableFrom(parameterType)) {
 
-			Map<? super Object, ? super Object> defaultValue = null;
-			Map<? super Object, ? super Object> map = TypeManufacturerUtil.resolveMapType(parameterType, defaultValue);
+			Map<Object, Object> defaultValue = null;
+			Map<Object, Object> map = TypeManufacturerUtil.resolveMapType(parameterType, defaultValue);
 
 			if (map != null) {
 				Class<?> keyClass;

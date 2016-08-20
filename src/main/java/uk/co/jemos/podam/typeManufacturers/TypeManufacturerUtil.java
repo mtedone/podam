@@ -481,10 +481,10 @@ public final class TypeManufacturerUtil {
      *            Default value for the collection, can be null
      * @return an instance of the collection type or null
      */
-    public static Collection<? super Object> resolveCollectionType(
-            Class<?> collectionType, Collection<? super Object> defaultValue) {
+    public static Collection<Object> resolveCollectionType(
+            Class<?> collectionType, Collection<Object> defaultValue) {
 
-        Collection<? super Object> retValue = null;
+        Collection<Object> retValue = null;
 
         // Default list and set are ArrayList and HashSet. If users
         // wants a particular collection flavour they have to initialise
@@ -598,10 +598,10 @@ public final class TypeManufacturerUtil {
      * @return A default instance for each map type or null
      *
      */
-    public static Map<? super Object, ? super Object> resolveMapType(
-            Class<?> mapType, Map<? super Object, ? super Object> defaultValue) {
+    public static Map<Object, Object> resolveMapType(
+            Class<?> mapType, Map<Object, Object> defaultValue) {
 
-        Map<? super Object, ? super Object> retValue = null;
+        Map<Object, Object> retValue = null;
 
         if (null != defaultValue &&
                 (defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
