@@ -21,7 +21,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
-	<url>http://mtedone.github.io/podam/</url>
+	<url>http://devopsfolks.github.io/podam/</url>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
