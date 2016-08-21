@@ -8,10 +8,6 @@ import net.jcip.annotations.NotThreadSafe;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHandlingException;
 
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 import uk.co.jemos.podam.common.AttributeStrategy;
@@ -20,6 +16,8 @@ import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
+import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
+import uk.co.jemos.podam.typeManufacturers.TypeMultiplexerImpl;
 
 import javax.xml.ws.Holder;
 
@@ -48,15 +46,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 	private static final String MAP_CREATION_EXCEPTION_STR = "An exception occurred while creating a Map object";
 
-    /** The message channel where to send/receive the type request */
-    private static MessageChannel messageChannel;
-
-
     /** Application logger */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamFactoryImpl.class);
 
-
-	private AbstractApplicationContext applicationContext;
 
 	// ------------------->> Instance / variables
 
@@ -86,6 +78,11 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private ClassInfoStrategy classInfoStrategy
 			= DefaultClassInfoStrategy.getInstance();
+
+	/**
+	 * Type multiplexer mapping types to @TypeManufacturer
+	 */
+	private TypeMultiplexer typeMultiplexer;
 
 	// ------------------->> Constructors
 
@@ -132,8 +129,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			DataProviderStrategy strategy) {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
-		this.applicationContext = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
-		PodamFactoryImpl.messageChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
+		this.typeMultiplexer = new TypeMultiplexerImpl();
 	}
 
 	// ------------------->> Public methods
@@ -509,16 +505,16 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (pojoClass.isEnum()) {
 
 			@SuppressWarnings("unchecked")
-			T tmp = (T) TypeManufacturerUtil.getTypeValue(
-					strategy, messageChannel, pojoMetadata, PodamConstants.ENUMERATION_QUALIFIER);
+			T tmp = (T) typeMultiplexer.getTypeValue(
+					strategy, pojoMetadata, PodamConstants.ENUMERATION_QUALIFIER);
 			return tmp;
 		}
 
 		if (pojoClass.isPrimitive()) {
 
 			@SuppressWarnings("unchecked")
-			T tmp = (T) TypeManufacturerUtil.getTypeValue(
-					strategy, messageChannel, pojoMetadata, pojoClass.getName());
+			T tmp = (T) typeMultiplexer.getTypeValue(
+					strategy, pojoMetadata, pojoClass.getName());
 			return tmp;
 		}
 
@@ -851,8 +847,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws InvocationTargetException
 	 *             If an exception occurred while invoking the constructor or
 	 *             factory method
-	 * @throws ClassNotFoundException
-	 *             If it was not possible to create a class from a string
 	 * @throws IllegalArgumentException
 	 *             <ul>
 	 *             <li>If an illegal argument was passed</li>
@@ -869,7 +863,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			String attributeName, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
-			InvocationTargetException, ClassNotFoundException, MessageHandlingException {
+			InvocationTargetException, ClassNotFoundException {
 
 		Object attributeValue = null;
 
@@ -902,7 +896,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
                 realAttributeType.equals(String.class)) {
 
-			attributeValue = TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata,
+			attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
                     realAttributeType.getName());
 
 
@@ -931,15 +925,15 @@ public class PodamFactoryImpl implements PodamFactory {
             //Enum
 		} else if (realAttributeType.isEnum()) {
 
-            attributeValue = TypeManufacturerUtil.getTypeValue(strategy, messageChannel, attributeMetadata,
+            attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
                     PodamConstants.ENUMERATION_QUALIFIER);
 
             //Parametrized type
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
-			attributeValue = TypeManufacturerUtil.getTypeValueForGenericTypes(strategy, messageChannel, attributeMetadata,
-                    genericAttributeType, typeArgsMap, PodamConstants.GENERIC_TYPE_QUALIFIER);
-
+			attributeValue = typeMultiplexer.getTypeValueForGenericTypes(strategy,
+					attributeMetadata, genericAttributeType, typeArgsMap,
+					PodamConstants.GENERIC_TYPE_QUALIFIER);
 		}
 
 		// For any other type, we use the PODAM strategy

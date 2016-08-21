@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
-import org.springframework.messaging.MessageChannel;
 import org.junit.Assert;
 
 import uk.co.jemos.podam.api.ClassAttributeApprover;
@@ -9,7 +8,7 @@ import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
+import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
 
 import java.lang.reflect.Type;
 
@@ -46,17 +45,17 @@ public class PodamInvocationSteps {
         return podamFactory.manufacturePojo(pojoClass, genericTypeArgs);
     }
 
-    @Step("When I send a Message to the channel")
+    @Step("When I request a value for a type")
     public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
         return whenISendAMessageToTheChannel(paramsWrapper, type.getName());
     }
 
-    @Step("When I send a Message to the channel")
+    @Step("When I request a value for a type")
     public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, String type) {
-        MessageChannel inputChannel = PodamFactorySteps.givenAMessageChannelToManufactureValues();
-        Assert.assertNotNull("Channel must exist", inputChannel);
+        TypeMultiplexer typeMultiplexer = PodamFactorySteps.givenAMTypeMultiplexerToManufactureValues();
+        Assert.assertNotNull("Channel must exist", typeMultiplexer);
 
-        Object payload = TypeManufacturerUtil.getValueForType(inputChannel, paramsWrapper, type);
+        Object payload = typeMultiplexer.getValueForType(paramsWrapper, type);
         Assert.assertNotNull("Payload must be valid", payload);
         return payload;
     }

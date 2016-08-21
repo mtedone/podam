@@ -3,12 +3,9 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 
 import org.hibernate.validator.constraints.Email;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.messaging.MessageChannel;
 
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
@@ -17,6 +14,8 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
+import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
+import uk.co.jemos.podam.typeManufacturers.TypeMultiplexerImpl;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -34,7 +33,7 @@ import java.util.Set;
  */
 public class PodamFactorySteps {
 
-    private static ClassPathXmlApplicationContext APP_CONTEXT;
+    private static TypeMultiplexer typeMultiplexer;
 
 	@Step("Given a standard Podam Factory")
     public PodamFactory givenAStandardPodamFactory() {
@@ -180,21 +179,18 @@ public class PodamFactorySteps {
     @Step("Init Podam factory context")
     public static void initPodamFactoryContext() {
 
-        APP_CONTEXT = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
+        typeMultiplexer = new TypeMultiplexerImpl();
     }
 
     @Step("Dispose Podam factory context")
     public static void disposePodamFactoryContext() {
-
-        if (APP_CONTEXT != null) {
-            APP_CONTEXT.close();
-        }
+        typeMultiplexer = null;
     }
 
-    @Step("Given a Message Channel to manufacture types")
-    public static MessageChannel givenAMessageChannelToManufactureValues() {
+    @Step("Given a Type Multiplexer to manufacture types")
+    public static TypeMultiplexer givenAMTypeMultiplexerToManufactureValues() {
 
-        return APP_CONTEXT.getBean("podamInputChannel", MessageChannel.class);
+        return typeMultiplexer;
     }
 
     @Step("Given an empty AttributeMetadata object")

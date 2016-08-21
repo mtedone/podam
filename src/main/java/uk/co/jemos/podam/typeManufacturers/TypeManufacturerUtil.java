@@ -2,11 +2,6 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.ObjectStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
@@ -38,76 +33,6 @@ public final class TypeManufacturerUtil {
     /** Non instantiable. */
     private TypeManufacturerUtil() {
         throw new AssertionError("Non instantiable");
-    }
-
-    /**
-     * Obtains a type value
-     * @param strategy The Data Provider strategy
-     * @param channel The Message Channel where to send/receive the message for the required value
-     * @param attributeMetadata The AttributeMetadata information
-     * @param qualifier The class of the requested type
-     * @return The type value
-     */
-    public static Object getTypeValue(DataProviderStrategy strategy,
-                                      MessageChannel channel,
-                                      AttributeMetadata attributeMetadata,
-                                      String qualifier) {
-        TypeManufacturerParamsWrapper wrapper =
-                new TypeManufacturerParamsWrapper(strategy, attributeMetadata);
-        return getValueForType(channel, wrapper, qualifier);
-    }
-
-    /**
-     * Obtains a type value
-     * @param strategy The Data Provider strategy
-     * @param channel The Message Channel where to send/receive the message for the required value
-     * @param attributeMetadata The AttributeMetadata information
-     * @param genericAttributeType The generic attribute type
-     * @param genericTypesArgumentsMap The generic attribute type argument types
-     * @param qualifier The class of the requested type  @return The type value
-     * @return value for a specified type
-     */
-    public static Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
-                                                     MessageChannel channel,
-                                                     AttributeMetadata attributeMetadata,
-                                                     Type genericAttributeType,
-                                                     Map<String, Type> genericTypesArgumentsMap,
-                                                     String qualifier) {
-
-        TypeManufacturerParamsWrapperForGenericTypes wrapper =
-                new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
-                        genericAttributeType);
-        return getValueForType(channel, wrapper, qualifier);
-    }
-
-    /**
-     * Obtains a type value
-     * @param channel The Message Channel where to send/receive the message for the required value
-     * @param wrapper The package with data about type to manufacture
-     * @param qualifier The class of the requested type  @return The type value
-     * @return value for a specified type
-     */
-    public static Object getValueForType(MessageChannel channel,
-                TypeManufacturerParamsWrapper wrapper, String qualifier) {
-
-        Message<?> message = createMessage(wrapper, PodamConstants.HEADER_NAME,
-                qualifier);
-
-        MessagingTemplate template = new MessagingTemplate();
-        return template.sendAndReceive(channel, message).getPayload();
-    }
-
-    /**
-     * Creates a message for channel
-     * @param payload The payload to be sent
-     * @param header The message header
-     * @param qualifier The class of the requested type  @return The type value
-     * @return value for a specified type
-     */
-    public static Message<?> createMessage(
-                Object payload, String header, String qualifier) {
-        return MessageBuilder.withPayload(payload).setHeader(
-                header, qualifier).build();
     }
 
     /**
