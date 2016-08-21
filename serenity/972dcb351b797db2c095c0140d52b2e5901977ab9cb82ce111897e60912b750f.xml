@@ -1,17 +1,17 @@
-<acceptance-test-run title="Invoking Podam on a POJO with a private, no arguments constructor, should return a non null POJO" name="invokingPodamOnaPojoWithPrivateNoArgumentsConstructorShouldReturnANonEmptyPojo" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="30" timestamp="2016-08-21T23:35:45.933+07:00">
+<acceptance-test-run title="Invoking Podam on a POJO with a private, no arguments constructor, should return a non null POJO" name="invokingPodamOnaPojoWithPrivateNoArgumentsConstructorShouldReturnANonEmptyPojo" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2016-08-21T23:45:00.828+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
-    <tag name="Abnormal pojos test" type="stories"/>
+    <tag name="Edge cases/Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="27">
+  <test-step result="SUCCESS" duration="31">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PrivateNoArgConstructorPojo</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PrivateNoArgConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

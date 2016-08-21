@@ -33,6 +33,8 @@
 <script type="text/javascript" src="jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
 
 
+
+
     <script class="code" type="text/javascript">$(document).ready(function () {
         var test_results_plot = $.jqplot('test_results_pie_chart', [
             [
@@ -44,7 +46,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors',  0]
+                ['Errors',  0],
+                ['Compromised',  0]
             ]
         ], {
 
@@ -57,7 +60,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'fuchsia'],
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
                 trendline: { show: false },
@@ -77,7 +81,8 @@
                 {label: '0 / 15 tests pending'},
                 {label: '0 / 15 tests not executed'},
                 {label: '0 / 15 tests failed'},
-                {label: '0 / 15 errors'}
+                {label: '0 / 15 errors'},
+                {label: '0 / 15 compromised tests'}
             ]
         });
 
@@ -91,7 +96,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors', 0]
+                ['Errors', 0],
+                ['Compromised', 0],
             ]
         ], {
 
@@ -104,7 +110,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'mediumvioletred'],
 
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
@@ -170,7 +177,10 @@
 
 <div id="contenttop">
     <div class="middlebg">
-        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > Annotations test (passing tests)</span>
+        <span class="breadcrumbs"><a href="index.html">Home</a>
+                > Story
+                > Annotations Test (Passing Tests)
+        </span>
     </div>
     <div class="rightbg"></div>
 </div>
@@ -193,7 +203,7 @@
             <a href="90cdeeb336e1f777b7e46a11cd41dee136f2bb3f86eb7096929265f3f550946d.html"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:35</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:45</span>
     <br style="clear:left"/>
 </div>
 <div class="clr"></div>
@@ -201,7 +211,8 @@
 <div id="results-dashboard">
 <div class="middlb">
 <div class="table">
-<h2>Story: Annotations Test (Passing Tests)</h2>
+
+<h2><i class='fa fa-tags'></i> Story: Annotations Test (Passing Tests)</h2>
 <table class='overview'>
     <tr>
         <td width="375px" valign="top">
@@ -228,6 +239,10 @@ errors,
                 </span>
                 <span class="test-count">
                     0
+compromised,
+                </span>
+                <span class="test-count">
+                    0
 ignored,
                 </span>
                 <span class="test-count">
@@ -248,8 +263,7 @@ skipped
                         <tr>
                             <td colspan="2">
                                 <span class="caption">Total number of tests that pass, fail, or are pending.</span>
-                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie
-                                    Chart</a></span>
+                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie Chart</a></span>
                             </td>
                         </tr>
                         <tr>
@@ -301,18 +315,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">1 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -323,7 +341,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4e720346725c8aa16dc60d7b5ef24fae0991e82d3c5666003ae432e8b59f588f.html" title="Annotations">Annotations</a>
+                                <a href="8320eda0adfe52ca76d56e24039acd550c894753cd9955415d02d94029242d10.html" title="Annotations">Annotations</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -333,22 +351,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4e720346725c8aa16dc60d7b5ef24fae0991e82d3c5666003ae432e8b59f588f.html">
+                                    <a href="8320eda0adfe52ca76d56e24039acd550c894753cd9955415d02d94029242d10.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -372,7 +394,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f0d4a75e426b85289d43992d9d8307e9d7e7c7a1123f8153f5a7e216c7d2815a.html" title="Annotations Test">Annotations Test</a>
+                                <a href="c597829d01c32befa97992740fe0c940a22d97ac810edb146f006d1c17c49b82.html" title="Annotations Test">Annotations Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -382,22 +404,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f0d4a75e426b85289d43992d9d8307e9d7e7c7a1123f8153f5a7e216c7d2815a.html">
+                                    <a href="c597829d01c32befa97992740fe0c940a22d97ac810edb146f006d1c17c49b82.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -421,7 +447,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="39357aee38b7bd9370a63d3d7f4ae651af1a87cb339f273d20f67b2aac759342.html" title="Annotations Test">Annotations Test</a>
+                                <a href="9bf97ec2370bcf54fb0008d3728b89aa9036d910804586d6dd35d2f7a5916b8e.html" title="Annotations Test">Annotations Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -431,22 +457,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="39357aee38b7bd9370a63d3d7f4ae651af1a87cb339f273d20f67b2aac759342.html">
+                                    <a href="9bf97ec2370bcf54fb0008d3728b89aa9036d910804586d6dd35d2f7a5916b8e.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -523,18 +553,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">1 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -545,7 +579,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4e720346725c8aa16dc60d7b5ef24fae0991e82d3c5666003ae432e8b59f588f.html" title="Annotations">Annotations</a>
+                                <a href="8320eda0adfe52ca76d56e24039acd550c894753cd9955415d02d94029242d10.html" title="Annotations">Annotations</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -555,22 +589,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4e720346725c8aa16dc60d7b5ef24fae0991e82d3c5666003ae432e8b59f588f.html">
+                                    <a href="8320eda0adfe52ca76d56e24039acd550c894753cd9955415d02d94029242d10.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -594,7 +632,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f0d4a75e426b85289d43992d9d8307e9d7e7c7a1123f8153f5a7e216c7d2815a.html" title="Annotations Test">Annotations Test</a>
+                                <a href="c597829d01c32befa97992740fe0c940a22d97ac810edb146f006d1c17c49b82.html" title="Annotations Test">Annotations Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -604,22 +642,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f0d4a75e426b85289d43992d9d8307e9d7e7c7a1123f8153f5a7e216c7d2815a.html">
+                                    <a href="c597829d01c32befa97992740fe0c940a22d97ac810edb146f006d1c17c49b82.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -643,7 +685,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="39357aee38b7bd9370a63d3d7f4ae651af1a87cb339f273d20f67b2aac759342.html" title="Annotations Test">Annotations Test</a>
+                                <a href="9bf97ec2370bcf54fb0008d3728b89aa9036d910804586d6dd35d2f7a5916b8e.html" title="Annotations Test">Annotations Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -653,22 +695,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="15 out of 15 tests (164 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="39357aee38b7bd9370a63d3d7f4ae651af1a87cb339f273d20f67b2aac759342.html">
+                                    <a href="9bf97ec2370bcf54fb0008d3728b89aa9036d910804586d6dd35d2f7a5916b8e.html">
                                         <div class="percentagebar"
                                              title="0 out of 15 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 15 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 15 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 15 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 15 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 15 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="15 out of 15 tests (164 steps) passing">
+                                                             title="0 out of 15 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="15 out of 15 tests (164 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -692,6 +738,7 @@ skipped
 
     </tr>
 </table>
+
 <table>
     <tr>
         <td>
@@ -705,402 +752,265 @@ skipped
                             <th width="%" class="test-results-heading">Tests</th>
                             <th width="70" class="test-results-heading">Steps</th>
 
-
-                            <th width="65" class="test-results-heading">Stable</th>
                             <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
                         </tr>
                         </thead>
                         <tbody>
 
-
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="fd5ba87692e8809df75852467efb16eb704581a50a1b6254a4ec546513adfde4.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="fd5ba87692e8809df75852467efb16eb704581a50a1b6254a4ec546513adfde4.html" class="ellipsis" title="">
                                     Podam should assign exactly the values specified with the @PodamStrategyValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">24</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.1</td>
-                        </tr>
+                                <td class="lightgreentext">24</td>
 
 
+                                <td class="lightgreentext">0.08</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="ee266e38ba3e7d63bf0f3a69175b9102875c29c3cc31b624e348caeccbe0481c.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ee266e38ba3e7d63bf0f3a69175b9102875c29c3cc31b624e348caeccbe0481c.html" class="ellipsis" title="">
                                     Podam should assign precise values and lengths when a String is annotated with @PodamStringValue 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">6</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">6</td>
 
 
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="43404866dc469ceefb75cac9b781c5b3abfb073fa352dc40b64effb475ca87cd.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="43404866dc469ceefb75cac9b781c5b3abfb073fa352dc40b64effb475ca87cd.html" class="ellipsis" title="">
                                     Podam should handle POJOs with annotated field and setter 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="ac657193fa6823c79e993df498aa73789891a6a821ae5c58926b0e1259053273.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ac657193fa6823c79e993df498aa73789891a6a821ae5c58926b0e1259053273.html" class="ellipsis" title="">
                                     Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="55ba90e2a7b53ece77391d2c2c9cff9d4b4b1e224fc10f04f9a7d618e5696e9b.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="55ba90e2a7b53ece77391d2c2c9cff9d4b4b1e224fc10f04f9a7d618e5696e9b.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">9</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">9</td>
 
 
+                                <td class="lightgreentext">0.06</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="aafaafad056336dd3a7776326d164a317bd1b067b39154e3cf3e548ad90142dc.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="aafaafad056336dd3a7776326d164a317bd1b067b39154e3cf3e548ad90142dc.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped byte values with @PodamByteValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">13</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">13</td>
 
 
+                                <td class="lightgreentext">0.07</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="f34434754a1ecee82377308a8512dba6b861b09ef814ed42efb2326d088b7129.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f34434754a1ecee82377308a8512dba6b861b09ef814ed42efb2326d088b7129.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped char values with @PodamCharValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">13</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">13</td>
 
 
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="e653eca95c99457425073b5ebc36de8c56e4525229e23c808dbeabcde85d2039.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="e653eca95c99457425073b5ebc36de8c56e4525229e23c808dbeabcde85d2039.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped double values with @PodamDoubleValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">9</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">9</td>
 
 
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="57fa3da53e27abcc00d83275c670c4d11dacb42b83e1a4717168d112be732e10.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="57fa3da53e27abcc00d83275c670c4d11dacb42b83e1a4717168d112be732e10.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped float values with @PodamFloatValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">15</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">15</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="f1971e8137087dd8b76cdfe0c7ba2fd7b11111f0feecfb13de94c4d035d11ae3.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f1971e8137087dd8b76cdfe0c7ba2fd7b11111f0feecfb13de94c4d035d11ae3.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped integer values with @PodamIntValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">15</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.09</td>
-                        </tr>
+                                <td class="lightgreentext">15</td>
 
 
+                                <td class="lightgreentext">0.08</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="0a01b8efdc317a39018a40b933ae07e244d807b18317083a47a76bb4fd18657d.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="0a01b8efdc317a39018a40b933ae07e244d807b18317083a47a76bb4fd18657d.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped long values with @PodamLongValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">15</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">15</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="607b57271a8fbb3ab6f91d76968592b5ca573a923bc884be350a95e87b639cb4.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="607b57271a8fbb3ab6f91d76968592b5ca573a923bc884be350a95e87b639cb4.html" class="ellipsis" title="">
                                     Podam should handle both native and wrapped short values with @PodamShortValue annotation 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">13</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">13</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="20d93520233b6d494554fc4b7305c9712c840a262f1ee5214b9be604e952c72c.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="20d93520233b6d494554fc4b7305c9712c840a262f1ee5214b9be604e952c72c.html" class="ellipsis" title="">
                                     Podam should handle immutable POJOs annotated with @PodamConstructor 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">8</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">8</td>
 
 
+                                <td class="lightgreentext">0.06</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="f120ec85495700a02f7d75484b1e1258657836795eaf2fa6c68b8ac3155848ea.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f120ec85495700a02f7d75484b1e1258657836795eaf2fa6c68b8ac3155848ea.html" class="ellipsis" title="">
                                     Podam should not fill POJO's attributes annotated with @PodamExclude 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.2</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.17</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="24cd67b9ada4f27fb451afdf90ef4d7005bbd632b299fa241f5979e4cf9642ab.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="24cd67b9ada4f27fb451afdf90ef4d7005bbd632b299fa241f5979e4cf9642ab.html" class="ellipsis" title="">
                                     The @PodamCollection annotation should allow to set sizes on all collections and arrays 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">9</td>
+                                <td class="lightgreentext">9</td>
 
 
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -1109,14 +1019,16 @@ skipped
     </tr>
 </table>
 </div>
+
 </div>
 </div>
 </div>
 </div>
 <div id="beforefooter"></div>
 <div id="bottomfooter">
-    <span class="version">Serenity version 1.0.59</span>
+    <span class="version">Serenity version 1.1.36</span>
 </div>
+
 
 </body>
 </html>

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Even when memoization is true, if generics Pojos have different types, objects should not be equal" name="evenWhenMemoizationIsTrueIfGenericPojosHaveDifferentTypesObjectsShouldNotBeEqual" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:35:48.287+07:00">
+<acceptance-test-run title="Even when memoization is true, if generics Pojos have different types, objects should not be equal" name="evenWhenMemoizationIsTrueIfGenericPojosHaveDifferentTypesObjectsShouldNotBeEqual" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="23" timestamp="2016-08-21T23:45:02.123+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
-    <tag name="Memoization test" type="stories"/>
+    <tag name="Memoization/Memoization test" type="stories"/>
     <tag name="Memoization test" type="story"/>
   </tags>
   <test-step result="SUCCESS" duration="21">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

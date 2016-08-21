@@ -1,35 +1,35 @@
-<acceptance-test-run title="Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation" name="podamShouldHandleBooleanValuesWithThePodamBooleanValueAnnotation" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="49" timestamp="2016-08-21T23:35:40.108+07:00">
+<acceptance-test-run title="Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation" name="podamShouldHandleBooleanValuesWithThePodamBooleanValueAnnotation" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="60" timestamp="2016-08-21T23:44:56.386+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
-    <tag name="Annotations test" type="stories"/>
+    <tag name="Annotations/Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="37">
+  <test-step result="SUCCESS" duration="49">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="3">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.BooleanValuePojo</description>
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.BooleanValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the boolean value &lt;span class=&apos;step-parameter&apos;&gt;true&lt;/span&gt; should be true</description>
+    <description>Then the boolean value true should be true</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>The boolean value &lt;span class=&apos;step-parameter&apos;&gt;false&lt;/span&gt; should be false</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>The boolean value false should be false</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>The boolean value false should be false</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>The boolean value &lt;span class=&apos;step-parameter&apos;&gt;false&lt;/span&gt; should be false</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the boolean value &lt;span class=&apos;step-parameter&apos;&gt;true&lt;/span&gt; should be true</description>
+    <description>Then the boolean value true should be true</description>
   </test-step>
 </acceptance-test-run>

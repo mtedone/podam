@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should handle the manufacturing of POJOs with generic types in constructor" name="podamShouldHandleTheManufacturingOfPojosWithGenericTypesInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="67" timestamp="2016-08-21T23:35:42.242+07:00">
+<acceptance-test-run title="Podam should handle the manufacturing of POJOs with generic types in constructor" name="podamShouldHandleTheManufacturingOfPojosWithGenericTypesInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="42" timestamp="2016-08-21T23:44:58.289+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.ClassUnitTest" name="Class unit test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
-    <tag name="Class unit test" type="stories"/>
+    <tag name="Basic types/Class unit test" type="stories"/>
     <tag name="Class unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="53">
+  <test-step result="SUCCESS" duration="35">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="7">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.String and class java.lang.String&lt;/span&gt; should be equal</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the two objects class java.lang.String and class java.lang.String should be equal</description>
   </test-step>
 </acceptance-test-run>

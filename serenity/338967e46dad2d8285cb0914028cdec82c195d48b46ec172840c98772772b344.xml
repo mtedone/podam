@@ -1,29 +1,29 @@
-<acceptance-test-run title="Podam should fill AttributeMetadata with the attribute name" name="podamShouldFillTheAttributeMetadataWithTheAttributeNames" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2016-08-21T23:35:46.476+07:00">
+<acceptance-test-run title="Podam should fill AttributeMetadata with the attribute name" name="podamShouldFillTheAttributeMetadataWithTheAttributeNames" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2016-08-21T23:45:01.215+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.extensions.ExtensionsTest" name="Extensions test" path="uk.co.jemos.podam.test.unit.features.extensions"/>
   <tags>
     <tag name="Extensions" type="epics"/>
-    <tag name="Extensions test" type="stories"/>
+    <tag name="Extensions/Extensions test" type="stories"/>
     <tag name="Extensions test" type="story"/>
   </tags>
   <test-step result="SUCCESS" duration="28">
     <description>Given a Podam Factory to use as External Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.PojoClassic</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.PojoClassic</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.annotations.PojoSpecific</description>
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.PojoSpecific</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then string [&lt;span class=&apos;step-parameter&apos;&gt;classic] should be exactly like string [classic&lt;/span&gt;]</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then string [classic] should be exactly like string [classic]</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then string [&lt;span class=&apos;step-parameter&apos;&gt;specific] should be exactly like string [specific&lt;/span&gt;]</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then string [specific] should be exactly like string [specific]</description>
   </test-step>
 </acceptance-test-run>

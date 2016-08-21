@@ -30,6 +30,7 @@
 <script type="text/javascript" src="jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
 
 
+
     <script class="code" type="text/javascript">$(document).ready(function () {
         var plot1 = $.jqplot('coverage_pie_chart', [
             [
@@ -37,7 +38,8 @@
                 ['Pending', 0],
                 ['Ignored', 0],
                 ['Failing', 0],
-                ['Errors',  0]
+                ['Errors',  0],
+                ['Compromised Tests',  0],
             ]
         ], {
             gridPadding: {top: 0, bottom: 38, left: 0, right: 0},
@@ -49,11 +51,12 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'fuchsia'],
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
-                trendline: { show: false },
-                rendererOptions: { padding: 8, showDataLabels: true }
+                trendline: {show: false},
+                rendererOptions: {padding: 8, showDataLabels: true}
             },
             legend: {
                 show: true,
@@ -65,28 +68,34 @@
                 marginTop: '15px'
             },
             series: [
-                {label: '100% requirements tested successfully' },
+                {label: '100% requirements tested successfully'},
                 {label: '0% requirements untested'},
                 {label: '0%} requirements failing'},
-                {label: '0%} requirements with errors'}
+                {label: '0%} requirements with errors'},
+                {label: '0%} requirements with compromised tests'}
             ]
         });
         // Results table
-        $('#req-results-table').DataTable({
-            "order": [
-                [ 2, "asc" ]
-            ],
-            "pageLength": 25
-        });
         $('#test-results-table').DataTable({
             "order": [
-                [ 2, "asc" ]
+                [ 1, "asc" ]
             ],
-            "pageLength": 25
+            "pageLength": 100,
+            "lengthMenu": [ [50, 100, 200, -1] , [50, 100, 200, "All"] ]
         });
+
+        // Results table
+        $('#req-results-table').DataTable({
+            "order": [
+                [ 1, "asc" ]
+            ],
+            "pageLength": 100,
+            "lengthMenu": [ [50, 100, 200, -1] , [50, 100, 200, "All"] ]
+        });
+
         $('#examples-table').DataTable({
             "order": [
-                [ 2, "asc" ]
+                [2, "asc"]
             ],
             "pageLength": 25
         });
@@ -127,16 +136,21 @@
 
 
 <div class="middlecontent">
-<div id="contenttop">
-    <div class="middlebg">
-        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > <a href='capabilities.html'>Requirements</a> > Epics > Inheritance </span>
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="breadcrumbs">
+            <a href='index.html'>Home</a>
+
+
+                > Inheritance
+            </span>
+        </div>
+        <div class="rightbg"></div>
     </div>
-    <div class="rightbg"></div>
-</div>
 
-<div class="clr"></div>
+    <div class="clr"></div>
 
-<!--/* starts second table*/-->
+    <!--/* starts second table*/-->
 
 <div>
     <ul class="nav nav-tabs" role="tablist">
@@ -153,61 +167,62 @@
             <a href="#"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:35</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:45</span>
     <br style="clear:left"/>
 </div>
 
-<div class="clr"></div>
+    <div class="clr"></div>
 
-<div id="beforetable"></div>
-<div id="results-dashboard">
-<div class="middlb">
-<div class="table">
-<div>
-    <h2>Epics:  Inheritance</h2>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+                <div>
+                    <h2><i class="fa fa-book"></i> Epics:  Inheritance</h2>
 
 
-</div>
+                </div>
 
-<div id="requirements-summary">
-    <div id="coverage_pie_chart" style="margin-top:10px; margin-left:10px; width:250px; height:250px;"></div>
-    <div id="coverage_summary">
-        <div>
-            <h4>Requirements Overview</h4>
-            <table class="summary-table">
-                <head>
-                    <tr>
-                        <th>Requirement Type</th>
-                        <th>Total</th>
-                        <th>Pass&nbsp;<i class="icon-check"/></th>
-                        <th>Fail&nbsp;<i class="icon-thumbs-down"/></th>
-                        <th>Pending&nbsp;<i class="icon-calendar"/></th>
-                        <th>Ignored&nbsp;<i class="icon-ban-circle"/></th>
-                        <th>Untested&nbsp;<i class="icon-question"/></th>
-                    </tr>
-                </head>
-                <body>
-                    <tr>
-                        <td class="summary-leading-column">Stories</td>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td class="summary-leading-column">Acceptance Criteria (tests)</td>
-                        <td>7</td>
-                        <td>7</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td></td>
-                    </tr>
-                </body>
-            </table>
-        </div>
+                <div id="requirements-summary">
+                    <div id="coverage_pie_chart"
+                         style="margin-top:10px; margin-left:10px; width:250px; height:250px;"></div>
+                    <div id="coverage_summary">
+                        <div>
+                            <h4>Requirements Overview</h4>
+                            <table class="summary-table">
+                                <head>
+                                    <tr>
+                                        <th>Requirement Type</th>
+                                        <th>Total</th>
+                                        <th>Pass&nbsp;<i class="icon-check"></i></th>
+                                        <th>Fail&nbsp;<i class="icon-thumbs-down"></i></th>
+                                        <th>Pending&nbsp;<i class="icon-calendar"></i></th>
+                                        <th>Ignored&nbsp;<i class="icon-ban-circle"></i></th>
+                                        <th>Untested&nbsp;<i class="icon-question"></i></th>
+                                    </tr>
+                                </head>
+                                <body>
+                                    <tr>
+                                        <td class="summary-leading-column">Stories</td>
+                                        <td>2</td>
+                                        <td>2</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                <tr>
+                                    <td class="summary-leading-column">Acceptance Criteria (tests)</td>
+                                    <td>7</td>
+                                    <td>7</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td></td>
+                                </tr>
+                                </body>
+                            </table>
+                        </div>
 
 
 
@@ -251,111 +266,112 @@
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">0 seconds</td>
+        </tr>
         </body>
     </table>
 </div>
-    </div>
-</div>
-<div class="clr"></div>
+                    </div>
+                </div>
+                <div class="clr"></div>
 
-<div id="tabs">
-    <ul>
-            <li><a href="#tabs-1">
-            Stories (2)
-            </a></li>
-    </ul>
-    <div id="tabs-1" class="capabilities-table">
-        <div id="req_list_tests" class="table">
-            <div class="test-results">
-                <table id="req-results-table">
-                    <thead>
-                    <tr>
-                        <th width="30" class="test-results-heading">&nbsp;</th>
-                        <th width="65" class="test-results-heading">ID</th>
-                        <th width="525" class="test-results-heading">Stories</th>
-                        <th class="test-results-heading" width="75px">Auto.<br/>Tests</th>
-                        <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
-                                                                         title="Tests passed (automated)"></i></th>
-                        <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
-                                                                         title="Tests skipped or pending (automated)">
-                        </th>
-                        <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
-                                                                         title="Tests failed (automated)"></th>
-                        <th class="test-results-heading" width="25px"><i class="icon-exclamation-sign icon-large"
-                                                                         title="Tests failed with an error (automated)">
-                        </th>
-                            <th class="test-results-heading" width="75px">Manual<br/>Tests</th>
-                            <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
-                                                                             title="Tests passed (manual)"></i></th>
-                            <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
-                                                                             title="Tests skipped or pending (manual)">
-                            </th>
-                            <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
-                                                                             title="Tests failed (manual)"></th>
-                            <th class="test-results-heading" width="25px"><i class="icon-exclamation-sign icon-large"
-                                                                             title="Tests failed with an error (manual)">
-                            </th>
-
-
-                        <th width="125px" class="test-results-heading">Coverage</th>
-                    </tr>
-                    <tbody>
-
-                        <tr class="test-SUCCESS requirementRow">
-                            <td class="requirementRowCell">
-                                <img src="images/traffic-green.gif" class="summary-icon"
-                                     title="SUCCESS"/>
-                                <span style="display:none">3</span>
-                            </td>
-                            <td class="cardNumber requirementRowCell"></td>
-
-                            <td class="SUCCESS-text requirementRowCell">
-                                    <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
-                                                                                             height="20"/></a>
-                                <span class="requirementName"><a
-                                        href="7d4643151daf1b4054e3d7fbfb8927ecccb88e5bce535bd3ad35d8a9ccf2ee1e.html">Inheritance test</a></span>
-                            </td>
+                <div id="tabs">
+                        <ul>
+                                <li><a href="#tabs-1">
+                                Stories (2)
+                                </a></li>
+                        </ul>
+                        <div id="tabs-1" class="capabilities-table">
+                            <div id="tabs-1" class="capabilities-table">
+<div id="req_list_tests" class="table">
+    <div class="test-results">
+        <table id="req-results-table">
+            <thead>
+            <tr>
+                <th width="30" class="test-results-heading">&nbsp;</th>
+                <th width="65" class="test-results-heading">ID</th>
+                <th width="525" class="test-results-heading">Stories</th>
+                <th class="test-results-heading" width="75px">Auto.<br/>Tests</th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-check-square-o"
+                                                                 title="Tests passed (automated)"></i>
+                </th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-square-o"
+                                                                 title="Tests skipped or pending (automated)">
+                </th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-times-circle"
+                                                                 title="Tests failed (automated)"></th>
+                <th class="test-results-heading" width="25px"><i
+                        class="fa fa-exclamation-triangle"
+                        title="Tests failed with an error (automated)"></th>
+                <th class="test-results-heading" width="25px">
+                    <i class="fa fa-chain-broken fa-lg" title="Tests compromised"></i>
+                </th>
+                    <th class="test-results-heading" width="75px">Manual<br/>Tests</th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-check-square-o"
+                                                                     title="Tests passed (manual)"></i>
+                    </th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-square-o"
+                                                                     title="Tests skipped or pending (manual)">
+                    </th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-times-circle"
+                                                                     title="Tests failed (manual)"></th>
+                    <th class="test-results-heading" width="25px"><i
+                            class="fa fa-exclamation-triangle"
+                            title="Tests failed with an error (manual)"></th>
 
 
+                <th width="125px" class="test-results-heading">Coverage</th>
+            </tr>
+            <tbody>
 
-                            <td class="greentext highlighted-value requirementRowCell">4</td>
-                            <td class="greentext requirementRowCell">4</td>
-                            <td class="bluetext requirementRowCell">0</td>
-                            <td class="redtext requirementRowCell">0</td>
-                            <td class="lightorangetext requirementRowCell">0</td>
-                                <td class="greentext highlighted-value requirementRowCell">0</td>
-                                <td class="greentext requirementRowCell">0</td>
-                                <td class="bluetext requirementRowCell">0</td>
-                                <td class="redtext requirementRowCell">0</td>
-                                <td class="lightorangetext requirementRowCell">0</td>
 
-                            <td width="125px" class="lightgreentext requirementRowCell">
+                <tr class="test-SUCCESS requirementRow">
+                    <td class="requirementRowCell">
+                        <span class="status_icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                        <span style="display:none">1</span>
+                    </td>
+                    <td class="cardNumber requirementRowCell"></td>
 
-                                <!--
-                                Accessing the ESAA Registration screens
+                    <td class="SUCCESS-text requirementRowCell">
+                    <a href="javaScript:void(0)" class="read-more-link">
+                    <img src="images/plus.png" height="16"/></a>
+                        <span class="requirementName"><a
+                                href="03a5990426dcdb2b48904dcef31f10cf64959a1692cd0b806f19d22c7be3c6c0.html">Inheritance test</a></span>
 
-                                Tests implemented: 10
-                                  - Passing tests: 4
-                                  - Failing tests: 3
+                        <div class="requirementNarrative read-more-text"></div>
+                    </td>
 
-                                Requirements specified:   6
-                                Requiments without tests: 2
 
-                                Estimated unimplemented tests: 7
-                                -->
 
-                                <table>
-                                    <tr>
-                                        <td width="40px">
-                                            <div class="small">100%</div>
-                                        </td>
-                                        <td width="125px">
-                                            <div class="percentagebar"
-                                                 title="Inheritance test
+                    <td class="greentext highlighted-value requirementRowCell">4</td>
+                    <td class="greentext requirementRowCell">4</td>
+                    <td class="bluetext requirementRowCell">0</td>
+                    <td class="redtext requirementRowCell">0</td>
+                    <td class="lightorangetext requirementRowCell">0</td>
+                    <td class="violettext requirementRowCell">0</td>
+                        <td class="greentext highlighted-value requirementRowCell">0</td>
+                        <td class="greentext requirementRowCell">0</td>
+                        <td class="bluetext requirementRowCell">0</td>
+                        <td class="redtext requirementRowCell">0</td>
+                        <td class="lightorangetext requirementRowCell">0</td>
+
+                    <td width="125px" class="lightgreentext requirementRowCell">
+
+                        <table>
+                            <tr>
+                                <td width="40px">
+                                    <div class="small">100%</div>
+                                </td>
+                                <td width="125px">
+                                    <div class="percentagebar"
+                                         title="Inheritance test
 Tests implemented: 4
   - Passing tests: 4 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -368,14 +384,55 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%"
-                                                 style="width: 125px;">
-                                                <div class="ignoredbar"
+                                         style="width: 125px;">
+                                        <div class="ignoredbar"
+                                             style="width: 125px;"
+                                             title="Inheritance test
+Tests implemented: 4
+  - Passing tests: 4 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                            <div class="compromisedbar"
+                                                 style="width: 125px;"
+                                                 title="Inheritance test
+Tests implemented: 4
+  - Passing tests: 4 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                <div class="errorbar"
                                                      style="width: 125px;"
                                                      title="Inheritance test
 Tests implemented: 4
   - Passing tests: 4 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -388,13 +445,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                    <div class="errorbar"
+                                                    <div class="failingbar"
                                                          style="width: 125px;"
                                                          title="Inheritance test
 Tests implemented: 4
   - Passing tests: 4 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -407,13 +465,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                        <div class="failingbar"
+                                                        <div class="passingbar"
                                                              style="width: 125px;"
                                                              title="Inheritance test
 Tests implemented: 4
   - Passing tests: 4 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -426,90 +485,64 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                            <div class="passingbar"
-                                                                 style="width: 125px;"
-                                                                 title="Inheritance test
-Tests implemented: 4
-  - Passing tests: 4 (100% of specified requirements)
-  - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
-
-Tests not implemented or not executed: 0
-  - Pending tests: 0 (0% of specified requirements)
-  - Ignored or skipped tests: 0 (0% of specified requirements)
-
-Requirements specified:     1
-Requirements with no tests: 0
-
-
-Estimated unimplemented tests: 0
-Estimated unimplemented or pending requirements: 0%
-Estimated ignored or skipped requirements: 0%">
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
 
-                        </tr>
-                        <tr class="test-SUCCESS requirementRow">
-                            <td class="requirementRowCell">
-                                <img src="images/traffic-green.gif" class="summary-icon"
-                                     title="SUCCESS"/>
-                                <span style="display:none">3</span>
-                            </td>
-                            <td class="cardNumber requirementRowCell"></td>
+                </tr>
 
-                            <td class="SUCCESS-text requirementRowCell">
-                                    <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
-                                                                                             height="20"/></a>
-                                <span class="requirementName"><a
-                                        href="7b105c60f6f8bf887e7afce01dd0d65192f192a0162b02755f6386769c7e4094.html">Multiple interfaces inheritance test</a></span>
-                            </td>
+                <tr class="test-SUCCESS requirementRow">
+                    <td class="requirementRowCell">
+                        <span class="status_icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                        <span style="display:none">1</span>
+                    </td>
+                    <td class="cardNumber requirementRowCell"></td>
+
+                    <td class="SUCCESS-text requirementRowCell">
+                    <a href="javaScript:void(0)" class="read-more-link">
+                    <img src="images/plus.png" height="16"/></a>
+                        <span class="requirementName"><a
+                                href="ca48420b2478fdf64fc0d0f479727ce95f8b917169e6409534bdf4223e68d50f.html">Multiple interfaces inheritance test</a></span>
+
+                        <div class="requirementNarrative read-more-text"></div>
+                    </td>
 
 
 
-                            <td class="greentext highlighted-value requirementRowCell">3</td>
-                            <td class="greentext requirementRowCell">3</td>
-                            <td class="bluetext requirementRowCell">0</td>
-                            <td class="redtext requirementRowCell">0</td>
-                            <td class="lightorangetext requirementRowCell">0</td>
-                                <td class="greentext highlighted-value requirementRowCell">0</td>
-                                <td class="greentext requirementRowCell">0</td>
-                                <td class="bluetext requirementRowCell">0</td>
-                                <td class="redtext requirementRowCell">0</td>
-                                <td class="lightorangetext requirementRowCell">0</td>
+                    <td class="greentext highlighted-value requirementRowCell">3</td>
+                    <td class="greentext requirementRowCell">3</td>
+                    <td class="bluetext requirementRowCell">0</td>
+                    <td class="redtext requirementRowCell">0</td>
+                    <td class="lightorangetext requirementRowCell">0</td>
+                    <td class="violettext requirementRowCell">0</td>
+                        <td class="greentext highlighted-value requirementRowCell">0</td>
+                        <td class="greentext requirementRowCell">0</td>
+                        <td class="bluetext requirementRowCell">0</td>
+                        <td class="redtext requirementRowCell">0</td>
+                        <td class="lightorangetext requirementRowCell">0</td>
 
-                            <td width="125px" class="lightgreentext requirementRowCell">
+                    <td width="125px" class="lightgreentext requirementRowCell">
 
-                                <!--
-                                Accessing the ESAA Registration screens
-
-                                Tests implemented: 10
-                                  - Passing tests: 4
-                                  - Failing tests: 3
-
-                                Requirements specified:   6
-                                Requiments without tests: 2
-
-                                Estimated unimplemented tests: 7
-                                -->
-
-                                <table>
-                                    <tr>
-                                        <td width="40px">
-                                            <div class="small">100%</div>
-                                        </td>
-                                        <td width="125px">
-                                            <div class="percentagebar"
-                                                 title="Multiple interfaces inheritance test
+                        <table>
+                            <tr>
+                                <td width="40px">
+                                    <div class="small">100%</div>
+                                </td>
+                                <td width="125px">
+                                    <div class="percentagebar"
+                                         title="Multiple interfaces inheritance test
 Tests implemented: 3
   - Passing tests: 3 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -522,14 +555,55 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%"
-                                                 style="width: 125px;">
-                                                <div class="ignoredbar"
+                                         style="width: 125px;">
+                                        <div class="ignoredbar"
+                                             style="width: 125px;"
+                                             title="Multiple interfaces inheritance test
+Tests implemented: 3
+  - Passing tests: 3 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                            <div class="compromisedbar"
+                                                 style="width: 125px;"
+                                                 title="Multiple interfaces inheritance test
+Tests implemented: 3
+  - Passing tests: 3 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                <div class="errorbar"
                                                      style="width: 125px;"
                                                      title="Multiple interfaces inheritance test
 Tests implemented: 3
   - Passing tests: 3 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -542,13 +616,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                    <div class="errorbar"
+                                                    <div class="failingbar"
                                                          style="width: 125px;"
                                                          title="Multiple interfaces inheritance test
 Tests implemented: 3
   - Passing tests: 3 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -561,13 +636,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                        <div class="failingbar"
+                                                        <div class="passingbar"
                                                              style="width: 125px;"
                                                              title="Multiple interfaces inheritance test
 Tests implemented: 3
   - Passing tests: 3 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -580,198 +656,178 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                            <div class="passingbar"
-                                                                 style="width: 125px;"
-                                                                 title="Multiple interfaces inheritance test
-Tests implemented: 3
-  - Passing tests: 3 (100% of specified requirements)
-  - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
-
-Tests not implemented or not executed: 0
-  - Pending tests: 0 (0% of specified requirements)
-  - Ignored or skipped tests: 0 (0% of specified requirements)
-
-Requirements specified:     1
-Requirements with no tests: 0
-
-
-Estimated unimplemented tests: 0
-Estimated unimplemented or pending requirements: 0%
-Estimated ignored or skipped requirements: 0%">
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
 
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                            </div>
+                        </div>
+<table>
+    <tr>
+        <td>
+            <div><h3>Acceptance Criteria</h3></div>
+            <div id="test_list_tests" class="table">
+                <div class="test-results">
+                    <table id="test-results-table">
+                        <thead>
+                        <tr>
+                            <th width="50" class="test-results-heading">&nbsp;</th>
+                            <th width="%" class="test-results-heading">Tests</th>
+                            <th width="70" class="test-results-heading">Steps</th>
+
+                            <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
                         </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="81cfd69db8353694204211d81b1559c1a17bf0c7c711978d8d117fd4322b22b0.html" class="ellipsis" title="">
+                                    Podam cannot instantiate interfaces 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">7</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="5eaaa4894f9c7201cfb54fe008f5f123ee1bf6773c30735bc25019306e493527.html" class="ellipsis" title="">
+                                    Podam cannot instantiate interfaces which extend Map 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">7</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="da8af00d8c13257e98807762b52810dfe1c3ca6e756c410b38f3c11dfc8c1427.html" class="ellipsis" title="">
+                                    Podam should handle basic inheritance scenarios 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">7</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3c20e60f0c5bcf871367e60098202a27119e58d549313cbab796f95566ba7b9c.html" class="ellipsis" title="">
+                                    Podam should handle the manufacturing of POJOs which inherit from other classes 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">5</td>
+
+
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="2bb951dcc90a5a7092b868b68219a038f65adb38c72240e7c096db3fbec2d9f4.html" class="ellipsis" title="">
+                                    Podam should manufacture all POJOs in a tree hierarchy 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">5</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="27dcfa10c2c4f8c801edd960c0a89c0245970d4b8ccd0f735a82297f3c973893.html" class="ellipsis" title="">
+                                    Podam should manufacture attributes implementing Collection and Map interfaces 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">9</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3a66605f950d3d3a87e635ed687fbd3c671a7b3384893075e8d98392bb4459a2.html" class="ellipsis" title="">
+                                    Podam will create an instance of a POJO but its interface types won't be instantiated 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">10</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="test-tabs">
-        <ul>
-            <li><a href="#test-tabs-1">Acceptance Tests (7)</a></li>
-        </ul>
-        <div id="test_list_tests" class="table">
-            <div class="test-results">
-                <table id="test-results-table">
-                    <thead>
-                    <tr>
-                        <th width="30" class="test-results-heading">&nbsp;</th>
-                        <th width="%" class="test-results-heading">Acceptance Tests</th>
-                        <th width="70" class="test-results-heading">Steps</th>
-                        <th width="65" class="test-results-heading">Stable</th>
-                        <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="81cfd69db8353694204211d81b1559c1a17bf0c7c711978d8d117fd4322b22b0.html" title="">Podam cannot instantiate interfaces </a>
-                            </td>
-
-                            <td class="lightgreentext">7</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="5eaaa4894f9c7201cfb54fe008f5f123ee1bf6773c30735bc25019306e493527.html" title="">Podam cannot instantiate interfaces which extend Map </a>
-                            </td>
-
-                            <td class="lightgreentext">7</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="da8af00d8c13257e98807762b52810dfe1c3ca6e756c410b38f3c11dfc8c1427.html" title="">Podam should handle basic inheritance scenarios </a>
-                            </td>
-
-                            <td class="lightgreentext">7</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="3c20e60f0c5bcf871367e60098202a27119e58d549313cbab796f95566ba7b9c.html" title="">Podam should handle the manufacturing of POJOs which inherit from other classes </a>
-                            </td>
-
-                            <td class="lightgreentext">5</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="2bb951dcc90a5a7092b868b68219a038f65adb38c72240e7c096db3fbec2d9f4.html" title="">Podam should manufacture all POJOs in a tree hierarchy </a>
-                            </td>
-
-                            <td class="lightgreentext">5</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.09</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="27dcfa10c2c4f8c801edd960c0a89c0245970d4b8ccd0f735a82297f3c973893.html" title="">Podam should manufacture attributes implementing Collection and Map interfaces </a>
-                            </td>
-
-                            <td class="lightgreentext">9</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="3a66605f950d3d3a87e635ed687fbd3c671a7b3384893075e8d98392bb4459a2.html" title="">Podam will create an instance of a POJO but its interface types won't be instantiated </a>
-                            </td>
-
-                            <td class="lightgreentext">10</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="bottomfooter">
-    <span class="version">Serenity BDD version 1.0.59</span>
+    <span class="version">Serenity BDD version 1.1.36</span>
 </div>
 </body>
 </html>

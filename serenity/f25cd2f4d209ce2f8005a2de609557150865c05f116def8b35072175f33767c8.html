@@ -33,6 +33,8 @@
 <script type="text/javascript" src="jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
 
 
+
+
     <script class="code" type="text/javascript">$(document).ready(function () {
         var test_results_plot = $.jqplot('test_results_pie_chart', [
             [
@@ -44,7 +46,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors',  0]
+                ['Errors',  0],
+                ['Compromised',  0]
             ]
         ], {
 
@@ -57,7 +60,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'fuchsia'],
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
                 trendline: { show: false },
@@ -77,7 +81,8 @@
                 {label: '0 / 17 tests pending'},
                 {label: '0 / 17 tests not executed'},
                 {label: '0 / 17 tests failed'},
-                {label: '0 / 17 errors'}
+                {label: '0 / 17 errors'},
+                {label: '0 / 17 compromised tests'}
             ]
         });
 
@@ -91,7 +96,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors', 0]
+                ['Errors', 0],
+                ['Compromised', 0],
             ]
         ], {
 
@@ -104,7 +110,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'mediumvioletred'],
 
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
@@ -170,7 +177,10 @@
 
 <div id="contenttop">
     <div class="middlebg">
-        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > Basic types (passing tests)</span>
+        <span class="breadcrumbs"><a href="index.html">Home</a>
+                > Epics
+                > Basic Types (Passing Tests)
+        </span>
     </div>
     <div class="rightbg"></div>
 </div>
@@ -193,7 +203,7 @@
             <a href="90cdeeb336e1f777b7e46a11cd41dee136f2bb3f86eb7096929265f3f550946d.html"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:35</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:45</span>
     <br style="clear:left"/>
 </div>
 <div class="clr"></div>
@@ -201,7 +211,8 @@
 <div id="results-dashboard">
 <div class="middlb">
 <div class="table">
-<h2>Epics: Basic Types (Passing Tests)</h2>
+
+<h2><i class='fa fa-tags'></i> Epics: Basic Types (Passing Tests)</h2>
 <table class='overview'>
     <tr>
         <td width="375px" valign="top">
@@ -228,6 +239,10 @@ errors,
                 </span>
                 <span class="test-count">
                     0
+compromised,
+                </span>
+                <span class="test-count">
+                    0
 ignored,
                 </span>
                 <span class="test-count">
@@ -248,8 +263,7 @@ skipped
                         <tr>
                             <td colspan="2">
                                 <span class="caption">Total number of tests that pass, fail, or are pending.</span>
-                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie
-                                    Chart</a></span>
+                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie Chart</a></span>
                             </td>
                         </tr>
                         <tr>
@@ -301,18 +315,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">1 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -323,7 +341,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f50c1ec2ee1f263b8dd7dff4efd1eeaf82799eae89ad286e731a3cf0e351486b.html" title="Basic Types">Basic Types</a>
+                                <a href="80426efe6d2e87c3f922adb2959ab406a3080f665b0925b447b85a843efb6512.html" title="Basic Types">Basic Types</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -333,22 +351,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="17 out of 17 tests (87 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f50c1ec2ee1f263b8dd7dff4efd1eeaf82799eae89ad286e731a3cf0e351486b.html">
+                                    <a href="80426efe6d2e87c3f922adb2959ab406a3080f665b0925b447b85a843efb6512.html">
                                         <div class="percentagebar"
                                              title="0 out of 17 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 17 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 17 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 17 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 17 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 17 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="17 out of 17 tests (87 steps) passing">
+                                                             title="0 out of 17 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="17 out of 17 tests (87 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -372,7 +394,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="073fb1d4e96945b85a1f1dcf390d13e8b3863d52ab61a266e7d5a4a51d92aa71.html" title="Boolean Unit Test">Boolean Unit Test</a>
+                                <a href="b2896a074947928ce18a75bd1228affe9a81b6d8eea258d687b5ca7230528184.html" title="Boolean Unit Test">Boolean Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -382,22 +404,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="1 out of 1 tests (7 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="073fb1d4e96945b85a1f1dcf390d13e8b3863d52ab61a266e7d5a4a51d92aa71.html">
+                                    <a href="b2896a074947928ce18a75bd1228affe9a81b6d8eea258d687b5ca7230528184.html">
                                         <div class="percentagebar"
                                              title="0 out of 1 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 1 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 1 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 1 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 1 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 1 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="1 out of 1 tests (7 steps) passing">
+                                                             title="0 out of 1 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="1 out of 1 tests (7 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,7 +439,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="13f79dc45588731c400814c133278a6e3291854ba4ee673132808c5d4e5b1395.html" title="Class Unit Test">Class Unit Test</a>
+                                <a href="abf60352f0a954f994f3ab263e3a0dc17ad9b4a558835186474901650618d031.html" title="Class Unit Test">Class Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -423,22 +449,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (15 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="13f79dc45588731c400814c133278a6e3291854ba4ee673132808c5d4e5b1395.html">
+                                    <a href="abf60352f0a954f994f3ab263e3a0dc17ad9b4a558835186474901650618d031.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (15 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (15 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -454,7 +484,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="884e6c8756673a195afbdf5538ecdf792974316998d061798b48fe4a170f6f6f.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
+                                <a href="1025453eda58b6d480319b1fc30e71b49c14434cc077550f1356789d706bf437.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -464,22 +494,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="13 out of 13 tests (65 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="884e6c8756673a195afbdf5538ecdf792974316998d061798b48fe4a170f6f6f.html">
+                                    <a href="1025453eda58b6d480319b1fc30e71b49c14434cc077550f1356789d706bf437.html">
                                         <div class="percentagebar"
                                              title="0 out of 13 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 13 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 13 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 13 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 13 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 13 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="13 out of 13 tests (65 steps) passing">
+                                                             title="0 out of 13 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="13 out of 13 tests (65 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -503,7 +537,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4b72296464976ae461a716bc72da94903091b6bf85f853fc6b16988e25077400.html" title="Boolean Unit Test">Boolean Unit Test</a>
+                                <a href="beb7841fc9cb5491e9fb2759bb2a0fad3bd1c707852c8506fdc0cb941b05ba4c.html" title="Boolean Unit Test">Boolean Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -513,22 +547,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="1 out of 1 tests (7 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4b72296464976ae461a716bc72da94903091b6bf85f853fc6b16988e25077400.html">
+                                    <a href="beb7841fc9cb5491e9fb2759bb2a0fad3bd1c707852c8506fdc0cb941b05ba4c.html">
                                         <div class="percentagebar"
                                              title="0 out of 1 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 1 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 1 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 1 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 1 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 1 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="1 out of 1 tests (7 steps) passing">
+                                                             title="0 out of 1 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="1 out of 1 tests (7 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -544,7 +582,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4756de34df5d28f10ad8e8c9c628fa00f4c8f7f6555c04152f46f6a83eecea77.html" title="Class Unit Test">Class Unit Test</a>
+                                <a href="65e63a4485b0df28ef6ed1c3bb9bf8aed7e3f4765a92c1b06ebf99e68eccdecd.html" title="Class Unit Test">Class Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -554,22 +592,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (15 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4756de34df5d28f10ad8e8c9c628fa00f4c8f7f6555c04152f46f6a83eecea77.html">
+                                    <a href="65e63a4485b0df28ef6ed1c3bb9bf8aed7e3f4765a92c1b06ebf99e68eccdecd.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (15 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (15 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -585,7 +627,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="5acc7f75c73e513b0b66fdca8c248b8d73dc7e682d4d17fb39945d3d9f614e5f.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
+                                <a href="c3014f5a2ee64a2951326db1d73d0a4ec63dc09609ecb90dcdfd839c46fcc9ef.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -595,22 +637,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="13 out of 13 tests (65 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="5acc7f75c73e513b0b66fdca8c248b8d73dc7e682d4d17fb39945d3d9f614e5f.html">
+                                    <a href="c3014f5a2ee64a2951326db1d73d0a4ec63dc09609ecb90dcdfd839c46fcc9ef.html">
                                         <div class="percentagebar"
                                              title="0 out of 13 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 13 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 13 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 13 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 13 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 13 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="13 out of 13 tests (65 steps) passing">
+                                                             title="0 out of 13 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="13 out of 13 tests (65 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -687,18 +733,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">1 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -709,7 +759,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f50c1ec2ee1f263b8dd7dff4efd1eeaf82799eae89ad286e731a3cf0e351486b.html" title="Basic Types">Basic Types</a>
+                                <a href="80426efe6d2e87c3f922adb2959ab406a3080f665b0925b447b85a843efb6512.html" title="Basic Types">Basic Types</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -719,22 +769,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="17 out of 17 tests (87 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f50c1ec2ee1f263b8dd7dff4efd1eeaf82799eae89ad286e731a3cf0e351486b.html">
+                                    <a href="80426efe6d2e87c3f922adb2959ab406a3080f665b0925b447b85a843efb6512.html">
                                         <div class="percentagebar"
                                              title="0 out of 17 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 17 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 17 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 17 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 17 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 17 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="17 out of 17 tests (87 steps) passing">
+                                                             title="0 out of 17 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="17 out of 17 tests (87 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -758,7 +812,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="073fb1d4e96945b85a1f1dcf390d13e8b3863d52ab61a266e7d5a4a51d92aa71.html" title="Boolean Unit Test">Boolean Unit Test</a>
+                                <a href="b2896a074947928ce18a75bd1228affe9a81b6d8eea258d687b5ca7230528184.html" title="Boolean Unit Test">Boolean Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -768,22 +822,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="1 out of 1 tests (7 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="073fb1d4e96945b85a1f1dcf390d13e8b3863d52ab61a266e7d5a4a51d92aa71.html">
+                                    <a href="b2896a074947928ce18a75bd1228affe9a81b6d8eea258d687b5ca7230528184.html">
                                         <div class="percentagebar"
                                              title="0 out of 1 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 1 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 1 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 1 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 1 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 1 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="1 out of 1 tests (7 steps) passing">
+                                                             title="0 out of 1 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="1 out of 1 tests (7 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -799,7 +857,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="13f79dc45588731c400814c133278a6e3291854ba4ee673132808c5d4e5b1395.html" title="Class Unit Test">Class Unit Test</a>
+                                <a href="abf60352f0a954f994f3ab263e3a0dc17ad9b4a558835186474901650618d031.html" title="Class Unit Test">Class Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -809,22 +867,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (15 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="13f79dc45588731c400814c133278a6e3291854ba4ee673132808c5d4e5b1395.html">
+                                    <a href="abf60352f0a954f994f3ab263e3a0dc17ad9b4a558835186474901650618d031.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (15 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (15 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -840,7 +902,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="884e6c8756673a195afbdf5538ecdf792974316998d061798b48fe4a170f6f6f.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
+                                <a href="1025453eda58b6d480319b1fc30e71b49c14434cc077550f1356789d706bf437.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -850,22 +912,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="13 out of 13 tests (65 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="884e6c8756673a195afbdf5538ecdf792974316998d061798b48fe4a170f6f6f.html">
+                                    <a href="1025453eda58b6d480319b1fc30e71b49c14434cc077550f1356789d706bf437.html">
                                         <div class="percentagebar"
                                              title="0 out of 13 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 13 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 13 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 13 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 13 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 13 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="13 out of 13 tests (65 steps) passing">
+                                                             title="0 out of 13 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="13 out of 13 tests (65 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -889,7 +955,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4b72296464976ae461a716bc72da94903091b6bf85f853fc6b16988e25077400.html" title="Boolean Unit Test">Boolean Unit Test</a>
+                                <a href="beb7841fc9cb5491e9fb2759bb2a0fad3bd1c707852c8506fdc0cb941b05ba4c.html" title="Boolean Unit Test">Boolean Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -899,22 +965,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="1 out of 1 tests (7 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4b72296464976ae461a716bc72da94903091b6bf85f853fc6b16988e25077400.html">
+                                    <a href="beb7841fc9cb5491e9fb2759bb2a0fad3bd1c707852c8506fdc0cb941b05ba4c.html">
                                         <div class="percentagebar"
                                              title="0 out of 1 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 1 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 1 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 1 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 1 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 1 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="1 out of 1 tests (7 steps) passing">
+                                                             title="0 out of 1 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="1 out of 1 tests (7 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -930,7 +1000,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="4756de34df5d28f10ad8e8c9c628fa00f4c8f7f6555c04152f46f6a83eecea77.html" title="Class Unit Test">Class Unit Test</a>
+                                <a href="65e63a4485b0df28ef6ed1c3bb9bf8aed7e3f4765a92c1b06ebf99e68eccdecd.html" title="Class Unit Test">Class Unit Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -940,22 +1010,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (15 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="4756de34df5d28f10ad8e8c9c628fa00f4c8f7f6555c04152f46f6a83eecea77.html">
+                                    <a href="65e63a4485b0df28ef6ed1c3bb9bf8aed7e3f4765a92c1b06ebf99e68eccdecd.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (15 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (15 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -971,7 +1045,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="5acc7f75c73e513b0b66fdca8c248b8d73dc7e682d4d17fb39945d3d9f614e5f.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
+                                <a href="c3014f5a2ee64a2951326db1d73d0a4ec63dc09609ecb90dcdfd839c46fcc9ef.html" title="Podam Factory Basic Types Test">Podam Factory Basic Types Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -981,22 +1055,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="13 out of 13 tests (65 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="5acc7f75c73e513b0b66fdca8c248b8d73dc7e682d4d17fb39945d3d9f614e5f.html">
+                                    <a href="c3014f5a2ee64a2951326db1d73d0a4ec63dc09609ecb90dcdfd839c46fcc9ef.html">
                                         <div class="percentagebar"
                                              title="0 out of 13 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 13 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 13 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 13 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 13 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 13 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="13 out of 13 tests (65 steps) passing">
+                                                             title="0 out of 13 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="13 out of 13 tests (65 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1020,6 +1098,7 @@ skipped
 
     </tr>
 </table>
+
 <table>
     <tr>
         <td>
@@ -1033,454 +1112,299 @@ skipped
                             <th width="%" class="test-results-heading">Tests</th>
                             <th width="70" class="test-results-heading">Steps</th>
 
-
-                            <th width="65" class="test-results-heading">Stable</th>
                             <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
                         </tr>
                         </thead>
                         <tbody>
 
-
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="a06670d389948fc80b92b809465a1fb1396473fe9c4be738dd30afec48dbd928.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="a06670d389948fc80b92b809465a1fb1396473fe9c4be738dd30afec48dbd928.html" class="ellipsis" title="">
                                     Invoking Podam on an Abstract class should return a null pojo 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">3</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">3</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="4eb45e77a689adf63f450b0f03ee6a24b8c2c1e15fa468d0c58024a04c09e537.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="4eb45e77a689adf63f450b0f03ee6a24b8c2c1e15fa468d0c58024a04c09e537.html" class="ellipsis" title="">
                                     Invoking Podam on an interface should return an empty POJO 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">3</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">3</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="3556b96bcb1da5430e1bf8790954777fb4b12ddb0f0074a09574e1be67408a95.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3556b96bcb1da5430e1bf8790954777fb4b12ddb0f0074a09574e1be67408a95.html" class="ellipsis" title="">
                                     Podam should fill Java native types 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">11</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">11</td>
 
 
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="8e6c3e119bab0294e2dd8259a5f9d4f149c6f639df0cb37059840d161bd2079c.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="8e6c3e119bab0294e2dd8259a5f9d4f149c6f639df0cb37059840d161bd2079c.html" class="ellipsis" title="">
                                     Podam should fill POJOs with non default constructors 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">3</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">3</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="6a8debf31d6fc26ea40938ec4acb086606824fba86f5f888a5447c21d23f2fa9.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="6a8debf31d6fc26ea40938ec4acb086606824fba86f5f888a5447c21d23f2fa9.html" class="ellipsis" title="">
                                     Podam should fill arrays with elements 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">4</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">4</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="d618f5b7ae31a95e797f6004991ffddb407df624563bd35b5652ba7b33eb2d23.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="d618f5b7ae31a95e797f6004991ffddb407df624563bd35b5652ba7b33eb2d23.html" class="ellipsis" title="">
                                     Podam should fill in Maps of the containing class type 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">6</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.09</td>
-                        </tr>
+                                <td class="lightgreentext">6</td>
 
 
+                                <td class="lightgreentext">0.09</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="eddd1daab5c34e06308f0e046923e0b15b232afc094ec61838e0fc326f7be033.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="eddd1daab5c34e06308f0e046923e0b15b232afc094ec61838e0fc326f7be033.html" class="ellipsis" title="">
                                     Podam should fill in POJOs which have a circular dependency 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">4</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">4</td>
 
 
+                                <td class="lightgreentext">0.07</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="46251e73ac56d2c2c9287b2ad244f2d4cfd1dc39b27270104d9287d8b186f754.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="46251e73ac56d2c2c9287b2ad244f2d4cfd1dc39b27270104d9287d8b186f754.html" class="ellipsis" title="">
                                     Podam should fill in POJOs with Enums 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="3ae928c3e83aa44f0c279113ca9dc9d4eb60573dc468e87275e1a201c0bfad84.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3ae928c3e83aa44f0c279113ca9dc9d4eb60573dc468e87275e1a201c0bfad84.html" class="ellipsis" title="">
                                     Podam should fill in a POJO with basic jvm types 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="6fd86ef088e3e5d009512579c88129190e8d18a0489dcc98cb7cd2ca8b94d3ca.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="6fd86ef088e3e5d009512579c88129190e8d18a0489dcc98cb7cd2ca8b94d3ca.html" class="ellipsis" title="">
                                     Podam should fill in lists of the containing class type 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">6</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
+                                <td class="lightgreentext">6</td>
 
 
+                                <td class="lightgreentext">0.07</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="c7fcf08c17ffb593435c6e3b3b0bc27cb2bbf5735249c3c5d79fd4cf9505896d.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="c7fcf08c17ffb593435c6e3b3b0bc27cb2bbf5735249c3c5d79fd4cf9505896d.html" class="ellipsis" title="">
                                     Podam should fill recursive POJOs correctly, including all their fields 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">4</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">4</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="b73fa51a0b051a047a8df23ff0a7e3a654036f82a602ec55e4311e24d288278e.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="b73fa51a0b051a047a8df23ff0a7e3a654036f82a602ec55e4311e24d288278e.html" class="ellipsis" title="">
                                     Podam should fill recursive POJOs when invoking the factory population directly 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">3</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">3</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="ede023522f4e6957128e2bb263107940f50743fb82ccbb3fb61b4974f16c69c9.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ede023522f4e6957128e2bb263107940f50743fb82ccbb3fb61b4974f16c69c9.html" class="ellipsis" title="">
                                     Podam should handle booleans correctly 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">7</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.07</td>
-                        </tr>
+                                <td class="lightgreentext">7</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="569f726901d32177bc9a59b2dcef1be0957423f36a869329bd9e9c66122706b0.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="569f726901d32177bc9a59b2dcef1be0957423f36a869329bd9e9c66122706b0.html" class="ellipsis" title="">
                                     Podam should handle immutable non annotated POJOs 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">8</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">8</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="86a418144f68573ca535eca8929a97a0f941548031adc1151b187ed71bf14843.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="86a418144f68573ca535eca8929a97a0f941548031adc1151b187ed71bf14843.html" class="ellipsis" title="">
                                     Podam should handle the manufacturing of POJOs with generic types in constructor 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.07</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="3e367bc64c314afcb3a6be355ecee0addd6b0975c68cb9af553710a5bd24892b.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3e367bc64c314afcb3a6be355ecee0addd6b0975c68cb9af553710a5bd24892b.html" class="ellipsis" title="">
                                     Podam should handle the manufacturing of basic types 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="ce9632e13f4e76fad6776e378016b4f180538cd802b4a58039ba721a7d8e00d0.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ce9632e13f4e76fad6776e378016b4f180538cd802b4a58039ba721a7d8e00d0.html" class="ellipsis" title="">
                                     Podam should handle the manufacturing of generic POJOs 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
+                                <td class="lightgreentext">5</td>
 
 
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -1489,14 +1413,16 @@ skipped
     </tr>
 </table>
 </div>
+
 </div>
 </div>
 </div>
 </div>
 <div id="beforefooter"></div>
 <div id="bottomfooter">
-    <span class="version">Serenity version 1.0.59</span>
+    <span class="version">Serenity version 1.1.36</span>
 </div>
+
 
 </body>
 </html>

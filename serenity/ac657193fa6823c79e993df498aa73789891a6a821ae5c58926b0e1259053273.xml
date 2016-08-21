@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor" name="podamShouldHandleConstructorsWithOneOrMoreSelfReferences" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="44" timestamp="2016-08-21T23:35:40.583+07:00">
+<acceptance-test-run title="Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor" name="podamShouldHandleConstructorsWithOneOrMoreSelfReferences" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="43" timestamp="2016-08-21T23:44:56.849+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
-    <tag name="Annotations test" type="stories"/>
+    <tag name="Annotations/Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="31">
+  <test-step result="SUCCESS" duration="32">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="6">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor</description>
+  <test-step result="SUCCESS" duration="5">
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>Then the first self-reference for a POJO with default constructor should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

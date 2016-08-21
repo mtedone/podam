@@ -1,35 +1,35 @@
-<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31" timestamp="2016-08-21T23:35:46.445+07:00">
+<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="39" timestamp="2016-08-21T23:45:01.175+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.extensions.ExtensionsTest" name="Extensions test" path="uk.co.jemos.podam.test.unit.features.extensions"/>
   <tags>
     <tag name="Extensions" type="epics"/>
-    <tag name="Extensions test" type="stories"/>
+    <tag name="Extensions/Extensions test" type="stories"/>
     <tag name="Extensions test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Custom Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="23">
+  <test-step result="SUCCESS" duration="34">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections</description>
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the array of the given type should not be null or empty and contain exactly hNGVCJ3wJ5} elements</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the collection should not be null or empty</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the List should have exactly true elements</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{-134202320=847049625992959 should contain at least one non empty element</description>
+    <description>Then the array of the given type should not be null or empty and contain exactly 2 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the map should have exactly -928352630=847049626072942 elements</description>
+    <description>Then the collection should not be null or empty</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the List should have exactly 3 elements</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the Map&lt;?, ?&gt; {-411930860=847604367030364, 1331973827=847604366860448, -590382362=847604366768118, -478528941=847604366944631} should contain at least one non empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the map should have exactly 4 elements</description>
   </test-step>
 </acceptance-test-run>

@@ -33,6 +33,8 @@
 <script type="text/javascript" src="jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
 
 
+
+
     <script class="code" type="text/javascript">$(document).ready(function () {
         var test_results_plot = $.jqplot('test_results_pie_chart', [
             [
@@ -44,7 +46,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors',  0]
+                ['Errors',  0],
+                ['Compromised',  0]
             ]
         ], {
 
@@ -57,7 +60,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'fuchsia'],
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
                 trendline: { show: false },
@@ -77,7 +81,8 @@
                 {label: '0 / 7 tests pending'},
                 {label: '0 / 7 tests not executed'},
                 {label: '0 / 7 tests failed'},
-                {label: '0 / 7 errors'}
+                {label: '0 / 7 errors'},
+                {label: '0 / 7 compromised tests'}
             ]
         });
 
@@ -91,7 +96,8 @@
                 
                 ['Failing', 0],
                 
-                ['Errors', 0]
+                ['Errors', 0],
+                ['Compromised', 0],
             ]
         ], {
 
@@ -104,7 +110,8 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'mediumvioletred'],
 
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
@@ -170,7 +177,10 @@
 
 <div id="contenttop">
     <div class="middlebg">
-        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > Inheritance (passing tests)</span>
+        <span class="breadcrumbs"><a href="index.html">Home</a>
+                > Epics
+                > Inheritance (Passing Tests)
+        </span>
     </div>
     <div class="rightbg"></div>
 </div>
@@ -193,7 +203,7 @@
             <a href="90cdeeb336e1f777b7e46a11cd41dee136f2bb3f86eb7096929265f3f550946d.html"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:35</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:45</span>
     <br style="clear:left"/>
 </div>
 <div class="clr"></div>
@@ -201,7 +211,8 @@
 <div id="results-dashboard">
 <div class="middlb">
 <div class="table">
-<h2>Epics: Inheritance (Passing Tests)</h2>
+
+<h2><i class='fa fa-tags'></i> Epics: Inheritance (Passing Tests)</h2>
 <table class='overview'>
     <tr>
         <td width="375px" valign="top">
@@ -228,6 +239,10 @@ errors,
                 </span>
                 <span class="test-count">
                     0
+compromised,
+                </span>
+                <span class="test-count">
+                    0
 ignored,
                 </span>
                 <span class="test-count">
@@ -248,8 +263,7 @@ skipped
                         <tr>
                             <td colspan="2">
                                 <span class="caption">Total number of tests that pass, fail, or are pending.</span>
-                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie
-                                    Chart</a></span>
+                                <span class="togglePieChart" id="toggleNormalPieChart"><a href="#">Show/Hide Pie Chart</a></span>
                             </td>
                         </tr>
                         <tr>
@@ -301,18 +315,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">0 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -323,7 +341,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="fc323ac33512f215a98d3db131a17ed746ffce58c2a3db5c139ba1d988e0e94f.html" title="Inheritance">Inheritance</a>
+                                <a href="12eb8de61afbe36f41b9ed0529223b92624c45aa06eb78346310b18c91a46367.html" title="Inheritance">Inheritance</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -333,22 +351,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="7 out of 7 tests (50 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="fc323ac33512f215a98d3db131a17ed746ffce58c2a3db5c139ba1d988e0e94f.html">
+                                    <a href="12eb8de61afbe36f41b9ed0529223b92624c45aa06eb78346310b18c91a46367.html">
                                         <div class="percentagebar"
                                              title="0 out of 7 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 7 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 7 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 7 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 7 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 7 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="7 out of 7 tests (50 steps) passing">
+                                                             title="0 out of 7 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="7 out of 7 tests (50 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -372,7 +394,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="3040cab69e59e4e03c41fc3aa90065fe2fb198b796835016a4f11e15e3d23fb4.html" title="Inheritance Test">Inheritance Test</a>
+                                <a href="42e1aa722a57b7201950b3f93584dcec89b54ad85d4d4feba1e9a2480812dc52.html" title="Inheritance Test">Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -382,22 +404,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="4 out of 4 tests (26 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="3040cab69e59e4e03c41fc3aa90065fe2fb198b796835016a4f11e15e3d23fb4.html">
+                                    <a href="42e1aa722a57b7201950b3f93584dcec89b54ad85d4d4feba1e9a2480812dc52.html">
                                         <div class="percentagebar"
                                              title="0 out of 4 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 4 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 4 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 4 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 4 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 4 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="4 out of 4 tests (26 steps) passing">
+                                                             title="0 out of 4 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="4 out of 4 tests (26 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -413,7 +439,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="5ada76ef1e3154e9acfb243dfabb37215c2c2ee313be67dc0b6882762af0f2d7.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
+                                <a href="22caff42957ffefb977f91de9cd4b4720aa8f10f4eb54078d598711252d57309.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -423,22 +449,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (24 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="5ada76ef1e3154e9acfb243dfabb37215c2c2ee313be67dc0b6882762af0f2d7.html">
+                                    <a href="22caff42957ffefb977f91de9cd4b4720aa8f10f4eb54078d598711252d57309.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (24 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (24 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -462,7 +492,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f037f452e19a306de3dadd5e8c35d012d30528af47ece78e0b677917fc117225.html" title="Inheritance Test">Inheritance Test</a>
+                                <a href="9b4bcca62a0933cbbfc3cb15d421bdd309e7f05b622bdb573f94fdb8999435a2.html" title="Inheritance Test">Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -472,22 +502,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="4 out of 4 tests (26 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f037f452e19a306de3dadd5e8c35d012d30528af47ece78e0b677917fc117225.html">
+                                    <a href="9b4bcca62a0933cbbfc3cb15d421bdd309e7f05b622bdb573f94fdb8999435a2.html">
                                         <div class="percentagebar"
                                              title="0 out of 4 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 4 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 4 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 4 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 4 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 4 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="4 out of 4 tests (26 steps) passing">
+                                                             title="0 out of 4 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="4 out of 4 tests (26 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -503,7 +537,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f9d6e043452e70d7ba00d29bd25efa471c4c07db7f35356cc780eba0d76b7358.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
+                                <a href="49ac63f62997c8f946d6a8cbdd1f2c43acecd6a2d5a741e198f533121bcabab6.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -513,22 +547,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (24 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f9d6e043452e70d7ba00d29bd25efa471c4c07db7f35356cc780eba0d76b7358.html">
+                                    <a href="49ac63f62997c8f946d6a8cbdd1f2c43acecd6a2d5a741e198f533121bcabab6.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (24 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (24 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -605,18 +643,22 @@ skipped
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">0 seconds</td>
+        </tr>
         </body>
     </table>
 </div>                                </div>
                                 <div>
-    <table class="tags-summary-table">
-        <tr>
-            <td width="300px"><h3>Related Tags</h3></td>
-            <td width="90px" class="tag-count-header">% Passed</td>
-            <td width="130px" class="test-count">&nbsp;</td>
-            <td class="tag-count-header">Test count</td>
-        </tr>
-    </table>
+<table class="tags-summary-table">
+    <tr>
+        <td width="300px"><h3>Related Tags</h3></td>
+        <td width="90px" class="tag-count-header">% Passed</td>
+        <td width="130px" class="test-count">&nbsp;</td>
+        <td class="tag-count-header">Test count</td>
+    </tr>
+</table>
         <table class="test-summary-table">
             <tr>
                 <td colspan="3">
@@ -627,7 +669,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="fc323ac33512f215a98d3db131a17ed746ffce58c2a3db5c139ba1d988e0e94f.html" title="Inheritance">Inheritance</a>
+                                <a href="12eb8de61afbe36f41b9ed0529223b92624c45aa06eb78346310b18c91a46367.html" title="Inheritance">Inheritance</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -637,22 +679,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="7 out of 7 tests (50 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="fc323ac33512f215a98d3db131a17ed746ffce58c2a3db5c139ba1d988e0e94f.html">
+                                    <a href="12eb8de61afbe36f41b9ed0529223b92624c45aa06eb78346310b18c91a46367.html">
                                         <div class="percentagebar"
                                              title="0 out of 7 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 7 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 7 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 7 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 7 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 7 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="7 out of 7 tests (50 steps) passing">
+                                                             title="0 out of 7 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="7 out of 7 tests (50 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -676,7 +722,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="3040cab69e59e4e03c41fc3aa90065fe2fb198b796835016a4f11e15e3d23fb4.html" title="Inheritance Test">Inheritance Test</a>
+                                <a href="42e1aa722a57b7201950b3f93584dcec89b54ad85d4d4feba1e9a2480812dc52.html" title="Inheritance Test">Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -686,22 +732,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="4 out of 4 tests (26 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="3040cab69e59e4e03c41fc3aa90065fe2fb198b796835016a4f11e15e3d23fb4.html">
+                                    <a href="42e1aa722a57b7201950b3f93584dcec89b54ad85d4d4feba1e9a2480812dc52.html">
                                         <div class="percentagebar"
                                              title="0 out of 4 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 4 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 4 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 4 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 4 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 4 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="4 out of 4 tests (26 steps) passing">
+                                                             title="0 out of 4 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="4 out of 4 tests (26 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -717,7 +767,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="5ada76ef1e3154e9acfb243dfabb37215c2c2ee313be67dc0b6882762af0f2d7.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
+                                <a href="22caff42957ffefb977f91de9cd4b4720aa8f10f4eb54078d598711252d57309.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -727,22 +777,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (24 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="5ada76ef1e3154e9acfb243dfabb37215c2c2ee313be67dc0b6882762af0f2d7.html">
+                                    <a href="22caff42957ffefb977f91de9cd4b4720aa8f10f4eb54078d598711252d57309.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (24 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (24 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -766,7 +820,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f037f452e19a306de3dadd5e8c35d012d30528af47ece78e0b677917fc117225.html" title="Inheritance Test">Inheritance Test</a>
+                                <a href="9b4bcca62a0933cbbfc3cb15d421bdd309e7f05b622bdb573f94fdb8999435a2.html" title="Inheritance Test">Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -776,22 +830,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="4 out of 4 tests (26 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f037f452e19a306de3dadd5e8c35d012d30528af47ece78e0b677917fc117225.html">
+                                    <a href="9b4bcca62a0933cbbfc3cb15d421bdd309e7f05b622bdb573f94fdb8999435a2.html">
                                         <div class="percentagebar"
                                              title="0 out of 4 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 4 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 4 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 4 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 4 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 4 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="4 out of 4 tests (26 steps) passing">
+                                                             title="0 out of 4 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="4 out of 4 tests (26 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -807,7 +865,7 @@ skipped
                 <tr>
                     <td class="bluetext" class="tag-title">
                         <span class="SUCCESS-text ellipsis">
-                                <a href="f9d6e043452e70d7ba00d29bd25efa471c4c07db7f35356cc780eba0d76b7358.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
+                                <a href="49ac63f62997c8f946d6a8cbdd1f2c43acecd6a2d5a741e198f533121bcabab6.html" title="Multiple Interfaces Inheritance Test">Multiple Interfaces Inheritance Test</a>
                         </span>
                     </td>
                     <td width="220px" class="table-figure">
@@ -817,22 +875,26 @@ skipped
                             <tr>
                                 <td class="related-tag-percentage"><span title="3 out of 3 tests (24 steps) passing">100%</span></td>
                                 <td width="150px">
-                                    <a href="f9d6e043452e70d7ba00d29bd25efa471c4c07db7f35356cc780eba0d76b7358.html">
+                                    <a href="49ac63f62997c8f946d6a8cbdd1f2c43acecd6a2d5a741e198f533121bcabab6.html">
                                         <div class="percentagebar"
                                              title="0 out of 3 tests (0 steps) pending"
                                              style="width: 150px;">
                                             <div class="ignoredbar"
                                                  style="width: 150px;"
                                                  title="0 out of 3 tests (0 steps) skipped or ignored">
-                                                <div class="errorbar"
+                                                <div class="compromisedbar"
                                                      style="width: 150px;"
-                                                     title="0 out of 3 tests (0 steps) broken">
-                                                    <div class="failingbar"
+                                                     title="0 out of 3 tests (0 steps) compromised">
+                                                    <div class="errorbar"
                                                          style="width: 150px;"
-                                                         title="0 out of 3 tests (0 steps) failing">
-                                                        <div class="passingbar"
+                                                         title="0 out of 3 tests (0 steps) broken">
+                                                        <div class="failingbar"
                                                              style="width: 150px;"
-                                                             title="3 out of 3 tests (24 steps) passing">
+                                                             title="0 out of 3 tests (0 steps) failing">
+                                                            <div class="passingbar"
+                                                                 style="width: 150px;"
+                                                                 title="3 out of 3 tests (24 steps) passing">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -856,6 +918,7 @@ skipped
 
     </tr>
 </table>
+
 <table>
     <tr>
         <td>
@@ -869,194 +932,129 @@ skipped
                             <th width="%" class="test-results-heading">Tests</th>
                             <th width="70" class="test-results-heading">Steps</th>
 
-
-                            <th width="65" class="test-results-heading">Stable</th>
                             <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
                         </tr>
                         </thead>
                         <tbody>
 
-
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="81cfd69db8353694204211d81b1559c1a17bf0c7c711978d8d117fd4322b22b0.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="81cfd69db8353694204211d81b1559c1a17bf0c7c711978d8d117fd4322b22b0.html" class="ellipsis" title="">
                                     Podam cannot instantiate interfaces 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">7</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">7</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="5eaaa4894f9c7201cfb54fe008f5f123ee1bf6773c30735bc25019306e493527.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="5eaaa4894f9c7201cfb54fe008f5f123ee1bf6773c30735bc25019306e493527.html" class="ellipsis" title="">
                                     Podam cannot instantiate interfaces which extend Map 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">7</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">7</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="da8af00d8c13257e98807762b52810dfe1c3ca6e756c410b38f3c11dfc8c1427.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="da8af00d8c13257e98807762b52810dfe1c3ca6e756c410b38f3c11dfc8c1427.html" class="ellipsis" title="">
                                     Podam should handle basic inheritance scenarios 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">7</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
+                                <td class="lightgreentext">7</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="3c20e60f0c5bcf871367e60098202a27119e58d549313cbab796f95566ba7b9c.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3c20e60f0c5bcf871367e60098202a27119e58d549313cbab796f95566ba7b9c.html" class="ellipsis" title="">
                                     Podam should handle the manufacturing of POJOs which inherit from other classes 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.03</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="2bb951dcc90a5a7092b868b68219a038f65adb38c72240e7c096db3fbec2d9f4.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="2bb951dcc90a5a7092b868b68219a038f65adb38c72240e7c096db3fbec2d9f4.html" class="ellipsis" title="">
                                     Podam should manufacture all POJOs in a tree hierarchy 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">5</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.09</td>
-                        </tr>
+                                <td class="lightgreentext">5</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="27dcfa10c2c4f8c801edd960c0a89c0245970d4b8ccd0f735a82297f3c973893.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="27dcfa10c2c4f8c801edd960c0a89c0245970d4b8ccd0f735a82297f3c973893.html" class="ellipsis" title="">
                                     Podam should manufacture attributes implementing Collection and Map interfaces 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">9</td>
-
-
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
+                                <td class="lightgreentext">9</td>
 
 
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
 
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/>
-                                
-                                <span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text">
-                                <a href="3a66605f950d3d3a87e635ed687fbd3c671a7b3384893075e8d98392bb4459a2.html" class="ellipsis" title="">
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="3a66605f950d3d3a87e635ed687fbd3c671a7b3384893075e8d98392bb4459a2.html" class="ellipsis" title="">
                                     Podam will create an instance of a POJO but its interface types won't be instantiated 
-                                </a>
-                            </td>
+                                    </a></div>
+                                </td>
 
-                            <td class="lightgreentext">10</td>
+                                <td class="lightgreentext">10</td>
 
 
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.03</td>
-                        </tr>
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -1065,14 +1063,16 @@ skipped
     </tr>
 </table>
 </div>
+
 </div>
 </div>
 </div>
 </div>
 <div id="beforefooter"></div>
 <div id="bottomfooter">
-    <span class="version">Serenity version 1.0.59</span>
+    <span class="version">Serenity version 1.1.36</span>
 </div>
+
 
 </body>
 </html>

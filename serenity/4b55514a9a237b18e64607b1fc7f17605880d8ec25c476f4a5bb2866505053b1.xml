@@ -1,29 +1,29 @@
-<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="30" timestamp="2016-08-21T23:35:44.561+07:00">
+<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2016-08-21T23:44:59.917+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
-    <tag name="Constructors unit test" type="stories"/>
+    <tag name="Constructors/Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="24">
+  <test-step result="SUCCESS" duration="26">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo</description>
-  </test-step>
   <test-step result="SUCCESS" duration="1">
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[key should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the List&lt;?&gt; [key, ouQ9FCdUv8, mxo3tIAUvV, ZrIx7016QX, F5LCuoz5ym] should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the List should have exactly neuO0rypsG elements</description>
+    <description>Then the List should have exactly 5 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{Pbayb2I6DC=934163358 should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; {46Ytv8O4ri=-585730362, CNei2YAv4G=1945223565, rXjTkbzWn7=1717636538, WlJtkwQUmi=-941436894, yH5zSKuTzy=49087155} should contain at least one non empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
-    <description>Then the map should have exactly mOuBTdEcYS=1199994444 elements</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the map should have exactly 5 elements</description>
   </test-step>
 </acceptance-test-run>

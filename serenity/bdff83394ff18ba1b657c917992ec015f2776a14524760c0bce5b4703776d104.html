@@ -30,6 +30,7 @@
 <script type="text/javascript" src="jqplot/1.0.8/plugins/jqplot.pieRenderer.min.js"></script>
 
 
+
     <script class="code" type="text/javascript">$(document).ready(function () {
         var plot1 = $.jqplot('coverage_pie_chart', [
             [
@@ -37,7 +38,8 @@
                 ['Pending', 0],
                 ['Ignored', 0],
                 ['Failing', 0],
-                ['Errors',  0]
+                ['Errors',  0],
+                ['Compromised Tests',  0],
             ]
         ], {
             gridPadding: {top: 0, bottom: 38, left: 0, right: 0},
@@ -49,11 +51,12 @@
                 
                 '#f8001f',
                 
-                '#fc6e1f'],
+                '#fc6e1f',
+                'fuchsia'],
             seriesDefaults: {
                 renderer: $.jqplot.PieRenderer,
-                trendline: { show: false },
-                rendererOptions: { padding: 8, showDataLabels: true }
+                trendline: {show: false},
+                rendererOptions: {padding: 8, showDataLabels: true}
             },
             legend: {
                 show: true,
@@ -65,28 +68,34 @@
                 marginTop: '15px'
             },
             series: [
-                {label: '100% requirements tested successfully' },
+                {label: '100% requirements tested successfully'},
                 {label: '0% requirements untested'},
                 {label: '0%} requirements failing'},
-                {label: '0%} requirements with errors'}
+                {label: '0%} requirements with errors'},
+                {label: '0%} requirements with compromised tests'}
             ]
         });
         // Results table
-        $('#req-results-table').DataTable({
-            "order": [
-                [ 2, "asc" ]
-            ],
-            "pageLength": 25
-        });
         $('#test-results-table').DataTable({
             "order": [
-                [ 2, "asc" ]
+                [ 1, "asc" ]
             ],
-            "pageLength": 25
+            "pageLength": 100,
+            "lengthMenu": [ [50, 100, 200, -1] , [50, 100, 200, "All"] ]
         });
+
+        // Results table
+        $('#req-results-table').DataTable({
+            "order": [
+                [ 1, "asc" ]
+            ],
+            "pageLength": 100,
+            "lengthMenu": [ [50, 100, 200, -1] , [50, 100, 200, "All"] ]
+        });
+
         $('#examples-table').DataTable({
             "order": [
-                [ 2, "asc" ]
+                [2, "asc"]
             ],
             "pageLength": 25
         });
@@ -127,16 +136,21 @@
 
 
 <div class="middlecontent">
-<div id="contenttop">
-    <div class="middlebg">
-        <span class="bluetext"><a href="index.html" class="bluetext">Home</a> > <a href='capabilities.html'>Requirements</a> > Epics > Annotations </span>
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="breadcrumbs">
+            <a href='index.html'>Home</a>
+
+
+                > Annotations
+            </span>
+        </div>
+        <div class="rightbg"></div>
     </div>
-    <div class="rightbg"></div>
-</div>
 
-<div class="clr"></div>
+    <div class="clr"></div>
 
-<!--/* starts second table*/-->
+    <!--/* starts second table*/-->
 
 <div>
     <ul class="nav nav-tabs" role="tablist">
@@ -153,61 +167,62 @@
             <a href="#"><i class="fa fa-comments-o"></i> Epics</a>
         </li>
     </ul>
-    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:35</span>
+    <span class="date-and-time"><a href="build-info.html"><i class="fa fa-info-circle"></i></a> Report generated 21-08-2016 23:45</span>
     <br style="clear:left"/>
 </div>
 
-<div class="clr"></div>
+    <div class="clr"></div>
 
-<div id="beforetable"></div>
-<div id="results-dashboard">
-<div class="middlb">
-<div class="table">
-<div>
-    <h2>Epics:  Annotations</h2>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+                <div>
+                    <h2><i class="fa fa-book"></i> Epics:  Annotations</h2>
 
 
-</div>
+                </div>
 
-<div id="requirements-summary">
-    <div id="coverage_pie_chart" style="margin-top:10px; margin-left:10px; width:250px; height:250px;"></div>
-    <div id="coverage_summary">
-        <div>
-            <h4>Requirements Overview</h4>
-            <table class="summary-table">
-                <head>
-                    <tr>
-                        <th>Requirement Type</th>
-                        <th>Total</th>
-                        <th>Pass&nbsp;<i class="icon-check"/></th>
-                        <th>Fail&nbsp;<i class="icon-thumbs-down"/></th>
-                        <th>Pending&nbsp;<i class="icon-calendar"/></th>
-                        <th>Ignored&nbsp;<i class="icon-ban-circle"/></th>
-                        <th>Untested&nbsp;<i class="icon-question"/></th>
-                    </tr>
-                </head>
-                <body>
-                    <tr>
-                        <td class="summary-leading-column">Stories</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td class="summary-leading-column">Acceptance Criteria (tests)</td>
-                        <td>15</td>
-                        <td>15</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td></td>
-                    </tr>
-                </body>
-            </table>
-        </div>
+                <div id="requirements-summary">
+                    <div id="coverage_pie_chart"
+                         style="margin-top:10px; margin-left:10px; width:250px; height:250px;"></div>
+                    <div id="coverage_summary">
+                        <div>
+                            <h4>Requirements Overview</h4>
+                            <table class="summary-table">
+                                <head>
+                                    <tr>
+                                        <th>Requirement Type</th>
+                                        <th>Total</th>
+                                        <th>Pass&nbsp;<i class="icon-check"></i></th>
+                                        <th>Fail&nbsp;<i class="icon-thumbs-down"></i></th>
+                                        <th>Pending&nbsp;<i class="icon-calendar"></i></th>
+                                        <th>Ignored&nbsp;<i class="icon-ban-circle"></i></th>
+                                        <th>Untested&nbsp;<i class="icon-question"></i></th>
+                                    </tr>
+                                </head>
+                                <body>
+                                    <tr>
+                                        <td class="summary-leading-column">Stories</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                <tr>
+                                    <td class="summary-leading-column">Acceptance Criteria (tests)</td>
+                                    <td>15</td>
+                                    <td>15</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td></td>
+                                </tr>
+                                </body>
+                            </table>
+                        </div>
 
 
 
@@ -251,111 +266,112 @@
             <td>0 (0%)</td>
             <td>0 (0%)</td>
         </tr>
+        <tr>
+            <td class="summary-leading-column">Total Duration</td>
+                <td colspan="5">1 seconds</td>
+        </tr>
         </body>
     </table>
 </div>
-    </div>
-</div>
-<div class="clr"></div>
+                    </div>
+                </div>
+                <div class="clr"></div>
 
-<div id="tabs">
-    <ul>
-            <li><a href="#tabs-1">
-            Stories (1)
-            </a></li>
-    </ul>
-    <div id="tabs-1" class="capabilities-table">
-        <div id="req_list_tests" class="table">
-            <div class="test-results">
-                <table id="req-results-table">
-                    <thead>
-                    <tr>
-                        <th width="30" class="test-results-heading">&nbsp;</th>
-                        <th width="65" class="test-results-heading">ID</th>
-                        <th width="525" class="test-results-heading">Stories</th>
-                        <th class="test-results-heading" width="75px">Auto.<br/>Tests</th>
-                        <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
-                                                                         title="Tests passed (automated)"></i></th>
-                        <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
-                                                                         title="Tests skipped or pending (automated)">
-                        </th>
-                        <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
-                                                                         title="Tests failed (automated)"></th>
-                        <th class="test-results-heading" width="25px"><i class="icon-exclamation-sign icon-large"
-                                                                         title="Tests failed with an error (automated)">
-                        </th>
-                            <th class="test-results-heading" width="75px">Manual<br/>Tests</th>
-                            <th class="test-results-heading" width="25px"><i class="icon-check icon-large"
-                                                                             title="Tests passed (manual)"></i></th>
-                            <th class="test-results-heading" width="25px"><i class="icon-ban-circle icon-large"
-                                                                             title="Tests skipped or pending (manual)">
-                            </th>
-                            <th class="test-results-heading" width="25px"><i class="icon-thumbs-down icon-large"
-                                                                             title="Tests failed (manual)"></th>
-                            <th class="test-results-heading" width="25px"><i class="icon-exclamation-sign icon-large"
-                                                                             title="Tests failed with an error (manual)">
-                            </th>
-
-
-                        <th width="125px" class="test-results-heading">Coverage</th>
-                    </tr>
-                    <tbody>
-
-                        <tr class="test-SUCCESS requirementRow">
-                            <td class="requirementRowCell">
-                                <img src="images/traffic-green.gif" class="summary-icon"
-                                     title="SUCCESS"/>
-                                <span style="display:none">3</span>
-                            </td>
-                            <td class="cardNumber requirementRowCell"></td>
-
-                            <td class="SUCCESS-text requirementRowCell">
-                                    <a href="javaScript:void(0)" class="read-more-link"><img src="images/plus.png"
-                                                                                             height="20"/></a>
-                                <span class="requirementName"><a
-                                        href="bdc716dda8dd33a076bb8e05f355f11eb82eb5413892caa51382654b85012921.html">Annotations test</a></span>
-                            </td>
+                <div id="tabs">
+                        <ul>
+                                <li><a href="#tabs-1">
+                                Stories (1)
+                                </a></li>
+                        </ul>
+                        <div id="tabs-1" class="capabilities-table">
+                            <div id="tabs-1" class="capabilities-table">
+<div id="req_list_tests" class="table">
+    <div class="test-results">
+        <table id="req-results-table">
+            <thead>
+            <tr>
+                <th width="30" class="test-results-heading">&nbsp;</th>
+                <th width="65" class="test-results-heading">ID</th>
+                <th width="525" class="test-results-heading">Stories</th>
+                <th class="test-results-heading" width="75px">Auto.<br/>Tests</th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-check-square-o"
+                                                                 title="Tests passed (automated)"></i>
+                </th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-square-o"
+                                                                 title="Tests skipped or pending (automated)">
+                </th>
+                <th class="test-results-heading" width="25px"><i class="fa fa-times-circle"
+                                                                 title="Tests failed (automated)"></th>
+                <th class="test-results-heading" width="25px"><i
+                        class="fa fa-exclamation-triangle"
+                        title="Tests failed with an error (automated)"></th>
+                <th class="test-results-heading" width="25px">
+                    <i class="fa fa-chain-broken fa-lg" title="Tests compromised"></i>
+                </th>
+                    <th class="test-results-heading" width="75px">Manual<br/>Tests</th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-check-square-o"
+                                                                     title="Tests passed (manual)"></i>
+                    </th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-square-o"
+                                                                     title="Tests skipped or pending (manual)">
+                    </th>
+                    <th class="test-results-heading" width="25px"><i class="fa fa-times-circle"
+                                                                     title="Tests failed (manual)"></th>
+                    <th class="test-results-heading" width="25px"><i
+                            class="fa fa-exclamation-triangle"
+                            title="Tests failed with an error (manual)"></th>
 
 
+                <th width="125px" class="test-results-heading">Coverage</th>
+            </tr>
+            <tbody>
 
-                            <td class="greentext highlighted-value requirementRowCell">15</td>
-                            <td class="greentext requirementRowCell">15</td>
-                            <td class="bluetext requirementRowCell">0</td>
-                            <td class="redtext requirementRowCell">0</td>
-                            <td class="lightorangetext requirementRowCell">0</td>
-                                <td class="greentext highlighted-value requirementRowCell">0</td>
-                                <td class="greentext requirementRowCell">0</td>
-                                <td class="bluetext requirementRowCell">0</td>
-                                <td class="redtext requirementRowCell">0</td>
-                                <td class="lightorangetext requirementRowCell">0</td>
 
-                            <td width="125px" class="lightgreentext requirementRowCell">
+                <tr class="test-SUCCESS requirementRow">
+                    <td class="requirementRowCell">
+                        <span class="status_icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                        <span style="display:none">1</span>
+                    </td>
+                    <td class="cardNumber requirementRowCell"></td>
 
-                                <!--
-                                Accessing the ESAA Registration screens
+                    <td class="SUCCESS-text requirementRowCell">
+                    <a href="javaScript:void(0)" class="read-more-link">
+                    <img src="images/plus.png" height="16"/></a>
+                        <span class="requirementName"><a
+                                href="07bf009dc5dfff6dbe14ac0ed8f6932877463b9c64ca5fcff89f54f107c37dbb.html">Annotations test</a></span>
 
-                                Tests implemented: 10
-                                  - Passing tests: 4
-                                  - Failing tests: 3
+                        <div class="requirementNarrative read-more-text"></div>
+                    </td>
 
-                                Requirements specified:   6
-                                Requiments without tests: 2
 
-                                Estimated unimplemented tests: 7
-                                -->
 
-                                <table>
-                                    <tr>
-                                        <td width="40px">
-                                            <div class="small">100%</div>
-                                        </td>
-                                        <td width="125px">
-                                            <div class="percentagebar"
-                                                 title="Annotations test
+                    <td class="greentext highlighted-value requirementRowCell">15</td>
+                    <td class="greentext requirementRowCell">15</td>
+                    <td class="bluetext requirementRowCell">0</td>
+                    <td class="redtext requirementRowCell">0</td>
+                    <td class="lightorangetext requirementRowCell">0</td>
+                    <td class="violettext requirementRowCell">0</td>
+                        <td class="greentext highlighted-value requirementRowCell">0</td>
+                        <td class="greentext requirementRowCell">0</td>
+                        <td class="bluetext requirementRowCell">0</td>
+                        <td class="redtext requirementRowCell">0</td>
+                        <td class="lightorangetext requirementRowCell">0</td>
+
+                    <td width="125px" class="lightgreentext requirementRowCell">
+
+                        <table>
+                            <tr>
+                                <td width="40px">
+                                    <div class="small">100%</div>
+                                </td>
+                                <td width="125px">
+                                    <div class="percentagebar"
+                                         title="Annotations test
 Tests implemented: 15
   - Passing tests: 15 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -368,14 +384,55 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%"
-                                                 style="width: 125px;">
-                                                <div class="ignoredbar"
+                                         style="width: 125px;">
+                                        <div class="ignoredbar"
+                                             style="width: 125px;"
+                                             title="Annotations test
+Tests implemented: 15
+  - Passing tests: 15 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                            <div class="compromisedbar"
+                                                 style="width: 125px;"
+                                                 title="Annotations test
+Tests implemented: 15
+  - Passing tests: 15 (100% of specified requirements)
+  - Failing tests: 0 (0% of specified requirements)
+  - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
+
+Tests not implemented or not executed: 0
+  - Pending tests: 0 (0% of specified requirements)
+  - Ignored or skipped tests: 0 (0% of specified requirements)
+
+Requirements specified:     1
+Requirements with no tests: 0
+
+
+Estimated unimplemented tests: 0
+Estimated unimplemented or pending requirements: 0%
+Estimated ignored or skipped requirements: 0%">
+                                                <div class="errorbar"
                                                      style="width: 125px;"
                                                      title="Annotations test
 Tests implemented: 15
   - Passing tests: 15 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -388,13 +445,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                    <div class="errorbar"
+                                                    <div class="failingbar"
                                                          style="width: 125px;"
                                                          title="Annotations test
 Tests implemented: 15
   - Passing tests: 15 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -407,13 +465,14 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                        <div class="failingbar"
+                                                        <div class="passingbar"
                                                              style="width: 125px;"
                                                              title="Annotations test
 Tests implemented: 15
   - Passing tests: 15 (100% of specified requirements)
   - Failing tests: 0 (0% of specified requirements)
   - Tests with errors: 0 (0% of specified requirements)
+  - Compromised tests 0 (0% of specified requirements)
 
 Tests not implemented or not executed: 0
   - Pending tests: 0 (0% of specified requirements)
@@ -426,342 +485,314 @@ Requirements with no tests: 0
 Estimated unimplemented tests: 0
 Estimated unimplemented or pending requirements: 0%
 Estimated ignored or skipped requirements: 0%">
-                                                            <div class="passingbar"
-                                                                 style="width: 125px;"
-                                                                 title="Annotations test
-Tests implemented: 15
-  - Passing tests: 15 (100% of specified requirements)
-  - Failing tests: 0 (0% of specified requirements)
-  - Tests with errors: 0 (0% of specified requirements)
-
-Tests not implemented or not executed: 0
-  - Pending tests: 0 (0% of specified requirements)
-  - Ignored or skipped tests: 0 (0% of specified requirements)
-
-Requirements specified:     1
-Requirements with no tests: 0
-
-
-Estimated unimplemented tests: 0
-Estimated unimplemented or pending requirements: 0%
-Estimated ignored or skipped requirements: 0%">
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
 
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+                            </div>
+                        </div>
+<table>
+    <tr>
+        <td>
+            <div><h3>Acceptance Criteria</h3></div>
+            <div id="test_list_tests" class="table">
+                <div class="test-results">
+                    <table id="test-results-table">
+                        <thead>
+                        <tr>
+                            <th width="50" class="test-results-heading">&nbsp;</th>
+                            <th width="%" class="test-results-heading">Tests</th>
+                            <th width="70" class="test-results-heading">Steps</th>
+
+                            <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
                         </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="fd5ba87692e8809df75852467efb16eb704581a50a1b6254a4ec546513adfde4.html" class="ellipsis" title="">
+                                    Podam should assign exactly the values specified with the @PodamStrategyValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">24</td>
+
+
+                                <td class="lightgreentext">0.08</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ee266e38ba3e7d63bf0f3a69175b9102875c29c3cc31b624e348caeccbe0481c.html" class="ellipsis" title="">
+                                    Podam should assign precise values and lengths when a String is annotated with @PodamStringValue 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">6</td>
+
+
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="43404866dc469ceefb75cac9b781c5b3abfb073fa352dc40b64effb475ca87cd.html" class="ellipsis" title="">
+                                    Podam should handle POJOs with annotated field and setter 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">5</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="ac657193fa6823c79e993df498aa73789891a6a821ae5c58926b0e1259053273.html" class="ellipsis" title="">
+                                    Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">5</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="55ba90e2a7b53ece77391d2c2c9cff9d4b4b1e224fc10f04f9a7d618e5696e9b.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">9</td>
+
+
+                                <td class="lightgreentext">0.06</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="aafaafad056336dd3a7776326d164a317bd1b067b39154e3cf3e548ad90142dc.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped byte values with @PodamByteValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">13</td>
+
+
+                                <td class="lightgreentext">0.07</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f34434754a1ecee82377308a8512dba6b861b09ef814ed42efb2326d088b7129.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped char values with @PodamCharValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">13</td>
+
+
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="e653eca95c99457425073b5ebc36de8c56e4525229e23c808dbeabcde85d2039.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped double values with @PodamDoubleValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">9</td>
+
+
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="57fa3da53e27abcc00d83275c670c4d11dacb42b83e1a4717168d112be732e10.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped float values with @PodamFloatValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">15</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f1971e8137087dd8b76cdfe0c7ba2fd7b11111f0feecfb13de94c4d035d11ae3.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped integer values with @PodamIntValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">15</td>
+
+
+                                <td class="lightgreentext">0.08</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="0a01b8efdc317a39018a40b933ae07e244d807b18317083a47a76bb4fd18657d.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped long values with @PodamLongValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">15</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="607b57271a8fbb3ab6f91d76968592b5ca573a923bc884be350a95e87b639cb4.html" class="ellipsis" title="">
+                                    Podam should handle both native and wrapped short values with @PodamShortValue annotation 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">13</td>
+
+
+                                <td class="lightgreentext">0.04</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="20d93520233b6d494554fc4b7305c9712c840a262f1ee5214b9be604e952c72c.html" class="ellipsis" title="">
+                                    Podam should handle immutable POJOs annotated with @PodamConstructor 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">8</td>
+
+
+                                <td class="lightgreentext">0.06</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="f120ec85495700a02f7d75484b1e1258657836795eaf2fa6c68b8ac3155848ea.html" class="ellipsis" title="">
+                                    Podam should not fill POJO's attributes annotated with @PodamExclude 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">5</td>
+
+
+                                <td class="lightgreentext">0.17</td>
+                            </tr>
+
+                            <tr class="test-SUCCESS">
+                                <td><span class="summary-icon"><i class='fa fa-check-square-o success-icon ' title='SUCCESS'></i></span>
+                                    
+                                    <span style="display:none">SUCCESS</span></td>
+                                <td class="SUCCESS-text">
+                                    <div class="ellipsis">
+                                    <a href="24cd67b9ada4f27fb451afdf90ef4d7005bbd632b299fa241f5979e4cf9642ab.html" class="ellipsis" title="">
+                                    The @PodamCollection annotation should allow to set sizes on all collections and arrays 
+                                    </a></div>
+                                </td>
+
+                                <td class="lightgreentext">9</td>
+
+
+                                <td class="lightgreentext">0.05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+</div>
+                </div>
             </div>
         </div>
     </div>
-
-    <div id="test-tabs">
-        <ul>
-            <li><a href="#test-tabs-1">Acceptance Tests (15)</a></li>
-        </ul>
-        <div id="test_list_tests" class="table">
-            <div class="test-results">
-                <table id="test-results-table">
-                    <thead>
-                    <tr>
-                        <th width="30" class="test-results-heading">&nbsp;</th>
-                        <th width="%" class="test-results-heading">Acceptance Tests</th>
-                        <th width="70" class="test-results-heading">Steps</th>
-                        <th width="65" class="test-results-heading">Stable</th>
-                        <th width="100" class="test-results-heading">Duration<br>(seconds)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="fd5ba87692e8809df75852467efb16eb704581a50a1b6254a4ec546513adfde4.html" title="">Podam should assign exactly the values specified with the @PodamStrategyValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">24</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.1</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="ee266e38ba3e7d63bf0f3a69175b9102875c29c3cc31b624e348caeccbe0481c.html" title="">Podam should assign precise values and lengths when a String is annotated with @PodamStringValue </a>
-                            </td>
-
-                            <td class="lightgreentext">6</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="43404866dc469ceefb75cac9b781c5b3abfb073fa352dc40b64effb475ca87cd.html" title="">Podam should handle POJOs with annotated field and setter </a>
-                            </td>
-
-                            <td class="lightgreentext">5</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="ac657193fa6823c79e993df498aa73789891a6a821ae5c58926b0e1259053273.html" title="">Podam should handle POJOs with constructors that have one or more self references to the POJO class, provided the required constructor is annotated with @PodamConstructor </a>
-                            </td>
-
-                            <td class="lightgreentext">5</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.04</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="55ba90e2a7b53ece77391d2c2c9cff9d4b4b1e224fc10f04f9a7d618e5696e9b.html" title="">Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">9</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="aafaafad056336dd3a7776326d164a317bd1b067b39154e3cf3e548ad90142dc.html" title="">Podam should handle both native and wrapped byte values with @PodamByteValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">13</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="f34434754a1ecee82377308a8512dba6b861b09ef814ed42efb2326d088b7129.html" title="">Podam should handle both native and wrapped char values with @PodamCharValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">13</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="e653eca95c99457425073b5ebc36de8c56e4525229e23c808dbeabcde85d2039.html" title="">Podam should handle both native and wrapped double values with @PodamDoubleValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">9</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="57fa3da53e27abcc00d83275c670c4d11dacb42b83e1a4717168d112be732e10.html" title="">Podam should handle both native and wrapped float values with @PodamFloatValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">15</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="f1971e8137087dd8b76cdfe0c7ba2fd7b11111f0feecfb13de94c4d035d11ae3.html" title="">Podam should handle both native and wrapped integer values with @PodamIntValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">15</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.09</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="0a01b8efdc317a39018a40b933ae07e244d807b18317083a47a76bb4fd18657d.html" title="">Podam should handle both native and wrapped long values with @PodamLongValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">15</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="607b57271a8fbb3ab6f91d76968592b5ca573a923bc884be350a95e87b639cb4.html" title="">Podam should handle both native and wrapped short values with @PodamShortValue annotation </a>
-                            </td>
-
-                            <td class="lightgreentext">13</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="20d93520233b6d494554fc4b7305c9712c840a262f1ee5214b9be604e952c72c.html" title="">Podam should handle immutable POJOs annotated with @PodamConstructor </a>
-                            </td>
-
-                            <td class="lightgreentext">8</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.06</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="f120ec85495700a02f7d75484b1e1258657836795eaf2fa6c68b8ac3155848ea.html" title="">Podam should not fill POJO's attributes annotated with @PodamExclude </a>
-                            </td>
-
-                            <td class="lightgreentext">5</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.2</td>
-                        </tr>
-
-
-                        <tr class="test-SUCCESS">
-                            <td><img src="images/success.png" title="SUCCESS"
-                                     class="summary-icon"/><span style="display:none">SUCCESS</span></td>
-                            <td class="SUCCESS-text"><a
-                                    href="24cd67b9ada4f27fb451afdf90ef4d7005bbd632b299fa241f5979e4cf9642ab.html" title="">The @PodamCollection annotation should allow to set sizes on all collections and arrays </a>
-                            </td>
-
-                            <td class="lightgreentext">9</td>
-                            <td class="bluetext">
-                                <img src="images/traffic-in-progress.gif"
-                                     title="Over the last 0 tests: 0 passed, 0 failed, 0 pending"
-                                     class="summary-icon"/>
-                                <span style="display:none">0</span>
-                            </td>
-                            <td class="lightgreentext">0.05</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="bottomfooter">
-    <span class="version">Serenity BDD version 1.0.59</span>
+    <span class="version">Serenity BDD version 1.1.36</span>
 </div>
 </body>
 </html>

@@ -1,44 +1,44 @@
-<acceptance-test-run title="Podam Messaging System should return a boolean primitive value" name="podamMessagingSystemShouldReturnABooleanPrimitiveValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="30" timestamp="2016-08-21T23:35:49.203+07:00">
+<acceptance-test-run title="Podam Messaging System should return a boolean primitive value" name="podamMessagingSystemShouldReturnABooleanPrimitiveValue" steps="12" successful="12" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="35" timestamp="2016-08-21T23:45:02.720+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.typeManufacturing.TypeManufacturingTest" name="Type manufacturing test" path="uk.co.jemos.podam.test.unit.features.typeManufacturing"/>
   <tags>
     <tag name="Type manufacturing" type="epics"/>
-    <tag name="Type manufacturing test" type="stories"/>
+    <tag name="Type manufacturing/Type manufacturing test" type="stories"/>
     <tag name="Type manufacturing test" type="story"/>
   </tags>
   <test-step result="SUCCESS" duration="0">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="21">
+  <test-step result="SUCCESS" duration="29">
     <description>Given Podam Root application context</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Message Channel to manufacture types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Given an empty AttributeMetadata object</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Object should not be null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Given a Message with header attributeMetadata=AttributeMetadata [attributeName=null and class attributeType=null</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>When I send a Message to the channel &lt;span class=&apos;step-parameter&apos;&gt;podamInputChannel</description>
+    <description>Given a Message with header type and class boolean</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the boolean value &lt;span class=&apos;step-parameter&apos;&gt;true&lt;/span&gt; should be true</description>
+    <description>When I send a Message to the channel podamInputChannel</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the boolean value true should be true</description>
   </test-step>
 </acceptance-test-run>

@@ -1,29 +1,29 @@
-<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:35:46.917+07:00">
+<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:45:01.410+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
-    <tag name="External factory unit test" type="stories"/>
+    <tag name="External factory/External factory unit test" type="stories"/>
     <tag name="External factory unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="21">
+  <test-step result="SUCCESS" duration="24">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithInterfaces</description>
+    <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PojoWithInterfaces</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.ObjectExt and interface uk.co.jemos.podam.test.dto.ObjectExt&lt;/span&gt; should be equal</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the two objects interface uk.co.jemos.podam.test.dto.ObjectExt and interface uk.co.jemos.podam.test.dto.ObjectExt should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;interface uk.co.jemos.podam.test.dto.InterfacePojo and interface uk.co.jemos.podam.test.dto.InterfacePojo&lt;/span&gt; should be equal</description>
+    <description>Then the two objects interface uk.co.jemos.podam.test.dto.InterfacePojo and interface uk.co.jemos.podam.test.dto.InterfacePojo should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;0 and 0&lt;/span&gt; should be equal</description>
+    <description>Then the two objects 0 and 0 should be equal</description>
   </test-step>
 </acceptance-test-run>

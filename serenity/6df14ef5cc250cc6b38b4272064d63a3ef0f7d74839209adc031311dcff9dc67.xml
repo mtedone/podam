@@ -1,32 +1,32 @@
-<acceptance-test-run title="Podam should fill in complex (e.g. with more than two generic types), read-only POJOs" name="podamShouldFillReadOnlyComplexTypes" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="41" timestamp="2016-08-21T23:35:45.283+07:00">
+<acceptance-test-run title="Podam should fill in complex (e.g. with more than two generic types), read-only POJOs" name="podamShouldFillReadOnlyComplexTypes" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="43" timestamp="2016-08-21T23:45:00.572+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
-    <tag name="Read only complex types test" type="stories"/>
+    <tag name="Constructors/Read only complex types test" type="stories"/>
     <tag name="Read only complex types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="30">
+  <test-step result="SUCCESS" duration="36">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the collection should not be null or empty and each element should be of type 847048472320481</description>
+    <description>Then the collection should not be null or empty and each element should be of type class java.lang.Long</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map should not be null or empty and each element should have key of type 1136168393=Sk6Vmor_ZP and value of type -1125600450=EVVWJBstdB</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the Map should not be null or empty and each element should have key of type class java.lang.Integer and value of type class java.lang.String</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.Character and class java.lang.Character&lt;/span&gt; should be equal</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the two objects class java.lang.Character and class java.lang.Character should be equal</description>
   </test-step>
 </acceptance-test-run>
