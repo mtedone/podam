@@ -2,9 +2,11 @@ package uk.co.jemos.podam.test.unit.features.typeManufacturing;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import uk.co.jemos.podam.api.AttributeMetadata;
@@ -14,6 +16,7 @@ import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
+import uk.co.jemos.podam.test.unit.steps.PodamFactorySteps;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapperForGenericTypes;
 
@@ -27,40 +30,40 @@ import java.util.Map;
 @RunWith(SerenityRunner.class)
 public class TypeManufacturingTest extends AbstractPodamSteps {
 
+    @BeforeClass
+    public static void init() {
+        PodamFactorySteps.initPodamFactoryContext();
+    }
+
+    @AfterClass
+    public static void deinit() {
+        PodamFactorySteps.disposePodamFactoryContext();
+    }
+
     @Test
     @Title("Podam Messaging System should return an int primitive value")
     public void podamMessagingSystemShouldReturnAnIntValue() throws Exception {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                 new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> intMessage = podamFactorySteps.givenATypeManufacturingMessage(
+                 paramsWrapper, PodamConstants.HEADER_NAME,  int.class);
+        podamValidationSteps.theObjectShouldNotBeNull(intMessage);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> intMessage = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  int.class);
-            podamValidationSteps.theObjectShouldNotBeNull(intMessage);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, intMessage);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, intMessage);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theIntFieldShouldNotBeZero((Integer) value.getPayload());
-        } finally {
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-        }
-
+        podamValidationSteps.theIntFieldShouldNotBeZero((Integer) value.getPayload());
     }
 
     @Test
@@ -69,34 +72,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> intMessage = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Integer.class);
+        podamValidationSteps.theObjectShouldNotBeNull(intMessage);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> intMessage = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Integer.class);
-            podamValidationSteps.theObjectShouldNotBeNull(intMessage);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, intMessage);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, intMessage);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theIntFieldShouldNotBeZero((Integer) value.getPayload());
-        } finally {
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-        }
-
+        podamValidationSteps.theIntFieldShouldNotBeZero((Integer) value.getPayload());
     }
 
     @Test
@@ -105,37 +98,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  boolean.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  boolean.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
     }
 
     @Test
@@ -144,37 +124,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Boolean.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Boolean.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theBooleanValueIsTrue((Boolean) value.getPayload());
     }
 
     @Test
@@ -183,36 +150,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  char.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  char.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Character) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
+        podamValidationSteps.theObjectShouldNotBeNull((Character) value.getPayload());
 
     }
 
@@ -222,37 +177,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Character.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Character.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Character) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Character) value.getPayload());
     }
 
     @Test
@@ -261,37 +203,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  short.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  short.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Short) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Short) value.getPayload());
     }
 
     @Test
@@ -300,37 +229,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Short.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Short.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Short) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Short) value.getPayload());
     }
 
     @Test
@@ -339,37 +255,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  byte.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  byte.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
     }
 
     @Test
@@ -378,37 +281,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Byte.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Byte.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Byte) value.getPayload());
     }
 
     @Test
@@ -417,37 +307,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  long.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  long.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Long) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Long) value.getPayload());
     }
 
     @Test
@@ -456,37 +333,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Long.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Long.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Long) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Long) value.getPayload());
     }
 
     @Test
@@ -495,37 +359,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  float.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  float.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Float) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Float) value.getPayload());
     }
 
     @Test
@@ -534,37 +385,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Float.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Float.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Float) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Float) value.getPayload());
     }
 
     @Test
@@ -573,37 +411,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  double.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  double.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Double) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Double) value.getPayload());
     }
 
     @Test
@@ -612,37 +437,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  Double.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  Double.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((Double) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((Double) value.getPayload());
     }
 
 
@@ -652,37 +464,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
+                (SimplePojoToTestSetters.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                    (SimplePojoToTestSetters.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  String.class);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessage(
-                    paramsWrapper, PodamConstants.HEADER_NAME,  String.class);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull((String) value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull((String) value.getPayload());
     }
 
     @Test
@@ -691,37 +490,24 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForEnums
+                (ExternalRatePodamEnum.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForEnums
-                    (ExternalRatePodamEnum.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
+                paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.ENUMERATION_QUALIFIER);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapper paramsWrapper =
-                    new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
-                    paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.ENUMERATION_QUALIFIER);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            podamValidationSteps.theObjectShouldNotBeNull(value.getPayload());
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        podamValidationSteps.theObjectShouldNotBeNull(value.getPayload());
     }
 
     @Test
@@ -730,44 +516,31 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AbstractApplicationContext applicationContext = podamFactorySteps.givenPodamRootApplicationContext();
-        podamValidationSteps.theObjectShouldNotBeNull(applicationContext);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
+                (ClassGenericConstructorPojo.class);
+        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        try {
-            MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues(applicationContext);
-            podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
+        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
 
-            AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
-                    (ClassGenericConstructorPojo.class);
-            podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
+        genericTypeArgumentsMap.put("T", String.class);
 
-            Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+        TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
+                new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
+                        genericTypeArgumentsMap, String.class);
 
-            genericTypeArgumentsMap.put("T", String.class);
+        Message<?> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
+                paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
+        podamValidationSteps.theObjectShouldNotBeNull(message);
 
-            TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
-                    new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
-                            genericTypeArgumentsMap, String.class);
+        MessageChannel inputChannel = podamFactorySteps.givenAMessageChannelToManufactureValues();
+        podamValidationSteps.theObjectShouldNotBeNull(inputChannel);
 
-            Message<?> message = podamFactorySteps.givenATypeManufacturingMessageWithStringQualifier(
-                    paramsWrapper, PodamConstants.HEADER_NAME, PodamConstants.GENERIC_TYPE_QUALIFIER);
-            podamValidationSteps.theObjectShouldNotBeNull(message);
+        Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
+        podamValidationSteps.theObjectShouldNotBeNull(value);
 
-            Message<?> value = podamInvocationSteps.whenISendAMessageToTheChannel(inputChannel, message);
-            podamValidationSteps.theObjectShouldNotBeNull(value);
-
-            Object payload = value.getPayload();
-            podamValidationSteps.theObjectShouldNotBeNull(payload);
-            podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
-
-        } finally {
-
-            if (null != applicationContext) {
-                applicationContext.close();
-            }
-
-        }
-
+        Object payload = value.getPayload();
+        podamValidationSteps.theObjectShouldNotBeNull(payload);
+        podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
     }
 
 

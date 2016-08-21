@@ -3,8 +3,6 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 
 import org.hibernate.validator.constraints.Email;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
@@ -39,7 +37,9 @@ import java.util.Set;
  */
 public class PodamFactorySteps {
 
-    @Step("Given a standard Podam Factory")
+    private static ClassPathXmlApplicationContext APP_CONTEXT;
+
+	@Step("Given a standard Podam Factory")
     public PodamFactory givenAStandardPodamFactory() {
         return new PodamFactoryImpl();
     }
@@ -180,17 +180,24 @@ public class PodamFactorySteps {
         return factory;
     }
 
-    @Step("Given Podam Root application context")
-    public AbstractApplicationContext givenPodamRootApplicationContext() {
+    @Step("Init Podam factory context")
+    public static void initPodamFactoryContext() {
 
-        return new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
+        APP_CONTEXT = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
+    }
 
+    @Step("Dispose Podam factory context")
+    public static void disposePodamFactoryContext() {
+
+        if (APP_CONTEXT != null) {
+            APP_CONTEXT.close();
+        }
     }
 
     @Step("Given a Message Channel to manufacture types")
-    public MessageChannel givenAMessageChannelToManufactureValues(ApplicationContext applicationContext) {
+    public MessageChannel givenAMessageChannelToManufactureValues() {
 
-        return applicationContext.getBean("podamInputChannel", MessageChannel.class);
+        return APP_CONTEXT.getBean("podamInputChannel", MessageChannel.class);
     }
 
     @Step("Given an empty AttributeMetadata object")
