@@ -34,7 +34,7 @@ public class ArrayPojo {
 	/**
 	 * Sets the array.
 	 *
-	 * @param myStringArray
+	 * @param myStringArray An array of strings
 	 */
 	public void setMyStringArray(String[] myStringArray) {
 		this.myStringArray = myStringArray;
@@ -52,7 +52,7 @@ public class ArrayPojo {
 	/**
 	 * Sets the array.
 	 *
-	 * @param myObjectArray
+	 * @param myObjectArray An array of Objects
 	 */
 	public void setMyObjectArray(Object[] myObjectArray) {
 		this.myObjectArray = myObjectArray;

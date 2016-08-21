@@ -37,8 +37,9 @@ public class ImmutableWithGenericCollectionsPojo implements Serializable {
 	// ------------------->> Constructors
 
 	/**
-	 * @param generifiedCollection
-	 * @param generifiedMap
+	 * @param generifiedCollection The Generified collection
+	 * @param generifiedMap The generified Map
+     * @param generifiedSet The generified Set
 	 */
 	@PodamConstructor
 	public ImmutableWithGenericCollectionsPojo(

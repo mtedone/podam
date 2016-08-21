@@ -42,9 +42,9 @@ public class ConstructorWithSelfReferencesPojoAndDefaultConstructor implements S
 	}
 
 	/**
-	 * @param intField
-	 * @param parent
-	 * @param anotherParent
+	 * @param intField The int field
+	 * @param parent A parent
+	 * @param anotherParent Another parent
 	 */
 	@PodamConstructor
 	public ConstructorWithSelfReferencesPojoAndDefaultConstructor(int intField,

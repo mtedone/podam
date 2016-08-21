@@ -13,7 +13,7 @@ public class ValidatorExternalFactory extends AbstractExternalFactory {
     /**
      * Generic method which returns an instance of the given class filled with
      * dummy values, using the default data provider strategy.
-     * <p>
+     *
      * <p>
      * This method uses RandomDataProviderStrategyImpl as the default
      * implementation.
@@ -36,7 +36,7 @@ public class ValidatorExternalFactory extends AbstractExternalFactory {
     /**
      * Generic method which populates an instance of the given class with
      * dummy values, using the default data provider strategy.
-     * <p>
+     *
      * <p>
      * This method uses RandomDataProviderStrategyImpl as the default
      * implementation.

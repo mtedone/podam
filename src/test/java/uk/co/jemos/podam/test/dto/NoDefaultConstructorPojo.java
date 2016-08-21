@@ -23,7 +23,7 @@ public class NoDefaultConstructorPojo implements Serializable {
 	// ------------------->> Constructors
 
 	/**
-	 * @param intField
+	 * @param intField The int field
 	 */
 	public NoDefaultConstructorPojo(int intField) {
 		super();

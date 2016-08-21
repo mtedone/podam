@@ -25,6 +25,7 @@ public abstract class BusinessObjectWithErrors<ID extends Serializable> extends
 
 	/**
 	 * Set the error strings.
+	 * @param allErrors The list of all errors
 	 */
 	public void setErrorCodeList(List<String> allErrors) {
 		this.errorCodeList = allErrors;

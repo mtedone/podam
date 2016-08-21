@@ -39,9 +39,9 @@ public class ImmutableNoHierarchicalAnnotatedPojo implements Serializable {
 	/**
 	 * Full constructor
 	 * 
-	 * @param intField
-	 * @param dateCreated
-	 * @param longArray
+	 * @param intField The int field
+	 * @param dateCreated The date created
+	 * @param longArray The array of longs
 	 */
 	@PodamConstructor
 	public ImmutableNoHierarchicalAnnotatedPojo(int intField, Calendar dateCreated,

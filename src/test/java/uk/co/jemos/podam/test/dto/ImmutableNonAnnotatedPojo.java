@@ -42,9 +42,9 @@ public class ImmutableNonAnnotatedPojo implements Serializable {
 	/**
 	 * Full constructor
 	 * 
-	 * @param intField
-	 * @param dateCreated
-	 * @param longArray
+	 * @param intField The int field
+	 * @param dateCreated The date created
+	 * @param longArray The array of longs
 	 */
 	public ImmutableNonAnnotatedPojo(int intField, Calendar dateCreated,
 			long[] longArray) {

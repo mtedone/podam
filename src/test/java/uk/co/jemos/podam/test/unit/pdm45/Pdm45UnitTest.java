@@ -175,7 +175,8 @@ public class Pdm45UnitTest {
 	 * It validates a {@link MultiDimensionalTestPojo} collection.
 	 * 
 	 * @param collection the collection to validate
-	 */
+	 * @param type the type of the class to validate
+     */
 	@SuppressWarnings("unchecked")
 	private <T> void checkMultiDimensionalCollection(final Collection<?> collection, Class<T> type) {
 		Assert.assertEquals("The generated List must have size=2!", 2, collection.size());

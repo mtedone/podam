@@ -41,8 +41,9 @@ public class ImmutableWithNonGenericCollectionsPojo implements Serializable {
 	// ------------------->> Constructors
 
 	/**
-	 * @param nonGenerifiedCollection
-	 * @param nonGenerifiedMap
+	 * @param nonGenerifiedCollection The non generified collection
+	 * @param nonGenerifiedMap The non generified map
+	 * @param nonGenerifiedSet The non generified set
 	 */
 	// This is actually intentional
 	@SuppressWarnings("rawtypes")
