@@ -1,6 +1,7 @@
 uk.co.jemos.podam.test.dto
 uk.co.jemos.podam.test.dto.annotations
 uk.co.jemos.podam.test.dto.docs.example
+uk.co.jemos.podam.test.dto.issue123
 uk.co.jemos.podam.test.dto.pdm3
 uk.co.jemos.podam.test.dto.pdm33
 uk.co.jemos.podam.test.dto.pdm4
@@ -22,6 +23,7 @@ uk.co.jemos.podam.test.unit.features.dataProviderStrategy
 uk.co.jemos.podam.test.unit.features.edgeCases
 uk.co.jemos.podam.test.unit.features.extensions
 uk.co.jemos.podam.test.unit.features.externalFactory
+uk.co.jemos.podam.test.unit.features.factories
 uk.co.jemos.podam.test.unit.features.inheritance
 uk.co.jemos.podam.test.unit.features.memoization
 uk.co.jemos.podam.test.unit.features.singletons
