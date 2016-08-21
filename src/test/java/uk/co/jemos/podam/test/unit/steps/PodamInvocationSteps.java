@@ -4,6 +4,8 @@ import net.thucydides.core.annotations.Step;
 import org.springframework.integration.core.MessagingTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
+import org.junit.Assert;
+
 import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -44,8 +46,11 @@ public class PodamInvocationSteps {
         return podamFactory.manufacturePojo(pojoClass, genericTypeArgs);
     }
 
-    @Step("When I send a Message to the channel {0}")
-    public Message<?> whenISendAMessageToTheChannel(MessageChannel inputChannel, Message<?> message) {
+    @Step("When I send a Message to the channel")
+    public Message<?> whenISendAMessageToTheChannel(Message<?> message) {
+        MessageChannel inputChannel = PodamFactorySteps.givenAMessageChannelToManufactureValues();
+        Assert.assertNotNull("Channel must exist", inputChannel);
+
         MessagingTemplate template = new MessagingTemplate();
         return template.sendAndReceive(inputChannel, message);
     }

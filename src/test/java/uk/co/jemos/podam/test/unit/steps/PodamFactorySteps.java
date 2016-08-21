@@ -195,7 +195,7 @@ public class PodamFactorySteps {
     }
 
     @Step("Given a Message Channel to manufacture types")
-    public MessageChannel givenAMessageChannelToManufactureValues() {
+    public static MessageChannel givenAMessageChannelToManufactureValues() {
 
         return APP_CONTEXT.getBean("podamInputChannel", MessageChannel.class);
     }
