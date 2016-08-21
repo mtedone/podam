@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should fill recursive POJOs correctly, including all their fields" name="podamShouldFillRecursivePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="130" timestamp="2015-09-27T14:32:20.052+01:00">
+<acceptance-test-run title="Podam should fill recursive POJOs correctly, including all their fields" name="podamShouldFillRecursivePojos" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2016-08-21T23:35:43.021+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="105">
+  <test-step result="SUCCESS" duration="24">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="16">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.RecursivePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then all the POJOs in the recursive hierarchy should be valid</description>
   </test-step>
 </acceptance-test-run>

@@ -39,7 +39,7 @@ import java.lang.annotation.Annotation;
 <span class="fc" id="L39">                PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;</span>
 
 <span class="fc" id="L41">                String numValueStr = doubleStrategy.numValue();</span>
-<span class="pc bpc" id="L42" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+<span class="pc bpc" id="L42" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !numValueStr.isEmpty()) {</span>
 
                     try {
 <span class="fc" id="L45">                        retValue = Double.valueOf(numValueStr);</span>

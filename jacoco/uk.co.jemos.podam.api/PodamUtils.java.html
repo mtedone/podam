@@ -238,7 +238,7 @@ public final class PodamUtils {
 	 * @param excludedFields
 	 *            The {@link Set} containing field names to be excluded
 	 */
-	public static void fillPojoSets(Class&lt;?&gt; clazz, Set&lt;Field&gt; classFields,
+	private static void fillPojoSets(Class&lt;?&gt; clazz, Set&lt;Field&gt; classFields,
 			Set&lt;Method&gt; classGetters, Set&lt;Method&gt; classSetters,
 			Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeAnnotations,
 			Set&lt;String&gt; excludedFields) {
@@ -250,7 +250,7 @@ public final class PodamUtils {
 
 <span class="fc" id="L251">		Class&lt;?&gt; workClass = clazz;</span>
 
-<span class="fc bfc" id="L253" title="All 2 branches covered.">		while (workClass != null) {</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">		while (!Object.class.equals(workClass)) {</span>
 
 <span class="fc" id="L255">			Method[] declaredMethods = workClass.getDeclaredMethods();</span>
 
@@ -301,7 +301,7 @@ public final class PodamUtils {
 	 */
 	public static String extractFieldNameFromSetterMethod(Method method) {
 <span class="fc" id="L303">		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);</span>
-<span class="fc bfc" id="L304" title="All 2 branches covered.">		if (!&quot;&quot;.equals(candidateField)) {</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">		if (!candidateField.isEmpty()) {</span>
 <span class="fc" id="L305">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
 <span class="fc" id="L306">					+ candidateField.substring(1);</span>
 		} else {
@@ -333,7 +333,7 @@ public final class PodamUtils {
 <span class="pc bpc" id="L333" title="1 of 2 branches missed.">		} else if (candidateField.startsWith(GETTER_PREFIX2)) {</span>
 <span class="fc" id="L334">			candidateField = candidateField.substring(GETTER_PREFIX2.length());</span>
 		}
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (!&quot;&quot;.equals(candidateField)) {</span>
+<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (!candidateField.isEmpty()) {</span>
 <span class="fc" id="L337">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
 <span class="fc" id="L338">					+ candidateField.substring(1);</span>
 		} else {
@@ -431,13 +431,13 @@ public final class PodamUtils {
 	public static List&lt;Annotation&gt; getAttributeAnnotations(final Field attribute,
 			final Method setter) {
 
-<span class="fc bfc" id="L434" title="All 2 branches covered.">		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);</span>
+<span class="fc" id="L434">		List&lt;Annotation&gt; retValue = new ArrayList&lt;Annotation&gt;();</span>
 
-		List&lt;Annotation&gt; retValue;
-<span class="fc bfc" id="L437" title="All 4 branches covered.">		if (annotations != null &amp;&amp; annotations.length != 0) {</span>
-<span class="fc" id="L438">			retValue = new ArrayList&lt;Annotation&gt;(Arrays.asList(annotations));</span>
-		} else {
-<span class="fc" id="L440">			retValue = new ArrayList&lt;Annotation&gt;();</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);</span>
+<span class="fc bfc" id="L437" title="All 2 branches covered.">		if (annotations != null) {</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">			for (Annotation annotation : annotations) {</span>
+<span class="fc" id="L439">				retValue.add(annotation);</span>
+			}
 		}
 <span class="fc bfc" id="L442" title="All 2 branches covered.">		for (Annotation annotation : setter.getParameterAnnotations()[0]) {</span>
 <span class="fc" id="L443">			retValue.add(annotation);</span>

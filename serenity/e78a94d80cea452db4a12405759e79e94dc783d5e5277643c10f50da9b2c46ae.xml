@@ -1,47 +1,47 @@
-<acceptance-test-run title="Podam Messaging System should return a Generic Type value" name="podamMessagingSystemShouldReturnAGenericTypeValue" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-09-27T14:32:30.793+01:00">
+<acceptance-test-run title="Podam Messaging System should return a Generic Type value" name="podamMessagingSystemShouldReturnAGenericTypeValue" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="34" timestamp="2016-08-21T23:35:49.077+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.typeManufacturing.TypeManufacturingTest" name="Type manufacturing test" path="uk.co.jemos.podam.test.unit.features.typeManufacturing"/>
   <tags>
     <tag name="Type manufacturing" type="epics"/>
     <tag name="Type manufacturing test" type="stories"/>
     <tag name="Type manufacturing test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="42">
+  <test-step result="SUCCESS" duration="24">
     <description>Given Podam Root application context</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Given a Message Channel to manufacture types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Given an Attribute Meta Data for Generic Types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Message with header attributeMetadata=AttributeMetadata [attributeName=null and qualifier attributeType=class uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="0">
     <description>When I send a Message to the channel &lt;span class=&apos;step-parameter&apos;&gt;podamInputChannel</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;class java.lang.String and class java.lang.String&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should be able to instantiate POJOs with immutable Maps" name="podamShouldBeAbleToInstantiatePojosWithImmutableMaps" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="53" timestamp="2015-09-27T14:32:23.639+01:00">
+<acceptance-test-run title="Podam should be able to instantiate POJOs with immutable Maps" name="podamShouldBeAbleToInstantiatePojosWithImmutableMaps" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:35:44.880+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="44">
+  <test-step result="SUCCESS" duration="23">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the map should be empty</description>
   </test-step>
 </acceptance-test-run>

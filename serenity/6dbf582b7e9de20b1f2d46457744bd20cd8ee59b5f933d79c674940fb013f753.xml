@@ -1,4 +1,4 @@
-<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="6" timestamp="2015-09-27T14:32:24.775+01:00">
+<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-08-21T23:35:45.650+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
@@ -11,7 +11,7 @@
   <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;5 and 5&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;3 and 3&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

@@ -1,35 +1,35 @@
-<acceptance-test-run title="Podam should handle immutable Pojos with non generic collections" name="podamShouldHandleImmutablePojosWithNonGenericCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="72" timestamp="2015-09-27T14:32:21.942+01:00">
+<acceptance-test-run title="Podam should handle immutable Pojos with non generic collections" name="podamShouldHandleImmutablePojosWithNonGenericCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="46" timestamp="2016-08-21T23:35:44.035+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="50">
+  <test-step result="SUCCESS" duration="35">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.ImmutableWithNonGenericCollectionsPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the collection should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the collection should have exactly java.lang.Object@132e0e20 elements</description>
-  </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Set&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@26c6e9d6 should contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should have exactly java.lang.Object@dfea3ca elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the collection should have exactly java.lang.Object@3e79c9e0 elements</description>
+    <description>Then the Set&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[java.lang.Object@2de83c2c should contain at least one non-empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{java.lang.Object@1ba311d0=java.lang.Object@b8b6de6 should contain at least one non empty element</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should have exactly java.lang.Object@4e792ddf elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the map should have exactly java.lang.Object@2fa69580=java.lang.Object@5341eab4 elements</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{java.lang.Object@5fe8810d=java.lang.Object@6def5e22 should contain at least one non empty element</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the map should have exactly java.lang.Object@7fa72332=java.lang.Object@53722f45 elements</description>
   </test-step>
 </acceptance-test-run>

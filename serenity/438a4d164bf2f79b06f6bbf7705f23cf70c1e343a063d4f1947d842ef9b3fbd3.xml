@@ -1,39 +1,39 @@
-<acceptance-test-run title="Podam should fill in the Order POJO correctly" name="testOrderSetup" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="79" timestamp="2015-09-27T14:32:32.332+01:00">
+<acceptance-test-run title="Podam should fill in the Order POJO correctly" name="testOrderSetup" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="35" timestamp="2016-08-21T23:35:49.994+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
     <tag name="Walk through example unit test" type="stories"/>
     <tag name="Walk through example unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="42">
+  <test-step result="SUCCESS" duration="20">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="10">
+  <test-step result="SUCCESS" duration="5">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.docs.example.Order</description>
   </test-step>
   <test-group name="Then the Order POJO should be correctly filled" result="SUCCESS">
     <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
-      <test-step result="SUCCESS" duration="3">
+      <test-step result="SUCCESS" duration="1">
         <description>Then the Article POJO should be correctly filled</description>
       </test-step>
     </test-group>
     <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
-      <test-step result="SUCCESS" duration="3">
+      <test-step result="SUCCESS" duration="1">
         <description>Then the Article POJO should be correctly filled</description>
       </test-step>
     </test-group>
     <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
-      <test-step result="SUCCESS" duration="2">
+      <test-step result="SUCCESS" duration="1">
         <description>Then the Article POJO should be correctly filled</description>
       </test-step>
     </test-group>
     <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
-      <test-step result="SUCCESS" duration="2">
+      <test-step result="SUCCESS" duration="1">
         <description>Then the Article POJO should be correctly filled</description>
       </test-step>
     </test-group>
     <test-group name="Then the OrderItem POJO should be correctly filled" result="SUCCESS">
-      <test-step result="SUCCESS" duration="2">
+      <test-step result="SUCCESS" duration="0">
         <description>Then the Article POJO should be correctly filled</description>
       </test-step>
     </test-group>

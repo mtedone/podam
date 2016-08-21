@@ -1,29 +1,29 @@
-<acceptance-test-run title="Podam should handle Singletons with parameters in the static method" name="podamShouldHandleSingletonsWithParametersInPublicStaticMethod" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="137" timestamp="2015-09-27T14:32:29.415+01:00">
+<acceptance-test-run title="Podam should handle Singletons with parameters in the static method" name="podamShouldHandleSingletonsWithParametersInPublicStaticMethod" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="65" timestamp="2016-08-21T23:35:48.483+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.singletons.SingletonsTest" name="Singletons test" path="uk.co.jemos.podam.test.unit.features.singletons"/>
   <tags>
     <tag name="Singletons" type="epics"/>
     <tag name="Singletons test" type="stories"/>
     <tag name="Singletons test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="45">
+  <test-step result="SUCCESS" duration="22">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="66">
+  <test-step result="SUCCESS" duration="34">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.SingletonWithParametersInStaticFactoryPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the calendar object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;PqzGZRZoZ9&lt;/span&gt; cannot be null or empty</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the String field &lt;span class=&apos;step-parameter&apos;&gt;AmYpCSDixf&lt;/span&gt; cannot be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
-    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 56    byteObjectField = 113    shortField = 69    shortObjectField = 39    charField = L    charObjectField = 4    intField = 1860213150    intObjectField = 110743662    longField = 1713281183194225    longObjectField = 1713281181890501    floatField = 0.21346194    floatObjectField = 0.89987385    doubleField = 0.7500253781316211    doubleObjectField = 0.974569815745715    stringField = W2ZOU7GvWH    objectField = java.lang.Object@af47f1b    calendarField = Sun Sep 27 14:32:29 BST 2015    dateField = Sun Sep 27 14:32:29 BST 2015    randomArray = [Ljava.util.Random;@4d0f58a9    intArray = [I@6d0e2a12    booleanArray = [Z@6a2e7d2d    bigDecimalField = 413726420501     ) should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the List&lt;?&gt; &lt;span class=&apos;step-parameter&apos;&gt;[OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 36    byteObjectField = 122    shortField = 77    shortObjectField = 23    charField = J    charObjectField = K    intField = 2038914675    intObjectField = -758936257    longField = 847051666094200    longObjectField = 847051665434684    floatField = 0.10870534    floatObjectField = 0.6976514    doubleField = 0.09413799009752033    doubleObjectField = 0.13064265241761341    stringField = 3qs3YBm6MG    objectField = java.lang.Object@58ef8069    calendarField = Sun Aug 21 23:35:48 ICT 2016    dateField = Sun Aug 21 23:35:48 ICT 2016    randomArray = [Ljava.util.Random;@14d0e7da    intArray = [I@10706411    booleanArray = [Z@29855e88    bigDecimalField = 327544558134     ) should not be null and contain at least one non-empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
-    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{X8b8wqlSCM=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 112    byteObjectField = 1    shortField = 16    shortObjectField = 27    charField = R    charObjectField = U    intField = 810449459    intObjectField = -1767103073    longField = 1713281225204701    longObjectField = 1713281223970713    floatField = 0.3971721    floatObjectField = 0.31210065    doubleField = 0.9361433936349305    doubleObjectField = 0.19542265408007076    stringField = UNfyLrSmb1    objectField = java.lang.Object@6492428e    calendarField = Sun Sep 27 14:32:29 BST 2015    dateField = Sun Sep 27 14:32:29 BST 2015    randomArray = [Ljava.util.Random;@352f9163    intArray = [I@22be4867    booleanArray = [Z@11b023ba    bigDecimalField = 253427735655     ) should contain at least one non empty element</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map&lt;?, ?&gt; &lt;span class=&apos;step-parameter&apos;&gt;{XWWuIT5OKW=OneDimensionalTestPojo ( booleanField = true    booleanObjectField = true    byteField = 42    byteObjectField = 41    shortField = 86    shortObjectField = 35    charField = N    charObjectField = 4    intField = -1457130203    intObjectField = 463029246    longField = 847051687427138    longObjectField = 847051686864558    floatField = 0.22550613    floatObjectField = 0.5468866    doubleField = 0.05262337511112469    doubleObjectField = 0.3663185397494263    stringField = ynfkQ6btTL    objectField = java.lang.Object@350e34e7    calendarField = Sun Aug 21 23:35:48 ICT 2016    dateField = Sun Aug 21 23:35:48 ICT 2016    randomArray = [Ljava.util.Random;@197115d6    intArray = [I@bf90cf8    booleanArray = [Z@5554cc4    bigDecimalField = 77495411996     ) should contain at least one non empty element</description>
   </test-step>
 </acceptance-test-run>

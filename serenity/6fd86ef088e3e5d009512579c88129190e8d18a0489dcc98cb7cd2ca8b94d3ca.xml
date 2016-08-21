@@ -1,26 +1,26 @@
-<acceptance-test-run title="Podam should fill in lists of the containing class type" name="podamShouldSupportRecursiveLists" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="179" timestamp="2015-09-27T14:32:20.270+01:00">
+<acceptance-test-run title="Podam should fill in lists of the containing class type" name="podamShouldSupportRecursiveLists" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="60" timestamp="2016-08-21T23:35:43.079+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="62">
+  <test-step result="SUCCESS" duration="33">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="97">
+  <test-step result="SUCCESS" duration="22">
     <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.pdm6.RecursiveList</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the recursive list should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the recursive list should not be empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="0">
     <description>Then each of the list elements should not be null</description>
   </test-step>
 </acceptance-test-run>

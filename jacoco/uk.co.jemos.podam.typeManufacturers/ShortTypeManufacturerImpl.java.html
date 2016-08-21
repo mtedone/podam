@@ -37,7 +37,7 @@ import java.lang.annotation.Annotation;
 <span class="fc" id="L37">                PodamShortValue shortStrategy = (PodamShortValue) annotation;</span>
 
 <span class="fc" id="L39">                String numValueStr = shortStrategy.numValue();</span>
-<span class="pc bpc" id="L40" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !&quot;&quot;.equals(numValueStr)) {</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !numValueStr.isEmpty()) {</span>
                     try {
 <span class="fc" id="L42">                        retValue = Short.valueOf(numValueStr);</span>
 <span class="fc" id="L43">                    } catch (NumberFormatException nfe) {</span>

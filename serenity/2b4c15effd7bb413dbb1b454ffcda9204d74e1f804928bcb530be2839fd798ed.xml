@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="58" timestamp="2015-09-27T14:32:21.883+01:00">
+<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="42" timestamp="2016-08-21T23:35:43.992+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="46">
+  <test-step result="SUCCESS" duration="35">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;0 and 0&lt;/span&gt; should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects &lt;span class=&apos;step-parameter&apos;&gt;0 and 0&lt;/span&gt; should be equal</description>
   </test-step>
 </acceptance-test-run>

@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should fill recursive POJOs when invoking the factory population directly" name="podamShouldFillRecursivePojosWhenInvokingPopulationDirectly" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-09-27T14:32:19.863+01:00">
+<acceptance-test-run title="Podam should fill recursive POJOs when invoking the factory population directly" name="podamShouldFillRecursivePojosWhenInvokingPopulationDirectly" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:35:42.955+07:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="60">
+  <test-step result="SUCCESS" duration="24">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
-    <description>When I invoke the pojo&apos;s population directly for &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.RecursivePojo@48b4fecb</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>When I invoke the pojo&apos;s population directly for &lt;span class=&apos;step-parameter&apos;&gt;uk.co.jemos.podam.test.dto.RecursivePojo@51920bb0</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="1">
     <description>Then all the POJOs in the recursive hierarchy should be valid</description>
   </test-step>
 </acceptance-test-run>

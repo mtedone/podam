@@ -1,0 +1,35 @@
+<acceptance-test-run title="Podam should manufacture attributes implementing Collection and Map interfaces" name="podamShouldManufactureAttributesImplementingCollectionAndMapInterfaces" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="48" timestamp="2016-08-21T23:35:47.499+07:00">
+  <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.InheritanceTest" name="Inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
+  <tags>
+    <tag name="Inheritance" type="epics"/>
+    <tag name="Inheritance test" type="stories"/>
+    <tag name="Inheritance test" type="story"/>
+  </tags>
+  <test-step result="SUCCESS" duration="28">
+    <description>Given a standard Podam Factory</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="12">
+    <description>When I invoke the factory manufacturing for &lt;span class=&apos;step-parameter&apos;&gt;class uk.co.jemos.podam.test.dto.PojoWithCollectionAndMap</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Object should not be null</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should not be null or empty and each element should be of type class java.lang.String&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map should not be null or empty and each element should have key of type class java.lang.Integer and value of type class java.lang.String&lt;/span&gt;</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should not be null or empty and each element should be of type 8z0RN8qjf9</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map should not be null or empty and each element should have key of type -1288243506=fXo1ORtxUe and value of type 652745083=wPYpNk06en</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the collection should not be null or empty and each element should be of type gqxdPJFy6Z</description>
+  </test-step>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the Map should not be null or empty and each element should have key of type -1495749779=FQJq2PQ54Q and value of type 1907919630=rKf7ycQvIn</description>
+  </test-step>
+</acceptance-test-run>
