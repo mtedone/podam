@@ -218,14 +218,6 @@ public class PodamFactorySteps {
         return attributeMetadata;
     }
 
-    @Step("Given a Message with header {1} and class {2}")
-    public Message<?> givenATypeManufacturingMessage(TypeManufacturerParamsWrapper paramsWrapper,
-                                                                    String headerName,
-                                                                    Class<?> clazz) {
-        return TypeManufacturerUtil.createMessage(
-                paramsWrapper, headerName, clazz.getName());
-    }
-
     @Step("Given a Message with header {1} and qualifier {2}")
     public Message<?> givenATypeManufacturingMessageWithStringQualifier(
             TypeManufacturerParamsWrapper paramsWrapper,

@@ -10,6 +10,9 @@ import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.PodamConstants;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import java.lang.reflect.Type;
 
@@ -47,8 +50,17 @@ public class PodamInvocationSteps {
     }
 
     @Step("When I send a Message to the channel")
-    public Message<?> whenISendAMessageToTheChannel(Message<?> message) {
+    public Message<?> whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
+        return whenISendAMessageToTheChannel(paramsWrapper, type.getName());
+    }
+
+    @Step("When I send a Message to the channel")
+    public Message<?> whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, String type) {
         MessageChannel inputChannel = PodamFactorySteps.givenAMessageChannelToManufactureValues();
+        Assert.assertNotNull("Channel must exist", inputChannel);
+
+        Message<?> message = TypeManufacturerUtil.createMessage(
+                paramsWrapper, PodamConstants.HEADER_NAME,  type);
         Assert.assertNotNull("Channel must exist", inputChannel);
 
         MessagingTemplate template = new MessagingTemplate();
