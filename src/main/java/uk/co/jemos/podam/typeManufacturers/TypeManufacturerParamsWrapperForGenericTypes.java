@@ -20,26 +20,20 @@ public class TypeManufacturerParamsWrapperForGenericTypes extends TypeManufactur
     /** The Map of type arguments */
     private final Map<String, Type> typeArgumentsMap;
 
-    /** The attribute generic type */
-    private final Type attributeGenericType;
-
     /**
      * Full constructor.
      *
      * @param dataProviderStrategy The DataProviderStrategy
      * @param attributeMetadata    The AttributeMetadata
      * @param typeArgumentsMap The map of type arguments
-     * @param attributeGenericType The attribute generic type
      */
     public TypeManufacturerParamsWrapperForGenericTypes(DataProviderStrategy dataProviderStrategy,
                                                         AttributeMetadata attributeMetadata,
-                                                        Map<String, Type> typeArgumentsMap,
-                                                        Type attributeGenericType) {
+                                                        Map<String, Type> typeArgumentsMap) {
         super(dataProviderStrategy, attributeMetadata);
 
         //safe copy
         this.typeArgumentsMap = new HashMap<String, Type>(typeArgumentsMap);
-        this.attributeGenericType = attributeGenericType;
     }
 
     /**
@@ -48,14 +42,6 @@ public class TypeManufacturerParamsWrapperForGenericTypes extends TypeManufactur
      */
     public Map<String, Type> getTypeArgumentsMap() {
         return new HashMap<String, Type>(typeArgumentsMap);
-    }
-
-    /**
-     * Returns the attribute generic type.
-     * @return The attribute generic type
-     */
-    public Type getAttributeGenericType() {
-        return attributeGenericType;
     }
 
 }

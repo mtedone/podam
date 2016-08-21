@@ -30,19 +30,16 @@ public interface TypeMultiplexer {
 	 * Obtains a type value
 	 * @param strategy The Data Provider strategy
 	 * @param attributeMetadata The AttributeMetadata information
-	 * @param genericAttributeType The generic attribute type
 	 * @param genericTypesArgumentsMap The generic attribute type argument types
 	 * @param qualifier The class of the requested type  @return The type value
 	 * @return value for a specified type
 	 */
 	Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
-			Type genericAttributeType, Map<String, Type> genericTypesArgumentsMap,
-			String qualifier);
+			Map<String, Type> genericTypesArgumentsMap, String qualifier);
 
 	/**
 	 * Obtains a type value
-	 * @param channel The Message Channel where to send/receive the message for the required value
 	 * @param payload The package with data about type to manufacture
 	 * @param qualifier The class of the requested type  @return The type value
 	 * @return value for a specified type

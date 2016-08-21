@@ -61,13 +61,11 @@ public class TypeMultiplexerImpl implements TypeMultiplexer {
 	@Override
 	public Object getTypeValueForGenericTypes(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
-			Type genericAttributeType,
 			Map<String, Type> genericTypesArgumentsMap,
 			String qualifier) {
 
 		TypeManufacturerParamsWrapperForGenericTypes payload =
-				new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap,
-						genericAttributeType);
+				new TypeManufacturerParamsWrapperForGenericTypes(strategy, attributeMetadata, genericTypesArgumentsMap);
 		return getValueForType(payload, qualifier);
 	}
 

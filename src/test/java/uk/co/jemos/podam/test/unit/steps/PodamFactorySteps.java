@@ -202,11 +202,12 @@ public class PodamFactorySteps {
 
         String attributeName = null;
         Class<?> realAttributeType = null;
+        Type realGenericType = null;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
-                attributeName, realAttributeType, genericTypeArgs, annotations,
-                pojoClass);
+                attributeName, realAttributeType, realGenericType,
+                genericTypeArgs, annotations, pojoClass);
 
         return attributeMetadata;
     }
@@ -219,17 +220,19 @@ public class PodamFactorySteps {
 
         String attributeName = null;
         Class<?> realAttributeType = pojoClass;
+        Type realGenericType = null;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
-                attributeName, realAttributeType, genericTypeArgs, annotations,
-                pojoClass);
+                attributeName, realAttributeType, realGenericType,
+                genericTypeArgs, annotations, pojoClass);
 
         return attributeMetadata;
     }
 
     @Step("Given an Attribute Meta Data for Generic Types")
-    public AttributeMetadata givenAnAttributeMetadataForGenericTypes(Class<?> pojoClass) {
+    public AttributeMetadata givenAnAttributeMetadataForGenericTypes(
+            Class<?> pojoClass, Type pojoType) {
 
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
@@ -240,7 +243,7 @@ public class PodamFactorySteps {
         Type[] typeParams = pojoClass.getTypeParameters();
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
-                attributeName, realAttributeType, typeParams, annotations,
+                attributeName, realAttributeType, pojoType, typeParams, annotations,
                 pojoClass);
 
         return attributeMetadata;

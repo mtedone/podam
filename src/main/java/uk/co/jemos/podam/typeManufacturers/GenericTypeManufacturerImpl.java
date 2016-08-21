@@ -45,7 +45,7 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
 
         }
 
-        Type genericAttributeType = localWrapper.getAttributeGenericType();
+        Type genericAttributeType = attributeMetadata.getAttributeGenericType();
 
         Map<String, Type> typeArgumentsMap = localWrapper.getTypeArgumentsMap();
 

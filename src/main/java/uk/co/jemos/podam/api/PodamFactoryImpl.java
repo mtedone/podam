@@ -145,7 +145,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Class<?> declaringClass = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					genericTypeArgs, declaringClass);
+					Class.class, genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
@@ -169,7 +169,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Class<?> declaringClass = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					genericTypeArgs, declaringClass);
+					Class.class, genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
@@ -854,7 +854,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             annotation and such value could not be converted to the
 	 *             desired type</li>
 	 *             </ul>
-     * @throws MessageHandlingException If there was a problem handling the message
+	 * @throws ClassNotFoundException
+	 *              If class being manufactured cannot be loaded
 	 *
 	 */
 	private Object manufactureAttributeValue(Object pojo,
@@ -890,8 +891,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
-				attributeName, realAttributeType, genericTypeArgsAll, annotations,
-				pojoClass);
+				attributeName, realAttributeType, genericAttributeType,
+				genericTypeArgsAll, annotations, pojoClass);
 
 		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
                 realAttributeType.equals(String.class)) {
@@ -932,7 +933,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = typeMultiplexer.getTypeValueForGenericTypes(strategy,
-					attributeMetadata, genericAttributeType, typeArgsMap,
+					attributeMetadata, typeArgsMap,
 					PodamConstants.GENERIC_TYPE_QUALIFIER);
 		}
 

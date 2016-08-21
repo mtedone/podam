@@ -371,7 +371,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
         AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
-                (ClassGenericConstructorPojo.class);
+                (ClassGenericConstructorPojo.class, Class.class);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
@@ -380,7 +380,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
                 new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
-                        genericTypeArgumentsMap, String.class);
+                        genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
                 paramsWrapper, PodamConstants.GENERIC_TYPE_QUALIFIER);
