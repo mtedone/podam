@@ -87,7 +87,7 @@ public final class TypeManufacturerUtil {
      * @param qualifier The class of the requested type  @return The type value
      * @return value for a specified type
      */
-    private static Object getValueForType(MessageChannel channel,
+    public static Object getValueForType(MessageChannel channel,
                 TypeManufacturerParamsWrapper wrapper, String qualifier) {
 
         Message<?> message = createMessage(wrapper, PodamConstants.HEADER_NAME,

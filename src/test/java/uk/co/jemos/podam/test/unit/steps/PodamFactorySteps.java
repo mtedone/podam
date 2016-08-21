@@ -4,7 +4,6 @@ import net.thucydides.core.annotations.Step;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 
 import uk.co.jemos.podam.api.*;
@@ -18,8 +17,6 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -216,16 +213,6 @@ public class PodamFactorySteps {
                 pojoClass);
 
         return attributeMetadata;
-    }
-
-    @Step("Given a Message with header {1} and qualifier {2}")
-    public Message<?> givenATypeManufacturingMessageWithStringQualifier(
-            TypeManufacturerParamsWrapper paramsWrapper,
-            String headerName,
-            String qualifier) {
-
-        return TypeManufacturerUtil.createMessage(
-                paramsWrapper, headerName, qualifier);
     }
 
     @Step("Given an Attribute Meta Data object for Enums")

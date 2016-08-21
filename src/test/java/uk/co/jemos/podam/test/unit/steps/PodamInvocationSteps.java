@@ -1,8 +1,6 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
-import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.junit.Assert;
 
@@ -10,7 +8,6 @@ import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamUtils;
-import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
@@ -50,20 +47,17 @@ public class PodamInvocationSteps {
     }
 
     @Step("When I send a Message to the channel")
-    public Message<?> whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
+    public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
         return whenISendAMessageToTheChannel(paramsWrapper, type.getName());
     }
 
     @Step("When I send a Message to the channel")
-    public Message<?> whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, String type) {
+    public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, String type) {
         MessageChannel inputChannel = PodamFactorySteps.givenAMessageChannelToManufactureValues();
         Assert.assertNotNull("Channel must exist", inputChannel);
 
-        Message<?> message = TypeManufacturerUtil.createMessage(
-                paramsWrapper, PodamConstants.HEADER_NAME,  type);
-        Assert.assertNotNull("Channel must exist", inputChannel);
-
-        MessagingTemplate template = new MessagingTemplate();
-        return template.sendAndReceive(inputChannel, message);
+        Object payload = TypeManufacturerUtil.getValueForType(inputChannel, paramsWrapper, type);
+        Assert.assertNotNull("Payload must be valid", payload);
+        return payload;
     }
 }
