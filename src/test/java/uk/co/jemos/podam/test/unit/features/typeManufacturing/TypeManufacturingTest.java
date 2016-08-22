@@ -38,10 +38,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
         PodamFactorySteps.disposePodamFactoryContext();
     }
 
-    @Test
-    @Title("Podam Messaging System should return an int primitive value")
-    public void podamMessagingSystemShouldReturnAnIntValue() throws Exception {
-
+    private Object produceValueForType(Class<?> pojoType) {
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
         AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
@@ -51,8 +48,15 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
         TypeManufacturerParamsWrapper paramsWrapper =
                  new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
 
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, int.class);
+        return podamInvocationSteps.whenISendAMessageToTheChannel(
+                paramsWrapper, pojoType);
+    }
+
+    @Test
+    @Title("Podam Messaging System should return an int primitive value")
+    public void podamMessagingSystemShouldReturnAnIntValue() throws Exception {
+
+        Object payload = produceValueForType(int.class);
         podamValidationSteps.theIntFieldShouldNotBeZero((Integer) payload);
     }
 
@@ -60,17 +64,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return an integer value")
     public void podamMessagingSystemShouldReturnAnIntegerValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Integer.class);
+        Object payload = produceValueForType(Integer.class);
         podamValidationSteps.theIntFieldShouldNotBeZero((Integer) payload);
     }
 
@@ -78,17 +72,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a boolean primitive value")
     public void podamMessagingSystemShouldReturnABooleanPrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, boolean.class);
+        Object payload = produceValueForType(boolean.class);
         podamValidationSteps.theBooleanValueIsTrue((Boolean) payload);
     }
 
@@ -96,17 +80,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a boolean wrapped value")
     public void podamMessagingSystemShouldReturnABooleanWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Boolean.class);
+        Object payload = produceValueForType(Boolean.class);
         podamValidationSteps.theBooleanValueIsTrue((Boolean) payload);
     }
 
@@ -114,17 +88,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a char primitive value")
     public void podamMessagingSystemShouldReturnACharacterPrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, char.class);
+        Object payload = produceValueForType(char.class);
         podamValidationSteps.theObjectShouldNotBeNull((Character) payload);
 
     }
@@ -133,17 +97,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Character wrapped value")
     public void podamMessagingSystemShouldReturnACharacterWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Character.class);
+        Object payload = produceValueForType(Character.class);
         podamValidationSteps.theObjectShouldNotBeNull((Character) payload);
     }
 
@@ -151,17 +105,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a short primitive value")
     public void podamMessagingSystemShouldReturnAShortPrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, short.class);
+        Object payload = produceValueForType(short.class);
         podamValidationSteps.theObjectShouldNotBeNull((Short) payload);
     }
 
@@ -169,17 +113,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Short wrapped value")
     public void podamMessagingSystemShouldReturnAShortWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Short.class);
+        Object payload = produceValueForType(Short.class);
         podamValidationSteps.theObjectShouldNotBeNull((Short) payload);
     }
 
@@ -187,17 +121,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a byte primitive value")
     public void podamMessagingSystemShouldReturnABytePrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, byte.class);
+        Object payload = produceValueForType(byte.class);
         podamValidationSteps.theObjectShouldNotBeNull((Byte) payload);
     }
 
@@ -205,17 +129,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Byte wrapped value")
     public void podamMessagingSystemShouldReturnAByteWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Byte.class);
+        Object payload = produceValueForType(Byte.class);
         podamValidationSteps.theObjectShouldNotBeNull((Byte) payload);
     }
 
@@ -223,17 +137,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a long primitive value")
     public void podamMessagingSystemShouldReturnALongPrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, long.class);
+        Object payload = produceValueForType(long.class);
         podamValidationSteps.theObjectShouldNotBeNull((Long) payload);
     }
 
@@ -241,17 +145,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Long wrapped value")
     public void podamMessagingSystemShouldReturnALongWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Long.class);
+        Object payload = produceValueForType(Long.class);
         podamValidationSteps.theObjectShouldNotBeNull((Long) payload);
     }
 
@@ -259,17 +153,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a float primitive value")
     public void podamMessagingSystemShouldReturnAFloatPrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, float.class);
+        Object payload = produceValueForType(float.class);
         podamValidationSteps.theObjectShouldNotBeNull((Float) payload);
     }
 
@@ -277,17 +161,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Float wrapped value")
     public void podamMessagingSystemShouldReturnAFloatWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Float.class);
+        Object payload = produceValueForType(Float.class);
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
 
@@ -295,17 +169,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a double primitive value")
     public void podamMessagingSystemShouldReturnADoublePrimitiveValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, double.class);
+        Object payload = produceValueForType(double.class);
         podamValidationSteps.theObjectShouldNotBeNull((Double) payload);
     }
 
@@ -313,17 +177,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a Double wrapped value")
     public void podamMessagingSystemShouldReturnADoubleWrappedValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Double.class);
+        Object payload = produceValueForType(Double.class);
         podamValidationSteps.theObjectShouldNotBeNull((Double) payload);
     }
 
@@ -332,17 +186,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     @Title("Podam Messaging System should return a String value")
     public void podamMessagingSystemShouldReturnAStringValue() throws Exception {
 
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, String.class);
+        Object payload = produceValueForType(String.class);
         podamValidationSteps.theObjectShouldNotBeNull((String) payload);
     }
 
