@@ -209,7 +209,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                         genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, PodamConstants.ENUMERATION_QUALIFIER);
+                paramsWrapper, ExternalRatePodamEnum.class.getSuperclass().getName());
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
 

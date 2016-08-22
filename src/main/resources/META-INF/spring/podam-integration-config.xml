@@ -41,7 +41,7 @@
         <mapping value="double" channel="doubleChannel" />
         <mapping value="java.lang.Double" channel="doubleChannel" />
         <mapping value="java.lang.String" channel="stringChannel" />
-        <mapping value="Enumeration" channel="enumChannel" />
+        <mapping value="java.lang.Enum" channel="enumChannel" />
         <mapping value="GenericType" channel="genericTypeChannel" />
     </header-value-router>
 

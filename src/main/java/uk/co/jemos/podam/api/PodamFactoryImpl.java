@@ -508,7 +508,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, typeArgsMap, PodamConstants.ENUMERATION_QUALIFIER);
+					strategy, pojoMetadata, typeArgsMap, pojoClass.getSuperclass().getName());
 			return tmp;
 		}
 
@@ -530,6 +530,18 @@ public class PodamFactoryImpl implements PodamFactory {
 			return getValueForAbstractType(pojoClass, pojoMetadata,
 					manufacturingCtx, typeArgsMap, genericTypeArgs);
 
+		}
+
+		// Parametrized type
+		if (Type.class.isAssignableFrom(pojoClass)) {
+
+			@SuppressWarnings("unchecked")
+			T tmp = (T) typeMultiplexer.getTypeValue(strategy,
+					pojoMetadata, typeArgsMap,
+					PodamConstants.GENERIC_TYPE_QUALIFIER);
+			if (null != tmp) {
+				return tmp;
+			}
 		}
 
 		T retValue = null;
@@ -919,12 +931,6 @@ public class PodamFactoryImpl implements PodamFactory {
 					manufacturingCtx, realAttributeType, attributeName, annotations,
 					typeArgsMap, genericTypeArgsAll);
 
-            //Parametrized type
-		} else if (Type.class.isAssignableFrom(realAttributeType)) {
-
-			attributeValue = typeMultiplexer.getTypeValue(strategy,
-					attributeMetadata, typeArgsMap,
-					PodamConstants.GENERIC_TYPE_QUALIFIER);
 		}
 
 		// For any other type, we use the PODAM strategy
