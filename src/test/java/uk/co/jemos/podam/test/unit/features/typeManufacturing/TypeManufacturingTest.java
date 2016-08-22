@@ -37,11 +37,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
         PodamFactorySteps.disposePodamFactoryContext();
     }
 
-    private Object produceValueForType(Class<?> pojoType) {
+    private Object produceValueForType(Class<?> attributeType) {
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnEmptyAttributeMetadata
-                (SimplePojoToTestSetters.class);
+        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadata
+                (SimplePojoToTestSetters.class, attributeType);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
@@ -51,7 +51,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                         attributeMetadata, genericTypeArgumentsMap);
 
         return podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, pojoType);
+                paramsWrapper, attributeType);
     }
 
     @Test

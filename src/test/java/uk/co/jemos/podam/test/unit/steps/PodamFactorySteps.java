@@ -193,16 +193,16 @@ public class PodamFactorySteps {
         return typeMultiplexer;
     }
 
-    @Step("Given an empty AttributeMetadata object")
-    public AttributeMetadata givenAnEmptyAttributeMetadata(Class<?> pojoClass) {
+    @Step("Given an AttributeMetadata object")
+    public AttributeMetadata givenAnAttributeMetadata(Class<?> pojoClass, Class<?> pojoType) {
 
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
         }
 
         String attributeName = null;
-        Class<?> realAttributeType = null;
-        Type realGenericType = null;
+        Class<?> realAttributeType = pojoType;
+        Type realGenericType = Class.class;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
@@ -220,7 +220,7 @@ public class PodamFactorySteps {
 
         String attributeName = null;
         Class<?> realAttributeType = pojoClass;
-        Type realGenericType = null;
+        Type realGenericType = Class.class;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
