@@ -38,7 +38,7 @@ public class PodamValidationSteps {
 
     @Step("Then the int field should not be zero")
     public void theIntFieldShouldNotBeZero(int intField) {
-        Assert.assertFalse("The integer field should not be zero", intField == 0);
+        assertThat("The integer field should not be zero", intField, is(not(equalTo(0))));
     }
 
     @Step("Then the child pojo should not be null")
@@ -165,7 +165,7 @@ public class PodamValidationSteps {
     @Step("Then the List<?> {0} should not be null and contain at least one non-empty element")
     public void theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(List<?> list) {
         Assert.assertNotNull("The List<String> should not be null!", list);
-        Assert.assertFalse("The List<String> cannot be empty!", list.isEmpty());
+        assertThat("The List<String> cannot be empty!", list, is(not(empty())));
         Object element = list.get(0);
         Assert.assertNotNull(
                 "The List<String> must have a non-null String element", element);
@@ -175,7 +175,7 @@ public class PodamValidationSteps {
     public void theSetShouldContainAtleastOneNonEmptyElement(Set<?> set) {
 
         Assert.assertNotNull("The Set<?> should not be null!", set);
-        Assert.assertFalse("The Set<?> cannot be empty!", set.isEmpty());
+        assertThat("The Set<?> cannot be empty!", set, is(not(empty())));
         Object element = set.iterator().next();
         Assert.assertNotNull(
                 "The Set<?> must have a non-null String element", element);
@@ -184,8 +184,8 @@ public class PodamValidationSteps {
 
     @Step("Then the Map<?, ?> {0} should contain at least one non empty element")
     public void theMapShouldContainAtLeastOneNonEmptyElement(Map<?, ?> map) {
-        Assert.assertTrue("The map attribute must be of type HashMap",
-                map instanceof HashMap);
+        assertThat("The map attribute must be of type HashMap",
+                map, instanceOf(HashMap.class));
         Assert.assertNotNull("The map object in the POJO cannot be null", map);
         Set<?> keySet = map.keySet();
         Assert.assertNotNull("The Map must have at least one element", keySet);
@@ -208,16 +208,16 @@ public class PodamValidationSteps {
 
     @Step("Then the ConcurrentHashMap<String, ?> {0} should contain at least one non-empty element")
     public void theConcurrentHashMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(ConcurrentMap<String, ?> map) {
-        Assert.assertTrue("The map attribute must be of type HashMap",
-                map instanceof ConcurrentHashMap);
         Assert.assertNotNull("The map object in the POJO cannot be null", map);
+        assertThat("The map attribute must be of type HashMap",
+                map, instanceOf(ConcurrentHashMap.class));
+
         Set<String> keySet = map.keySet();
         Assert.assertNotNull("The Map must have at least one element", keySet);
-        Object o = map.get(keySet
-                .iterator().next());
+        assertThat("The map element must not be null!", keySet, is(not(empty())));
 
-        Assert.assertNotNull("The map element must not be null!",
-                o);
+        Object value = map.get(keySet.iterator().next());
+        Assert.assertNotNull("The map element must not be null!", value);
     }
 
     @Step("Then the non generified List {0} should not be null or empty")
@@ -361,8 +361,8 @@ public class PodamValidationSteps {
 
     @Step("Then the string value {0} should have the length of {1}")
     public void theStringValueShouldHaveTheExactLengthOf(String stringValue, int stringLength) {
-        Assert.assertTrue("The length of the string should be " + stringLength,
-                stringValue.length() == stringLength);
+        assertThat("The length of the string should be " + stringLength,
+                stringValue.length(), equalTo(stringLength));
     }
 
     @Step("Then string [{0}] should be exactly like string [{1}]")
@@ -372,8 +372,8 @@ public class PodamValidationSteps {
 
     @Step("Then the List should have exactly {1} elements")
     public void theListShouldHaveExactlyTheExpectedNumberOfElements(List<?> strList, int nbrElements) {
-        Assert.assertTrue("The List doesn't have the correct number of elements",
-                strList.size() == nbrElements);
+        assertThat("The List doesn't have the correct number of elements",
+                strList.size(), equalTo(nbrElements));
     }
 
     @Step("Then the array should not be null or empty")
@@ -389,20 +389,20 @@ public class PodamValidationSteps {
 
     @Step("Then the map should have exactly {1} elements")
     public void theMapShouldHaveExactlyTheExpectedNumberOfElements(Map<?, ?> map, int nbrElements) {
-        Assert.assertTrue("The map should have exactly " + nbrElements + " elements",
-                map.size() == nbrElements);
+        assertThat("The map should have exactly " + nbrElements + " elements",
+                map.size(), equalTo(nbrElements));
     }
 
     @Step("Then the collection should not be null or empty")
     public void theCollectionShouldNotBeNullOrEmpty(Collection<?> collection) {
         Assert.assertNotNull("The collection should not be null", collection);
-        Assert.assertFalse("The collection should not be empty", collection.isEmpty());
+        assertThat("The collection should not be empty", collection, is(not(empty())));
     }
 
     @Step("Then the collection should have exactly {1} elements")
     public void theCollectionShouldHaveExactlyTheExpectedNumberOfElements(Collection<?> collection, int nbrElements) {
-        Assert.assertTrue("The collection should have exactly " + nbrElements + " elements",
-                collection.size() == nbrElements);
+        assertThat("The collection should have exactly " + nbrElements + " elements",
+                collection.size(), equalTo(nbrElements));
     }
 
     @Step("Then the array should not be null or empty")
@@ -413,7 +413,7 @@ public class PodamValidationSteps {
 
     @Step("Then the array should have exactly {1} elements")
     public void theArrayOfBytesShouldBeExactlyOfLength(byte[] byteData, int length) {
-        Assert.assertTrue("The array should have length " + length, byteData.length == length);
+        assertThat("The array should have length " + length, byteData.length, equalTo(length));
     }
 
     @Step("Then the calendar object should have exactly the value of calendar object {1}")
@@ -480,12 +480,12 @@ public class PodamValidationSteps {
 
     @Step("Then the map should be empty")
     public void theMapShouldBeEmtpy(Map<?, ?> map) {
-        Assert.assertTrue("The Map should be empty", map.isEmpty());
+        assertThat("The Map should be empty", map.keySet(), is(empty()));
     }
 
     @Step("Then the collection should be empty")
     public void theCollectionShouldBeEmpty(Collection<?> collection) {
-        Assert.assertTrue("The Map should be empty", collection.isEmpty());
+        assertThat("The Map should be empty", collection, is(empty()));
     }
 
     @Step("Then the two objects should be strictly equal (e.g. according to == operator)")
@@ -507,12 +507,12 @@ public class PodamValidationSteps {
     public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
             Object[] array, int size) {
         Assert.assertNotNull("The array should not be null", array);
-        Assert.assertTrue("The array should have exactly " + size + " elements.", array.length == size);
+        assertThat("The array should have exactly " + size + " elements.", array.length, equalTo(size));
     }
 
     @Step("Then the map should not be null or empty")
     public void theMapShouldNotBeNullOrEmpty(Map<?, ?> map) {
         Assert.assertNotNull("The map should not be null", map);
-        Assert.assertFalse("The map should not be empty", map.isEmpty());
+        assertThat("The map should not be empty", map.keySet(), is(not(empty())));
     }
 }

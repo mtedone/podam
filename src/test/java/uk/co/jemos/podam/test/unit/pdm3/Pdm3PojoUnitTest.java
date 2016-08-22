@@ -3,6 +3,9 @@
  */
 package uk.co.jemos.podam.test.unit.pdm3;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -190,7 +193,7 @@ public class Pdm3PojoUnitTest {
 	private void assertCollection(Collection<?> collection, Class<?> elementType) {
 
 		assertNotNull("The collection should not be null", collection);
-		assertFalse("The collection should not be empty", collection.isEmpty());
+		assertThat("The collection should not be empty", collection, is(not(empty())));
 		for (Object obj : collection) {
 			assertNotNull("Collection element should not be null", obj);
 			assertEquals("Wrong element's type", elementType, obj.getClass());
@@ -205,7 +208,7 @@ public class Pdm3PojoUnitTest {
 	private void assertMap(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
 
 		assertNotNull("The map should not be null", map);
-		assertFalse("The map should not be empty", map.isEmpty());
+		assertThat("The map should not be empty", map.keySet(), is(not(empty())));
 		for (Object key : map.keySet()) {
 			assertNotNull("Key should not be empty", key);
 			assertEquals("Wrong element's type", keyType, key.getClass());

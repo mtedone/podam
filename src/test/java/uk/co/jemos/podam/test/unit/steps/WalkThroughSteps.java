@@ -1,5 +1,7 @@
 package uk.co.jemos.podam.test.unit.steps;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
@@ -62,8 +64,8 @@ public class WalkThroughSteps {
 
         List<OrderItem> orderItems = pojo.getOrderItems();
         Assert.assertNotNull("The order items must not be null!", orderItems);
-        Assert.assertFalse("The order items must not be empty!",
-                orderItems.isEmpty());
+        assertThat("The order items must not be empty!",
+                orderItems, is(not(empty())));
 
         int expectedNbrElements = 5;
 

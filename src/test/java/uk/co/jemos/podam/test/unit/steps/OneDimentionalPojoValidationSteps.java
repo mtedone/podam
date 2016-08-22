@@ -1,5 +1,8 @@
 package uk.co.jemos.podam.test.unit.steps;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 import uk.co.jemos.podam.api.DataProviderStrategy;
@@ -72,8 +75,8 @@ public class OneDimentionalPojoValidationSteps {
 
         String stringField = pojo.getStringField();
         Assert.assertNotNull("The String field cannot be null", stringField);
-        Assert.assertFalse("The String field cannot be empty",
-                stringField.equals(""));
+        assertThat("The String field cannot be empty",
+                stringField, not(isEmptyString()));
 
         Object objectField = pojo.getObjectField();
         Assert.assertNotNull("The Object field cannot be null", objectField);
