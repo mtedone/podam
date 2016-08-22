@@ -164,13 +164,30 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     }
 
     @Test
-    @Title("Podam should fill Java native types")
-    public void podamShouldFillJavaNativeTypes() throws Exception {
+    @Title("Podam should fill Java string type")
+    public void podamShouldFillJavaStringType() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        String pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(String.class, podamFactory);
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo);
+    }
+
+    @Test
+    @Title("Podam should fill Java string type with full constructor")
+    public void podamShouldFillJavaStringTypeWithFullConstructor() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
         String pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(String.class, podamFactory);
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo);
+    }
+
+    @Test
+    @Title("Podam should fill Java native types")
+    public void podamShouldFillJavaNativeTypes() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
         Integer integerPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Integer.class, podamFactory);
         podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(integerPojo);
