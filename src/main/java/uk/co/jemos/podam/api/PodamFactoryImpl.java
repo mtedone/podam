@@ -512,7 +512,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			return tmp;
 		}
 
-		if (pojoClass.isPrimitive()) {
+		if (pojoClass.isPrimitive()
+				|| pojoClass.equals(String.class)
+				|| TypeManufacturerUtil.isWrapper(pojoClass)) {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
@@ -895,14 +897,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				attributeName, realAttributeType, genericAttributeType,
 				genericTypeArgsAll, annotations, pojoClass);
 
-		if (realAttributeType.isPrimitive() || TypeManufacturerUtil.isWrapper(realAttributeType) ||
-                realAttributeType.equals(String.class)) {
-
-			attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
-					typeArgsMap, realAttributeType.getName());
-
-
-		} else if (realAttributeType.isArray()) {
+		if (realAttributeType.isArray()) {
 
 			// Array type
 
@@ -923,12 +918,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
 					manufacturingCtx, realAttributeType, attributeName, annotations,
 					typeArgsMap, genericTypeArgsAll);
-
-            //Enum
-		} else if (realAttributeType.isEnum()) {
-
-			attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
-					typeArgsMap, PodamConstants.ENUMERATION_QUALIFIER);
 
             //Parametrized type
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {

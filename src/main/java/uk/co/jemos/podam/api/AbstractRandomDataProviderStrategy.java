@@ -708,7 +708,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 	private void log(AttributeMetadata attributeMetadata) {
 		LOG.trace("Providing data for attribute {}.{}",
-				attributeMetadata.getPojoClass().getName(),
+				attributeMetadata.getPojoClass() != null ? attributeMetadata.getPojoClass().getName() : "",
 				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : "");
 	}
 
