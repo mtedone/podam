@@ -16,7 +16,6 @@ import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.unit.steps.PodamFactorySteps;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapperForGenericTypes;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -45,8 +44,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                 (SimplePojoToTestSetters.class);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
+        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+
         TypeManufacturerParamsWrapper paramsWrapper =
-                 new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+                new TypeManufacturerParamsWrapper(dataProviderStrategy,
+                        attributeMetadata, genericTypeArgumentsMap);
 
         return podamInvocationSteps.whenISendAMessageToTheChannel(
                 paramsWrapper, pojoType);
@@ -200,8 +202,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                 (ExternalRatePodamEnum.class);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
+        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+
         TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata);
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata,
+                        genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
                 paramsWrapper, PodamConstants.ENUMERATION_QUALIFIER);
@@ -222,8 +227,8 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         genericTypeArgumentsMap.put("T", String.class);
 
-        TypeManufacturerParamsWrapperForGenericTypes paramsWrapper =
-                new TypeManufacturerParamsWrapperForGenericTypes(dataProviderStrategy, attributeMetadata,
+        TypeManufacturerParamsWrapper paramsWrapper =
+                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata,
                         genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(

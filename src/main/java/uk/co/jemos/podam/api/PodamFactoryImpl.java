@@ -502,11 +502,13 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojoClass, Arrays.toString(genericTypeArgs));
 		}
 
+		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+
 		if (pojoClass.isEnum()) {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, PodamConstants.ENUMERATION_QUALIFIER);
+					strategy, pojoMetadata, typeArgsMap, PodamConstants.ENUMERATION_QUALIFIER);
 			return tmp;
 		}
 
@@ -514,11 +516,10 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, pojoClass.getName());
+					strategy, pojoMetadata, typeArgsMap, pojoClass.getName());
 			return tmp;
 		}
 
-		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
                 pojoClass, genericTypeArgs);
 
@@ -898,7 +899,7 @@ public class PodamFactoryImpl implements PodamFactory {
                 realAttributeType.equals(String.class)) {
 
 			attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
-                    realAttributeType.getName());
+					typeArgsMap, realAttributeType.getName());
 
 
 		} else if (realAttributeType.isArray()) {
@@ -926,13 +927,13 @@ public class PodamFactoryImpl implements PodamFactory {
             //Enum
 		} else if (realAttributeType.isEnum()) {
 
-            attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
-                    PodamConstants.ENUMERATION_QUALIFIER);
+			attributeValue = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
+					typeArgsMap, PodamConstants.ENUMERATION_QUALIFIER);
 
             //Parametrized type
 		} else if (Type.class.isAssignableFrom(realAttributeType)) {
 
-			attributeValue = typeMultiplexer.getTypeValueForGenericTypes(strategy,
+			attributeValue = typeMultiplexer.getTypeValue(strategy,
 					attributeMetadata, typeArgsMap,
 					PodamConstants.GENERIC_TYPE_QUALIFIER);
 		}

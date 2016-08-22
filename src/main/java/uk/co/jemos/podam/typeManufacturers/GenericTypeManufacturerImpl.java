@@ -29,7 +29,7 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
     public <T extends TypeManufacturerParamsWrapper> Object getType(T wrapper) {
         super.checkWrapperIsValid(wrapper);
 
-        TypeManufacturerParamsWrapperForGenericTypes localWrapper = (TypeManufacturerParamsWrapperForGenericTypes) wrapper;
+        TypeManufacturerParamsWrapper localWrapper = (TypeManufacturerParamsWrapper) wrapper;
 
         AttributeMetadata attributeMetadata = localWrapper.getAttributeMetadata();
 
