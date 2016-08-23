@@ -202,7 +202,7 @@ public class PodamFactorySteps {
 
         String attributeName = null;
         Class<?> realAttributeType = pojoType;
-        Type realGenericType = Class.class;
+        Type realGenericType = pojoType;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
@@ -220,7 +220,7 @@ public class PodamFactorySteps {
 
         String attributeName = null;
         Class<?> realAttributeType = pojoClass;
-        Type realGenericType = Class.class;
+        Type realGenericType = pojoClass;
         Type[] genericTypeArgs = new Type[0];
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(

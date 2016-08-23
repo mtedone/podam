@@ -145,7 +145,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Class<?> declaringClass = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					Class.class, genericTypeArgs, declaringClass);
+					pojoClass, genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
@@ -169,7 +169,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		try {
 			Class<?> declaringClass = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					Class.class, genericTypeArgs, declaringClass);
+					pojoClass, genericTypeArgs, declaringClass);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
