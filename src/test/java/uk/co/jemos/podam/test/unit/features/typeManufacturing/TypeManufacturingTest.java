@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
@@ -209,7 +208,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                         genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, ExternalRatePodamEnum.class.getSuperclass().getName());
+                paramsWrapper, ExternalRatePodamEnum.class.getSuperclass());
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
 
@@ -232,7 +231,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                         genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Type.class.getName());
+                paramsWrapper, Type.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
     }
 

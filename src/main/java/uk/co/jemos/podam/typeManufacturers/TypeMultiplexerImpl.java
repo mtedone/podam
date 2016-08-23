@@ -50,11 +50,11 @@ public class TypeMultiplexerImpl implements TypeMultiplexer {
 	public Object getTypeValue(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap,
-			String qualifier) {
+			Class<?> pojoType) {
 		TypeManufacturerParamsWrapper wrapper =
 				new TypeManufacturerParamsWrapper(strategy, attributeMetadata,
 						genericTypesArgumentsMap);
-		return getValueForType(wrapper, qualifier);
+		return getValueForType(wrapper, pojoType);
 	}
 
 	/**
@@ -62,8 +62,9 @@ public class TypeMultiplexerImpl implements TypeMultiplexer {
 	 */
 	@Override
 	public Object getValueForType(TypeManufacturerParamsWrapper payload,
-			String qualifier) {
+			Class<?> pojoType) {
 
+		String qualifier = pojoType.getName();
 		try {
 
 			Message<?> message = MessageBuilder.withPayload(payload).setHeader(

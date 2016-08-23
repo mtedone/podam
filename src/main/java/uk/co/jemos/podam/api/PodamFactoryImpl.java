@@ -508,7 +508,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, typeArgsMap, pojoClass.getSuperclass().getName());
+					strategy, pojoMetadata, typeArgsMap, pojoClass.getSuperclass());
 			return tmp;
 		}
 
@@ -518,7 +518,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, typeArgsMap, pojoClass.getName());
+					strategy, pojoMetadata, typeArgsMap, pojoClass);
 			return tmp;
 		}
 
@@ -537,7 +537,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(strategy,
-					pojoMetadata, typeArgsMap, Type.class.getName());
+					pojoMetadata, typeArgsMap, Type.class);
 			if (null != tmp) {
 				return tmp;
 			}

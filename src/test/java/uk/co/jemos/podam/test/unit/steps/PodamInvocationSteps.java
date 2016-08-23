@@ -47,11 +47,6 @@ public class PodamInvocationSteps {
 
     @Step("When I request a value for a type")
     public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
-        return whenISendAMessageToTheChannel(paramsWrapper, type.getName());
-    }
-
-    @Step("When I request a value for a type")
-    public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, String type) {
         TypeMultiplexer typeMultiplexer = PodamFactorySteps.givenAMTypeMultiplexerToManufactureValues();
         Assert.assertNotNull("Channel must exist", typeMultiplexer);
 
