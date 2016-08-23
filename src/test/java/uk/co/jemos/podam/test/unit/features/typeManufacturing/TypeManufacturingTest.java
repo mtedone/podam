@@ -232,7 +232,7 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                         genericTypeArgumentsMap);
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, PodamConstants.GENERIC_TYPE_QUALIFIER);
+                paramsWrapper, Type.class.getName());
         podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
     }
 

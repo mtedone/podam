@@ -42,7 +42,7 @@
         <mapping value="java.lang.Double" channel="doubleChannel" />
         <mapping value="java.lang.String" channel="stringChannel" />
         <mapping value="java.lang.Enum" channel="enumChannel" />
-        <mapping value="GenericType" channel="genericTypeChannel" />
+        <mapping value="java.lang.reflect.Type" channel="genericTypeChannel" />
     </header-value-router>
 
     <beans:bean id="byteProcessor" class="uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl" />

@@ -537,8 +537,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			@SuppressWarnings("unchecked")
 			T tmp = (T) typeMultiplexer.getTypeValue(strategy,
-					pojoMetadata, typeArgsMap,
-					PodamConstants.GENERIC_TYPE_QUALIFIER);
+					pojoMetadata, typeArgsMap, Type.class.getName());
 			if (null != tmp) {
 				return tmp;
 			}

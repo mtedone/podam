@@ -35,27 +35,15 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
 
         Type[] genericArgs = attributeMetadata.getAttrGenericArgs();
 
-        Class<?> attributeType = attributeMetadata.getAttributeType();
-
         if (null == genericArgs) {
-            String errorMessage = "For generic type arguments, the attribute metadata" +
-                    " should contain a non null Type[]";
-            LOG.error(errorMessage);
-            throw new IllegalArgumentException(errorMessage);
+            throw new IllegalArgumentException("For generic type arguments, "
+                    + "the attribute metadata should contain a non null Type[]");
 
         }
 
         Type genericAttributeType = attributeMetadata.getAttributeGenericType();
 
-        Map<String, Type> typeArgumentsMap = localWrapper.getTypeArgumentsMap();
-
-        if (null == typeArgumentsMap) {
-            String errMsg = "The type arguments map in the wrapper cannot be null";
-            LOG.error(errMsg);
-            throw new IllegalArgumentException(errMsg);
-        }
-
-        Object retValue = null;
+        Class<?> attributeType = attributeMetadata.getAttributeType();
 
         Type paremeterType = null;
         if (genericAttributeType instanceof ParameterizedType) {
@@ -68,17 +56,23 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
             paremeterType = attributeType.getTypeParameters()[0];
         }
 
+        Map<String, Type> typeArgumentsMap = localWrapper.getTypeArgumentsMap();
+
         if (paremeterType != null) {
+
+            if (null == typeArgumentsMap) {
+                throw new IllegalArgumentException("The type arguments map in the wrapper cannot be null");
+            }
+
             AtomicReference<Type[]> elementGenericTypeArgs
                     = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-            retValue = TypeManufacturerUtil.resolveGenericParameter(paremeterType,
+            return TypeManufacturerUtil.resolveGenericParameter(paremeterType,
                     typeArgumentsMap, elementGenericTypeArgs);
         } else {
             LOG.error("{} is missing generic type argument, supplied {} {}",
                     genericAttributeType, typeArgumentsMap,
                     Arrays.toString(genericArgs));
+            return null;
         }
-
-        return retValue;
     }
 }
