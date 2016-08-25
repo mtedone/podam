@@ -493,7 +493,7 @@
 				<jdk>[1.8,)</jdk>
 			</activation>
 			<properties>
-				<javadoc.opts></javadoc.opts>
+				<javadoc.opts>-Xdoclint:all</javadoc.opts>
 			</properties>
 		</profile>
 	</profiles>
