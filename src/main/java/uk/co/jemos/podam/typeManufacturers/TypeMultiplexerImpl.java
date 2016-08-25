@@ -2,45 +2,66 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import java.lang.reflect.Type;
 import java.util.Map;
-
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHandlingException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 /**
  * Implementation of the type multiplexer
  *
- * @since 7.0.0.RELEASE
+ * @since 6.0.4.RELEASE
  * @author daivanov
  */
 public class TypeMultiplexerImpl implements TypeMultiplexer {
 
-	/* Application context */
-	private AbstractApplicationContext applicationContext;
-
-	/** The message channel where to send/receive the type request */
-	private MessageChannel messageChannel;
+	/* Temporary mapping of types to their manufacturers */
+	private ConcurrentHashMap<Class<?>, TypeManufacturer> manufacturers
+			= new ConcurrentHashMap<Class<?>, TypeManufacturer>();
 
 	public TypeMultiplexerImpl() {
-		this.applicationContext = new ClassPathXmlApplicationContext(PodamConstants.SPRING_ROOT_CONFIG_LOCATION);
-		this.messageChannel = applicationContext.getBean("podamInputChannel", MessageChannel.class);
-	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void finalize() {
-		applicationContext.close();
+		TypeManufacturer byteManufacturer = new ByteTypeManufacturerImpl();
+		manufacturers.put(byte.class, byteManufacturer);
+		manufacturers.put(Byte.class, byteManufacturer);
+
+		TypeManufacturer booleanManufacturer = new BooleanTypeManufacturerImpl();
+		manufacturers.put(boolean.class, booleanManufacturer);
+		manufacturers.put(Boolean.class, booleanManufacturer);
+
+		TypeManufacturer charManufacturer = new CharTypeManufacturerImpl();
+		manufacturers.put(char.class, charManufacturer);
+		manufacturers.put(Character.class, charManufacturer);
+
+		TypeManufacturer shortManufacturer = new ShortTypeManufacturerImpl();
+		manufacturers.put(short.class, shortManufacturer);
+		manufacturers.put(Short.class, shortManufacturer);
+
+		TypeManufacturer intManufacturer = new IntTypeManufacturerImpl();
+		manufacturers.put(int.class, intManufacturer);
+		manufacturers.put(Integer.class, intManufacturer);
+
+		TypeManufacturer longManufacturer = new LongTypeManufacturerImpl();
+		manufacturers.put(long.class, longManufacturer);
+		manufacturers.put(Long.class, longManufacturer);
+
+		TypeManufacturer floatManufacturer = new FloatTypeManufacturerImpl();
+		manufacturers.put(float.class, floatManufacturer);
+		manufacturers.put(Float.class, floatManufacturer);
+
+		TypeManufacturer doubleManufacturer = new DoubleTypeManufacturerImpl();
+		manufacturers.put(double.class, doubleManufacturer);
+		manufacturers.put(Double.class, doubleManufacturer);
+
+		TypeManufacturer stringManufacturer = new StringTypeManufacturerImpl();
+		manufacturers.put(String.class, stringManufacturer);
+
+		TypeManufacturer enumManufacturer = new EnumTypeManufacturerImpl();
+		manufacturers.put(Enum.class, enumManufacturer);
+
+		TypeManufacturer typeManufacturer = new GenericTypeManufacturerImpl();
+		manufacturers.put(Type.class, typeManufacturer);
 	}
 
 	/**
@@ -64,17 +85,12 @@ public class TypeMultiplexerImpl implements TypeMultiplexer {
 	public Object getValueForType(TypeManufacturerParamsWrapper payload,
 			Class<?> pojoType) {
 
-		String qualifier = pojoType.getName();
 		try {
-
-			Message<?> message = MessageBuilder.withPayload(payload).setHeader(
-					PodamConstants.HEADER_NAME, qualifier).build();
-
-			MessagingTemplate template = new MessagingTemplate();
-			return template.sendAndReceive(messageChannel, message).getPayload();
-
-		} catch(MessageHandlingException e) {
-			throw new PodamMockeryException("Unable to instantiate " + qualifier, e);
+			TypeManufacturer manufacturer = manufacturers.get(pojoType);
+			return manufacturer.getType(payload);
+		} catch (Exception e) {
+			throw new PodamMockeryException(
+					"Unable to instantiate " + pojoType, e);
 		}
 	}
 

@@ -28,9 +28,6 @@ public final class PodamConstants {
 	/** The default encoding for Strings. */
 	public static final String STR_DEFAULT_ENCODING = "UTF-8";
 
-    /** The Spring integration header name which will drive the type manufacturing. */
-    public static final String HEADER_NAME = "type";
-
     /** The Podam Spring rool configuration file name. */
     public static final String SPRING_ROOT_CONFIG_LOCATION = "META-INF/spring/podam-config.xml";
 

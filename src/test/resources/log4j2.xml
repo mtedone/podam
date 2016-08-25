@@ -6,16 +6,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="ERROR">
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
         </Root>
-        <Logger name="uk.co.jemos.podam" level="INFO" additivity="false">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="org.springframework" level="WARN" additivity="false">
-            <AppenderRef ref="Console" />
-        </Logger>
-        <Logger name="net.thucydides" level="WARN" additivity="false">
+        <Logger name="uk.co.jemos.podam" level="WARN" additivity="false">
             <AppenderRef ref="Console" />
         </Logger>
     </Loggers>
