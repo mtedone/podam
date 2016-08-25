@@ -82,11 +82,12 @@ public final class TypeManufacturerUtil {
             }
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
-                if (annotation instanceof NotNull) {
+                if (annotation instanceof NotNull ||
+                        annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty")) {
 					/* We don't need to do anything for NotNull constraint */
                     iter.remove();
                 } else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
-                    LOG.warn("Please, registrer AttributeStratergy for custom "
+                    LOG.warn("Please, register AttributeStratergy for custom "
                             + "constraint {}, in DataProviderStrategy! Value "
                             + "will be left to null", annotation);
                 }
