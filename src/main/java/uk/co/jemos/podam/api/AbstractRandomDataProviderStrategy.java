@@ -9,6 +9,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.*;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.GenericTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -75,6 +88,12 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	private final Map<Class<?>, Map<Type[], Object>> memoizationTable = new HashMap<Class<?>, Map<Type[], Object>>();
 
 	/**
+	 * A mapping between types and their registered manufacturers
+	 */
+	private final ConcurrentHashMap<Class<?>, TypeManufacturer<?>> typeManufacturers
+			= new ConcurrentHashMap<Class<?>, TypeManufacturer<?>>();
+
+	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
@@ -120,6 +139,47 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {
 		this.nbrOfCollectionElements.set(nbrOfCollectionElements);
+
+		TypeManufacturer<?> byteManufacturer = new ByteTypeManufacturerImpl();
+		typeManufacturers.put(byte.class, byteManufacturer);
+		typeManufacturers.put(Byte.class, byteManufacturer);
+
+		TypeManufacturer<?> booleanManufacturer = new BooleanTypeManufacturerImpl();
+		typeManufacturers.put(boolean.class, booleanManufacturer);
+		typeManufacturers.put(Boolean.class, booleanManufacturer);
+
+		TypeManufacturer<?> charManufacturer = new CharTypeManufacturerImpl();
+		typeManufacturers.put(char.class, charManufacturer);
+		typeManufacturers.put(Character.class, charManufacturer);
+
+		TypeManufacturer<?> shortManufacturer = new ShortTypeManufacturerImpl();
+		typeManufacturers.put(short.class, shortManufacturer);
+		typeManufacturers.put(Short.class, shortManufacturer);
+
+		TypeManufacturer<?> intManufacturer = new IntTypeManufacturerImpl();
+		typeManufacturers.put(int.class, intManufacturer);
+		typeManufacturers.put(Integer.class, intManufacturer);
+
+		TypeManufacturer<?> longManufacturer = new LongTypeManufacturerImpl();
+		typeManufacturers.put(long.class, longManufacturer);
+		typeManufacturers.put(Long.class, longManufacturer);
+
+		TypeManufacturer<?> floatManufacturer = new FloatTypeManufacturerImpl();
+		typeManufacturers.put(float.class, floatManufacturer);
+		typeManufacturers.put(Float.class, floatManufacturer);
+
+		TypeManufacturer<?> doubleManufacturer = new DoubleTypeManufacturerImpl();
+		typeManufacturers.put(double.class, doubleManufacturer);
+		typeManufacturers.put(Double.class, doubleManufacturer);
+
+		TypeManufacturer<?> stringManufacturer = new StringTypeManufacturerImpl();
+		typeManufacturers.put(String.class, stringManufacturer);
+
+		TypeManufacturer<?> enumManufacturer = new EnumTypeManufacturerImpl();
+		typeManufacturers.put(Enum.class, enumManufacturer);
+
+		TypeManufacturer<?> typeManufacturer = new GenericTypeManufacturerImpl();
+		typeManufacturers.put(Type.class, typeManufacturer);
 	}
 
 	// ------------------->> Public methods
@@ -516,6 +576,77 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			break;
 		}
 		Arrays.sort(methods, methodComparator);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> DataProviderStrategy addOrReplaceTypeManufacturer(
+			Class<? extends T> type, TypeManufacturer<T> typeManufacturer) {
+
+		typeManufacturers.put(type, typeManufacturer);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public <T> DataProviderStrategy removeTypeManufacturer(
+			Class<T> type) {
+
+		typeManufacturers.remove(type);
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getTypeValue(AttributeMetadata attributeMetadata,
+			Map<String, Type> genericTypesArgumentsMap,
+			Class<?> pojoType) {
+
+		String errMsg;
+		if (null == attributeMetadata) {
+			errMsg = "The attribute metadata inside the wrapper cannot be null";
+			throw new IllegalArgumentException(errMsg);
+		}
+
+		if (null == attributeMetadata.getAttributeAnnotations()) {
+			errMsg = "The annotations list within the attribute metadata cannot be null, although it can be empty";
+			throw new IllegalArgumentException(errMsg);
+		}
+
+		Class<?> type = pojoType;
+		TypeManufacturer<?> manufacturer = null;
+		while (null == manufacturer && null != type) {
+
+			manufacturer = typeManufacturers.get(type);
+			if (null == manufacturer) {
+				for (Class<?> iface : type.getInterfaces()) {
+					manufacturer = typeManufacturers.get(iface);
+					if (null != manufacturer) {
+						break;
+					}
+				}
+			}
+			type = type.getSuperclass();
+		}
+
+		if (null == manufacturer) {
+			LOG.debug("Failed to find manufacturer for type {}", pojoType);
+			return null;
+		}
+
+		try {
+			return manufacturer.getType(this, attributeMetadata,
+					genericTypesArgumentsMap);
+		} catch (Exception e) {
+			throw new PodamMockeryException(
+					"Unable to instantiate " + pojoType, e);
+		}
 	}
 
 	/**

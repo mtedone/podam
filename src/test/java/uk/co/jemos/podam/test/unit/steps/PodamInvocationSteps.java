@@ -9,7 +9,6 @@ import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamUtils;
-import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
 
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -52,11 +51,9 @@ public class PodamInvocationSteps {
 			AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap,
 			Class<?> type) {
-        TypeMultiplexer typeMultiplexer = PodamFactorySteps.givenAMTypeMultiplexerToManufactureValues();
-        Assert.assertNotNull("Channel must exist", typeMultiplexer);
 
-        Object payload = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
-        		genericTypesArgumentsMap, type);
+        Object payload = strategy.getTypeValue(attributeMetadata,
+                genericTypesArgumentsMap, type);
         Assert.assertNotNull("Payload must be valid", payload);
         return payload;
     }

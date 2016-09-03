@@ -14,8 +14,6 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
-import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
-import uk.co.jemos.podam.typeManufacturers.TypeMultiplexerImpl;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -32,8 +30,6 @@ import java.util.Set;
  * Created by tedonema on 27/05/2015.
  */
 public class PodamFactorySteps {
-
-    private static TypeMultiplexer typeMultiplexer;
 
 	@Step("Given a standard Podam Factory")
     public PodamFactory givenAStandardPodamFactory() {
@@ -174,23 +170,6 @@ public class PodamFactorySteps {
         PodamFactory externalFactory = new XmlTypesExternalFactory();
         PodamFactory factory = new PodamFactoryImpl(externalFactory);
         return factory;
-    }
-
-    @Step("Init Podam factory context")
-    public static void initPodamFactoryContext() {
-
-        typeMultiplexer = new TypeMultiplexerImpl();
-    }
-
-    @Step("Dispose Podam factory context")
-    public static void disposePodamFactoryContext() {
-        typeMultiplexer = null;
-    }
-
-    @Step("Given a Type Multiplexer to manufacture types")
-    public static TypeMultiplexer givenAMTypeMultiplexerToManufactureValues() {
-
-        return typeMultiplexer;
     }
 
     @Step("Given an AttributeMetadata object")

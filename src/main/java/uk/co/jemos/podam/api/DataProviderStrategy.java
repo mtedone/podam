@@ -4,10 +4,13 @@
 package uk.co.jemos.podam.api;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -28,7 +31,45 @@ import java.lang.reflect.Method;
  */
 public interface DataProviderStrategy {
 
-	/**
+    /**
+     * Registers @TypeManufacturer implementation, which will be used to
+     * instantiate objects of a specified type. Use this to alter factory
+     * behaviour.
+     *
+     * @param <T> type of objects to be produced by the manufacturer
+     * @param type
+     *            the specific class type the specified manufacturer
+     *            will instantiate.
+     * @param typeManufacturer
+     *            type manufacturer implementation to be registered
+     * @return itself
+     */
+    <T> DataProviderStrategy addOrReplaceTypeManufacturer(
+            Class<? extends T> type, TypeManufacturer<T> typeManufacturer);
+
+    /**
+     * Remove binding of a class type to a specific
+     * implementation of type manufacturer
+     *
+     * @param <T> type of objects to be produced by the manufacturer
+     * @param type
+     *            the specific class type to remove binding
+     * @return itself
+     */
+    <T> DataProviderStrategy removeTypeManufacturer(
+           Class<T> type);
+
+    /**
+     * Obtains a type value
+     * @param attributeMetadata The AttributeMetadata information
+     * @param genericTypesArgumentsMap The generic attribute type argument types
+     * @param pojoType The class of the requested type
+     * @return The type value
+     */
+    Object getTypeValue(AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap, Class<?> pojoType);
+
+    /**
      * Bind an interface/abstract class to a specific implementation. If the
      * strategy previously contained a binding for the interface/abstract class,
      * the old value will be replaced by the new value.

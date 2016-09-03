@@ -16,8 +16,6 @@ import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamConstructor;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
-import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
-import uk.co.jemos.podam.typeManufacturers.TypeMultiplexerImpl;
 
 import javax.xml.ws.Holder;
 
@@ -79,11 +77,6 @@ public class PodamFactoryImpl implements PodamFactory {
 	private ClassInfoStrategy classInfoStrategy
 			= DefaultClassInfoStrategy.getInstance();
 
-	/**
-	 * Type multiplexer mapping types to @TypeManufacturer
-	 */
-	private TypeMultiplexer typeMultiplexer;
-
 	// ------------------->> Constructors
 
 	/**
@@ -129,7 +122,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			DataProviderStrategy strategy) {
 		this.externalFactory = externalFactory;
 		this.strategy = strategy;
-		this.typeMultiplexer = new TypeMultiplexerImpl();
 	}
 
 	// ------------------->> Public methods
@@ -507,8 +499,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (pojoClass.isEnum()) {
 
 			@SuppressWarnings("unchecked")
-			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, typeArgsMap, pojoClass.getSuperclass());
+			T tmp = (T) strategy.getTypeValue(
+					pojoMetadata, typeArgsMap, pojoClass.getSuperclass());
 			return tmp;
 		}
 
@@ -517,8 +509,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				|| TypeManufacturerUtil.isWrapper(pojoClass)) {
 
 			@SuppressWarnings("unchecked")
-			T tmp = (T) typeMultiplexer.getTypeValue(
-					strategy, pojoMetadata, typeArgsMap, pojoClass);
+			T tmp = (T) strategy.getTypeValue(
+					pojoMetadata, typeArgsMap, pojoClass);
 			return tmp;
 		}
 
@@ -536,7 +528,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		if (Type.class.isAssignableFrom(pojoClass)) {
 
 			@SuppressWarnings("unchecked")
-			T tmp = (T) typeMultiplexer.getTypeValue(strategy,
+			T tmp = (T) strategy.getTypeValue(
 					pojoMetadata, typeArgsMap, Type.class);
 			if (null != tmp) {
 				return tmp;

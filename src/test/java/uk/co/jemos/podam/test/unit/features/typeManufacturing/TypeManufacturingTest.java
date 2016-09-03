@@ -3,8 +3,6 @@ package uk.co.jemos.podam.test.unit.features.typeManufacturing;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.AttributeMetadata;
@@ -13,7 +11,6 @@ import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
-import uk.co.jemos.podam.test.unit.steps.PodamFactorySteps;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -24,16 +21,6 @@ import java.util.Map;
  */
 @RunWith(SerenityRunner.class)
 public class TypeManufacturingTest extends AbstractPodamSteps {
-
-    @BeforeClass
-    public static void init() {
-        PodamFactorySteps.initPodamFactoryContext();
-    }
-
-    @AfterClass
-    public static void deinit() {
-        PodamFactorySteps.disposePodamFactoryContext();
-    }
 
     private Object produceValueForType(Class<?> attributeType) {
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
