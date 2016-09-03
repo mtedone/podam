@@ -10,13 +10,13 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
  *
  * @since 6.0.0.RELEASE
  */
-public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getType(TypeManufacturerParamsWrapper wrapper) {
+    public Enum<?> getType(TypeManufacturerParamsWrapper wrapper) {
 
         super.checkWrapperIsValid(wrapper);
 
@@ -26,7 +26,7 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer {
 
         Class<?> realAttributeType = attributeMetadata.getAttributeType();
 
-        Object retValue = null;
+        Enum<?> retValue = null;
 
         // Enum type
         int enumConstantsLength = realAttributeType.getEnumConstants().length;
@@ -35,7 +35,7 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer {
             int enumIndex = strategy.getIntegerInRange(0,
                     enumConstantsLength, attributeMetadata)
                     % enumConstantsLength;
-            retValue = realAttributeType.getEnumConstants()[enumIndex];
+            retValue = (Enum<?>) realAttributeType.getEnumConstants()[enumIndex];
         }
 
         return retValue;

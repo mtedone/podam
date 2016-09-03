@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class LongTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
 
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(LongTypeManufacturerImpl.class);

@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @since 6.0.0.RELEASE
  */
-public class StringTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String> {
 
     /**
      * {@inheritDoc}

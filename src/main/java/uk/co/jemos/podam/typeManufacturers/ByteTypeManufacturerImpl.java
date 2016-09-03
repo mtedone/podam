@@ -15,7 +15,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
 
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(ByteTypeManufacturerImpl.class);

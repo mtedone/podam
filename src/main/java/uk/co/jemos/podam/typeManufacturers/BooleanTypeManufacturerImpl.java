@@ -12,7 +12,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class BooleanTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class BooleanTypeManufacturerImpl extends AbstractTypeManufacturer<Boolean> {
 
     /**
      * {@inheritDoc}

@@ -3,14 +3,16 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamUtils;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 import uk.co.jemos.podam.typeManufacturers.TypeMultiplexer;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -46,11 +48,15 @@ public class PodamInvocationSteps {
     }
 
     @Step("When I request a value for a type")
-    public Object whenISendAMessageToTheChannel(TypeManufacturerParamsWrapper paramsWrapper, Class<?> type) {
+    public Object whenISendAMessageToTheChannel(DataProviderStrategy strategy,
+			AttributeMetadata attributeMetadata,
+			Map<String, Type> genericTypesArgumentsMap,
+			Class<?> type) {
         TypeMultiplexer typeMultiplexer = PodamFactorySteps.givenAMTypeMultiplexerToManufactureValues();
         Assert.assertNotNull("Channel must exist", typeMultiplexer);
 
-        Object payload = typeMultiplexer.getValueForType(paramsWrapper, type);
+        Object payload = typeMultiplexer.getTypeValue(strategy, attributeMetadata,
+        		genericTypesArgumentsMap, type);
         Assert.assertNotNull("Payload must be valid", payload);
         return payload;
     }

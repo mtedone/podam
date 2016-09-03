@@ -14,7 +14,6 @@ import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.unit.steps.PodamFactorySteps;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturerParamsWrapper;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -45,12 +44,9 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
 
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy,
-                        attributeMetadata, genericTypeArgumentsMap);
-
         return podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, attributeType);
+                dataProviderStrategy, attributeMetadata,
+                genericTypeArgumentsMap, attributeType);
     }
 
     @Test
@@ -203,12 +199,9 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
 
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata,
-                        genericTypeArgumentsMap);
-
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, ExternalRatePodamEnum.class.getSuperclass());
+                dataProviderStrategy, attributeMetadata,
+                genericTypeArgumentsMap, ExternalRatePodamEnum.class.getSuperclass());
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
 
@@ -226,12 +219,9 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         genericTypeArgumentsMap.put("T", String.class);
 
-        TypeManufacturerParamsWrapper paramsWrapper =
-                new TypeManufacturerParamsWrapper(dataProviderStrategy, attributeMetadata,
-                        genericTypeArgumentsMap);
-
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                paramsWrapper, Type.class);
+                dataProviderStrategy, attributeMetadata,
+                genericTypeArgumentsMap, Type.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
     }
 

@@ -12,7 +12,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class CharTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character> {
 
     /**
      * {@inheritDoc}

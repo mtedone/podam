@@ -27,12 +27,4 @@ public interface TypeMultiplexer {
 			AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap, Class<?> pojoType);
 
-	/**
-	 * Obtains a type value
-	 * @param payload The package with data about type to manufacture
-	 * @param pojoType The class of the requested type  @return The type value
-	 * @return value for a specified type
-	 */
-	Object getValueForType(TypeManufacturerParamsWrapper payload, Class<?> pojoType);
-
 }

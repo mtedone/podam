@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @since 6.0.0.RELEASE
  */
-public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
 
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(GenericTypeManufacturerImpl.class);
@@ -26,7 +26,7 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer {
 
 
     @Override
-    public <T extends TypeManufacturerParamsWrapper> Object getType(T wrapper) {
+    public Object getType(TypeManufacturerParamsWrapper wrapper) {
         super.checkWrapperIsValid(wrapper);
 
         TypeManufacturerParamsWrapper localWrapper = (TypeManufacturerParamsWrapper) wrapper;

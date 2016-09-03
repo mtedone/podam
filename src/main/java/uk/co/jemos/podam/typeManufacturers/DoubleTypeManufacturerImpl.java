@@ -16,7 +16,7 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer {
+public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double> {
 
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(DoubleTypeManufacturerImpl.class);
