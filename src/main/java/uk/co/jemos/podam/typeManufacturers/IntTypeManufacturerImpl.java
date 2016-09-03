@@ -2,11 +2,15 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamIntValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default int type manufacturer.
@@ -24,15 +28,13 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
      * {@inheritDoc}
      */
     @Override
-    public Integer getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Integer getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Integer retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamIntValue intStrategy = (PodamIntValue) annotation;
@@ -61,7 +63,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
                     }
 
                     retValue = strategy.getIntegerInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
 
                 }
 
@@ -72,7 +74,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getInteger(wrapper.getAttributeMetadata());
+            retValue = strategy.getInteger(attributeMetadata);
         }
 
         return retValue;

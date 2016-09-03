@@ -2,10 +2,14 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamShortValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default short type manufacturer.
@@ -23,15 +27,13 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
      * {@inheritDoc}
      */
     @Override
-    public Short getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Short getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Short retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamShortValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamShortValue shortStrategy = (PodamShortValue) annotation;
@@ -58,7 +60,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
                     }
 
                     retValue = strategy.getShortInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
 
                 }
 
@@ -68,7 +70,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getShort(wrapper.getAttributeMetadata());
+            retValue = strategy.getShort(attributeMetadata);
         }
 
         return retValue;

@@ -3,11 +3,15 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamDoubleValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default double type manufacturer.
@@ -25,15 +29,13 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
      * {@inheritDoc}
      */
     @Override
-    public Double getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Double getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Double retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamDoubleValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamDoubleValue doubleStrategy = (PodamDoubleValue) annotation;
@@ -62,7 +64,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
                     }
 
                     retValue = strategy.getDoubleInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                             attributeMetadata);
                 }
 
                 break;
@@ -72,7 +74,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
         }
 
         if (retValue == null) {
-            retValue = strategy.getDouble(wrapper.getAttributeMetadata());
+            retValue = strategy.getDouble(attributeMetadata);
         }
 
         return retValue;

@@ -72,12 +72,22 @@ public class TypeMultiplexerImpl implements TypeMultiplexer {
 			AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap,
 			Class<?> pojoType) {
-		TypeManufacturerParamsWrapper wrapper =
-				new TypeManufacturerParamsWrapper(strategy, attributeMetadata,
-						genericTypesArgumentsMap);
+
+		String errMsg;
+		if (null == attributeMetadata) {
+			errMsg = "The attribute metadata inside the wrapper cannot be null";
+			throw new IllegalArgumentException(errMsg);
+		}
+
+		if (null == attributeMetadata.getAttributeAnnotations()) {
+			errMsg = "The annotations list within the attribute metadata cannot be null, although it can be empty";
+			throw new IllegalArgumentException(errMsg);
+		}
+
 		try {
 			TypeManufacturer<?> manufacturer = manufacturers.get(pojoType);
-			return manufacturer.getType(wrapper);
+			return manufacturer.getType(strategy, attributeMetadata,
+					genericTypesArgumentsMap);
 		} catch (Exception e) {
 			throw new PodamMockeryException(
 					"Unable to instantiate " + pojoType, e);

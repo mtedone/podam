@@ -1,9 +1,12 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamCharValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default character type manufacturer.
@@ -18,15 +21,13 @@ public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character
      * {@inheritDoc}
      */
     @Override
-    public Character getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Character getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Character retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamCharValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamCharValue annotationStrategy = (PodamCharValue) annotation;
@@ -46,7 +47,7 @@ public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character
                     }
 
                     retValue = strategy.getCharacterInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
 
                 }
 
@@ -56,7 +57,7 @@ public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character
         }
 
         if (retValue == null) {
-            retValue = strategy.getCharacter(wrapper.getAttributeMetadata());
+            retValue = strategy.getCharacter(attributeMetadata);
         }
 
         return retValue;

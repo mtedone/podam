@@ -3,6 +3,7 @@ package uk.co.jemos.podam.typeManufacturers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 
 import java.lang.reflect.ParameterizedType;
@@ -26,12 +27,9 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer<Object
 
 
     @Override
-    public Object getType(TypeManufacturerParamsWrapper wrapper) {
-        super.checkWrapperIsValid(wrapper);
-
-        TypeManufacturerParamsWrapper localWrapper = (TypeManufacturerParamsWrapper) wrapper;
-
-        AttributeMetadata attributeMetadata = localWrapper.getAttributeMetadata();
+    public Object getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Type[] genericArgs = attributeMetadata.getAttrGenericArgs();
 
@@ -56,21 +54,19 @@ public class GenericTypeManufacturerImpl extends AbstractTypeManufacturer<Object
             paremeterType = attributeType.getTypeParameters()[0];
         }
 
-        Map<String, Type> typeArgumentsMap = localWrapper.getTypeArgumentsMap();
-
         if (paremeterType != null) {
 
-            if (null == typeArgumentsMap) {
+            if (null == genericTypesArgumentsMap) {
                 throw new IllegalArgumentException("The type arguments map in the wrapper cannot be null");
             }
 
             AtomicReference<Type[]> elementGenericTypeArgs
                     = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
             return TypeManufacturerUtil.resolveGenericParameter(paremeterType,
-                    typeArgumentsMap, elementGenericTypeArgs);
+            		genericTypesArgumentsMap, elementGenericTypeArgs);
         } else {
             LOG.error("{} is missing generic type argument, supplied {} {}",
-                    genericAttributeType, typeArgumentsMap,
+                    genericAttributeType, genericTypesArgumentsMap,
                     Arrays.toString(genericArgs));
             return null;
         }

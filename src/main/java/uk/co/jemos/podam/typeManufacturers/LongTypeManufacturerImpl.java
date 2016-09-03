@@ -2,11 +2,15 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default int type manufacturer.
@@ -24,15 +28,13 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
      * {@inheritDoc}
      */
     @Override
-    public Long getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Long getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Long retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamLongValue longStrategy = (PodamLongValue) annotation;
@@ -59,7 +61,7 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
                     }
 
                     retValue = strategy.getLongInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
 
                 }
 
@@ -70,7 +72,7 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getLong(wrapper.getAttributeMetadata());
+            retValue = strategy.getLong(attributeMetadata);
         }
 
         return retValue;

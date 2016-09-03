@@ -5,7 +5,9 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Default String type manufacturer.
@@ -20,15 +22,11 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
      * {@inheritDoc}
      */
     @Override
-    public String getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public String getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         String retValue = null;
-
-        AttributeMetadata attributeMetadata = wrapper.getAttributeMetadata();
 
         List<Annotation> annotations = attributeMetadata.getAttributeAnnotations();
 

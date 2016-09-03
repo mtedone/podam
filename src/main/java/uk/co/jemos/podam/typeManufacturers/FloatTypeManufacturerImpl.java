@@ -2,11 +2,15 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamFloatValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default float type manufacturer.
@@ -24,15 +28,13 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
      * {@inheritDoc}
      */
     @Override
-    public Float getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Float getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Float retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamFloatValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamFloatValue floatStrategy = (PodamFloatValue) annotation;
@@ -59,7 +61,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
                     }
 
                     retValue = strategy.getFloatInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
 
                 }
 
@@ -70,7 +72,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getFloat(wrapper.getAttributeMetadata());
+            retValue = strategy.getFloat(attributeMetadata);
         }
 
         return retValue;

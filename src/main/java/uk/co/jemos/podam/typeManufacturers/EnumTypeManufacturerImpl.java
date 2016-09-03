@@ -1,5 +1,8 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import java.lang.reflect.Type;
+import java.util.Map;
+
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 
@@ -16,13 +19,9 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> 
      * {@inheritDoc}
      */
     @Override
-    public Enum<?> getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
-
-        AttributeMetadata attributeMetadata = wrapper.getAttributeMetadata();
+    public Enum<?> getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Class<?> realAttributeType = attributeMetadata.getAttributeType();
 

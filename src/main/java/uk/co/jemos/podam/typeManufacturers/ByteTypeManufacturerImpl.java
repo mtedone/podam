@@ -3,10 +3,14 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamByteValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default byte type manufacturer.
@@ -24,15 +28,13 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
      * {@inheritDoc}
      */
     @Override
-    public Byte getType(TypeManufacturerParamsWrapper wrapper) {
-
-        super.checkWrapperIsValid(wrapper);
-
-        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();
+    public Byte getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap) {
 
         Byte retValue = null;
 
-        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {
+        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
 
             if (PodamByteValue.class.isAssignableFrom(annotation.getClass())) {
                 PodamByteValue intStrategy = (PodamByteValue) annotation;
@@ -60,7 +62,7 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
                     }
 
                     retValue = strategy.getByteInRange(minValue, maxValue,
-                            wrapper.getAttributeMetadata());
+                            attributeMetadata);
                 }
 
                 break;
@@ -69,7 +71,7 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getByte(wrapper.getAttributeMetadata());
+            retValue = strategy.getByte(attributeMetadata);
         }
 
         return retValue;
