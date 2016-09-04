@@ -1,6 +1,8 @@
 podam
 =====
 
+[Travis Build Status](https://travis-ci.org/devopsfolks/podam.svg?branch=develop)
+
 PODAM - POjo DAta Mocker
 
 Podam (http://devopsfolks.github.io/podam/) is a Java testing tool which auto-fills POJOs with made-up data.
