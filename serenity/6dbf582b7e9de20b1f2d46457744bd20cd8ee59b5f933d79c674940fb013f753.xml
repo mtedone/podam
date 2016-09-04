@@ -1,4 +1,4 @@
-<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-08-21T23:45:00.698+07:00">
+<acceptance-test-run title="The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements" name="randomDataProviderStrategyShouldBeInitialisedCorrectlyAndAllowForChangesInNbrOfCollectionElements" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.335+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the two objects 5 and 5 should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

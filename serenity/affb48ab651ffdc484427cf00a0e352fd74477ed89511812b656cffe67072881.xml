@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="27" timestamp="2016-08-21T23:45:01.410+07:00">
+<acceptance-test-run title="Podam cannot fill interface attributes if the external factory does not manufacture the right type" name="podamCannotFillInterfaceAttributesIfTheExternalFactoryDoesNotManufactureTheRightType" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.483+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="24">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

@@ -1,27 +1,27 @@
-<acceptance-test-run title="Podam should handle both native and wrapped byte values with @PodamByteValue annotation" name="podamShouldHandleByteValuesWithThePodamByteValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2016-08-21T23:44:56.448+07:00">
+<acceptance-test-run title="Podam should handle both native and wrapped byte values with @PodamByteValue annotation" name="podamShouldHandleByteValuesWithThePodamByteValueAnnotation" steps="13" successful="13" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="10" timestamp="2016-09-03T17:53:00.861+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations/Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="51">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="1">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.ByteValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the byte value 0 should be greater or equal than 0</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the byte value 48 should be lower or equal to 100</description>
+    <description>Then the byte value 19 should be lower or equal to 100</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the byte value 55 should be between 0 and 100</description>
+    <description>Then the byte value 8 should be between 0 and 100</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
@@ -33,15 +33,15 @@
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the byte value 38 should be lower or equal to 100</description>
+    <description>Then the byte value 55 should be lower or equal to 100</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
-    <description>Then the byte value 76 should be between 0 and 100</description>
+    <description>Then the byte value 8 should be between 0 and 100</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>The byte value 12 should be precisely 12</description>
   </test-step>
 </acceptance-test-run>

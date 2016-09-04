@@ -1,27 +1,27 @@
-<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2016-08-21T23:44:59.917+07:00">
+<acceptance-test-run title="Podam should be able to manufacture POJOs which contain immutable collections" name="podamShouldBeAbleToManufacturePojosWhichContainImmutableCollections" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.203+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors/Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="26">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.ImmutableDefaultFieldsPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the List&lt;?&gt; [key, ouQ9FCdUv8, mxo3tIAUvV, ZrIx7016QX, F5LCuoz5ym] should not be null and contain at least one non-empty element</description>
+    <description>Then the List&lt;?&gt; [key, ZLNUwIbv6G, wsUuqYePx2, tjm3SKJE8G, wPAmW4Ymxo] should not be null and contain at least one non-empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the List should have exactly 5 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the Map&lt;?, ?&gt; {46Ytv8O4ri=-585730362, CNei2YAv4G=1945223565, rXjTkbzWn7=1717636538, WlJtkwQUmi=-941436894, yH5zSKuTzy=49087155} should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; {9voeX0WP2d=-63629079, rHVdzbNk_h=-1118584559, tQTZ7IE_6K=-2007842944, AXYuScKc8m=850679644, ETg07eeuAA=-1608733878} should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the map should have exactly 5 elements</description>

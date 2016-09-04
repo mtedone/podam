@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="25" timestamp="2016-08-21T23:45:01.088+07:00">
+<acceptance-test-run title="Podam should handle POJOs with private constructors only" name="podamShouldHandlePojosWithPrivateOnlyConstructors" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.405+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Edge cases/Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="23">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.pdm33.PrivateOnlyConstructorPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the String field 0Mi46qI0ok cannot be null or empty</description>
+    <description>Then the String field BPvcMt_RAM cannot be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the int field should not be zero</description>
   </test-step>
 </acceptance-test-run>

@@ -1,17 +1,17 @@
-<acceptance-test-run title="Invoking Podam on an Abstract class should return a null pojo" name="invokingPodamOnAbstractClassShouldReturnANullPojo" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="39" timestamp="2016-08-21T23:44:58.708+07:00">
+<acceptance-test-run title="Invoking Podam on an Abstract class should return a null pojo" name="invokingPodamOnAbstractClassShouldReturnANullPojo" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:01.964+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
     <tag name="Basic types/Podam factory basic types test" type="stories"/>
     <tag name="Podam factory basic types test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="35">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.AbstractTestPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Pojo should be null</description>
   </test-step>
 </acceptance-test-run>

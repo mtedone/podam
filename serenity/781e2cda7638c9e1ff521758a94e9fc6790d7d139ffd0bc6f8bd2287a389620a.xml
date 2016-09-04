@@ -1,4 +1,4 @@
-<acceptance-test-run title="When memoization is set to true Podam should return the same instance for different invocations" name="whenMemoizationIsTruePodamShouldReturnTheSameInstanceForDifferentInvocations" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="38" timestamp="2016-08-21T23:45:01.992+07:00">
+<acceptance-test-run title="When memoization is set to true Podam should return the same instance for different invocations" name="whenMemoizationIsTruePodamShouldReturnTheSameInstanceForDifferentInvocations" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.588+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
@@ -8,16 +8,16 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a Random Data Provider Strategy with memoization set to true</description>
   </test-step>
-  <test-step result="SUCCESS" duration="35">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.SimplePojoToTestSetters</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

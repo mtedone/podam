@@ -1,11 +1,11 @@
-<acceptance-test-run title="When given an external factory, Podam should be able to fill POJOs with instance attributes containing XMLGregorianCalendar and Duration" name="testXMLDatatypesFieldSetting" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="25" timestamp="2016-08-21T23:45:03.360+07:00">
+<acceptance-test-run title="When given an external factory, Podam should be able to fill POJOs with instance attributes containing XMLGregorianCalendar and Duration" name="testXMLDatatypesFieldSetting" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.939+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.xmlTypes.XMLDatatypeUnitTest" name="XML datatype unit test" path="uk.co.jemos.podam.test.unit.features.xmlTypes"/>
   <tags>
     <tag name="Xml types" type="epics"/>
     <tag name="Xml types/Xml datatype unit test" type="stories"/>
     <tag name="XML datatype unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="23">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam factory with XML Types external factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

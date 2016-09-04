@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="42" timestamp="2016-08-21T23:45:01.470+07:00">
+<acceptance-test-run title="Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value" name="podamShouldFillPojoInterfaceAttributeIfFullConstructorSetsItsValue" steps="8" successful="8" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.490+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.externalFactory.ExternalFactoryUnitTest" name="External factory unit test" path="uk.co.jemos.podam.test.unit.features.externalFactory"/>
   <tags>
     <tag name="External factory" type="epics"/>
@@ -8,10 +8,10 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given an external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="37">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with external factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory to manufacture class uk.co.jemos.podam.test.dto.PojoWithInterfaces with the fullest constructor</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
@@ -23,10 +23,10 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the two objects interface uk.co.jemos.podam.test.dto.ObjectExt and interface uk.co.jemos.podam.test.dto.ObjectExt should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the two objects interface uk.co.jemos.podam.test.dto.InterfacePojo and interface uk.co.jemos.podam.test.dto.InterfacePojo should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects 2 and 2 should be equal</description>
   </test-step>
 </acceptance-test-run>

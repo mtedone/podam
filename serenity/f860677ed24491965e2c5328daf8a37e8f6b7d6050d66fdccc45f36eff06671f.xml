@@ -1,23 +1,23 @@
-<acceptance-test-run title="When the @Size annotation doesn&apos;t have a max length specified, Podam should assign a sensible value" name="whenMaxLengthIsNotSpecifiedInSizeAnnotationPodamShouldAssignASensibleDefault" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="114" timestamp="2016-08-21T23:45:02.834+07:00">
+<acceptance-test-run title="When the @Size annotation doesn&apos;t have a max length specified, Podam should assign a sensible value" name="whenMaxLengthIsNotSpecifiedInSizeAnnotationPodamShouldAssignASensibleDefault" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="94" timestamp="2016-09-03T17:53:02.724+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.validatorFramework.ValidatedPojoTest" name="Validated pojo test" path="uk.co.jemos.podam.test.unit.features.validatorFramework"/>
   <tags>
     <tag name="Validator framework" type="epics"/>
     <tag name="Validator framework/Validated pojo test" type="stories"/>
     <tag name="Validated pojo test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="35">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="5">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="37">
+  <test-step result="SUCCESS" duration="22">
     <description>Given a Javax Validator</description>
   </test-step>
-  <test-step result="SUCCESS" duration="36">
+  <test-step result="SUCCESS" duration="66">
     <description>Then the POJO should not have any Validator violations</description>
   </test-step>
 </acceptance-test-run>

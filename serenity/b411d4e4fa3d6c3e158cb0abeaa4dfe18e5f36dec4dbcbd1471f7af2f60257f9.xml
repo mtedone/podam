@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should return valid class info for POJOs with no attributes" name="podamShouldReturnAValidClassInfoForPojoWithNoAttributes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-08-21T23:44:59.068+07:00">
+<acceptance-test-run title="Podam should return valid class info for POJOs with no attributes" name="podamShouldReturnAValidClassInfoForPojoWithNoAttributes" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.035+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>
@@ -8,10 +8,10 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a ClassInfo for class class uk.co.jemos.podam.test.dto.EmptyTestPojo with empty attributes</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>When I invoke Podam Utils method to get class info for class class uk.co.jemos.podam.test.dto.EmptyTestPojo and approver &lt;null&gt;</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
-    <description>Then the two objects uk.co.jemos.podam.api.ClassInfo@5cfed8af and uk.co.jemos.podam.api.ClassInfo@5cfed8af should be equal</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the two objects uk.co.jemos.podam.api.ClassInfo@20e6c89d and uk.co.jemos.podam.api.ClassInfo@20e6c89d should be equal</description>
   </test-step>
 </acceptance-test-run>

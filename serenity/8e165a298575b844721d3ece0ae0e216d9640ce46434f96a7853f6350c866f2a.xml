@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should be able to fill in POJOs with raw type collection attributes and default values to Object" name="podamShouldBeAbleToFillInPojosWithRawTypeCollectionAttributesAndDefaultValueToObject" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="39" timestamp="2016-08-21T23:44:59.111+07:00">
+<acceptance-test-run title="Podam should be able to fill in POJOs with raw type collection attributes and default values to Object" name="podamShouldBeAbleToFillInPojosWithRawTypeCollectionAttributesAndDefaultValueToObject" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="6" timestamp="2016-09-03T17:53:02.064+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections/Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="30">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -14,10 +14,10 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="4">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the collection should not be null or empty and each element should be of type class java.lang.Object</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Map should not be null or empty and each element should have key of type class java.lang.Object and value of type class java.lang.Object</description>
   </test-step>
 </acceptance-test-run>

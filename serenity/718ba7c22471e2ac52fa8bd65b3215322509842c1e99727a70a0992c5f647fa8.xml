@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should generate a ClassInfo which contains information for the setters contained in the POJO" name="podamShouldReturnAClassInfoObjectWhichContainsTheSameAttributesAsThePojoBeingProcessed" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-08-21T23:44:59.082+07:00">
+<acceptance-test-run title="Podam should generate a ClassInfo which contains information for the setters contained in the POJO" name="podamShouldReturnAClassInfoObjectWhichContainsTheSameAttributesAsThePojoBeingProcessed" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.048+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.classInfo.ClassInfoTest" name="Class info test" path="uk.co.jemos.podam.test.unit.features.classInfo"/>
   <tags>
     <tag name="Class info" type="epics"/>

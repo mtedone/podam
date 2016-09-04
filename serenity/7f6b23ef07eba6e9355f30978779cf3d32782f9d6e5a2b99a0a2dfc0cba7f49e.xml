@@ -1,14 +1,14 @@
-<acceptance-test-run title="Invoking Podam on a POJO with both circular and non circular constructors (e.g. javax.activation.DataHandler) should lead to a non empty POJO" name="podamShouldHandlePojosWithAMixOfCircularAndNonCircularConstructors" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="36" timestamp="2016-08-21T23:45:01.114+07:00">
+<acceptance-test-run title="Invoking Podam on a POJO with both circular and non circular constructors (e.g. javax.activation.DataHandler) should lead to a non empty POJO" name="podamShouldHandlePojosWithAMixOfCircularAndNonCircularConstructors" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="9" timestamp="2016-09-03T17:53:02.409+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>
     <tag name="Edge cases/Abnormal pojos test" type="stories"/>
     <tag name="Abnormal pojos test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="21">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="14">
+  <test-step result="SUCCESS" duration="7">
     <description>When I invoke the factory manufacturing for class javax.activation.DataHandler</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

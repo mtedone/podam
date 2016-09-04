@@ -1,4 +1,4 @@
-<acceptance-test-run title="Creating a Random Data Provider Strategy should create a constructor heavy comparator" name="creatingARandomDataProviderStrategyShouldCreateAConstructorHeavyComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-08-21T23:45:00.701+07:00">
+<acceptance-test-run title="Creating a Random Data Provider Strategy should create a constructor heavy comparator" name="creatingARandomDataProviderStrategyShouldCreateAConstructorHeavyComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.338+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
@@ -15,6 +15,6 @@
     <description>Then the two objects &lt;null&gt; and &lt;null&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the two objects uk.co.jemos.podam.common.ConstructorHeavyFirstComparator@1642ef89 and uk.co.jemos.podam.common.ConstructorHeavyFirstComparator@1642ef89 should be equal</description>
+    <description>Then the two objects uk.co.jemos.podam.common.ConstructorHeavyFirstComparator@554cd74a and uk.co.jemos.podam.common.ConstructorHeavyFirstComparator@554cd74a should be equal</description>
   </test-step>
 </acceptance-test-run>

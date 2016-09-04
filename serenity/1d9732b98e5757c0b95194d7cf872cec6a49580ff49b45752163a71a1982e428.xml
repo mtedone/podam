@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle attributes in accordance with custom Class Info Strategies" name="podamShouldHandleAttributesInAccordanceWithCustomClassInfoStrategies" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="28" timestamp="2016-08-21T23:45:01.262+07:00">
+<acceptance-test-run title="Podam should handle attributes in accordance with custom Class Info Strategies" name="podamShouldHandleAttributesInAccordanceWithCustomClassInfoStrategies" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.457+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.extensions.NonEJBPojoTest" name="Non EJB pojo test" path="uk.co.jemos.podam.test.unit.features.extensions"/>
   <tags>
     <tag name="Extensions" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a Class Info Strategy which approves only attributes belonging to NonEJBPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="23">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom Class Info Strategy</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
@@ -18,7 +18,7 @@
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the String field 2Xhv9gTsWm cannot be null or empty</description>
+    <description>Then the String field PZ6mWsodui cannot be null or empty</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>

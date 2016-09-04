@@ -1,4 +1,4 @@
-<acceptance-test-run title="Memoization should work for recursive Pojos" name="memoizationShouldWorkForRecursivePojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="24" timestamp="2016-08-21T23:45:02.074+07:00">
+<acceptance-test-run title="Memoization should work for recursive Pojos" name="memoizationShouldWorkForRecursivePojos" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.601+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.memoization.MemoizationTest" name="Memoization test" path="uk.co.jemos.podam.test.unit.features.memoization"/>
   <tags>
     <tag name="Memoization" type="epics"/>
@@ -8,7 +8,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a Random Data Provider Strategy with memoization set to true</description>
   </test-step>
-  <test-step result="SUCCESS" duration="23">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

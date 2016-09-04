@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="42" timestamp="2016-08-21T23:44:59.462+07:00">
+<acceptance-test-run title="Podam should be able to create instances of Concurrent Hash Maps" name="testConcurrentMapCreation" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.143+01:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
     <tag name="Collections/Collections test" type="stories"/>
     <tag name="Collections test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="36">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="2">
@@ -17,7 +17,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the two objects 0 and 0 should be equal</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects 0 and 0 should be equal</description>
   </test-step>
 </acceptance-test-run>
