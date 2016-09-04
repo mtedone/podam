@@ -547,6 +547,9 @@ public final class TypeManufacturerUtil {
                     retValue = new HashMap<Object, Object>();
                 }
             }
+            if (null != retValue && null != defaultValue) {
+                retValue.putAll(defaultValue);
+            }
         }
 
         return retValue;
