@@ -1,7 +1,7 @@
 podam
 =====
 
-[Travis Build Status](https://travis-ci.org/devopsfolks/podam.svg?branch=develop)
+https://travis-ci.org/devopsfolks/podam.svg?branch=develop
 
 PODAM - POjo DAta Mocker
 
