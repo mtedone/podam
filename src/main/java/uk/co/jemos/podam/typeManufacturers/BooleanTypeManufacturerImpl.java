@@ -38,10 +38,21 @@ public class BooleanTypeManufacturerImpl extends AbstractTypeManufacturer<Boolea
         }
 
         if (retValue == null) {
-            retValue = strategy.getBoolean(attributeMetadata);
+            retValue = getBoolean(attributeMetadata);
         }
 
         return retValue;
     }
+
+	/** It returns a boolean/Boolean value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a boolean/Boolean value
+	 */
+	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
+
+		return Boolean.TRUE;
+	}
 
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
 
@@ -60,7 +61,7 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getLongInRange(minValue, maxValue,
+                    retValue = getLongInRange(minValue, maxValue,
                             attributeMetadata);
 
                 }
@@ -72,9 +73,38 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getLong(attributeMetadata);
+            retValue = getLong(attributeMetadata);
         }
 
         return retValue;
     }
+
+    /** It returns a long/Long value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A long/Long value
+	 * */
+	public Long getLong(AttributeMetadata attributeMetadata) {
+
+		return System.nanoTime();
+	}
+
+	/**
+	 * It returns a long/Long value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A long/Long value between min and max value (included).
+	 */
+	public Long getLongInRange(long minValue, long maxValue,
+			AttributeMetadata attributeMetadata) {
+
+		return PodamUtils.getLongInRange(minValue, maxValue);
+	}
+
 }

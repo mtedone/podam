@@ -14,6 +14,8 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
+import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -39,7 +41,8 @@ public class PodamFactorySteps {
     @Step("Given a Podam Factory to use as External Factory")
     public PodamFactory givenAPodamExternalFactorytoTestAttributeMetadata() {
 
-        PodamFactory factory = new PodamFactoryImpl(new AbstractRandomDataProviderStrategy() {
+        TypeManufacturer<String> stringManufacturer = new StringTypeManufacturerImpl() {
+
             @Override
             public String getStringValue(AttributeMetadata attributeMetadata) {
 
@@ -49,7 +52,10 @@ public class PodamFactorySteps {
                     return "classic";
                 }
             }
-        });
+        };
+
+        PodamFactory factory = new PodamFactoryImpl();
+        factory.getStrategy().addOrReplaceTypeManufacturer(String.class, stringManufacturer);
 
         return factory;
     }

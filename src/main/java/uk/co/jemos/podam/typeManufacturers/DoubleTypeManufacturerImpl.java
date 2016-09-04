@@ -63,7 +63,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getDoubleInRange(minValue, maxValue,
+                    retValue = getDoubleInRange(minValue, maxValue,
                              attributeMetadata);
                 }
 
@@ -74,9 +74,50 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
         }
 
         if (retValue == null) {
-            retValue = strategy.getDouble(attributeMetadata);
+            retValue = getDouble(attributeMetadata);
         }
 
         return retValue;
     }
+
+    /** It returns a double/Double value
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return a double/Double value
+	 */
+	public Double getDouble(AttributeMetadata attributeMetadata) {
+
+		double retValue;
+		do {
+			retValue = RANDOM.nextDouble();
+		} while (retValue == 0.0);
+		return retValue;
+	}
+
+	/**
+	 * It returns a double/Double value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A double/Double value between min and max value (included)
+	 */
+	public Double getDoubleInRange(double minValue, double maxValue,
+			AttributeMetadata attributeMetadata) {
+
+		// This can happen. It's a way to specify a precise value
+		if (minValue == maxValue) {
+			return minValue;
+		}
+		double retValue;
+		do {
+			retValue = minValue + Math.random() * (maxValue - minValue + 1);
+		} while (retValue > maxValue);
+		return retValue;
+	}
+
 }

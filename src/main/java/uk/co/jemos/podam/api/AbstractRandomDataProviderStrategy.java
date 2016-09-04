@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -61,9 +60,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 	/** Application logger */
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractRandomDataProviderStrategy.class);
-
-	/** A RANDOM generator */
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	/**
 	 * How many times it is allowed to PODAM to create an instance of the same
@@ -183,254 +179,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	}
 
 	// ------------------->> Public methods
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Byte getByte(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		byte nextByte;
-		do {
-			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
-		} while (nextByte == 0);
-		return nextByte;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Byte getByteInRange(byte minValue, byte maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return (byte) (minValue + Math.random() * (maxValue - minValue) + 0.5);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Character getCharacter(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return PodamUtils.getNiceCharacter();
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Character getCharacterInRange(char minValue, char maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return (char) (minValue + Math.random() * (maxValue - minValue) + 0.5);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Double getDouble(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		double retValue;
-		do {
-			retValue = RANDOM.nextDouble();
-		} while (retValue == 0.0);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Double getDoubleInRange(double minValue, double maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		double retValue;
-		do {
-			retValue = minValue + Math.random() * (maxValue - minValue + 1);
-		} while (retValue > maxValue);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Float getFloat(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		float retValue;
-		do {
-			retValue = RANDOM.nextFloat();
-		} while (retValue == 0.0f);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Float getFloatInRange(float minValue, float maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		float retValue;
-		do {
-			retValue = (float) (minValue
-					+ Math.random() * (maxValue - minValue + 1));
-		} while (retValue > maxValue);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Integer getInteger(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		Integer retValue;
-		do {
-			retValue = RANDOM.nextInt();
-		} while (retValue.intValue() == 0);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public int getIntegerInRange(int minValue, int maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return (int) (minValue + Math.random() * (maxValue - minValue) + 0.5);
-	}
-
-	/**
-	 * This implementation returns the current time in milliseconds.
-	 * <p>
-	 * This can be useful for Date-like constructors which accept a long as
-	 * argument. A complete random number would cause the instantiation of such
-	 * classes to fail on a non-deterministic basis, e.g. when the random long
-	 * would not be an acceptable value for, say, a YEAR field.
-	 * </p>
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Long getLong(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return System.nanoTime();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Long getLongInRange(long minValue, long maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return PodamUtils.getLongInRange(minValue, maxValue);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Short getShort(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		short retValue;
-		do {
-			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
-		} while (retValue == 0);
-		return retValue;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Short getShortInRange(short minValue, short maxValue,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return (short) (minValue + Math.random() * (maxValue - minValue) + 0.5);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public String getStringValue(AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,
-				attributeMetadata);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public String getStringOfLength(int length,
-			AttributeMetadata attributeMetadata) {
-
-		log(attributeMetadata);
-		StringBuilder buff = new StringBuilder();
-
-		while (buff.length() < length) {
-			buff.append(getCharacter(attributeMetadata));
-		}
-
-		return buff.toString();
-
-	}
 
 	// ------------------->> Getters / Setters
 
@@ -639,6 +387,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			LOG.debug("Failed to find manufacturer for type {}", pojoType);
 			return null;
 		}
+
+		log(attributeMetadata);
 
 		try {
 			@SuppressWarnings("unchecked")

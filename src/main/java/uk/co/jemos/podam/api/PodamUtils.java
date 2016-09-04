@@ -474,6 +474,20 @@ public final class PodamUtils {
 	}
 
 	/**
+	 * It returns a random int/Integer value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @return An int/Integer value between min and max value (included).
+	 */
+	public static int getIntegerInRange(int minValue, int maxValue) {
+
+		return (int) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+	}
+
+	/**
 	 * Finds boxed type for a primitive type
 	 * 
 	 * @param primitiveType

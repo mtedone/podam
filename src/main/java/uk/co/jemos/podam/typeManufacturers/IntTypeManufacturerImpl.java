@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamIntValue;
 
@@ -62,7 +63,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getIntegerInRange(minValue, maxValue,
+                    retValue = getIntegerInRange(minValue, maxValue,
                             attributeMetadata);
 
                 }
@@ -74,9 +75,42 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getInteger(attributeMetadata);
+            retValue = getInteger(attributeMetadata);
         }
 
         return retValue;
     }
+
+	/** It returns an int/Integer value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A int/Integer value
+	 */
+	public Integer getInteger(AttributeMetadata attributeMetadata) {
+
+		Integer retValue;
+		do {
+			retValue = RANDOM.nextInt();
+		} while (retValue.intValue() == 0);
+		return retValue;
+	}
+
+	/**
+	 * It returns an int/Integer value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return An int/Integer value between min and max value (included).
+	 */
+	public int getIntegerInRange(int minValue, int maxValue,
+			AttributeMetadata attributeMetadata) {
+
+		return PodamUtils.getIntegerInRange(minValue, maxValue);
+	}
+
 }

@@ -59,7 +59,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getShortInRange(minValue, maxValue,
+                    retValue = getShortInRange(minValue, maxValue,
                             attributeMetadata);
 
                 }
@@ -70,9 +70,42 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getShort(attributeMetadata);
+            retValue = getShort(attributeMetadata);
         }
 
         return retValue;
     }
+
+    /** It returns a short/Short value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A short/Short value.
+	 */
+	public Short getShort(AttributeMetadata attributeMetadata) {
+
+		short retValue;
+		do {
+			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
+		} while (retValue == 0);
+		return retValue;
+	}
+
+	/**
+	 * It returns a short/Short value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A short/Short value between min and max value (included).
+	 */
+	public Short getShortInRange(short minValue, short maxValue,
+			AttributeMetadata attributeMetadata) {
+
+		return (short) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+	}
+
 }

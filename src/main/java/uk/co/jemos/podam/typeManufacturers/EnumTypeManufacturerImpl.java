@@ -5,6 +5,7 @@ import java.util.Map;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 
 /**
  * Default Enum type manufacturer.
@@ -31,8 +32,7 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> 
         int enumConstantsLength = realAttributeType.getEnumConstants().length;
 
         if (enumConstantsLength > 0) {
-            int enumIndex = strategy.getIntegerInRange(0,
-                    enumConstantsLength, attributeMetadata)
+            int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)
                     % enumConstantsLength;
             retValue = (Enum<?>) realAttributeType.getEnumConstants()[enumIndex];
         }

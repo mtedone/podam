@@ -60,7 +60,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
                         maxValue = minValue;
                     }
 
-                    retValue = strategy.getFloatInRange(minValue, maxValue,
+                    retValue = getFloatInRange(minValue, maxValue,
                             attributeMetadata);
 
                 }
@@ -72,9 +72,51 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
         }
 
         if (retValue == null) {
-            retValue = strategy.getFloat(attributeMetadata);
+            retValue = getFloat(attributeMetadata);
         }
 
         return retValue;
     }
+
+	/** It returns a float/Float value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A float/Float value
+	 */
+	public Float getFloat(AttributeMetadata attributeMetadata) {
+
+		float retValue;
+		do {
+			retValue = RANDOM.nextFloat();
+		} while (retValue == 0.0f);
+		return retValue;
+	}
+
+	/**
+	 * It returns a float/Float value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A float/Float value between min and max value (included).
+	 */
+	public Float getFloatInRange(float minValue, float maxValue,
+			AttributeMetadata attributeMetadata) {
+
+		// This can happen. It's a way to specify a precise value
+		if (minValue == maxValue) {
+			return minValue;
+		}
+		float retValue;
+		do {
+			retValue = (float) (minValue
+					+ Math.random() * (maxValue - minValue + 1));
+		} while (retValue > maxValue);
+		return retValue;
+	}
+
 }
