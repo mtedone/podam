@@ -271,32 +271,6 @@ public final class TypeManufacturerUtil {
     }
 
     /**
-     * It returns {@code true} if this class is a wrapper class, {@code false}
-     * otherwise
-     *
-     * @param candidateWrapperClass
-     *            The class to check
-     * @return {@code true} if this class is a wrapper class, {@code false}
-     *         otherwise
-     */
-    public static boolean isWrapper(Class<?> candidateWrapperClass) {
-
-        return candidateWrapperClass.equals(Byte.class) ? true
-                : candidateWrapperClass.equals(Boolean.class) ? true
-                : candidateWrapperClass.equals(Character.class) ? true
-                : candidateWrapperClass.equals(Short.class) ? true
-                : candidateWrapperClass
-                .equals(Integer.class) ? true
-                : candidateWrapperClass
-                .equals(Long.class) ? true
-                : candidateWrapperClass
-                .equals(Float.class) ? true
-                : candidateWrapperClass
-                .equals(Double.class) ? true
-                : false;
-    }
-
-    /**
      * Utility to merge actual types with supplied array of generic type
      * substitutions
      *

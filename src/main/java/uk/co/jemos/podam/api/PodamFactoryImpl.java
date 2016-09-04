@@ -495,44 +495,20 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
-
-		if (pojoClass.isEnum()) {
-
-			@SuppressWarnings("unchecked")
-			T tmp = (T) strategy.getTypeValue(
-					pojoMetadata, typeArgsMap, pojoClass.getSuperclass());
-			return tmp;
-		}
-
-		if (pojoClass.isPrimitive()
-				|| pojoClass.equals(String.class)
-				|| TypeManufacturerUtil.isWrapper(pojoClass)) {
-
-			@SuppressWarnings("unchecked")
-			T tmp = (T) strategy.getTypeValue(
-					pojoMetadata, typeArgsMap, pojoClass);
-			return tmp;
-		}
-
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
-                pojoClass, genericTypeArgs);
+				pojoClass, genericTypeArgs);
+
+		@SuppressWarnings("unchecked")
+		T tmp = (T) strategy.getTypeValue(pojoMetadata, typeArgsMap, pojoClass);
+		if (null != tmp) {
+			return tmp;
+		}
 
 		if (pojoClass.isInterface()) {
 
 			return getValueForAbstractType(pojoClass, pojoMetadata,
 					manufacturingCtx, typeArgsMap, genericTypeArgs);
 
-		}
-
-		// Parametrized type
-		if (Type.class.isAssignableFrom(pojoClass)) {
-
-			@SuppressWarnings("unchecked")
-			T tmp = (T) strategy.getTypeValue(
-					pojoMetadata, typeArgsMap, Type.class);
-			if (null != tmp) {
-				return tmp;
-			}
 		}
 
 		T retValue = null;
