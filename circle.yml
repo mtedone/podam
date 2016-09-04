@@ -1,6 +1,6 @@
 machine:
-  ruby:
-    version: rbx-2.2.6
+  java:
+    version: openjdk8
 
 general:
    artifacts:
@@ -9,7 +9,7 @@ general:
      
 test:
   override:
-    - mvn clean install
+    - mvn clean verify
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
