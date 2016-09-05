@@ -1799,8 +1799,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		Object parameterValue = null;
-
 		AttributeStrategy<?> attributeStrategy
 				= TypeManufacturerUtil.findAttributeStrategy(strategy, annotations, parameterType);
 		if (null != attributeStrategy) {
@@ -1813,113 +1811,30 @@ public class PodamFactoryImpl implements PodamFactory {
                     attributeStrategy);
 		}
 
-		if (Collection.class.isAssignableFrom(parameterType)) {
+		Map<String, Type> typeArgsMapForParam;
+		if (genericType instanceof ParameterizedType) {
+			typeArgsMapForParam = new HashMap<String, Type>(typeArgsMap);
+			ParameterizedType parametrizedType =
+					(ParameterizedType) genericType;
 
-			Collection<Object> defaultValue = null;
-			Collection<Object> collection = TypeManufacturerUtil.resolveCollectionType(
-                    parameterType, defaultValue);
+			TypeVariable<?>[] argumentTypes = parameterType.getTypeParameters();
+			Type[] argumentGenericTypes = parametrizedType.getActualTypeArguments();
 
-			if (collection != null) {
-				Class<?> collectionElementType;
-				AtomicReference<Type[]> collectionGenericTypeArgs = new AtomicReference<Type[]>(
-						PodamConstants.NO_TYPES);
-				if (genericType instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) genericType;
-					Type actualTypeArgument = pType.getActualTypeArguments()[0];
-
-					collectionElementType = TypeManufacturerUtil.resolveGenericParameter(
-                            actualTypeArgument, typeArgsMap,
-                            collectionGenericTypeArgs);
-				} else {
-					LOG.warn("Collection parameter {} type is non-generic."
-							+ "We will assume a Collection<Object> for you.",
-							genericType);
-					collectionElementType = Object.class;
+			for (int k = 0; k < argumentTypes.length; k++) {
+				if (argumentGenericTypes[k] instanceof Class) {
+					Class<?> genericParam = (Class<?>) argumentGenericTypes[k];
+					typeArgsMapForParam.put(argumentTypes[k].getName(), genericParam);
 				}
-
-				Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeTypeArrays(
-                        collectionGenericTypeArgs.get(), genericTypeArgs);
-				String attributeName = null;
-				fillCollection(manufacturingCtx, annotations, attributeName,
-						collection, collectionElementType, genericTypeArgsAll);
-
-				parameterValue = collection;
 			}
-
-		} else if (Map.class.isAssignableFrom(parameterType)) {
-
-			Map<Object, Object> defaultValue = null;
-			Map<Object, Object> map = TypeManufacturerUtil.resolveMapType(parameterType, defaultValue);
-
-			if (map != null) {
-				Class<?> keyClass;
-				Class<?> elementClass;
-				AtomicReference<Type[]> keyGenericTypeArgs = new AtomicReference<Type[]>(
-						PodamConstants.NO_TYPES);
-				AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
-						PodamConstants.NO_TYPES);
-				if (genericType instanceof ParameterizedType) {
-					ParameterizedType pType = (ParameterizedType) genericType;
-					Type[] actualTypeArguments = pType.getActualTypeArguments();
-
-					keyClass = TypeManufacturerUtil.resolveGenericParameter(actualTypeArguments[0],
-							typeArgsMap, keyGenericTypeArgs);
-					elementClass = TypeManufacturerUtil.resolveGenericParameter(
-							actualTypeArguments[1], typeArgsMap, elementGenericTypeArgs);
-				} else {
-					LOG.warn("Map parameter {} type is non-generic."
-							+ "We will assume a Map<Object,Object> for you.",
-							genericType);
-					keyClass = Object.class;
-					elementClass = Object.class;
-				}
-
-				Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeTypeArrays(
-                        elementGenericTypeArgs.get(), genericTypeArgs);
-
-				MapArguments mapArguments = new MapArguments();
-				mapArguments.setAnnotations(annotations);
-				mapArguments.setMapToBeFilled(map);
-				mapArguments.setKeyClass(keyClass);
-				mapArguments.setElementClass(elementClass);
-				mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
-				mapArguments.setElementGenericTypeArgs(genericTypeArgsAll);
-
-				fillMap(mapArguments, manufacturingCtx);
-
-				parameterValue = map;
-			}
+		} else {
+			typeArgsMapForParam = typeArgsMap;
 		}
 
-		if (parameterValue == null) {
+		String attributeName = null;
 
-			Map<String, Type> typeArgsMapForParam;
-			if (genericType instanceof ParameterizedType) {
-				typeArgsMapForParam = new HashMap<String, Type>(typeArgsMap);
-				ParameterizedType parametrizedType =
-						(ParameterizedType) genericType;
-
-				TypeVariable<?>[] argumentTypes = parameterType.getTypeParameters();
-				Type[] argumentGenericTypes = parametrizedType.getActualTypeArguments();
-
-				for (int k = 0; k < argumentTypes.length; k++) {
-					if (argumentGenericTypes[k] instanceof Class) {
-						Class<?> genericParam = (Class<?>) argumentGenericTypes[k];
-						typeArgsMapForParam.put(argumentTypes[k].getName(), genericParam);
-					}
-				}
-			} else {
-				typeArgsMapForParam = typeArgsMap;
-			}
-
-			String attributeName = null;
-
-			parameterValue = manufactureAttributeValue(pojoClass, manufacturingCtx, parameterType,
-					genericType, annotations, attributeName, typeArgsMapForParam,
-					genericTypeArgs);
-		}
-
-		return parameterValue;
+		return manufactureAttributeValue(pojoClass, manufacturingCtx, parameterType,
+				genericType, annotations, attributeName, typeArgsMapForParam,
+				genericTypeArgs);
 	}
 
     /**
