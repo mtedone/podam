@@ -61,13 +61,15 @@ public interface DataProviderStrategy {
 
     /**
      * Obtains a type value
+     *
+     * @param <T> type of returned object
      * @param attributeMetadata The AttributeMetadata information
      * @param genericTypesArgumentsMap The generic attribute type argument types
      * @param pojoType The class of the requested type
      * @return The type value
      */
-    Object getTypeValue(AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap, Class<?> pojoType);
+    <T> T getTypeValue(AttributeMetadata attributeMetadata,
+            Map<String, Type> genericTypesArgumentsMap, Class<T> pojoType);
 
     /**
      * Bind an interface/abstract class to a specific implementation. If the

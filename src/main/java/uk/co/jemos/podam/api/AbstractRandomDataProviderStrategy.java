@@ -604,9 +604,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object getTypeValue(AttributeMetadata attributeMetadata,
+	public <T> T getTypeValue(AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap,
-			Class<?> pojoType) {
+			Class<T> pojoType) {
 
 		String errMsg;
 		if (null == attributeMetadata) {
@@ -641,8 +641,10 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		}
 
 		try {
-			return manufacturer.getType(this, attributeMetadata,
+			@SuppressWarnings("unchecked")
+			T tmp = (T) manufacturer.getType(this, attributeMetadata,
 					genericTypesArgumentsMap);
+			return tmp;
 		} catch (Exception e) {
 			throw new PodamMockeryException(
 					"Unable to instantiate " + pojoType, e);

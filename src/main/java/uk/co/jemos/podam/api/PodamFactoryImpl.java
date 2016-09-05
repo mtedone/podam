@@ -498,7 +498,6 @@ public class PodamFactoryImpl implements PodamFactory {
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
 
-		@SuppressWarnings("unchecked")
 		T tmp = (T) strategy.getTypeValue(pojoMetadata, typeArgsMap, pojoClass);
 		if (null != tmp) {
 			return tmp;
@@ -1861,7 +1860,7 @@ public class PodamFactoryImpl implements PodamFactory {
             throws InstantiationException, IllegalAccessException,
             InvocationTargetException, ClassNotFoundException {
 
-        Class<T> specificClass = (Class<T>) strategy.getSpecificClass(pojoClass);
+        Class<? extends T> specificClass = strategy.getSpecificClass(pojoClass);
 
         if (!specificClass.equals(pojoClass)) {
 
