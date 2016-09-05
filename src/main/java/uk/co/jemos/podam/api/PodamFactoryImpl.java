@@ -863,14 +863,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			realAttributeType = attributeType;
 		}
 
-		TypeVariable<?>[] typeParams = attributeType.getTypeParameters();
-		Type[] genericTypeArgsAll;
-		if (typeParams.length > genericTypeArgs.length) {
-			genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
-					typeParams, genericAttributeType, genericTypeArgs, typeArgsMap);
-		} else {
-			genericTypeArgsAll = genericTypeArgs;
-		}
+		Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
+					attributeType, genericAttributeType, genericTypeArgs, typeArgsMap);
 
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
 				attributeName, realAttributeType, genericAttributeType,

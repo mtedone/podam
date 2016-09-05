@@ -2,6 +2,7 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.ObjectStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
@@ -11,6 +12,7 @@ import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.ws.Holder;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
@@ -274,8 +276,8 @@ public final class TypeManufacturerUtil {
      * Utility to merge actual types with supplied array of generic type
      * substitutions
      *
-     * @param actualTypes
-     *            an array of types used for field or POJO declaration
+     * @param attributeType
+     *            actual type of object
      * @param genericAttributeType
      *            generic type of object
      * @param suppliedTypes
@@ -287,8 +289,14 @@ public final class TypeManufacturerUtil {
      *            resolved
      */
     public static Type[] mergeActualAndSuppliedGenericTypes(
-            Type[] actualTypes, Type genericAttributeType, Type[] suppliedTypes,
+            Class<?> attributeType, Type genericAttributeType, Type[] suppliedTypes,
             Map<String, Type> typeArgsMap) {
+
+        TypeVariable<?>[] actualTypes = attributeType.getTypeParameters();
+
+        if (actualTypes.length <= suppliedTypes.length) {
+            return suppliedTypes;
+        }
 
         Type[] genericTypes = null;
         if (genericAttributeType instanceof ParameterizedType) {
@@ -309,8 +317,6 @@ public final class TypeManufacturerUtil {
             Type type = null;
             if (actualTypes[i] instanceof TypeVariable) {
                 type = typeArgsMap.get(((TypeVariable<?>)actualTypes[i]).getName());
-            } else if (actualTypes[i] instanceof Class) {
-                type = actualTypes[i];
             } else if (actualTypes[i] instanceof WildcardType) {
                 AtomicReference<Type[]> methodGenericTypeArgs
                         = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
@@ -326,6 +332,10 @@ public final class TypeManufacturerUtil {
                             = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
                     type = resolveGenericParameter(genericTypes[i], typeArgsMap,
                             methodGenericTypeArgs);
+                } else if (genericTypes[i] instanceof ParameterizedType) {
+                    type = genericTypes[i];
+                } else {
+                    LOG.debug("Skipping type {} {}", actualTypes[i], genericTypes[i]);
                 }
             }
 
