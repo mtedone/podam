@@ -1263,7 +1263,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				// Expected only key, value type
 				if (genericTypeArgs.length != 2) {
 					throw new IllegalStateException(
-							"In a Map only key value generic type are expected.");
+							"In a Map only key value generic type are expected,"
+							+ "but received " + Arrays.toString(genericTypeArgs));
 				}
 
 				Type[] actualTypeArguments = genericTypeArgs;
@@ -1969,7 +1970,7 @@ public class PodamFactoryImpl implements PodamFactory {
         }
 
         return resortToExternalFactory(manufacturingCtx,
-                "{} is an abstract class or interface. Resorting to {} external factory",
+                "Cannot instantiate a class {}. Resorting to {} external factory",
                 pojoClass, genericTypeArgs);
     }
 
