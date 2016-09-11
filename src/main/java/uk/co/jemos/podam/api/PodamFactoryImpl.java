@@ -877,15 +877,15 @@ public class PodamFactoryImpl implements PodamFactory {
 		} else if (Collection.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveCollectionValueWhenCollectionIsPojoAttribute(
-                    pojo, manufacturingCtx, realAttributeType, attributeName,
-                    annotations, typeArgsMap, genericTypeArgsAll);
+					pojo, manufacturingCtx, attributeMetadata, typeArgsMap,
+					genericTypeArgsAll);
 
             // Map
 		} else if (Map.class.isAssignableFrom(realAttributeType)) {
 
 			attributeValue = resolveMapValueWhenMapIsPojoAttribute(pojo,
-					manufacturingCtx, realAttributeType, attributeName, annotations,
-					typeArgsMap, genericTypeArgsAll);
+					manufacturingCtx, attributeMetadata, typeArgsMap,
+					genericTypeArgsAll);
 
 		}
 
@@ -955,13 +955,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The POJO being analyzed
 	 * @param manufacturingCtx
 	 *            the manufacturing context
-	 * @param collectionType
-	 *            The type of the attribute being evaluated
-	 * @param annotations
-	 *            The set of annotations for the annotated attribute. It might
-	 *            be empty
-	 * @param attributeName
-	 *            The name of the field being set
+	 * @param attributeMetadata
+	 *            The attribute's metadata
 	 * @param typeArgsMap
 	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
@@ -976,9 +971,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Collection<? super Object> resolveCollectionValueWhenCollectionIsPojoAttribute(
 			Object pojo, ManufacturingContext manufacturingCtx,
-			Class<?> collectionType, String attributeName,
-			List<Annotation> annotations, Map<String, Type> typeArgsMap,
+			AttributeMetadata attributeMetadata, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
+
+		String attributeName = attributeMetadata.getAttributeName();
 
 		// This needs to be generic because collections can be of any type
 		Collection<Object> defaultValue = null;
@@ -994,7 +990,10 @@ public class PodamFactoryImpl implements PodamFactory {
 			retValue = defaultValue;
 		} else {
 
-			retValue = TypeManufacturerUtil.resolveCollectionType(collectionType);
+			@SuppressWarnings("unchecked")
+			Class<Collection<Object>> collectionType
+					= (Class<Collection<Object>>) attributeMetadata.getAttributeType();
+			retValue = strategy.getTypeValue(attributeMetadata, typeArgsMap, collectionType);
 			if (null != retValue && null != defaultValue) {
 				retValue.addAll(defaultValue);
 			}
@@ -1021,8 +1020,9 @@ public class PodamFactoryImpl implements PodamFactory {
                         typeArgsMap, elementGenericTypeArgs);
 			}
 
-			fillCollection(manufacturingCtx, annotations, attributeName, retValue, typeClass,
-					elementGenericTypeArgs.get());
+			fillCollection(manufacturingCtx,
+					attributeMetadata.getAttributeAnnotations(), attributeName,
+					retValue, typeClass, elementGenericTypeArgs.get());
 
 		} catch (SecurityException e) {
 			throw new PodamMockeryException(RESOLVING_COLLECTION_EXCEPTION_STR,
@@ -1198,12 +1198,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The POJO being initialized
 	 * @param manufacturingCtx
 	 *            the manufacturing context
-	 * @param attributeType
-	 *            The type of the POJO map attribute
-	 * @param attributeName
-	 *            The POJO attribute name
-	 * @param annotations
-	 *            The annotations specified for this attribute
+	 * @param attributeMetadata
+	 *            The attribute's metadata
 	 * @param typeArgsMap
 	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *            example) with their actual types
@@ -1224,9 +1220,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 */
 	private Map<? super Object, ? super Object> resolveMapValueWhenMapIsPojoAttribute(
 			Object pojo, ManufacturingContext manufacturingCtx,
-			Class<?> attributeType, String attributeName,
-			List<Annotation> annotations, Map<String, Type> typeArgsMap,
+			AttributeMetadata attributeMetadata, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
+
+		String attributeName = attributeMetadata.getAttributeName();
 
 		Map<Object, Object> defaultValue = null;
 		if (null != pojo && null != attributeName) {
@@ -1240,7 +1237,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			/* Default map, which is not immutable */
 			retValue = defaultValue;
 		} else {
-			retValue = TypeManufacturerUtil.resolveMapType(attributeType);
+
+			@SuppressWarnings("unchecked")
+			Class<Map<Object,Object>> mapType
+					= (Class<Map<Object, Object>>) attributeMetadata.getAttributeType();
+			retValue = strategy.getTypeValue(attributeMetadata, typeArgsMap, mapType);
 			if (null != retValue && null != defaultValue) {
 				retValue.putAll(defaultValue);
 			}
@@ -1286,7 +1287,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			MapArguments mapArguments = new MapArguments();
 			mapArguments.setAttributeName(attributeName);
-			mapArguments.setAnnotations(annotations);
+			mapArguments.setAnnotations(attributeMetadata.getAttributeAnnotations());
 			mapArguments.setMapToBeFilled(retValue);
 			mapArguments.setKeyClass(keyClass);
 			mapArguments.setElementClass(elementClass);

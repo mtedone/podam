@@ -13,12 +13,14 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.CollectionTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.GenericTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.MapTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
@@ -176,6 +178,12 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> typeManufacturer = new GenericTypeManufacturerImpl();
 		typeManufacturers.put(Type.class, typeManufacturer);
+
+		TypeManufacturer<?> collectionManufacturer = new CollectionTypeManufacturerImpl();
+		typeManufacturers.put(Collection.class, collectionManufacturer);
+
+		TypeManufacturer<?> mapManufacturer = new MapTypeManufacturerImpl();
+		typeManufacturers.put(Map.class, mapManufacturer);
 	}
 
 	// ------------------->> Public methods
