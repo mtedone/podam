@@ -498,28 +498,24 @@ public class PodamFactoryImpl implements PodamFactory {
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
 				pojoClass, genericTypeArgs);
 
-		T tmp = (T) strategy.getTypeValue(pojoMetadata, typeArgsMap, pojoClass);
-		if (null != tmp) {
-			return tmp;
-		}
+		T retValue = (T) strategy.getTypeValue(pojoMetadata, typeArgsMap, pojoClass);
+		if (null == retValue) {
 
-		if (pojoClass.isInterface()) {
+			if (pojoClass.isInterface()) {
 
-			return getValueForAbstractType(pojoClass, pojoMetadata,
-					manufacturingCtx, typeArgsMap, genericTypeArgs);
+				return getValueForAbstractType(pojoClass, pojoMetadata,
+						manufacturingCtx, typeArgsMap, genericTypeArgs);
+			}
 
-		}
+			try {
 
-		T retValue = null;
+				retValue = instantiatePojo(pojoClass, manufacturingCtx, typeArgsMap,
+						genericTypeArgsExtra);
+			} catch (SecurityException e) {
 
-		try {
-
-			retValue = instantiatePojo(pojoClass, manufacturingCtx, typeArgsMap,
-					genericTypeArgsExtra);
-
-		} catch (SecurityException e) {
-			throw new PodamMockeryException(
-					"Security exception while applying introspection.", e);
+				throw new PodamMockeryException(
+						"Security exception while applying introspection.", e);
+			}
 		}
 
 		if (retValue == null) {
