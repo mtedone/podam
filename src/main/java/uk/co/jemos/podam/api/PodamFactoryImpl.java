@@ -6,6 +6,7 @@ package uk.co.jemos.podam.api;
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1009,7 +1010,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					PodamConstants.NO_TYPES);
-			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
+			if (ArrayUtils.isEmpty(genericTypeArgs)) {
 
  				typeClass = findInheretedCollectionElementType(retValue,
 						manufacturingCtx, elementGenericTypeArgs, typeArgsMap, genericTypeArgs);
@@ -1101,7 +1102,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 		Class<?> elementTypeClass = TypeManufacturerUtil.resolveGenericParameter(typeParams[0],
 					typeArgsMap, elementGenericTypeArgs);
-		Type[] elementGenericArgs = TypeManufacturerUtil.mergeTypeArrays(
+		Type[] elementGenericArgs = ArrayUtils.addAll(
 				elementGenericTypeArgs.get(), genericTypeArgs);
 		elementGenericTypeArgs.set(elementGenericArgs);
 		return elementTypeClass;
@@ -1261,7 +1262,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					PodamConstants.NO_TYPES);
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
 					PodamConstants.NO_TYPES);
-			if (genericTypeArgs == null || genericTypeArgs.length == 0) {
+			if (ArrayUtils.isEmpty(genericTypeArgs)) {
 
 				MapArguments mapArgs = findInheretedMapElementType(retValue, manufacturingCtx, typeArgsMap, genericTypeArgs);
 
@@ -1371,9 +1372,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<?> elementClass = TypeManufacturerUtil.resolveGenericParameter(
 				typeParams[1], typeArgsMap, elementGenericTypeArgs);
 
-		Type[] keyGenericArgs = TypeManufacturerUtil.mergeTypeArrays(keyGenericTypeArgs.get(),
+		Type[] keyGenericArgs = ArrayUtils.addAll(keyGenericTypeArgs.get(),
 				genericTypeArgs);
-		Type[] elementGenericArgs = TypeManufacturerUtil.mergeTypeArrays(elementGenericTypeArgs.get(),
+		Type[] elementGenericArgs = ArrayUtils.addAll(elementGenericTypeArgs.get(),
 				genericTypeArgs);
 
 		MapArguments mapArguments = new MapArguments();

@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -303,7 +304,7 @@ public final class TypeManufacturerUtil {
         } else if (genericAttributeType instanceof WildcardType) {
             WildcardType wildcardType = (WildcardType) genericAttributeType;
             genericTypes = wildcardType.getLowerBounds();
-            if ((genericTypes == null) || (genericTypes.length == 0)) {
+            if (ArrayUtils.isEmpty(genericTypes)) {
                 genericTypes = wildcardType.getUpperBounds();
             }
         }
@@ -346,33 +347,8 @@ public final class TypeManufacturerUtil {
         }
         Type[] resolved = resolvedTypes.toArray(new Type[resolvedTypes.size()]);
         Type[] supplied = substitutionTypes.toArray(new Type[substitutionTypes.size()]);
-        return mergeTypeArrays(resolved, supplied);
+        return ArrayUtils.addAll(resolved, supplied);
     }
-
-    /**
-     * Utility method to merge two arrays
-     *
-     * @param original
-     *            The main array
-     * @param extra
-     *            The additional array, optionally may be null
-     * @return A merged array of original and extra arrays
-     */
-    public static Type[] mergeTypeArrays(Type[] original, Type[] extra) {
-
-        Type[] merged;
-
-        if (extra != null) {
-            merged = new Type[original.length + extra.length];
-            System.arraycopy(original, 0, merged, 0, original.length);
-            System.arraycopy(extra, 0, merged, original.length, extra.length);
-        } else {
-            merged = original;
-        }
-
-        return merged;
-    }
-
 
     /**
      * It resolves generic parameter type
