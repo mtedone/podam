@@ -387,38 +387,27 @@ public final class TypeManufacturerUtil {
      *
      * @param collectionType
      *            The collection type *
-     * @param defaultValue
-     *            Default value for the collection, can be null
      * @return an instance of the collection type or null
      */
     public static Collection<Object> resolveCollectionType(
-            Class<?> collectionType, Collection<Object> defaultValue) {
+            Class<?> collectionType) {
 
         Collection<Object> retValue = null;
 
         // Default list and set are ArrayList and HashSet. If users
         // wants a particular collection flavour they have to initialise
         // the collection
-        if (null != defaultValue &&
-                (defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
-			/* Default collection, which is not immutable */
-            retValue = defaultValue;
-        } else {
-            if (Queue.class.isAssignableFrom(collectionType)) {
-                if (collectionType.isAssignableFrom(LinkedList.class)) {
-                    retValue = new LinkedList<Object>();
-                }
-            } else if (Set.class.isAssignableFrom(collectionType)) {
-                if (collectionType.isAssignableFrom(HashSet.class)) {
-                    retValue = new HashSet<Object>();
-                }
-            } else {
-                if (collectionType.isAssignableFrom(ArrayList.class)) {
-                    retValue = new ArrayList<Object>();
-                }
+        if (Queue.class.isAssignableFrom(collectionType)) {
+            if (collectionType.isAssignableFrom(LinkedList.class)) {
+                retValue = new LinkedList<Object>();
             }
-            if (null != retValue && null != defaultValue) {
-                retValue.addAll(defaultValue);
+        } else if (Set.class.isAssignableFrom(collectionType)) {
+            if (collectionType.isAssignableFrom(HashSet.class)) {
+                retValue = new HashSet<Object>();
+            }
+        } else {
+            if (collectionType.isAssignableFrom(ArrayList.class)) {
+                retValue = new ArrayList<Object>();
             }
         }
         return retValue;
@@ -503,36 +492,24 @@ public final class TypeManufacturerUtil {
      *
      * @param mapType
      *            The attribute type implementing Map
-     * @param defaultValue
-     *            Default value for map
      * @return A default instance for each map type or null
      *
      */
-    public static Map<Object, Object> resolveMapType(
-            Class<?> mapType, Map<Object, Object> defaultValue) {
+    public static Map<Object, Object> resolveMapType(Class<?> mapType) {
 
         Map<Object, Object> retValue = null;
 
-        if (null != defaultValue &&
-                (defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
-			/* Default map, which is not immutable */
-            retValue = defaultValue;
-        } else {
-            if (SortedMap.class.isAssignableFrom(mapType)) {
-                if (mapType.isAssignableFrom(TreeMap.class)) {
-                    retValue = new TreeMap<Object, Object>();
-                }
-            } else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
-                if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
-                    retValue = new ConcurrentHashMap<Object, Object>();
-                }
-            } else {
-                if (mapType.isAssignableFrom(HashMap.class)) {
-                    retValue = new HashMap<Object, Object>();
-                }
+        if (SortedMap.class.isAssignableFrom(mapType)) {
+            if (mapType.isAssignableFrom(TreeMap.class)) {
+                retValue = new TreeMap<Object, Object>();
             }
-            if (null != retValue && null != defaultValue) {
-                retValue.putAll(defaultValue);
+        } else if (ConcurrentMap.class.isAssignableFrom(mapType)) {
+            if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+                retValue = new ConcurrentHashMap<Object, Object>();
+            }
+        } else {
+            if (mapType.isAssignableFrom(HashMap.class)) {
+                retValue = new HashMap<Object, Object>();
             }
         }
 

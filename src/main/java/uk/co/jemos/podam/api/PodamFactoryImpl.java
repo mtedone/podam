@@ -981,13 +981,24 @@ public class PodamFactoryImpl implements PodamFactory {
 			Type... genericTypeArgs) {
 
 		// This needs to be generic because collections can be of any type
-		Collection<Object> retValue = null;
+		Collection<Object> defaultValue = null;
 		if (null != pojo && null != attributeName) {
 
-			retValue = PodamUtils.getFieldValue(pojo, attributeName);
+			defaultValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
-		retValue = TypeManufacturerUtil.resolveCollectionType(collectionType, retValue);
+		Collection<Object> retValue = null;
+		if (null != defaultValue &&
+				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default collection, which is not immutable */
+			retValue = defaultValue;
+		} else {
+
+			retValue = TypeManufacturerUtil.resolveCollectionType(collectionType);
+			if (null != retValue && null != defaultValue) {
+				retValue.addAll(defaultValue);
+			}
+		}
 
 		if (null == retValue) {
 			return null;
@@ -1217,13 +1228,23 @@ public class PodamFactoryImpl implements PodamFactory {
 			List<Annotation> annotations, Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs) {
 
-		Map<Object, Object> retValue = null;
+		Map<Object, Object> defaultValue = null;
 		if (null != pojo && null != attributeName) {
 
-			retValue = PodamUtils.getFieldValue(pojo, attributeName);
+			defaultValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
 
-		retValue = TypeManufacturerUtil.resolveMapType(attributeType, retValue);
+		Map<Object, Object> retValue;
+		if (null != defaultValue &&
+				(defaultValue.getClass().getModifiers() & Modifier.PRIVATE) == 0) {
+			/* Default map, which is not immutable */
+			retValue = defaultValue;
+		} else {
+			retValue = TypeManufacturerUtil.resolveMapType(attributeType);
+			if (null != retValue && null != defaultValue) {
+				retValue.putAll(defaultValue);
+			}
+		}
 
 		if (null == retValue) {
 			return null;
