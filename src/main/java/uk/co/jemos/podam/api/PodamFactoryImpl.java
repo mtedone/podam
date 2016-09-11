@@ -134,21 +134,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
 		manufacturingCtx.getPojos().put(pojoClass, 0);
 		manufacturingCtx.setConstructorOrdering(Order.HEAVY_FIRST);
-		try {
-			Class<?> declaringClass = null;
-			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					pojoClass, genericTypeArgs, declaringClass);
-			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
-                    manufacturingCtx, genericTypeArgs);
-		} catch (InstantiationException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (InvocationTargetException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (ClassNotFoundException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		}
+		return doManufacturePojo(pojoClass, manufacturingCtx, genericTypeArgs);
     }
 
 	/**
@@ -158,21 +144,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
 		manufacturingCtx.getPojos().put(pojoClass, 0);
-		try {
-			Class<?> declaringClass = null;
-			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					pojoClass, genericTypeArgs, declaringClass);
-			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
-                    manufacturingCtx, genericTypeArgs);
-		} catch (InstantiationException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (InvocationTargetException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		} catch (ClassNotFoundException e) {
-			throw new PodamMockeryException(e.getMessage(), e);
-		}
+		return doManufacturePojo(pojoClass, manufacturingCtx, genericTypeArgs);
 	}
 
 	/**
@@ -443,6 +415,34 @@ public class PodamFactoryImpl implements PodamFactory {
 					+ " a value. Will try other means.", pojoClass);
 		}
 		return retValue;
+	}
+
+	/**
+	 * Manufactures and populates the pojo class
+	 *
+	 * @param <T> The type of the instance to return
+	 * @param pojoClass the class to instantiate
+	 * @param manufacturingCtx the initialized manufacturing context
+	 * @param genericTypeArgs generic arguments for the pojo class
+	 * @return instance of @pojoClass or null in case it cannot be instantiated
+	 */
+	private <T> T doManufacturePojo(Class<T> pojoClass,
+			ManufacturingContext manufacturingCtx, Type... genericTypeArgs) {
+		try {
+			Class<?> declaringClass = null;
+			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
+					pojoClass, genericTypeArgs, declaringClass);
+			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
+                    manufacturingCtx, genericTypeArgs);
+		} catch (InstantiationException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (IllegalAccessException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (InvocationTargetException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		} catch (ClassNotFoundException e) {
+			throw new PodamMockeryException(e.getMessage(), e);
+		}
 	}
 
 	/**
