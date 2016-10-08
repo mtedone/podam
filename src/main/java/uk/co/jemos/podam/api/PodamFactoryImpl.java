@@ -1544,32 +1544,29 @@ public class PodamFactoryImpl implements PodamFactory {
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException {
 
-		Class<?> componentType = null;
-		Type genericComponentType = null;
+		@SuppressWarnings("unchecked")
+		Class<Object> arrayType
+				= (Class<Object>) attributeMetadata.getAttributeType();
+		Object array = strategy.getTypeValue(attributeMetadata, typeArgsMap, arrayType);
+
+		Class<?> componentType = array.getClass().getComponentType();
+		Type genericComponentType;
 		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
 				PodamConstants.NO_TYPES);
 		Type genericType = attributeMetadata.getAttributeGenericType();
-		Class<?> attributeType = attributeMetadata.getAttributeType();
 		if (genericType instanceof GenericArrayType) {
 			genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();
 			if (genericComponentType instanceof TypeVariable) {
 				TypeVariable<?> componentTypeVariable
-						= (TypeVariable<?>) genericComponentType;
+						 = (TypeVariable<?>) genericComponentType;
 				final Type resolvedType
-						= typeArgsMap.get(componentTypeVariable.getName());
+						 = typeArgsMap.get(componentTypeVariable.getName());
 				componentType
-						= TypeManufacturerUtil.resolveGenericParameter(resolvedType, typeArgsMap,
-                        genericTypeArgs);
+						 = TypeManufacturerUtil.resolveGenericParameter(resolvedType, typeArgsMap,
+								genericTypeArgs);
 			}
-		} else if (genericType instanceof Class) {
-			Class<?> arrayClass = (Class<?>) genericType;
-			genericComponentType = arrayClass.getComponentType();
 		} else {
-			genericComponentType = attributeType.getComponentType();
-		}
-
-		if (componentType == null) {
-			componentType = attributeType.getComponentType();
+			genericComponentType = componentType;
 		}
 
 		// If the user defined a strategy to fill the collection elements,
@@ -1578,13 +1575,12 @@ public class PodamFactoryImpl implements PodamFactory {
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
 		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy,
-				attributeMetadata.getAttributeAnnotations(), attributeType,
+				attributeMetadata.getAttributeAnnotations(),
+				attributeMetadata.getAttributeType(),
 				elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
 		Object arrayElement = null;
-		Object array = Array.newInstance(componentType, nbrElements);
-
 		for (int i = 0; i < nbrElements; i++) {
 
 			// The default

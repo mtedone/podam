@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.typeManufacturers.ArrayTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl;
@@ -184,6 +185,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> mapManufacturer = new MapTypeManufacturerImpl();
 		typeManufacturers.put(Map.class, mapManufacturer);
+
+		TypeManufacturer<?> arrayManufacturer = new ArrayTypeManufacturerImpl();
+		typeManufacturers.put(Cloneable.class, arrayManufacturer);
 	}
 
 	// ------------------->> Public methods
@@ -482,6 +486,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public <T> Class<? extends T> getSpecificClass(
 			Class<T> nonInstantiatableClass) {
 
+		@SuppressWarnings("unchecked")
 		Class<? extends T> found = (Class<? extends T>) specificTypes
 				.get(nonInstantiatableClass);
 		if (found == null) {
