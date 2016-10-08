@@ -659,36 +659,20 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			} else {
 
-				Type[] typeArguments = PodamConstants.NO_TYPES;
+				AtomicReference<Type[]> typeGenericTypeArgs
+						= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
 				// If the parameter is a generic parameterized type resolve
 				// the actual type arguments
 				Type genericType = setter.getGenericParameterTypes()[0];
-				if (genericType instanceof ParameterizedType) {
-					final ParameterizedType attributeParameterizedType
-							= (ParameterizedType) genericType;
-					typeArguments = attributeParameterizedType
-							.getActualTypeArguments();
 
-				} else if (genericType instanceof TypeVariable) {
-
-					final TypeVariable<?> typeVariable = (TypeVariable<?>) genericType;
-					Type type = typeArgsMap.get(typeVariable.getName());
-
-					if (type instanceof ParameterizedType) {
-
-						final ParameterizedType attributeParameterizedType = (ParameterizedType) type;
-
-						typeArguments = attributeParameterizedType
-								.getActualTypeArguments();
-						attributeType = (Class<?>) attributeParameterizedType
-								.getRawType();
-					} else {
-						attributeType = (Class<?>) type;
-					}
-
+				final Type[] typeArguments;
+				if (!(genericType instanceof GenericArrayType)) {
+					attributeType = TypeManufacturerUtil.resolveGenericParameter(genericType,
+							typeArgsMap, typeGenericTypeArgs);
+					typeArguments = typeGenericTypeArgs.get();
+				} else {
+					typeArguments = PodamConstants.NO_TYPES;
 				}
-				AtomicReference<Type[]> typeGenericTypeArgs
-						= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
 
 				for (int i = 0; i < typeArguments.length; i++) {
 					if (typeArguments[i] instanceof TypeVariable) {
