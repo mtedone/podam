@@ -5,6 +5,7 @@ package uk.co.jemos.podam.test.unit.pdm3;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,11 +18,12 @@ import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3Pojo;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoConstructor;
 import uk.co.jemos.podam.test.dto.pdm3.Pdm3PojoGenericsConstructor;
+import uk.co.jemos.podam.test.dto.pdm3.WildcardPojo;
 
 import java.lang.reflect.Type;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import javax.xml.bind.JAXBElement;
 
 /**
  * @author Marco Tedone
@@ -58,6 +60,16 @@ public class Pdm3PojoUnitTest {
 	@After
 	public void end() {
 		assertEquals(trackingFactory.failures.toString(), 0, trackingFactory.failures.size());
+	}
+
+	@Test
+	public void testPdm3WildcardPojo() {
+
+		WildcardPojo pojo = factory.manufacturePojo(WildcardPojo.class);
+		assertNotNull(pojo);
+		assertCollection(pojo.getSomething(), JAXBElement.class);
+		assertCollection(pojo.getDescendants(), JAXBElement.class);
+		assertCollection(pojo.getAncestors(), JAXBElement.class);
 	}
 
 	@Test
