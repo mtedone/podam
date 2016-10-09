@@ -290,14 +290,19 @@ public static class Pojo {
 }
 +-----------------------------------
 
-  Define custom <DataProviderStrategy>, which will be producing values
-  depending on attribute type
+
+        PodamFactory factory = new PodamFactoryImpl();
+        factory.getStrategy().addOrReplaceTypeManufacturer(String.class, stringManufacturer);
+  Define custom <TypeManufacturer>, which will be producing string values
+  depending on attribute name
 
 +-----------------------------------
-public class CustomProviderStrategy extends AbstractRandomDataProviderStrategy {
+public class CustomStringManufacturer extends StringTypeManufacturerImpl() {
 
 	@Override
-	public String getStringValue(AttributeMetadata attributeMetadata) {
+	public String getType(DataProviderStrategy strategy,
+			AttributeMetadata attributeMetadata,
+			Map<String, Type> genericTypesArgumentsMap) {
 
 		if (Pojo.class.isAssignableFrom(attributeMetadata.getPojoClass())) {
 
@@ -307,17 +312,17 @@ public class CustomProviderStrategy extends AbstractRandomDataProviderStrategy {
 				return "00100";
 			}
 		}
-		return super.getStringValue(attributeMetadata);
-	}
+		return super.getType(strategy, attributeMetadata, genericTypesArgumentsMap);
+	};
 }
 +-----------------------------------
 
   Intantiate POJO with <PodamFactory>
 
 +-----------------------------------
-CustomProviderStrategy providerStrategy = new CustomProviderStrategy();
-PodamFactory factory = new PodamFactoryImpl(providerStrategy);
-Pojo pojo = factory.manufacturePojo(Pojo.class);
+CustomStringManufacturer customStringManufacturer = new CustomStringManufacturer();
+PodamFactory factory = new PodamFactoryImpl();
+factory.getStrategy().addOrReplaceTypeManufacturer(String.class, customStringManufacturer);
 +-----------------------------------
 
   Result:
