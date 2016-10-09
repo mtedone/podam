@@ -329,7 +329,7 @@ List&lt;String&gt; list = podam.manufacturePojo(ArrayList.class, String.class);
 
         public void setPostCode(String postCode) { this.postCode = postCode; }
 }</pre></div>
-<p>PodamFactory factory = new PodamFactoryImpl(); factory.getStrategy().addOrReplaceTypeManufacturer(String.class, stringManufacturer); Define custom <i>TypeManufacturer</i>, which will be producing string values depending on attribute name</p>
+<p>Define custom <i>TypeManufacturer</i>, which will be producing string values depending on attribute name</p>
 <div class="source">
 <pre>public class CustomStringManufacturer extends StringTypeManufacturerImpl() {
 
