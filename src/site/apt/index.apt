@@ -290,9 +290,6 @@ public static class Pojo {
 }
 +-----------------------------------
 
-
-        PodamFactory factory = new PodamFactoryImpl();
-        factory.getStrategy().addOrReplaceTypeManufacturer(String.class, stringManufacturer);
   Define custom <TypeManufacturer>, which will be producing string values
   depending on attribute name
 
