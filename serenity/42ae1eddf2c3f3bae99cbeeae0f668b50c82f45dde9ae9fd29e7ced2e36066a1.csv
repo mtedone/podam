@@ -1,3 +1,3 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Validated pojo test","Podam should be able to fulfill most of the javax Validation framework","SUCCESS","2016-09-03T17:53:02.819+01:00","0.0","0.04"
-"Validated pojo test","When the @Size annotation doesn't have a max length specified, Podam should assign a sensible value","SUCCESS","2016-09-03T17:53:02.724+01:00","0.0","0.09"
+"Validated pojo test","Podam should be able to fulfill most of the javax Validation framework","SUCCESS","2016-10-09T18:32:52.930+03:00","0.0","0.22"
+"Validated pojo test","When the @Size annotation doesn't have a max length specified, Podam should assign a sensible value","SUCCESS","2016-10-09T18:32:52.413+03:00","0.0","0.51"

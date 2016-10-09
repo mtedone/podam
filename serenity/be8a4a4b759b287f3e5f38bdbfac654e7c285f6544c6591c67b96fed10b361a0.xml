@@ -1,11 +1,11 @@
-<acceptance-test-run title="Podam should be able to manufacture any type of Lists" name="podamShouldBeAbleToManufactureAnyTypeOfCollections" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.198+01:00">
+<acceptance-test-run title="Podam should be able to manufacture any type of Lists" name="podamShouldBeAbleToManufactureAnyTypeOfCollections" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="6" timestamp="2016-10-09T18:32:51.862+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors/Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
@@ -14,7 +14,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the collection should not be null or empty and each element should be of type class java.lang.String</description>
   </test-step>
 </acceptance-test-run>

@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam Messaging System should return a short primitive value" name="podamMessagingSystemShouldReturnAShortPrimitiveValue" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.655+01:00">
+<acceptance-test-run title="Podam Messaging System should return a short primitive value" name="podamMessagingSystemShouldReturnAShortPrimitiveValue" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="29" timestamp="2016-10-09T18:32:49.296+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.typeManufacturing.TypeManufacturingTest" name="Type manufacturing test" path="uk.co.jemos.podam.test.unit.features.typeManufacturing"/>
   <tags>
     <tag name="Type manufacturing" type="epics"/>
     <tag name="Type manufacturing/Type manufacturing test" type="stories"/>
     <tag name="Type manufacturing test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="6">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="3">
     <description>Given an AttributeMetadata object</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="13">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>When I request a value for a type</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

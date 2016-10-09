@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle constructors with multiple generics during Pojo instantiation" name="podamShouldHandleConstructorsWithMultipleGenericsDuringPojoInstantiation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.242+01:00">
+<acceptance-test-run title="Podam should handle constructors with multiple generics during Pojo instantiation" name="podamShouldHandleConstructorsWithMultipleGenericsDuringPojoInstantiation" steps="6" successful="6" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="22" timestamp="2016-10-09T18:32:52.045+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ConstructorsUnitTest" name="Constructors unit test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
     <tag name="Constructors/Constructors unit test" type="stories"/>
     <tag name="Constructors unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="11">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the two objects class java.lang.String and class java.lang.String should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

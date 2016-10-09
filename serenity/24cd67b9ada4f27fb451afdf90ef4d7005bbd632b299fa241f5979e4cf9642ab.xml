@@ -1,4 +1,4 @@
-<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2016-09-03T17:53:00.990+01:00">
+<acceptance-test-run title="The @PodamCollection annotation should allow to set sizes on all collections and arrays" name="thePodamCollectionAnnotationShouldWorkOnAllCollections" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="29" timestamp="2016-10-09T18:32:54.414+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
@@ -8,14 +8,14 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="7">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.CollectionAnnotationPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
-    <description>Then the List&lt;?&gt; [KNpDur63YP, 3sMEMbgR0K, HPE52Xoi8o, MCw2jZyFNs, lb2ezQ44ef] should not be null and contain at least one non-empty element</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the List&lt;?&gt; [eaSPmJAPRX, yEtIZlpQOx, d2hIkT4pQr, ALq6kLLwMY, 2NdtUJg7bm] should not be null and contain at least one non-empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
     <description>Then the List should have exactly 5 elements</description>
@@ -26,8 +26,8 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the array should have exactly 5 elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
-    <description>Then the Map&lt;?, ?&gt; {N35S48bC2N=s3iDtMdobp, o92CFRd6ZC=Mp6EgLAbQ0, YFS23fXso6=RrOunlyW8L, eD48WnCyie=TK5WuooTnh, BeOzLl84cG=gG5BBfWlel} should contain at least one non empty element</description>
+  <test-step result="SUCCESS" duration="0">
+    <description>Then the Map&lt;?, ?&gt; {AMO38kk6Ll=647Cho48yi, HHRcjQiSX7=sEwzOSfe0M, KK2JBZ0FEy=euXdDRE_cn, LOzjZyJ0Lw=UWcld9D0pC, dYB20NZGqa=ReSDuzSv46} should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the map should have exactly 5 elements</description>

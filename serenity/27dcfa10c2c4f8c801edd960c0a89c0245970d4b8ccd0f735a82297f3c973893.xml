@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should manufacture attributes implementing Collection and Map interfaces" name="podamShouldManufactureAttributesImplementingCollectionAndMapInterfaces" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="7" timestamp="2016-09-03T17:53:02.522+01:00">
+<acceptance-test-run title="Podam should manufacture attributes implementing Collection and Map interfaces" name="podamShouldManufactureAttributesImplementingCollectionAndMapInterfaces" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="52" timestamp="2016-10-09T18:32:46.330+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.InheritanceTest" name="Inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>
     <tag name="Inheritance/Inheritance test" type="stories"/>
     <tag name="Inheritance test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="3">
+  <test-step result="SUCCESS" duration="26">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PojoWithCollectionAndMap</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="5">
     <description>Then the collection should not be null or empty and each element should be of type class java.lang.String</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
@@ -23,7 +23,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the collection should not be null or empty and each element should be of type class java.lang.String</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Map should not be null or empty and each element should have key of type class java.lang.Integer and value of type class java.lang.String</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">

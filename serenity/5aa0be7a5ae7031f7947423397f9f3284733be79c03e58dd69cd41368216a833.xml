@@ -1,23 +1,23 @@
-<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.437+01:00">
+<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="14" timestamp="2016-10-09T18:32:54.724+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.extensions.ExtensionsTest" name="Extensions test" path="uk.co.jemos.podam.test.unit.features.extensions"/>
   <tags>
     <tag name="Extensions" type="epics"/>
     <tag name="Extensions/Extensions test" type="stories"/>
     <tag name="Extensions test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Custom Random Data Provider Strategy</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the array of the given type should not be null or empty and contain exactly 2 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
@@ -27,7 +27,7 @@
     <description>Then the List should have exactly 3 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the Map&lt;?, ?&gt; {1024938837=48086793282316, -1099773562=48086793277895, 973406939=48086793280164, -775569606=48086793274601} should contain at least one non empty element</description>
+    <description>Then the Map&lt;?, ?&gt; {1003364843=5456013945093, 1897232623=5456013995170, 52739081=5456013893339, 1733005476=5456013834741} should contain at least one non empty element</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the map should have exactly 4 elements</description>

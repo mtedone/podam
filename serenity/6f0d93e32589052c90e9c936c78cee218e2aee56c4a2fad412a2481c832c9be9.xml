@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.350+01:00">
+<acceptance-test-run title="Podam should create POJOs in accordance with custom data provider strategies" name="podamShouldCreatePojosInAccordanceWithCustomDataProviderStrategies" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="9" timestamp="2016-10-09T18:32:54.945+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
@@ -11,7 +11,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.PojoWithMapsAndCollections</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
@@ -20,10 +20,10 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the array of the given type should not be null or empty and contain exactly 2 elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the collection should not be null or empty</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the collection should have exactly 3 elements</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

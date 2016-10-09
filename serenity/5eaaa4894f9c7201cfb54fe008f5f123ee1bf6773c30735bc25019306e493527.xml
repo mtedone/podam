@@ -1,29 +1,29 @@
-<acceptance-test-run title="Podam cannot instantiate interfaces which extend Map" name="podamCannotInstantiateInterfacesWhichExtendMap" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.561+01:00">
+<acceptance-test-run title="Podam cannot instantiate interfaces which extend Map" name="podamCannotInstantiateInterfacesWhichExtendMap" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="581" timestamp="2016-10-09T18:32:41.015+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.inheritance.MultipleInterfacesInheritanceTest" name="Multiple interfaces inheritance test" path="uk.co.jemos.podam.test.unit.features.inheritance"/>
   <tags>
     <tag name="Inheritance" type="epics"/>
     <tag name="Inheritance/Multiple interfaces inheritance test" type="stories"/>
     <tag name="Multiple interfaces inheritance test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="106">
     <description>Given a Tracking External Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="8">
     <description>Given a Custom Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="4">
     <description>Given a Podam Factory with external factory and custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="41">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="83">
     <description>Then the object should be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="13">
     <description>Then the collection should have exactly 1 elements</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="2">
     <description>Then the two objects interface uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo and interface uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo should be equal</description>
   </test-step>
 </acceptance-test-run>

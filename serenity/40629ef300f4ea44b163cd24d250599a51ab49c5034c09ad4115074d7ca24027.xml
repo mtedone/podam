@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should throw an exception if a POJO contains invalid getters or setters" name="podamShouldThrowAnExceptionIfAPojoContainsInvalidGettersOrSetters" steps="1" successful="1" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.404+01:00">
+<acceptance-test-run title="Podam should throw an exception if a POJO contains invalid getters or setters" name="podamShouldThrowAnExceptionIfAPojoContainsInvalidGettersOrSetters" steps="1" successful="1" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-10-09T18:32:53.764+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.edgeCases.AbnormalPojosTest" name="Abnormal pojos test" path="uk.co.jemos.podam.test.unit.features.edgeCases"/>
   <tags>
     <tag name="Edge cases" type="epics"/>

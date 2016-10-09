@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill Java string type with full constructor" name="podamShouldFillJavaStringTypeWithFullConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.003+01:00">
+<acceptance-test-run title="Podam should fill Java string type with full constructor" name="podamShouldFillJavaStringTypeWithFullConstructor" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="5" timestamp="2016-10-09T18:32:48.379+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.basicTypes.PodamFactoryBasicTypesTest" name="Podam factory basic types test" path="uk.co.jemos.podam.test.unit.features.basicTypes"/>
   <tags>
     <tag name="Basic types" type="epics"/>
@@ -11,7 +11,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>When I invoke the factory to manufacture class java.lang.String with the fullest constructor</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
-    <description>Then the String field pVo0jgGYY9 cannot be null or empty</description>
+  <test-step result="SUCCESS" duration="1">
+    <description>Then the String field LOyGqZkRZj cannot be null or empty</description>
   </test-step>
 </acceptance-test-run>

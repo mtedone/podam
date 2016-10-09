@@ -1,20 +1,20 @@
-<acceptance-test-run title="Creating a Random Data Provider Strategy should create a Method heavy comparator" name="creatingARandomDataProviderStrategyShouldCreateAMethodHeavyComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.340+01:00">
+<acceptance-test-run title="Creating a Random Data Provider Strategy should create a Method heavy comparator" name="creatingARandomDataProviderStrategyShouldCreateAMethodHeavyComparator" steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-10-09T18:32:54.869+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
     <tag name="Data provider strategy/Random data provider strategy impl initialisation unit test" type="stories"/>
     <tag name="Random data provider strategy impl initialisation unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the two objects &lt;null&gt; and &lt;null&gt; should be equal</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the two objects uk.co.jemos.podam.common.MethodHeavyFirstComparator@37ed010a and uk.co.jemos.podam.common.MethodHeavyFirstComparator@37ed010a should be equal</description>
+    <description>Then the two objects uk.co.jemos.podam.common.MethodHeavyFirstComparator@69d23296 and uk.co.jemos.podam.common.MethodHeavyFirstComparator@69d23296 should be equal</description>
   </test-step>
 </acceptance-test-run>

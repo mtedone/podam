@@ -1,17 +1,17 @@
-<acceptance-test-run title="Podam should correctly generate HashMaps with Long as key type" name="podamShouldCorrectGenerateHashMapsWithLongAsKeyType" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.347+01:00">
+<acceptance-test-run title="Podam should correctly generate HashMaps with Long as key type" name="podamShouldCorrectGenerateHashMapsWithLongAsKeyType" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="32" timestamp="2016-10-09T18:32:54.904+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
   <tags>
     <tag name="Data provider strategy" type="epics"/>
     <tag name="Data provider strategy/Random data provider strategy impl initialisation unit test" type="stories"/>
     <tag name="Random data provider strategy impl initialisation unit test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="8">
     <description>Given a Custom Random Data Provider Strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Given a Podam Factory with custom data provider strategy</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="14">
     <description>When I invoke Podam for a Generic Pojo specifying the concrete types</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

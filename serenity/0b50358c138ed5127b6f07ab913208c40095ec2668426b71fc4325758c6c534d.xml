@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill in read-only POJOs" name="podamShouldFillReadOnlyTypes" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="3" timestamp="2016-09-03T17:53:02.314+01:00">
+<acceptance-test-run title="Podam should fill in read-only POJOs" name="podamShouldFillReadOnlyTypes" steps="7" successful="7" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="36" timestamp="2016-10-09T18:32:51.601+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.constructors.ReadOnlyComplexTypesTest" name="Read only complex types test" path="uk.co.jemos.podam.test.unit.features.constructors"/>
   <tags>
     <tag name="Constructors" type="epics"/>
@@ -8,10 +8,10 @@
   <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="3">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.ReadOnlyComplexTypesPojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="7">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">

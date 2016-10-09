@@ -1,3 +1,3 @@
 "Story","Title","Result","Date","Stability","Duration (s)"
-"Extensions test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2016-09-03T17:53:02.437+01:00","0.0","0.0"
-"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2016-09-03T17:53:02.441+01:00","0.0","0.0"
+"Extensions test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2016-10-09T18:32:54.724+03:00","0.0","0.01"
+"Extensions test","Podam should fill AttributeMetadata with the attribute name","SUCCESS","2016-10-09T18:32:54.742+03:00","0.0","0.01"

@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should handle POJOs with no setters and collections in the constructor" name="podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="2" timestamp="2016-09-03T17:53:02.121+01:00">
+<acceptance-test-run title="Podam should handle POJOs with no setters and collections in the constructor" name="podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor" steps="5" successful="5" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="20" timestamp="2016-10-09T18:32:50.636+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.collections.CollectionsTest" name="Collections test" path="uk.co.jemos.podam.test.unit.features.collections"/>
   <tags>
     <tag name="Collections" type="epics"/>
@@ -8,16 +8,16 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="2">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.NoSetterWithCollectionInConstructorPojo</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
-    <description>Then the List&lt;?&gt; [Zh6VdMs4jP, QOcVIARcka, jrqsWkCq9G, qfFklDk7vK, yn7wqR24Zs] should not be null and contain at least one non-empty element</description>
+    <description>Then the List&lt;?&gt; [68SAtn1yhT, fTUeWJrjPp, 463TtWZ03Z, 81KGhu7MpW, ftIAzaLh0m] should not be null and contain at least one non-empty element</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="6">
     <description>Then the int field should not be zero</description>
   </test-step>
 </acceptance-test-run>

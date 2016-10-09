@@ -1,4 +1,4 @@
-<acceptance-test-run title="Podam should fill in the Address POJO correctly" name="testAddressSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="1" timestamp="2016-09-03T17:53:02.904+01:00">
+<acceptance-test-run title="Podam should fill in the Address POJO correctly" name="testAddressSetup" steps="3" successful="3" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="8" timestamp="2016-10-09T18:32:53.397+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.walkThroughExample.WalkThroughExampleUnitTest" name="Walk through example unit test" path="uk.co.jemos.podam.test.unit.features.walkThroughExample"/>
   <tags>
     <tag name="Walk through example" type="epics"/>
@@ -8,11 +8,11 @@
   <test-step result="SUCCESS" duration="0">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="4">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.docs.example.Address</description>
   </test-step>
   <test-group name="Then the Address POJO should be correctly filled" result="SUCCESS">
-    <test-step result="SUCCESS" duration="0">
+    <test-step result="SUCCESS" duration="1">
       <description>Then the Country POJO should be correctly filled</description>
     </test-step>
   </test-group>

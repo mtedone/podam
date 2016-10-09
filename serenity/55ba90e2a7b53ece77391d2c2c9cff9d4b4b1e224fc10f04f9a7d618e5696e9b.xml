@@ -1,20 +1,20 @@
-<acceptance-test-run title="Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation" name="podamShouldHandleBooleanValuesWithThePodamBooleanValueAnnotation" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="9" timestamp="2016-09-03T17:53:00.851+01:00">
+<acceptance-test-run title="Podam should handle both native and wrapped boolean values with @PodamBooleanValue annotation" name="podamShouldHandleBooleanValuesWithThePodamBooleanValueAnnotation" steps="9" successful="9" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="31" timestamp="2016-10-09T18:32:54.118+03:00">
   <user-story id="uk.co.jemos.podam.test.unit.features.annotations.AnnotationsTest" name="Annotations test" path="uk.co.jemos.podam.test.unit.features.annotations"/>
   <tags>
     <tag name="Annotations" type="epics"/>
     <tag name="Annotations/Annotations test" type="stories"/>
     <tag name="Annotations test" type="story"/>
   </tags>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>Given a standard Podam Factory</description>
   </test-step>
-  <test-step result="SUCCESS" duration="2">
+  <test-step result="SUCCESS" duration="7">
     <description>When I invoke the factory manufacturing for class uk.co.jemos.podam.test.dto.annotations.BooleanValuePojo</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="1">
+  <test-step result="SUCCESS" duration="4">
     <description>Then the boolean value true should be true</description>
   </test-step>
   <test-step result="SUCCESS" duration="1">
@@ -23,7 +23,7 @@
   <test-step result="SUCCESS" duration="0">
     <description>Then the Object should not be null</description>
   </test-step>
-  <test-step result="SUCCESS" duration="0">
+  <test-step result="SUCCESS" duration="1">
     <description>The boolean value false should be false</description>
   </test-step>
   <test-step result="SUCCESS" duration="0">
