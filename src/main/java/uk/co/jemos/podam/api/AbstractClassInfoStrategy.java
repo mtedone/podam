@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,8 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 	// ------------------->> Constants
 
-	private static final String GETTER_PREFIX = "get";
-	private static final String GETTER_PREFIX2 = "is";
-	private static final String SETTER_PREFIX = "set";
+	private static final Pattern GETTER_PATTERN = Pattern.compile("^(get|is)");
+	private static final Pattern SETTER_PATTERN = Pattern.compile("^set");
 
 	// ------------------->> Instance / Static variables
 
@@ -377,42 +377,42 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 				 */
 				if (!method.isBridge() && !Modifier.isNative(method.getModifiers())) {
 
-					if ((method.getName().startsWith(GETTER_PREFIX) || method.getName().startsWith(GETTER_PREFIX2)) &&
-						method.getParameterTypes().length == 0 && !method.getReturnType().equals(void.class)) {
+					Pattern pattern;
+					if (method.getParameterTypes().length == 0
+							&& !method.getReturnType().equals(void.class)) {
 
-						String attributeName = extractFieldNameFromGetterMethod(method);
+						pattern = GETTER_PATTERN;
+					} else if (method.getParameterTypes().length > 0
+							&& method.getReturnType().equals(void.class)) {
+
+						pattern = SETTER_PATTERN;
+					} else {
+
+						continue;
+					}
+
+					String methodName = method.getName();
+					String attributeName = extractFieldNameFromMethod(methodName,
+							pattern);
+					if (!attributeName.equals(methodName)) {
 						if (!attributeName.isEmpty()) {
 							ClassAttribute attribute = attributeMap.get(attributeName);
-							if (attribute != null) {
-								attribute.getRawGetters().add(method);
-							} else {
+							if (attribute == null) {
 								attribute = new ClassAttribute(attributeName, null,
-										Collections.singleton(method),
+										Collections.<Method>emptySet(),
 										Collections.<Method>emptySet());
 								attributeMap.put(attributeName, attribute);
 							}
-						} else {
-							LOG.debug("Encountered getter {}. This will be ignored.", method);
-						}
-
-					} else if (method.getName().startsWith(SETTER_PREFIX)
-							&& method.getReturnType().equals(void.class)) {
-
-						String attributeName = extractFieldNameFromSetterMethod(method);
-						if (!attributeName.isEmpty()) {
-							ClassAttribute attribute = attributeMap.get(attributeName);
-							if (attribute != null) {
-								attribute.getRawSetters().add(method);
+							Set<Method> accessors;
+							if (pattern == GETTER_PATTERN) {
+								accessors = attribute.getRawGetters();
 							} else {
-								attribute = new ClassAttribute(attributeName, null,
-										Collections.<Method>emptySet(),
-										Collections.singleton(method));
-								attributeMap.put(attributeName, attribute);
+								accessors = attribute.getRawSetters();
 							}
+							accessors.add(method);
 						} else {
-							LOG.debug("Encountered setter {}. This will be ignored.", method);
+							LOG.debug("Encountered accessor {}. This will be ignored.", method);
 						}
-
 					}
 				}
 			}
@@ -422,52 +422,26 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	}
 
 	/**
-	 * Given a setter {@link Method}, it extracts the field name, according to
+	 * Given a accessor's name, it extracts the field name, according to
 	 * JavaBean standards
 	 * <p>
-	 * This method, given a setter method, it returns the corresponding
+	 * This method, given a accessor method's name, it returns the corresponding
 	 * attribute name. For example: given setIntField the method would return
-	 * intField. The correctness of the return value depends on the adherence to
+	 * intField. given getIntField the method would return intField; given
+	 * isBoolField the method would return boolField.The correctness of the
+	 * return value depends on the adherence to
 	 * JavaBean standards.
 	 * </p>
 	 *
-	 * @param method
-	 *            The setter method from which the field name is required
+	 * @param methodName
+	 *            The accessor method from which the field name is required
+	 * @param pattern
+	 *            The pattern to strip from the method name
 	 * @return The field name corresponding to the setter
 	 */
-	protected String extractFieldNameFromSetterMethod(Method method) {
-		String candidateField = method.getName().substring(SETTER_PREFIX.length());
-		if (!candidateField.isEmpty()) {
-			candidateField = Character.toLowerCase(candidateField.charAt(0))
-					+ candidateField.substring(1);
-		}
-
-		return candidateField;
-	}
-
-	/**
-	 * Given a getter {@link Method}, it extracts the field name, according to
-	 * JavaBean standards
-	 * <p>
-	 * This method, given a getter method, it returns the corresponding
-	 * attribute name. For example: given getIntField the method would return
-	 * intField; given isBoolField the method would return boolField. The
-	 * correctness of the return value depends on the adherence to JavaBean
-	 * standards.
-	 * </p>
-	 *
-	 * @param method
-	 *            The setter method from which the field name is required
-	 * @return The field name corresponding to the setter
-	 */
-	protected String extractFieldNameFromGetterMethod(Method method) {
-		String candidateField = method.getName();
-		if (candidateField.startsWith(GETTER_PREFIX)) {
-			candidateField = candidateField.substring(GETTER_PREFIX.length());
-		} else if (candidateField.startsWith(GETTER_PREFIX2)) {
-			candidateField = candidateField.substring(GETTER_PREFIX2.length());
-		}
-		if (!candidateField.isEmpty()) {
+	protected String extractFieldNameFromMethod(String methodName, Pattern pattern) {
+		String candidateField = pattern.matcher(methodName).replaceFirst("");
+		if (!candidateField.isEmpty() && !candidateField.equals(methodName)) {
 			candidateField = Character.toLowerCase(candidateField.charAt(0))
 					+ candidateField.substring(1);
 		}
