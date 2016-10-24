@@ -22,6 +22,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,7 +34,9 @@ import java.util.Set;
  */
 public class PodamFactorySteps {
 
-	@Step("Given a standard Podam Factory")
+    private AbstractClassInfoStrategy classInfoStrategy = new AbstractClassInfoStrategy() {};
+
+    @Step("Given a standard Podam Factory")
     public PodamFactory givenAStandardPodamFactory() {
         return new PodamFactoryImpl();
     }
@@ -80,7 +83,9 @@ public class PodamFactorySteps {
 
         ClassAttributeApprover nullApprover = null;
 
-        return PodamUtils.getClassInfo(pojoClass, excludeAnnotations, excludeFields, nullApprover);
+        return classInfoStrategy.getClassInfo(pojoClass, excludeAnnotations,
+                excludeFields, nullApprover,
+                Collections.<Method>emptySet());
 
     }
 

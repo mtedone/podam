@@ -28,6 +28,9 @@ public class ClassAttribute implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/** The attribute's name */
+	private final String name;
+
 	/** The Set of fields belonging to this class */
 	private final Field attribute;
 
@@ -40,6 +43,8 @@ public class ClassAttribute implements Serializable {
 	/**
 	 * Full constructor
 	 *
+	 * @param name
+	 *            attribute's name, must be filled
 	 * @param attribute
 	 *            attribute, can be null
 	 * @param getters
@@ -47,10 +52,21 @@ public class ClassAttribute implements Serializable {
 	 * @param setters
 	 *            The set of setters for this attributes
 	 */
-	public ClassAttribute(Field attribute, Set<Method> getters, Set<Method> setters) {
+	public ClassAttribute(String name, Field attribute,
+			Set<Method> getters, Set<Method> setters) {
+		this.name = name;
 		this.attribute = attribute;
 		this.getters.addAll(getters);
 		this.setters.addAll(setters);
+	}
+
+	/**
+	 * It returns the attribute's name
+	 *
+	 * @return the atrribute's name
+	 */
+	public String getName() {
+		return name;
 	}
 
 	/**
@@ -135,7 +151,7 @@ public class ClassAttribute implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(attribute);
+		builder.append(attribute != null ? attribute : name);
 		builder.append("={ getters: {");
 		builder.append(getters);
 		builder.append("}, { setters: {");

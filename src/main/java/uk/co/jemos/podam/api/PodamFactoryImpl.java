@@ -640,8 +640,6 @@ public class PodamFactoryImpl implements PodamFactory {
 			// attribute they are already customising the value assigned to
 			// that attribute.
 
-			String attributeName = PodamUtils
-					.extractFieldNameFromSetterMethod(setter);
 			List<Annotation> pojoAttributeAnnotations
 					= PodamUtils.getAttributeAnnotations(
 							attribute.getAttribute(), setter);
@@ -650,7 +648,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
 			if (null != attributeStrategy) {
 
-				LOG.debug("The attribute: " + attributeName
+				LOG.debug("The attribute: " + attribute.getName()
 						+ " will be filled using the following strategy: "
 						+ attributeStrategy);
 
@@ -686,7 +684,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				setterArg = manufactureAttributeValue(pojo, manufacturingCtx,
 						attributeType, genericType,
-						pojoAttributeAnnotations, attributeName,
+						pojoAttributeAnnotations, attribute.getName(),
 						typeArgsMap, typeArguments);
 			}
 

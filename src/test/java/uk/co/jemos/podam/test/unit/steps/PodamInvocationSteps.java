@@ -1,22 +1,29 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
+
 import org.junit.Assert;
 
+import uk.co.jemos.podam.api.AbstractClassInfoStrategy;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamUtils;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
  * Created by tedonema on 27/05/2015.
  */
 public class PodamInvocationSteps {
+
+    private AbstractClassInfoStrategy classInfoStrategy = new AbstractClassInfoStrategy() {};
 
     @Step("When I invoke the factory manufacturing for {0}")
     public <T> T whenIInvokeTheFactoryForClass(Class<T> className, PodamFactory podamFactory) throws Exception {
@@ -36,7 +43,10 @@ public class PodamInvocationSteps {
 
     @Step("When I invoke Podam Utils method to get class info for class {0} and approver {1}")
     public ClassInfo getClassInfo(Class<?> pojoClass, ClassAttributeApprover approver) {
-        return PodamUtils.getClassInfo(pojoClass, approver);
+        return classInfoStrategy.getClassInfo(pojoClass,
+                new HashSet<Class<? extends Annotation>>(),
+                Collections.<String>emptySet(), approver,
+                Collections.<Method>emptySet());
     }
 
     @Step("When I invoke Podam for a Generic Pojo specifying the concrete types")
