@@ -31,8 +31,8 @@ public class ClassAttribute implements Serializable {
 	/** The attribute's name */
 	private final String name;
 
-	/** The Set of fields belonging to this class */
-	private final Field attribute;
+	/** The field belonging to this class */
+	private Field attribute;
 
 	/** The Set of getters for this attribute in the class */
 	private final Set<Method> getters = new HashSet<Method>();
@@ -76,6 +76,16 @@ public class ClassAttribute implements Serializable {
 	 */
 	public Field getAttribute() {
 		return attribute;
+	}
+
+	/**
+	 * It sets the attribute
+	 *
+	 * @param attribute
+	 *            The attribute to set
+	 */
+	void setAttribute(Field attribute) {
+		this.attribute = attribute;
 	}
 
 	/**
