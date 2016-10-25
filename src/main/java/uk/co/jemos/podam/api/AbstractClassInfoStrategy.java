@@ -248,6 +248,13 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		main : while(iter.hasNext()) {
 			ClassAttribute attribute = iter.next();
 
+			Field field = attribute.getAttribute();
+			if (excludedFields.contains(attribute.getName()) ||
+					(field != null && containsAnyAnnotation(field, excludeFieldAnnotations))) {
+				iter.remove();
+				continue;
+			}
+
 			for (Method classGetter : attribute.getRawGetters()) {
 				if (containsAnyAnnotation(classGetter, excludeFieldAnnotations)) {
 					iter.remove();
@@ -260,14 +267,6 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 					iter.remove();
 					continue main;
 				}
-			}
-
-			Field field = attribute.getAttribute();
-			if (field != null && (
-					excludedFields.contains(field.getName())
-					|| containsAnyAnnotation(field, excludeFieldAnnotations))) {
-				iter.remove();
-				continue;
 			}
 
 			if (!attributeApprover.approve(attribute)) {
