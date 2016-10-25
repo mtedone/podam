@@ -32,8 +32,8 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 	// ------------------->> Constants
 
-	private static final Pattern GETTER_PATTERN = Pattern.compile("^(get|is)");
-	private static final Pattern SETTER_PATTERN = Pattern.compile("^set");
+	private final Pattern GETTER_PATTERN = getGetterPattern();
+	private final Pattern SETTER_PATTERN = getSetterPattern();
 
 	// ------------------->> Instance / Static variables
 
@@ -382,7 +382,8 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 
 						pattern = GETTER_PATTERN;
 					} else if (method.getParameterTypes().length > 0
-							&& method.getReturnType().equals(void.class)) {
+							&& (method.getReturnType().equals(void.class)
+									|| method.getReturnType().equals(workClass))) {
 
 						pattern = SETTER_PATTERN;
 					} else {
@@ -446,6 +447,24 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 		}
 
 		return candidateField;
+	}
+
+	/**
+	 * Defines a regular expression for a getter's name
+	 *
+	 * @return a compiled pattern for the getter's name
+	 */
+	protected Pattern getGetterPattern() {
+		return Pattern.compile("^(get|is)");
+	}
+
+	/**
+	 * Defines a regular expression for a setters name
+	 *
+	 * @return a compiled pattern for the setter's name
+	 */
+	protected Pattern getSetterPattern() {
+		return Pattern.compile("^set");
 	}
 
 	// ------------------->> equals() / hashcode() / toString()
