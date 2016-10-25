@@ -41,9 +41,18 @@ public class PodamInvocationSteps {
         return podamFactory.manufacturePojoWithFullData(className);
     }
 
-    @Step("When I invoke Podam Utils method to get class info for class {0} and approver {1}")
+    @Step("When I invoke a method to get class info for class {0} and approver {1}")
     public ClassInfo getClassInfo(Class<?> pojoClass, ClassAttributeApprover approver) {
         return classInfoStrategy.getClassInfo(pojoClass,
+                new HashSet<Class<? extends Annotation>>(),
+                Collections.<String>emptySet(), approver,
+                Collections.<Method>emptySet());
+    }
+
+    @Step("When I invoke a method to get class info for class {0} with a custom class strategy {1} and approver {2}")
+    public ClassInfo getClassInfoWithCustomClassStrategy(Class<?> pojoClass,
+            AbstractClassInfoStrategy classStrategy, ClassAttributeApprover approver) {
+        return classStrategy.getClassInfo(pojoClass,
                 new HashSet<Class<? extends Annotation>>(),
                 Collections.<String>emptySet(), approver,
                 Collections.<Method>emptySet());
