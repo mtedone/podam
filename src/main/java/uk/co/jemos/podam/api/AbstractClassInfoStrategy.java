@@ -164,6 +164,15 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	 */
 	@Override
 	public boolean approve(ClassAttribute attribute) {
+		/* skip setters having more than one parameter,
+		 * when there is more than one setter for a field */
+		if (attribute.getRawSetters().size() > 1) {
+			for (Method setter : attribute.getRawSetters()) {
+				if (setter.getParameterTypes().length > 1) {
+					return false;
+				}
+			}
+		}
 		return (attribute.getAttribute() != null);
 	}
 
