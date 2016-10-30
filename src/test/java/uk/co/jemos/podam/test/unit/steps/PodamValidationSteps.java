@@ -31,6 +31,11 @@ public class PodamValidationSteps {
         Assert.assertNull("The pojo should be null", pojo);
     }
 
+    @Step("Then the string {0} should match the pattern {1}")
+    public void theStringMatchesAPattern(String string, String pattern) {
+        Assert.assertTrue(string + " doesn't match " + pattern, string.matches(pattern));
+    }
+
     @Step("Then the inner pojo instance variable should not be null")
     public void theInnerPojoInstanceShouldNotBeNull(Object pojo) {
         Assert.assertNotNull("The inner pojo instance variable should not be null", pojo);
@@ -182,10 +187,15 @@ public class PodamValidationSteps {
 
     }
 
+    @Step("Then the pojo must be of the type {1}")
+    public void thePojoMustBeOfTheType(Object pojo, Class<?> type) {
+        assertThat("The pojo must be of the type",
+                pojo, instanceOf(type));
+    }
+
     @Step("Then the Map<?, ?> {0} should contain at least one non empty element")
     public void theMapShouldContainAtLeastOneNonEmptyElement(Map<?, ?> map) {
-        assertThat("The map attribute must be of type HashMap",
-                map, instanceOf(HashMap.class));
+        thePojoMustBeOfTheType(map, HashMap.class);
         Assert.assertNotNull("The map object in the POJO cannot be null", map);
         Set<?> keySet = map.keySet();
         Assert.assertNotNull("The Map must have at least one element", keySet);
@@ -203,14 +213,13 @@ public class PodamValidationSteps {
 
     @Step("Then the Queue {0} should be an instance of {1}")
     public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<LinkedList> linkedListClass) {
-        Assert.assertTrue(queue.getClass().isAssignableFrom(linkedListClass));
+        thePojoMustBeOfTheType(queue, linkedListClass);
     }
 
     @Step("Then the ConcurrentHashMap<String, ?> {0} should contain at least one non-empty element")
     public void theConcurrentHashMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(ConcurrentMap<String, ?> map) {
         Assert.assertNotNull("The map object in the POJO cannot be null", map);
-        assertThat("The map attribute must be of type HashMap",
-                map, instanceOf(ConcurrentHashMap.class));
+        thePojoMustBeOfTheType(map, ConcurrentHashMap.class);
 
         Set<String> keySet = map.keySet();
         Assert.assertNotNull("The Map must have at least one element", keySet);
