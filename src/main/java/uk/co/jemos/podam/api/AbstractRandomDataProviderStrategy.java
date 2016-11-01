@@ -30,8 +30,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -379,20 +381,22 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			throw new IllegalArgumentException(errMsg);
 		}
 
-		Class<?> type = pojoType;
+		Deque<Class<?>> types = new ArrayDeque<Class<?>>();
+		types.add(pojoType);
 		TypeManufacturer<?> manufacturer = null;
-		while (null == manufacturer && null != type) {
+		while (null == manufacturer && !types.isEmpty()) {
 
+			Class<?> type = types.remove();
 			manufacturer = typeManufacturers.get(type);
 			if (null == manufacturer) {
 				for (Class<?> iface : type.getInterfaces()) {
-					manufacturer = typeManufacturers.get(iface);
-					if (null != manufacturer) {
-						break;
-					}
+					types.add(iface);
+				}
+				type = type.getSuperclass();
+				if (null != type) {
+					types.add(type);
 				}
 			}
-			type = type.getSuperclass();
 		}
 
 		if (null == manufacturer) {
