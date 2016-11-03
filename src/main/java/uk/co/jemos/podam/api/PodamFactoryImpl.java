@@ -1650,19 +1650,19 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		Object[] parameterValues;
 		Class<?>[] parameterTypes = constructor.getParameterTypes();
 
 		if (parameterTypes.length == 0) {
 
-			parameterValues = PodamConstants.NO_ARGS;
+			return PodamConstants.NO_ARGS;
 
 		} else {
 
-			parameterValues = new Object[parameterTypes.length];
+			Object[] parameterValues = new Object[parameterTypes.length];
 
 			Annotation[][] parameterAnnotations = constructor.getParameterAnnotations();
 			Type[] genericTypes = constructor.getGenericParameterTypes();
+			String ctorName = Arrays.toString(genericTypes);
 
 			for (int idx = 0; idx < parameterTypes.length; idx++) {
 
@@ -1673,13 +1673,11 @@ public class PodamFactoryImpl implements PodamFactory {
 						genericTypes[idx] : parameterTypes[idx];
 
 				parameterValues[idx] = manufactureParameterValue(pojoClass,
-						parameterTypes[idx], genericType, annotations,
-						typeArgsMap, manufacturingCtx, genericTypeArgs);
+						idx + ctorName, parameterTypes[idx], genericType,
+						annotations, typeArgsMap, manufacturingCtx, genericTypeArgs);
 			}
+			return parameterValues;
 		}
-
-		return parameterValues;
-
 	}
 
 	/**
@@ -1719,19 +1717,19 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		Object[] parameterValues;
 		Class<?>[] parameterTypes = method.getParameterTypes();
 
 		if (parameterTypes.length == 0) {
 
-			parameterValues = PodamConstants.NO_ARGS;
+			return PodamConstants.NO_ARGS;
 
 		} else {
 
-			parameterValues = new Object[parameterTypes.length];
+			Object[] parameterValues = new Object[parameterTypes.length];
 
 			Annotation[][] parameterAnnotations = method.getParameterAnnotations();
 			Type[] genericTypes = method.getGenericParameterTypes();
+			String methodName = Arrays.toString(genericTypes);
 
 			for (int idx = 0; idx < parameterTypes.length; idx++) {
 
@@ -1742,13 +1740,11 @@ public class PodamFactoryImpl implements PodamFactory {
 						genericTypes[idx] : parameterTypes[idx];
 
 				parameterValues[idx] = manufactureParameterValue(pojoClass,
-						parameterTypes[idx], genericType, annotations,
-						typeArgsMap, manufacturingCtx, genericTypeArgs);
+						idx + methodName, parameterTypes[idx], genericType,
+						annotations, typeArgsMap, manufacturingCtx, genericTypeArgs);
 			}
+			return parameterValues;
 		}
-
-		return parameterValues;
-
 	}
 
 	/**
@@ -1756,6 +1752,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * invoke it
 	 *
 	 * @param pojoClass pojo class
+	 * @param parameterName name of parameter
 	 * @param parameterType type of parameter
 	 * @param genericType generic type of parameter
 	 * @param annotations parameter annotations
@@ -1779,9 +1776,10 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If it was not possible to create a class from a string
 	 */
-	private Object manufactureParameterValue(Class<?> pojoClass, Class<?> parameterType,
-			Type genericType, List<Annotation> annotations,
-			final Map<String, Type> typeArgsMap, ManufacturingContext manufacturingCtx,
+	private Object manufactureParameterValue(Class<?> pojoClass,
+			String parameterName, Class<?> parameterType, Type genericType,
+			final List<Annotation> annotations, final Map<String, Type> typeArgsMap,
+			ManufacturingContext manufacturingCtx,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
@@ -1817,10 +1815,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			typeArgsMapForParam = typeArgsMap;
 		}
 
-		String attributeName = null;
-
 		return manufactureAttributeValue(pojoClass, manufacturingCtx, parameterType,
-				genericType, annotations, attributeName, typeArgsMapForParam,
+				genericType, annotations, parameterName, typeArgsMapForParam,
 				genericTypeArgs);
 	}
 
