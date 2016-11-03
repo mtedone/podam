@@ -25,8 +25,9 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
     private Object produceValueForType(Class<?> attributeType) {
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
+        Object pojoInstance = null;
         AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadata
-                (SimplePojoToTestSetters.class, attributeType);
+                (SimplePojoToTestSetters.class, pojoInstance, attributeType);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
@@ -180,8 +181,9 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
+        Object pojoInstance = null;
         AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForEnums
-                (ExternalRatePodamEnum.class);
+                (ExternalRatePodamEnum.class, pojoInstance);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
@@ -198,8 +200,10 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
 
         DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
 
-        AttributeMetadata attributeMetadata = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
-                (ClassGenericConstructorPojo.class, Class.class);
+        Object pojoInstance = null;
+        AttributeMetadata attributeMetadata
+                = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
+                        (ClassGenericConstructorPojo.class, pojoInstance, Class.class);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
         Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();

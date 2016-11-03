@@ -50,6 +50,9 @@ public class AttributeMetadata implements Serializable {
 	/** Type of class that owns the attribute */
 	private final Class<?> pojoClass;
 
+	/** POJO that owns the attribute */
+	private final Object pojoInstance;
+
 	// ------------------->> Constructors
 
 	/**
@@ -67,16 +70,20 @@ public class AttributeMetadata implements Serializable {
 	 *            The attribute annotations
 	 * @param declaringClass
 	 *            The type of class that owns the attribute
+	 * @param declaringInstance
+	 *            If available, instance of the declaring class or null otherwise
 	 */
 	public AttributeMetadata(String attributeName, Class<?> attributeType,
 			Type attributeGenericType, Type[] attrGenericArgs,
-			List<Annotation> attributeAnnotations, Class<?> declaringClass) {
+			List<Annotation> attributeAnnotations, Class<?> declaringClass,
+			Object declaringInstance) {
 		this.attributeName = attributeName;
 		this.attributeType = attributeType;
 		this.attributeGenericType = attributeGenericType;
 		this.attrGenericArgs = attrGenericArgs;
 		this.attributeAnnotations = attributeAnnotations;
 		this.pojoClass = declaringClass;
+		this.pojoInstance = declaringInstance;
 	}
 
 	/**
@@ -90,11 +97,15 @@ public class AttributeMetadata implements Serializable {
 	 *            The attribute type generic arguments
 	 * @param declaringClass
 	 *            The type of class that owns the attribute
+	 * @param declaringInstance
+	 *            If available, instance of the declaring class or null otherwise
 	 */
 	public AttributeMetadata(Class<?> attributeType, Type attributeGenericType,
-			Type[] attrGenericArgs, Class<?> declaringClass) {
+			Type[] attrGenericArgs, Class<?> declaringClass,
+			Object declaringInstance) {
 		this(null, attributeType, attributeGenericType, attrGenericArgs,
-				Collections.<Annotation>emptyList(), declaringClass);
+				Collections.<Annotation>emptyList(), declaringClass,
+				declaringInstance);
 	}
 
 	// ------------------->> Public methods
@@ -125,6 +136,10 @@ public class AttributeMetadata implements Serializable {
 		return pojoClass;
 	}
 
+	public Object getPojoInstance() {
+		return pojoInstance;
+	}
+
 	// ------------------->> Private methods
 
 	// ------------------->> equals() / hashcode() / toString()
@@ -140,6 +155,7 @@ public class AttributeMetadata implements Serializable {
 		builder.append(", attributeType=").append(attributeType);
 		builder.append(", attributeGenericType=").append(attributeGenericType);
 		builder.append(", pojoClass=").append(pojoClass);
+		builder.append(", pojoInstance=").append(pojoInstance.hashCode());
 		builder.append(", attributeAnnotations=").append(attributeAnnotations);
 		builder.append("]");
 		return builder.toString();

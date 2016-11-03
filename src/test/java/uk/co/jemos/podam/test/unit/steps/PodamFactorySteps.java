@@ -184,7 +184,8 @@ public class PodamFactorySteps {
     }
 
     @Step("Given an AttributeMetadata object")
-    public AttributeMetadata givenAnAttributeMetadata(Class<?> pojoClass, Class<?> pojoType) {
+    public AttributeMetadata givenAnAttributeMetadata(
+            Class<?> pojoClass, Object pojoInstance, Class<?> pojoType) {
 
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
@@ -197,13 +198,14 @@ public class PodamFactorySteps {
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
                 attributeName, realAttributeType, realGenericType,
-                genericTypeArgs, annotations, pojoClass);
+                genericTypeArgs, annotations, pojoClass, pojoInstance);
 
         return attributeMetadata;
     }
 
     @Step("Given an Attribute Meta Data object for Enums")
-    public AttributeMetadata givenAnAttributeMetadataForEnums(Class<?> pojoClass) {
+    public AttributeMetadata givenAnAttributeMetadataForEnums(
+            Class<?> pojoClass, Object pojoInstance) {
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
         }
@@ -215,14 +217,14 @@ public class PodamFactorySteps {
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
                 attributeName, realAttributeType, realGenericType,
-                genericTypeArgs, annotations, pojoClass);
+                genericTypeArgs, annotations, pojoClass, pojoInstance);
 
         return attributeMetadata;
     }
 
     @Step("Given an Attribute Meta Data for Generic Types")
     public AttributeMetadata givenAnAttributeMetadataForGenericTypes(
-            Class<?> pojoClass, Type pojoType) {
+            Class<?> pojoClass, Object pojoInstance, Type pojoType) {
 
         if (null == pojoClass) {
             throw new IllegalArgumentException("pojoClass cannot be null");
@@ -234,7 +236,7 @@ public class PodamFactorySteps {
         List<Annotation> annotations = Collections.emptyList();
         AttributeMetadata attributeMetadata = new AttributeMetadata(
                 attributeName, realAttributeType, pojoType, typeParams, annotations,
-                pojoClass);
+                pojoClass, pojoInstance);
 
         return attributeMetadata;
     }

@@ -431,8 +431,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			ManufacturingContext manufacturingCtx, Type... genericTypeArgs) {
 		try {
 			Class<?> declaringClass = null;
+			Object declaringInstance = null;
 			AttributeMetadata pojoMetadata = new AttributeMetadata(pojoClass,
-					pojoClass, genericTypeArgs, declaringClass);
+					pojoClass, genericTypeArgs, declaringClass, declaringInstance);
 			return this.manufacturePojoInternal(pojoClass, pojoMetadata,
                     manufacturingCtx, genericTypeArgs);
 		} catch (InstantiationException e) {
@@ -846,7 +847,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
 				attributeName, realAttributeType, genericAttributeType,
-				genericTypeArgsAll, annotations, pojoClass);
+				genericTypeArgsAll, annotations, pojoClass, pojo);
 
 		if (realAttributeType.isArray()) {
 
