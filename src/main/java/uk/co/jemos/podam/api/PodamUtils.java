@@ -54,23 +54,18 @@ public final class PodamUtils {
 	 */
 	public static Field getField(Class<?> pojoClass, String attributeName) {
 
-		Field field = null;
-
 		Class<?> clazz = pojoClass;
-
 		while (clazz != null) {
 			try {
-				field = clazz.getDeclaredField(attributeName);
-				break;
+				return clazz.getDeclaredField(attributeName);
 			} catch (NoSuchFieldException e) {
 				clazz = clazz.getSuperclass();
 			}
 		}
-		if (field == null) {
-			LOG.warn("A field could not be found for attribute '{}[{}]'",
-					pojoClass, attributeName);
-		}
-		return field;
+
+		LOG.warn("A field could not be found for attribute '{}[{}]'",
+				pojoClass, attributeName);
+		return null;
 	}
 
 	/**
