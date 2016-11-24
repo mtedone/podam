@@ -93,59 +93,6 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			return timestampToReturnType(timestamp);
 		}
 
-		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);
-		DecimalMax decimalMax = findTypeFromList(annotations, DecimalMax.class);
-		if ((null != decimalMin) || (null != decimalMax)) {
-
-			BigDecimal min;
-			if (null != decimalMin) {
-				min = new BigDecimal(decimalMin.value());
-			} else {
-				min = new BigDecimal(Double.MIN_VALUE);
-			}
-			BigDecimal max;
-			if (null != decimalMax) {
-				max = new BigDecimal(decimalMax.value());
-			} else {
-				max = new BigDecimal(Double.MAX_VALUE);
-			}
-			return decimalToReturnType(getValueInRange(min, max));
-		}
-
-		Min minAnno = findTypeFromList(annotations, Min.class);
-		Max maxAnno = findTypeFromList(annotations, Max.class);
-		if ((null != minAnno) || (null != maxAnno)) {
-
-			BigDecimal min;
-			if (null != minAnno) {
-				min = new BigDecimal(minAnno.value());
-			} else {
-				min = new BigDecimal(Double.MIN_VALUE);
-			}
-			BigDecimal max;
-			if (null != maxAnno) {
-				max = new BigDecimal(maxAnno.value());
-			} else {
-				max = new BigDecimal(Double.MAX_VALUE);
-			}
-			/* Integer part */
-			BigInteger intValue = getValueInRange(min, max).toBigInteger();
-			BigDecimal value = new BigDecimal(intValue);
-			return decimalToReturnType(value);
-		}
-
-		Digits digits = findTypeFromList(annotations, Digits.class);
-		if (null != digits) {
-
-			BigDecimal divisor = BigDecimal.TEN.pow(digits.fraction());
-			BigDecimal max = BigDecimal.TEN.pow(digits.integer()).multiply(divisor);
-			BigDecimal min = max.negate();
-			/* Integer part */
-			BigInteger intValue = getValueInRange(min, max).toBigInteger();
-			BigDecimal value = new BigDecimal(intValue).divide(divisor);
-			return decimalToReturnType(value);
-		}
-
 		Size size = findTypeFromList(annotations, Size.class);
 		if (null != size) {
 
@@ -173,6 +120,61 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 					+ " returning null", pattern.regexp());
 			return null;
 
+		}
+
+		boolean isRound = false;
+		boolean isFloat = false;
+		BigDecimal min = new BigDecimal(Double.MIN_VALUE);
+		BigDecimal max = new BigDecimal(Double.MAX_VALUE);
+
+		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);
+		if (null != decimalMin) {
+			isFloat = true;
+			min = new BigDecimal(decimalMin.value());
+		}
+
+		DecimalMax decimalMax = findTypeFromList(annotations, DecimalMax.class);
+		if (null != decimalMax) {
+			isFloat = true;
+			max = new BigDecimal(decimalMax.value());
+		}
+
+		Min minAnno = findTypeFromList(annotations, Min.class);
+		if (null != minAnno) {
+			isRound = true;
+			min = new BigDecimal(minAnno.value()).max(min);
+		}
+
+		Max maxAnno = findTypeFromList(annotations, Max.class);
+		if (null != maxAnno) {
+			isRound = true;
+			max = new BigDecimal(maxAnno.value()).min(max);
+		}
+
+		Digits digits = findTypeFromList(annotations, Digits.class);
+		BigDecimal divisor = null;
+		if (null != digits) {
+			isRound = true;
+			divisor = BigDecimal.TEN.pow(digits.fraction());
+			max = BigDecimal.TEN.pow(digits.integer()).min(max).multiply(divisor);
+			min = max.negate().max(min);
+		}
+
+		if (isRound || isFloat) {
+			BigDecimal value = getValueInRange(min, max);
+
+			if (isRound) {
+
+				/* Integer part */
+				BigInteger intValue = value.toBigInteger();
+				value = new BigDecimal(intValue);
+			}
+
+			if (null != divisor) {
+				value = value.divide(divisor);
+			}
+
+			return decimalToReturnType(value);
 		}
 
 		return null;
