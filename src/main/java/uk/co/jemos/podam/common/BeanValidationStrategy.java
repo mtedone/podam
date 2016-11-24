@@ -93,45 +93,38 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			return timestampToReturnType(timestamp);
 		}
 
-		Annotation minAnno = null;
-		Annotation maxAnno = null;
-
-		minAnno = findTypeFromList(annotations, DecimalMin.class);
-		maxAnno = findTypeFromList(annotations, DecimalMax.class);
-		if ((null != minAnno) || (null != maxAnno)) {
+		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);
+		DecimalMax decimalMax = findTypeFromList(annotations, DecimalMax.class);
+		if ((null != decimalMin) || (null != decimalMax)) {
 
 			BigDecimal min;
-			if (null != minAnno) {
-				DecimalMin tmp = (DecimalMin) minAnno;
-				min = new BigDecimal(tmp.value());
+			if (null != decimalMin) {
+				min = new BigDecimal(decimalMin.value());
 			} else {
 				min = new BigDecimal(Double.MIN_VALUE);
 			}
 			BigDecimal max;
-			if (null != maxAnno) {
-				DecimalMax tmp = (DecimalMax) maxAnno;
-				max = new BigDecimal(tmp.value());
+			if (null != decimalMax) {
+				max = new BigDecimal(decimalMax.value());
 			} else {
 				max = new BigDecimal(Double.MAX_VALUE);
 			}
 			return decimalToReturnType(getValueInRange(min, max));
 		}
 
-		minAnno = findTypeFromList(annotations, Min.class);
-		maxAnno = findTypeFromList(annotations, Max.class);
+		Min minAnno = findTypeFromList(annotations, Min.class);
+		Max maxAnno = findTypeFromList(annotations, Max.class);
 		if ((null != minAnno) || (null != maxAnno)) {
 
 			BigDecimal min;
 			if (null != minAnno) {
-				Min tmp = (Min) minAnno;
-				min = new BigDecimal(tmp.value());
+				min = new BigDecimal(minAnno.value());
 			} else {
 				min = new BigDecimal(Double.MIN_VALUE);
 			}
 			BigDecimal max;
 			if (null != maxAnno) {
-				Max tmp = (Max) maxAnno;
-				max = new BigDecimal(tmp.value());
+				max = new BigDecimal(maxAnno.value());
 			} else {
 				max = new BigDecimal(Double.MAX_VALUE);
 			}
@@ -141,9 +134,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			return decimalToReturnType(value);
 		}
 
-		if (null != (minAnno = findTypeFromList(annotations, Digits.class))) {
+		Digits digits = findTypeFromList(annotations, Digits.class);
+		if (null != digits) {
 
-			Digits digits = (Digits) minAnno;
 			BigDecimal divisor = BigDecimal.TEN.pow(digits.fraction());
 			BigDecimal max = BigDecimal.TEN.pow(digits.integer()).multiply(divisor);
 			BigDecimal min = max.negate();
@@ -153,9 +146,8 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			return decimalToReturnType(value);
 		}
 
-		if (null != (minAnno = findTypeFromList(annotations, Size.class))) {
-
-			Size size = (Size) minAnno;
+		Size size = findTypeFromList(annotations, Size.class);
+		if (null != size) {
 
 			int minValue = size.min();
 			int maxValue = size.max();
@@ -174,9 +166,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		}
 
-		if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {
+		Pattern pattern = findTypeFromList(annotations, Pattern.class);
+		if (null != pattern) {
 
-			Pattern pattern = (Pattern) minAnno;
 			LOG.warn("At the moment PODAM doesn't support @Pattern({}),"
 					+ " returning null", pattern.regexp());
 			return null;
