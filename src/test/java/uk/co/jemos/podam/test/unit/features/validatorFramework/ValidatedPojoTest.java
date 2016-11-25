@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
+import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
@@ -52,22 +53,42 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldBeNull(pojo.getIdentifier());
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
-		validatorSteps.thePojoShouldNotViolateAnyValidationsOnValidatedPojo(validator, pojo);
+		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
 
 	}
 
 	@Test
 	@Title("When the @Size annotation doesn't have a max length specified, Podam should assign a sensible value")
-	public void whenMaxLengthIsNotSpecifiedInSizeAnnotationPodamShouldAssignASensibleDefault() throws Exception {
+	public void whenMaxLengthIsNotSpecifiedInSizeAnnotationPodamShouldAssignASensibleDefault()
+			throws Exception {
 
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		ValidationPojoForStringWithSizeAndNoMax pojo =
-				podamInvocationSteps.whenIInvokeTheFactoryForClass(ValidationPojoForStringWithSizeAndNoMax.class,
+				podamInvocationSteps.whenIInvokeTheFactoryForClass(
+						ValidationPojoForStringWithSizeAndNoMax.class,
 						podamFactory);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
-		validatorSteps.thePojoShouldNotViolateAnyValidationsOnValidatedPojoForStringSize(validator, pojo);
+		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
 
 	}
+
+	@Test
+	@Title("When the @Digits and @DecimalMin and @DecimalMax applied to the same field, Podam should use minimum requirements")
+	public void whenDigitsAndDecimalMinOrDecimalMaxAreAttachedToTheSameFieldPodamShouldUseMinimumRequirement()
+			throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+		ValidatedPojoMultipleConstraints pojo =
+				podamInvocationSteps.whenIInvokeTheFactoryForClass(
+						ValidatedPojoMultipleConstraints.class,
+						podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+		Validator validator = podamFactorySteps.givenAJavaxValidator();
+		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
+
+	}
+
 }
