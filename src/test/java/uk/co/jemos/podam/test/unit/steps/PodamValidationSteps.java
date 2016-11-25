@@ -212,8 +212,8 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the Queue {0} should be an instance of {1}")
-    public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<LinkedList> linkedListClass) {
-        thePojoMustBeOfTheType(queue, linkedListClass);
+    public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<?> type) {
+        thePojoMustBeOfTheType(queue, type);
     }
 
     @Step("Then the ConcurrentHashMap<String, ?> {0} should contain at least one non-empty element")

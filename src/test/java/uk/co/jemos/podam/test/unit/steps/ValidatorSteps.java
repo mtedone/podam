@@ -4,9 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import net.thucydides.core.annotations.Step;
-import org.junit.Assert;
-import uk.co.jemos.podam.test.dto.ValidatedPojo;
-import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -21,7 +18,7 @@ public class ValidatorSteps {
     public <T> void thePojoShouldNotViolateAnyValidations(Validator validator, T pojo) throws Exception {
 
         Set<ConstraintViolation<T>> violations = validator.validate(pojo);
-        assertThat("The order items must not be empty!",
+        assertThat("There should be no violations",
                 violations, is(empty()));
     }
 
