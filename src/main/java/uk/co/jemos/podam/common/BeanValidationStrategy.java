@@ -124,7 +124,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		boolean isRound = false;
 		boolean isFloat = false;
-		BigDecimal min = new BigDecimal(Double.MIN_VALUE);
+		BigDecimal min = new BigDecimal(-Double.MAX_VALUE);
 		BigDecimal max = new BigDecimal(Double.MAX_VALUE);
 
 		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);
@@ -156,8 +156,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 		if (null != digits) {
 			isRound = true;
 			divisor = BigDecimal.TEN.pow(digits.fraction());
-			max = BigDecimal.TEN.pow(digits.integer()).min(max).multiply(divisor);
-			min = max.negate().max(min);
+			BigDecimal limit = BigDecimal.TEN.pow(digits.integer());
+			max = limit.min(max).multiply(divisor);
+			min = limit.negate().max(min).multiply(divisor);
 		}
 
 		if (isRound || isFloat) {
