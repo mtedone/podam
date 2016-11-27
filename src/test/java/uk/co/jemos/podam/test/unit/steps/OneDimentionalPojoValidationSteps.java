@@ -19,64 +19,66 @@ public class OneDimentionalPojoValidationSteps {
     @Step("Then OneDimensionalTestPojo should be valid")
     public void validateDimensionalTestPojo(OneDimensionalTestPojo pojo, DataProviderStrategy strategy) {
 
-        Boolean booleanObjectField = pojo.getBooleanObjectField();
-        Assert.assertTrue(
+        assertThat(
                 "The boolean object field should have a value of TRUE",
-                booleanObjectField);
+                pojo.getBooleanObjectField(), equalTo(true));
 
-        boolean booleanField = pojo.isBooleanField();
-        Assert.assertTrue("The boolean field should have a value of TRUE",
-                booleanField);
+        assertThat("The boolean field should have a value of TRUE",
+                pojo.isBooleanField(), equalTo(true));
 
         byte byteField = pojo.getByteField();
-        Assert.assertTrue("The byte field should not be zero", byteField != 0);
+        assertThat("The byte field should not be zero",
+                byteField, not(equalTo((byte)0)));
 
         Byte byteObjectField = pojo.getByteObjectField();
-        Assert.assertTrue("The Byte object field should not be zero",
-                byteObjectField != 0);
+        assertThat("The Byte object field should not be zero",
+                byteObjectField, not(equalTo((byte)0)));
 
         short shortField = pojo.getShortField();
-        Assert.assertTrue("The short field should not be zero", shortField != 0);
+        assertThat("The short field should not be zero",
+                shortField, not(equalTo((short)0)));
 
         Short shortObjectField = pojo.getShortObjectField();
-        Assert.assertTrue("The Short Object field should not be zero",
-                shortObjectField != 0);
+        assertThat("The Short Object field should not be zero",
+                shortObjectField, not(equalTo((short)0)));
 
         char charField = pojo.getCharField();
-        Assert.assertTrue("The char field should not be zero", charField != 0);
+        assertThat("The char field should not be zero",
+                charField, not(equalTo((char)0)));
         Character characterObjectField = pojo.getCharObjectField();
-        Assert.assertTrue("The Character object field should not be zero",
-                characterObjectField != 0);
+        assertThat("The Character object field should not be zero",
+                characterObjectField,  not(equalTo((char)0)));
 
         int intField = pojo.getIntField();
-        Assert.assertTrue("The int field cannot be zero", intField != 0);
+        assertThat("The int field cannot be zero", intField, not(equalTo(0)));
         Integer integerField = pojo.getIntObjectField();
-        Assert.assertTrue("The Integer object field cannot be zero",
-                integerField != 0);
+        assertThat("The Integer object field cannot be zero",
+                integerField, not(equalTo(0)));
 
         long longField = pojo.getLongField();
-        Assert.assertTrue("The long field cannot be zero", longField != 0);
+        assertThat("The long field cannot be zero",
+                longField, not(equalTo(0L)));
         Long longObjectField = pojo.getLongObjectField();
-        Assert.assertTrue("The Long object field cannot be zero",
-                longObjectField != 0);
+        assertThat("The Long object field cannot be zero",
+                longObjectField, not(equalTo(0L)));
 
         float floatField = pojo.getFloatField();
-        Assert.assertTrue("The float field cannot be zero", floatField != 0.0);
+        assertThat("The float field cannot be zero",
+                floatField, not(equalTo(0.0f)));
         Float floatObjectField = pojo.getFloatObjectField();
-        Assert.assertTrue("The Float object field cannot be zero",
-                floatObjectField != 0.0);
+        assertThat("The Float object field cannot be zero",
+                floatObjectField, not(equalTo(0.0f)));
 
         double doubleField = pojo.getDoubleField();
-        Assert.assertTrue("The double field cannot be zero",
-                doubleField != 0.0d);
+        assertThat("The double field cannot be zero",
+                doubleField, not(equalTo(0.0d)));
         Double doubleObjectField = pojo.getDoubleObjectField();
-        Assert.assertTrue("The Double object field cannot be zero",
-                doubleObjectField != 0.0d);
+        assertThat("The Double object field cannot be zero",
+                doubleObjectField, not(equalTo(0.0d)));
 
         String stringField = pojo.getStringField();
-        Assert.assertNotNull("The String field cannot be null", stringField);
         assertThat("The String field cannot be empty",
-                stringField, not(isEmptyString()));
+                stringField, not(isEmptyOrNullString()));
 
         Object objectField = pojo.getObjectField();
         Assert.assertNotNull("The Object field cannot be null", objectField);
@@ -103,9 +105,9 @@ public class OneDimentionalPojoValidationSteps {
                 "The array of ints length should be the same as defined in the strategy!",
                 strategy.getNumberOfCollectionElements(Integer.class),
                 intArray.length);
-        Assert.assertTrue(
+        assertThat(
                 "The first element in the array of ints must be different from zero!",
-                intArray[0] != 0);
+                intArray[0], not(equalTo(0)));
 
         boolean[] booleanArray = pojo.getBooleanArray();
         Assert.assertNotNull("The array of booleans cannot be null!",
