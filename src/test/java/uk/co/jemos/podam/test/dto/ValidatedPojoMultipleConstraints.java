@@ -21,6 +21,10 @@ public class ValidatedPojoMultipleConstraints {
     @Digits(integer = 1, fraction = 1)
     private Double value2;
 
+    @DecimalMin("0.1")
+    @Digits(integer = 1, fraction = 1)
+    private Double value3;
+
     public Double getValue() {
         return value;
     }
@@ -37,11 +41,21 @@ public class ValidatedPojoMultipleConstraints {
         this.value2 = value2;
     }
 
+    public Double getValue3() {
+        return value3;
+    }
+
+    public void setValue3(Double value3) {
+        this.value3 = value3;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
         sb.append('{');
-        sb.append("value='").append(value).append('\'');
+        sb.append("value='").append(value).append("\',");
+        sb.append("value2='").append(value2).append("\',");
+        sb.append("value3='").append(value3).append('\'');
         sb.append('}');
         return sb.toString();
     }
