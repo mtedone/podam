@@ -1,8 +1,9 @@
 podam
 =====
 
-![Travis build status](https://travis-ci.org/devopsfolks/podam.svg?branch=develop)
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.jemos.podam/podam/badge.svg)
+[![Travis build status](https://travis-ci.org/devopsfolks/podam.svg?branch=develop)](https://travis-ci.org/devopsfolks/podam)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.jemos.podam/podam/badge.svg)](https://maven-badges.herokuapp.com/maven-central/uk.co.jemos.podam/podam)
+[![Test Coverage](https://codecov.io/github/devopsfolks/podam/coverage.svg?branch=develop)](https://codecov.io/gh/devopsfolks/podam)
 
 PODAM - POjo DAta Mocker
 
