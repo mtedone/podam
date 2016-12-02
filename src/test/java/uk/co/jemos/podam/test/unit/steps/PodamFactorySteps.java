@@ -14,6 +14,7 @@ import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.inheritance.TrackingExternalFactory;
 import uk.co.jemos.podam.test.unit.features.xmlTypes.XmlTypesExternalFactory;
+import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
@@ -24,6 +25,7 @@ import javax.validation.ValidatorFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -41,10 +43,10 @@ public class PodamFactorySteps {
         return new PodamFactoryImpl();
     }
 
-    @Step("Given a Podam Factory to use as External Factory")
-    public PodamFactory givenAPodamExternalFactorytoTestAttributeMetadata() {
+    @Step("Given a Podam Factory with a Custom String Manufacturer")
+    public PodamFactory givenAPodamWithACustomStringTypeManufacturer() {
 
-        TypeManufacturer<String> stringManufacturer = new StringTypeManufacturerImpl() {
+        TypeManufacturer<String> manufacturer = new StringTypeManufacturerImpl() {
 
             @Override
             public String getStringValue(AttributeMetadata attributeMetadata) {
@@ -57,9 +59,34 @@ public class PodamFactorySteps {
             }
         };
 
-        PodamFactory factory = new PodamFactoryImpl();
-        factory.getStrategy().addOrReplaceTypeManufacturer(String.class, stringManufacturer);
+        return givenAPodamWithACustomTypeManufacturer(String.class, manufacturer);
+    }
 
+    @Step("Given a Podam Factory with a Custom Integer Manufacturer")
+    public PodamFactory givenAPodamWithACustomIntegerTypeManufacturer() {
+
+        TypeManufacturer<Integer> manufacturer = new IntTypeManufacturerImpl() {
+
+            @Override
+            public Integer getInteger(AttributeMetadata attributeMetadata) {
+
+                if (attributeMetadata.getPojoClass() == Timestamp.class) {
+                    return PodamUtils.getIntegerInRange(0, 999999999);
+                } else {
+                    return super.getInteger(attributeMetadata);
+                }
+            }
+        };
+
+        return givenAPodamWithACustomTypeManufacturer(int.class, manufacturer);
+    }
+
+    @Step("Given a Podam Factory with a Custom Type Manufacturer {0}")
+    public <T> PodamFactory givenAPodamWithACustomTypeManufacturer(
+            Class<T> type, TypeManufacturer<T> typeManufacturer) {
+
+        PodamFactory factory = new PodamFactoryImpl();
+        factory.getStrategy().addOrReplaceTypeManufacturer(type, typeManufacturer);
         return factory;
     }
 
