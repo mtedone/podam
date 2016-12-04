@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.typeManufacturers;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +41,7 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
                 PodamByteValue intStrategy = (PodamByteValue) annotation;
 
                 String numValueStr = intStrategy.numValue();
-                if (null != numValueStr && !numValueStr.isEmpty()) {
+                if (StringUtils.isNotEmpty(numValueStr)) {
                     try {
 
                         retValue = Byte.valueOf(numValueStr);

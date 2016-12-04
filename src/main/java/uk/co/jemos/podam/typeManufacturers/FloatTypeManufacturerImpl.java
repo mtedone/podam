@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +41,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
                 PodamFloatValue floatStrategy = (PodamFloatValue) annotation;
 
                 String numValueStr = floatStrategy.numValue();
-                if (null != numValueStr && !numValueStr.isEmpty()) {
+                if (StringUtils.isNotEmpty(numValueStr)) {
                     try {
                         retValue = Float.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {

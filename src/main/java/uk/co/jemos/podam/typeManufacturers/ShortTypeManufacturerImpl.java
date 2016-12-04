@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
                 PodamShortValue shortStrategy = (PodamShortValue) annotation;
 
                 String numValueStr = shortStrategy.numValue();
-                if (null != numValueStr && !numValueStr.isEmpty()) {
+                if (StringUtils.isNotEmpty(numValueStr)) {
                     try {
                         retValue = Short.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {

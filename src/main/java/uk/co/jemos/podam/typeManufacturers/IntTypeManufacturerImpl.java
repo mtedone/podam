@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +42,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
                 PodamIntValue intStrategy = (PodamIntValue) annotation;
 
                 String numValueStr = intStrategy.numValue();
-                if (null != numValueStr && !numValueStr.isEmpty()) {
+                if (StringUtils.isNotEmpty(numValueStr)) {
                     try {
                         retValue = Integer.valueOf(numValueStr);
                     } catch (NumberFormatException nfe) {
