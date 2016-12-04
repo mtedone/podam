@@ -9,7 +9,7 @@ package uk.co.jemos.podam.test.utils;
  * @author mtedone
  * 
  */
-public class PodamTestConstants {
+public interface PodamTestConstants {
 
 	// ------------------->> Constants
 
@@ -77,12 +77,5 @@ public class PodamTestConstants {
 	public static final String POST_CODE = "W1E X9P";
 
 	// ------------------->> Instance / Static variables
-
-	// ------------------->> Constructors
-
-	/** Non instantiable class */
-	private PodamTestConstants() {
-		throw new AssertionError();
-	}
 
 }

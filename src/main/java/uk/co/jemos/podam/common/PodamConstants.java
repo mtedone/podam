@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
  * @since 1.0.0
  * 
  */
-public final class PodamConstants {
+public interface PodamConstants {
 
 	/**
 	 * The default string length that Podam will assign to an annotated
@@ -39,11 +39,5 @@ public final class PodamConstants {
 
     /** An empty object array. */
     public static final Object[] NO_ARGS = new Object[0];
-
-    /** Non-instantiable constructor */
-	private PodamConstants() {
-		throw new AssertionError("Non instantiable");
-	}
-
 
 }
