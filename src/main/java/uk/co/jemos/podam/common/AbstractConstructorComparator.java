@@ -35,12 +35,16 @@ public abstract class AbstractConstructorComparator implements Comparator<Constr
 	public int compareAnnotations(Constructor<?> constructor1, Constructor<?> constructor2) {
 
 		/* Constructors with Podam annotation first */
-		boolean choose1 = constructor1.getAnnotation(PodamConstructor.class) != null;
-		boolean choose2 = constructor2.getAnnotation(PodamConstructor.class) != null;
-		if (choose1 && !choose2) {
-			return Integer.MIN_VALUE;
-		} else if (!choose1 && choose2) {
-			return Integer.MAX_VALUE;
+		boolean choose1 = (constructor1.getAnnotation(PodamConstructor.class) != null);
+		boolean choose2 = (constructor2.getAnnotation(PodamConstructor.class) != null);
+		if (choose1) {
+			if (!choose2) {
+				return Integer.MIN_VALUE;
+			}
+		} else {
+			if (choose2) {
+				return Integer.MAX_VALUE;
+			}
 		}
 		return 0;
 	}

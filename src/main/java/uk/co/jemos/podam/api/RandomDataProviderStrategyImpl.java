@@ -45,24 +45,6 @@ public final class RandomDataProviderStrategyImpl extends
 
 	// ------------------->> Public methods
 
-	/**
-	 * Other factory method which assigns a default number of collection
-	 * elements before returning the singleton.
-	 *
-	 * @param nbrCollectionElements
-	 *            The number of collection elements
-	 * @return The Singleton, set with the number of collection elements set as
-	 *         parameter
-	 */
-	public static RandomDataProviderStrategyImpl getInstance(
-			int nbrCollectionElements) {
-
-		RandomDataProviderStrategyImpl strategy = new RandomDataProviderStrategyImpl();
-				strategy.setDefaultNumberOfCollectionElements(nbrCollectionElements);
-		return strategy;
-
-	}
-
 	// ------------------->> Getters / Setters
 
 	// ------------------->> Private methods
