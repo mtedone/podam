@@ -9,8 +9,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
 
 /**
  * Default collection type manufacturer.
@@ -30,18 +28,15 @@ public class CollectionTypeManufacturerImpl extends AbstractTypeManufacturer<Col
         // Default list and set are ArrayList and HashSet. If users
         // wants a particular collection flavour they have to initialise
         // the collection
-        if (Queue.class.isAssignableFrom(collectionType)) {
-            if (collectionType.isAssignableFrom(LinkedList.class)) {
-                retValue = new LinkedList<Object>();
-            }
-        } else if (Set.class.isAssignableFrom(collectionType)) {
-            if (collectionType.isAssignableFrom(HashSet.class)) {
-                retValue = new HashSet<Object>();
-            }
-        } else {
-            if (collectionType.isAssignableFrom(ArrayList.class)) {
-                retValue = new ArrayList<Object>();
-            }
+        if (collectionType.isAssignableFrom(ArrayList.class)) {
+            // List
+            retValue = new ArrayList<Object>();
+        } else if (collectionType.isAssignableFrom(HashSet.class)) {
+            // Set
+            retValue = new HashSet<Object>();
+        } else if (collectionType.isAssignableFrom(LinkedList.class)) {
+            // Queue
+            retValue = new LinkedList<Object>();
         }
         return retValue;
     }

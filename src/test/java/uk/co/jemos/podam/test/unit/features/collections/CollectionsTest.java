@@ -141,19 +141,19 @@ public class CollectionsTest extends AbstractPodamSteps {
     @Test
     @Title("Podam should be able to create instances of Sorted Maps")
     public void testSortedMapCreation() {
-        testMap(TreeMap.class);
+        testMap(SortedMap.class);
     }
 
     @Test
     @Title("Podam should be able to create instances of Concurrent Hash Maps")
     public void testConcurrentMapCreation() {
-        testMap(ConcurrentHashMap.class);
+        testMap(ConcurrentMap.class);
     }
 
     @Test
     @Title("Podam should be able to create instances of Hash Maps")
     public void testHashMapCreation() {
-        testMap(HashMap.class);
+        testMap(Map.class);
     }
 
 
@@ -197,7 +197,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         int mapSize = strategy.getNumberOfCollectionElements(PodamTestInterface.class);
 
-        if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {
+        if (ConcurrentMap.class.isAssignableFrom(mapType)) {
             mapSize = 0;
         }
 
