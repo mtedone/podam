@@ -12,6 +12,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.test.dto.PodamParameterizedType;
 import uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo;
+import uk.co.jemos.podam.test.dto.pdm45.GenericListPojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalConstructorPojo;
 import uk.co.jemos.podam.test.dto.pdm45.MultiDimensionalTestPojo;
@@ -37,7 +38,32 @@ public class Pdm45UnitTest {
 		factory = new PodamFactoryImpl(new RandomDataProviderStrategyImpl());
 
 	}
-	
+
+	@Test
+	public void testGenericListPojoManufacture() {
+		@SuppressWarnings("unchecked")
+		final GenericListPojo<Double, Boolean> pojo = factory.manufacturePojo(GenericListPojo.class, Double.class, Boolean.class);
+
+		Assert.assertNotNull("The GenericPojo object cannot be null!", pojo);
+
+		List<GenericPojo<Double, Boolean>> pojos = pojo.getGenericPojos();
+		for (GenericPojo<Double, Boolean> element : pojos) {
+			Assert.assertNotNull("The generated object cannot be null!", element.getFirstValue());
+			Assert.assertEquals("The generated object must be a Double!", Double.class, element.getFirstValue().getClass());
+			Assert.assertNotNull("The generated object cannot be null!", element.getSecondValue());
+			Assert.assertEquals("The generated object must be a Boolean!", Boolean.class, element.getSecondValue().getClass());
+			Assert.assertNotNull("The generated list cannot be null!", element.getFirstList());
+			Assert.assertEquals("The generated list type must be of Double!", Double.class, element.getFirstList().get(0).getClass());
+			Assert.assertNotNull("The generated array cannot be null!", element.getSecondArray());
+			Assert.assertEquals("The generated array type must be of Boolean!", Boolean.class, element.getSecondArray()[0].getClass());
+			Assert.assertNotNull("The generated map cannot be null!", element.getFirstSecondMap());
+			Assert.assertEquals("The generated map key type must be of Double!", Double.class,
+					element.getFirstSecondMap().entrySet().iterator().next().getKey().getClass());
+			Assert.assertEquals("The generated map value type must be of Boolean!", Boolean.class,
+					element.getFirstSecondMap().entrySet().iterator().next().getValue().getClass());
+		}
+	}
+
 	@Test
 	public void testPojoWithGenericFields() {
 		final GenericAttributePojo pojo = factory.manufacturePojo(GenericAttributePojo.class);
