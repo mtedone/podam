@@ -26,15 +26,10 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @since 6.0.0.RELEASE
  */
-public final class TypeManufacturerUtil {
+public abstract class TypeManufacturerUtil {
     
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(TypeManufacturerUtil.class);
-    
-    /** Non instantiable. */
-    private TypeManufacturerUtil() {
-        throw new AssertionError("Non instantiable");
-    }
 
     /**
      * It returns a {@link AttributeStrategy} if one was specified in

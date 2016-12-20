@@ -20,7 +20,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public final class PodamUtils {
+public abstract class PodamUtils {
 
 	// ---------------------->> Constants
 
@@ -34,11 +34,6 @@ public final class PodamUtils {
 
 	/** The application logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
-
-	/** Non instantiable constructor */
-	private PodamUtils() {
-		throw new AssertionError();
-	}
 
 	/**
 	 * It returns a {@link Field} matching the attribute name or null if a field

@@ -46,22 +46,6 @@ public final class DefaultClassInfoStrategy extends
 		return SINGLETON;
 	}
 
-	/**
-	 * Other factory method which assigns a default number of collection
-	 * elements before returning the singleton.
-	 *
-	 * @param nbrCollectionElements
-	 *            The number of collection elements
-	 * @return The Singleton, set with the number of collection elements set as
-	 *         parameter
-	 */
-	public static DefaultClassInfoStrategy getInstance(
-			int nbrCollectionElements) {
-
-		return SINGLETON;
-
-	}
-
 	// ------------------->> Getters / Setters
 
 	// ------------------->> Private methods

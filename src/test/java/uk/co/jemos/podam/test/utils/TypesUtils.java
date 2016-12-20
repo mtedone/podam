@@ -5,11 +5,7 @@ import org.junit.Assert;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TypesUtils {
-
-    private TypesUtils() {
-        throw new AssertionError("Non instantiable");
-    }
+public abstract class TypesUtils {
 
     /**
      * It checks that the Calendar instance is valid
