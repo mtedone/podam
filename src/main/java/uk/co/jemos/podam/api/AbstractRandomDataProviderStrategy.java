@@ -18,12 +18,12 @@ import uk.co.jemos.podam.typeManufacturers.CollectionTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.GenericTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.MapTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
@@ -179,7 +179,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		TypeManufacturer<?> enumManufacturer = new EnumTypeManufacturerImpl();
 		typeManufacturers.put(Enum.class, enumManufacturer);
 
-		TypeManufacturer<?> typeManufacturer = new GenericTypeManufacturerImpl();
+		TypeManufacturer<?> typeManufacturer = new TypeTypeManufacturerImpl();
 		typeManufacturers.put(Type.class, typeManufacturer);
 
 		TypeManufacturer<?> collectionManufacturer = new CollectionTypeManufacturerImpl();
