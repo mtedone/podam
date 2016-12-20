@@ -48,6 +48,9 @@ public class PodamFactoryImpl implements PodamFactory {
     /** Application logger */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamFactoryImpl.class);
 
+	/** Empty type map */
+	private static final Map<String, Type> NULL_TYPE_ARGS_MAP = new HashMap<String, Type>();
+
 
 	// ------------------->> Instance / variables
 
@@ -1155,10 +1158,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
                             collectionElementType, elementStrategy);
 				} else {
-					Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 					element = manufactureAttributeValue(collection, manufacturingCtx,
 							collectionElementType, collectionElementType,
-							annotations, attributeName, nullTypeArgsMap, genericTypeArgs);
+							annotations, attributeName, NULL_TYPE_ARGS_MAP, genericTypeArgs);
 				}
 				collection.add(element);
 			}
@@ -1496,7 +1498,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		} else {
 
-			Map<String, Type> nullTypeArgsMap = new HashMap<String, Type>();
 			retValue = manufactureAttributeValue(
 					keyOrElementsArguments.getMapToBeFilled(),
 					manufacturingCtx,
@@ -1504,7 +1505,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					keyOrElementsArguments.getKeyOrValueType(),
 					keyOrElementsArguments.getAnnotations(),
 					keyOrElementsArguments.getAttributeName(),
-					nullTypeArgsMap,
+					NULL_TYPE_ARGS_MAP,
 					keyOrElementsArguments.getGenericTypeArgs());
 		}
 		return retValue;
