@@ -11,6 +11,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import uk.co.jemos.podam.api.RandomDataProviderStrategyImpl;
 import uk.co.jemos.podam.test.dto.PodamParameterizedType;
+import uk.co.jemos.podam.test.dto.pdm45.GenericArrayPojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericAttributePojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericListPojo;
 import uk.co.jemos.podam.test.dto.pdm45.GenericMapPojo;
@@ -60,6 +61,18 @@ public class Pdm45UnitTest {
 
 		Map<String,GenericPojo<Double, Boolean>> pojos = pojo.getGenericPojos();
 		for (GenericPojo<Double, Boolean> element : pojos.values()) {
+			validateGenericPojo(element, Double.class, Boolean.class);
+		}
+	}
+
+	@Test
+	public void testGenericArrayPojoManufacture() {
+		@SuppressWarnings("unchecked")
+		final GenericArrayPojo<Double, Boolean> pojo = factory.manufacturePojo(GenericArrayPojo.class, Double.class, Boolean.class);
+		Assert.assertNotNull("The GenericPojo object cannot be null!", pojo);
+
+		GenericPojo<Double, Boolean>[] pojos = pojo.getGenericPojos();
+		for (GenericPojo<Double, Boolean> element : pojos) {
 			validateGenericPojo(element, Double.class, Boolean.class);
 		}
 	}
