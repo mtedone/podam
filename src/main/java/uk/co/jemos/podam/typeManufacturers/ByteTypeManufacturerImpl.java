@@ -86,11 +86,7 @@ public class ByteTypeManufacturerImpl extends AbstractTypeManufacturer<Byte> {
 	 */
 	public Byte getByte(AttributeMetadata attributeMetadata) {
 
-		byte nextByte;
-		do {
-			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);
-		} while (nextByte == 0);
-		return nextByte;
+		return (byte)getInteger(Byte.MAX_VALUE);
 	}
 
 	/**

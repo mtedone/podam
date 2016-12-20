@@ -90,11 +90,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
 	 */
 	public Integer getInteger(AttributeMetadata attributeMetadata) {
 
-		Integer retValue;
-		do {
-			retValue = RANDOM.nextInt();
-		} while (retValue.intValue() == 0);
-		return retValue;
+		return getInteger(Integer.MAX_VALUE);
 	}
 
 	/**

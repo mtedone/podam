@@ -89,11 +89,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
 	 */
 	public Double getDouble(AttributeMetadata attributeMetadata) {
 
-		double retValue;
-		do {
-			retValue = RANDOM.nextDouble();
-		} while (retValue == 0.0);
-		return retValue;
+		return getDouble();
 	}
 
 	/**

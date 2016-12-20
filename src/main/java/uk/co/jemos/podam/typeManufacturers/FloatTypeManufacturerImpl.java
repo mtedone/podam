@@ -87,11 +87,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
 	 */
 	public Float getFloat(AttributeMetadata attributeMetadata) {
 
-		float retValue;
-		do {
-			retValue = RANDOM.nextFloat();
-		} while (retValue == 0.0f);
-		return retValue;
+		return (float)getDouble();
 	}
 
 	/**

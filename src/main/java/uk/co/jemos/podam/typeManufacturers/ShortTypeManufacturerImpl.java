@@ -85,11 +85,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
 	 */
 	public Short getShort(AttributeMetadata attributeMetadata) {
 
-		short retValue;
-		do {
-			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);
-		} while (retValue == 0);
-		return retValue;
+		return (short)getInteger(Short.MAX_VALUE);
 	}
 
 	/**
