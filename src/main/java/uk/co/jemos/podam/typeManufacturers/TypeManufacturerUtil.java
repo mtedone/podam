@@ -373,7 +373,9 @@ public final class TypeManufacturerUtil {
         Map<String, Type> localMap = new HashMap<String, Type>(typeArgsMap);
 
         methodGenericTypeArgs.set(PodamConstants.NO_TYPES);
-        if (paramType instanceof TypeVariable<?>) {
+        if (paramType instanceof Class) {
+            parameterType = (Class<?>) paramType;
+        } else if (paramType instanceof TypeVariable<?>) {
             final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
             final Type type = localMap.get(typeVariable.getName());
             if (type != null) {
@@ -383,7 +385,22 @@ public final class TypeManufacturerUtil {
         } else if (paramType instanceof ParameterizedType) {
             ParameterizedType pType = (ParameterizedType) paramType;
             parameterType = (Class<?>) pType.getRawType();
-            methodGenericTypeArgs.set(pType.getActualTypeArguments());
+            Type[] actualTypeArgs = pType.getActualTypeArguments();
+            if (!typeArgsMap.isEmpty()) {
+                for (int i = 0; i < actualTypeArgs.length; i++) {
+                    Class<?> tmp = resolveGenericParameter(actualTypeArgs[i],
+                        localMap, methodGenericTypeArgs);
+                    if (tmp != actualTypeArgs[i]) {
+                        /* If actual type argument has its own arguments,
+                         * we will loose them now, so we will leave type unresolved
+                         * until lower levels of type resolution */
+                        if (ArrayUtils.isEmpty(methodGenericTypeArgs.get())) {
+                            actualTypeArgs[i] = tmp;
+                        }
+                    }
+                }
+            }
+            methodGenericTypeArgs.set(actualTypeArgs);
         } else if (paramType instanceof WildcardType) {
             WildcardType wType = (WildcardType) paramType;
             Type[] bounds = wType.getLowerBounds();
@@ -399,8 +416,6 @@ public final class TypeManufacturerUtil {
                 parameterType = resolveGenericParameter(bounds[0], localMap,
                         methodGenericTypeArgs);
             }
-        } else if (paramType instanceof Class) {
-            parameterType = (Class<?>) paramType;
         }
 
         if (parameterType == null) {
