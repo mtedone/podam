@@ -445,15 +445,20 @@ public abstract class TypeManufacturerUtil {
         Object retValue = attributeStrategy.getValue();
 
         if (retValue != null) {
+
             Class<?> desiredType = attributeType.isPrimitive() ?
                     PodamUtils.primitiveToBoxedType(attributeType) : attributeType;
             if (!desiredType.isAssignableFrom(retValue.getClass())) {
-                String errMsg = "The type of the Podam Attribute Strategy is not "
-                        + attributeType.getName() + " but "
+                String errMsg = "The AttributeStrategy "
+                        + attributeStrategy.getClass().getName()
+                        + " produced value of type "
                         + retValue.getClass().getName()
-                        + ". An exception will be thrown.";
-                LOG.error(errMsg);
+                        + " incompatible with attribute type "
+                        + attributeType.getName();
                 throw new IllegalArgumentException(errMsg);
+            } else {
+                LOG.debug("The parameter {} will be filled using the following strategy {}",
+                        attributeType, attributeStrategy);
             }
         }
 
