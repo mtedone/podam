@@ -1142,15 +1142,12 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				// The default
 				Object element;
-				if (null != elementStrategy
-						&& (elementStrategy instanceof ObjectStrategy)
-								&& Object.class.equals(collectionElementType)) {
-					LOG.debug("Element strategy is ObjectStrategy and collection element is of type Object: using the ObjectStrategy strategy");
-					element = elementStrategy.getValue();
-				} else if (null != elementStrategy
-						&& !(elementStrategy instanceof ObjectStrategy)) {
+				if (null != elementStrategy &&
+						(!(elementStrategy instanceof ObjectStrategy)
+								|| collectionElementType.isAssignableFrom(Object.class))) {
+
 					element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
-                            collectionElementType, elementStrategy);
+							collectionElementType, elementStrategy);
 				} else {
 					element = manufactureAttributeValue(collection, manufacturingCtx,
 							collectionElementType, collectionElementType,
@@ -1473,21 +1470,14 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Object retValue = null;
 
-		if (null != keyOrElementsArguments.getElementStrategy()
-				&& ObjectStrategy.class.isAssignableFrom(keyOrElementsArguments
-						.getElementStrategy().getClass())
-				&& Object.class.equals(keyOrElementsArguments
-						.getKeyOrValueType())) {
-			LOG.debug("Element strategy is ObjectStrategy and Map key or value type is of type Object: using the ObjectStrategy strategy");
-			retValue = keyOrElementsArguments.getElementStrategy().getValue();
-		} else if (null != keyOrElementsArguments.getElementStrategy()
-				&& !ObjectStrategy.class
-						.isAssignableFrom(keyOrElementsArguments
-								.getElementStrategy().getClass())) {
-			retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
-                    keyOrElementsArguments.getKeyOrValueType(),
-                    keyOrElementsArguments.getElementStrategy());
+		AttributeStrategy<?> strategy = keyOrElementsArguments.getElementStrategy();
+		if (null != strategy &&
+				(!(strategy instanceof ObjectStrategy)
+						|| keyOrElementsArguments.getKeyOrValueType().isAssignableFrom(Object.class))) {
 
+			retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+					keyOrElementsArguments.getKeyOrValueType(),
+					strategy);
 		} else {
 
 			retValue = manufactureAttributeValue(
@@ -1577,15 +1567,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			// The default
 			if (null != elementStrategy
-					&& (elementStrategy instanceof ObjectStrategy)
-					&& Object.class.equals(componentType)) {
-				LOG.debug("Element strategy is ObjectStrategy and array element is of type Object: using the ObjectStrategy strategy");
-				arrayElement = elementStrategy.getValue();
-			} else if (null != elementStrategy
-					&& !(elementStrategy instanceof ObjectStrategy)) {
+					&& (!(elementStrategy instanceof ObjectStrategy)
+							|| componentType.isAssignableFrom(Object.class))) {
+
 				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
 						elementStrategy);
-
 			} else {
 
 				arrayElement = manufactureAttributeValue(array, manufacturingCtx,
