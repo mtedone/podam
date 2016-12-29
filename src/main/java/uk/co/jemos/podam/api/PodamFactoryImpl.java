@@ -1141,14 +1141,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			for (int i = collection.size(); i < nbrElements; i++) {
 
 				// The default
-				Object element;
-				if (null != elementStrategy &&
-						(!(elementStrategy instanceof ObjectStrategy)
-								|| collectionElementType.isAssignableFrom(Object.class))) {
-
-					element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+				Object element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
 							collectionElementType, elementStrategy);
-				} else {
+
+				if (null == element) {
+
 					element = manufactureAttributeValue(collection, manufacturingCtx,
 							collectionElementType, collectionElementType,
 							annotations, attributeName, NULL_TYPE_ARGS_MAP, genericTypeArgs);
@@ -1468,17 +1465,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
-		Object retValue = null;
-
 		AttributeStrategy<?> strategy = keyOrElementsArguments.getElementStrategy();
-		if (null != strategy &&
-				(!(strategy instanceof ObjectStrategy)
-						|| keyOrElementsArguments.getKeyOrValueType().isAssignableFrom(Object.class))) {
-
-			retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+		Object retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
 					keyOrElementsArguments.getKeyOrValueType(),
 					strategy);
-		} else {
+
+		if (null == retValue) {
 
 			retValue = manufactureAttributeValue(
 					keyOrElementsArguments.getMapToBeFilled(),
@@ -1562,18 +1554,13 @@ public class PodamFactoryImpl implements PodamFactory {
 				elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
-		Object arrayElement = null;
 		for (int i = 0; i < nbrElements; i++) {
 
 			// The default
-			if (null != elementStrategy
-					&& (!(elementStrategy instanceof ObjectStrategy)
-							|| componentType.isAssignableFrom(Object.class))) {
-
-				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
+			Object arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
 						elementStrategy);
-			} else {
 
+			if (null == arrayElement) {
 				arrayElement = manufactureAttributeValue(array, manufacturingCtx,
 						componentType, genericComponentType,
 						attributeMetadata.getAttributeAnnotations(),

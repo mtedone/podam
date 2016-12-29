@@ -442,20 +442,27 @@ public abstract class TypeManufacturerUtil {
                                                     AttributeStrategy<?> attributeStrategy)
             throws IllegalArgumentException {
 
-        Object retValue = attributeStrategy.getValue();
+        if (null == attributeStrategy) {
+            return null;
+        }
 
+        Object retValue = attributeStrategy.getValue();
         if (retValue != null) {
 
             Class<?> desiredType = attributeType.isPrimitive() ?
                     PodamUtils.primitiveToBoxedType(attributeType) : attributeType;
             if (!desiredType.isAssignableFrom(retValue.getClass())) {
-                String errMsg = "The AttributeStrategy "
-                        + attributeStrategy.getClass().getName()
-                        + " produced value of type "
-                        + retValue.getClass().getName()
-                        + " incompatible with attribute type "
-                        + attributeType.getName();
-                throw new IllegalArgumentException(errMsg);
+                if (!(attributeStrategy instanceof ObjectStrategy)) {
+                    String errMsg = "The AttributeStrategy "
+                            + attributeStrategy.getClass().getName()
+                            + " produced value of type "
+                            + retValue.getClass().getName()
+                            + " incompatible with attribute type "
+                            + attributeType.getName();
+                    throw new IllegalArgumentException(errMsg);
+                } else {
+                    retValue = null;
+                }
             } else {
                 LOG.debug("The parameter {} will be filled using the following strategy {}",
                         attributeType, attributeStrategy);
