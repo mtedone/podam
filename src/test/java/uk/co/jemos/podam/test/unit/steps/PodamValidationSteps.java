@@ -385,12 +385,6 @@ public class PodamValidationSteps {
                 strList.size(), equalTo(nbrElements));
     }
 
-    @Step("Then the array should not be null or empty")
-    public void theArrayOfStringsShouldNotBeNullOrEmpty(String[] strArray) {
-        Assert.assertNotNull(strArray);
-        Assert.assertNotNull(strArray[0]);
-    }
-
     @Step("Then the array should have exactly {1} elements")
     public void theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(String[] strArray, int nbrElements) {
 
@@ -427,7 +421,7 @@ public class PodamValidationSteps {
 
     @Step("Then the calendar object should have exactly the value of calendar object {1}")
     public void theTwoCalendarObjectsShouldHaveTheSameTime(Calendar expectedValue, Calendar actualValue) {
-        Assert.assertTrue(expectedValue.getTime().getTime() == actualValue.getTime().getTime());
+        assertThat("Calendar values must be equal", actualValue.getTime().getTime(), equalTo(expectedValue.getTime().getTime()));
     }
 
     @Step("Then the array of calendar should not be null or empty")
@@ -449,6 +443,7 @@ public class PodamValidationSteps {
         Assert.assertNotNull("Array should not be null", array);
         Assert.assertTrue("Array should not be empty", array.length > 0);
         for (Object element : array) {
+            theObjectShouldNotBeNull(element);
             Assert.assertEquals("Wrong element type", elementType, element.getClass());
         }
     }

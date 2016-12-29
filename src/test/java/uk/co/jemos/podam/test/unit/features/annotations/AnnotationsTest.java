@@ -427,7 +427,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
         String[] strArray = pojo.getStrArray();
-        podamValidationSteps.theArrayOfStringsShouldNotBeNullOrEmpty(strArray);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(strArray, String.class);
         podamValidationSteps.theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(strArray,
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
