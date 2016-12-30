@@ -20,7 +20,7 @@ public class ObjectStrategy implements AttributeStrategy<Object> {
 	 */
 	@Override
 	public Object getValue() {
-		return new Object();
+		return null;
 	}
 
 }
