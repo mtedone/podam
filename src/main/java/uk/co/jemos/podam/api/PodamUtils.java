@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * PODAM Utilities class.
@@ -103,6 +104,24 @@ public abstract class PodamUtils {
 		}
 
 		return retValue;
+	}
+
+	/**
+	 * Searches among set of a class'es methods and selects the one defined in
+	 * the most specific descend of the hierarchy tree
+	 *
+	 * @param methods a set of methods to choose from
+	 * @return the selected method
+	 */
+	public static Method selectLatestMethod(Set<Method> methods) {
+		/* We want to find a method defined the latest */
+		Method selected = null;
+		for (Method method : methods) {
+			if (selected == null || selected.getDeclaringClass().isAssignableFrom(method.getDeclaringClass())) {
+				selected = method;
+			}
+		}
+		return selected;
 	}
 
 	/**

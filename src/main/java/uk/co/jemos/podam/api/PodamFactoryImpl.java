@@ -617,14 +617,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				iter.remove();
 			}
 
-			/* We want to find setter defined the latest */
-			Method setter = null;
-			for (Method current : setters) {
-				if (setter == null || setter.getDeclaringClass().isAssignableFrom(current.getDeclaringClass())) {
-					setter = current;
-				}
-			}
-
+			Method setter = PodamUtils.selectLatestMethod(setters);
 			parameterTypes = setter.getParameterTypes();
 			if (parameterTypes.length != 1) {
 				LOG.warn("Skipping setter with non-single arguments {}",
@@ -702,7 +695,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (ClassAttribute readOnlyAttribute : classAttributes) {
 
-			Method getter = readOnlyAttribute.getGetters().iterator().next();
+			Method getter = PodamUtils.selectLatestMethod(readOnlyAttribute.getGetters());
 			if (getter != null && !getter.getReturnType().isPrimitive()) {
 
 				if (getter.getGenericParameterTypes().length == 0) {
