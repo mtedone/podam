@@ -1501,6 +1501,97 @@ public class PodamFactoryImpl implements PodamFactory {
 	}
 
 	/**
+	 * It fills an Array with the required number of elements of the required type.
+	 *
+	 * <p>
+	 * This method has a so-called side-effect. It updates the Map given as
+	 * argument.
+	 * </p>
+	 *
+	 * @param array
+	 *             The array POJO
+	 * @param attributeName
+	 *            The attribute name of collection in enclosing POJO class 
+	 * @param elementType
+	 *            The generic type of the collection element
+	 * @param genericElementType
+	 *            The generic type of the collection element
+	 * @param annotations
+	 *            The annotations for this attribute
+	 * @param manufacturingCtx
+	 *             Manufacturing context
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 * @throws ClassNotFoundException
+	 *             If it was not possible to create a class from a string
+	 *
+	 */
+	private void fillArray(Object array, String attributeName, Class<?> elementType,
+			Type genericElementType, List<Annotation> annotations,
+			ManufacturingContext manufacturingCtx,
+			Map<String, Type> typeArgsMap)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException, ClassNotFoundException {
+
+		Class<?> componentType = array.getClass().getComponentType();
+		Type genericComponentType;
+		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
+				PodamConstants.NO_TYPES);
+		if (genericElementType instanceof GenericArrayType) {
+			genericComponentType = ((GenericArrayType) genericElementType).getGenericComponentType();
+			if (genericComponentType instanceof TypeVariable) {
+				TypeVariable<?> componentTypeVariable
+						 = (TypeVariable<?>) genericComponentType;
+				final Type resolvedType
+						 = typeArgsMap.get(componentTypeVariable.getName());
+				componentType
+						 = TypeManufacturerUtil.resolveGenericParameter(resolvedType, typeArgsMap,
+								genericTypeArgs);
+			}
+		} else {
+			genericComponentType = componentType;
+		}
+
+		// If the user defined a strategy to fill the collection elements,
+		// we use it
+		Holder<AttributeStrategy<?>> elementStrategyHolder
+				= new Holder<AttributeStrategy<?>>();
+		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
+		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy,
+				annotations, elementType,
+				elementStrategyHolder, keyStrategyHolder);
+		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
+
+		for (int i = 0; i < nbrElements; i++) {
+
+			Object arrayElement = Array.get(array, i);
+
+			if (null == arrayElement || arrayElement.getClass().isPrimitive() || arrayElement instanceof Number) {
+				// The default
+				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
+							elementStrategy);
+
+				if (null == arrayElement) {
+					arrayElement = manufactureAttributeValue(array, manufacturingCtx,
+							componentType, genericComponentType,
+							annotations, attributeName,
+							typeArgsMap, genericTypeArgs.get());
+				}
+
+				Array.set(array, i, arrayElement);
+			}
+		}
+	}
+
+	/**
 	 * It returns an Array with the first element set
 	 *
 	 *
@@ -1537,57 +1628,11 @@ public class PodamFactoryImpl implements PodamFactory {
 		Class<Object> arrayType
 				= (Class<Object>) attributeMetadata.getAttributeType();
 		Object array = strategy.getTypeValue(attributeMetadata, typeArgsMap, arrayType);
-
-		Class<?> componentType = array.getClass().getComponentType();
-		Type genericComponentType;
-		AtomicReference<Type[]> genericTypeArgs = new AtomicReference<Type[]>(
-				PodamConstants.NO_TYPES);
-		Type genericType = attributeMetadata.getAttributeGenericType();
-		if (genericType instanceof GenericArrayType) {
-			genericComponentType = ((GenericArrayType) genericType).getGenericComponentType();
-			if (genericComponentType instanceof TypeVariable) {
-				TypeVariable<?> componentTypeVariable
-						 = (TypeVariable<?>) genericComponentType;
-				final Type resolvedType
-						 = typeArgsMap.get(componentTypeVariable.getName());
-				componentType
-						 = TypeManufacturerUtil.resolveGenericParameter(resolvedType, typeArgsMap,
-								genericTypeArgs);
-			}
-		} else {
-			genericComponentType = componentType;
-		}
-
-		// If the user defined a strategy to fill the collection elements,
-		// we use it
-		Holder<AttributeStrategy<?>> elementStrategyHolder
-				= new Holder<AttributeStrategy<?>>();
-		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy,
-				attributeMetadata.getAttributeAnnotations(),
+		fillArray(array, attributeMetadata.getAttributeName(),
 				attributeMetadata.getAttributeType(),
-				elementStrategyHolder, keyStrategyHolder);
-		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
-
-		for (int i = 0; i < nbrElements; i++) {
-
-			// The default
-			Object arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
-						elementStrategy);
-
-			if (null == arrayElement) {
-				arrayElement = manufactureAttributeValue(array, manufacturingCtx,
-						componentType, genericComponentType,
-						attributeMetadata.getAttributeAnnotations(),
-						attributeMetadata.getAttributeName(),
-						typeArgsMap, genericTypeArgs.get());
-
-			}
-
-			Array.set(array, i, arrayElement);
-
-		}
-
+				attributeMetadata.getAttributeGenericType(),
+				attributeMetadata.getAttributeAnnotations(),
+				manufacturingCtx, typeArgsMap);
 		return array;
 	}
 
