@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -106,6 +108,8 @@ public class ValidatedPojo {
 
 	@Size(min = 1, max = 3)
 	private Collection<String> defaultCollection = new ArrayList<String>();
+
+	private Map<String, String> defaultMap = new HashMap<String, String>();
 
 	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
 	private String identifier;
@@ -303,6 +307,11 @@ public class ValidatedPojo {
 
 	public Collection<String> getDefaultCollection() {
 		return defaultCollection;
+	}
+
+	@Size(min = 1, max = 3)
+	public Map<String,String> getDefaultMap() {
+		return defaultMap;
 	}
 
 	public String getIdentifier() {

@@ -50,6 +50,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getMaxCollection());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getMinCollection());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getDefaultCollection());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getDefaultMap());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getEmail());
 		podamValidationSteps.theObjectShouldBeNull(pojo.getIdentifier());
 
