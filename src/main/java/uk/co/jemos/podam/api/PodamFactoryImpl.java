@@ -587,13 +587,13 @@ public class PodamFactoryImpl implements PodamFactory {
 					PodamConstants.NO_TYPES);
 			Class<?> elementTypeClass = findInheretedCollectionElementType(collection,
 					manufacturingCtx, elementGenericTypeArgs, typeArgsMap, genericTypeArgs);
-			String attributeName = null;
 			if (null == annotations) {
 				annotations = new ArrayList<Annotation>();
 			}
 			for (Annotation annotation : collection.getClass().getAnnotations()) {
 				annotations.add(annotation);
 			}
+			String attributeName = null;
 			fillCollection(manufacturingCtx, annotations, attributeName,
 					collection, elementTypeClass, elementGenericTypeArgs.get());
 		} else if (pojo instanceof Map && ((Map<?,?>)pojo).isEmpty()) {
@@ -601,6 +601,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			Map<Object,Object> map = (Map<Object,Object>)pojo;
 			MapArguments mapArguments = findInheretedMapElementType(
 					map, manufacturingCtx, typeArgsMap, genericTypeArgs);
+			if (null != annotations) {
+				mapArguments.getAnnotations().addAll(annotations);
+			}
 			fillMap(mapArguments, manufacturingCtx);
 		}
 
