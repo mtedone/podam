@@ -130,23 +130,31 @@ public abstract class PodamUtils {
 	 *
 	 * @param attribute
 	 *            The class attribute
-	 * @param setter
-	 *            The class attribute's setter
+	 * @param methods
+	 *            List of setters and getter to check annotations
 	 * @return all annotations for the attribute
 	 */
 	public static List<Annotation> getAttributeAnnotations(final Field attribute,
-			final Method setter) {
+			final Method... methods) {
 
 		List<Annotation> retValue = new ArrayList<Annotation>();
 
-		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);
-		if (annotations != null) {
-			for (Annotation annotation : annotations) {
+		if (null != attribute) {
+			for (Annotation annotation : attribute.getAnnotations()) {
 				retValue.add(annotation);
 			}
 		}
-		for (Annotation annotation : setter.getParameterAnnotations()[0]) {
-			retValue.add(annotation);
+		for (Method method : methods) {
+			Annotation[][] paramAnnotations = method.getParameterAnnotations();
+			if (paramAnnotations.length > 0) {
+				for (Annotation annotation : paramAnnotations[0]) {
+					retValue.add(annotation);
+				}
+			} else {
+				for (Annotation annotation : method.getAnnotations()) {
+					retValue.add(annotation);
+				}
+			}
 		}
 
 		return retValue;

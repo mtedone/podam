@@ -162,8 +162,9 @@ public class PodamFactoryImpl implements PodamFactory {
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
                 pojo.getClass(), genericTypeArgs);
 		try {
-			return this.populatePojoInternal(pojo, manufacturingCtx, typeArgsMap,
-					genericTypeArgsExtra);
+			List<Annotation> annotations = null;
+			return this.populatePojoInternal(pojo, annotations,
+					manufacturingCtx, typeArgsMap, genericTypeArgsExtra);
 		} catch (InstantiationException e) {
 			throw new PodamMockeryException(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -533,7 +534,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			// properties can use it
 			strategy.cacheMemoizedObject(pojoMetadata, retValue);
 
-			populatePojoInternal(retValue, manufacturingCtx, typeArgsMap, genericTypeArgsExtra);
+			List<Annotation> annotations = null;
+			populatePojoInternal(retValue, annotations, manufacturingCtx,
+					typeArgsMap, genericTypeArgsExtra);
 		}
 
 		return retValue;
@@ -548,6 +551,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *            The type for which should be populated
 	 * @param pojo
 	 *            An instance to be filled with dummy values
+	 * @param annotations
+	 *            a list of annotations attached to this POJO defined elsewhere 
 	 * @param manufacturingCtx
 	 *            the manufacturing context
 	 * @param typeArgsMap
@@ -567,7 +572,8 @@ public class PodamFactoryImpl implements PodamFactory {
 	 * @throws ClassNotFoundException
 	 *             If manufactured class cannot be loaded
 	 */
-	private <T> T populatePojoInternal(T pojo, ManufacturingContext manufacturingCtx,
+	private <T> T populatePojoInternal(T pojo, List<Annotation> annotations,
+			ManufacturingContext manufacturingCtx,
 			Map<String, Type> typeArgsMap,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
@@ -582,8 +588,13 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> elementTypeClass = findInheretedCollectionElementType(collection,
 					manufacturingCtx, elementGenericTypeArgs, typeArgsMap, genericTypeArgs);
 			String attributeName = null;
-			Annotation[] annotations = collection.getClass().getAnnotations();
-			fillCollection(manufacturingCtx, Arrays.asList(annotations), attributeName,
+			if (null == annotations) {
+				annotations = new ArrayList<Annotation>();
+			}
+			for (Annotation annotation : collection.getClass().getAnnotations()) {
+				annotations.add(annotation);
+			}
+			fillCollection(manufacturingCtx, annotations, attributeName,
 					collection, elementTypeClass, elementGenericTypeArgs.get());
 		} else if (pojo instanceof Map && ((Map<?,?>)pojo).isEmpty()) {
 			@SuppressWarnings("unchecked")
@@ -709,6 +720,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					if (fieldValue != null) {
 
 						LOG.debug("Populating read-only field {}", getter);
+
 						Type[] genericTypeArgsAll;
 						Map<String, Type> paramTypeArgsMap;
 						if (getter.getGenericReturnType() instanceof ParameterizedType) {
@@ -729,6 +741,10 @@ public class PodamFactoryImpl implements PodamFactory {
 							genericTypeArgsAll = genericTypeArgs;
 						}
 
+						List<Annotation> pojoAttributeAnnotations =
+								PodamUtils.getAttributeAnnotations(
+										readOnlyAttribute.getAttribute(), getter);
+
 						Class<?> fieldClass = fieldValue.getClass();
 						Integer depth = manufacturingCtx.getPojos().get(fieldClass);
 						if (depth == null) {
@@ -737,7 +753,8 @@ public class PodamFactoryImpl implements PodamFactory {
 						if (depth <= strategy.getMaxDepth(fieldClass)) {
 
 							manufacturingCtx.getPojos().put(fieldClass, depth + 1);
-							populatePojoInternal(fieldValue, manufacturingCtx, paramTypeArgsMap, genericTypeArgsAll);
+							populatePojoInternal(fieldValue, pojoAttributeAnnotations,
+									manufacturingCtx, paramTypeArgsMap, genericTypeArgsAll);
 							manufacturingCtx.getPojos().put(fieldClass, depth);
 
 						} else {
