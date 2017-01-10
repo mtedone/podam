@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -102,6 +103,9 @@ public class ValidatedPojo {
 
 	@Size(min = 2)
 	private Collection<String> minCollection;
+
+	@Size(min = 1, max = 3)
+	private Collection<String> defaultCollection = new ArrayList<String>();
 
 	@Pattern(regexp = "^[a-zA-Z0-9_]*$")
 	private String identifier;
@@ -295,6 +299,10 @@ public class ValidatedPojo {
 
 	public void setMinCollection(Collection<String> minCollection) {
 		this.minCollection = minCollection;
+	}
+
+	public Collection<String> getDefaultCollection() {
+		return defaultCollection;
 	}
 
 	public String getIdentifier() {
