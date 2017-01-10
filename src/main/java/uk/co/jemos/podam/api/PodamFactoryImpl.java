@@ -1240,7 +1240,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						manufacturingCtx, typeArgsMap,
 						attributeMetadata.getAttrGenericArgs());
 
-				keyClass = mapArgs.getKeyClass();
+				keyClass = mapArgs.getKeyOrValueType();
 
 				elementClass = mapArgs.getElementClass();
 
@@ -1262,9 +1262,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			MapArguments mapArguments = new MapArguments();
 			mapArguments.setAttributeName(attributeName);
-			mapArguments.setAnnotations(attributeMetadata.getAttributeAnnotations());
+			mapArguments.getAnnotations().addAll(attributeMetadata.getAttributeAnnotations());
 			mapArguments.setMapToBeFilled(retValue);
-			mapArguments.setKeyClass(keyClass);
+			mapArguments.setKeyOrValueType(keyClass);
 			mapArguments.setElementClass(elementClass);
 			mapArguments.setKeyGenericTypeArgs(keyGenericTypeArgs.get());
 			mapArguments
@@ -1352,9 +1352,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				genericTypeArgs);
 
 		MapArguments mapArguments = new MapArguments();
-		mapArguments.setAnnotations(Arrays.<Annotation>asList(pojoClass.getAnnotations()));
+		for (Annotation annotation : pojoClass.getAnnotations()) {
+			mapArguments.getAnnotations().add(annotation);
+		}
 		mapArguments.setMapToBeFilled(map);
-		mapArguments.setKeyClass(keyClass);
+		mapArguments.setKeyOrValueType(keyClass);
 		mapArguments.setElementClass(elementClass);
 		mapArguments.setKeyGenericTypeArgs(keyGenericArgs);
 		mapArguments.setElementGenericTypeArgs(elementGenericArgs);
@@ -1417,8 +1419,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				MapKeyOrElementsArguments valueArguments = new MapKeyOrElementsArguments();
 				valueArguments.setAttributeName(mapArguments.getAttributeName());
 				valueArguments.setMapToBeFilled(mapArguments.getMapToBeFilled());
-				valueArguments.setAnnotations(mapArguments.getAnnotations());
-				valueArguments.setKeyOrValueType(mapArguments.getKeyClass());
+				valueArguments.getAnnotations().addAll(mapArguments.getAnnotations());
+				valueArguments.setKeyOrValueType(mapArguments.getKeyOrValueType());
 				valueArguments.setElementStrategy(keyStrategy);
 				valueArguments.setGenericTypeArgs(mapArguments
 						.getKeyGenericTypeArgs());

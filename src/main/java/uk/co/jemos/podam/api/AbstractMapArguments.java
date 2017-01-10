@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,12 @@ public abstract class AbstractMapArguments {
 
 	/** The name of map attribute in enclosing POJO */
 	private String attributeName;
+	/** The type of the Map key. */
+	private Class<?> keyOrValueType;
 	/** The Map to be returned. */
 	private Map<? super Object, ? super Object> mapToBeFilled;
 	/** The annotations for the attribute. */
-	private List<Annotation> annotations;
+	private List<Annotation> annotations = new ArrayList<Annotation>();
 
 	/**
 	 * @return the attribute name for this map
@@ -32,6 +35,21 @@ public abstract class AbstractMapArguments {
 	 */
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;
+	}
+
+	/**
+	 * @return the keyOrValueType
+	 */
+	public Class<?> getKeyOrValueType() {
+		return keyOrValueType;
+	}
+
+	/**
+	 * @param keyOrValueType
+	 *            the keyOrValueType to set
+	 */
+	public void setKeyOrValueType(Class<?> keyOrValueType) {
+		this.keyOrValueType = keyOrValueType;
 	}
 
 	/**
@@ -58,23 +76,15 @@ public abstract class AbstractMapArguments {
 	}
 
 	/**
-	 * @param annotations
-	 *            the annotations to set
-	 */
-	public void setAnnotations(List<Annotation> annotations) {
-		this.annotations = annotations;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("AbstractMapArguments [mapToBeFilled=");
-		builder.append(mapToBeFilled.getClass());
-		builder.append(", annotations=");
-		builder.append(annotations);
+		builder.append("AbstractMapArguments [");
+		builder.append("keyOrValueType=").append(keyOrValueType).append(", ");
+		builder.append("mapToBeFilled=").append(mapToBeFilled.getClass()).append(", ");
+		builder.append("annotations=").append(annotations);
 		builder.append("]");
 		return builder.toString();
 	}

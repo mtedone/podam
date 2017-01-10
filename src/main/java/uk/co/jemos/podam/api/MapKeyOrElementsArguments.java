@@ -18,9 +18,6 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 
 	private static final long serialVersionUID = 1L;
 
-	/** The Map key / element type. */
-	private Class<?> keyOrValueType;
-
 	/** The strategy to use to fill the Map key or value element. */
 	private AttributeStrategy<?> elementStrategy;
 
@@ -29,21 +26,6 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 	 * instance.
 	 */
 	private Type[] genericTypeArgs;
-
-	/**
-	 * @return the keyOrValueType
-	 */
-	public Class<?> getKeyOrValueType() {
-		return keyOrValueType;
-	}
-
-	/**
-	 * @param keyOrValueType
-	 *            the keyOrValueType to set
-	 */
-	public void setKeyOrValueType(Class<?> keyOrValueType) {
-		this.keyOrValueType = keyOrValueType;
-	}
 
 	/**
 	 * @return the elementStrategy
@@ -83,8 +65,6 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 		StringBuilder builder = new StringBuilder();
 		builder.append("MapKeyOrElementsArguments [toString()=");
 		builder.append(super.toString());
-		builder.append(", keyOrValueType=");
-		builder.append(keyOrValueType);
 		builder.append(", elementStrategy=");
 		builder.append(elementStrategy);
 		builder.append(", genericTypeArgs=");
