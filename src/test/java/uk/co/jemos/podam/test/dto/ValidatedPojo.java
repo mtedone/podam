@@ -5,6 +5,7 @@ package uk.co.jemos.podam.test.dto;
 
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.math.BigDecimal;
@@ -52,6 +53,9 @@ public class ValidatedPojo {
 
 	@NotEmpty
 	private String notEmptyString;
+
+	@NotBlank
+	private String notBlankString;
 
 	@DecimalMin("-5.5")
 	@DecimalMax("5.5")
@@ -175,6 +179,14 @@ public class ValidatedPojo {
 
 	public void setNotEmptyString(String notEmptyString) {
 		this.notEmptyString = notEmptyString;
+	}
+
+	public String getNotBlankString() {
+		return notBlankString;
+	}
+
+	public void setNotBlankString(String notBlankString) {
+		this.notBlankString = notBlankString;
 	}
 
 	public String getDecimalString() {
