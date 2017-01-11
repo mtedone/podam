@@ -79,7 +79,8 @@ public abstract class TypeManufacturerUtil {
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
                 if (annotation instanceof NotNull ||
-                        annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty")) {
+                        annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty") ||
+                        annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotBlank")) {
 					/* We don't need to do anything for NotNull constraint */
                     iter.remove();
                 } else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
