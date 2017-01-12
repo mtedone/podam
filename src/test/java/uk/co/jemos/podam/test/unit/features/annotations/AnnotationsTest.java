@@ -9,6 +9,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
+import uk.co.jemos.podam.test.dto.SimplePojoWithMultipleAnnotationsToAttribute;
 import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -243,12 +244,12 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 .getCharObjectFieldWithMinValueOnly();
         podamValidationSteps.theObjectShouldNotBeNull(charObjectFieldWithMinValueOnly);
         podamValidationSteps.theCharValueShouldBeGreaterOrEqualThan(charObjectFieldWithMinValueOnly,
-                (char)PodamTestConstants.NUMBER_INT_MIN_VALUE);
+                (char) PodamTestConstants.NUMBER_INT_MIN_VALUE);
 
         Character charObjectFieldWithMaxValueOnly = pojo
                 .getCharObjectFieldWithMaxValueOnly();
         podamValidationSteps.theCharValueShouldBeLowerOrEqualThan(charObjectFieldWithMaxValueOnly,
-                 PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
+                PodamTestConstants.NUMBER_INT_ONE_HUNDRED);
 
         Character charObjectFieldWithMinAndMaxValue = pojo
                 .getCharObjectFieldWithMinAndMaxValue();
@@ -515,4 +516,27 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 PodamTestConstants.POST_CODE, pojo.getPostCode());
     }
 
+
+    @Test
+    @Title("Podam should handle POJOs with multiple annotated fields, ignoring any non Podam annotation ")
+    public void podamShouldHandlePojosWithAnnotatedFieldsUsingHibernateConstraintsAnnotations() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerWithHibernateAnnotation());
+        podamValidationSteps.theStringMatchesAPattern(pojo.getStringFieldWithPatternAnnotation(), "stringFieldWithPatternRegex");
+        podamValidationSteps.theStringMatchesAPattern(pojo.getStringFieldWithHibernateAnnotation(), "testString");
+    }
+
+
+    @Test
+    @Title("Podam should ignore other annotations if IgnoreNonPodamAnnotations is there ")
+    public void podamShouldIgnoreOtherAnnotationsIfIgnoreNonPodamAnnotationsIsThere() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerWithHibernateAnnotation());
+        podamValidationSteps.theObjectShouldNotBeNull(pojo.getStringFieldWithPatternAnnotation());
+        podamValidationSteps.theObjectShouldNotBeNull(pojo.getStringFieldWithHibernateAnnotation());
+    }
 }
