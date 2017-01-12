@@ -527,4 +527,16 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theStringMatchesAPattern(pojo.getStringFieldWithPatternAnnotation(), "stringFieldWithPatternRegex");
         podamValidationSteps.theStringMatchesAPattern(pojo.getStringFieldWithHibernateAnnotation(), "testString");
     }
+
+
+    @Test
+    @Title("Podam should ignore other annotations if IgnoreNonPodamAnnotations is there ")
+    public void podamShouldIgnoreOtherAnnotationsIfIgnoreNonPodamAnnotationsIsThere() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerWithHibernateAnnotation());
+        podamValidationSteps.theObjectShouldNotBeNull(pojo.getStringFieldWithPatternAnnotation());
+        podamValidationSteps.theObjectShouldNotBeNull(pojo.getStringFieldWithHibernateAnnotation());
+    }
 }
