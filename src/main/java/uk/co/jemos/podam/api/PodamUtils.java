@@ -5,21 +5,14 @@ package uk.co.jemos.podam.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamAnnotation;
-import uk.co.jemos.podam.common.PodamStrategyValue;
 
-import javax.validation.Constraint;
-import javax.validation.constraints.NotNull;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * PODAM Utilities class.
@@ -227,13 +220,17 @@ public abstract class PodamUtils {
 
     public static List<Annotation> filterNonPodamAnnotations(List<Annotation> pojoAttributeAnnotations) {
 
-        List<Annotation> retList = new ArrayList<Annotation>();
+        List<Annotation> podamAnnotations = new ArrayList<Annotation>();
         for (Annotation annotation : pojoAttributeAnnotations) {
 
             if (annotation.annotationType().getAnnotation(PodamAnnotation.class) != null) {
-                retList.add(annotation);
+                podamAnnotations.add(annotation);
             }
         }
-        return retList;
+        if (podamAnnotations.isEmpty()) {
+            return pojoAttributeAnnotations;
+        } else {
+            return podamAnnotations;
+        }
     }
 }
