@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@PodamAnnotation
 public @interface PodamConstructor {
 
 	/** Gives users the possibility to leave comments
