@@ -219,18 +219,17 @@ public abstract class PodamUtils {
     }
 
     public static List<Annotation> filterNonPodamAnnotations(List<Annotation> pojoAttributeAnnotations) {
+        List<Annotation> podamAnnotations = collectPodamAnnotations(pojoAttributeAnnotations);
+        return (podamAnnotations.isEmpty()? pojoAttributeAnnotations : podamAnnotations);
+    }
 
+    private static List<Annotation> collectPodamAnnotations(List<Annotation> input){
         List<Annotation> podamAnnotations = new ArrayList<Annotation>();
-        for (Annotation annotation : pojoAttributeAnnotations) {
-
+        for (Annotation annotation : input) {
             if (annotation.annotationType().getAnnotation(PodamAnnotation.class) != null) {
                 podamAnnotations.add(annotation);
             }
         }
-        if (podamAnnotations.isEmpty()) {
-            return pojoAttributeAnnotations;
-        } else {
-            return podamAnnotations;
-        }
+        return podamAnnotations;
     }
 }
