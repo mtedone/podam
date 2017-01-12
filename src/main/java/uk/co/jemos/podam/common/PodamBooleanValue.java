@@ -16,6 +16,7 @@ import java.lang.annotation.Target;
  * 
  */
 @Documented
+@PodamAnnotation
 @Target(value = { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamBooleanValue {

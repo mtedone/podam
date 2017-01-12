@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
  * 
  */
 @Documented
+@PodamAnnotation
 @Target(value = ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamExclude {

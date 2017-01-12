@@ -28,6 +28,7 @@ import uk.co.jemos.podam.api.ObjectStrategy;
  * 
  */
 @Documented
+@PodamAnnotation
 @Target(value = { ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PodamCollection {
