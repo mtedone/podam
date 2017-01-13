@@ -24,7 +24,6 @@ import java.lang.annotation.Target;
 @PodamAnnotation
 @Target(value = ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@PodamAnnotation
 public @interface PodamExclude {
 
 	/** Gives users the possibility to leave comments
