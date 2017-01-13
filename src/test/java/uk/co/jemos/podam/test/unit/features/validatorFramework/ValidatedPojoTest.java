@@ -33,6 +33,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFilledString());
 		podamValidationSteps.theObjectShouldBeNull(pojo.getEmptyString());
 		podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getNotEmptyString());
+		podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getNotBlankString());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getDecimalDouble());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getDecimalFloat());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getDecimalString());
