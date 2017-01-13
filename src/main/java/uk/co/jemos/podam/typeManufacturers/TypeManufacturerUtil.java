@@ -77,6 +77,7 @@ public abstract class TypeManufacturerUtil {
                 return attrStrategyClass.newInstance();
             }
 
+
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
                 if (annotation instanceof NotNull ||
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty") ||

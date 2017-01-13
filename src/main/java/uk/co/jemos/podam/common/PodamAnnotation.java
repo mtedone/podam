@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to mark PODAM annotations.
- * 
- * 
+ *
+ *
  * @author maxdidato
- * 
+ *
  */
 @Documented
 @Target({ElementType.ANNOTATION_TYPE})

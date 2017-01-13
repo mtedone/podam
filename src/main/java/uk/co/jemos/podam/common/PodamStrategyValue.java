@@ -21,9 +21,9 @@ import java.lang.annotation.Target;
  * 
  */
 @Documented
-@PodamAnnotation
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
+@PodamAnnotation
 public @interface PodamStrategyValue {
 
 	/**
