@@ -17,6 +17,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -476,7 +477,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         }
 
         Calendar[] myBirthdaysArray = pojo.getMyBirthdaysArray();
-        podamValidationSteps.theArrayOfCalendarsShouldNotBeNullOrEmpty(myBirthdaysArray);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(myBirthdaysArray, GregorianCalendar.class);
 
         for (Calendar birthday : myBirthdaysArray) {
             podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, birthday);
@@ -486,7 +487,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(objectList);
 
         Object[] myObjectArray = pojo.getMyObjectArray();
-        podamValidationSteps.theArrayOfObjectsShouldNotBeNullOrEmpty(myObjectArray);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(myObjectArray, Object.class);
 
         List<?> nonGenericObjectList = pojo.getNonGenericObjectList();
         podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(nonGenericObjectList);

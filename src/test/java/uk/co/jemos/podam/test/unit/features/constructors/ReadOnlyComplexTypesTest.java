@@ -29,10 +29,11 @@ public class ReadOnlyComplexTypesTest extends AbstractPodamSteps {
 				ReadOnlyComplexTypesPojo.class, podamFactory);
 
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+		podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getArray(), String.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Integer.class);
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
 				pojo.getMap(), Long.class, String.class);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue().getValue());
 	}
 

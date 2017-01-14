@@ -411,7 +411,7 @@ public class PodamValidationSteps {
     @Step("Then the array should not be null or empty")
     public void theArrayOfBytesShouldNotBeNullOrEmpty(byte[] byteData) {
         Assert.assertNotNull("The array of bytes should not be null", byteData);
-        Assert.assertTrue("The array of bytes should contain at least one element", byteData.length > 0);
+        assertThat("The array of bytes should contain at least one element", byteData.length, greaterThan(0));
     }
 
     @Step("Then the array should have exactly {1} elements")
@@ -422,20 +422,6 @@ public class PodamValidationSteps {
     @Step("Then the calendar object should have exactly the value of calendar object {1}")
     public void theTwoCalendarObjectsShouldHaveTheSameTime(Calendar expectedValue, Calendar actualValue) {
         assertThat("Calendar values must be equal", actualValue.getTime().getTime(), equalTo(expectedValue.getTime().getTime()));
-    }
-
-    @Step("Then the array of calendar should not be null or empty")
-    public void theArrayOfCalendarsShouldNotBeNullOrEmpty(Calendar[] calendarArray) {
-        Assert.assertNotNull("The calendar array should not be null", calendarArray);
-        Assert.assertTrue("The calendar array should have at least one element",
-                calendarArray.length > 0);
-    }
-
-    @Step("Then the array of objects should not be null or empty")
-    public void theArrayOfObjectsShouldNotBeNullOrEmpty(Object[] objectArray) {
-        Assert.assertNotNull("The array of objects should not be null", objectArray);
-        Assert.assertTrue("The array of objects should contain at least one element",
-                objectArray.length > 0);
     }
 
     @Step("Then the given array should not be null or empty and contain elements of type {1}")

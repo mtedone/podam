@@ -24,11 +24,17 @@ public class ReadOnlyComplexTypesPojo {
 		}
 	}
 
+	private String[] array = new String[3];
+
 	private List<Integer> list = new ArrayList<Integer>();
 
 	private Map<Long, String> map = new HashMap<Long, String>();
 	
 	private Value value = new Value();
+
+	public String[] getArray() {
+		return array;
+	}
 
 	public List<Integer> getList() {
 		return list;
