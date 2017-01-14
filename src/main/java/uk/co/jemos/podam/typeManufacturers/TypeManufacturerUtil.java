@@ -61,6 +61,11 @@ public abstract class TypeManufacturerUtil {
                 return strategyAnnotation.value().newInstance();
             }
 
+            /* Podam annotation is present, this will be handled later by type manufacturers */
+            if (annotation.annotationType().getAnnotation(PodamAnnotation.class) != null) {
+                return null;
+            }
+
 			/* Find real class out of proxy */
             Class<? extends Annotation> annotationClass = annotation.getClass();
             if (Proxy.isProxyClass(annotationClass)) {
