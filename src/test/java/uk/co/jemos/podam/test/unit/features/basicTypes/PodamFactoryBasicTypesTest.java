@@ -123,9 +123,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveList recursiveListPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveList.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(recursiveListPojo);
-        recursivePojoValidationSteps.thePojoListShouldNotBeNull(recursiveListPojo.getList());
-        recursivePojoValidationSteps.thePojoListShouldNotBeEmpty(recursiveListPojo.getList());
-        podamValidationSteps.eachListElementShouldNotBeNull(recursiveListPojo.getList());
+        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(recursiveListPojo.getList());
     }
 
     @Test
@@ -135,9 +133,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveMap recursiveMap = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveMap.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(recursiveMap);
-        recursivePojoValidationSteps.thePojoMapShouldNotBeNull(recursiveMap.getMap());
-        recursivePojoValidationSteps.thePojoMapShouldNotBeEmpty(recursiveMap.getMap());
-        podamValidationSteps.eachMapElementShouldNotBeNull(recursiveMap.getMap());
+        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(recursiveMap.getMap());
 
     }
 
@@ -152,7 +148,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
-        podamValidationSteps.theLongArrayShouldNotBeNullOrEmpty(pojo.getLongArray());
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
     }
 

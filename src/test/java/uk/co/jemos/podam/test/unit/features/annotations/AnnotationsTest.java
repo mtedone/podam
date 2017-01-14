@@ -40,7 +40,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
-        podamValidationSteps.theLongArrayShouldNotBeNullOrEmpty(pojo.getLongArray());
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
     }
 

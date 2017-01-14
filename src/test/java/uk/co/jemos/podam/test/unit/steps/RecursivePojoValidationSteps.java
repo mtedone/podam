@@ -32,24 +32,4 @@ public class RecursivePojoValidationSteps {
                 parentPojo.getParent(), not(nullValue()));
 
     }
-
-    @Step("Then the recursive list should not be null")
-    public void thePojoListShouldNotBeNull(List<RecursiveList> list) {
-        assertThat("The list should not be null", list, not(nullValue()));
-    }
-
-    @Step("Then the recursive list should not be empty")
-    public void thePojoListShouldNotBeEmpty(List<RecursiveList> list) {
-        assertThat("The pojo's recursive list cannot be empty!", list, not(empty()));
-    }
-
-    @Step("Then the recursive map should not be null")
-    public void thePojoMapShouldNotBeNull(Map<String, RecursiveMap> map) {
-        assertThat("The recursive map should not be null", not(nullValue()));
-    }
-
-    @Step("Then the recursive map should not be empty")
-    public void thePojoMapShouldNotBeEmpty(Map<String, RecursiveMap> map) {
-        assertThat("The pojo's recursive map cannot be empty!", map.keySet(), not(empty()));
-    }
 }

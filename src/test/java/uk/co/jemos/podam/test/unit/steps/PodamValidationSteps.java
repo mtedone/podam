@@ -52,23 +52,6 @@ public class PodamValidationSteps {
         Assert.assertNotNull("The child pojo should not be null", child);
     }
 
-    @Step("Then each of the list elements should not be null")
-    public void eachListElementShouldNotBeNull(List<?> list) {
-        for (int i = 0; i < list.size(); i++) {
-            Assert.assertNotNull(list.get(i));
-        }
-    }
-
-    @Step("Then each of the map elements should not be null")
-    public void eachMapElementShouldNotBeNull(Map<?, ?> map) {
-
-        for (Object mapValue : map.values()) {
-            Assert.assertNotNull("The pojo's map element cannot be null!",
-                    mapValue);
-        }
-        
-    }
-
     @Step("Then the calendar object should not be null")
     public void theCalendarFieldShouldNotBeNull(Calendar dateCreated) {
         Assert.assertNotNull("The calendar object should not be null", dateCreated);
@@ -77,12 +60,6 @@ public class PodamValidationSteps {
     @Step("Then the Date object should not be null")
     public void theDateObjectShouldNotBeNull(Date time) {
         Assert.assertNotNull("The Date object should not be null", time);
-    }
-
-    @Step("Then the long[] array should not be null or empty")
-    public void theLongArrayShouldNotBeNullOrEmpty(long[] array) {
-        Assert.assertNotNull("The given long[] array cannot be null", array);
-        Assert.assertTrue("The given long[] array should not be null or empty", array.length > 0);
     }
 
     @Step("The long value cannot be zero")
@@ -196,7 +173,6 @@ public class PodamValidationSteps {
 
     @Step("Then the Map<?, ?> {0} should contain at least one non empty element")
     public void theMapShouldContainAtLeastOneNonEmptyElement(Map<?, ?> map) {
-        thePojoMustBeOfTheType(map, HashMap.class);
         Assert.assertNotNull("The map object in the POJO cannot be null", map);
         Set<?> keySet = map.keySet();
         Assert.assertNotNull("The Map must have at least one element", keySet);
