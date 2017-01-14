@@ -580,7 +580,17 @@ public class PodamFactoryImpl implements PodamFactory {
 			InvocationTargetException, ClassNotFoundException {
 
 		Class<?> pojoClass = pojo.getClass();
-		if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
+		if (pojoClass.isArray()) {
+			if (null == annotations) {
+				annotations = new ArrayList<Annotation>();
+			}
+			String attributeName = null;
+			fillArray(pojo, attributeName,
+					pojoClass.getClass().getComponentType(),
+					pojoClass.getClass().getComponentType(),
+					annotations,
+					manufacturingCtx, typeArgsMap);
+		} if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
 			@SuppressWarnings("unchecked")
 			Collection<Object> collection = (Collection<Object>) pojo;
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
@@ -1565,11 +1575,12 @@ public class PodamFactoryImpl implements PodamFactory {
 		Holder<AttributeStrategy<?>> elementStrategyHolder
 				= new Holder<AttributeStrategy<?>>();
 		Holder<AttributeStrategy<?>> keyStrategyHolder = null;
-		Integer nbrElements = TypeManufacturerUtil.findCollectionSize(strategy,
+		TypeManufacturerUtil.findCollectionSize(strategy,
 				annotations, elementType,
 				elementStrategyHolder, keyStrategyHolder);
 		AttributeStrategy<?> elementStrategy = elementStrategyHolder.value;
 
+		int nbrElements = Array.getLength(array);
 		for (int i = 0; i < nbrElements; i++) {
 
 			Object arrayElement = Array.get(array, i);
