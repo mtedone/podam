@@ -4,6 +4,7 @@ import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -386,8 +387,10 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the array should have exactly {1} elements")
-    public void theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(String[] strArray, int nbrElements) {
-
+    public void theArrayShouldHaveExactlyTheExpectedNumberOfElements(Object array, int nbrElements) {
+        int length = Array.getLength(array);
+        assertThat("The collection should have exactly " + nbrElements + " elements",
+                length, equalTo(nbrElements));
     }
 
     @Step("Then the map should have exactly {1} elements")
@@ -408,27 +411,18 @@ public class PodamValidationSteps {
                 collection.size(), equalTo(nbrElements));
     }
 
-    @Step("Then the array should not be null or empty")
-    public void theArrayOfBytesShouldNotBeNullOrEmpty(byte[] byteData) {
-        Assert.assertNotNull("The array of bytes should not be null", byteData);
-        assertThat("The array of bytes should contain at least one element", byteData.length, greaterThan(0));
-    }
-
-    @Step("Then the array should have exactly {1} elements")
-    public void theArrayOfBytesShouldBeExactlyOfLength(byte[] byteData, int length) {
-        assertThat("The array should have length " + length, byteData.length, equalTo(length));
-    }
-
     @Step("Then the calendar object should have exactly the value of calendar object {1}")
     public void theTwoCalendarObjectsShouldHaveTheSameTime(Calendar expectedValue, Calendar actualValue) {
         assertThat("Calendar values must be equal", actualValue.getTime().getTime(), equalTo(expectedValue.getTime().getTime()));
     }
 
     @Step("Then the given array should not be null or empty and contain elements of type {1}")
-    public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(Object[] array, Class<?> elementType) {
+    public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(Object array, Class<?> elementType) {
         Assert.assertNotNull("Array should not be null", array);
-        Assert.assertTrue("Array should not be empty", array.length > 0);
-        for (Object element : array) {
+        int length = Array.getLength(array);
+        assertThat("Array should not be empty", length, greaterThan(0));
+        for (int i = 0; i < length; i++) {
+            Object element = Array.get(array, i);
             theObjectShouldNotBeNull(element);
             Assert.assertEquals("Wrong element type", elementType, element.getClass());
         }
@@ -493,11 +487,11 @@ public class PodamValidationSteps {
         Assert.assertTrue("The collection doesn't contain an element of type " + type, accessed.contains(type));
     }
 
-    @Step("Then the array of the given type should not be null or empty and contain exactly {1} elements")
+    @Step("Then the array of the given type should not be null or empty and contain exactly {1} elements of type {2}")
     public void theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
-            Object[] array, int size) {
-        Assert.assertNotNull("The array should not be null", array);
-        assertThat("The array should have exactly " + size + " elements.", array.length, equalTo(size));
+            Object array, int size, Class<?> elementType) {
+        theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(array, elementType);
+        theArrayShouldHaveExactlyTheExpectedNumberOfElements(array, size);
     }
 
     @Step("Then the map should not be null or empty")

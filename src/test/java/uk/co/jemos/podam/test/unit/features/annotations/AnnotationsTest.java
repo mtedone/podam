@@ -430,7 +430,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
         String[] strArray = pojo.getStrArray();
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(strArray, String.class);
-        podamValidationSteps.theArrayOfStringsShouldHaveExactlyTheExpectedNumberOfElements(strArray,
+        podamValidationSteps.theArrayShouldHaveExactlyTheExpectedNumberOfElements(strArray,
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
         Map<String, String> stringMap = pojo.getStringMap();
@@ -461,9 +461,8 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode3);
         podamValidationSteps.theStringValueShouldBeExactly(postCode3, PodamTestConstants.POST_CODE);
 
-        podamValidationSteps.theArrayOfBytesShouldNotBeNullOrEmpty(pojo.getByteData());
-        podamValidationSteps.theArrayOfBytesShouldBeExactlyOfLength(pojo.getByteData(),
-                ByteArrayStrategy.LENGTH);
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
+                pojo.getByteData(), ByteArrayStrategy.LENGTH, Byte.class);
 
         Calendar expectedBirthday = PodamTestUtils.getMyBirthday();
         Calendar myBirthday = pojo.getMyBirthday();
