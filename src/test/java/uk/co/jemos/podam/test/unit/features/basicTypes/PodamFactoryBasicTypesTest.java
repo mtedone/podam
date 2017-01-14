@@ -95,6 +95,16 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Title("Podam should fill array when invoking the factory population directly")
+    public void podamShouldFillArrays() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        String[] pojo = new String[4];
+        podamInvocationSteps.whenIInvokeThePojoPopulationDirectly(pojo, podamFactory);
+		podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo, String.class);
+    }
+
+    @Test
     @Title("Podam should fill in POJOs which have a circular dependency")
     public void podamShouldSupportCircularDependencies() throws Exception {
 
