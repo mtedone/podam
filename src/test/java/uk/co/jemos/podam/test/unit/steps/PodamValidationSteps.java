@@ -145,17 +145,6 @@ public class PodamValidationSteps {
         assertThat(strField, not(isEmptyOrNullString()));
     }
 
-    @Step("Then the Set<?> {0} should contain at least one non-empty element")
-    public void theSetShouldContainAtleastOneNonEmptyElement(Set<?> set) {
-
-        Assert.assertNotNull("The Set<?> should not be null!", set);
-        assertThat("The Set<?> cannot be empty!", set, is(not(empty())));
-        Object element = set.iterator().next();
-        Assert.assertNotNull(
-                "The Set<?> must have a non-null String element", element);
-
-    }
-
     @Step("Then the pojo must be of the type {1}")
     public void thePojoMustBeOfTheType(Object pojo, Class<?> type) {
         assertThat("The pojo must be of the type",
@@ -394,8 +383,7 @@ public class PodamValidationSteps {
 
     @Step("Then the collection should not be null or empty and each element should be of type {1}")
     public void theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(Collection<?> collection, Class<?> elementType) {
-        Assert.assertNotNull("The collection should not be null", collection);
-        assertThat("The collection should not be empty", collection, is(not(empty())));
+        theCollectionShouldNotBeNullOrEmpty(collection);
         for (Object element : collection) {
             assertThat("Wrong element type", element, instanceOf(elementType));
         }
@@ -403,8 +391,7 @@ public class PodamValidationSteps {
 
     @Step("Then the Map should not be null or empty and each element should have key of type {1} and value of type {2}")
     public void theMapShouldNotBeNullOrEmptyAndContainElementsOfType(Map<?,?> map, Class<?> keyType, Class<?> valueType) {
-        Assert.assertNotNull("Map should not be null", map);
-        assertThat("The map should not be empty", map.keySet(), is(not(empty())));
+        theMapShouldNotBeNullOrEmpty(map);
         for (Map.Entry<?, ?> element : map.entrySet()) {
             assertThat("Wrong key type", element.getKey(), instanceOf(keyType));
             assertThat("Wrong value type", element.getValue(), instanceOf(valueType));
