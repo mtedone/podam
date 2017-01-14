@@ -424,8 +424,8 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
 
         List<String> strList = pojo.getStrList();
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(strList);
-        podamValidationSteps.theListShouldHaveExactlyTheExpectedNumberOfElements(strList,
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(strList, String.class);
+        podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(strList,
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
         String[] strArray = pojo.getStrArray();
@@ -434,7 +434,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
         Map<String, String> stringMap = pojo.getStringMap();
-        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(stringMap);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(stringMap, String.class, String.class);
         podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(stringMap,
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
@@ -469,7 +469,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, myBirthday);
 
         List<Calendar> myBirthdays = pojo.getMyBirthdays();
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(myBirthdays);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(myBirthdays, GregorianCalendar.class);
 
         for (Calendar birthday : myBirthdays) {
             podamValidationSteps.theTwoCalendarObjectsShouldHaveTheSameTime(expectedBirthday, birthday);
@@ -483,16 +483,16 @@ public class AnnotationsTest extends AbstractPodamSteps {
         }
 
         List<Object> objectList = pojo.getObjectList();
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(objectList);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(objectList, Object.class);
 
         Object[] myObjectArray = pojo.getMyObjectArray();
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(myObjectArray, Object.class);
 
         List<?> nonGenericObjectList = pojo.getNonGenericObjectList();
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(nonGenericObjectList);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenericObjectList, Object.class);
 
         Map<String, Calendar> myBirthdaysMap = pojo.getMyBirthdaysMap();
-        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(myBirthdaysMap);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(myBirthdaysMap, String.class, GregorianCalendar.class);
 
         Set<String> keySet = myBirthdaysMap.keySet();
         for (String key : keySet) {

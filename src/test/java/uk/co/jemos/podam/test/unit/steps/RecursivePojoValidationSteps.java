@@ -5,11 +5,6 @@ import static org.hamcrest.Matchers.*;
 
 import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.test.dto.RecursivePojo;
-import uk.co.jemos.podam.test.dto.pdm6.RecursiveList;
-import uk.co.jemos.podam.test.dto.pdm6.RecursiveMap;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tedonema on 30/05/2015.

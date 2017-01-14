@@ -123,7 +123,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveList recursiveListPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveList.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(recursiveListPojo);
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(recursiveListPojo.getList());
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(recursiveListPojo.getList(), RecursiveList.class);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveMap recursiveMap = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveMap.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(recursiveMap);
-        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(recursiveMap.getMap());
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(recursiveMap.getMap(), String.class, RecursiveMap.class);
 
     }
 

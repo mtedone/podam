@@ -31,11 +31,10 @@ public class SingletonsTest extends AbstractPodamSteps {
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
 
         List<OneDimensionalTestPojo> pojoList = pojo.getPojoList();
-        podamValidationSteps.theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(pojoList);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojoList, OneDimensionalTestPojo.class);
 
         Map<String, OneDimensionalTestPojo> pojoMap = pojo.getPojoMap();
-        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(pojoMap);
-
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(pojoMap, String.class, OneDimensionalTestPojo.class);
     }
 
 }

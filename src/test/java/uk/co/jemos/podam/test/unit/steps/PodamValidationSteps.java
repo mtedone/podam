@@ -145,15 +145,6 @@ public class PodamValidationSteps {
         assertThat(strField, not(isEmptyOrNullString()));
     }
 
-    @Step("Then the List<?> {0} should not be null and contain at least one non-empty element")
-    public void theListShouldNotBeNullAndContainAtLeastOneNonEmptyElement(List<?> list) {
-        Assert.assertNotNull("The List<String> should not be null!", list);
-        assertThat("The List<String> cannot be empty!", list, is(not(empty())));
-        Object element = list.get(0);
-        Assert.assertNotNull(
-                "The List<String> must have a non-null String element", element);
-    }
-
     @Step("Then the Set<?> {0} should contain at least one non-empty element")
     public void theSetShouldContainAtleastOneNonEmptyElement(Set<?> set) {
 
@@ -169,18 +160,6 @@ public class PodamValidationSteps {
     public void thePojoMustBeOfTheType(Object pojo, Class<?> type) {
         assertThat("The pojo must be of the type",
                 pojo, instanceOf(type));
-    }
-
-    @Step("Then the Map<?, ?> {0} should contain at least one non empty element")
-    public void theMapShouldContainAtLeastOneNonEmptyElement(Map<?, ?> map) {
-        Assert.assertNotNull("The map object in the POJO cannot be null", map);
-        Set<?> keySet = map.keySet();
-        Assert.assertNotNull("The Map must have at least one element", keySet);
-        Object o = map.get(keySet
-                .iterator().next());
-
-        Assert.assertNotNull("The map element must not be null!",
-                o);
     }
 
     @Step("Then the queue {0} cannot be null")
@@ -354,12 +333,6 @@ public class PodamValidationSteps {
     @Step("Then string [{0}] should be exactly like string [{1}]")
     public void theStringValueShouldBeExactly(String stringValue, String annotationPreciseValue) {
         Assert.assertEquals(stringValue, annotationPreciseValue);
-    }
-
-    @Step("Then the List should have exactly {1} elements")
-    public void theListShouldHaveExactlyTheExpectedNumberOfElements(List<?> strList, int nbrElements) {
-        assertThat("The List doesn't have the correct number of elements",
-                strList.size(), equalTo(nbrElements));
     }
 
     @Step("Then the array should have exactly {1} elements")

@@ -66,8 +66,8 @@ public class ExtensionsTest extends AbstractPodamSteps {
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
                 pojo.getArray(), 2, String.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(pojo.getList());
-        podamValidationSteps.theListShouldHaveExactlyTheExpectedNumberOfElements(pojo.getList(), 3);
-        podamValidationSteps.theMapShouldContainAtLeastOneNonEmptyElement(pojo.getMap());
+        podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(pojo.getList(), 3);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getMap(), Integer.class, Long.class);
         podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(pojo.getMap(), 4);
 
     }
