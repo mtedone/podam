@@ -100,10 +100,9 @@ public class WalkThroughExampleUnitTest extends AbstractPodamSteps {
 		Client pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Client.class, podamFactory);
 		walkThroughSteps.theClientPojoShouldBeCorrectlyFilled(pojo);
 		List<BankAccount> bankAccounts = pojo.getBankAccounts();
-		podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(bankAccounts);
-		podamValidationSteps.theTwoObjectsShouldBeEqual(
-				podamFactory.getStrategy().getNumberOfCollectionElements(BankAccount.class), bankAccounts.size()
-		);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(bankAccounts, BankAccount.class);
+		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(
+				bankAccounts, podamFactory.getStrategy().getNumberOfCollectionElements(BankAccount.class));
 	}
 
 	// ------------------->> Getters / Setters

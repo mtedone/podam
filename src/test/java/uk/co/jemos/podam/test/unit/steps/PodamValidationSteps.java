@@ -6,8 +6,6 @@ import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -159,31 +157,6 @@ public class PodamValidationSteps {
     @Step("Then the Queue {0} should be an instance of {1}")
     public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<?> type) {
         thePojoMustBeOfTheType(queue, type);
-    }
-
-    @Step("Then the ConcurrentHashMap<String, ?> {0} should contain at least one non-empty element")
-    public void theConcurrentHashMapOfStringsObjectsShouldContainAtLeastOneNonEmptyElement(ConcurrentMap<String, ?> map) {
-        Assert.assertNotNull("The map object in the POJO cannot be null", map);
-        thePojoMustBeOfTheType(map, ConcurrentHashMap.class);
-
-        Set<String> keySet = map.keySet();
-        Assert.assertNotNull("The Map must have at least one element", keySet);
-        assertThat("The map element must not be null!", keySet, is(not(empty())));
-
-        Object value = map.get(keySet.iterator().next());
-        Assert.assertNotNull("The map element must not be null!", value);
-    }
-
-    @Step("Then the non generified List {0} should not be null or empty")
-    public void theNonGenerifiedListShouldNotBeNullOrEmpty(List<?> nonGenerifiedList) {
-        Assert.assertNotNull(nonGenerifiedList);
-        Assert.assertTrue("The non generified list should at least have one element", nonGenerifiedList.size() > 0);
-    }
-
-    @Step("Then the non generified Map {0} should not be null or empty")
-    public void theNonGenerifiedMapShouldNotBeNullOrEmpty(Map<?, ?> nonGenerifiedMap) {
-        Assert.assertNotNull(nonGenerifiedMap);
-        Assert.assertTrue("The non generified Map should at least have one element", nonGenerifiedMap.size() > 0);
     }
 
     @Step("Then the byte value {0} should be greater or equal than {1}")
@@ -338,7 +311,7 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the collection should not be null or empty")
-    public void theCollectionShouldNotBeNullOrEmpty(Collection<?> collection) {
+    private void theCollectionShouldNotBeNullOrEmpty(Collection<?> collection) {
         Assert.assertNotNull("The collection should not be null", collection);
         assertThat("The collection should not be empty", collection, is(not(empty())));
     }
@@ -431,7 +404,7 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the map should not be null or empty")
-    public void theMapShouldNotBeNullOrEmpty(Map<?, ?> map) {
+    private void theMapShouldNotBeNullOrEmpty(Map<?, ?> map) {
         Assert.assertNotNull("The map should not be null", map);
         assertThat("The map should not be empty", map.keySet(), is(not(empty())));
     }
