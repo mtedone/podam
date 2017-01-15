@@ -75,18 +75,4 @@ public abstract class AbstractMapArguments {
 		return annotations;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AbstractMapArguments [");
-		builder.append("keyOrValueType=").append(keyOrValueType).append(", ");
-		builder.append("mapToBeFilled=").append(mapToBeFilled.getClass()).append(", ");
-		builder.append("annotations=").append(annotations);
-		builder.append("]");
-		return builder.toString();
-	}
-
 }

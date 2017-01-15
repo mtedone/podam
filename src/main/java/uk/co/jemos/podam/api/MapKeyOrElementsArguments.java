@@ -2,7 +2,6 @@ package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
 
@@ -57,19 +56,4 @@ public class MapKeyOrElementsArguments extends AbstractMapArguments implements
 		this.genericTypeArgs = genericTypeArgs.clone();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MapKeyOrElementsArguments [toString()=");
-		builder.append(super.toString());
-		builder.append(", elementStrategy=");
-		builder.append(elementStrategy);
-		builder.append(", genericTypeArgs=");
-		builder.append(Arrays.toString(genericTypeArgs));
-		builder.append("]");
-		return builder.toString();
-	}
 }

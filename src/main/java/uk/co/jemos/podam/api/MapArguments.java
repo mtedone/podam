@@ -2,7 +2,6 @@ package uk.co.jemos.podam.api;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 /**
  * Pojo which contains the arguments required to fill a Map as a POJO attribute
@@ -71,24 +70,6 @@ public class MapArguments extends AbstractMapArguments implements Serializable {
 	 */
 	public void setElementGenericTypeArgs(Type[] elementGenericTypeArgs) {
 		this.elementGenericTypeArgs = elementGenericTypeArgs.clone();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("MapArguments [toString()=");
-		builder.append(super.toString());
-		builder.append(", elementClass=");
-		builder.append(elementClass);
-		builder.append(", keyGenericTypeArgs=");
-		builder.append(Arrays.toString(keyGenericTypeArgs));
-		builder.append(", elementGenericTypeArgs=");
-		builder.append(Arrays.toString(elementGenericTypeArgs));
-		builder.append("]");
-		return builder.toString();
 	}
 
 }
