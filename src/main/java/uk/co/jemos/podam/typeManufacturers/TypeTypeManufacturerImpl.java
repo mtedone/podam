@@ -29,13 +29,13 @@ public class TypeTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Type paremeterType = null;
-
         Type genericAttributeType = attributeMetadata.getAttributeGenericType();
         AtomicReference<Type[]> elementGenericTypeArgs
                 = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
         TypeManufacturerUtil.resolveGenericParameter(genericAttributeType,
                 genericTypesArgumentsMap, elementGenericTypeArgs);
+
+        Type paremeterType;
         if (elementGenericTypeArgs.get().length > 0) {
 
             paremeterType = elementGenericTypeArgs.get()[0];
@@ -43,18 +43,15 @@ public class TypeTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
             TypeVariable<?>[] attrTypeParams = attributeMetadata.getAttributeType().getTypeParameters();
             if (attrTypeParams.length > 0) {
                 paremeterType = attrTypeParams[0];
+            } else {
+                LOG.error("{} is missing generic type argument, supplied {} {}",
+                        genericAttributeType, genericTypesArgumentsMap,
+                        Arrays.toString(attributeMetadata.getAttrGenericArgs()));
+                return null;
             }
         }
 
-        if (paremeterType != null) {
-
-            return TypeManufacturerUtil.resolveGenericParameter(paremeterType,
-                    genericTypesArgumentsMap, elementGenericTypeArgs);
-        } else {
-            LOG.error("{} is missing generic type argument, supplied {} {}",
-                    genericAttributeType, genericTypesArgumentsMap,
-                    Arrays.toString(attributeMetadata.getAttrGenericArgs()));
-            return null;
-        }
+        return TypeManufacturerUtil.resolveGenericParameter(paremeterType,
+                genericTypesArgumentsMap, elementGenericTypeArgs);
     }
 }

@@ -383,7 +383,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 		}
 
-		if (retValue == null && constructors.length > 0) {
+		if (retValue == null) {
 
 			strategy.sort(constructors, manufacturingCtx.getConstructorOrdering());
 
@@ -402,11 +402,9 @@ public class PodamFactoryImpl implements PodamFactory {
 					@SuppressWarnings("unchecked")
 					T tmp = (T) constructor.newInstance(parameterValues);
 					retValue = tmp;
-					if (retValue != null) {
-						LOG.debug("We could create an instance with constructor: "
-								+ constructor);
-						break;
-					}
+					LOG.debug("We could create an instance with constructor: "
+							+ constructor);
+					break;
 				} catch (Exception e) {
 					LOG.debug("We couldn't create an instance for pojo: {} with"
 							+ " constructor: {}. Will try with another one.",
@@ -623,8 +621,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (ClassAttribute attribute : classAttributes) {
 
-			if (!pupulateReadWriteField(pojo, attribute, typeArgsMap, manufacturingCtx)) {
-				pupulateReadOnlyField(pojo, attribute, typeArgsMap, manufacturingCtx, genericTypeArgs);
+			if (!populateReadWriteField(pojo, attribute, typeArgsMap, manufacturingCtx)) {
+				populateReadOnlyField(pojo, attribute, typeArgsMap, manufacturingCtx, genericTypeArgs);
 			}
 		}
 
@@ -670,7 +668,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If an exception occurred while invoking the constructor or
 	 *             factory method
 	 */
-	private <T> boolean pupulateReadOnlyField(T pojo, ClassAttribute attribute,
+	private <T> boolean populateReadOnlyField(T pojo, ClassAttribute attribute,
 			Map<String, Type> typeArgsMap, ManufacturingContext manufacturingCtx,
 			Type... genericTypeArgs)
 			throws InstantiationException, IllegalAccessException,
@@ -774,7 +772,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	 *             If an exception occurred while invoking the constructor or
 	 *             factory method
 	 */
-	private <T> boolean pupulateReadWriteField(T pojo, ClassAttribute attribute,
+	private <T> boolean populateReadWriteField(T pojo, ClassAttribute attribute,
 			Map<String, Type> typeArgsMap, ManufacturingContext manufacturingCtx)
 			throws InstantiationException, IllegalAccessException,
 					InvocationTargetException, ClassNotFoundException {

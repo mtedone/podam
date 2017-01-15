@@ -11,6 +11,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Default String type manufacturer.
  *
@@ -48,16 +50,11 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
                 // A specific value takes precedence over the length
                 PodamStringValue podamAnnotation = (PodamStringValue) annotation;
 
-                if (podamAnnotation.strValue() != null
-                        && podamAnnotation.strValue().length() > 0) {
-
-                    retValue = podamAnnotation.strValue();
-
-                } else {
+                retValue = podamAnnotation.strValue();
+                if (StringUtils.isEmpty(retValue)) {
 
                     retValue = getStringOfLength(
                             podamAnnotation.length(), attributeMetadata);
-
                 }
 
             }
