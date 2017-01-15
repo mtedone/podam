@@ -2,6 +2,8 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 import org.junit.Assert;
+
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.lang.reflect.Array;
@@ -376,14 +378,14 @@ public class PodamValidationSteps {
         assertThat("The Map should be empty", collection, is(empty()));
     }
 
-    @Step("Then the two objects should be strictly equal (e.g. according to == operator)")
+    @Step("Then the {0} and {1} should be strictly equal (e.g. according to == operator)")
     public void theTwoObjectsShouldBeStrictlyEqual(Object pojo1, Object pojo2) {
-        Assert.assertTrue("The two objects are not strictly equal", pojo1 == pojo2);
+        assertThat("The two objects are not strictly equal", pojo1, equalTo(pojo2));
     }
 
-    @Step("Then the two objects should be different")
+    @Step("Then the {0} and {1} should be different")
     public void theTwoObjectsShouldBeDifferent(Object pojo1, Object pojo2) {
-        Assert.assertTrue("The two objects should be different", pojo1 != pojo2);
+        assertThat("The two objects should be different", pojo1, not(equalTo(pojo2)));
     }
 
     @Step("Then the collection should contain at least one element of type {1}")
@@ -402,5 +404,11 @@ public class PodamValidationSteps {
     private void theMapShouldNotBeNullOrEmpty(Map<?, ?> map) {
         Assert.assertNotNull("The map should not be null", map);
         assertThat("The map should not be empty", map.keySet(), is(not(empty())));
+    }
+
+    @Step("Then Data Provider Strategy should have memoization {1}")
+    public void theMemoizationShouldBeEnabled(DataProviderStrategy strategy, boolean isMemoizationEnabled) {
+
+        Assert.assertEquals("Payload must be valid", isMemoizationEnabled, strategy.isMemoizationEnabled());
     }
 }

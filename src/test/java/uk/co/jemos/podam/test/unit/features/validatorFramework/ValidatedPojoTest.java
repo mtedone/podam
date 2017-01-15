@@ -2,12 +2,16 @@ package uk.co.jemos.podam.test.unit.features.validatorFramework;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+
+import org.hibernate.validator.constraints.Email;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
+import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.validation.Validator;
@@ -24,7 +28,9 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 	@Title("Podam should be able to fulfill most of the javax Validation framework")
 	public void podamShouldFulfillMostOfTheJavaxValidationFramework() throws Exception {
 
-		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithEmailStrategy();
+		@SuppressWarnings("unchecked")
+		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
+		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Email.class, strategy);
 
 		ValidatedPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ValidatedPojo.class, podamFactory);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
@@ -57,6 +63,8 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
 		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
+
+		podamFactorySteps.removeCustomStrategy(podamFactory, Email.class);
 
 	}
 

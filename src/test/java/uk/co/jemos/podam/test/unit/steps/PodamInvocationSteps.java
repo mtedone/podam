@@ -58,14 +58,14 @@ public class PodamInvocationSteps {
                 Collections.<Method>emptySet());
     }
 
-    @Step("When I invoke Podam for a Generic Pojo specifying the concrete types")
+    @Step("When I invoke the factory manufacturing for {0} with specific types {2}")
     public <T> T whenIInvokeTheFactoryForGenericTypeWithSpecificType(
             Class<T> pojoClass,
             PodamFactory podamFactory, Type... genericTypeArgs) {
         return podamFactory.manufacturePojo(pojoClass, genericTypeArgs);
     }
 
-    @Step("When I request a value for a type")
+    @Step("When I request a value for a type {3}")
     public Object whenISendAMessageToTheChannel(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
 			Map<String, Type> genericTypesArgumentsMap,

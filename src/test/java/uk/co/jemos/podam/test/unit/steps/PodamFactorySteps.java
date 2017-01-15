@@ -2,13 +2,10 @@ package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
 
-import org.hibernate.validator.constraints.Email;
-
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
-import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
 import uk.co.jemos.podam.test.unit.features.inheritance.CustomDataProviderStrategy;
@@ -177,14 +174,19 @@ public class PodamFactorySteps {
         return new CustomRandomDataProviderStrategy();
     }
 
-    @Step("Given a Podam Factory with Email strategy")
-    public PodamFactory givenAPodamFactoryWithEmailStrategy() {
+    @Step("Given a Podam Factory with custom strategy {1} for annotation {0}")
+    public PodamFactory givenAPodamFactoryWithCustomStrategy(Class<? extends Annotation> annotation, Class<AttributeStrategy<?>> strategy) {
 
         PodamFactory factory = new PodamFactoryImpl();
+        ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceAttributeStrategy(annotation, strategy);
+        return factory;
+    }
 
-        @SuppressWarnings("unchecked")
-        Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
-        ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceAttributeStrategy(Email.class, strategy);
+    @Step("Remove a custom strategy {1} from a Podam Factory")
+    public PodamFactory removeCustomStrategy(PodamFactory podamFactory, Class<? extends Annotation> annotation) {
+
+        PodamFactory factory = new PodamFactoryImpl();
+        ((RandomDataProviderStrategy)factory.getStrategy()).removeAttributeStrategy(annotation);
         return factory;
     }
 
