@@ -590,7 +590,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojoClass.getClass().getComponentType(),
 					annotations,
 					manufacturingCtx, typeArgsMap);
-		} if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
+		} else if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
 			@SuppressWarnings("unchecked")
 			Collection<Object> collection = (Collection<Object>) pojo;
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
@@ -617,169 +617,14 @@ public class PodamFactoryImpl implements PodamFactory {
 			fillMap(mapArguments, manufacturingCtx);
 		}
 
-		Class<?>[] parameterTypes = null;
-		Class<?> attributeType = null;
-
 		ClassInfo classInfo = classInfoStrategy.getClassInfo(pojo.getClass());
 
 		Set<ClassAttribute> classAttributes = classInfo.getClassAttributes();
 
-		// According to JavaBeans standards, setters should have only
-		// one argument
-		Object setterArg = null;
-		Iterator<ClassAttribute> iter = classAttributes.iterator();
-		while (iter.hasNext()) {
+		for (ClassAttribute attribute : classAttributes) {
 
-			ClassAttribute attribute = iter.next();
-			Set<Method> setters = attribute.getSetters();
-			if (setters.isEmpty()) {
-				if (attribute.getGetters().isEmpty()) {
-					iter.remove();
-				}
-				continue;
-			} else {
-				iter.remove();
-			}
-
-			Method setter = PodamUtils.selectLatestMethod(setters);
-			parameterTypes = setter.getParameterTypes();
-			if (parameterTypes.length != 1) {
-				LOG.warn("Skipping setter with non-single arguments {}",
-						setter);
-				continue;
-			}
-
-			// A class which has got an attribute to itself (e.g.
-			// recursive hierarchies)
-			attributeType = parameterTypes[0];
-
-			// If an attribute has been annotated with
-			// PodamAttributeStrategy, it takes the precedence over any
-			// other strategy. Additionally we don't pass the attribute
-			// metadata for value customisation; if user went to the extent
-			// of specifying a PodamAttributeStrategy annotation for an
-			// attribute they are already customising the value assigned to
-			// that attribute.
-
-			List<Annotation> pojoAttributeAnnotations
-					= PodamUtils.getAttributeAnnotations(
-							attribute.getAttribute(), setter);
-
-			AttributeStrategy<?> attributeStrategy
-					= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
-			if (null != attributeStrategy) {
-
-				setterArg = TypeManufacturerUtil.returnAttributeDataStrategyValue(attributeType,
-                        attributeStrategy);
-
-			} else {
-
-				AtomicReference<Type[]> typeGenericTypeArgs
-						= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-				// If the parameter is a generic parameterized type resolve
-				// the actual type arguments
-				Type genericType = setter.getGenericParameterTypes()[0];
-
-				final Type[] typeArguments;
-				if (!(genericType instanceof GenericArrayType)) {
-					attributeType = TypeManufacturerUtil.resolveGenericParameter(genericType,
-							typeArgsMap, typeGenericTypeArgs);
-					typeArguments = typeGenericTypeArgs.get();
-				} else {
-					typeArguments = PodamConstants.NO_TYPES;
-				}
-
-				for (int i = 0; i < typeArguments.length; i++) {
-					if (typeArguments[i] instanceof TypeVariable) {
-						Class<?> resolvedType = TypeManufacturerUtil.resolveGenericParameter(typeArguments[i],
-                                typeArgsMap, typeGenericTypeArgs);
-						if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
-							typeArguments[i] = resolvedType;
-						}
-					}
-				}
-
-				setterArg = manufactureAttributeValue(pojo, manufacturingCtx,
-						attributeType, genericType,
-						pojoAttributeAnnotations, attribute.getName(),
-						typeArgsMap, typeArguments);
-			}
-
-			try {
-				setter.invoke(pojo, setterArg);
-			} catch(IllegalAccessException e) {
-				LOG.warn("{} is not accessible. Setting it to accessible."
-						+ " However this is a security hack and your code"
-						+ " should really adhere to JavaBeans standards.",
-						setter.toString());
-				setter.setAccessible(true);
-				setter.invoke(pojo, setterArg);
-			}
-		}
-
-		for (ClassAttribute readOnlyAttribute : classAttributes) {
-
-			Method getter = PodamUtils.selectLatestMethod(readOnlyAttribute.getGetters());
-			if (getter != null && !getter.getReturnType().isPrimitive()) {
-
-				if (getter.getGenericParameterTypes().length == 0) {
-
-					Object fieldValue = null;
-					try {
-						fieldValue = getter.invoke(pojo, PodamConstants.NO_ARGS);
-					} catch(Exception e) {
-						LOG.debug("Cannot access {}, skipping", getter);
-					}
-					if (fieldValue != null) {
-
-						LOG.debug("Populating read-only field {}", getter);
-
-						Type[] genericTypeArgsAll;
-						Map<String, Type> paramTypeArgsMap;
-						if (getter.getGenericReturnType() instanceof ParameterizedType) {
-
-							paramTypeArgsMap = new HashMap<String, Type>(typeArgsMap);
-
-							ParameterizedType paramType
-									= (ParameterizedType) getter.getGenericReturnType();
-							Type[] actualTypes = paramType.getActualTypeArguments();
-							TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-									getter.getReturnType(), actualTypes);
-							genericTypeArgsAll = TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-                                    getter.getReturnType(), genericTypeArgs);
-
-						} else {
-
-							paramTypeArgsMap = typeArgsMap;
-							genericTypeArgsAll = genericTypeArgs;
-						}
-
-						List<Annotation> pojoAttributeAnnotations =
-								PodamUtils.getAttributeAnnotations(
-										readOnlyAttribute.getAttribute(), getter);
-
-						Class<?> fieldClass = fieldValue.getClass();
-						Integer depth = manufacturingCtx.getPojos().get(fieldClass);
-						if (depth == null) {
-							depth = -1;
-						}
-						if (depth <= strategy.getMaxDepth(fieldClass)) {
-
-							manufacturingCtx.getPojos().put(fieldClass, depth + 1);
-							populatePojoInternal(fieldValue, pojoAttributeAnnotations,
-									manufacturingCtx, paramTypeArgsMap, genericTypeArgsAll);
-							manufacturingCtx.getPojos().put(fieldClass, depth);
-
-						} else {
-
-							LOG.warn("Loop in filling read-only field {} detected.",
-									getter);
-						}
-					}
-				} else {
-
-					LOG.warn("Skipping invalid getter {}", getter);
-				}
+			if (!pupulateReadWriteField(pojo, attribute, typeArgsMap, manufacturingCtx)) {
+				pupulateReadOnlyField(pojo, attribute, typeArgsMap, manufacturingCtx, genericTypeArgs);
 			}
 		}
 
@@ -795,6 +640,227 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		return pojo;
+	}
+
+	/**
+	 * Fills a field with a getter
+	 *
+	 * @param <T>
+	 *            The type for which should be populated
+	 * @param pojo
+	 *            The POJO being filled with values
+	 * @param attribute
+	 *            a attribute we are filling
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @param manufacturingCtx
+	 *            the manufacturing context
+	 * @param genericTypeArgs
+	 *            The generic type arguments for the current generic class
+	 *            instance
+	 * @return true, if attribute was found and populated
+	 * @throws ClassNotFoundException 
+	 *              If class being manufactured cannot be loaded
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 */
+	private <T> boolean pupulateReadOnlyField(T pojo, ClassAttribute attribute,
+			Map<String, Type> typeArgsMap, ManufacturingContext manufacturingCtx,
+			Type... genericTypeArgs)
+			throws InstantiationException, IllegalAccessException,
+					InvocationTargetException, ClassNotFoundException {
+
+		Method getter = PodamUtils.selectLatestMethod(attribute.getGetters());
+		if (getter == null) {
+			return false;
+		}
+
+		if (getter.getGenericParameterTypes().length > 0) {
+			LOG.warn("Skipping invalid getter {}", getter);
+			return false;
+		}
+
+		if (getter.getReturnType().isPrimitive()) {
+			/* TODO: non-zero values should be fine */
+			return false;
+		}
+
+		Object fieldValue = null;
+		try {
+			fieldValue = getter.invoke(pojo, PodamConstants.NO_ARGS);
+		} catch(Exception e) {
+			LOG.debug("Cannot access {}, skipping", getter);
+		}
+
+		if (fieldValue != null) {
+
+			LOG.debug("Populating read-only field {}", getter);
+
+			Type[] genericTypeArgsAll;
+			Map<String, Type> paramTypeArgsMap;
+			if (getter.getGenericReturnType() instanceof ParameterizedType) {
+
+				paramTypeArgsMap = new HashMap<String, Type>(typeArgsMap);
+
+				ParameterizedType paramType
+						= (ParameterizedType) getter.getGenericReturnType();
+				Type[] actualTypes = paramType.getActualTypeArguments();
+				TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
+						getter.getReturnType(), actualTypes);
+				genericTypeArgsAll = TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
+						getter.getReturnType(), genericTypeArgs);
+
+			} else {
+
+				paramTypeArgsMap = typeArgsMap;
+				genericTypeArgsAll = genericTypeArgs;
+			}
+
+			List<Annotation> pojoAttributeAnnotations =
+					PodamUtils.getAttributeAnnotations(
+							attribute.getAttribute(), getter);
+
+			Class<?> fieldClass = fieldValue.getClass();
+			Integer depth = manufacturingCtx.getPojos().get(fieldClass);
+			if (depth == null) {
+				depth = -1;
+			}
+			if (depth <= strategy.getMaxDepth(fieldClass)) {
+
+				manufacturingCtx.getPojos().put(fieldClass, depth + 1);
+				populatePojoInternal(fieldValue, pojoAttributeAnnotations,
+						manufacturingCtx, paramTypeArgsMap, genericTypeArgsAll);
+				manufacturingCtx.getPojos().put(fieldClass, depth);
+			} else {
+
+				LOG.warn("Loop in filling read-only field {} detected.",
+						getter);
+			}
+			return true;
+		} else {
+
+			return false;
+		}
+	}
+
+	/**
+	 * Fills a field with a setter
+	 *
+	 * @param <T>
+	 *            The type for which should be populated
+	 * @param pojo
+	 *            The POJO being filled with values
+	 * @param attribute
+	 *            a attribute we are filling
+	 * @param typeArgsMap
+	 *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+	 *            example) with their actual types
+	 * @param manufacturingCtx
+	 *            the manufacturing context
+	 * @return true, if attribute was found and populated
+	 * @throws ClassNotFoundException 
+	 *              If class being manufactured cannot be loaded
+	 * @throws InstantiationException
+	 *             If an exception occurred during instantiation
+	 * @throws IllegalAccessException
+	 *             If security was violated while creating the object
+	 * @throws InvocationTargetException
+	 *             If an exception occurred while invoking the constructor or
+	 *             factory method
+	 */
+	private <T> boolean pupulateReadWriteField(T pojo, ClassAttribute attribute,
+			Map<String, Type> typeArgsMap, ManufacturingContext manufacturingCtx)
+			throws InstantiationException, IllegalAccessException,
+					InvocationTargetException, ClassNotFoundException {
+
+		Method setter = PodamUtils.selectLatestMethod(attribute.getSetters());
+		if (setter == null) {
+			return false;
+		}
+
+		Class<?>[] parameterTypes = setter.getParameterTypes();
+		if (parameterTypes.length != 1) {
+			// According to JavaBeans standards, setters should have only
+			// one argument
+			LOG.warn("Skipping setter with non-single arguments {}",
+					setter);
+			return false;
+		}
+
+		// A class which has got an attribute to itself (e.g.
+		// recursive hierarchies)
+		Class<?> attributeType = parameterTypes[0];
+
+		// If an attribute has been annotated with
+		// PodamAttributeStrategy, it takes the precedence over any
+		// other strategy. Additionally we don't pass the attribute
+		// metadata for value customisation; if user went to the extent
+		// of specifying a PodamAttributeStrategy annotation for an
+		// attribute they are already customising the value assigned to
+		// that attribute.
+
+		List<Annotation> pojoAttributeAnnotations
+				= PodamUtils.getAttributeAnnotations(
+						attribute.getAttribute(), setter);
+
+		AttributeStrategy<?> attributeStrategy
+				= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
+		Object setterArg = null;
+		if (null != attributeStrategy) {
+
+			setterArg = TypeManufacturerUtil.returnAttributeDataStrategyValue(attributeType,
+                    attributeStrategy);
+
+		} else {
+
+			AtomicReference<Type[]> typeGenericTypeArgs
+					= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
+			// If the parameter is a generic parameterized type resolve
+			// the actual type arguments
+			Type genericType = setter.getGenericParameterTypes()[0];
+
+			final Type[] typeArguments;
+			if (!(genericType instanceof GenericArrayType)) {
+				attributeType = TypeManufacturerUtil.resolveGenericParameter(genericType,
+						typeArgsMap, typeGenericTypeArgs);
+				typeArguments = typeGenericTypeArgs.get();
+			} else {
+				typeArguments = PodamConstants.NO_TYPES;
+			}
+
+			for (int i = 0; i < typeArguments.length; i++) {
+				if (typeArguments[i] instanceof TypeVariable) {
+					Class<?> resolvedType = TypeManufacturerUtil.resolveGenericParameter(typeArguments[i],
+                            typeArgsMap, typeGenericTypeArgs);
+					if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
+						typeArguments[i] = resolvedType;
+					}
+				}
+			}
+
+			setterArg = manufactureAttributeValue(pojo, manufacturingCtx,
+					attributeType, genericType,
+					pojoAttributeAnnotations, attribute.getName(),
+					typeArgsMap, typeArguments);
+		}
+
+		try {
+			setter.invoke(pojo, setterArg);
+		} catch(IllegalAccessException e) {
+			LOG.warn("{} is not accessible. Setting it to accessible."
+					+ " However this is a security hack and your code"
+					+ " should really adhere to JavaBeans standards.",
+					setter.toString());
+			setter.setAccessible(true);
+			setter.invoke(pojo, setterArg);
+		}
+		return true;
 	}
 
 	/**
