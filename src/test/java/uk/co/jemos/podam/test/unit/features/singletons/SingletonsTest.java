@@ -9,6 +9,7 @@ import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
 import uk.co.jemos.podam.test.dto.SingletonWithParametersInStaticFactoryPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class SingletonsTest extends AbstractPodamSteps {
         SingletonWithParametersInStaticFactoryPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(SingletonWithParametersInStaticFactoryPojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
-        podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getCreateDate());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getCreateDate(), GregorianCalendar.class);
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
 
         List<OneDimensionalTestPojo> pojoList = pojo.getPojoList();

@@ -146,7 +146,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNonAnnotatedPojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
-        podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated(), GregorianCalendar.class);
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
@@ -199,7 +199,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(integerPojo);
 
         Calendar calendarPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(GregorianCalendar.class, podamFactory);
-        podamValidationSteps.theCalendarFieldShouldNotBeNull(calendarPojo);
+        podamValidationSteps.thePojoMustBeOfTheType(calendarPojo, GregorianCalendar.class);
 
         Date datePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Date.class, podamFactory);
         podamValidationSteps.theDateObjectShouldNotBeNull(datePojo);

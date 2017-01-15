@@ -38,7 +38,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNoHierarchicalAnnotatedPojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
-        podamValidationSteps.theCalendarFieldShouldNotBeNull(pojo.getDateCreated());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated(), GregorianCalendar.class);
         podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);

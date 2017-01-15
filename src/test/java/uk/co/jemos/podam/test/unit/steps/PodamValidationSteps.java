@@ -50,11 +50,6 @@ public class PodamValidationSteps {
         Assert.assertNotNull("The child pojo should not be null", child);
     }
 
-    @Step("Then the calendar object should not be null")
-    public void theCalendarFieldShouldNotBeNull(Calendar dateCreated) {
-        Assert.assertNotNull("The calendar object should not be null", dateCreated);
-    }
-
     @Step("Then the Date object should not be null")
     public void theDateObjectShouldNotBeNull(Date time) {
         Assert.assertNotNull("The Date object should not be null", time);
