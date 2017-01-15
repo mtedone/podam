@@ -29,8 +29,11 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
         AbstractTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(AbstractTestPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ConcreteTestPojo.class);
 
+        podamStrategySteps.removeSpecific(podamFactory, AbstractTestPojo.class);
+        AbstractTestPojo pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForClass(AbstractTestPojo.class, podamFactory);
+        podamValidationSteps.thePojoShouldBeNull(pojo2);
     }
 
     @Test

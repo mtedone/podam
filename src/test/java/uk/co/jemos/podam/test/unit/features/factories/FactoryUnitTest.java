@@ -31,5 +31,7 @@ public class FactoryUnitTest extends AbstractPodamSteps {
 
 		Transformer pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Transformer.class, podamFactory);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+		podamFactorySteps.removeADefinedFactoryForAnAbstractClassFromAPodamFactory(podamFactory, TransformerFactory.class);
 	}
 }

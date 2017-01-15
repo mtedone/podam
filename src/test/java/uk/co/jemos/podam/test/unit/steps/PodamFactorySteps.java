@@ -188,11 +188,18 @@ public class PodamFactorySteps {
         return factory;
     }
 
-    @Step("Given a Podam Factory with Defined Factory for an Abstract Class")
+    @Step("Given a Podam Factory with Defined Factory {1} for an Abstract Class {0}")
     public PodamFactory givenAPodamFactoryWithDefinedFactoryForAnAbstractClass(Class<?> abstractClass, Class<?> factoryClass) {
 
         PodamFactory factory = new PodamFactoryImpl();
         ((RandomDataProviderStrategy)factory.getStrategy()).addOrReplaceFactory(abstractClass, factoryClass);
+        return factory;
+    }
+
+    @Step("Remove a Defined Factory {1} for an Abstract Class from a Podam Factory")
+    public PodamFactory removeADefinedFactoryForAnAbstractClassFromAPodamFactory(PodamFactory factory, Class<?> factoryClass) {
+
+        ((RandomDataProviderStrategy)factory.getStrategy()).removeFactory(factoryClass);
         return factory;
     }
 
