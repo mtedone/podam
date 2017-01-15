@@ -29,7 +29,8 @@ public class MultipleInterfacesInheritanceTest extends AbstractPodamSteps {
 						podamFactory, String.class);
 		podamValidationSteps.theObjectShouldBeNull(pojo);
 		List<Class<?>> accessed = ((CustomDataProviderStrategy)podamFactory.getStrategy()).getAccessed();
-		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(accessed, 1);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				accessed, Class.class, 1);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(MultipleInterfacesListPojo.class, accessed.get(0));
 	}
 
@@ -44,7 +45,8 @@ public class MultipleInterfacesInheritanceTest extends AbstractPodamSteps {
 						MultipleInterfacesMapPojo.class, podamFactory, String.class, Long.class);
 		podamValidationSteps.theObjectShouldBeNull(pojo);
 		List<Class<?>> accessed = ((CustomDataProviderStrategy)podamFactory.getStrategy()).getAccessed();
-		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(accessed, 1);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				accessed, Class.class, 1);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(MultipleInterfacesMapPojo.class, accessed.get(0));
 	}
 

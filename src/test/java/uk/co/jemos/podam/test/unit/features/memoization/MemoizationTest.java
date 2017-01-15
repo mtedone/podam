@@ -116,9 +116,8 @@ public class MemoizationTest extends AbstractPodamSteps {
         podamValidationSteps.thePojoMustBeOfTheType(pojo, MemoizationPojo.class);
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
                 pojo.getArray(), podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class), Currency.class);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getCollection(), Currency.class);
-        podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(
-                pojo.getCollection(), podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class));
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                pojo.getCollection(), Currency.class, podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class));
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
                 pojo.getMap(), Currency.class, Currency.class, podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class));
     }

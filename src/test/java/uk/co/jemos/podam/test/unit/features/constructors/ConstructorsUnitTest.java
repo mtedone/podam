@@ -108,9 +108,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		ImmutableDefaultFieldsPojo model =
 				podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableDefaultFieldsPojo.class, podamFactory);
 		podamValidationSteps.theObjectShouldNotBeNull(model);
-		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(model.getList(), String.class);
-		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(model.getList(),
-				podamFactory.getStrategy().getNumberOfCollectionElements(model.getList().getClass()));
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				model.getList(), String.class, podamFactory.getStrategy().getNumberOfCollectionElements(model.getList().getClass()));
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
 				model.getMap(), String.class, Integer.class, podamFactory.getStrategy().getNumberOfCollectionElements(model.getMap().getClass()));
 	}

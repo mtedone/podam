@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.*;
  */
 public class PodamValidationSteps {
 
-    @Step("Then the Object should not be null")
+    @Step("Then the object {0} should not be null")
     public void theObjectShouldNotBeNull(Object pojo) {
         assertThat(pojo, is(notNullValue()));
     }
@@ -320,6 +320,13 @@ public class PodamValidationSteps {
                 collection.size(), equalTo(nbrElements));
     }
 
+    @Step("Then the collection should have should have elements of type {1} and exactly {2} elements")
+    public void theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+            Collection<?> collection, Class<?> elementType, int nbrElements) {
+        theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(collection, elementType);
+        theCollectionShouldHaveExactlyTheExpectedNumberOfElements(collection, nbrElements);
+    }
+
     @Step("Then the calendar object should have exactly the value of calendar object {1}")
     public void theTwoCalendarObjectsShouldHaveTheSameTime(Calendar expectedValue, Calendar actualValue) {
         assertThat("Calendar values must be equal", actualValue.getTime().getTime(), equalTo(expectedValue.getTime().getTime()));
@@ -332,8 +339,7 @@ public class PodamValidationSteps {
         assertThat("Array should not be empty", length, greaterThan(0));
         for (int i = 0; i < length; i++) {
             Object element = Array.get(array, i);
-            theObjectShouldNotBeNull(element);
-            Assert.assertEquals("Wrong element type", elementType, element.getClass());
+            assertThat("Wrong element type", element, instanceOf(elementType));
         }
     }
 
