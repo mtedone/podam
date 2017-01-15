@@ -61,9 +61,8 @@ public class RandomDataProviderStrategyImplInitialisationUnitTest extends Abstra
 				pojo.getArray(), 2, String.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Boolean.class);
 		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(pojo.getList(), 3);
-		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
-				pojo.getMap(), Integer.class, Long.class);
-		podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(pojo.getMap(), 4);
+		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				pojo.getMap(), Integer.class, Long.class, 4);
 
 	}
 

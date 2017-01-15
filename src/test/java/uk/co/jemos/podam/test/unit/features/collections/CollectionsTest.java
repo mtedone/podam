@@ -110,9 +110,8 @@ public class CollectionsTest extends AbstractPodamSteps {
         podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(
                 nonGenerifiedSet, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
         Map<?, ?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
-        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedMap, Object.class, Object.class);
-        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(nonGenerifiedMap,
-                ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(nonGenerifiedMap,
+                Object.class, Object.class, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
     }
 
@@ -133,9 +132,8 @@ public class CollectionsTest extends AbstractPodamSteps {
                 ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
         Map<String, Calendar> generifiedMap = pojo.getGenerifiedMap();
-        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(generifiedMap, String.class, GregorianCalendar.class);
-        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(generifiedMap,
-                ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                generifiedMap, String.class, GregorianCalendar.class, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
         Set<ImmutableWithNonGenericCollectionsPojo> generifiedSet = pojo
                 .getGenerifiedSet();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(

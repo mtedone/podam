@@ -111,9 +111,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(model.getList(), String.class);
 		podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(model.getList(),
 				podamFactory.getStrategy().getNumberOfCollectionElements(model.getList().getClass()));
-		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(model.getMap(), String.class, Integer.class);
-		podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(model.getMap(),
-                podamFactory.getStrategy().getNumberOfCollectionElements(model.getMap().getClass()));
+		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				model.getMap(), String.class, Integer.class, podamFactory.getStrategy().getNumberOfCollectionElements(model.getMap().getClass()));
 	}
 
 	@Test

@@ -5,15 +5,13 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.test.dto.FloatExt;
 import uk.co.jemos.podam.test.dto.MemoizationPojo;
 import uk.co.jemos.podam.test.dto.RecursivePojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
-import javax.xml.ws.Holder;
 import java.util.Currency;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by tedonema on 20/06/2015.
@@ -76,15 +74,18 @@ public class MemoizationTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactoryWithMemoizationEnabled();
         podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), true);
 
-        Holder<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
-                Holder.class, podamFactory, String.class);
-        podamValidationSteps.thePojoMustBeOfTheType(pojo1, Holder.class);
+        FloatExt<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, String.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo1, FloatExt.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo1.getValue(), String.class);
 
-        Holder<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
-                Holder.class, podamFactory, String.class);
-        podamValidationSteps.thePojoMustBeOfTheType(pojo2, Holder.class);
+        FloatExt<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, String.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo2, FloatExt.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo2.getValue(), String.class);
+
         podamValidationSteps.theTwoObjectsShouldBeStrictlyEqual(pojo1, pojo2);
-        podamValidationSteps.theTwoObjectsShouldBeStrictlyEqual(pojo1.value, pojo2.value);
+        podamValidationSteps.theTwoObjectsShouldBeStrictlyEqual(pojo1.getValue(), pojo2.getValue());
     }
 
     @Test
@@ -94,13 +95,13 @@ public class MemoizationTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), false);
 
-        Holder<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
-                Holder.class, podamFactory, String.class);
-        podamValidationSteps.thePojoMustBeOfTheType(pojo1, Holder.class);
+        FloatExt<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, String.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo1, FloatExt.class);
 
-        Holder<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
-                Holder.class, podamFactory, Integer.class);
-        podamValidationSteps.thePojoMustBeOfTheType(pojo2, Holder.class);
+        FloatExt<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, Integer.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo2, FloatExt.class);
         podamValidationSteps.theTwoObjectsShouldBeDifferent(pojo1, pojo2);
     }
 
@@ -113,23 +114,13 @@ public class MemoizationTest extends AbstractPodamSteps {
 
         MemoizationPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(MemoizationPojo.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(pojo, MemoizationPojo.class);
-        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(
-                pojo.getArray(), Currency.class);
-        Set<Currency> countingSet = new HashSet<Currency>();
-        for (Currency currency : pojo.getArray()) {
-            countingSet.add(currency);
-        }
+        podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
+                pojo.getArray(), podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class), Currency.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getCollection(), Currency.class);
         podamValidationSteps.theCollectionShouldHaveExactlyTheExpectedNumberOfElements(
-                countingSet, podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class)
-        );
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(
-                pojo.getCollection(), Currency.class);
-        podamValidationSteps.theTwoObjectsShouldBeEqual(
-                podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class), pojo.getCollection().size());
-        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
-                pojo.getMap(), Currency.class, Currency.class);
-        podamValidationSteps.theTwoObjectsShouldBeEqual(podamFactory.getStrategy().getNumberOfCollectionElements(
-                Currency.class), pojo.getMap().size());
+                pojo.getCollection(), podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class));
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                pojo.getMap(), Currency.class, Currency.class, podamFactory.getStrategy().getNumberOfCollectionElements(Currency.class));
     }
 
 

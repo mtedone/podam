@@ -140,10 +140,9 @@ public class PodamValidationSteps {
         assertThat(strField, not(isEmptyOrNullString()));
     }
 
-    @Step("Then the pojo must be of the type {1}")
+    @Step("Then the pojo {0} must be of the type {1}")
     public void thePojoMustBeOfTheType(Object pojo, Class<?> type) {
-        assertThat("The pojo must be of the type",
-                pojo, instanceOf(type));
+        assertThat("The pojo must be of the type", pojo, instanceOf(type));
     }
 
     @Step("Then the queue {0} cannot be null")
@@ -301,8 +300,10 @@ public class PodamValidationSteps {
                 length, equalTo(nbrElements));
     }
 
-    @Step("Then the map should have exactly {1} elements")
-    public void theMapShouldHaveExactlyTheExpectedNumberOfElements(Map<?, ?> map, int nbrElements) {
+    @Step("Then the map should not be null or empty and each element should have key of type {1} and value of type {2} and have exactly {3} elements")
+    public void theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+            Map<?, ?> map, Class<?> keyType, Class<?> valueType, int nbrElements) {
+        theMapShouldNotBeNullOrEmptyAndContainElementsOfType(map, keyType, valueType);
         assertThat("The map should have exactly " + nbrElements + " elements",
                 map.size(), equalTo(nbrElements));
     }

@@ -434,9 +434,8 @@ public class AnnotationsTest extends AbstractPodamSteps {
                 PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
         Map<String, String> stringMap = pojo.getStringMap();
-        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(stringMap, String.class, String.class);
-        podamValidationSteps.theMapShouldHaveExactlyTheExpectedNumberOfElements(stringMap,
-                PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(stringMap,
+                String.class, String.class, PodamTestConstants.ANNOTATION_COLLECTION_NBR_ELEMENTS);
 
     }
 
