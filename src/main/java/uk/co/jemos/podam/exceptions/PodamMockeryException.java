@@ -33,13 +33,4 @@ public class PodamMockeryException extends RuntimeException {
 		super(message, cause);
 	}
 
-	/**
-	 * String constructor.
-	 * @param message
-	 *            The exception message
-	 */
-	public PodamMockeryException(String message) {
-		super(message);
-	}
-
 }

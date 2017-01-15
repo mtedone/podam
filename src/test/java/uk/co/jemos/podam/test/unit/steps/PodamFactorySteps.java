@@ -128,7 +128,7 @@ public class PodamFactorySteps {
         return new TestExternalFactory();
     }
 
-    @Step("Given a Podam Factory with external factory")
+    @Step("Given a Podam Factory with external factory {0}")
     public PodamFactory givenAdPodamFactoryWithExternalFactory(PodamFactory externalFactory) {
         return new PodamFactoryImpl(externalFactory);
     }
@@ -214,8 +214,9 @@ public class PodamFactorySteps {
     @Step("Given a Podam factory with XML Types external factory")
     public PodamFactory givenAPodamFactoryWithXmlTypesExternalFactory() {
 
+        PodamFactory factory = new PodamFactoryImpl();
         PodamFactory externalFactory = new XmlTypesExternalFactory();
-        PodamFactory factory = new PodamFactoryImpl(externalFactory);
+        factory.setExternalFactory(externalFactory);
         return factory;
     }
 
