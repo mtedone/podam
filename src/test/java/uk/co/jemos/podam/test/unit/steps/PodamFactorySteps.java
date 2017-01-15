@@ -288,8 +288,9 @@ public class PodamFactorySteps {
     @Step("Given a Standard Podam Factory with memoization enabled")
     public PodamFactory givenAStandardPodamFactoryWithMemoizationEnabled() {
 
+        PodamFactory podamFactory = givenAStandardPodamFactory();
         DataProviderStrategy strategyWithMemoization = givenADataProviderStrategyWithMemoizationSetToTrue();
-        PodamFactory podamFactory = new PodamFactoryImpl(strategyWithMemoization);
+        podamFactory.setStrategy(strategyWithMemoization);
         return podamFactory;
 
     }
