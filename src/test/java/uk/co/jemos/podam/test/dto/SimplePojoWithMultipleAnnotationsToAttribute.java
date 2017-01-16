@@ -4,22 +4,23 @@
 package uk.co.jemos.podam.test.dto;
 
 import org.hibernate.validator.constraints.Length;
+
 import uk.co.jemos.podam.common.PodamIntValue;
 import uk.co.jemos.podam.common.PodamStringValue;
 
+import javax.persistence.Id;
+import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
-
 
 /**
- * @author mtedone
+ * @author sba45
  */
-public class SimplePojoWithMultipleAnnotationsToAttribute implements Serializable {
-
+public class SimplePojoWithMultipleAnnotationsToAttribute {
 
     private String stringField;
 
+    @Id
     @Length(min = 3, max = 3)
     @PodamStringValue(strValue = "testString")
     private String stringFieldWithHibernateAnnotation;
@@ -31,6 +32,7 @@ public class SimplePojoWithMultipleAnnotationsToAttribute implements Serializabl
 
     @Max(value = 100)
     @PodamIntValue(maxValue = 100, minValue = 0)
+    @Version
     private Integer integerWithHibernateAnnotation;
 
 
