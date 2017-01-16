@@ -89,11 +89,34 @@ public class MemoizationTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Title("When memoization cache is cleared then objects should not be equal")
+    public void whenMemoizationCacheIsClearedThenObjectsShouldNotBeEqual() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactoryWithMemoizationEnabled();
+        podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), true);
+
+        FloatExt<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, String.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo1, FloatExt.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo1.getValue(), String.class);
+
+        podamInvocationSteps.whenIClearMemoizationCache(podamFactory);
+
+        FloatExt<?> pojo2 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FloatExt.class, podamFactory, String.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo2, FloatExt.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo2.getValue(), String.class);
+
+        podamValidationSteps.theTwoObjectsShouldBeDifferent(pojo1, pojo2);
+        podamValidationSteps.theTwoObjectsShouldBeDifferent(pojo1.getValue(), pojo2.getValue());
+    }
+
+    @Test
     @Title("Even when memoization is true, if generics Pojos have different types, objects should not be equal")
     public void evenWhenMemoizationIsTrueIfGenericPojosHaveDifferentTypesObjectsShouldNotBeEqual() throws Exception {
 
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), false);
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactoryWithMemoizationEnabled();
+        podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), true);
 
         FloatExt<?> pojo1 = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 FloatExt.class, podamFactory, String.class);
@@ -109,8 +132,8 @@ public class MemoizationTest extends AbstractPodamSteps {
     @Title("Memoization should work correctly for collections and arrays")
     public void memoizationShouldWorkCorrectlyForCollectionsAndArrays() throws Exception {
 
-        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), false);
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactoryWithMemoizationEnabled();
+        podamValidationSteps.theMemoizationShouldBeEnabled(podamFactory.getStrategy(), true);
 
         MemoizationPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(MemoizationPojo.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(pojo, MemoizationPojo.class);

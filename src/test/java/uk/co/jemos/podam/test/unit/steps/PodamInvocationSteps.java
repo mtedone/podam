@@ -65,6 +65,11 @@ public class PodamInvocationSteps {
         return podamFactory.manufacturePojo(pojoClass, genericTypeArgs);
     }
 
+    @Step("When I clear memoization cache")
+    public void whenIClearMemoizationCache(PodamFactory podamFactory) {
+        podamFactory.getStrategy().clearMemoizationCache();
+    }
+
     @Step("When I request a value for a type {3}")
     public Object whenISendAMessageToTheChannel(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
