@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.features.extensions;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 
 import org.junit.Test;
@@ -37,6 +38,22 @@ public class ExtensionsTest extends AbstractPodamSteps {
         podamValidationSteps.theStringValueShouldBeExactly(pojoClassic.getAtt(), "classic");
         podamValidationSteps.theStringValueShouldBeExactly(pojoSpecific.getAtt(), "specific");
 
+    }
+
+    @Test
+    @Title("Podam should create InputStream with the custom type manufacturer")
+    public void podamShouldCreateInputStreamWithCustomTypeManufacturer() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamWithAInputStreamTypeManufacturer();
+
+        InputStream inputStream =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(InputStream.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(inputStream, InputStream.class);
+
+        podamInvocationSteps.whenIRemoveTypeManufacturer(podamFactory, InputStream.class);
+        InputStream inputStream2 =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(InputStream.class, podamFactory);
+        podamValidationSteps.theObjectShouldBeNull(inputStream2);
     }
 
     @Test

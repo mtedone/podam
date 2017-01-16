@@ -70,6 +70,11 @@ public class PodamInvocationSteps {
         podamFactory.getStrategy().clearMemoizationCache();
     }
 
+    @Step("When I remove a type manufacturer for a type {1}")
+    public void whenIRemoveTypeManufacturer(PodamFactory podamFactory, Class<?> type) {
+        podamFactory.getStrategy().removeTypeManufacturer(type);
+    }
+
     @Step("When I request a value for a type {3}")
     public Object whenISendAMessageToTheChannel(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,

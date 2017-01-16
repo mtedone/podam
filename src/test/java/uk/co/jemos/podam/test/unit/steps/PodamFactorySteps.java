@@ -1,7 +1,6 @@
 package uk.co.jemos.podam.test.unit.steps;
 
 import net.thucydides.core.annotations.Step;
-
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
@@ -19,6 +18,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -26,6 +27,7 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -76,6 +78,24 @@ public class PodamFactorySteps {
         };
 
         return givenAPodamWithACustomTypeManufacturer(int.class, manufacturer);
+    }
+
+    @Step("Given a Podam Factory with an Input Stream Manufacturer")
+    public PodamFactory givenAPodamWithAInputStreamTypeManufacturer() {
+
+        TypeManufacturer<InputStream> manufacturer = new TypeManufacturer<InputStream>() {
+
+            @Override
+            public InputStream getType(DataProviderStrategy strategy,
+                    AttributeMetadata attributeMetadata,
+                    Map<String, Type> genericTypesArgumentsMap) {
+
+                byte[] data = new byte[] { 0x0, 0x2, 0x4 };
+                return new ByteArrayInputStream(data);
+            }
+        };
+
+        return givenAPodamWithACustomTypeManufacturer(InputStream.class, manufacturer);
     }
 
     @Step("Given a Podam Factory with a Custom Type Manufacturer {0}")
