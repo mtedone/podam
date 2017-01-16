@@ -20,25 +20,25 @@ public class LongValuePojo implements Serializable {
 
 	// ------------------->> Instance / Static variables
 
-	@PodamLongValue(minValue = 0)
+	@PodamLongValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
 	private long longFieldWithMinValueOnly;
 
-	@PodamLongValue(maxValue = 100)
+	@PodamLongValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private long longFieldWithMaxValueOnly;
 
-	@PodamLongValue(minValue = 0, maxValue = 1000)
+	@PodamLongValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE)
 	private long longFieldWithMinAndMaxValue;
 
 	@PodamLongValue(numValue = PodamTestConstants.LONG_PRECISE_VALUE)
 	private long longFieldWithPreciseValue;
 
-	@PodamLongValue(minValue = 0)
+	@PodamLongValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE)
 	private Long longObjectFieldWithMinValueOnly;
 
-	@PodamLongValue(maxValue = 100)
+	@PodamLongValue(maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED)
 	private Long longObjectFieldWithMaxValueOnly;
 
-	@PodamLongValue(minValue = 0, maxValue = 1000)
+	@PodamLongValue(minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE, maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE)
 	private Long longObjectFieldWithMinAndMaxValue;
 
 	@PodamLongValue(numValue = PodamTestConstants.LONG_PRECISE_VALUE)
