@@ -279,25 +279,6 @@ public class PodamFactorySteps {
         return attributeMetadata;
     }
 
-    @Step("Given an Attribute Meta Data for Generic Types")
-    public AttributeMetadata givenAnAttributeMetadataForGenericTypes(
-            Class<?> pojoClass, Object pojoInstance, Type pojoType) {
-
-        if (null == pojoClass) {
-            throw new IllegalArgumentException("pojoClass cannot be null");
-        }
-
-        String attributeName = null;
-        Class<?> realAttributeType = pojoClass;
-        Type[] typeParams = pojoClass.getTypeParameters();
-        List<Annotation> annotations = Collections.emptyList();
-        AttributeMetadata attributeMetadata = new AttributeMetadata(
-                attributeName, realAttributeType, pojoType, typeParams, annotations,
-                pojoClass, pojoInstance);
-
-        return attributeMetadata;
-    }
-
     @Step("Given a Random Data Provider Strategy with memoization set to true")
     public DataProviderStrategy givenADataProviderStrategyWithMemoizationSetToTrue() {
 

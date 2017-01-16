@@ -1,14 +1,10 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamConstants;
 
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,9 +17,6 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class TypeTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
 
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(TypeTypeManufacturerImpl.class);
-
     @Override
     public Object getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
@@ -35,23 +28,15 @@ public class TypeTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
         TypeManufacturerUtil.resolveGenericParameter(genericAttributeType,
                 genericTypesArgumentsMap, elementGenericTypeArgs);
 
-        Type paremeterType;
         if (elementGenericTypeArgs.get().length > 0) {
 
-            paremeterType = elementGenericTypeArgs.get()[0];
+            Type resolvedType = elementGenericTypeArgs.get()[0];
+            return TypeManufacturerUtil.resolveGenericParameter(resolvedType,
+                    genericTypesArgumentsMap, elementGenericTypeArgs);
         } else {
-            TypeVariable<?>[] attrTypeParams = attributeMetadata.getAttributeType().getTypeParameters();
-            if (attrTypeParams.length > 0) {
-                paremeterType = attrTypeParams[0];
-            } else {
-                LOG.error("{} is missing generic type argument, supplied {} {}",
-                        genericAttributeType, genericTypesArgumentsMap,
-                        Arrays.toString(attributeMetadata.getAttrGenericArgs()));
-                return null;
-            }
+
+            return attributeMetadata.getAttributeType();
         }
 
-        return TypeManufacturerUtil.resolveGenericParameter(paremeterType,
-                genericTypesArgumentsMap, elementGenericTypeArgs);
     }
 }

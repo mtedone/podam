@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.test.dto.ClassGenericConstructorPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -193,29 +192,5 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                 genericTypeArgumentsMap, ExternalRatePodamEnum.class.getSuperclass());
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
-
-    @Test
-    @Title("Podam Messaging System should return a Generic Type value")
-    public void podamMessagingSystemShouldReturnAGenericTypeValue() throws Exception {
-
-        DataProviderStrategy dataProviderStrategy = podamFactorySteps.givenARandomDataProviderStrategy();
-
-        Object pojoInstance = null;
-        AttributeMetadata attributeMetadata
-                = podamFactorySteps.givenAnAttributeMetadataForGenericTypes
-                        (ClassGenericConstructorPojo.class, pojoInstance, Class.class);
-        podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
-
-        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
-
-        genericTypeArgumentsMap.put("T", String.class);
-
-        Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
-                dataProviderStrategy, attributeMetadata,
-                genericTypeArgumentsMap, Type.class);
-        podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, payload);
-    }
-
-
 
 }
