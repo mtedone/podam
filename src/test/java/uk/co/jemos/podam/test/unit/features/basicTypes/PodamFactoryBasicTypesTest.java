@@ -159,14 +159,16 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         EnumsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EnumsPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, EnumsPojo.class);
 
         ExternalRatePodamEnum ratePodamExternal = pojo.getRatePodamExternal();
-        podamValidationSteps.theObjectShouldNotBeNull(ratePodamExternal);
+        podamValidationSteps.thePojoMustBeOfTheType(ratePodamExternal, ExternalRatePodamEnum.class);
 
         EnumsPojo.RatePodamInternal ratePodamInternal = pojo.getRatePodamInternal();
-        podamValidationSteps.theObjectShouldNotBeNull(ratePodamInternal);
+        podamValidationSteps.thePojoMustBeOfTheType(ratePodamInternal, EnumsPojo.RatePodamInternal.class);
 
+        EnumsPojo.EmptyPodamInternal emptyPodamInternal = pojo.getEmptyPodamInternal();
+        podamValidationSteps.thePojoShouldBeNull(emptyPodamInternal);
     }
 
     @Test

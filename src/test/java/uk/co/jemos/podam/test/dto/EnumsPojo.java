@@ -25,6 +25,8 @@ public class EnumsPojo implements Serializable {
 
 	private ExternalRatePodamEnum ratePodamExternal;
 
+	private EmptyPodamInternal emptyPodamInternal;
+
 	// ------------------->> Constructors
 
 	// ------------------->> Public methods
@@ -61,6 +63,14 @@ public class EnumsPojo implements Serializable {
 		this.ratePodamExternal = ratePodamExternal;
 	}
 
+	public EmptyPodamInternal getEmptyPodamInternal() {
+		return emptyPodamInternal;
+	}
+
+	public void setEmptyPodamInternal(EmptyPodamInternal emptyPodamInternal) {
+		this.emptyPodamInternal = emptyPodamInternal;
+	}
+
 	// ------------------->> Private methods
 
 	// ------------------->> equals() / hashcode() / toString()
@@ -95,6 +105,15 @@ public class EnumsPojo implements Serializable {
 	 */
 	public enum RatePodamInternal {
 		COOL, ROCKS, SUPERCOOL
+	}
+
+	/**
+	 * Empty internal enum
+	 * 
+	 * @author daivanov
+	 * 
+	 */
+	public enum EmptyPodamInternal {
 	}
 
 }
