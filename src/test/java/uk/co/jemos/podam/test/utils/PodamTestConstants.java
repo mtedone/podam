@@ -14,7 +14,7 @@ public interface PodamTestConstants {
 	// ------------------->> Constants
 
 	/** The minimum value for numeric custom annotations */
-	public static final int NUMBER_INT_MIN_VALUE = 0;
+	public static final int NUMBER_INT_MIN_VALUE = 1;
 
 	/** A max value for numeric custom annotations */
 	public static final int NUMBER_INT_ONE_HUNDRED = 100;
@@ -26,7 +26,7 @@ public interface PodamTestConstants {
 	public static final int NUMBER_INT_MAX_VALUE = 1000;
 
 	/** The minimum value for float-type numeric custom annotations */
-	public static final float NUMBER_FLOAT_MIN_VALUE = 0.0f;
+	public static final float NUMBER_FLOAT_MIN_VALUE = 1.0f;
 
 	/** A max value for float-type numeric custom annotations */
 	public static final float NUMBER_FLOAT_ONE_HUNDRED = 100.0f;
@@ -35,7 +35,7 @@ public interface PodamTestConstants {
 	public static final float NUMBER_FLOAT_MAX_VALUE = 1000.0f;
 
 	/** The minimum value for double-type numeric custom annotations */
-	public static final double NUMBER_DOUBLE_MIN_VALUE = 0.0;
+	public static final double NUMBER_DOUBLE_MIN_VALUE = 1.0;
 
 	/** A max value for float-type numeric custom annotations */
 	public static final double NUMBER_DOUBLE_ONE_HUNDRED = 100.0;
