@@ -1,8 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
@@ -10,7 +8,6 @@ import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -23,9 +20,6 @@ import java.util.Map;
  */
 public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
 
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(LongTypeManufacturerImpl.class);
-
     /**
      * {@inheritDoc}
      */
@@ -34,46 +28,37 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Long retValue = null;
+        Long retValue;
 
-        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
+        PodamLongValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamLongValue.class);
 
-            if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamLongValue longStrategy = (PodamLongValue) annotation;
+        if (null != annotationStrategy) {
 
-                String numValueStr = longStrategy.numValue();
-                if (StringUtils.isNotEmpty(numValueStr)) {
-                    try {
-                        retValue = Long.valueOf(numValueStr);
-                    } catch (NumberFormatException nfe) {
-                        String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
-                                + numValueStr
-                                + " could not be converted to a Long. An exception will be thrown.";
-                        LOG.error(errMsg);
-                        throw new IllegalArgumentException(errMsg, nfe);
-                    }
-                } else {
+            String numValueStr = annotationStrategy.numValue();
+            if (StringUtils.isNotEmpty(numValueStr)) {
+                try {
+                    retValue = Long.valueOf(numValueStr);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException(PodamConstants.THE_ANNOTATION_VALUE_STR
+                            + numValueStr
+                            + " could not be converted to a Long. An exception will be thrown.",
+                            nfe);
+                }
+            } else {
 
-                    long minValue = longStrategy.minValue();
-                    long maxValue = longStrategy.maxValue();
+                long minValue = annotationStrategy.minValue();
+                long maxValue = annotationStrategy.maxValue();
 
-                    // Sanity check
-                    if (minValue > maxValue) {
-                        maxValue = minValue;
-                    }
-
-                    retValue = getLongInRange(minValue, maxValue,
-                            attributeMetadata);
-
+                // Sanity check
+                if (minValue > maxValue) {
+                   maxValue = minValue;
                 }
 
-                break;
-
+                retValue = getLongInRange(minValue, maxValue,
+                        attributeMetadata);
             }
-
-        }
-
-        if (retValue == null) {
+        } else {
             retValue = getLong(attributeMetadata);
         }
 

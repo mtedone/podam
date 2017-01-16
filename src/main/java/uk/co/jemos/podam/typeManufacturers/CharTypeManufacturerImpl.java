@@ -5,7 +5,6 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamCharValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -26,38 +25,27 @@ public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Character retValue = null;
+        Character retValue;
 
-        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
+        PodamCharValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamCharValue.class);
+        if (null != annotationStrategy) {
 
-            if (PodamCharValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamCharValue annotationStrategy = (PodamCharValue) annotation;
+            retValue = annotationStrategy.charValue();
+            if (retValue == ' ') {
 
-                char charValue = annotationStrategy.charValue();
-                if (charValue != ' ') {
-                    retValue = charValue;
+                char minValue = annotationStrategy.minValue();
+                char maxValue = annotationStrategy.maxValue();
 
-                } else {
-
-                    char minValue = annotationStrategy.minValue();
-                    char maxValue = annotationStrategy.maxValue();
-
-                    // Sanity check
-                    if (minValue > maxValue) {
-                        maxValue = minValue;
-                    }
-
-                    retValue = getCharacterInRange(minValue, maxValue,
-                            attributeMetadata);
-
+                // Sanity check
+                if (minValue > maxValue) {
+                    maxValue = minValue;
                 }
 
-                break;
-
+                retValue = getCharacterInRange(minValue, maxValue,
+                        attributeMetadata);
             }
-        }
-
-        if (retValue == null) {
+        } else {
             retValue = getCharacter(attributeMetadata);
         }
 

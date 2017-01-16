@@ -1,8 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
@@ -10,7 +8,6 @@ import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamIntValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -23,9 +20,6 @@ import java.util.Map;
  */
 public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
 
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(IntTypeManufacturerImpl.class);
-
     /**
      * {@inheritDoc}
      */
@@ -34,48 +28,37 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Integer retValue = null;
+        Integer retValue;
 
-        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
+        PodamIntValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamIntValue.class);
 
-            if (PodamIntValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamIntValue intStrategy = (PodamIntValue) annotation;
+        if (null != annotationStrategy) {
 
-                String numValueStr = intStrategy.numValue();
-                if (StringUtils.isNotEmpty(numValueStr)) {
-                    try {
-                        retValue = Integer.valueOf(numValueStr);
-                    } catch (NumberFormatException nfe) {
-                        String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR
-                                + numValueStr
-                                + " could not be converted to an Integer. An exception will be thrown.";
-                        LOG.error(errMsg);
-                        throw new IllegalArgumentException(errMsg, nfe);
+            String numValueStr = annotationStrategy.numValue();
+            if (StringUtils.isNotEmpty(numValueStr)) {
+                try {
+                    retValue = Integer.valueOf(numValueStr);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException(PodamConstants.THE_ANNOTATION_VALUE_STR
+                            + numValueStr
+                            + " could not be converted to an Integer. An exception will be thrown.",
+                            nfe);
+                }
+            } else {
 
-                    }
+                int minValue = annotationStrategy.minValue();
+                int maxValue = annotationStrategy.maxValue();
 
-                } else {
-
-                    int minValue = intStrategy.minValue();
-                    int maxValue = intStrategy.maxValue();
-
-                    // Sanity check
-                    if (minValue > maxValue) {
-                        maxValue = minValue;
-                    }
-
-                    retValue = getIntegerInRange(minValue, maxValue,
-                            attributeMetadata);
-
+                // Sanity check
+                if (minValue > maxValue) {
+                    maxValue = minValue;
                 }
 
-                break;
-
+                retValue = getIntegerInRange(minValue, maxValue,
+                        attributeMetadata);
             }
-
-        }
-
-        if (retValue == null) {
+        } else {
             retValue = getInteger(attributeMetadata);
         }
 

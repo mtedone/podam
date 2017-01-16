@@ -4,7 +4,6 @@ import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamBooleanValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -25,19 +24,14 @@ public class BooleanTypeManufacturerImpl extends AbstractTypeManufacturer<Boolea
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Boolean retValue = null;
+        Boolean retValue;
 
-        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
+        PodamBooleanValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamBooleanValue.class);
 
-            if (PodamBooleanValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamBooleanValue localStrategy = (PodamBooleanValue) annotation;
-                retValue = localStrategy.boolValue();
-
-                break;
-            }
-        }
-
-        if (retValue == null) {
+        if (null != annotationStrategy) {
+            retValue = annotationStrategy.boolValue();
+        } else {
             retValue = getBoolean(attributeMetadata);
         }
 

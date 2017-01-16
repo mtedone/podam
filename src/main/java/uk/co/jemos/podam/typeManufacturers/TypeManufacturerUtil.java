@@ -406,13 +406,13 @@ public abstract class TypeManufacturerUtil {
             WildcardType wType = (WildcardType) paramType;
             Type[] bounds = wType.getLowerBounds();
             String msg;
-            if (bounds != null && bounds.length > 0) {
+            if (ArrayUtils.isNotEmpty(bounds)) {
                 msg = "Lower bounds:";
             } else {
                 bounds = wType.getUpperBounds();
                 msg = "Upper bounds:";
             }
-            if (bounds != null && bounds.length > 0) {
+            if (ArrayUtils.isNotEmpty(bounds)) {
                 LOG.debug(msg + Arrays.toString(bounds));
                 parameterType = resolveGenericParameter(bounds[0], localMap,
                         methodGenericTypeArgs);

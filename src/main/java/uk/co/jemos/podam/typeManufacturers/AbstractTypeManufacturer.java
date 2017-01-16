@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.typeManufacturers;
 
+import java.util.Collection;
 import java.util.Random;
 
 /**
@@ -14,6 +15,23 @@ public abstract class AbstractTypeManufacturer<T> implements TypeManufacturer<T>
 
 	/** A RANDOM generator */
 	private static final Random RANDOM = new Random(System.currentTimeMillis());
+
+	/**
+	 * @param <R> The type for which should be found
+
+	 * @param collection collection with elements
+	 * @param type a type of which element should be found
+	 * @return element of desired type or null, if the collection doesn't
+	 * contain any object of that type.
+	 */
+	public <R> R findElementOfType(Collection<?> collection, Class<R> type) {
+		for (Object element : collection) {
+			if (type.isInstance(element)) {
+				return type.cast(element);
+			}
+		}
+		return null;
+	}
 
     /** It returns a int/Integer value in an interval (0, bound).
 	 *

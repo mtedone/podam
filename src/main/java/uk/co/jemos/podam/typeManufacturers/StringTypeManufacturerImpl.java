@@ -6,9 +6,7 @@ import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamStringValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,39 +28,23 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        String retValue = null;
+        String retValue;
 
-        List<Annotation> annotations = attributeMetadata.getAttributeAnnotations();
-
-        if (annotations == null || annotations.isEmpty()) {
+        PodamStringValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamStringValue.class);
 
             retValue = getStringValue(attributeMetadata);
 
+        if (null != annotationStrategy) {
+
+            retValue = annotationStrategy.strValue();
+            if (StringUtils.isEmpty(retValue)) {
+
+                retValue = getStringOfLength(
+                        annotationStrategy.length(), attributeMetadata);
+            }
         } else {
-
-            for (Annotation annotation : annotations) {
-
-                if (!PodamStringValue.class.isAssignableFrom(annotation
-                        .getClass())) {
-                    continue;
-                }
-
-                // A specific value takes precedence over the length
-                PodamStringValue podamAnnotation = (PodamStringValue) annotation;
-
-                retValue = podamAnnotation.strValue();
-                if (StringUtils.isEmpty(retValue)) {
-
-                    retValue = getStringOfLength(
-                            podamAnnotation.length(), attributeMetadata);
-                }
-
-            }
-
-            if (retValue == null) {
-                retValue = getStringValue(attributeMetadata);
-            }
-
+            retValue = getStringValue(attributeMetadata);
         }
 
         return retValue;

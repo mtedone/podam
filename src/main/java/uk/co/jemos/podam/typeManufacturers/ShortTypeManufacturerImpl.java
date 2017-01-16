@@ -1,14 +1,11 @@
 package uk.co.jemos.podam.typeManufacturers;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.PodamShortValue;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -21,9 +18,6 @@ import java.util.Map;
  */
 public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
 
-    /** The application logger */
-    private static final Logger LOG = LoggerFactory.getLogger(ShortTypeManufacturerImpl.class);
-
     /**
      * {@inheritDoc}
      */
@@ -32,45 +26,37 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
             AttributeMetadata attributeMetadata,
             Map<String, Type> genericTypesArgumentsMap) {
 
-        Short retValue = null;
+        Short retValue;
 
-        for (Annotation annotation : attributeMetadata.getAttributeAnnotations()) {
+        PodamShortValue annotationStrategy = findElementOfType(
+                attributeMetadata.getAttributeAnnotations(), PodamShortValue.class);
 
-            if (PodamShortValue.class.isAssignableFrom(annotation.getClass())) {
-                PodamShortValue shortStrategy = (PodamShortValue) annotation;
+        if (null != annotationStrategy) {
 
-                String numValueStr = shortStrategy.numValue();
+            String numValueStr = annotationStrategy.numValue();
                 if (StringUtils.isNotEmpty(numValueStr)) {
-                    try {
-                        retValue = Short.valueOf(numValueStr);
-                    } catch (NumberFormatException nfe) {
-                        String errMsg = "The precise value: "
-                                + numValueStr
-                                + " cannot be converted to a short type. An exception will be thrown.";
-                        LOG.error(errMsg);
-                        throw new IllegalArgumentException(errMsg, nfe);
-                    }
-                } else {
+                try {
+                    retValue = Short.valueOf(numValueStr);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException("The precise value: "
+                            + numValueStr
+                            + " cannot be converted to a short type. An exception will be thrown.",
+                            nfe);
+                }
+            } else {
 
-                    short minValue = shortStrategy.minValue();
-                    short maxValue = shortStrategy.maxValue();
+                short minValue = annotationStrategy.minValue();
+                short maxValue = annotationStrategy.maxValue();
 
-                    // Sanity check
-                    if (minValue > maxValue) {
-                        maxValue = minValue;
-                    }
-
-                    retValue = getShortInRange(minValue, maxValue,
-                            attributeMetadata);
-
+                // Sanity check
+                if (minValue > maxValue) {
+                    maxValue = minValue;
                 }
 
-                break;
-
+                retValue = getShortInRange(minValue, maxValue,
+                        attributeMetadata);
             }
-        }
-
-        if (retValue == null) {
+        } else {
             retValue = getShort(attributeMetadata);
         }
 
