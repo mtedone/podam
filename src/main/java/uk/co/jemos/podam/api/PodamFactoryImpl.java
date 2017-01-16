@@ -313,10 +313,7 @@ public class PodamFactoryImpl implements PodamFactory {
 						parameterValues);
 				LOG.debug("Could create an instance using "
 						+ candidateConstructor);
-
-				if (retValue != null) {
-					return retValue;
-				}
+				return retValue;
 
 			} catch (Exception t) {
 

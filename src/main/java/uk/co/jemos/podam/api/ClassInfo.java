@@ -89,8 +89,7 @@ public class ClassInfo implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ (classAttributes == null ? 0 : classAttributes.hashCode());
+		result = prime * result + classAttributes.hashCode();
 		result = prime * result
 				+ (className == null ? 0 : className.hashCode());
 		return result;
@@ -106,25 +105,18 @@ public class ClassInfo implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (this.getClass() != obj.getClass()) {
+		if (!(obj instanceof ClassInfo)) {
 			return false;
 		}
 		ClassInfo other = (ClassInfo) obj;
-		if (classAttributes == null) {
-			if (other.classAttributes != null) {
-				return false;
-			}
-		} else if (!classAttributes.equals(other.classAttributes)) {
+		if (!classAttributes.equals(other.classAttributes)) {
 			return false;
 		}
 		if (className == null) {
 			if (other.className != null) {
 				return false;
 			}
-		} else if (!className.getName().equals(other.className.getName())) {
+		} else if (!className.equals(other.className)) {
 			return false;
 		}
 		return true;
