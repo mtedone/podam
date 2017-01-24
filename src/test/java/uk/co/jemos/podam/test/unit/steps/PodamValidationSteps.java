@@ -37,24 +37,9 @@ public class PodamValidationSteps {
         Assert.assertTrue(string + " doesn't match " + pattern, string.matches(pattern));
     }
 
-    @Step("Then the inner pojo instance variable should not be null")
-    public void theInnerPojoInstanceShouldNotBeNull(Object pojo) {
-        Assert.assertNotNull("The inner pojo instance variable should not be null", pojo);
-    }
-
     @Step("Then the int field should not be zero")
     public void theIntFieldShouldNotBeZero(int intField) {
         assertThat("The integer field should not be zero", intField, is(not(equalTo(0))));
-    }
-
-    @Step("Then the child pojo should not be null")
-    public void theChildPojoShouldNotBeNull(Object child) {
-        Assert.assertNotNull("The child pojo should not be null", child);
-    }
-
-    @Step("Then the Date object should not be null")
-    public void theDateObjectShouldNotBeNull(Date time) {
-        Assert.assertNotNull("The Date object should not be null", time);
     }
 
     @Step("The long value cannot be zero")
@@ -84,11 +69,6 @@ public class PodamValidationSteps {
                 intField >= minValue && intField <= maxValue);
     }
 
-    @Step("Then the integer field should not be null")
-    public void theIntegerObjectFieldShouldNotBeNull(Integer integerObjectField) {
-        Assert.assertNotNull("The integer object field should not be null", integerObjectField);
-    }
-
     @Step("Then the integer field {0} should have the precise value of {1}")
     public void theIntFieldShouldHaveThePreciseValueOf(int intFieldWithPreciseValue, int preciseValue) {
         Assert.assertTrue("The int field hasn't got a precise value", intFieldWithPreciseValue == preciseValue);
@@ -110,11 +90,6 @@ public class PodamValidationSteps {
         Assert.assertTrue("The long value should have a value between " +
                 minValue + " and " + maxValue,
                 longValue >= minValue && longValue <= maxValue);
-    }
-
-    @Step("Then the long object value {0} should not be null")
-    public void theLongObjectFieldShouldNotBeNull(Long longObjectValue) {
-        Assert.assertNotNull("The long object value should not be null", longObjectValue);
     }
 
     @Step("Then the long value should be precisely {1}")
@@ -143,16 +118,6 @@ public class PodamValidationSteps {
     @Step("Then the pojo {0} must be of the type {1}")
     public void thePojoMustBeOfTheType(Object pojo, Class<?> type) {
         assertThat("The pojo must be of the type", pojo, instanceOf(type));
-    }
-
-    @Step("Then the queue {0} cannot be null")
-    public void theQueueCannotBeNull(Queue<?> queue) {
-        Assert.assertNotNull("The Queue cannot be null", queue);
-    }
-
-    @Step("Then the Queue {0} should be an instance of {1}")
-    public void theQueueMustBeAnInstanceOf(Queue<?> queue, Class<?> type) {
-        thePojoMustBeOfTheType(queue, type);
     }
 
     @Step("Then the byte value {0} should be greater or equal than {1}")

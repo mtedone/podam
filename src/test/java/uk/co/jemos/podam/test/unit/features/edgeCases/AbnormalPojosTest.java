@@ -43,8 +43,8 @@ public class AbnormalPojosTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         podamStrategySteps.addOrReplaceSpecific(podamFactory, AbstractTestPojo.class, ConcreteTestPojo.class);
         EmbeddedAbstractFieldTestPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmbeddedAbstractFieldTestPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
-        podamValidationSteps.theInnerPojoInstanceShouldNotBeNull(pojo.getPojo());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, EmbeddedAbstractFieldTestPojo.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getPojo(), AbstractTestPojo.class);
 
     }
 
