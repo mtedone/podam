@@ -17,6 +17,7 @@ import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated(), GregorianCalendar.class);
-        podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated().getTime(), Date.class);
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
     }
@@ -83,17 +84,17 @@ public class AnnotationsTest extends AbstractPodamSteps {
         int minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE;
         maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
         podamValidationSteps.theIntFieldShouldHaveValueBetween(minValue, maxValue, pojo.getIntFieldWithMinAndMaxValue());
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMinValueOnly());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerObjectFieldWithMinValueOnly(), Integer.class);
         podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntegerObjectFieldWithMinValueOnly());
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMaxValueOnly());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerObjectFieldWithMaxValueOnly(), Integer.class);
         maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
         podamValidationSteps.theIntFieldShouldHaveValueNotGreaterThan(pojo.getIntegerObjectFieldWithMaxValueOnly(), maxValue);
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithMinAndMaxValue());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerObjectFieldWithMinAndMaxValue(), Integer.class);
         maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
         podamValidationSteps.theIntFieldShouldHaveValueBetween(minValue, maxValue, pojo.getIntegerObjectFieldWithMinAndMaxValue());
         int preciseValue = Integer.valueOf(PodamTestConstants.INTEGER_PRECISE_VALUE);
         podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(pojo.getIntFieldWithPreciseValue(), preciseValue);
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerObjectFieldWithPreciseValue());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerObjectFieldWithPreciseValue(), Integer.class);
         podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(pojo.getIntegerObjectFieldWithPreciseValue(), preciseValue);
 
     }
@@ -111,17 +112,17 @@ public class AnnotationsTest extends AbstractPodamSteps {
         int minValue = PodamTestConstants.NUMBER_INT_MIN_VALUE;
         maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
         podamValidationSteps.theLongFieldShouldHaveValueBetween(minValue, maxValue, pojo.getLongFieldWithMinAndMaxValue());
-        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMinValueOnly());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getLongObjectFieldWithMinValueOnly(), Long.class);
         podamValidationSteps.theLongFieldShouldBeGreaterOrEqualToZero(pojo.getLongObjectFieldWithMinValueOnly());
-        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMaxValueOnly());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getLongObjectFieldWithMaxValueOnly(), Long.class);
         maxValue = PodamTestConstants.NUMBER_INT_ONE_HUNDRED;
         podamValidationSteps.theLongFieldShouldHaveValueNotGreaterThan(pojo.getLongObjectFieldWithMinValueOnly(), maxValue);
-        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithMinAndMaxValue());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getLongObjectFieldWithMinAndMaxValue(), Long.class);
         maxValue = PodamTestConstants.NUMBER_INT_MAX_VALUE;
         podamValidationSteps.theLongFieldShouldHaveValueBetween(minValue, maxValue, pojo.getLongObjectFieldWithMinAndMaxValue());
         long preciseValue = Long.valueOf(PodamTestConstants.LONG_PRECISE_VALUE);
         podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongFieldWithPreciseValue(), preciseValue);
-        podamValidationSteps.theLongObjectFieldShouldNotBeNull(pojo.getLongObjectFieldWithPreciseValue());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getLongObjectFieldWithPreciseValue(), Long.class);
         podamValidationSteps.theLongFieldShouldHaveThePreciseValueOf(pojo.getLongObjectFieldWithPreciseValue(), preciseValue);
 
     }
@@ -521,7 +522,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(pojo.getIntegerWithHibernateAnnotation());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerWithHibernateAnnotation(), Integer.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual("stringFieldWithPatternRegex", pojo.getStringFieldWithPatternAnnotation());
         podamValidationSteps.theTwoObjectsShouldBeEqual("testString", pojo.getStringFieldWithHibernateAnnotation());
     }

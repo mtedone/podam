@@ -112,7 +112,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         Parent parent = podamInvocationSteps.whenIInvokeTheFactoryForClass(Parent.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(parent);
         Child child = parent.getChild();
-        podamValidationSteps.theChildPojoShouldNotBeNull(child);
+        podamValidationSteps.thePojoMustBeOfTheType(child, Child.class);
 
     }
 
@@ -147,7 +147,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated(), GregorianCalendar.class);
-        podamValidationSteps.theDateObjectShouldNotBeNull(pojo.getDateCreated().getTime());
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated().getTime(), Date.class);
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(pojo.getLongArray(), Long.class);
         podamValidationSteps.theLongValueShouldNotBeZero(pojo.getLongArray()[0]);
     }
@@ -198,13 +198,13 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
         Integer integerPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Integer.class, podamFactory);
-        podamValidationSteps.theIntegerObjectFieldShouldNotBeNull(integerPojo);
+        podamValidationSteps.thePojoMustBeOfTheType(integerPojo, Integer.class);
 
         Calendar calendarPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(GregorianCalendar.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(calendarPojo, GregorianCalendar.class);
 
         Date datePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(Date.class, podamFactory);
-        podamValidationSteps.theDateObjectShouldNotBeNull(datePojo);
+        podamValidationSteps.thePojoMustBeOfTheType(datePojo, Date.class);
 
         BigDecimal bigDecimalPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BigDecimal.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(bigDecimalPojo);

@@ -25,7 +25,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         CollectionsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionsPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, CollectionsPojo.class);
         List<String> strList = pojo.getStrList();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(strList, String.class);
         ArrayList<String> arrayListStr = pojo.getArrayListStr();
@@ -59,11 +59,10 @@ public class CollectionsTest extends AbstractPodamSteps {
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
                 concurrentHashMapImpl, String.class, OneDimensionalTestPojo.class);
         Queue<SimplePojoToTestSetters> queue = pojo.getQueue();
-        podamValidationSteps.theQueueCannotBeNull(queue);
-        podamValidationSteps.theQueueMustBeAnInstanceOf(queue, LinkedList.class);
+        podamValidationSteps.thePojoMustBeOfTheType(queue, LinkedList.class);
 
         SimplePojoToTestSetters pojoQueueElement = queue.poll();
-        podamValidationSteps.theObjectShouldNotBeNull(pojoQueueElement);
+        podamValidationSteps.thePojoMustBeOfTheType(pojoQueueElement, SimplePojoToTestSetters.class);
         List<?> nonGenerifiedList = pojo.getNonGenerifiedList();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedList, Object.class);
 
@@ -72,7 +71,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         Object object = nonGenerifiedMap.get(nonGenerifiedMap.keySet()
                 .iterator().next());
-        podamValidationSteps.theObjectShouldNotBeNull(object);
+        podamValidationSteps.thePojoMustBeOfTheType(object, Object.class);
     }
 
     @Test
