@@ -14,7 +14,7 @@ public class Pdm46UnitTest {
 	private PodamFactory factory = new PodamFactoryImpl(new RandomDataProviderStrategyImpl());
 
 	@Test
-	public void testWildcardEnumPojoDoesntThrowMockeryException() {
+	public void testWildcardEnumPojoDoesntThrowException() {
 		factory.manufacturePojo(WildcardEnumPojo.class);
 	}
 }
