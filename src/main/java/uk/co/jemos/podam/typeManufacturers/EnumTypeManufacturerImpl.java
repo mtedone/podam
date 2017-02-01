@@ -28,13 +28,13 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> 
 
         Enum<?> retValue = null;
 
-        // Enum type
-        int enumConstantsLength = realAttributeType.getEnumConstants().length;
-
-        if (enumConstantsLength > 0) {
-            int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)
-                    % enumConstantsLength;
-            retValue = (Enum<?>) realAttributeType.getEnumConstants()[enumIndex];
+        if (realAttributeType.getEnumConstants() != null) {
+            final int enumConstantsLength = realAttributeType.getEnumConstants().length;
+            if (enumConstantsLength > 0) {
+                int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)
+                        % enumConstantsLength;
+                retValue = (Enum<?>) realAttributeType.getEnumConstants()[enumIndex];
+            }
         }
 
         return retValue;
