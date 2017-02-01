@@ -172,6 +172,17 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Title("Podam should ignore wildcard Enum fields")
+    public void podamShouldIgnoreWildcardEnumFields() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        WildcardEnumPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(WildcardEnumPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, WildcardEnumPojo.class);
+
+        Enum<?> wildcardEnumField = pojo.getWildcardEnumField();
+        podamValidationSteps.thePojoShouldBeNull(wildcardEnumField);
+    }
+
+    @Test
     @Title("Podam should fill Java string type")
     public void podamShouldFillJavaStringType() throws Exception {
 
