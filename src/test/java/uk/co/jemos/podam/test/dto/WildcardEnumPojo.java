@@ -1,4 +1,4 @@
-package uk.co.jemos.podam.test.dto.pdm46;
+package uk.co.jemos.podam.test.dto;
 
 import java.io.Serializable;
 
