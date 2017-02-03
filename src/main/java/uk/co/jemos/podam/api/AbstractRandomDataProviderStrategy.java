@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -183,6 +184,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		typeManufacturers.put(Type.class, typeManufacturer);
 
 		TypeManufacturer<?> collectionManufacturer = new CollectionTypeManufacturerImpl();
+		typeManufacturers.put(List.class, collectionManufacturer);
 		typeManufacturers.put(Collection.class, collectionManufacturer);
 
 		TypeManufacturer<?> mapManufacturer = new MapTypeManufacturerImpl();
