@@ -26,15 +26,17 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> 
 
         Class<?> realAttributeType = attributeMetadata.getAttributeType();
 
-        Enum<?> retValue = null;
+        Object[] enumConstants = realAttributeType.getEnumConstants();
+        if (null == enumConstants) {
+            enumConstants = Thread.State.class.getEnumConstants();
+        }
 
-        if (realAttributeType.getEnumConstants() != null) {
-            final int enumConstantsLength = realAttributeType.getEnumConstants().length;
-            if (enumConstantsLength > 0) {
-                int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)
-                        % enumConstantsLength;
-                retValue = (Enum<?>) realAttributeType.getEnumConstants()[enumIndex];
-            }
+        Enum<?> retValue = null;
+        final int enumConstantsLength = enumConstants.length;
+        if (enumConstantsLength > 0) {
+            int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)
+                    % enumConstantsLength;
+            retValue = (Enum<?>) enumConstants[enumIndex];
         }
 
         return retValue;
