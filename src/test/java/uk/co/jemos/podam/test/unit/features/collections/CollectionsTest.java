@@ -63,15 +63,18 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         SimplePojoToTestSetters pojoQueueElement = queue.poll();
         podamValidationSteps.thePojoMustBeOfTheType(pojoQueueElement, SimplePojoToTestSetters.class);
+
         List<?> nonGenerifiedList = pojo.getNonGenerifiedList();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedList, Object.class);
+
+        List<?> looseCoupledNonGenerifiedList = pojo.getLooseCoupledNonGenerifiedList();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedList, Object.class);
 
         Map<?,?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedMap, Object.class, Object.class);
 
-        Object object = nonGenerifiedMap.get(nonGenerifiedMap.keySet()
-                .iterator().next());
-        podamValidationSteps.thePojoMustBeOfTheType(object, Object.class);
+        Map<?,?> looseCoupledNonGenerifiedMap = pojo.getLooseCoupledNonGenerifiedMap();
+        podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedMap, Object.class, Object.class);
     }
 
     @Test

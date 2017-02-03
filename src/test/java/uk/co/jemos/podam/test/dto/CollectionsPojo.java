@@ -64,9 +64,17 @@ public class CollectionsPojo {
 	@SuppressWarnings("rawtypes")
 	private List nonGenerifiedList;
 
+	/** A loose-coupled non-generified list */
+	@SuppressWarnings("rawtypes")
+	private ArrayList looseCoupledNonGenerifiedList;
+
 	/** A non-generified map */
 	@SuppressWarnings("rawtypes")
 	private Map nonGenerifiedMap;
+
+	/** A loose-coupled non-generified map */
+	@SuppressWarnings("rawtypes")
+	private HashMap looseCoupledNonGenerifiedMap;
 
 	// ------------------->> Constructors
 
@@ -263,6 +271,23 @@ public class CollectionsPojo {
 	}
 
 	/**
+	 * @return the looseCoupledNonGenerifiedList
+	 */
+	@SuppressWarnings("rawtypes")
+	public ArrayList getLooseCoupledNonGenerifiedList() {
+		return looseCoupledNonGenerifiedList;
+	}
+
+	/**
+	 * @param looseCoupledNonGenerifiedList
+	 *            the looseCoupledNonGenerifiedList to set
+	 */
+	@SuppressWarnings("rawtypes")
+	public void setLooseCoupledNonGenerifiedList(ArrayList looseCoupledNonGenerifiedList) {
+		this.looseCoupledNonGenerifiedList = looseCoupledNonGenerifiedList;
+	}
+
+	/**
 	 * @return the nonGenerifiedMap
 	 */
 	@SuppressWarnings("rawtypes")
@@ -277,6 +302,23 @@ public class CollectionsPojo {
 	@SuppressWarnings("rawtypes")
 	public void setNonGenerifiedMap(Map nonGenerifiedMap) {
 		this.nonGenerifiedMap = nonGenerifiedMap;
+	}
+
+	/**
+	 * @return the looseCoupledNonGenerifiedMap
+	 */
+	@SuppressWarnings("rawtypes")
+	public HashMap getLooseCoupledNonGenerifiedMap() {
+		return looseCoupledNonGenerifiedMap;
+	}
+
+	/**
+	 * @param looseCoupledNonGenerifiedMap
+	 *            the looseCoupledNonGenerifiedMap to set
+	 */
+	@SuppressWarnings("rawtypes")
+	public void setLooseCoupledNonGenerifiedMap(HashMap looseCoupledNonGenerifiedMap) {
+		this.looseCoupledNonGenerifiedMap = looseCoupledNonGenerifiedMap;
 	}
 
 	// ------------------->> Inner classes
