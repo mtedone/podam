@@ -149,6 +149,13 @@
 				<role>Developer</role>
 			</roles>
 		</contributor>
+                <contributor>
+                        <name>Andrey Artyukhov</name>
+			<email>andrey.artyukhov@constant.obninsk.ru</email>
+                        <roles>
+                                <role>Developer</role>
+                        </roles>
+                </contributor>
 	</contributors>
 
 
