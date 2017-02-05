@@ -70,6 +70,9 @@ public class CollectionsTest extends AbstractPodamSteps {
         List<?> looseCoupledNonGenerifiedList = pojo.getLooseCoupledNonGenerifiedList();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedList, Object.class);
 
+        Set<?> looseCoupledNonGenerifiedSet = pojo.getLooseCoupledNonGenerifiedSet();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedSet, Object.class);
+
         Map<?,?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedMap, Object.class, Object.class);
 

@@ -68,6 +68,10 @@ public class CollectionsPojo {
 	@SuppressWarnings("rawtypes")
 	private ArrayList looseCoupledNonGenerifiedList;
 
+	/** A loose-coupled non-generified set */
+	@SuppressWarnings("rawtypes")
+	private HashSet looseCoupledNonGenerifiedSet;
+
 	/** A non-generified map */
 	@SuppressWarnings("rawtypes")
 	private Map nonGenerifiedMap;
@@ -285,6 +289,23 @@ public class CollectionsPojo {
 	@SuppressWarnings("rawtypes")
 	public void setLooseCoupledNonGenerifiedList(ArrayList looseCoupledNonGenerifiedList) {
 		this.looseCoupledNonGenerifiedList = looseCoupledNonGenerifiedList;
+	}
+
+	/**
+	 * @return the looseCoupledNonGenerifiedSet
+	 */
+	@SuppressWarnings("rawtypes")
+	public HashSet getLooseCoupledNonGenerifiedSet() {
+		return looseCoupledNonGenerifiedSet;
+	}
+
+	/**
+	 * @param looseCoupledNonGenerifiedList
+	 *            the looseCoupledNonGenerifiedList to set
+	 */
+	@SuppressWarnings("rawtypes")
+	public void setLooseCoupledNonGenerifiedSet(HashSet looseCoupledNonGenerifiedSet) {
+		this.looseCoupledNonGenerifiedSet = looseCoupledNonGenerifiedSet;
 	}
 
 	/**
