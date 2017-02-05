@@ -199,6 +199,29 @@ public abstract class PodamUtils {
 	}
 
 	/**
+	 * It returns a double/Double value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @return A double/Double value between min and max value (included)
+	 */
+	public static double getDoubleInRange(double minValue, double maxValue) {
+
+		// This can happen. It's a way to specify a precise value
+		if (minValue == maxValue) {
+			return minValue;
+		}
+		double retValue;
+		double margin = (maxValue - minValue + 1);
+		do {
+			retValue = minValue + Math.random() * margin;
+		} while (retValue > maxValue);
+		return retValue;
+	}
+
+	/**
 	 * Finds boxed type for a primitive type
 	 * 
 	 * @param primitiveType

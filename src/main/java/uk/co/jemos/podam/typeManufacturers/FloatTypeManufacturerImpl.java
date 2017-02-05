@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamFloatValue;
 
@@ -89,16 +90,7 @@ public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer<Float> {
 	public Float getFloatInRange(float minValue, float maxValue,
 			AttributeMetadata attributeMetadata) {
 
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		float retValue;
-		do {
-			retValue = (float) (minValue
-					+ Math.random() * (maxValue - minValue + 1));
-		} while (retValue > maxValue);
-		return retValue;
+		return (float)PodamUtils.getDoubleInRange(minValue, maxValue);
 	}
 
 }

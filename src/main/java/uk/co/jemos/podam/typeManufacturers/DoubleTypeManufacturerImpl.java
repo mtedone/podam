@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamDoubleValue;
 
@@ -91,15 +92,7 @@ public class DoubleTypeManufacturerImpl extends AbstractTypeManufacturer<Double>
 	public Double getDoubleInRange(double minValue, double maxValue,
 			AttributeMetadata attributeMetadata) {
 
-		// This can happen. It's a way to specify a precise value
-		if (minValue == maxValue) {
-			return minValue;
-		}
-		double retValue;
-		do {
-			retValue = minValue + Math.random() * (maxValue - minValue + 1);
-		} while (retValue > maxValue);
-		return retValue;
+		return PodamUtils.getDoubleInRange(minValue, maxValue);
 	}
 
 }
