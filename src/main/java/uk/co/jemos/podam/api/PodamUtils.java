@@ -167,11 +167,8 @@ public abstract class PodamUtils {
 	 */
 	public static Character getNiceCharacter() {
 
-		int randomCharIdx =
-				(int) (Math.random() * (NICE_ASCII_CHARACTERS.length - 1) + 0.5);
-
+		int randomCharIdx = getIntegerInRange(0, NICE_ASCII_CHARACTERS.length - 1);
 		return NICE_ASCII_CHARACTERS[randomCharIdx];
-
 	}
 	
 	/**

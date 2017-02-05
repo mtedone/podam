@@ -77,7 +77,7 @@ public class CharTypeManufacturerImpl extends AbstractTypeManufacturer<Character
 	public Character getCharacterInRange(char minValue, char maxValue,
 			AttributeMetadata attributeMetadata) {
 
-		return (char) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+		return (char)PodamUtils.getIntegerInRange(minValue, maxValue);
 	}
 
 }

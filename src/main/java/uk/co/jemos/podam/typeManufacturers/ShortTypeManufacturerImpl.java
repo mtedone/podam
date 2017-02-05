@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.PodamShortValue;
 
 import java.lang.reflect.Type;
@@ -88,7 +89,7 @@ public class ShortTypeManufacturerImpl extends AbstractTypeManufacturer<Short> {
 	public Short getShortInRange(short minValue, short maxValue,
 			AttributeMetadata attributeMetadata) {
 
-		return (short) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+		return (short)PodamUtils.getIntegerInRange(minValue, maxValue);
 	}
 
 }
