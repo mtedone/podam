@@ -181,7 +181,7 @@ public abstract class PodamUtils {
 	 * @return A long/Long value between min and max value (included).
 	 */
 	public static long getLongInRange(long minValue, long maxValue) {
-		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+		return (long) (getDoubleInRange(minValue - 0.5, maxValue + 0.5 - (1 / Long.MAX_VALUE)) + 0.5);
 	}
 
 	/**
@@ -195,7 +195,7 @@ public abstract class PodamUtils {
 	 */
 	public static int getIntegerInRange(int minValue, int maxValue) {
 
-		return (int) (minValue + Math.random() * (maxValue - minValue) + 0.5);
+		return (int) (getDoubleInRange(minValue - 0.5, maxValue + 0.5 - (1 / Integer.MAX_VALUE)) + 0.5);
 	}
 
 	/**
