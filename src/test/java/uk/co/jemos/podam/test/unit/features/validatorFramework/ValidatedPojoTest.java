@@ -8,13 +8,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.test.dto.ValidatedPatternPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
+import uk.co.jemos.podam.test.strategies.PatternStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.validation.Validator;
+import javax.validation.constraints.Pattern;
 
 /**
  * Tests Java bean validation API
@@ -66,6 +69,29 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 
 		podamFactorySteps.removeCustomStrategy(podamFactory, Email.class);
 
+	}
+
+	@Test
+	@Title("Podam should allow validation annotations customization")
+	public void podamShouldAllowValidationAnnotationsCustomization()
+			throws Exception {
+
+		@SuppressWarnings("unchecked")
+		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)PatternStrategy.class;
+		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Pattern.class, strategy);
+		ValidatedPatternPojo pojo =
+				podamInvocationSteps.whenIInvokeTheFactoryForClass(
+						ValidatedPatternPojo.class,
+						podamFactory);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ValidatedPatternPojo.class);
+
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getNumber(), String.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getIdentifier(), String.class);
+
+		Validator validator = podamFactorySteps.givenAJavaxValidator();
+		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
+
+		podamFactorySteps.removeCustomStrategy(podamFactory, Pattern.class);
 	}
 
 	@Test

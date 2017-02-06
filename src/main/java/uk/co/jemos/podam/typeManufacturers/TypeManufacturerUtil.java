@@ -38,7 +38,7 @@ public abstract class TypeManufacturerUtil {
      * @param strategy
      *            The data provider strategy
      * @param annotations
-     *            The list of annotations
+     *            The list of annotations, irrelevant annotations will be removed
      * @param attributeType
      *            Type of attribute expected to be returned
      * @return {@link AttributeStrategy}, if {@link PodamStrategyValue} or bean
@@ -47,13 +47,18 @@ public abstract class TypeManufacturerUtil {
      *         if attribute strategy cannot be instantiated
      * @throws InstantiationException
      *         if attribute strategy cannot be instantiated
+     * @throws SecurityException 
+     *         if access security is violated
+     * @throws InvocationTargetException
+     *         if invocation failed
+     * @throws IllegalArgumentException 
+     *         if illegal argument provided to a constructor
      */
     public static AttributeStrategy<?> findAttributeStrategy(DataProviderStrategy strategy,
             List<Annotation> annotations, Class<?> attributeType)
-            throws InstantiationException, IllegalAccessException {
+            throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, InvocationTargetException {
 
-        List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
-        Iterator<Annotation> iter = localAnnotations.iterator();
+        Iterator<Annotation> iter = annotations.iterator();
         while (iter.hasNext()) {
             Annotation annotation = iter.next();
             if (annotation instanceof PodamStrategyValue) {
@@ -79,7 +84,13 @@ public abstract class TypeManufacturerUtil {
 
             Class<AttributeStrategy<?>> attrStrategyClass;
             if ((attrStrategyClass = strategy.getStrategyForAnnotation(annotationClass)) != null) {
-                return attrStrategyClass.newInstance();
+                Constructor<AttributeStrategy<?>> ctor; 
+                try {
+                    ctor = attrStrategyClass.getConstructor(Annotation.class);
+                    return ctor.newInstance(annotation);
+                } catch(NoSuchMethodException e) {
+                    return attrStrategyClass.newInstance();
+                }
             }
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
@@ -99,12 +110,12 @@ public abstract class TypeManufacturerUtil {
         }
 
         AttributeStrategy<?> retValue = null;
-        if (!localAnnotations.isEmpty()
+        if (!annotations.isEmpty()
                 && !Collection.class.isAssignableFrom(attributeType)
                 && !Map.class.isAssignableFrom(attributeType)
                 && !attributeType.isArray()) {
 
-            retValue = new BeanValidationStrategy(localAnnotations, attributeType);
+            retValue = new BeanValidationStrategy(annotations, attributeType);
         }
 
         return retValue;
