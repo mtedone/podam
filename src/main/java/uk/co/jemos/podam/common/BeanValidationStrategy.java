@@ -3,7 +3,6 @@
  */
 package uk.co.jemos.podam.common;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamUtils;
@@ -16,7 +15,6 @@ import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,9 +30,6 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	// ------------------->> Instance / Static variables
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
-
-	/** A RANDOM generator */
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	/** bean validation annotations */
 	private List<Annotation> annotations;
@@ -81,14 +76,14 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		if (null != findTypeFromList(annotations, Past.class)) {
 
-			int days = RANDOM.nextInt(365) + 1;
+			int days = PodamUtils.getIntegerInRange(1, 365);
 			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
 			return timestampToReturnType(timestamp);
 		}
 
 		if (null != findTypeFromList(annotations, Future.class)) {
 
-			int days = RANDOM.nextInt(365) + 1;
+			int days = PodamUtils.getIntegerInRange(1, 365);
 			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
 			return timestampToReturnType(timestamp);
 		}
@@ -218,7 +213,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 */
 	private BigDecimal getValueInRange(BigDecimal min, BigDecimal max) {
 
-		BigDecimal scale = new BigDecimal(RANDOM.nextDouble());
+		BigDecimal scale = new BigDecimal(PodamUtils.getDoubleInRange(0.0, 1.0));
 		return min.add(max.subtract(min).multiply(scale));
 	}
 

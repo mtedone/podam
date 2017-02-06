@@ -195,7 +195,7 @@ public abstract class PodamUtils {
 	 */
 	public static int getIntegerInRange(int minValue, int maxValue) {
 
-		return (int) (getDoubleInRange(minValue - 0.5, maxValue + 0.5 - (1 / Integer.MAX_VALUE)) + 0.5);
+		return (int) getLongInRange(minValue, maxValue);
 	}
 
 	/**

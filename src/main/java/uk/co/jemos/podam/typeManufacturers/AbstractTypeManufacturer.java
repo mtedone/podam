@@ -1,7 +1,8 @@
 package uk.co.jemos.podam.typeManufacturers;
 
 import java.util.Collection;
-import java.util.Random;
+
+import uk.co.jemos.podam.api.PodamUtils;
 
 /**
  * Parent of all type manufacturer.
@@ -12,9 +13,6 @@ import java.util.Random;
  * @since 6.0.0.RELEASE
  */
 public abstract class AbstractTypeManufacturer<T> implements TypeManufacturer<T> {
-
-	/** A RANDOM generator */
-	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	/**
 	 * @param <R> The type for which should be found
@@ -41,11 +39,7 @@ public abstract class AbstractTypeManufacturer<T> implements TypeManufacturer<T>
 	 */
 	public int getInteger(int bound) {
 
-		int retValue;
-		do {
-			retValue = RANDOM.nextInt(bound);
-		} while (retValue == 0);
-		return retValue;
+		return PodamUtils.getIntegerInRange(0, bound);
 	}
 
 	/** It returns a double value in an interval (0, 1.0)
@@ -54,10 +48,6 @@ public abstract class AbstractTypeManufacturer<T> implements TypeManufacturer<T>
 	 */
 	public double getDouble() {
 
-		double retValue;
-		do {
-			retValue = RANDOM.nextDouble();
-		} while (retValue == 0.0f);
-		return retValue;
+		return PodamUtils.getDoubleInRange(0.0, 1.0);
 	}
 }
