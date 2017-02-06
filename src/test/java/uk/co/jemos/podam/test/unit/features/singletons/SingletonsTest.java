@@ -27,7 +27,7 @@ public class SingletonsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         SingletonWithParametersInStaticFactoryPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(SingletonWithParametersInStaticFactoryPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, SingletonWithParametersInStaticFactoryPojo.class);
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getCreateDate(), GregorianCalendar.class);
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getFirstName());
 

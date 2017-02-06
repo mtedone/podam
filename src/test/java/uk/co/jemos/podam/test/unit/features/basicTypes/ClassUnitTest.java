@@ -25,8 +25,8 @@ public class ClassUnitTest extends AbstractPodamSteps {
 
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		ClassPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ClassPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getClazz());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ClassPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getClazz(), Class.class);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getClazz());
 	}
 
@@ -37,10 +37,9 @@ public class ClassUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		ClassGenericPojo<?> pojo  = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				ClassGenericPojo.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getClazz());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ClassGenericPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getClazz(), Class.class);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getClazz());
-
 	}
 
 	@Test
@@ -51,8 +50,8 @@ public class ClassUnitTest extends AbstractPodamSteps {
 
 		ClassGenericConstructorPojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				ClassGenericConstructorPojo.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getClazz());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ClassGenericConstructorPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getClazz(), Class.class);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getClazz());
 	}
 
