@@ -32,7 +32,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         OneDimensionalTestPojo oneDimensionalTestPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(OneDimensionalTestPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(oneDimensionalTestPojo);
+        podamValidationSteps.thePojoMustBeOfTheType(oneDimensionalTestPojo, OneDimensionalTestPojo.class);
 
         podamValidationSteps.thePojoShouldContainSomeData(oneDimensionalTestPojo);
 
@@ -48,7 +48,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         NoDefaultConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(NoDefaultConstructorPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, NoDefaultConstructorPojo.class);
 
     }
 
@@ -79,7 +79,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursivePojo recursivePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursivePojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(recursivePojo);
+        podamValidationSteps.thePojoMustBeOfTheType(recursivePojo, RecursivePojo.class);
         recursivePojoValidationSteps.allPojosInTheRecursiveStrategyShouldBeValid(recursivePojo);
     }
 
@@ -110,7 +110,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         Parent parent = podamInvocationSteps.whenIInvokeTheFactoryForClass(Parent.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(parent);
+        podamValidationSteps.thePojoMustBeOfTheType(parent, Parent.class);
         Child child = parent.getChild();
         podamValidationSteps.thePojoMustBeOfTheType(child, Child.class);
 
@@ -122,7 +122,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveList recursiveListPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveList.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(recursiveListPojo);
+        podamValidationSteps.thePojoMustBeOfTheType(recursiveListPojo, RecursiveList.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(recursiveListPojo.getList(), RecursiveList.class);
     }
 
@@ -132,7 +132,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         RecursiveMap recursiveMap = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursiveMap.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(recursiveMap);
+        podamValidationSteps.thePojoMustBeOfTheType(recursiveMap, RecursiveMap.class);
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(recursiveMap.getMap(), String.class, RecursiveMap.class);
 
     }
@@ -144,7 +144,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ImmutableNonAnnotatedPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableNonAnnotatedPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableNonAnnotatedPojo.class);
         podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntField());
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated(), GregorianCalendar.class);
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getDateCreated().getTime(), Date.class);
@@ -218,7 +218,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.thePojoMustBeOfTheType(datePojo, Date.class);
 
         BigDecimal bigDecimalPojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(BigDecimal.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(bigDecimalPojo);
+        podamValidationSteps.thePojoMustBeOfTheType(bigDecimalPojo, BigDecimal.class);
 
     }
 

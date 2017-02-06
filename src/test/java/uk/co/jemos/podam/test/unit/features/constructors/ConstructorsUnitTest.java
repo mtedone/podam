@@ -2,14 +2,19 @@ package uk.co.jemos.podam.test.unit.features.constructors;
 
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
+import uk.co.jemos.podam.test.dto.InnerClassPojo.InnerPojo;
 import uk.co.jemos.podam.test.dto.issue123.GenericCollectionsConstructorPojo;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import java.util.Date;
 import java.util.Observable;
 import java.util.TimeZone;
@@ -29,7 +34,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		GenericInConstructorPojo pojo
 				= podamInvocationSteps.whenIInvokeTheFactoryForClass(GenericInConstructorPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericInConstructorPojo.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getVector(), String.class);
 	}
 	@Test
@@ -38,7 +43,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		GenericInSetterPojo pojo
 				= podamInvocationSteps.whenIInvokeTheFactoryForClass(GenericInSetterPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericInSetterPojo.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getVector(), String.class);
 	}
 
@@ -48,7 +53,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		GenericInStaticConstructorPojo pojo
 				= podamInvocationSteps.whenIInvokeTheFactoryForClass(GenericInStaticConstructorPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericInStaticConstructorPojo.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getVector(), String.class);
 	}
 
@@ -59,7 +64,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		GenericArrayInConstructorPojo<?> pojo
 				= podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 GenericArrayInConstructorPojo.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericArrayInConstructorPojo.class);
 		podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainElementsOfTheRightType(
                 pojo.getArray(), String.class);
 	}
@@ -71,7 +76,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		MultipleGenericInConstructorPojo<?, ?, ?, ?> pojo
 				= podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(MultipleGenericInConstructorPojo.class,
 				podamFactory, String.class, Character.class, Byte.class, Integer.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, MultipleGenericInConstructorPojo.class);
 		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getType());
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Character.class);
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
@@ -86,8 +91,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		DefaultFieldPojo<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				DefaultFieldPojo.class, podamFactory, String.class, Long.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getMap());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, DefaultFieldPojo.class);
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
 				pojo.getMap(), String.class, Long.class);
 	}
@@ -98,7 +102,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 	public void podamShouldBeAbleToManufactureInstancesOfTheObservableClass() throws Exception {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		Observable observable = podamInvocationSteps.whenIInvokeTheFactoryForClass(Observable.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(observable);
+		podamValidationSteps.thePojoMustBeOfTheType(observable, Observable.class);
 	}
 
 	@Test
@@ -107,7 +111,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		ImmutableDefaultFieldsPojo model =
 				podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableDefaultFieldsPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(model);
+		podamValidationSteps.thePojoMustBeOfTheType(model, ImmutableDefaultFieldsPojo.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
 				model.getList(), String.class, podamFactory.getStrategy().getNumberOfCollectionElements(model.getList().getClass()));
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
@@ -121,7 +125,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		UnsupportedCollectionInConstructorPojo<?> pojo =
 				podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                         UnsupportedCollectionInConstructorPojo.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, UnsupportedCollectionInConstructorPojo.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getVector(), String.class);
 	}
 
@@ -135,7 +139,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 				podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 						UnsupportedMapInConstructorPojo.class, podamFactory, String.class, Integer.class);
 
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, UnsupportedMapInConstructorPojo.class);
 		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
                 pojo.getHashTable(), String.class, Integer.class);
 	}
@@ -157,7 +161,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 		ImmutableHashtable<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				ImmutableHashtable.class, podamFactory, String.class, Integer.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableHashtable.class);
 		podamValidationSteps.theMapShouldBeEmtpy(pojo);
 	}
 
@@ -168,7 +172,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
 		TimeZone pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(TimeZone.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, TimeZone.class);
 	}
 
 	@Test
@@ -180,11 +184,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		FactoryInstantiablePojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 FactoryInstantiablePojo.class, podamFactory, Date.class);
 
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-
-		Object value = pojo.getTypedValue();
-		podamValidationSteps.theObjectShouldNotBeNull(value);
-		podamValidationSteps.theTwoObjectsShouldBeEqual(Date.class, value.getClass());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, FactoryInstantiablePojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue(), Date.class);
 	}
 
 
@@ -196,9 +197,9 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		ImmutablePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(
                 ImmutablePojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue2());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutablePojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue(), String.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue2(), Integer.class);
 	}
 
 	@Test
@@ -208,7 +209,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
 		ImmutablePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutablePojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutablePojo.class);
 		podamValidationSteps.theObjectShouldBeNull(pojo.getValue());
 		podamValidationSteps.theObjectShouldBeNull(pojo.getValue2());
 	}
@@ -220,8 +221,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
 		InnerClassPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(InnerClassPojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getIp());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, InnerClassPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getIp(), InnerPojo.class);
 	}
 
 
@@ -233,10 +234,9 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		JAXBElement<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 JAXBElement.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getName());
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
-		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getValue().getClass());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, JAXBElement.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getName(), QName.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue(), String.class);
 	}
 
 	@Test
@@ -247,11 +247,10 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		JAXBElementPojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				JAXBElementPojo.class, podamFactory, String.class);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue().getName());
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue().getValue());
-		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getValue().getValue().getClass());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, JAXBElementPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue(), JAXBElement.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue().getName(), QName.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue().getValue(), String.class);
 	}
 
 	@Test
@@ -262,8 +261,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 
 		PackagePrivatePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
                 PackagePrivatePojo.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getValue());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, PackagePrivatePojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getValue(), String.class);
 
 	}
 
@@ -275,9 +274,8 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
 		TypedClassPojo2 pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(TypedClassPojo2.class, podamFactory);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo);
-		podamValidationSteps.theObjectShouldNotBeNull(pojo.getTypedValue());
-		podamValidationSteps.theTwoObjectsShouldBeEqual(String.class, pojo.getTypedValue().getClass());
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, TypedClassPojo2.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue(), String.class);
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getTypedList(), String.class);
 	}
 
@@ -290,7 +288,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
         GenericCollectionsConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass
                 (GenericCollectionsConstructorPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericCollectionsConstructorPojo.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList1(), Long.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList2(), String.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList3(), Integer
@@ -307,7 +305,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
         GenericCollectionsConstructorPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass
                 (GenericCollectionsConstructorPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, GenericCollectionsConstructorPojo.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList1(), Long.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList2(), String.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList3(), Integer
