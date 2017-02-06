@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -35,6 +36,9 @@ public abstract class PodamUtils {
 
 	/** The application logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
+
+	/** Random number generator */
+	private static final Random RANDOM = new Random();
 
 	/**
 	 * It returns a {@link Field} matching the attribute name or null if a field
@@ -194,7 +198,6 @@ public abstract class PodamUtils {
 	 * @return An int/Integer value between min and max value (included).
 	 */
 	public static int getIntegerInRange(int minValue, int maxValue) {
-
 		return (int) getLongInRange(minValue, maxValue);
 	}
 
@@ -214,9 +217,9 @@ public abstract class PodamUtils {
 			return minValue;
 		}
 		double retValue;
-		double margin = (maxValue - minValue + 1);
+		double margin = (maxValue - minValue + 0.1);
 		do {
-			retValue = minValue + Math.random() * margin;
+			retValue = minValue + RANDOM.nextDouble() * margin;
 		} while (retValue > maxValue);
 		return retValue;
 	}

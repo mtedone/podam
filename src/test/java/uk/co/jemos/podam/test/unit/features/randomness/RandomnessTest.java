@@ -23,7 +23,7 @@ public class RandomnessTest extends AbstractPodamSteps {
 		int[] counters = new int[cnt];
 
 		for (int i = 0; i < runs; i++) {
-			int idx = PodamUtils.getIntegerInRange(0, cnt - 1);
+			int idx = (int)PodamUtils.getLongInRange(0, cnt - 1);
 			counters[idx]++;
 		}
 
