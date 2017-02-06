@@ -19,11 +19,8 @@ import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.LinkedListTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.ArrayListTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.MapTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.HashSetTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeTypeManufacturerImpl;
@@ -34,13 +31,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -190,15 +184,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> collectionManufacturer = new CollectionTypeManufacturerImpl();
 		typeManufacturers.put(Collection.class, collectionManufacturer);
-
-		TypeManufacturer<?> arrayListTypeManufacturer = new ArrayListTypeManufacturerImpl();
-		typeManufacturers.put(ArrayList.class, arrayListTypeManufacturer);
-
-		TypeManufacturer<?> linkedListTypeManufacturer = new LinkedListTypeManufacturerImpl();
-		typeManufacturers.put(LinkedList.class, linkedListTypeManufacturer);
-
-		TypeManufacturer<?> hashSetManufacturer = new HashSetTypeManufacturerImpl();
-		typeManufacturers.put(HashSet.class, hashSetManufacturer);
 
 		TypeManufacturer<?> mapManufacturer = new MapTypeManufacturerImpl();
 		typeManufacturers.put(Map.class, mapManufacturer);
@@ -385,14 +370,15 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			Map<String, Type> genericTypesArgumentsMap,
 			Class<T> pojoType) {
 
+		String errMsg;
 		if (null == attributeMetadata) {
-			throw new IllegalArgumentException(
-					"The attribute metadata inside the wrapper cannot be null");
+			errMsg = "The attribute metadata inside the wrapper cannot be null";
+			throw new IllegalArgumentException(errMsg);
 		}
 
 		if (null == attributeMetadata.getAttributeAnnotations()) {
-			throw new IllegalArgumentException(
-					"The annotations list within the attribute metadata cannot be null, although it can be empty");
+			errMsg = "The annotations list within the attribute metadata cannot be null, although it can be empty";
+			throw new IllegalArgumentException(errMsg);
 		}
 
 		Deque<Class<?>> types = new ArrayDeque<Class<?>>();
