@@ -87,7 +87,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         NoSetterWithCollectionInConstructorPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(NoSetterWithCollectionInConstructorPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, NoSetterWithCollectionInConstructorPojo.class);
         List<String> strList = pojo.getStrList();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(strList, String.class);
         int intField = pojo.getIntField();
@@ -103,7 +103,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         ImmutableWithNonGenericCollectionsPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithNonGenericCollectionsPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableWithNonGenericCollectionsPojo.class);
 
         Collection<?> nonGenerifiedCollection = pojo.getNonGenerifiedCollection();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
@@ -125,7 +125,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         ImmutableWithGenericCollectionsPojo pojo =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithGenericCollectionsPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableWithGenericCollectionsPojo.class);
 
         Collection<OneDimensionalTestPojo> generifiedCollection = pojo
                 .getGenerifiedCollection();
@@ -171,7 +171,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         ReadOnlyWildcardFieldsPojo pojo	= podamInvocationSteps.whenIInvokeTheFactoryForClass(
                 ReadOnlyWildcardFieldsPojo.class, podamFactory);
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ReadOnlyWildcardFieldsPojo.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Object.class);
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
                 pojo.getMap(), Object.class, Object.class);
@@ -185,7 +185,7 @@ public class CollectionsTest extends AbstractPodamSteps {
 
         ReadOnlyRawFieldsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
                 ReadOnlyRawFieldsPojo.class, podamFactory);
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, ReadOnlyRawFieldsPojo.class);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getList(), Object.class);
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
                 pojo.getMap(), Object.class, Object.class);
@@ -210,7 +210,7 @@ public class CollectionsTest extends AbstractPodamSteps {
                 mapType, podamFactory, String.class, PodamTestInterface.class);
 
 
-        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, Map.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.keySet().size());
         podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.values().size());
     }
