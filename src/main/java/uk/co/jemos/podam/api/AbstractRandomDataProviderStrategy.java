@@ -185,8 +185,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 		typeManufacturers.put(Type.class, typeManufacturer);
 
 		TypeManufacturer<?> collectionManufacturer = new CollectionTypeManufacturerImpl();
-		typeManufacturers.put(Set.class, collectionManufacturer);
-		typeManufacturers.put(List.class, collectionManufacturer);
 		typeManufacturers.put(Collection.class, collectionManufacturer);
 
 		TypeManufacturer<?> mapManufacturer = new MapTypeManufacturerImpl();
@@ -386,38 +384,38 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		Deque<Class<?>> types = new ArrayDeque<Class<?>>();
 		types.add(pojoType);
-		TypeManufacturer<?> manufacturer = null;
-		while (null == manufacturer && !types.isEmpty()) {
+		while (!types.isEmpty()) {
 
 			Class<?> type = types.remove();
-			manufacturer = typeManufacturers.get(type);
-			if (null == manufacturer) {
-				for (Class<?> iface : type.getInterfaces()) {
-					types.add(iface);
+			TypeManufacturer<?> manufacturer = typeManufacturers.get(type);
+			if (null != manufacturer) {
+				try {
+					@SuppressWarnings("unchecked")
+					T tmp = (T) manufacturer.getType(this, attributeMetadata,
+							genericTypesArgumentsMap);
+					if (null != tmp) {
+						log(attributeMetadata);
+						return tmp;
+					} else {
+						LOG.debug("{} cannot manufacture {}", manufacturer, pojoType);
+					}
+				} catch (Exception e) {
+					throw new PodamMockeryException(
+							"Unable to instantiate " + pojoType, e);
 				}
-				type = type.getSuperclass();
-				if (null != type) {
-					types.add(type);
-				}
+			}
+
+			for (Class<?> iface : type.getInterfaces()) {
+				types.add(iface);
+			}
+			type = type.getSuperclass();
+			if (null != type) {
+				types.add(type);
 			}
 		}
 
-		if (null == manufacturer) {
-			LOG.debug("Failed to find manufacturer for type {}", pojoType);
-			return null;
-		}
-
-		log(attributeMetadata);
-
-		try {
-			@SuppressWarnings("unchecked")
-			T tmp = (T) manufacturer.getType(this, attributeMetadata,
-					genericTypesArgumentsMap);
-			return tmp;
-		} catch (Exception e) {
-			throw new PodamMockeryException(
-					"Unable to instantiate " + pojoType, e);
-		}
+		LOG.debug("Failed to find suitable manufacturer for type {}", pojoType);
+		return null;
 	}
 
 	/**
