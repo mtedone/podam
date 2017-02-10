@@ -3,6 +3,9 @@
  */
 package uk.co.jemos.podam.test.strategies;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
@@ -22,7 +25,8 @@ public class WrongTypeStrategy
 	/**
 	 * {@inheritDoc}
 	 */
-	public OneDimensionalTestPojo getValue() throws PodamMockeryException {
+	@Override
+	public OneDimensionalTestPojo getValue(List<Annotation> annotations) throws PodamMockeryException {
 		return new OneDimensionalTestPojo();
 	}
 

@@ -31,9 +31,6 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
 
-	/** bean validation annotations */
-	private List<Annotation> annotations;
-
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
 
@@ -42,13 +39,10 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	/**
 	 * Constructor for the strategy
 	 *
-	 * @param annotations
-	 *        bean validation annotations
 	 * @param attributeType
 	 *        expected return type of an attribute
 	 */
-	public BeanValidationStrategy(List<Annotation> annotations, Class<?> attributeType) {
-		this.annotations = annotations;
+	public BeanValidationStrategy(Class<?> attributeType) {
 		this.attributeType = attributeType;
 	}
 
@@ -62,7 +56,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 * 
 	 * {@inheritDoc}
 	 */
-	public Object getValue() throws PodamMockeryException {
+	public Object getValue(List<Annotation> annotations) throws PodamMockeryException {
 
 		if (null != findTypeFromList(annotations, AssertTrue.class)) {
 
@@ -190,12 +184,13 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 * @return
 	 *        First element from the list of desired type
 	 */
-	@SuppressWarnings("unchecked")
-	private static <T> T findTypeFromList(List<?> list, Class<T> type) {
+	public static <T> T findTypeFromList(List<?> list, Class<T> type) {
 
 		for (Object item : list) {
 			if (type.isAssignableFrom(item.getClass())) {
-				return (T)item;
+				@SuppressWarnings("unchecked")
+				T found = (T)item;
+				return found;
 			}
 		}
 		return null;

@@ -35,10 +35,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -110,8 +108,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
-	private final Map<Class<? extends Annotation>, Class<AttributeStrategy<?>>> attributeStrategies
-			= new ConcurrentHashMap<Class<? extends Annotation>, Class<AttributeStrategy<?>>>();
+	private final Map<Class<? extends Annotation>, AttributeStrategy<?>> attributeStrategies
+			= new ConcurrentHashMap<Class<? extends Annotation>, AttributeStrategy<?>>();
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorHeavyComparator =
@@ -507,9 +505,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public RandomDataProviderStrategy addOrReplaceAttributeStrategy(
 			final Class<? extends Annotation> annotationClass,
-			final Class<AttributeStrategy<?>> strategyClass) {
+			final AttributeStrategy<?> attributeStrategy) {
 
-		attributeStrategies.put(annotationClass, strategyClass);
+		attributeStrategies.put(annotationClass, attributeStrategy);
 
 		return this;
 	}
@@ -534,7 +532,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Class<AttributeStrategy<?>> getStrategyForAnnotation(
+	public AttributeStrategy<?> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
 
 		return attributeStrategies.get(annotationClass);

@@ -809,8 +809,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		Object setterArg = null;
 		if (null != attributeStrategy) {
 
-			setterArg = TypeManufacturerUtil.returnAttributeDataStrategyValue(attributeType,
-                    attributeStrategy);
+			setterArg = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+					attributeType, pojoAttributeAnnotations, attributeStrategy);
 
 		} else {
 
@@ -1226,7 +1226,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				// The default
 				Object element = TypeManufacturerUtil.returnAttributeDataStrategyValue(
-							collectionElementType, elementStrategy);
+							collectionElementType, annotations, elementStrategy);
 
 				if (null == element) {
 
@@ -1554,6 +1554,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		AttributeStrategy<?> strategy = keyOrElementsArguments.getElementStrategy();
 		Object retValue = TypeManufacturerUtil.returnAttributeDataStrategyValue(
 					keyOrElementsArguments.getKeyOrValueType(),
+					keyOrElementsArguments.getAnnotations(),
 					strategy);
 
 		if (null == retValue) {
@@ -1648,8 +1649,8 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			if (null == arrayElement || arrayElement.getClass().isPrimitive() || arrayElement instanceof Number) {
 				// The default
-				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(componentType,
-							elementStrategy);
+				arrayElement = TypeManufacturerUtil.returnAttributeDataStrategyValue(
+						componentType, annotations, elementStrategy);
 
 				if (null == arrayElement) {
 					arrayElement = manufactureAttributeValue(array, manufacturingCtx,
@@ -1884,8 +1885,8 @@ public class PodamFactoryImpl implements PodamFactory {
 				= TypeManufacturerUtil.findAttributeStrategy(strategy, annotations, parameterType);
 		if (null != attributeStrategy) {
 
-			return TypeManufacturerUtil.returnAttributeDataStrategyValue(parameterType,
-                    attributeStrategy);
+			return TypeManufacturerUtil.returnAttributeDataStrategyValue(
+					parameterType, annotations, attributeStrategy);
 		}
 
 		Map<String, Type> typeArgsMapForParam;

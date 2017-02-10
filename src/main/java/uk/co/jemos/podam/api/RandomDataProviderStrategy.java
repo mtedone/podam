@@ -52,13 +52,13 @@ public interface RandomDataProviderStrategy extends DataProviderStrategy {
      *
      * @param annotationClass
      *            the annotation class
-     * @param strategyClass
-     *            the attribute strategy class
+     * @param attributeStrategy
+     *            the attribute strategy
      * @return itself
      */
     RandomDataProviderStrategy addOrReplaceAttributeStrategy(
             Class<? extends Annotation> annotationClass,
-            Class<AttributeStrategy<?>> strategyClass);
+            AttributeStrategy<?> attributeStrategy);
 
     /**
      * Remove binding of an annotation to attribute strategy

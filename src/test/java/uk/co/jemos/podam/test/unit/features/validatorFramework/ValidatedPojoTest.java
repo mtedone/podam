@@ -31,8 +31,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 	@Title("Podam should be able to fulfill most of the javax Validation framework")
 	public void podamShouldFulfillMostOfTheJavaxValidationFramework() throws Exception {
 
-		@SuppressWarnings("unchecked")
-		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)EmailStrategy.class;
+		AttributeStrategy<?> strategy = new EmailStrategy();
 		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Email.class, strategy);
 
 		ValidatedPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ValidatedPojo.class, podamFactory);
@@ -76,8 +75,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 	public void podamShouldAllowValidationAnnotationsCustomization()
 			throws Exception {
 
-		@SuppressWarnings("unchecked")
-		Class<AttributeStrategy<?>> strategy = (Class<AttributeStrategy<?>>)(Class<?>)PatternStrategy.class;
+		AttributeStrategy<?> strategy = new PatternStrategy();
 		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Pattern.class, strategy);
 		ValidatedPatternPojo pojo =
 				podamInvocationSteps.whenIInvokeTheFactoryForClass(

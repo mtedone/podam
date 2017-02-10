@@ -3,6 +3,9 @@
  */
 package uk.co.jemos.podam.test.strategies;
 
+import java.lang.annotation.Annotation;
+import java.util.List;
+
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.AttributeStrategy;
 
@@ -17,7 +20,8 @@ public class EmailStrategy implements AttributeStrategy<String> {
 	 * 
 	 * {@inheritDoc}
 	 */
-	public String getValue() {
+	@Override
+	public String getValue(List<Annotation> annotations) {
 
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < 2; i++) {

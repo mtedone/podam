@@ -58,7 +58,8 @@ public abstract class TypeManufacturerUtil {
             List<Annotation> annotations, Class<?> attributeType)
             throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, InvocationTargetException {
 
-        Iterator<Annotation> iter = annotations.iterator();
+        List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
+        Iterator<Annotation> iter = localAnnotations.iterator();
         while (iter.hasNext()) {
             Annotation annotation = iter.next();
             if (annotation instanceof PodamStrategyValue) {
@@ -82,15 +83,9 @@ public abstract class TypeManufacturerUtil {
                 }
             }
 
-            Class<AttributeStrategy<?>> attrStrategyClass;
-            if ((attrStrategyClass = strategy.getStrategyForAnnotation(annotationClass)) != null) {
-                Constructor<AttributeStrategy<?>> ctor; 
-                try {
-                    ctor = attrStrategyClass.getConstructor(Annotation.class);
-                    return ctor.newInstance(annotation);
-                } catch(NoSuchMethodException e) {
-                    return attrStrategyClass.newInstance();
-                }
+            AttributeStrategy<?> attrStrategy = strategy.getStrategyForAnnotation(annotationClass);
+            if (null != attrStrategy) {
+                return attrStrategy;
             }
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
@@ -110,12 +105,12 @@ public abstract class TypeManufacturerUtil {
         }
 
         AttributeStrategy<?> retValue = null;
-        if (!annotations.isEmpty()
+        if (!localAnnotations.isEmpty()
                 && !Collection.class.isAssignableFrom(attributeType)
                 && !Map.class.isAssignableFrom(attributeType)
                 && !attributeType.isArray()) {
 
-            retValue = new BeanValidationStrategy(annotations, attributeType);
+            retValue = new BeanValidationStrategy(attributeType);
         }
 
         return retValue;
@@ -445,6 +440,8 @@ public abstract class TypeManufacturerUtil {
      *
      * @param attributeType
      *            The attribute type, used for type checking
+     * @param annotations
+     *            Annotations attached to the attribute
      * @param attributeStrategy
      *            The {@link AttributeStrategy} to use
      * @return The value for the {@link PodamStrategyValue} annotation with
@@ -456,14 +453,15 @@ public abstract class TypeManufacturerUtil {
      *             safety.
      */
     public static Object returnAttributeDataStrategyValue(Class<?> attributeType,
-                                                    AttributeStrategy<?> attributeStrategy)
+            List<Annotation> annotations,
+            AttributeStrategy<?> attributeStrategy)
             throws IllegalArgumentException {
 
         if (null == attributeStrategy) {
             return null;
         }
 
-        Object retValue = attributeStrategy.getValue();
+        Object retValue = attributeStrategy.getValue(annotations);
         if (retValue != null) {
 
             Class<?> desiredType = attributeType.isPrimitive() ?

@@ -260,6 +260,6 @@ public interface DataProviderStrategy {
 	 *        Annotation class to inspect
 	 * @return attribute strategy associated with given annotation
 	 */
-	Class<AttributeStrategy<?>> getStrategyForAnnotation(Class<? extends Annotation> annotationClass);
+	AttributeStrategy<?> getStrategyForAnnotation(Class<? extends Annotation> annotationClass);
 
 }

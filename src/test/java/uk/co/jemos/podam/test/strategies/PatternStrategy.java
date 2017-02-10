@@ -4,11 +4,13 @@
 package uk.co.jemos.podam.test.strategies;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 import javax.validation.constraints.Pattern;
 
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.BeanValidationStrategy;
 
 /**
  * @author daivanov
@@ -16,30 +18,16 @@ import uk.co.jemos.podam.common.AttributeStrategy;
  */
 public class PatternStrategy implements AttributeStrategy<String> {
 
-	/** validation annotation */
-	private Pattern patternAnnotation;
-
-	/**
-	 * Constructor for the strategy
-	 *
-	 * @param annotation
-	 *        validation annotation
-	 */
-	public PatternStrategy(Annotation annotation) {
-		if (annotation instanceof Pattern) {
-			this.patternAnnotation = (Pattern)annotation;
-		} else {
-			throw new IllegalArgumentException(annotation.getClass().getSimpleName() + " is not Pattern");
-		}
-	}
-
 	/**
 	 * Produces valid patterns.
 	 * 
 	 * {@inheritDoc}
 	 */
-	public String getValue() {
+	@Override
+	public String getValue(List<Annotation> annotations) {
 
+		Pattern patternAnnotation
+				= BeanValidationStrategy.findTypeFromList(annotations, Pattern.class) ;
 		StringBuffer sb = new StringBuffer();
 
 		if ("^[0-9]{1,45}$".equals(patternAnnotation.regexp())) {
