@@ -279,7 +279,8 @@ public class PodamFactoryImpl implements PodamFactory {
 		// the best we can do is to find a constructor (e.g.
 		// getInstance())
 
-		Method[] declaredMethods = factoryClass.getDeclaredMethods();
+		Method[] declaredMethods = TypeManufacturerUtil.findSuitableConstructors(
+				factoryClass, pojoClass);
 		strategy.sort(declaredMethods, manufacturingCtx.getConstructorOrdering());
 
 		// A candidate factory method is a method which returns the
@@ -290,17 +291,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		for (Method candidateConstructor : declaredMethods) {
 
-			if (!candidateConstructor.getReturnType().equals(pojoClass)) {
-				continue;
-			}
-
 			Object factoryInstance = null;
 			if (!Modifier.isStatic(candidateConstructor.getModifiers())) {
-				if (factoryClass.equals(pojoClass)) {
-					continue;
-				} else {
-					factoryInstance = manufacturePojo(factoryClass);
-				}
+				factoryInstance = manufacturePojo(factoryClass);
 			}
 
 			parameterValues = getParameterValuesForMethod(candidateConstructor,
