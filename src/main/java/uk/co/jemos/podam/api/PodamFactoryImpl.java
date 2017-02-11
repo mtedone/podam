@@ -580,7 +580,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojoClass.getClass().getComponentType(),
 					annotations,
 					manufacturingCtx, typeArgsMap);
-		} else if (pojo instanceof Collection && ((Collection<?>)pojo).isEmpty()) {
+		} else if (pojo instanceof Collection) {
 			@SuppressWarnings("unchecked")
 			Collection<Object> collection = (Collection<Object>) pojo;
 			AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(
@@ -596,7 +596,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			String attributeName = null;
 			fillCollection(manufacturingCtx, annotations, attributeName,
 					collection, elementTypeClass, elementGenericTypeArgs.get());
-		} else if (pojo instanceof Map && ((Map<?,?>)pojo).isEmpty()) {
+		} else if (pojo instanceof Map) {
 			@SuppressWarnings("unchecked")
 			Map<Object,Object> map = (Map<Object,Object>)pojo;
 			MapArguments mapArguments = findInheretedMapElementType(
