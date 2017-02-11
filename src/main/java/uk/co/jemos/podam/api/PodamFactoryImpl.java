@@ -567,6 +567,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException, ClassNotFoundException {
 
+		LOG.debug("Populating pojo {}", pojo.getClass());
+
 		Class<?> pojoClass = pojo.getClass();
 		if (pojoClass.isArray()) {
 			if (null == annotations) {
@@ -780,6 +782,8 @@ public class PodamFactoryImpl implements PodamFactory {
 					setter);
 			return false;
 		}
+
+		LOG.debug("Populating read-write field {}", setter);
 
 		// A class which has got an attribute to itself (e.g.
 		// recursive hierarchies)
