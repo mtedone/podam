@@ -188,6 +188,18 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue(), Date.class);
 	}
 
+	@Test
+	@Title("Podam should be able to create instances of generic read only POJOs with factory methods when the concrete type is known")
+	public void podamShouldCreateInstancesOfGenericReadOnlyPojosWithFactoryMethodsWhenTheConcreteTypeIsKnown() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		FactoryInstantiableReadOnlyPojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+                FactoryInstantiableReadOnlyPojo.class, podamFactory, String.class);
+
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, FactoryInstantiableReadOnlyPojo.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue(), String.class);
+	}
 
 	@Test
 	@Title("Podam should choose the fullest constructor when invoked for full data")
