@@ -4,8 +4,10 @@
 package uk.co.jemos.podam.test.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import uk.co.jemos.podam.common.PodamCollection;
 import uk.co.jemos.podam.common.PodamConstructor;
 
 /**
@@ -14,12 +16,16 @@ import uk.co.jemos.podam.common.PodamConstructor;
  * @author mtedone
  * 
  */
-public class NoSetterWithCollectionInConstructorPojo implements Serializable {
+public class CollectionReadOnlyPojo implements Serializable {
 
 	// ------------------->> Constants
 	private static final long serialVersionUID = 1L;
 
 	// ------------------->> Instance / Static variables
+
+	/** A list of strings */
+	@PodamCollection(nbrElements = 2)
+	private final List<Date> dates;
 
 	/** A list of strings */
 	private final List<String> strList;
@@ -31,15 +37,18 @@ public class NoSetterWithCollectionInConstructorPojo implements Serializable {
 	/**
 	 * Full constructor
 	 * 
+	 * @param dates
+	 *            A list of dates
 	 * @param strList
 	 *            A list of Strings
 	 * @param intField
 	 *            An int field
 	 */
 	@PodamConstructor
-	public NoSetterWithCollectionInConstructorPojo(List<String> strList,
+	public CollectionReadOnlyPojo(List<Date> dates,
+			List<String> strList,
 			int intField) {
-		super();
+		this.dates = dates;
 		this.strList = strList;
 		this.intField = intField;
 	}
@@ -47,6 +56,13 @@ public class NoSetterWithCollectionInConstructorPojo implements Serializable {
 	// ------------------->> Public methods
 
 	// ------------------->> Getters / Setters
+
+	/**
+	 * @return the dates
+	 */
+	public List<Date> getDates() {
+		return dates;
+	}
 
 	/**
 	 * @return the strList
@@ -78,7 +94,7 @@ public class NoSetterWithCollectionInConstructorPojo implements Serializable {
 
 		StringBuilder retValue = new StringBuilder();
 
-		retValue.append("NoSetterWithCollectionInConstructorPojo ( ")
+		retValue.append("CollectionReadOnlyPojo ( ")
 				.append("strList = ").append(strList).append(TAB)
 				.append("intField = ").append(intField).append(TAB)
 				.append(" )");

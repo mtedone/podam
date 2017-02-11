@@ -85,11 +85,13 @@ public class CollectionsTest extends AbstractPodamSteps {
     public void podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        NoSetterWithCollectionInConstructorPojo pojo =
-                podamInvocationSteps.whenIInvokeTheFactoryForClass(NoSetterWithCollectionInConstructorPojo.class, podamFactory);
-        podamValidationSteps.thePojoMustBeOfTheType(pojo, NoSetterWithCollectionInConstructorPojo.class);
+        CollectionReadOnlyPojo pojo =
+                podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionReadOnlyPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, CollectionReadOnlyPojo.class);
+        List<Date> dates = pojo.getDates();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(dates, Date.class, 2);
         List<String> strList = pojo.getStrList();
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(strList, String.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(strList, String.class, 5);
         int intField = pojo.getIntField();
         podamValidationSteps.theIntFieldShouldNotBeZero(intField);
 
