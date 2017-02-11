@@ -56,7 +56,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 * 
 	 * {@inheritDoc}
 	 */
-	public Object getValue(List<Annotation> annotations) throws PodamMockeryException {
+	public Object getValue(Class<?> attrType, List<Annotation> annotations) throws PodamMockeryException {
 
 		if (null != findTypeFromList(annotations, AssertTrue.class)) {
 

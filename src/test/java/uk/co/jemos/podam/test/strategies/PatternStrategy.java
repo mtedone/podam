@@ -24,10 +24,10 @@ public class PatternStrategy implements AttributeStrategy<String> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getValue(List<Annotation> annotations) {
+	public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
 
 		Pattern patternAnnotation
-				= BeanValidationStrategy.findTypeFromList(annotations, Pattern.class) ;
+				= BeanValidationStrategy.findTypeFromList(attrAnnotations, Pattern.class) ;
 		StringBuffer sb = new StringBuffer();
 
 		if ("^[0-9]{1,45}$".equals(patternAnnotation.regexp())) {

@@ -26,7 +26,7 @@ public class WrongTypeStrategy
 	 * {@inheritDoc}
 	 */
 	@Override
-	public OneDimensionalTestPojo getValue(List<Annotation> annotations) throws PodamMockeryException {
+	public OneDimensionalTestPojo getValue(Class<?> attrType, List<Annotation> annotations) throws PodamMockeryException {
 		return new OneDimensionalTestPojo();
 	}
 

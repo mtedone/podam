@@ -461,7 +461,7 @@ public abstract class TypeManufacturerUtil {
             return null;
         }
 
-        Object retValue = attributeStrategy.getValue(annotations);
+        Object retValue = attributeStrategy.getValue(attributeType, annotations);
         if (retValue != null) {
 
             Class<?> desiredType = attributeType.isPrimitive() ?

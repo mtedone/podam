@@ -22,7 +22,7 @@ public class ObjectStrategy implements AttributeStrategy<Object> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Object getValue(List<Annotation> annotations) {
+	public Object getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
 		return null;
 	}
 

@@ -21,7 +21,7 @@ public class EmailStrategy implements AttributeStrategy<String> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getValue(List<Annotation> annotations) {
+	public String getValue(Class<?> attrType, List<Annotation> annotations) {
 
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < 2; i++) {

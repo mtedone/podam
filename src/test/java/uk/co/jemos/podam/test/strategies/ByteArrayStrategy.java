@@ -12,7 +12,7 @@ public class ByteArrayStrategy implements AttributeStrategy<byte[]> {
 	private static final SecureRandom RANDOM = new SecureRandom();
 
 	@Override
-	public byte[] getValue(List<Annotation> annotations) {
+	public byte[] getValue(Class<?> attrType, List<Annotation> annotations) {
 		byte[] b = new byte[LENGTH];
 		RANDOM.nextBytes(b);
 		return b;

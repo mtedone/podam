@@ -32,7 +32,7 @@ public class PostCodeStrategy implements AttributeStrategy<String> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String getValue(List<Annotation> annotations) throws PodamMockeryException {
+	public String getValue(Class<?> attrType, List<Annotation> annotations) throws PodamMockeryException {
 		return PodamTestConstants.POST_CODE;
 	}
 

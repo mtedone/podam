@@ -17,10 +17,12 @@ public interface AttributeStrategy<T> {
 	/**
 	 * It returns a value of the given type
 	 * 
-	 * @param annotations
+	 * @param attrType
+	 *            an attribute's type
+	 * @param attrAnnotations
 	 *            list of annotations attached to an attribute
 	 * @return A value of the given type
 	 */
-	T getValue(List<Annotation> annotations);
+	T getValue(Class<?> attrType, List<Annotation> attrAnnotations);
 
 }
