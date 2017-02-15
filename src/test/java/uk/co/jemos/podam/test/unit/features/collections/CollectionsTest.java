@@ -193,6 +193,36 @@ public class CollectionsTest extends AbstractPodamSteps {
                 pojo.getMap(), Object.class, Object.class);
     }
 
+    @Test
+    @Title("Podam should handle raw array lists")
+    public void podamShouldHandleRawArrayLists() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RawArrayListPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RawArrayListPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, RawArrayListPojo.class);
+        List rawArrayList = pojo.getRawArrayList();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(rawArrayList, Object.class);
+    }
+
+    @Test
+    @Title("Podam should handle raw hash sets")
+    public void podamShouldHandleRawHashSets() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RawHashSetPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RawHashSetPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, RawHashSetPojo.class);
+        HashSet rawHashSet = pojo.getRawHashSet();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(rawHashSet, Object.class);
+    }
+
+    @Test
+    @Title("Podam should handle raw linked lists")
+    public void podamShouldHandleRawLinkedLists() throws Exception {
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        RawLinkedListPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RawLinkedListPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, RawLinkedListPojo.class);
+        LinkedList rawLinkedList = pojo.getRawLinkedList();
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(rawLinkedList, Object.class);
+    }
+
 
     //------------------> Private methods
 

@@ -370,14 +370,15 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			Map<String, Type> genericTypesArgumentsMap,
 			Class<T> pojoType) {
 
+		String errMsg;
 		if (null == attributeMetadata) {
-			throw new IllegalArgumentException(
-					"The attribute metadata inside the wrapper cannot be null");
+			errMsg = "The attribute metadata inside the wrapper cannot be null";
+			throw new IllegalArgumentException(errMsg);
 		}
 
 		if (null == attributeMetadata.getAttributeAnnotations()) {
-			throw new IllegalArgumentException(
-					"The annotations list within the attribute metadata cannot be null, although it can be empty");
+			errMsg = "The annotations list within the attribute metadata cannot be null, although it can be empty";
+			throw new IllegalArgumentException(errMsg);
 		}
 
 		Deque<Class<?>> types = new ArrayDeque<Class<?>>();
