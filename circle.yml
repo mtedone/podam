@@ -1,11 +1,15 @@
 machine:
-  ruby:
-version: rbx-2.2.6
+  java:
+    version: openjdk8
+
+general:
+   artifacts:
+     - $CIRCLE_TEST_REPORTS
+     - target
+     
 test:
   override:
-    #as a ruby machine lets see if there is no need to do maven commands
-    #mvn clean verify
-test:
+    - mvn clean verify
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - find . -type f -regex ".*/target/failsafe-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
