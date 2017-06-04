@@ -1,10 +1,10 @@
 machine:
-  java:
-    version: openjdk7
-    version: openjdk8
+  ruby:
+version: rbx-2.2.6
 test:
   override:
-    -mvn clean verify
+    #as a ruby machine lets see if there is no need to do maven commands
+    #mvn clean verify
 test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
