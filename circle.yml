@@ -1,7 +1,10 @@
 machine:
   java:
     version: openjdk8
-
+dependencies:
+  pre:
+    -wget https://repo.maven.apache.org/maven2/org/eclipse/mylyn/github/org.eclipse.egit.github.core/3.1.0.201310021548-r/org.eclipse.egit.github.core-3.1.0.201310021548-r.jar
+    
 general:
    artifacts:
      - $CIRCLE_TEST_REPORTS
@@ -9,6 +12,7 @@ general:
      
 test:
   override:
+  
     - mvn clean verify
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
