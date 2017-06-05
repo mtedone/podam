@@ -542,10 +542,11 @@
 			</properties>
 		</profile>
 	</profiles>
-
+<repositories>
 <repository>
 			<id>eclipse</id>
 			<url>https://repo.eclipse.org/content/repositories/egit-releases/org/eclipse/mylyn/github/org.eclipse.egit.github.core/</url>
-		</repository>
+</repository>
+</repositories>
 </project>
 
