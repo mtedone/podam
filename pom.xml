@@ -426,23 +426,23 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
-	<repositories>
+	
 		<repository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-		<repository>
-			<id>eclipse</id>
-			<url>https://repo.eclipse.org/content/repositories/egit-releases/org/eclipse/mylyn/github/org.eclipse.egit.github.core/</url>
-		</repository>
-	</repositories>	
+		
+	
 		
 		<site>
 			<id>github-project-site</id>
 			<url>gitsite:git@github.com/devopsfolks/podam.git</url>
 		</site>
 	</distributionManagement>
-
+		<repository>
+			<id>eclipse</id>
+			<url>https://repo.eclipse.org/content/repositories/egit-releases/org/eclipse/mylyn/github/org.eclipse.egit.github.core/</url>
+		</repository>
 	<dependencies>
 		<dependency>
 			<groupId>net.jcip</groupId>
