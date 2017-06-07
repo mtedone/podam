@@ -729,7 +729,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				manufacturingCtx.getPojos().put(fieldClass, depth);
 			} else {
 
-				LOG.warn("Loop in filling read-only field {} detected.",
+				LOG.warn("Loop of depth " + depth + " in filling read-only field {} detected.",
 						getter);
 			}
 			return true;
@@ -968,7 +968,7 @@ public class PodamFactoryImpl implements PodamFactory {
 			} else {
 
 				attributeValue = resortToExternalFactory(manufacturingCtx,
-						"Loop in {} production detected. Resorting to {} external factory",
+						"Loop of depth " +  depth + " in {} production detected. Resorting to {} external factory",
 						realAttributeType, genericTypeArgsAll);
 
 			}
