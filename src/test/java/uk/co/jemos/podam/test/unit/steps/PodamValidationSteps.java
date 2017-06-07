@@ -71,7 +71,7 @@ public class PodamValidationSteps {
 
     @Step("Then the integer field {0} should have the precise value of {1}")
     public void theIntFieldShouldHaveThePreciseValueOf(int intFieldWithPreciseValue, int preciseValue) {
-        Assert.assertTrue("The int field hasn't got a precise value", intFieldWithPreciseValue == preciseValue);
+        assertThat(intFieldWithPreciseValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the long field {0} should be greater or equal to zero")
@@ -94,9 +94,7 @@ public class PodamValidationSteps {
 
     @Step("Then the long value should be precisely {1}")
     public void theLongFieldShouldHaveThePreciseValueOf(long longValueWithPreciseValue, long preciseValue) {
-        Assert.assertTrue("The value " + longValueWithPreciseValue + " should be exactly " + preciseValue,
-                longValueWithPreciseValue == preciseValue);
-
+        assertThat(longValueWithPreciseValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the int value {0} should be less or equal to {1}")
@@ -138,8 +136,7 @@ public class PodamValidationSteps {
 
     @Step("The byte value {0} should be precisely {1}")
     public void theByteValueShouldHavePreciselyValueOf(byte byteValue, byte preciseValue) {
-        Assert.assertTrue("The byte value " + byteValue + " should have a precise value of " + preciseValue,
-                byteValue == preciseValue);
+        assertThat(byteValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the value {0} should be greater or equal than {1}")
@@ -161,8 +158,7 @@ public class PodamValidationSteps {
 
     @Step("Then the short value {0} should be precisely {1}")
     public void theShortPreciseValueShouldBe(short shortFieldWithPreciseValue, short preciseValue) {
-        Assert.assertTrue("The short value " + shortFieldWithPreciseValue + " should be precisely " + preciseValue,
-                shortFieldWithPreciseValue == preciseValue);
+        assertThat(shortFieldWithPreciseValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the char value should be greater or equal than {1}")
@@ -185,8 +181,7 @@ public class PodamValidationSteps {
 
     @Step("Then the char value {0} should be exactly {1}")
     public void theCharValueShouldBeExactly(char charValue, char preciseValue) {
-        Assert.assertTrue("The char value should be exactly " + preciseValue,
-                charValue == preciseValue);
+        assertThat(charValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the boolean value {0} should be true")
@@ -219,8 +214,7 @@ public class PodamValidationSteps {
 
     @Step("Then the float value {0} should be precisely {1}")
     public void theFloatValueShouldBePrecisely(float floatValue, float preciseValue) {
-        Assert.assertTrue("The float value should be precisely " + preciseValue,
-                floatValue == preciseValue);
+        assertThat(floatValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the double value (0} should be greater or equal than {1}")
@@ -243,8 +237,7 @@ public class PodamValidationSteps {
 
     @Step("Then the double value {0} should be exactly {1}")
     public void theDoubleValueShouldBeExactly(double doubleValue, double preciseValue) {
-        Assert.assertTrue("The double value should be exactly " + doubleValue,
-                doubleValue == preciseValue);
+        assertThat(doubleValue, is(equalTo(preciseValue)));
     }
 
     @Step("Then the string value {0} should have the length of {1}")
