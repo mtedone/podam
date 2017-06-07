@@ -4,6 +4,8 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.dto.pdm6.Child;
@@ -109,11 +111,30 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     public void podamShouldSupportCircularDependencies() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        Parent parent = podamInvocationSteps.whenIInvokeTheFactoryForClass(Parent.class, podamFactory);
-        podamValidationSteps.thePojoMustBeOfTheType(parent, Parent.class);
-        Child child = parent.getChild();
-        podamValidationSteps.thePojoMustBeOfTheType(child, Child.class);
+        createPojoWithCircularDependencies(podamFactory);
+    }
 
+    @Test
+    @Title("Podam should fill in POJOs which have a circular dependency and custom depth")
+    public void podamShouldSupportCircularDependenciesCustomDepth() throws Exception {
+
+        DataProviderStrategy strategy = podamFactorySteps.givenACustomDataProviderStrategy();
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
+        createPojoWithCircularDependencies(podamFactory);
+    }
+
+    private void createPojoWithCircularDependencies(PodamFactory podamFactory) throws Exception {
+
+        Parent parent = podamInvocationSteps.whenIInvokeTheFactoryForClass(Parent.class, podamFactory);
+        int depth = 0;
+        while (null != parent) {
+            podamValidationSteps.thePojoMustBeOfTheType(parent, Parent.class);
+            Child child = parent.getChild();
+            podamValidationSteps.thePojoMustBeOfTheType(child, Child.class);
+            parent = child.getParent();
+            depth++;
+        }
+        podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(depth, podamFactory.getStrategy().getMaxDepth(Parent.class) + 2);
     }
 
     @Test
