@@ -72,9 +72,6 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	public static final int MAX_DEPTH = 1;
 
-	/** The max stack trace depth. */
-	private final AtomicInteger maxDepth = new AtomicInteger(MAX_DEPTH);
-
 	/** The number of collection elements. */
 	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
 
@@ -217,7 +214,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return maxDepth.get();
+		return MAX_DEPTH;
 	}
 
 	/**
