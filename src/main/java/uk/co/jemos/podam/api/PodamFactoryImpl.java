@@ -136,7 +136,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	@Override
 	public <T> T manufacturePojoWithFullData(Class<T> pojoClass, Type... genericTypeArgs) {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
-		manufacturingCtx.getPojos().put(pojoClass, 0);
+		manufacturingCtx.getPojos().put(pojoClass, 1);
 		manufacturingCtx.setConstructorOrdering(Order.HEAVY_FIRST);
 		return doManufacturePojo(pojoClass, manufacturingCtx, genericTypeArgs);
     }
@@ -147,7 +147,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	@Override
 	public <T> T manufacturePojo(Class<T> pojoClass, Type... genericTypeArgs) {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
-		manufacturingCtx.getPojos().put(pojoClass, 0);
+		manufacturingCtx.getPojos().put(pojoClass, 1);
 		return doManufacturePojo(pojoClass, manufacturingCtx, genericTypeArgs);
 	}
 
@@ -157,7 +157,7 @@ public class PodamFactoryImpl implements PodamFactory {
 	@Override
 	public <T> T populatePojo(T pojo, Type... genericTypeArgs) {
 		ManufacturingContext manufacturingCtx = new ManufacturingContext();
-		manufacturingCtx.getPojos().put(pojo.getClass(), 0);
+		manufacturingCtx.getPojos().put(pojo.getClass(), 1);
 		final Map<String, Type> typeArgsMap = new HashMap<String, Type>();
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
                 pojo.getClass(), genericTypeArgs);
@@ -719,9 +719,9 @@ public class PodamFactoryImpl implements PodamFactory {
 			Class<?> fieldClass = fieldValue.getClass();
 			Integer depth = manufacturingCtx.getPojos().get(fieldClass);
 			if (depth == null) {
-				depth = -1;
+				depth = 0;
 			}
-			if (depth <= strategy.getMaxDepth(fieldClass)) {
+			if (depth < strategy.getMaxDepth(fieldClass)) {
 
 				manufacturingCtx.getPojos().put(fieldClass, depth + 1);
 				populatePojoInternal(fieldValue, pojoAttributeAnnotations,
@@ -955,9 +955,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Integer depth = manufacturingCtx.getPojos().get(realAttributeType);
 			if (depth == null) {
-				depth = -1;
+				depth = 0;
 			}
-			if (depth <= strategy.getMaxDepth(pojoClass)) {
+			if (depth < strategy.getMaxDepth(pojoClass)) {
 
 				manufacturingCtx.getPojos().put(realAttributeType, depth + 1);
 

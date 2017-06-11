@@ -15,7 +15,7 @@ public class CustomRandomDataProviderStrategy extends AbstractRandomDataProvider
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return -1;
+		return 1;
 	}
 
 	/**

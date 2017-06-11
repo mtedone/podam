@@ -134,7 +134,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
             parent = child.getParent();
             depth++;
         }
-        podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(depth, podamFactory.getStrategy().getMaxDepth(Parent.class) + 2);
+        podamValidationSteps.theIntFieldShouldHaveThePreciseValueOf(depth, podamFactory.getStrategy().getMaxDepth(Parent.class));
     }
 
     @Test

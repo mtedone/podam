@@ -70,7 +70,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 1;
+	public static final int MAX_DEPTH = 3;
 
 	/** The number of collection elements. */
 	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
