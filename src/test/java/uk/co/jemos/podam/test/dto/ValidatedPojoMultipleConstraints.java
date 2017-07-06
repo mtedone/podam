@@ -3,6 +3,9 @@ package uk.co.jemos.podam.test.dto;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * POJO to test multiple constraints attached to the same field
@@ -24,6 +27,10 @@ public class ValidatedPojoMultipleConstraints {
     @DecimalMin("0.1")
     @Digits(integer = 1, fraction = 1)
     private Double value3;
+
+    @Size(max = 1, message = "str too long")
+    @NotEmpty(message = "str too short")
+    private String str;
 
     public Double getValue() {
         return value;
@@ -49,6 +56,14 @@ public class ValidatedPojoMultipleConstraints {
         this.value3 = value3;
     }
 
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
@@ -56,6 +71,7 @@ public class ValidatedPojoMultipleConstraints {
         sb.append("value='").append(value).append("\',");
         sb.append("value2='").append(value2).append("\',");
         sb.append("value3='").append(value3).append('\'');
+        sb.append("str='").append(str).append('\'');
         sb.append('}');
         return sb.toString();
     }
