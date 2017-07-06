@@ -88,6 +88,10 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			int minValue = size.min();
 			int maxValue = size.max();
 
+			if (minValue < 1 && maxValue > 0) {
+				minValue = 1;
+			}
+
 			if (maxValue == Integer.MAX_VALUE) {
 				maxValue = PodamConstants.STR_DEFAULT_LENGTH;
 			}
