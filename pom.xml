@@ -15,9 +15,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<serenity.version>1.2.2</serenity.version>
-		<spring.version>4.3.6.RELEASE</spring.version>
-		<log4j.version>2.7</log4j.version>
+		<serenity.version>1.5.3</serenity.version>
+		<spring.version>4.3.10.RELEASE</spring.version>
+		<log4j.version>2.8.2</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
@@ -439,7 +439,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.22</version>
+			<version>1.7.25</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.annotation</groupId>
@@ -454,7 +454,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.5</version>
+			<version>3.6</version>
 		</dependency>
 
 		<!-- Testing dependencies -->
