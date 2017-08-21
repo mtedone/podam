@@ -175,29 +175,28 @@ public abstract class TypeManufacturerUtil {
     public static Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
                                   final Class<?> pojoClass, final Type[] genericTypeArgs) {
 
-        TypeVariable<?>[] array = pojoClass.getTypeParameters();
-        List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(array));
+        TypeVariable<?>[] typeArray = pojoClass.getTypeParameters();
+        List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(typeArray));
+        List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
+
         Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
-		/* Removing types, which are already in typeArgsMap */
+        Iterator<Type> iterator2 = genericTypes.iterator();
         while (iterator.hasNext()) {
+            Type genericType = (iterator2.hasNext() ? iterator2.next() : null);
+            /* Removing types, which are already in typeArgsMap */
             if (typeArgsMap.containsKey(iterator.next().getName())) {
                 iterator.remove();
-            }
-        }
-
-        List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
-        Iterator<Type> iterator2 = genericTypes.iterator();
-		/* Removing types, which are type variables */
-        while (iterator2.hasNext()) {
-            if (iterator2.next() instanceof TypeVariable) {
-                iterator2.remove();
+                /* Removing types, which are type variables */
+                if (genericType instanceof TypeVariable) {
+                    iterator2.remove();
+                }
             }
         }
 
         if (typeParameters.size() > genericTypes.size()) {
             String msg = pojoClass.getCanonicalName()
                     + " is missing generic type arguments, expected "
-                    + typeParameters + ", provided "
+                    + Arrays.toString(typeArray) + ", provided "
                     + Arrays.toString(genericTypeArgs);
             throw new IllegalArgumentException(msg);
         }

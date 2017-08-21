@@ -676,7 +676,8 @@ public class PodamFactoryImpl implements PodamFactory {
 			return false;
 		}
 
-		if (getter.getReturnType().isPrimitive()) {
+		Class<?> pojoType = getter.getReturnType();
+		if (pojoType.isPrimitive()) {
 			/* TODO: non-zero values should be fine */
 			return false;
 		}
@@ -694,17 +695,17 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Type[] genericTypeArgsAll;
 			Map<String, Type> paramTypeArgsMap;
-			if (getter.getGenericReturnType() instanceof ParameterizedType) {
+			Type genericPojoType = getter.getGenericReturnType();
+			if (genericPojoType instanceof ParameterizedType) {
 
 				paramTypeArgsMap = new HashMap<String, Type>(typeArgsMap);
 
-				ParameterizedType paramType
-						= (ParameterizedType) getter.getGenericReturnType();
+				ParameterizedType paramType = (ParameterizedType) genericPojoType;
 				Type[] actualTypes = paramType.getActualTypeArguments();
 				TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-						getter.getReturnType(), actualTypes);
+						pojoType, actualTypes);
 				genericTypeArgsAll = TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-						getter.getReturnType(), genericTypeArgs);
+						pojoType, genericTypeArgs);
 
 			} else {
 
