@@ -96,6 +96,18 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 				pojo.getMap(), String.class, Long.class);
 	}
 
+	@Test
+	@Title("Podam should handle classes with read only maps having same key and value types")
+	public void podamShouldHandleGenericClassesWithParameterUsedInMultiplePlaces() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		DefaultMapSingleTypePojo<?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+				DefaultMapSingleTypePojo.class, podamFactory, String.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, DefaultMapSingleTypePojo.class);
+		podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(
+				pojo.getMap(), String.class, String.class);
+	}
 
 	@Test
 	@Title("Podam should be able to manufacture instances of the Observable class")
