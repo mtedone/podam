@@ -456,6 +456,13 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.6</version>
 		</dependency>
+		<dependency>
+			org.eclipse.mylyn.github
+			org.eclipse.egit.github.core
+			3.1.0.201310021548-r
+			system
+			src/org.eclipse.egit.github.core-3.1.0.201310021548-r.jar
+		</dependency>
 
 		<!-- Testing dependencies -->
 		<dependency>
