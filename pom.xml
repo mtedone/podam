@@ -424,6 +424,10 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
+		<repository>
+			<id>egit</id>
+			<url>https://repo.eclipse.org/content/groups/releases/</url>
+		</repository>
 		<site>
 			<id>github-project-site</id>
 			<url>gitsite:git@github.com/devopsfolks/podam.git</url>
