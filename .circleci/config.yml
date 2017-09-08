@@ -1,0 +1,8 @@
+version: 2
+jobs:
+   build:
+     docker:
+       - image: circleci/<java>:<version 1.8.0_141>
+     steps:
+       - checkout
+       - run: echo "hello world"
