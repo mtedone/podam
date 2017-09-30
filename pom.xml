@@ -456,14 +456,11 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.6</version>
 		</dependency>
-		
-		<! -- Start Additions by sriram underscore my at yahoo dot com -->
 		<dependency>
 			<groupId>org.eclipse.mylyn.github</groupId>
 			<artifactId>org.eclipse.egit.github.core</artifactId>
 			<version>3.1.0.201310021548-r</version>
 		</dependency>
-		<!-- End  Additions by sriram underscore my at yahoo dot com -->
 		
 		<!-- Testing dependencies -->
 		<dependency>
