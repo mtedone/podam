@@ -89,6 +89,7 @@ public class ClassInfoTest extends AbstractPodamSteps {
     @Title("The ClassInfo object created for a class should handle @PodamExcludeAnnotations")
     public void inPresenceOfExcludeAnnotationsTheClassInfoObjectShouldContainAValidSetOfPojoAttributes() {
 
+        @SuppressWarnings("unchecked")
         Set<Class<? extends Annotation>> excludeAnnotations =
                 podamFactorySteps.givenASetOfExcludedAnnotationsToBeExcluded(SimplePojoWithExcludeAnnotationToTestSetters.TestExclude.class);
 
@@ -110,6 +111,7 @@ public class ClassInfoTest extends AbstractPodamSteps {
     @Title("In Presence of excluded attributes, the Class Info object should not contain those attributes")
     public void inPresenceOfExcludedAttributesTheClassInfoObjectShouldNotContainThoseAttributes() {
 
+        @SuppressWarnings("unchecked")
         Set<Class<? extends Annotation>> excludeAnnotations =
                 podamFactorySteps.givenASetOfExcludedAnnotationsToBeExcluded();
 
