@@ -1,17 +1,38 @@
 package uk.co.jemos.podam.test.unit.features.collections;
 
-import net.serenitybdd.junit.runners.SerenityRunner;
-import net.thucydides.core.annotations.Title;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.test.dto.*;
-import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.SortedMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import net.serenitybdd.junit.runners.SerenityRunner;
+import net.thucydides.core.annotations.Title;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.test.dto.CollectionReadOnlyPojo;
+import uk.co.jemos.podam.test.dto.CollectionsPojo;
+import uk.co.jemos.podam.test.dto.ImmutableWithGenericCollectionsPojo;
+import uk.co.jemos.podam.test.dto.ImmutableWithNonGenericCollectionsPojo;
+import uk.co.jemos.podam.test.dto.OneDimensionalTestPojo;
+import uk.co.jemos.podam.test.dto.PodamTestInterface;
+import uk.co.jemos.podam.test.dto.ReadOnlyRawFieldsPojo;
+import uk.co.jemos.podam.test.dto.ReadOnlyWildcardFieldsPojo;
+import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
+import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 /**
  * Created by tedonema on 31/05/2015.
@@ -73,10 +94,10 @@ public class CollectionsTest extends AbstractPodamSteps {
         Set<?> looseCoupledNonGenerifiedSet = pojo.getLooseCoupledNonGenerifiedSet();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedSet, Object.class);
 
-        Map<?,?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
+        Map<?, ?> nonGenerifiedMap = pojo.getNonGenerifiedMap();
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(nonGenerifiedMap, Object.class, Object.class);
 
-        Map<?,?> looseCoupledNonGenerifiedMap = pojo.getLooseCoupledNonGenerifiedMap();
+        Map<?, ?> looseCoupledNonGenerifiedMap = pojo.getLooseCoupledNonGenerifiedMap();
         podamValidationSteps.theMapShouldNotBeNullOrEmptyAndContainElementsOfType(looseCoupledNonGenerifiedMap, Object.class, Object.class);
     }
 
@@ -85,8 +106,7 @@ public class CollectionsTest extends AbstractPodamSteps {
     public void podamShouldHandlePojosWithNoSettersAndCollectionsInTheConstructor() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        CollectionReadOnlyPojo pojo =
-                podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionReadOnlyPojo.class, podamFactory);
+        CollectionReadOnlyPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CollectionReadOnlyPojo.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(pojo, CollectionReadOnlyPojo.class);
         List<Date> dates = pojo.getDates();
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(dates, Date.class, 2);
@@ -102,8 +122,7 @@ public class CollectionsTest extends AbstractPodamSteps {
     public void podamShouldHandleImmutablePojosWithNonGenericCollections() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        ImmutableWithNonGenericCollectionsPojo pojo =
-                podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithNonGenericCollectionsPojo.class, podamFactory);
+        ImmutableWithNonGenericCollectionsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithNonGenericCollectionsPojo.class, podamFactory);
 
         podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableWithNonGenericCollectionsPojo.class);
 
@@ -125,8 +144,7 @@ public class CollectionsTest extends AbstractPodamSteps {
     public void podamShouldHandleImmutablePojoWithGenerifiedCollectionsInConstructor() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
-        ImmutableWithGenericCollectionsPojo pojo =
-                podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithGenericCollectionsPojo.class, podamFactory);
+        ImmutableWithGenericCollectionsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ImmutableWithGenericCollectionsPojo.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableWithGenericCollectionsPojo.class);
 
         Collection<OneDimensionalTestPojo> generifiedCollection = pojo
@@ -143,7 +161,6 @@ public class CollectionsTest extends AbstractPodamSteps {
                 generifiedSet, ImmutableWithNonGenericCollectionsPojo.class, ImmutableWithNonGenericCollectionsPojo.NBR_ELEMENTS);
 
     }
-
 
     @Test
     @Title("Podam should be able to create instances of Sorted Maps")
@@ -163,14 +180,13 @@ public class CollectionsTest extends AbstractPodamSteps {
         testMap(Map.class);
     }
 
-
     @Test
     @Title("Podam should fill in POJOs with attributes containing wildcards")
     public void podamShouldFillInPojosWithAttributesContainingWildcards() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
-        ReadOnlyWildcardFieldsPojo pojo	= podamInvocationSteps.whenIInvokeTheFactoryForClass(
+        ReadOnlyWildcardFieldsPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
                 ReadOnlyWildcardFieldsPojo.class, podamFactory);
 
         podamValidationSteps.thePojoMustBeOfTheType(pojo, ReadOnlyWildcardFieldsPojo.class);
@@ -193,10 +209,10 @@ public class CollectionsTest extends AbstractPodamSteps {
                 pojo.getMap(), Object.class, Object.class);
     }
 
-
     //------------------> Private methods
 
-    private void testMap(Class<? extends Map> mapType) {
+    @SuppressWarnings("rawtypes")
+    private void testMap(final Class<? extends Map> mapType) {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
@@ -208,14 +224,12 @@ public class CollectionsTest extends AbstractPodamSteps {
             mapSize = 0;
         }
 
-        Map<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
+        Map<?, ?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 mapType, podamFactory, String.class, PodamTestInterface.class);
-
 
         podamValidationSteps.thePojoMustBeOfTheType(pojo, Map.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.keySet().size());
         podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.values().size());
     }
-
 
 }
