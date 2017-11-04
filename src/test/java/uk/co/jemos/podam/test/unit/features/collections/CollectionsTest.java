@@ -196,7 +196,8 @@ public class CollectionsTest extends AbstractPodamSteps {
 
     //------------------> Private methods
 
-    private void testMap(Class<? extends Map> mapType) {
+    @SuppressWarnings("rawtypes")
+    private void testMap(final Class<? extends Map> mapType) {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
 
