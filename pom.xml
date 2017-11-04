@@ -71,43 +71,8 @@
 
 	<contributors>
 		<contributor>
-			<name>Daniil Ivanov</name>
-			<email>daniil.ivanov@gmail.com</email>
-			<roles>
-				<role>Contributor</role>
-			</roles>
-			<timezone>EET</timezone>
-		</contributor>
-		<contributor>
-			<name>Alec Ross</name>
-			<email>haelduksf@gmail.com</email>
-			<organization>Insigma Hengtian Software</organization>
-			<organizationUrl>http://www.hengtiansoft.com</organizationUrl>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>CST</timezone>
-		</contributor>
-		<contributor>
-			<name>Márcio Carmona</name>
-			<email>marciocarmona@gmail.com</email>
-			<organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>UTC-4</timezone>
-		</contributor>
-		<contributor>
-			<name>Ganesh Subramanian</name>
-			<email>tbd@somedomain.com</email>
-			<roles>
-				<role>Developer</role>
-			</roles>
-		</contributor>
-		<contributor>
-			<name>Antony Stubbs</name>
-			<email>antony.stubbs@gmail.com</email>
-			<organizationUrl>https://www.linkedin.com/in/antonystubbs</organizationUrl>
+			<name>Andrey Artyukhov</name>
+			<email>andrey.artyukhov@constant.obninsk.ru</email>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -130,19 +95,21 @@
 			<timezone>UTC-3</timezone>
 		</contributor>
 		<contributor>
-			<name>Clément Oukhemanou</name>
-			<email>c.oukhemanou@radhius.fr</email>
+			<name>David De Carvalho</name>
+			<email>dedece35@gmail.com</email>
 			<roles>
 				<role>Developer</role>
 			</roles>
 		</contributor>
-        <contributor>
-            <name>Francoise-Xavier Bonnet</name>
-            <email>francoise.bonnet@gmail.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </contributor>
+		<contributor>
+			<name>Márcio Carmona</name>
+			<email>marciocarmona@gmail.com</email>
+			<organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>UTC-4</timezone>
+		</contributor>
 		<contributor>
 			<name>Massimiliano Di Dato</name>
 			<email>didatomax@gmail.com</email>
@@ -150,13 +117,46 @@
 				<role>Developer</role>
 			</roles>
 		</contributor>
-                <contributor>
-                        <name>Andrey Artyukhov</name>
-			<email>andrey.artyukhov@constant.obninsk.ru</email>
-                        <roles>
-                                <role>Developer</role>
-                        </roles>
-                </contributor>
+		<contributor>
+			<name>Daniil Ivanov</name>
+			<email>daniil.ivanov@gmail.com</email>
+			<roles>
+				<role>Contributor</role>
+			</roles>
+			<timezone>EET</timezone>
+		</contributor>
+		<contributor>
+			<name>Clément Oukhemanou</name>
+			<email>c.oukhemanou@radhius.fr</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Alec Ross</name>
+			<email>haelduksf@gmail.com</email>
+			<organization>Insigma Hengtian Software</organization>
+			<organizationUrl>http://www.hengtiansoft.com</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>CST</timezone>
+		</contributor>
+		<contributor>
+			<name>Antony Stubbs</name>
+			<email>antony.stubbs@gmail.com</email>
+			<organizationUrl>https://www.linkedin.com/in/antonystubbs</organizationUrl>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
+			<name>Ganesh Subramanian</name>
+			<email>tbd@somedomain.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 
