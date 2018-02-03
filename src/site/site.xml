@@ -14,11 +14,8 @@
     
     <body>
       
-      <links>     
-         
-		<item name="Jemos Homepage" href="http://www.jemos.co.uk"
-        	 	alt="Visit Jemos homepage"
-        	 	target="_blank" />
+      <links>
+
         
           <item name="Podam @ GitHub"
         	href="https://github.com/mtedone/podam"
@@ -30,29 +27,12 @@
         	alt="Join PODAM Group on Google"
         	target="_blank" />
         	
-          <item name="BeDeDe @ GitHub"
-        	href="https://github.com/mtedone/bedede"
-        	alt="Download BeDeDe source from GitHub"
-        	target="_blank" />
+
         
-		 <item name="BeDeDe Google Group"
-        	href="https://groups.google.com/forum/#!forum/jemos-bedede"
-        	alt="Join BeDeDe Group on Google"
-        	target="_blank" />
-        
-        <item name="LinkedIn profile" href="http://www.linkedin.com/in/mtedone"
+        <item name="LinkedIn profile" href="https://www.linkedin.com/in/marco-tedone-a874b0127"
         	 	alt="LinkedIn profile"
-        	 	target="_blank" />       
-        
-        
-        <item name="My CV" href="http://www.jemos.co.uk/personal/cv/marco-cv-new.doc"
-        	 	alt="Download my CV"
         	 	target="_blank" />
-        
-        <item name="My Blog"
-        	href="http://tedone.typepad.com/blog"
-        	alt="Follow My Blog"
-        	target="_blank" />
+
         	
         <item name="Follow Me on Twitter"
         	href="https://twitter.com/#!/marcotedone"
