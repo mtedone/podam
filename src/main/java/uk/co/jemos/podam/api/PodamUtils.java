@@ -246,6 +246,8 @@ public abstract class PodamUtils {
 			return Character.class;
 		} else if (short.class.equals(primitiveType)) {
 			return Short.class;
+		} else if (boolean.class.equals(primitiveType)) {
+			return Boolean.class;
 		} else {
 			return primitiveType;
 		}
