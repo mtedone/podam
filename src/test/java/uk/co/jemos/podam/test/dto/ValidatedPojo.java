@@ -121,6 +121,9 @@ public class ValidatedPojo {
 	@Email
 	private String email;
 
+	@AssertTrue
+	private Boolean boolPrimitive;
+
 	@Min(-5)
 	@Max(5)
 	private long longPrimitive;
@@ -389,4 +392,13 @@ public class ValidatedPojo {
 	public void setFloatPrimitive(float floatPrimitive) {
 		this.floatPrimitive = floatPrimitive;
 	}
+
+	public boolean isBoolPrimitive() {
+		return boolPrimitive;
+	}
+
+	public void setBoolPrimitive(boolean boolPrimitive) {
+		this.boolPrimitive = boolPrimitive;
+	}
+
 }
