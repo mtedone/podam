@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,9 +37,6 @@ public abstract class PodamUtils {
 
 	/** The application logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);
-
-	/** Random number generator */
-	private static final Random RANDOM = new Random();
 
 	/**
 	 * It returns a {@link Field} matching the attribute name or null if a field
@@ -218,8 +216,9 @@ public abstract class PodamUtils {
 		}
 		double retValue;
 		double margin = (maxValue - minValue + 0.1);
+		Random random = ThreadLocalRandom.current();
 		do {
-			retValue = minValue + RANDOM.nextDouble() * margin;
+			retValue = minValue + random.nextDouble() * margin;
 		} while (retValue > maxValue);
 		return retValue;
 	}
