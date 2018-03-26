@@ -34,7 +34,7 @@ public abstract class AbstractTypeManufacturer<T> implements TypeManufacturer<T>
     /** It returns a int/Integer value in an interval (0, bound).
 	 *
 	 * @param bound
-	 *            the upper bound (exclusive). Must be positive.
+	 *            the upper bound (inclusive). Must be positive.
 	 * @return A random int value.
 	 */
 	public int getInteger(int bound) {
