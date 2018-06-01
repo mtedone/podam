@@ -202,6 +202,7 @@ public class Pdm45UnitTest {
 	/**
 	 * It validates a {@link MultiDimensionalTestPojo} collection.
 	 * 
+	 * @param <T> the type of the class to validate
 	 * @param collection the collection to validate
 	 * @param type the type of the class to validate
      */

@@ -13,6 +13,7 @@ public class GenericMapPojo<F, S> {
 	private Map<String, GenericPojo<F, S>> genericPojos;
 
 	/**
+	 * Map getter
 	 * @return the genericPojo
 	 */
 	public Map<String, GenericPojo<F, S>> getGenericPojos() {
@@ -20,7 +21,8 @@ public class GenericMapPojo<F, S> {
 	}
 
 	/**
-	 * @param genericPojo the genericPojo to set
+	 * Map setter
+	 * @param genericPojos the genericPojo to set
 	 */
 	public void setGenericPojos(Map<String, GenericPojo<F, S>> genericPojos) {
 		this.genericPojos = genericPojos;

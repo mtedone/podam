@@ -300,7 +300,7 @@ public class CollectionsPojo {
 	}
 
 	/**
-	 * @param looseCoupledNonGenerifiedList
+	 * @param looseCoupledNonGenerifiedSet
 	 *            the looseCoupledNonGenerifiedList to set
 	 */
 	@SuppressWarnings("rawtypes")

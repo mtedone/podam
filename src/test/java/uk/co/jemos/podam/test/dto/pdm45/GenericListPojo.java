@@ -13,6 +13,7 @@ public class GenericListPojo<F, S> {
 	private List<GenericPojo<F, S>> genericPojos;
 
 	/**
+	 * List getter
 	 * @return the genericPojo
 	 */
 	public List<GenericPojo<F, S>> getGenericPojos() {
@@ -20,7 +21,8 @@ public class GenericListPojo<F, S> {
 	}
 
 	/**
-	 * @param genericPojo the genericPojo to set
+	 * List setter
+	 * @param genericPojos the genericPojo to set
 	 */
 	public void setGenericPojos(List<GenericPojo<F, S>> genericPojos) {
 		this.genericPojos = genericPojos;
