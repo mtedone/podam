@@ -70,7 +70,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 3;
+	private int maxDepth = 3;
 
 	/** The number of collection elements. */
 	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();
@@ -214,7 +214,17 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getMaxDepth(Class<?> type) {
-		return MAX_DEPTH;
+		return maxDepth;
+	}
+
+	/**
+	 * Max depth setter
+	 *
+	 * @param maxDepth
+	 *            defines new max depth
+	 */
+	public void setMaxDepth(int maxDepth) {
+		this.maxDepth = maxDepth;
 	}
 
 	/**
