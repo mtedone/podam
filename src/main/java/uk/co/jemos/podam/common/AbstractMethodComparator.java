@@ -23,10 +23,12 @@ public abstract class AbstractMethodComparator implements Comparator<Method> {
 
 		int complexity = 0;
 		for (Class<?> parameter : method.getParameterTypes()) {
-			if (parameter.isInterface()
-					|| (Modifier.isAbstract(parameter.getModifiers()) && !parameter.isPrimitive())
-					|| parameter.isAssignableFrom(method.getDeclaringClass())) {
-				complexity++;
+			if (!parameter.isPrimitive() && !parameter.equals(String.class)) {
+				if (parameter.isInterface()
+						|| Modifier.isAbstract(parameter.getModifiers())
+						|| parameter.isAssignableFrom(method.getDeclaringClass())) {
+					complexity++;
+				}
 			}
 		}
 		return complexity;
