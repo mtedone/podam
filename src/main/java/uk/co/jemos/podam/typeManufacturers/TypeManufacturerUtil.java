@@ -12,7 +12,6 @@ import uk.co.jemos.podam.common.*;
 import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.ws.Holder;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -293,7 +292,7 @@ public abstract class TypeManufacturerUtil {
                         attributeStrategy = collectionAnnotation.mapElementStrategy();
                     }
                     if (null != attributeStrategy) {
-                        elementStrategyHolder.value = attributeStrategy.newInstance();
+                        elementStrategyHolder.setValue(attributeStrategy.newInstance());
                     }
                 }
                 if (null != keyStrategyHolder) {
@@ -301,7 +300,7 @@ public abstract class TypeManufacturerUtil {
                     Class<? extends AttributeStrategy<?>> attributeStrategy
                             = collectionAnnotation.mapKeyStrategy();
                     if (null != attributeStrategy) {
-                        keyStrategyHolder.value = attributeStrategy.newInstance();
+                        keyStrategyHolder.setValue(attributeStrategy.newInstance());
                     }
                 }
                 return collectionAnnotation.nbrElements();

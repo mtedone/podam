@@ -3,6 +3,7 @@ package uk.co.jemos.podam.typeManufacturers;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.Holder;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
@@ -12,8 +13,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.xml.ws.Holder;
 
 /**
  * Default collection type manufacturer.
