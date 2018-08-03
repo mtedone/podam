@@ -4,6 +4,7 @@ import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
+import uk.co.jemos.podam.test.dto.RecursivePojoWithList;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
 import uk.co.jemos.podam.test.unit.features.extensions.NonEJBClassInfoStrategy;
 import uk.co.jemos.podam.test.unit.features.externalFactory.TestExternalFactory;
@@ -159,8 +160,25 @@ public class PodamFactorySteps {
     }
 
     @Step("Given a Custom Data Provider Strategy")
-    public CustomDataProviderStrategy givenACustomDataProviderStrategy() {
+    public DataProviderStrategy givenACustomDataProviderStrategy() {
         return new CustomDataProviderStrategy();
+    }
+
+    @Step("Given a Custom Depth Data Provider Strategy")
+    public DataProviderStrategy givenACustomDepthDataProviderStrategy() {
+        return new AbstractRandomDataProviderStrategy() {
+
+            @Override
+            public int getMaxDepth(Class<?> type) {
+                if (RecursivePojoWithList.class.isAssignableFrom(type)) {
+                    return 2;
+                } else if (List.class.isAssignableFrom(type)) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+        };
     }
 
     @Step("Given a Podam Factory with external factory and custom data provider strategy")

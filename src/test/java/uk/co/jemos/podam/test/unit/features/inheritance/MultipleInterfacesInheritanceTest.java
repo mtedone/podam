@@ -5,6 +5,7 @@ import net.thucydides.core.annotations.Title;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesHolderPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesListPojo;
 import uk.co.jemos.podam.test.dto.MultipleInterfacesMapPojo;
@@ -78,7 +79,7 @@ public class MultipleInterfacesInheritanceTest extends AbstractPodamSteps {
 	private PodamFactory provideCustomisedPodamFactory() throws Exception {
 		TrackingExternalFactory externalFactory = podamFactorySteps.givenATrackingExternalFactory();
 
-		CustomDataProviderStrategy customDataProviderStrategy = podamFactorySteps.givenACustomDataProviderStrategy();
+		DataProviderStrategy customDataProviderStrategy = podamFactorySteps.givenACustomDataProviderStrategy();
 
 		PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithExternalFactoryAndCustomStrategy(
 				externalFactory, customDataProviderStrategy);

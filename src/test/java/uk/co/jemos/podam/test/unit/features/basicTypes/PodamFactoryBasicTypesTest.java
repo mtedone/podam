@@ -97,6 +97,18 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Title("Podam should fill recursive POJOs correctly, including all their list fields")
+    public void podamShouldFillRecursivePojosWithLists() throws Exception {
+
+        DataProviderStrategy strategy = podamFactorySteps.givenACustomDepthDataProviderStrategy();
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomDataProviderStrategy(strategy);
+        RecursivePojoWithList recursivePojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(RecursivePojoWithList.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(recursivePojo, RecursivePojoWithList.class);
+        podamValidationSteps.thePojoMustBeOfTheType(recursivePojo.getRelated(), RecursivePojoWithList.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(recursivePojo.getChildren(), RecursivePojoWithList.class);
+    }
+
+    @Test
     @Title("Podam should fill array when invoking the factory population directly")
     public void podamShouldFillArrays() throws Exception {
 
