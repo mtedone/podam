@@ -10,7 +10,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>7.2.0.RELEASE</version>
+	<version>7.2.1-SNAPSHOT</version>
 	<name>podam</name>
 
 	<properties>
