@@ -1,6 +1,7 @@
 package uk.co.jemos.podam.test.dto.pdm45;
 
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +14,7 @@ public class GenericMapPojo<F, S> {
 
 	private Map<String, GenericPojo<F, S>> genericPojos;
 
-	private Map<String, List> genericRawLists;
+	private Map<String, List> genericRawLists = new HashMap<String, List>();
 
 	/**
 	 * Map getter
@@ -37,14 +38,6 @@ public class GenericMapPojo<F, S> {
 	 */
 	public Map<String, List> getGenericRawLists() {
 		return genericRawLists;
-	}
-
-	/**
-	 * Map setter
-	 * @param genericRawLists the genericRawLists to set
-	 */
-	public void setGenericRawLists(Map<String, List> genericRawLists) {
-		this.genericRawLists = genericRawLists;
 	}
 
 	/**
