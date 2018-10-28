@@ -1035,7 +1035,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		// This needs to be generic because collections can be of any type
 		Collection<Object> defaultValue = null;
-		if (null != pojo && !Character.isDigit(attributeName.charAt(0))) {
+		if (null != pojo && null != attributeName && !Character.isDigit(attributeName.charAt(0))) {
 
 			defaultValue = PodamUtils.getFieldValue(pojo, attributeName);
 		}
