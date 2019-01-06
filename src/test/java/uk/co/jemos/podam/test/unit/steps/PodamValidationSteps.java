@@ -334,7 +334,7 @@ public class PodamValidationSteps {
     }
 
     @Step("Then the map should be empty")
-    public void theMapShouldBeEmtpy(Map<?, ?> map) {
+    public void theMapShouldBeEmpty(Map<?, ?> map) {
         assertThat("The Map should be empty", map.keySet(), is(empty()));
     }
 

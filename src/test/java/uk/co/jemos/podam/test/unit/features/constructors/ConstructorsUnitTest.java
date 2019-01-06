@@ -174,7 +174,7 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		ImmutableHashtable<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
 				ImmutableHashtable.class, podamFactory, String.class, Integer.class);
 		podamValidationSteps.thePojoMustBeOfTheType(pojo, ImmutableHashtable.class);
-		podamValidationSteps.theMapShouldBeEmtpy(pojo);
+		podamValidationSteps.theMapShouldBeEmpty(pojo);
 	}
 
 	@Test
