@@ -204,21 +204,8 @@ public class CollectionsTest extends AbstractPodamSteps {
         Map<?,?> pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(
                 mapType, podamFactory, String.class, PodamTestInterface.class);
 
-        int mapSize;
-        if (ConcurrentMap.class.isAssignableFrom(mapType)) {
-            mapSize = 0;
-        } else {
-            DataProviderStrategy strategy = podamFactory.getStrategy();
-            mapSize = strategy.getNumberOfCollectionElements(PodamTestInterface.class);
-        }
-
         podamValidationSteps.thePojoMustBeOfTheType(pojo, Map.class);
-        if (0 != mapSize) {
-            podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(pojo.keySet(), String.class, mapSize);
-            podamValidationSteps.theTwoObjectsShouldBeEqual(mapSize, pojo.values().size());
-        } else {
-            podamValidationSteps.theMapShouldBeEmpty(pojo);
-        }
+        podamValidationSteps.theMapShouldBeEmpty(pojo);
     }
 
 

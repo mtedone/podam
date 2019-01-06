@@ -108,10 +108,7 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(recursivePojo.getChildren(), RecursivePojoWithList.class);
         for (RecursivePojoWithList child : recursivePojo.getChildren()) {
             podamValidationSteps.thePojoShouldBeNull(child.getRelated());
-            podamValidationSteps.theCollectionShouldNotBeNullOrEmpty(child.getChildren());
-            for (RecursivePojoWithList grandChild : child.getChildren()) {
-                podamValidationSteps.thePojoShouldBeNull(grandChild);
-            }
+            podamValidationSteps.theCollectionShouldBeEmpty(child.getChildren());
         }
     }
 

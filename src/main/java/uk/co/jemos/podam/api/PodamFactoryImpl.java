@@ -1231,7 +1231,10 @@ public class PodamFactoryImpl implements PodamFactory {
 							collectionElementType, collectionElementType,
 							annotations, attributeName, NULL_TYPE_ARGS_MAP, genericTypeArgs);
 				}
-				collection.add(element);
+
+				if (null != element) {
+					collection.add(element);
+				}
 			}
 		} catch (UnsupportedOperationException e) {
 
@@ -1505,8 +1508,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				elementValue = getMapKeyOrElementValue(valueArguments, manufacturingCtx);
 
-				/* ConcurrentHashMap doesn't allow null values */
-				if (elementValue != null || !(map instanceof ConcurrentHashMap)) {
+				if (elementValue != null) {
 					map.put(keyValue, elementValue);
 				}
 			}
