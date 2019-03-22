@@ -392,7 +392,7 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 						pattern = GETTER_PATTERN;
 					} else if (method.getParameterTypes().length > 0
 							&& (method.getReturnType().equals(void.class)
-									|| method.getReturnType().equals(workClass))) {
+									|| method.getReturnType().isAssignableFrom(workClass))) {
 
 						pattern = SETTER_PATTERN;
 					} else {
