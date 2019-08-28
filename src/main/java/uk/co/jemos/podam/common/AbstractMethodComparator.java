@@ -44,6 +44,8 @@ public abstract class AbstractMethodComparator implements Comparator<Method> {
 		} else if (!choose1 && choose2) {
 			return Integer.MAX_VALUE;
 		}
+		System.out.println(" Hi I am new to Git Hub. Any one can edit public repo if they have link..? ");
+		System.out.println(" Can i make public repo read only so that no one like me can't edit..?");
 		return 0;
 	}
 
