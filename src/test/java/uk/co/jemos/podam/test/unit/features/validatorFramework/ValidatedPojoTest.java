@@ -6,6 +6,7 @@ import net.thucydides.core.annotations.Title;
 import org.hibernate.validator.constraints.Email;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.ValidatedPatternPojo;
@@ -15,9 +16,14 @@ import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.strategies.PatternStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
+import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tests Java bean validation API
@@ -26,6 +32,19 @@ import javax.validation.constraints.Pattern;
  */
 @RunWith(SerenityRunner.class)
 public class ValidatedPojoTest extends AbstractPodamSteps {
+
+	private static class TrackingStringTypeManufacturerImpl extends StringTypeManufacturerImpl {
+
+		public List<AttributeMetadata> calls = new ArrayList<AttributeMetadata>();
+
+		@Override
+		public String getStringValue(AttributeMetadata attributeMetadata) {
+			calls.add(attributeMetadata);
+			return super.getStringValue(attributeMetadata);
+		}
+	};
+
+	private static TrackingStringTypeManufacturerImpl stringTypeManufacturer = new TrackingStringTypeManufacturerImpl();
 
 	@Test
 	@Title("Podam should be able to fulfill most of the javax Validation framework")
@@ -97,12 +116,13 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 	public void whenMaxLengthIsNotSpecifiedInSizeAnnotationPodamShouldAssignASensibleDefault()
 			throws Exception {
 
-		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+		PodamFactory podamFactory = podamFactorySteps.givenAPodamWithACustomTypeManufacturer(String.class, stringTypeManufacturer);
 		ValidationPojoForStringWithSizeAndNoMax pojo =
 				podamInvocationSteps.whenIInvokeTheFactoryForClass(
 						ValidationPojoForStringWithSizeAndNoMax.class,
 						podamFactory);
 		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theCollectionShouldBeEmpty(stringTypeManufacturer.calls);
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
 		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
