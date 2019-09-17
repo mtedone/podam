@@ -23,10 +23,22 @@ public class ValidationPojoForStringWithSizeAndNoMax {
         this.name = name;
     }
 
+    @Size(max = 100)
+    private String name2;
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("ValidationPojoForStringWithSizeAndNoMax{");
         sb.append("name='").append(name).append('\'');
+        sb.append("name2='").append(name2).append('\'');
         sb.append('}');
         return sb.toString();
     }
