@@ -95,6 +95,10 @@ public class ValidatedPojo {
 	@Digits(integer = 3, fraction = 2)
 	private BigDecimal fractionDecimal;
 
+	@Min(-10)
+	@Max(-5)
+	private BigDecimal rangeDecimal;
+
 	@Past
 	private Date pastDate;
 
@@ -278,6 +282,14 @@ public class ValidatedPojo {
 
 	public void setFractionDecimal(BigDecimal fractionDecimal) {
 		this.fractionDecimal = fractionDecimal;
+	}
+
+	public BigDecimal getRangeDecimal() {
+		return rangeDecimal;
+	}
+
+	public void setRangeDecimal(BigDecimal rangeDecimal) {
+		this.rangeDecimal = rangeDecimal;
 	}
 
 	public Date getPastDate() {
