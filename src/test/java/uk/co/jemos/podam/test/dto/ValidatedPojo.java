@@ -95,8 +95,8 @@ public class ValidatedPojo {
 	@Digits(integer = 3, fraction = 2)
 	private BigDecimal fractionDecimal;
 
-	@Min(-10)
-	@Max(-5)
+	@DecimalMin("-9.5")
+	@DecimalMax("-5.5")
 	private BigDecimal rangeDecimal;
 
 	@Past
