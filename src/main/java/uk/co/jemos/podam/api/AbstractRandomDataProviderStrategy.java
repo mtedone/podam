@@ -542,8 +542,17 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public AttributeStrategy<?> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
 
-		return attributeStrategies.get(annotationClass);
+		if (attributeStrategies.containsKey(annotationClass)) {
+			return attributeStrategies.get(annotationClass);
+		} else {
+			for (Entry<Class<? extends Annotation>, AttributeStrategy<?>> attributeStrategy: attributeStrategies.entrySet()) {
+				if (attributeStrategy.getKey().isAssignableFrom(annotationClass)) {
+					return attributeStrategy.getValue();
+				}
+			}
+		}
 
+		return null;
 	}
 
 	/**
