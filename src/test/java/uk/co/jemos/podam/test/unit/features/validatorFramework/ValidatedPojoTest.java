@@ -52,6 +52,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getByteNumber());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getIntString());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getFractionDecimal());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getRangeDecimal());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getFractionString());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getPastDate());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getFutureCalendar());
