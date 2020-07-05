@@ -11,11 +11,13 @@ import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoWithMultipleAnnotationsToAttribute;
 import uk.co.jemos.podam.test.dto.annotations.*;
+import uk.co.jemos.podam.test.strategies.AnnotationStrategy;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
+import java.lang.annotation.Annotation;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -526,5 +528,15 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.theTwoObjectsShouldBeEqual("stringFieldWithPatternRegex", pojo.getStringFieldWithPatternAnnotation());
         podamValidationSteps.theTwoObjectsShouldBeEqual("testString", pojo.getStringFieldWithHibernateAnnotation());
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getStringFieldNoPodamAnnotation());
+    }
+
+    @Test
+    @Title("Podam should handle POJOs with multiple annotated fields and custom generic annotation strategy")
+    public void podamShouldHandlePojosWithAnnotatedFieldsAndCustomGenericAnnotationStrategy() throws Exception {
+        AnnotationStrategy annotationStrategy = new AnnotationStrategy();
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Annotation.class, annotationStrategy);
+        SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theCollectionShouldBeEmpty(annotationStrategy.getRecordedCalls());
     }
 }
