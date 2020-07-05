@@ -38,7 +38,7 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
     private Integer integerWithHibernateAnnotation;
 
     @Basic
-    @Size(min = 5, max = 5)
+    @Size(min = 7, max = 7)
     private String stringFieldNoPodamAnnotation;
 
 

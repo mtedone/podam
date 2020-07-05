@@ -527,7 +527,8 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getIntegerWithHibernateAnnotation(), Integer.class);
         podamValidationSteps.theTwoObjectsShouldBeEqual("stringFieldWithPatternRegex", pojo.getStringFieldWithPatternAnnotation());
         podamValidationSteps.theTwoObjectsShouldBeEqual("testString", pojo.getStringFieldWithHibernateAnnotation());
-        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(pojo.getStringFieldNoPodamAnnotation());
+        podamValidationSteps.theStringValueShouldHaveTheExactLengthOf(pojo.getStringFieldNoPodamAnnotation(), 7);
+
     }
 
     @Test
