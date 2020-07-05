@@ -8,10 +8,12 @@ import org.hibernate.validator.constraints.Length;
 import uk.co.jemos.podam.common.PodamIntValue;
 import uk.co.jemos.podam.common.PodamStringValue;
 
+import javax.persistence.Basic;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * @author sba45
@@ -34,6 +36,10 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
     @PodamIntValue(maxValue = 100, minValue = 0)
     @Version
     private Integer integerWithHibernateAnnotation;
+
+    @Basic
+    @Size(min = 5, max = 5)
+    private String stringFieldNoPodamAnnotation;
 
 
     public String getStringField() {
@@ -67,5 +73,13 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
 
     public void setIntegerWithHibernateAnnotation(Integer integerWithHibernateAnnotation) {
         this.integerWithHibernateAnnotation = integerWithHibernateAnnotation;
+    }
+
+    public String getStringFieldNoPodamAnnotation() {
+        return stringFieldNoPodamAnnotation;
+    }
+
+    public void setStringFieldNoPodamAnnotation(String stringFieldNoPodamAnnotation) {
+        this.stringFieldNoPodamAnnotation = stringFieldNoPodamAnnotation;
     }
 }
