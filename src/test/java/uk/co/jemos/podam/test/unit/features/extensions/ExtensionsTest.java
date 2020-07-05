@@ -55,7 +55,7 @@ public class ExtensionsTest extends AbstractPodamSteps {
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(InputStream.class, podamFactory);
 
         String versionStr = System.getProperty("java.specification.version");
-        Integer javaSpecVersion = Integer.valueOf(versionStr);
+        Double javaSpecVersion = Double.valueOf(versionStr);
         if (javaSpecVersion < 10) {
             podamValidationSteps.theObjectShouldBeNull(inputStream2);
         } else {
