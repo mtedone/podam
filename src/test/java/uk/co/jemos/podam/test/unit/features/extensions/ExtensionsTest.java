@@ -53,7 +53,14 @@ public class ExtensionsTest extends AbstractPodamSteps {
         podamInvocationSteps.whenIRemoveTypeManufacturer(podamFactory, InputStream.class);
         InputStream inputStream2 =
                 podamInvocationSteps.whenIInvokeTheFactoryForClass(InputStream.class, podamFactory);
-        podamValidationSteps.theObjectShouldBeNull(inputStream2);
+
+        String versionStr = System.getProperty("java.specification.version");
+        Double javaSpecVersion = Double.valueOf(versionStr);
+        if (javaSpecVersion < 10) {
+            podamValidationSteps.theObjectShouldBeNull(inputStream2);
+        } else {
+            podamValidationSteps.thePojoMustBeOfTheType(inputStream, InputStream.class);
+        }
     }
 
     @Test
