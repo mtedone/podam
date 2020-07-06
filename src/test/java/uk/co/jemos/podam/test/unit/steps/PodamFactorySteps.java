@@ -108,6 +108,13 @@ public class PodamFactorySteps {
         return factory;
     }
 
+    @Step("Add a Custom Type Manufacturer {1} for type {0} from a Podam Factory")
+    public <T> PodamFactory addCustomTypeManufacturer(PodamFactory podamFactory, Class<T> type, TypeManufacturer<T> typeManufacturer) {
+
+        podamFactory.getStrategy().addOrReplaceTypeManufacturer(type, typeManufacturer);
+        return podamFactory;
+    }
+
     @Step("Given a ClassInfo for class {0} with empty attributes")
     public ClassInfo givenAClassInfoForPojoWithNoAttributes(Class<?> pojoClass, List<ClassAttribute> attributes) {
         return new ClassInfo(pojoClass, attributes);

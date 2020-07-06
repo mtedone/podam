@@ -13,6 +13,7 @@ import uk.co.jemos.podam.test.dto.ValidatedPatternPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
+import uk.co.jemos.podam.test.strategies.AnnotationStrategy;
 import uk.co.jemos.podam.test.strategies.EmailStrategy;
 import uk.co.jemos.podam.test.strategies.PatternStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -21,6 +22,7 @@ import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import javax.validation.Validator;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +129,25 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
 		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
+
+	}
+
+	@Test
+	@Title("When the AnnotationStrategy and the TypeManufacturer are specified, the former has precedence")
+	public void whenTheAnnotationStrategyAndTheTypeManufacturerAreSpecifiedTheFormerHasPrecedence()
+			throws Exception {
+
+        AnnotationStrategy annotationStrategy = new AnnotationStrategy();
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Size.class, annotationStrategy);
+		podamFactorySteps.addCustomTypeManufacturer(podamFactory, String.class, stringTypeManufacturer);
+		ValidationPojoForStringWithSizeAndNoMax pojo =
+				podamInvocationSteps.whenIInvokeTheFactoryForClass(
+						ValidationPojoForStringWithSizeAndNoMax.class,
+						podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theCollectionShouldBeEmpty(stringTypeManufacturer.calls);
+		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+				annotationStrategy.getRecordedCalls(), List.class, 2);
 
 	}
 
