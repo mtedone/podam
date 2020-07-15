@@ -30,12 +30,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -107,6 +102,37 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	private final Map<Class<? extends Annotation>, AttributeStrategy<?>> attributeStrategies
 			= new ConcurrentHashMap<Class<? extends Annotation>, AttributeStrategy<?>>();
+
+	/**
+	 * Mapping between annotation classes and their base classes - super classes they extend and interfaces
+	 * they implement
+	 */
+	private Memoize1<Class<? extends Annotation>, List<Class<? extends Annotation>>> annotationClassBaseClasses =
+			new Memoize1<Class<? extends Annotation>, List<Class<? extends Annotation>>>() {
+
+				@Override
+				protected List<Class<? extends Annotation>> calculate(Class<? extends Annotation> annotationClass) {
+					List<Class<? extends Annotation>> result = new ArrayList<Class<? extends Annotation>>();
+					Class<?> superClass = annotationClass.getSuperclass();
+					if (superClass != null && Annotation.class.isAssignableFrom(superClass)) {
+						@SuppressWarnings("unchecked")
+						Class<? extends Annotation> superClassAnnotation = (Class<? extends Annotation>) superClass;
+						result.add(superClassAnnotation);
+						result.addAll(calculate(superClassAnnotation));
+					}
+
+					Class<?>[] interfaces = annotationClass.getInterfaces();
+					for (Class<?> iface : interfaces) {
+						if (Annotation.class.isAssignableFrom(iface)) {
+							@SuppressWarnings("unchecked")
+							Class<? extends Annotation> ifaceAnnotation = (Class<? extends Annotation>) iface;
+							result.add(ifaceAnnotation);
+							result.addAll(calculate(ifaceAnnotation));
+						}
+					}
+					return result;
+				}
+			};
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorHeavyComparator =
@@ -542,17 +568,17 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public AttributeStrategy<?> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
 
-		if (attributeStrategies.containsKey(annotationClass)) {
-			return attributeStrategies.get(annotationClass);
-		} else {
-			for (Entry<Class<? extends Annotation>, AttributeStrategy<?>> attributeStrategy: attributeStrategies.entrySet()) {
-				if (attributeStrategy.getKey().isAssignableFrom(annotationClass)) {
-					return attributeStrategy.getValue();
+		AttributeStrategy<?> attributeStrategy = attributeStrategies.get(annotationClass);
+		if (attributeStrategy == null) {
+			List<Class<? extends Annotation>> baseClasses = annotationClassBaseClasses.get(annotationClass);
+			for (Class<? extends Annotation> baseClass : baseClasses) {
+				AttributeStrategy<?> attributeStrategyForBaseClass = attributeStrategies.get(baseClass);
+				if (attributeStrategyForBaseClass != null) {
+					return attributeStrategyForBaseClass;
 				}
 			}
 		}
-
-		return null;
+		return attributeStrategy;
 	}
 
 	/**
