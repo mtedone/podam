@@ -9,6 +9,8 @@ import uk.co.jemos.podam.common.PodamIntValue;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 import javax.persistence.Basic;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.Max;
@@ -41,6 +43,8 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
     @Size(min = 7, max = 7)
     private String stringFieldNoPodamAnnotation;
 
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private String stringFieldUnsupportedAnnotation;
 
     public String getStringField() {
         return stringField;
@@ -81,5 +85,13 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
 
     public void setStringFieldNoPodamAnnotation(String stringFieldNoPodamAnnotation) {
         this.stringFieldNoPodamAnnotation = stringFieldNoPodamAnnotation;
+    }
+
+    public String getStringFieldUnsupportedAnnotation() {
+        return stringFieldUnsupportedAnnotation;
+    }
+
+    public void setStringFieldUnsupportedAnnotation(String stringFieldUnsupportedAnnotation) {
+        this.stringFieldUnsupportedAnnotation = stringFieldUnsupportedAnnotation;
     }
 }
