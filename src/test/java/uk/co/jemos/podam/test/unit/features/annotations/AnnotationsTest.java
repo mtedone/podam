@@ -542,7 +542,16 @@ public class AnnotationsTest extends AbstractPodamSteps {
         podamFactorySteps.addCustomStrategy(podamFactory, Basic.class, basicAnnotationStrategy);
         SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
-        podamValidationSteps.theCollectionShouldBeEmpty(annotationStrategy.getRecordedCalls());
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                annotationStrategy.getRecordedCalls(), List.class, 4);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                annotationStrategy.getRecordedCalls().get(0), Annotation.class, 1);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                annotationStrategy.getRecordedCalls().get(1), Annotation.class, 3);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                annotationStrategy.getRecordedCalls().get(2), Annotation.class, 3);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                annotationStrategy.getRecordedCalls().get(3), Annotation.class, 3);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
                 basicAnnotationStrategy.getRecordedCalls(), List.class, 1);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
