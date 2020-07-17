@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Basic;
+
 /**
  * Created by tedonema on 31/05/2015.
  */
@@ -536,8 +538,14 @@ public class AnnotationsTest extends AbstractPodamSteps {
     public void podamShouldHandlePojosWithAnnotatedFieldsAndCustomGenericAnnotationStrategy() throws Exception {
         AnnotationStrategy annotationStrategy = new AnnotationStrategy();
         PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Annotation.class, annotationStrategy);
+        AnnotationStrategy basicAnnotationStrategy = new AnnotationStrategy();
+        podamFactorySteps.addCustomStrategy(podamFactory, Basic.class, basicAnnotationStrategy);
         SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theCollectionShouldBeEmpty(annotationStrategy.getRecordedCalls());
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                basicAnnotationStrategy.getRecordedCalls(), List.class, 1);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                basicAnnotationStrategy.getRecordedCalls().get(0), Annotation.class, 2);
     }
 }

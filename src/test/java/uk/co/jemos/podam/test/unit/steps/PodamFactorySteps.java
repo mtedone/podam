@@ -235,6 +235,14 @@ public class PodamFactorySteps {
         return factory;
     }
 
+    @Step("Add a custom strategy {1} from a Podam Factory for annotation {0}")
+    public PodamFactory addCustomStrategy(PodamFactory podamFactory,
+            Class<? extends Annotation> annotation, AttributeStrategy<?> strategy) {
+
+        ((RandomDataProviderStrategy)podamFactory.getStrategy()).addOrReplaceAttributeStrategy(annotation, strategy);
+        return podamFactory;
+    }
+
     @Step("Given a Podam Factory with Defined Factory {1} for an Abstract Class {0}")
     public PodamFactory givenAPodamFactoryWithDefinedFactoryForAnAbstractClass(Class<?> abstractClass, Class<?> factoryClass) {
 
