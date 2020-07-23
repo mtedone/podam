@@ -95,6 +95,13 @@
 			<timezone>UTC-3</timezone>
 		</contributor>
 		<contributor>
+			<name>Sylwia Błach</name>
+			<email>sylwia.blach@stepwise.pl</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
 			<name>Marat Buharov</name>
 			<email>marat.buharov@gmail.com</email>
 			<roles>
