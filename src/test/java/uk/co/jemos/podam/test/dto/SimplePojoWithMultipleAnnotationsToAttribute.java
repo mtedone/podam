@@ -43,6 +43,10 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
     @Size(min = 7, max = 7)
     private String stringFieldNoPodamAnnotation;
 
+    @Size(min = 3, max = 3)
+    @Basic
+    private String stringFieldBasicSecondAnnotation;
+
     @GeneratedValue(strategy=GenerationType.AUTO)
     private String stringFieldUnsupportedAnnotation;
 
@@ -85,6 +89,14 @@ public class SimplePojoWithMultipleAnnotationsToAttribute {
 
     public void setStringFieldNoPodamAnnotation(String stringFieldNoPodamAnnotation) {
         this.stringFieldNoPodamAnnotation = stringFieldNoPodamAnnotation;
+    }
+
+    public String getStringFieldBasicSecondAnnotation() {
+        return stringFieldBasicSecondAnnotation;
+    }
+
+    public void setStringFieldBasicSecondAnnotation(String stringFieldBasicSecondAnnotation) {
+        this.stringFieldBasicSecondAnnotation = stringFieldBasicSecondAnnotation;
     }
 
     public String getStringFieldUnsupportedAnnotation() {
