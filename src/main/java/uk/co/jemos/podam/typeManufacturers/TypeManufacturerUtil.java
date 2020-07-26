@@ -10,6 +10,8 @@ import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.*;
 
 import javax.validation.Constraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -89,6 +91,8 @@ public abstract class TypeManufacturerUtil {
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
                 if (annotation instanceof NotNull ||
+                        annotation instanceof NotBlank ||
+                        annotation instanceof NotEmpty ||
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty") ||
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotBlank")) {
 					/* We don't need to do anything for NotNull constraint */
