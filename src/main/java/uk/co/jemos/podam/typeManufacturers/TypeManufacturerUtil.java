@@ -60,6 +60,7 @@ public abstract class TypeManufacturerUtil {
             throws InstantiationException, IllegalAccessException, SecurityException, IllegalArgumentException, InvocationTargetException {
 
         List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
+        List<Class<? extends Annotation>> annotationsToCheck = new ArrayList<Class<? extends Annotation>>();
         Iterator<Annotation> iter = localAnnotations.iterator();
         while (iter.hasNext()) {
             Annotation annotation = iter.next();
@@ -87,6 +88,14 @@ public abstract class TypeManufacturerUtil {
             AttributeStrategy<?> attrStrategy = strategy.getStrategyForAnnotation(annotationClass);
             if (null != attrStrategy) {
                 return attrStrategy;
+            } else {
+                for (Class<?> iface : annotationClass.getInterfaces()) {
+                    if (Annotation.class.isAssignableFrom(iface)) {
+                        @SuppressWarnings("unchecked")
+                        Class<? extends Annotation> tmp = (Class<? extends Annotation>) iface;
+                        annotationsToCheck.add(tmp);
+                    }
+                }
             }
 
             if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
@@ -104,6 +113,23 @@ public abstract class TypeManufacturerUtil {
                 }
             } else {
                 iter.remove();
+            }
+        }
+
+        Iterator<Class<? extends Annotation>> iter2 = annotationsToCheck.iterator();
+        while (iter2.hasNext()) {
+            Class<? extends Annotation> annotationClass = iter2.next();
+            AttributeStrategy<?> attrStrategy = strategy.getStrategyForAnnotation(annotationClass);
+            if (null != attrStrategy) {
+                return attrStrategy;
+            } else {
+                for (Class<?> iface : annotationClass.getInterfaces()) {
+                    if (Annotation.class.isAssignableFrom(iface)) {
+                        @SuppressWarnings("unchecked")
+                        Class<? extends Annotation> tmp = (Class<? extends Annotation>) iface;
+                        annotationsToCheck.add(tmp);
+                    }
+                }
             }
         }
 

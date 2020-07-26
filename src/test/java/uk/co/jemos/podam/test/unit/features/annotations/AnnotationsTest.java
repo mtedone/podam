@@ -543,20 +543,14 @@ public class AnnotationsTest extends AbstractPodamSteps {
         SimplePojoWithMultipleAnnotationsToAttribute pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(SimplePojoWithMultipleAnnotationsToAttribute.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                annotationStrategy.getRecordedCalls(), List.class, 5);
+                annotationStrategy.getRecordedCalls(), List.class, 1);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
                 annotationStrategy.getRecordedCalls().get(0), Annotation.class, 1);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                annotationStrategy.getRecordedCalls().get(1), Annotation.class, 3);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                annotationStrategy.getRecordedCalls().get(2), Annotation.class, 2);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                annotationStrategy.getRecordedCalls().get(3), Annotation.class, 3);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                annotationStrategy.getRecordedCalls().get(4), Annotation.class, 3);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
-                basicAnnotationStrategy.getRecordedCalls(), List.class, 1);
+                basicAnnotationStrategy.getRecordedCalls(), List.class, 2);
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
                 basicAnnotationStrategy.getRecordedCalls().get(0), Annotation.class, 2);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndShouldHaveExactlyTheExpectedNumberOfElements(
+                basicAnnotationStrategy.getRecordedCalls().get(1), Annotation.class, 2);
     }
 }

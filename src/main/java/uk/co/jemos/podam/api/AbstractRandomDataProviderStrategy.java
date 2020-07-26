@@ -542,20 +542,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public AttributeStrategy<?> getStrategyForAnnotation(
 			final Class<? extends Annotation> annotationClass) {
 
-		AttributeStrategy<?> strategy = attributeStrategies.get(annotationClass);
-		if (strategy == null) {
-			for (Class<?> iface : annotationClass.getInterfaces()) {
-				if (Annotation.class.isAssignableFrom(iface)) {
-					@SuppressWarnings("unchecked")
-					Class<? extends Annotation> annotationIface = (Class<? extends Annotation>)iface;
-					strategy = getStrategyForAnnotation(annotationIface);
-					if (strategy != null) {
-						break;
-					}
-				}
-			}
-		}
-		return strategy;
+		return attributeStrategies.get(annotationClass);
 
 	}
 
