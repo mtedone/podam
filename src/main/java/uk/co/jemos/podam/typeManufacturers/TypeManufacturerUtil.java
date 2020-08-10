@@ -61,9 +61,10 @@ public abstract class TypeManufacturerUtil {
 
         List<Annotation> localAnnotations = new ArrayList<Annotation>(annotations);
         List<Class<? extends Annotation>> annotationsToCheck = new ArrayList<Class<? extends Annotation>>();
-        Iterator<Annotation> iter = localAnnotations.iterator();
-        while (iter.hasNext()) {
-            Annotation annotation = iter.next();
+        List<Class<? extends Annotation>> constraintAnnotationsWithoutRegisteredStrategy = new ArrayList<Class<? extends Annotation>>();
+        Iterator<Annotation> localAnnotationsIter = localAnnotations.iterator();
+        while (localAnnotationsIter.hasNext()) {
+            Annotation annotation = localAnnotationsIter.next();
             if (annotation instanceof PodamStrategyValue) {
                 PodamStrategyValue strategyAnnotation = (PodamStrategyValue) annotation;
                 return strategyAnnotation.value().newInstance();
@@ -105,20 +106,18 @@ public abstract class TypeManufacturerUtil {
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotEmpty") ||
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotBlank")) {
 					/* We don't need to do anything for NotNull constraint */
-                    iter.remove();
+                    localAnnotationsIter.remove();
                 } else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
-                    LOG.warn("Please, register AttributeStratergy for custom "
-                            + "constraint {}, in DataProviderStrategy! Value "
-                            + "will be left to null", annotation);
+                    constraintAnnotationsWithoutRegisteredStrategy.add(annotationClass);
                 }
             } else {
-                iter.remove();
+                localAnnotationsIter.remove();
             }
         }
 
-        Iterator<Class<? extends Annotation>> iter2 = annotationsToCheck.iterator();
-        while (iter2.hasNext()) {
-            Class<? extends Annotation> annotationClass = iter2.next();
+        Iterator<Class<? extends Annotation>> annotationsToCheckIter = annotationsToCheck.iterator();
+        while (annotationsToCheckIter.hasNext()) {
+            Class<? extends Annotation> annotationClass = annotationsToCheckIter.next();
             AttributeStrategy<?> attrStrategy = strategy.getStrategyForAnnotation(annotationClass);
             if (null != attrStrategy) {
                 return attrStrategy;
@@ -131,6 +130,14 @@ public abstract class TypeManufacturerUtil {
                     }
                 }
             }
+        }
+
+        for (Class<? extends Annotation> constraintAnnotationWithoutRegisteredStrategy : constraintAnnotationsWithoutRegisteredStrategy) {
+            /* This message is logged only when no applicable strategy is found for given annotation - neither for
+             * the annotation itself nor for any interface it implements. */
+            LOG.warn("Please, register AttributeStrategy for custom "
+                + "constraint {}, in DataProviderStrategy! Value "
+                + "will be left to null", constraintAnnotationWithoutRegisteredStrategy);
         }
 
         AttributeStrategy<?> retValue = null;
