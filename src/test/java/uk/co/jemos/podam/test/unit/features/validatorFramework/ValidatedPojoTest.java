@@ -11,6 +11,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.test.dto.ValidatedPatternPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
+import uk.co.jemos.podam.test.dto.ValidatedPojo2;
 import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 import uk.co.jemos.podam.test.strategies.AnnotationStrategy;
@@ -90,6 +91,21 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 
 		podamFactorySteps.removeCustomStrategy(podamFactory, Email.class);
 
+	}
+
+	@Test
+	@Title("Podam should be able to fulfill most of the javax Validation 2.0 framework")
+	public void podamShouldFulfillMostOfTheJavaxValidation20Framework() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		ValidatedPojo2 pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ValidatedPojo2.class, podamFactory);
+		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntPositive());
+		podamValidationSteps.theIntFieldShouldNotBeZero(pojo.getIntPositive());
+		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(pojo.getIntPositiveOrZero());
+		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(-pojo.getIntNegative());
+		podamValidationSteps.theIntFieldShouldNotBeZero(-pojo.getIntNegative());
+		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(-pojo.getIntNegativeOrZero());
 	}
 
 	@Test
