@@ -144,6 +144,34 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			max = new BigDecimal(maxAnno.value()).min(max);
 		}
 
+		Positive positiveAnno = findTypeFromList(annotations, Positive.class);
+		if (null != positiveAnno) {
+			isFloat = true;
+			max = new BigDecimal(Integer.MAX_VALUE);
+			min = new BigDecimal(1);
+		}
+
+		PositiveOrZero positiveOrZeroAnno = findTypeFromList(annotations, PositiveOrZero.class);
+		if (null != positiveOrZeroAnno) {
+			isFloat = true;
+			max = new BigDecimal(Integer.MAX_VALUE);
+			min = new BigDecimal(0);
+		}
+
+		Negative negativeAnno = findTypeFromList(annotations, Negative.class);
+		if (null != negativeAnno) {
+			isFloat = true;
+			max = new BigDecimal(-1);
+			min = new BigDecimal(Integer.MIN_VALUE);
+		}
+
+		NegativeOrZero negativeOrZeroAnno = findTypeFromList(annotations, NegativeOrZero.class);
+		if (null != negativeOrZeroAnno) {
+			isFloat = true;
+			max = new BigDecimal(0);
+			min = new BigDecimal(Integer.MIN_VALUE);
+		}
+
 		Digits digits = findTypeFromList(annotations, Digits.class);
 		BigDecimal divisor = null;
 		if (null != digits) {
