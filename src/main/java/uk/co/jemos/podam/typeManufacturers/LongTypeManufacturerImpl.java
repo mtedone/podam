@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
- * Default int type manufacturer.
+ * Default long type manufacturer.
  *
  * Created by tedonema on 17/05/2015.
  *

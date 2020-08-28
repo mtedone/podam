@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Default collection type manufacturer.
+ * Default map type manufacturer.
  *
  * @since 7.0.0.RELEASE
  */

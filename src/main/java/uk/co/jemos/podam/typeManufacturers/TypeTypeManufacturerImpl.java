@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Default byte type manufacturer.
+ * Default generic type type manufacturer.
  *
  * Created by tedonema on 17/05/2015.
  *

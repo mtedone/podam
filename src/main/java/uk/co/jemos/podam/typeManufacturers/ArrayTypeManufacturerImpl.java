@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Default collection type manufacturer.
+ * Default array type manufacturer.
  *
  * @since 7.0.0.RELEASE
  */
