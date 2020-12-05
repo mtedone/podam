@@ -91,6 +91,9 @@ public class OneDimensionalTestPojo implements Serializable {
 	/** A BigDecimal attribute */
 	private BigDecimal bigDecimalField;
 
+	/** All capitals field */
+	private String ACRONYM;
+
 	/** No-args constructor */
 	public OneDimensionalTestPojo() {
 		// TODO Auto-generated constructor stub
@@ -456,6 +459,14 @@ public class OneDimensionalTestPojo implements Serializable {
 		this.bigDecimalField = bigDecimalField;
 	}
 
+	public String getACRONYM() {
+		return ACRONYM;
+	}
+
+	public void setACRONYM(String ACRONYM) {
+		this.ACRONYM = ACRONYM;
+	}
+
 	/**
 	 * Constructs a <code>String</code> with all attributes in name = value
 	 * format.
@@ -494,6 +505,7 @@ public class OneDimensionalTestPojo implements Serializable {
 				.append("intArray = ").append(intArray).append(TAB)
 				.append("booleanArray = ").append(booleanArray).append(TAB)
 				.append("bigDecimalField = ").append(bigDecimalField)
+				.append("ACRONYM = ").append(ACRONYM)
 				.append(TAB).append(" )");
 
 		return retValue.toString();

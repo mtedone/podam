@@ -37,9 +37,10 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
         podamValidationSteps.thePojoMustBeOfTheType(oneDimensionalTestPojo, OneDimensionalTestPojo.class);
 
         podamValidationSteps.thePojoShouldContainSomeData(oneDimensionalTestPojo);
-
+        
         oneDimentionalPojoValidationSteps.validateDimensionalTestPojo(oneDimensionalTestPojo, podamFactory.getStrategy());
 
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(oneDimensionalTestPojo.getACRONYM());
     }
 
     @Test
