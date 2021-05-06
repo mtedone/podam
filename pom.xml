@@ -16,8 +16,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.2.2</serenity.version>
-		<spring.version>5.3.2</spring.version>
-		<log4j.version>2.14.0</log4j.version>
+		<spring.version>5.3.6</spring.version>
+		<log4j.version>2.14.1</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<github.global.server>github</github.global.server>
@@ -477,7 +477,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.11</version>
+			<version>3.12.0</version>
 		</dependency>
 
 		<!-- Testing dependencies -->
