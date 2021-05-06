@@ -1037,7 +1037,19 @@ public class PodamFactoryImpl implements PodamFactory {
 		Collection<Object> defaultValue = null;
 		if (null != pojo && null != attributeName && !Character.isDigit(attributeName.charAt(0))) {
 
-			defaultValue = PodamUtils.getFieldValue(pojo, attributeName);
+			Object fieldValue = PodamUtils.getFieldValue(pojo, attributeName);
+			if (null != fieldValue) {
+				if (fieldValue instanceof Collection) {
+					defaultValue = (Collection<Object>)fieldValue;
+				} else {
+					fieldValue = PodamUtils.getFieldValueWithGetter(pojo, attributeName);
+					if (fieldValue instanceof Collection) {
+						defaultValue = (Collection<Object>)fieldValue;
+					} else if (null != fieldValue) {
+						LOG.warn("Obtained non-collection field default value {}", fieldValue.getClass());
+					}
+				}
+			}
 		}
 
 		Collection<Object> retValue = null;

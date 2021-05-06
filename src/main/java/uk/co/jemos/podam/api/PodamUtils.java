@@ -3,6 +3,8 @@
  */
 package uk.co.jemos.podam.api;
 
+import uk.co.jemos.podam.common.PodamConstants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +95,50 @@ public abstract class PodamUtils {
 
 				@SuppressWarnings("unchecked")
 				T t = (T) field.get(pojo);
+				retValue = t;
+			} else {
+
+				LOG.info("The field {}[{}] didn't exist.", pojo.getClass(), attributeName);
+			}
+
+		} catch (Exception e) {
+
+			LOG.warn("We couldn't get default value for {}[{}]",
+					pojo.getClass(), attributeName, e);
+		}
+
+		return retValue;
+	}
+
+	/**
+	 * It returns an value from getter for a {@link Field} matching the attribute
+	 * name or null if a field was not found.
+	 *
+	 * @param <T>
+	 *            The type of field to be returned
+	 * @param pojo
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return an instance of {@link Field} matching the attribute name or
+	 *         null if a field was not found.
+	 */
+	public static <T> T getFieldValueWithGetter(Object pojo, String attributeName) {
+		T retValue = null;
+
+		try {
+			Method method = pojo.getClass().getMethod("get" +
+					+ Character.toUpperCase(attributeName.charAt(0))
+					+ attributeName.substring(1), PodamConstants.NO_CLASSES);
+
+			if (method != null) {
+
+				// It allows to invoke Field.get on private fields
+				method.setAccessible(true);
+
+				@SuppressWarnings("unchecked")
+				T t = (T) method.invoke(pojo, PodamConstants.NO_ARGS);
 				retValue = t;
 			} else {
 
