@@ -193,6 +193,17 @@ public class CollectionsTest extends AbstractPodamSteps {
                 pojo.getMap(), Object.class, Object.class);
     }
 
+    @Test
+    @Title("Podam should be able to fill in POJOs with JsonNullable collection wrapper")
+    public void podamShouldBeAbleToFillInPojosWithJsonNullableCollectionWrapper() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        JacksonDatabindPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(
+                JacksonDatabindPojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, JacksonDatabindPojo.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getStringList(), String.class);
+    }
 
     //------------------> Private methods
 
