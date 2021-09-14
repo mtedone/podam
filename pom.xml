@@ -23,7 +23,7 @@
 		<github.global.server>github</github.global.server>
 	</properties>
 
-	<url>http://devopsfolks.github.io/podam/</url>
+	<url>http://mtedone.github.io/podam</url>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
@@ -50,8 +50,8 @@
 	</mailingLists>
 
 	<scm>
-		<url>scm:git clone git@github.com:devopsfolks/podam.git</url>
-		<connection>scm:git clone git://github.com/devopsfolks/podam.git</connection>
+		<url>git@github.com:mtedone/podam</url>
+		<connection>scm:git:git@github.com:mtedone/podam.git</connection>
 	</scm>
 
 	<developers>
@@ -449,7 +449,7 @@
 		</repository>
 		<site>
 			<id>github-project-site</id>
-			<url>gitsite:git@github.com/devopsfolks/podam.git</url>
+			<url>gitsite:git@github.com/mtedone/podam.git</url>
 		</site>
 	</distributionManagement>
 
