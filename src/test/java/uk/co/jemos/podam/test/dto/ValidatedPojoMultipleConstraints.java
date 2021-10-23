@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.dto;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -31,6 +32,10 @@ public class ValidatedPojoMultipleConstraints {
     @Size(max = 1, message = "str too long")
     @NotEmpty(message = "str too short")
     private String str;
+
+    @NotNull
+    @NotEmpty
+    private String str2;
 
     public Double getValue() {
         return value;
@@ -64,6 +69,14 @@ public class ValidatedPojoMultipleConstraints {
         this.str = str;
     }
 
+    public String getStr2() {
+        return str2;
+    }
+
+    public void setStr2(String str2) {
+        this.str2 = str2;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder(this.getClass().getSimpleName());
@@ -72,6 +85,7 @@ public class ValidatedPojoMultipleConstraints {
         sb.append("value2='").append(value2).append("\',");
         sb.append("value3='").append(value3).append('\'');
         sb.append("str='").append(str).append('\'');
+        sb.append("str2='").append(str2).append('\'');
         sb.append('}');
         return sb.toString();
     }
