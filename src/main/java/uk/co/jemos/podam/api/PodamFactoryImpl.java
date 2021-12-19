@@ -826,11 +826,11 @@ public class PodamFactoryImpl implements PodamFactory {
 				typeArguments = PodamConstants.NO_TYPES;
 			}
 
-			for (int i = 0; i < typeArguments.length; i++) {
-				if (typeArguments[i] instanceof TypeVariable) {
-					Class<?> resolvedType = TypeManufacturerUtil.resolveGenericParameter(typeArguments[i],
-                            typeArgsMap, typeGenericTypeArgs);
-					if (!Collection.class.isAssignableFrom(resolvedType) && !Map.class.isAssignableFrom(resolvedType)) {
+			if (!Collection.class.isAssignableFrom(attributeType) && !Map.class.isAssignableFrom(attributeType)) {
+				for (int i = 0; i < typeArguments.length; i++) {
+					if (typeArguments[i] instanceof TypeVariable) {
+						Class<?> resolvedType = TypeManufacturerUtil.resolveGenericParameter(typeArguments[i],
+								typeArgsMap, typeGenericTypeArgs);
 						typeArguments[i] = resolvedType;
 					}
 				}
