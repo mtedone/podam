@@ -3,6 +3,9 @@
  */
 package uk.co.jemos.podam.test.unit.pdm45;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -136,7 +139,26 @@ public class Pdm45UnitTest {
 		
 		checkMultiDimensionalPojo(pojo);
 	}
-	
+
+	@Test
+	public void testParametrizedNestedGenericPojo() {
+		ParameterizedType paremetrizedGenericPojo =
+				new PodamParameterizedType(GenericPojo.class, String.class, Long.class);
+
+		ParameterizedType paremetrizedMap =
+				new PodamParameterizedType(Map.class, Integer.class, String.class);
+
+		GenericPojo<GenericPojo<String, Long>, Map<Integer, String>> pojo =
+				factory.manufacturePojo(GenericPojo.class, paremetrizedGenericPojo, paremetrizedMap);
+		assertThat("The pojo must be of the type", pojo, instanceOf(GenericPojo.class));
+		assertThat("Value must of the type", pojo.getFirstValue(), instanceOf(GenericPojo.class));
+		assertThat("Value must of the type", pojo.getFirstValue().getFirstValue(), instanceOf(String.class));
+		assertThat("Value must of the type", pojo.getFirstValue().getSecondValue(), instanceOf(Long.class));
+		assertThat("Value must of the type", pojo.getSecondValue(), instanceOf(Map.class));
+		assertThat("Value must of the type", pojo.getSecondValue().keySet().iterator().next(), instanceOf(Integer.class));
+		assertThat("Value must of the type", pojo.getSecondValue().values().iterator().next(), instanceOf(String.class));
+	}
+
 	@Test
 	@SuppressWarnings("unchecked")
 	public void testMultiDimensionalPojoManufacture() {
