@@ -96,9 +96,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				maxValue = PodamConstants.STR_DEFAULT_LENGTH;
 			}
 
-			long length = PodamUtils.getLongInRange(minValue, maxValue);
+			int length = PodamUtils.getIntegerInRange(minValue, maxValue);
 
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder(length);
 			while (sb.length() < length) {
 				sb.append(PodamUtils.getNiceCharacter());
 			}
