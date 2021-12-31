@@ -23,7 +23,7 @@
 		<github.global.server>github</github.global.server>
 	</properties>
 
-	<url>http://mtedone.github.io/podam</url>
+	<url>https://mtedone.github.io/podam</url>
 	<licenses>
 		<license>
 			<name>Podam runs under the MIT license</name>
@@ -44,8 +44,8 @@
 	<mailingLists>
 		<mailingList>
 			<name>PODAM - Google Groups</name>
-			<subscribe>http://groups.google.com/group/podam</subscribe>
-			<unsubscribe>http://groups.google.com/group/podam</unsubscribe>
+			<subscribe>https://groups.google.com/group/podam</subscribe>
+			<unsubscribe>https://groups.google.com/group/podam</unsubscribe>
 		</mailingList>
 	</mailingLists>
 
@@ -60,12 +60,12 @@
 			<name>Marco Tedone</name>
 			<email>marco.tedone@gmail.com</email>
 			<organization>Jemos</organization>
-			<organizationUrl>http://www.jemos.co.uk</organizationUrl>
+			<organizationUrl>https://www.jemos.co.uk</organizationUrl>
 			<roles>
 				<role>Project Lead</role>
 			</roles>
 			<timezone>UTC</timezone>
-			<url>http://www.linkedin.com/in/mtedone</url>
+			<url>https://www.linkedin.com/in/mtedone</url>
 		</developer>
 	</developers>
 
@@ -118,7 +118,7 @@
 		<contributor>
 			<name>Márcio Carmona</name>
 			<email>marciocarmona@gmail.com</email>
-			<organizationUrl>http://www.linkedin.com/in/marciocarmona</organizationUrl>
+			<organizationUrl>https://www.linkedin.com/in/marciocarmona</organizationUrl>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -157,7 +157,7 @@
 			<name>Alec Ross</name>
 			<email>haelduksf@gmail.com</email>
 			<organization>Insigma Hengtian Software</organization>
-			<organizationUrl>http://www.hengtiansoft.com</organizationUrl>
+			<organizationUrl>https://www.hengtiansoft.com</organizationUrl>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -568,4 +568,3 @@
 
 
 </project>
-
