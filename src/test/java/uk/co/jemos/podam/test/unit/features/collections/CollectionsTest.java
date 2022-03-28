@@ -205,6 +205,18 @@ public class CollectionsTest extends AbstractPodamSteps {
         podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getStringList(), String.class);
     }
 
+    @Test
+    @Title("Podam should handle optional list of strings")
+    public void podamShouldHandleOptionalListOfStrings() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        OptionalList pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(OptionalList.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, OptionalList.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getOptionalList(), Optional.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getOptionalList().get(), Object.class);
+    }
+
     //------------------> Private methods
 
     @SuppressWarnings("rawtypes")
