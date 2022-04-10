@@ -214,7 +214,7 @@ public class CollectionsTest extends AbstractPodamSteps {
         OptionalList pojo = podamInvocationSteps.whenIInvokeTheFactoryForClassWithFullConstructor(OptionalList.class, podamFactory);
         podamValidationSteps.thePojoMustBeOfTheType(pojo, OptionalList.class);
         podamValidationSteps.thePojoMustBeOfTheType(pojo.getOptionalList(), Optional.class);
-        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getOptionalList().get(), Object.class);
+        podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getOptionalList().get(), String.class);
     }
 
     //------------------> Private methods

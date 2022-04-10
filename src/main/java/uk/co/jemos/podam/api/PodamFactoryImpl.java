@@ -911,19 +911,24 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		Class<?> pojoClass = (pojo instanceof Class ? (Class<?>) pojo : pojo.getClass());
 		Class<?> realAttributeType;
+		AtomicReference<Type[]> elementGenericTypeArgs = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
 		if (attributeType != genericAttributeType
 				&& Object.class.equals(attributeType)
 				&& genericAttributeType instanceof TypeVariable) {
-			AtomicReference<Type[]> elementGenericTypeArgs
-					= new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
 			realAttributeType = TypeManufacturerUtil.resolveGenericParameter(genericAttributeType,
                     typeArgsMap, elementGenericTypeArgs);
 		} else {
 			realAttributeType = attributeType;
 		}
 
-		Type[] genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
-					attributeType, genericAttributeType, genericTypeArgs, typeArgsMap);
+		Type[] genericTypeArgsAll;
+		if (elementGenericTypeArgs.get().length > 0) {
+			genericTypeArgsAll = ArrayUtils.addAll(elementGenericTypeArgs.get(), genericTypeArgs);
+		} else {
+			genericTypeArgsAll = genericTypeArgs;
+		}
+		genericTypeArgsAll = TypeManufacturerUtil.mergeActualAndSuppliedGenericTypes(
+					attributeType, genericAttributeType, genericTypeArgsAll, typeArgsMap);
 
 		AttributeMetadata attributeMetadata = new AttributeMetadata(
 				attributeName, realAttributeType, genericAttributeType,
