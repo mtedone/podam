@@ -303,6 +303,19 @@ public class ConstructorsUnitTest extends AbstractPodamSteps {
 		podamValidationSteps.theCollectionShouldNotBeNullOrEmptyAndContainElementsOfType(pojo.getTypedList(), String.class);
 	}
 
+	@Test
+	@Title("Podam should create instances of POJOs extending generic classes with matching generic placeholders")
+	public void podamShouldCreateInstancesOfPojosExtendingGenericClassesWithMatchingGenericPlaceholders() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		ExtendedTypedClassPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForGenericTypeWithSpecificType(ExtendedTypedClassPojo.class, podamFactory, String.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo, ExtendedTypedClassPojo.class);
+		/* Should be actually String.class */
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue2(), Long.class);
+		podamValidationSteps.thePojoMustBeOfTheType(pojo.getTypedValue(), Long.class);
+	}
+
     @Test
     @Title("Podam should correctly handle generic collections in constructor with memoization disabled")
     public void podamShouldHandleGenericCollectionsInConstructorWithMemoizationDisabled() throws Exception {
