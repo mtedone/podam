@@ -70,7 +70,7 @@ public class ClassInfoTest extends AbstractPodamSteps {
         podamValidationSteps.theTwoObjectsShouldBeEqual(ShortNamesPojo.class, actualClassInfo.getClassName());
         Set<String> attribs = new HashSet<String>();
         attribs.add("v1");
-        // classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
+        classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
 
     }
 

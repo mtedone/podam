@@ -450,11 +450,14 @@ public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,
 	 */
 	protected String extractFieldNameFromMethod(String methodName, Pattern pattern) {
 		String candidateField = pattern.matcher(methodName).replaceFirst("");
-		if (!candidateField.isEmpty()
-			&& !candidateField.equals(methodName)
-			&& (candidateField.length() == 1 || !candidateField.toUpperCase().equals(candidateField))) {
-			candidateField = Character.toLowerCase(candidateField.charAt(0))
-					+ candidateField.substring(1);
+		if (!candidateField.isEmpty() && !candidateField.equals(methodName)) {
+			String candidateFieldEnding = candidateField.substring(1);
+			if ((candidateFieldEnding.isEmpty()
+				|| !candidateFieldEnding.toUpperCase().equals(candidateFieldEnding)
+				|| candidateFieldEnding.toLowerCase().equals(candidateFieldEnding.toUpperCase()))) {
+				candidateField = Character.toLowerCase(candidateField.charAt(0))
+						+ candidateFieldEnding;
+			}
 		}
 
 		return candidateField;
