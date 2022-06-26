@@ -16,7 +16,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<serenity.version>1.2.2</serenity.version>
-		<spring.version>5.3.18</spring.version>
+		<spring.version>5.3.21</spring.version>
 		<log4j.version>2.17.2</log4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -526,7 +526,7 @@
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.2</version>
+			<version>0.2.3</version>
 			<scope>test</scope>
 		</dependency>
 
