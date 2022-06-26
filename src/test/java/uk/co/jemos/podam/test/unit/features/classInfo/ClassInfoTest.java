@@ -12,6 +12,7 @@ import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.test.dto.EmptyTestPojo;
 import uk.co.jemos.podam.test.dto.NonStandardPojoToTestSetters;
+import uk.co.jemos.podam.test.dto.ShortNamesPojo;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
@@ -56,6 +57,21 @@ public class ClassInfoTest extends AbstractPodamSteps {
         attribs.add("stringField");
         attribs.add("intField");
         classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
+    }
+
+    @Test
+    @Title("Podam should be able to find attributes with pattern [a-z][0-9]")
+    public void podamShouldReturnAClassInfoObjectWithSingleLetterAndNumberAtrributes() {
+
+        ClassAttributeApprover nullApprover = null;
+
+        ClassInfo actualClassInfo = podamInvocationSteps.getClassInfo(ShortNamesPojo.class, nullApprover);
+        podamValidationSteps.theObjectShouldNotBeNull(actualClassInfo);
+        podamValidationSteps.theTwoObjectsShouldBeEqual(ShortNamesPojo.class, actualClassInfo.getClassName());
+        Set<String> attribs = new HashSet<String>();
+        attribs.add("v1");
+        // classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
+
     }
 
     @Test
@@ -131,7 +147,5 @@ public class ClassInfoTest extends AbstractPodamSteps {
         classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, classInfo.getClassAttributes());
 
     }
-
-
 
 }
