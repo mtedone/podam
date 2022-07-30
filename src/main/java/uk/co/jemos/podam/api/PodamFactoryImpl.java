@@ -11,11 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.Holder;
-import uk.co.jemos.podam.common.ManufacturingContext;
-import uk.co.jemos.podam.common.PodamConstants;
-import uk.co.jemos.podam.common.PodamConstructor;
+import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
@@ -803,6 +799,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		AttributeStrategy<?> attributeStrategy
 				= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
+		if (null == attributeStrategy) {
+			attributeStrategy = AttributeStrategyStore.geAttributeStrategy(pojo.getClass(), attribute.getName());
+		}
 		Object setterArg = null;
 		if (null != attributeStrategy) {
 
