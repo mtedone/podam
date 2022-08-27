@@ -13,6 +13,7 @@ import uk.co.jemos.podam.test.dto.SimplePojoWithMultipleAnnotationsToAttribute;
 import uk.co.jemos.podam.test.dto.annotations.*;
 import uk.co.jemos.podam.test.strategies.AnnotationStrategy;
 import uk.co.jemos.podam.test.strategies.ByteArrayStrategy;
+import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
@@ -449,8 +450,11 @@ public class AnnotationsTest extends AbstractPodamSteps {
     public void podamShouldAssignExactValuesDefinedInPodamStrategyValueAnnotation() throws Exception {
 
         PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+        podamFactory.getStrategy().addOrReplaceAttributeStrategy(PodamStrategyPojo.class, "postCode4", new PostCodeStrategy());
         PodamStrategyPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(PodamStrategyPojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
+
+        podamFactory.getStrategy().removeAttributeStrategy(PodamStrategyPojo.class, "postCode4");
 
         String postCode = pojo.getPostCode();
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode);
@@ -463,6 +467,10 @@ public class AnnotationsTest extends AbstractPodamSteps {
         String postCode3 = pojo.getPostCode3();
         podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode3);
         podamValidationSteps.theStringValueShouldBeExactly(postCode3, PodamTestConstants.POST_CODE);
+
+        String postCode4 = pojo.getPostCode4();
+        podamValidationSteps.theStringFieldCannotBeNullOrEmpty(postCode4);
+        podamValidationSteps.theStringValueShouldBeExactly(postCode4, PodamTestConstants.POST_CODE);
 
         podamValidationSteps.theArrayOfTheGivenTypeShouldNotBeNullOrEmptyAndContainExactlyTheGivenNumberOfElements(
                 pojo.getByteData(), ByteArrayStrategy.LENGTH, Byte.class);

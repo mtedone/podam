@@ -37,6 +37,8 @@ public class PodamStrategyPojo implements Serializable {
 
 	private String postCode3;
 
+	private String postCode4;
+
 	@PodamStrategyValue(ByteArrayStrategy.class)
 	private byte[] byteData;
 
@@ -107,6 +109,21 @@ public class PodamStrategyPojo implements Serializable {
 	 */
 	public String getPostCode3() {
 		return postCode3;
+	}
+
+	/**
+	 * @return the postCode4
+	 */
+	public String getPostCode4() {
+		return postCode4;
+	}
+
+	/**
+	 * @param postCode4
+	 *            the postCode4 to set
+	 */
+	public void setPostCode4(String postCode4) {
+		this.postCode4 = postCode4;
 	}
 
 	/**
