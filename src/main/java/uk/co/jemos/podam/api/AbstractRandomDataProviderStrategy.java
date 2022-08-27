@@ -28,6 +28,7 @@ import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
@@ -107,6 +108,12 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	private final Map<Class<? extends Annotation>, AttributeStrategy<?>> attributeStrategies
 			= new ConcurrentHashMap<Class<? extends Annotation>, AttributeStrategy<?>>();
+
+	/**
+	 * Mapping between attributes and attribute strategies
+	 */
+	private final Map<Class<?>, Map<String,AttributeStrategy<?>>> attributeClassStrategies
+			= new ConcurrentHashMap<Class<?>, Map<String,AttributeStrategy<?>>>();
 
 	/** The constructor comparator */
 	private AbstractConstructorComparator constructorHeavyComparator =
@@ -543,6 +550,59 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 			final Class<? extends Annotation> annotationClass) {
 
 		return attributeStrategies.get(annotationClass);
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RandomDataProviderStrategy addOrReplaceAttributeStrategy(
+			final Class<?> type, final String attributeName,
+			final AttributeStrategy<?> attributeStrategy) {
+
+		Map<String,AttributeStrategy<?>> classStrategies = attributeClassStrategies.get(type);
+		if (null == classStrategies) {
+			classStrategies = new ConcurrentHashMap<String,AttributeStrategy<?>>();
+			attributeClassStrategies.put(type, classStrategies);
+		}
+		classStrategies.put(attributeName, attributeStrategy);
+
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RandomDataProviderStrategy removeAttributeStrategy(
+			final Class<?> type, String attributeName) {
+
+		Map<String,AttributeStrategy<?>> classStrategies = attributeClassStrategies.get(type);
+		if (null != classStrategies) {
+			classStrategies.remove(attributeName);
+		}
+
+		return this;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AttributeStrategy<?> getStrategyForAttribute(
+			final ClassAttribute attribute) {
+
+		AttributeStrategy<?> attributeStrategy = null;
+		Field field = attribute.getAttribute();
+		if (null != field) {
+			Class<?> type = field.getDeclaringClass();
+			Map<String,AttributeStrategy<?>> classStrategies = attributeClassStrategies.get(type);
+			if (null != classStrategies) {
+				attributeStrategy = classStrategies.get(attribute.getName());
+			}
+		}
+		return attributeStrategy;
 
 	}
 

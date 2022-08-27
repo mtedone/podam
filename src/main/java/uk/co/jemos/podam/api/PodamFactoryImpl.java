@@ -803,6 +803,9 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		AttributeStrategy<?> attributeStrategy
 				= TypeManufacturerUtil.findAttributeStrategy(strategy, pojoAttributeAnnotations, attributeType);
+		if (null == attributeStrategy) {
+			attributeStrategy = strategy.getStrategyForAttribute(attribute);
+		}
 		Object setterArg = null;
 		if (null != attributeStrategy) {
 

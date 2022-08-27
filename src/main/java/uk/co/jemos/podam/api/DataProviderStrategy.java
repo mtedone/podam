@@ -262,4 +262,46 @@ public interface DataProviderStrategy {
 	 */
 	AttributeStrategy<?> getStrategyForAnnotation(Class<? extends Annotation> annotationClass);
 
+	/**
+	 * Finds attribute strategies for attribute.
+	 * <p>
+	 * Searches for mapping between class attribute and attribute strategies,
+	 * which will be used then for populating fields or constructor parameters.
+	 * </p>
+	 * 
+	 * @param attribute
+	 *        attribute to be manufactured
+	 * @return attribute strategy associated with given attribute
+	 */
+	AttributeStrategy<?> getStrategyForAttribute(ClassAttribute attribute);
+
+	/**
+	 * Registers @AttributeStrategy implementation, which will be used to
+	 * instantiate objects of a specified type. Use this to alter factory
+	 * behaviour.
+	 *
+	 * @param type
+	 *            the specific class type the specified manufacturer
+	 *            will instantiate.
+	 * @param attributeName
+	 *            attribute name to use attributeStrategy for
+	 * @param attributeStrategy
+	 *            attribute strategy to be registered
+	 * @return itself
+	 */
+	DataProviderStrategy addOrReplaceAttributeStrategy(
+			Class<?> type, String attributeName,  AttributeStrategy<?> attributeStrategy);
+
+	/**
+	 * Removes @AttributeStrategy implementation from for the specific attribute
+	 *
+	 * @param type
+	 *            the specific class type the specified manufacturer
+	 *            will instantiate.
+	 * @param attributeName
+	 *            attribute name to use attributeStrategy for
+	 * @return itself
+	 */
+	DataProviderStrategy removeAttributeStrategy(
+			Class<?> type, String attributeName);
 }
