@@ -85,6 +85,9 @@ public class ValidatedPojo {
 	@Max(10)
 	private Byte byteNumber;
 
+	@Max(-128)
+	private Byte byteNumber2;
+
 	@Min(-10)
 	@Max(10)
 	private String intString;
@@ -258,6 +261,14 @@ public class ValidatedPojo {
 
 	public void setByteNumber(Byte byteNumber) {
 		this.byteNumber = byteNumber;
+	}
+
+	public Byte getByteNumber2() {
+		return byteNumber2;
+	}
+
+	public void setByteNumber2(Byte byteNumber2) {
+		this.byteNumber2 = byteNumber2;
 	}
 
 	public String getIntString() {
