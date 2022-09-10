@@ -117,8 +117,36 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		boolean isRound = false;
 		boolean isFloat = false;
-		BigDecimal min = new BigDecimal(-Double.MAX_VALUE);
-		BigDecimal max = new BigDecimal(Double.MAX_VALUE);
+		BigDecimal min;
+		BigDecimal max;
+		if (Long.class.equals(attributeType)
+				|| long.class.equals(attributeType)) {
+
+			min = new BigDecimal(Long.MIN_VALUE);
+			max = new BigDecimal(Long.MAX_VALUE);
+
+		} else if (Integer.class.equals(attributeType)
+				|| int.class.equals(attributeType)) {
+
+			min = new BigDecimal(Integer.MIN_VALUE);
+			max = new BigDecimal(Integer.MAX_VALUE);
+
+		} else if (Short.class.equals(attributeType)
+				|| short.class.equals(attributeType)) {
+
+			min = new BigDecimal(Short.MIN_VALUE);
+			max = new BigDecimal(Short.MAX_VALUE);
+
+		} else if (Byte.class.equals(attributeType)
+				|| byte.class.equals(attributeType)) {
+
+			min = new BigDecimal(Byte.MIN_VALUE);
+			max = new BigDecimal(Byte.MAX_VALUE);
+		} else {
+
+			min = new BigDecimal(-Double.MAX_VALUE);
+			max = new BigDecimal(Double.MAX_VALUE);
+		}
 
 		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);
 		if (null != decimalMin) {
