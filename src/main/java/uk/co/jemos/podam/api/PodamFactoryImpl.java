@@ -492,13 +492,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				pojoClass, genericTypeArgs);
 
 		T retValue = (T) strategy.getTypeValue(pojoMetadata, typeArgsMap, pojoClass);
-		if (null == retValue) {
-
-			if (pojoClass.isInterface()) {
-
-				return getValueForAbstractType(pojoClass, pojoMetadata,
-						manufacturingCtx, typeArgsMap, genericTypeArgs);
-			}
+		if (null == retValue && !pojoClass.isInterface()) {
 
 			try {
 
@@ -512,7 +506,7 @@ public class PodamFactoryImpl implements PodamFactory {
 		}
 
 		if (retValue == null) {
-			return getValueForAbstractType(pojoClass, pojoMetadata,
+			retValue = getValueForAbstractType(pojoClass, pojoMetadata,
 					manufacturingCtx, typeArgsMap, genericTypeArgs);
 		} else {
 
