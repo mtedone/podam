@@ -10,11 +10,7 @@ import uk.co.jemos.podam.api.AbstractClassInfoStrategy;
 import uk.co.jemos.podam.api.ClassAttribute;
 import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
-import uk.co.jemos.podam.test.dto.EmptyTestPojo;
-import uk.co.jemos.podam.test.dto.NonStandardPojoToTestSetters;
-import uk.co.jemos.podam.test.dto.ShortNamesPojo;
-import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
-import uk.co.jemos.podam.test.dto.SimplePojoWithExcludeAnnotationToTestSetters;
+import uk.co.jemos.podam.test.dto.*;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 
 import java.lang.annotation.Annotation;
@@ -68,6 +64,19 @@ public class ClassInfoTest extends AbstractPodamSteps {
         ClassInfo actualClassInfo = podamInvocationSteps.getClassInfo(ShortNamesPojo.class, nullApprover);
         podamValidationSteps.theObjectShouldNotBeNull(actualClassInfo);
         podamValidationSteps.theTwoObjectsShouldBeEqual(ShortNamesPojo.class, actualClassInfo.getClassName());
+        Set<String> attribs = new HashSet<String>();
+        attribs.add("v1");
+        classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
+
+    }
+
+    public void podamShouldReturnACharSequenceObjectWithSingleLetterAndNumberAtrributes() {
+
+        ClassAttributeApprover nullApprover = null;
+
+        ClassInfo actualClassInfo = podamInvocationSteps.getClassInfo(CharSequencePojo.class, nullApprover);
+        podamValidationSteps.theObjectShouldNotBeNull(actualClassInfo);
+        podamValidationSteps.theTwoObjectsShouldBeEqual(CharSequencePojo.class, actualClassInfo.getClassName());
         Set<String> attribs = new HashSet<String>();
         attribs.add("v1");
         classInfoValidationSteps.theClassInfoAttributesShouldMatchthePojoOnes(attribs, actualClassInfo.getClassAttributes());
