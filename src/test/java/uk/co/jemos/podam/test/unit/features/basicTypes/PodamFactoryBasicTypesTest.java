@@ -261,6 +261,18 @@ public class PodamFactoryBasicTypesTest extends AbstractPodamSteps {
     }
 
     @Test
+    @Title("Podam should fill CharSequence type")
+    public void podamShouldFillCharSequenceType() throws Exception {
+
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+        CharSequencePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(CharSequencePojo.class, podamFactory);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo, CharSequencePojo.class);
+        podamValidationSteps.thePojoMustBeOfTheType(pojo.getV1(), CharSequence.class);
+
+    }
+
+    @Test
     @Title("Podam should fill arrays with elements")
     public void podamShouldFillArraysWithElements() throws Exception {
 

@@ -216,13 +216,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.10.1</version>
 				<configuration>
 					<jdkToolchain>
-						<version>6</version>
+						<version>7</version>
 					</jdkToolchain>
-					<target>1.6</target>
-				</configuration>
+                    <target>7</target>s
+                    <source>7</source>
+                </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
