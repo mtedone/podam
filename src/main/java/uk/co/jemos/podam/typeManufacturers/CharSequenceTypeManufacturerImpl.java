@@ -12,11 +12,11 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Default String type manufacturer.
+ * Default CharSequence type manufacturer.
  *
- * Created by tedonema on 17/05/2015.
+ * Created by m.maatkamp@gmail.com on 20/10/2022.
  *
- * @since 6.0.0.RELEASE
+ * @since 7.2.11.RELEASE
  */
 public class CharSequenceTypeManufacturerImpl extends AbstractTypeManufacturer<CharSequence> {
 
