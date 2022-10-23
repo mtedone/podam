@@ -179,6 +179,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> stringManufacturer = new StringTypeManufacturerImpl();
 		typeManufacturers.put(String.class, stringManufacturer);
+		typeManufacturers.put(CharSequence.class, stringManufacturer);
 
 		TypeManufacturer<?> enumManufacturer = new EnumTypeManufacturerImpl();
 		typeManufacturers.put(Enum.class, enumManufacturer);
