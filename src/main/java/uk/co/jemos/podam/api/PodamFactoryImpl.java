@@ -47,10 +47,6 @@ public class PodamFactoryImpl implements PodamFactory {
     /** Application logger */
 	private static final Logger LOG = LoggerFactory.getLogger(PodamFactoryImpl.class);
 
-	/** Empty type map */
-	private static final Map<String, Type> NULL_TYPE_ARGS_MAP = new HashMap<String, Type>();
-
-
 	// ------------------->> Instance / variables
 
 	/**
@@ -480,8 +476,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					pojoClass, Arrays.toString(genericTypeArgs));
 		}
 
-		Map<String, Type> typeArgsMap = manufacturingCtx.getTypeArgsMap();
-		manufacturingCtx.setTypeArgsMap(new HashMap<String, Type>());
+		manufacturingCtx.backupTypeArgsMap(manufacturingCtx.createEmptyTypeArgsMap());
 		Type[] genericTypeArgsExtra = TypeManufacturerUtil.fillTypeArgMap(
 				manufacturingCtx.getTypeArgsMap(), pojoClass, genericTypeArgs);
 
@@ -514,7 +509,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					genericTypeArgsExtra);
 		}
 
-		manufacturingCtx.setTypeArgsMap(typeArgsMap);
+		manufacturingCtx.restoreTypeArgsMap();
 		return retValue;
 	}
 
@@ -705,13 +700,12 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 			if (depth < strategy.getMaxDepth(fieldClass)) {
 
-				Map<String, Type> typeArgsMap = manufacturingCtx.getTypeArgsMap();
-				manufacturingCtx.setTypeArgsMap(paramTypeArgsMap);
+				manufacturingCtx.backupTypeArgsMap(paramTypeArgsMap);
 				manufacturingCtx.getPojos().put(fieldClass, depth + 1);
 				populatePojoInternal(fieldValue, pojoAttributeAnnotations,
 						manufacturingCtx, genericTypeArgsAll);
 				manufacturingCtx.getPojos().put(fieldClass, depth);
-				manufacturingCtx.setTypeArgsMap(typeArgsMap);
+				manufacturingCtx.restoreTypeArgsMap();
 			} else {
 
 				LOG.warn("Loop of depth " + depth + " in filling read-only field {} detected.",
@@ -1221,12 +1215,11 @@ public class PodamFactoryImpl implements PodamFactory {
 
 				if (null == element) {
 
-					final Map<String, Type> typeArgsMap = manufacturingCtx.getTypeArgsMap();
-					manufacturingCtx.setTypeArgsMap(NULL_TYPE_ARGS_MAP);
+					manufacturingCtx.backupTypeArgsMap(manufacturingCtx.createEmptyTypeArgsMap());
 					element = manufactureAttributeValue(collection, manufacturingCtx,
 							collectionElementType, collectionElementType,
 							annotations, attributeName, genericTypeArgs);
-					manufacturingCtx.setTypeArgsMap(typeArgsMap);
+					manufacturingCtx.restoreTypeArgsMap();
 				}
 
 				if (null != element) {
@@ -1549,8 +1542,7 @@ public class PodamFactoryImpl implements PodamFactory {
 
 		if (null == retValue) {
 
-			final Map<String, Type> typeArgsMap = manufacturingCtx.getTypeArgsMap();
-			manufacturingCtx.setTypeArgsMap(NULL_TYPE_ARGS_MAP);
+			manufacturingCtx.backupTypeArgsMap(manufacturingCtx.createEmptyTypeArgsMap());
 			retValue = manufactureAttributeValue(
 					keyOrElementsArguments.getMapToBeFilled(),
 					manufacturingCtx,
@@ -1559,7 +1551,7 @@ public class PodamFactoryImpl implements PodamFactory {
 					keyOrElementsArguments.getAnnotations(),
 					keyOrElementsArguments.getAttributeName(),
 					keyOrElementsArguments.getGenericTypeArgs());
-			manufacturingCtx.setTypeArgsMap(typeArgsMap);
+			manufacturingCtx.restoreTypeArgsMap();
 		}
 		return retValue;
 	}
@@ -1885,12 +1877,11 @@ public class PodamFactoryImpl implements PodamFactory {
 			typeArgsMapForParam = manufacturingCtx.getTypeArgsMap();
 		}
 
-		final Map<String, Type> typeArgsMap = manufacturingCtx.getTypeArgsMap();
-		manufacturingCtx.setTypeArgsMap(typeArgsMapForParam);
+		manufacturingCtx.backupTypeArgsMap(typeArgsMapForParam);
 		Object retValue = manufactureAttributeValue(pojoClass, manufacturingCtx, parameterType,
 				genericType, annotations, parameterName,
 				genericTypeArgs);
-		manufacturingCtx.setTypeArgsMap(typeArgsMap);
+		manufacturingCtx.restoreTypeArgsMap();
 		return retValue;
 	}
 

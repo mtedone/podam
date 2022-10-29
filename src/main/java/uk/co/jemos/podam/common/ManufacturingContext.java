@@ -1,6 +1,8 @@
 package uk.co.jemos.podam.common;
 
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,11 @@ public class ManufacturingContext {
 	/** Map relating the generic class arguments ("&lt;T, V&gt;" for
 	 *  example) with their actual types */
 	private Map<String, Type> typeArgsMap = new HashMap<String, Type>();
+
+	/** Backup stack of maps relating the generic class arguments ("&lt;T, V&gt;" for
+	 *  example) with their actual types */
+	/** Constructors sorting order */
+	private Deque<Map<String, Type>> backupTypeArgsMaps = new ArrayDeque<Map<String, Type>>();
 
 	/**
 	 * Getter for constructor ordering
@@ -67,5 +74,34 @@ public class ManufacturingContext {
 	 */
 	public void setTypeArgsMap(Map<String, Type> typeArgsMap) {
 		this.typeArgsMap = typeArgsMap;
+	}
+
+	/**
+	 * Creates an empty typeArgsMap
+	 * @return newly created map
+	 */
+	public Map<String, Type> createEmptyTypeArgsMap() {
+        return new HashMap<String, Type>();
+	}
+
+	/**
+	 * Backups typeArgsMap and replace it with a new one
+	 * @param typeArgsMap
+	 *         relating the generic class arguments ("&lt;T, V&gt;" for
+	 *         example) with their actual types
+	 */
+	public void backupTypeArgsMap(Map<String, Type> typeArgsMap) {
+        backupTypeArgsMaps.push(this.typeArgsMap);
+        this.typeArgsMap = typeArgsMap;
+	}
+
+	/**
+	 * Restores typeArgsMap from backup
+	 * @return previous map
+	 */
+	public Map<String, Type> restoreTypeArgsMap() {
+        final Map<String, Type> oldTypeArgsMap = this.typeArgsMap;
+        this.typeArgsMap = backupTypeArgsMaps.pop();
+        return oldTypeArgsMap;
 	}
 }
