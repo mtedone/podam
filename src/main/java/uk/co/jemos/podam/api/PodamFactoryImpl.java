@@ -669,30 +669,6 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			LOG.debug("Populating read-only field {}", getter);
 
-			Type[] genericTypeArgsAll;
-			Map<String, Type> paramTypeArgsMap;
-			Type genericPojoType = getter.getGenericReturnType();
-			if (genericPojoType instanceof ParameterizedType) {
-
-				paramTypeArgsMap = new HashMap<String, Type>(manufacturingCtx.getTypeArgsMap());
-
-				ParameterizedType paramType = (ParameterizedType) genericPojoType;
-				Type[] actualTypes = paramType.getActualTypeArguments();
-				TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-						pojoType, actualTypes);
-				genericTypeArgsAll = TypeManufacturerUtil.fillTypeArgMap(paramTypeArgsMap,
-						pojoType, genericTypeArgs);
-
-			} else {
-
-				paramTypeArgsMap = manufacturingCtx.getTypeArgsMap();
-				genericTypeArgsAll = genericTypeArgs;
-			}
-
-			List<Annotation> pojoAttributeAnnotations =
-					PodamUtils.getAttributeAnnotations(
-							attribute.getAttribute(), getter);
-
 			Class<?> fieldClass = fieldValue.getClass();
 			Integer depth = manufacturingCtx.getPojos().get(fieldClass);
 			if (depth == null) {
@@ -700,12 +676,29 @@ public class PodamFactoryImpl implements PodamFactory {
 			}
 			if (depth < strategy.getMaxDepth(fieldClass)) {
 
-				manufacturingCtx.backupTypeArgsMap(paramTypeArgsMap);
+				Type[] genericTypeArgsAll;
+				Type genericPojoType = getter.getGenericReturnType();
+				final boolean cloneTypeArgsMap = (genericPojoType instanceof ParameterizedType);
+				if (cloneTypeArgsMap) {
+
+					genericTypeArgsAll = manufacturingCtx.cloneTypeArgsMap(
+							pojoType, (ParameterizedType) genericPojoType, genericTypeArgs);
+				} else {
+
+					genericTypeArgsAll = genericTypeArgs;
+				}
+
+				List<Annotation> pojoAttributeAnnotations =
+						PodamUtils.getAttributeAnnotations(
+								attribute.getAttribute(), getter);
+
 				manufacturingCtx.getPojos().put(fieldClass, depth + 1);
 				populatePojoInternal(fieldValue, pojoAttributeAnnotations,
 						manufacturingCtx, genericTypeArgsAll);
 				manufacturingCtx.getPojos().put(fieldClass, depth);
-				manufacturingCtx.restoreTypeArgsMap();
+				if (cloneTypeArgsMap) {
+					manufacturingCtx.restoreTypeArgsMap();
+				}
 			} else {
 
 				LOG.warn("Loop of depth " + depth + " in filling read-only field {} detected.",
@@ -1858,30 +1851,21 @@ public class PodamFactoryImpl implements PodamFactory {
 					parameterType, annotations, attributeStrategy);
 		}
 
-		Map<String, Type> typeArgsMapForParam;
-		if (genericType instanceof ParameterizedType) {
-			typeArgsMapForParam = new HashMap<String, Type>(manufacturingCtx.getTypeArgsMap());
-			ParameterizedType parametrizedType =
-					(ParameterizedType) genericType;
-
-			TypeVariable<?>[] argumentTypes = parameterType.getTypeParameters();
-			Type[] argumentGenericTypes = parametrizedType.getActualTypeArguments();
-
-			for (int k = 0; k < argumentTypes.length; k++) {
-				if (argumentGenericTypes[k] instanceof Class) {
-					Class<?> genericParam = (Class<?>) argumentGenericTypes[k];
-					typeArgsMapForParam.put(argumentTypes[k].getName(), genericParam);
-				}
-			}
+		final boolean cloneTypeArgsMap = (genericType instanceof ParameterizedType);
+		Type[] genericTypeArgsAll;
+		if (cloneTypeArgsMap) {
+			genericTypeArgsAll = manufacturingCtx.cloneTypeArgsMap(
+					parameterType, (ParameterizedType) genericType, genericTypeArgs);
 		} else {
-			typeArgsMapForParam = manufacturingCtx.getTypeArgsMap();
+			genericTypeArgsAll = genericTypeArgs;
 		}
 
-		manufacturingCtx.backupTypeArgsMap(typeArgsMapForParam);
 		Object retValue = manufactureAttributeValue(pojoClass, manufacturingCtx, parameterType,
 				genericType, annotations, parameterName,
-				genericTypeArgs);
-		manufacturingCtx.restoreTypeArgsMap();
+				genericTypeArgsAll);
+		if (cloneTypeArgsMap) {
+			manufacturingCtx.restoreTypeArgsMap();
+		}
 		return retValue;
 	}
 

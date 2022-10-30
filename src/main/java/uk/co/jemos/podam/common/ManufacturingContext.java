@@ -1,5 +1,6 @@
 package uk.co.jemos.podam.common;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 /**
  * Object to hold manufacturing related data
@@ -82,6 +84,32 @@ public class ManufacturingContext {
 	 */
 	public Map<String, Type> createEmptyTypeArgsMap() {
         return new HashMap<String, Type>();
+	}
+
+	/**
+	 * Clones and backups typeArgsMap and fills it with types for a new POJO
+	 * @param pojoType
+     *         class of a new POJO
+	 * @param parameterizedPojoType
+     *         parameterized type of a new POJO
+	 * @param genericTypeArgs
+	 *         The generic type arguments for the current generic class
+	 *         instance
+	 * @return
+	 *         The updated generic type arguments for the current generic class
+	 *         instance
+	 */
+	public Type[] cloneTypeArgsMap(Class<?> pojoType,
+			ParameterizedType parameterizedPojoType,
+			Type[] genericTypeArgs) {
+		backupTypeArgsMaps.push(typeArgsMap);
+		typeArgsMap = new HashMap<String, Type>(typeArgsMap);
+
+		Type[] actualTypes = parameterizedPojoType.getActualTypeArguments();
+		TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
+				pojoType, actualTypes);
+		return TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
+				pojoType, genericTypeArgs);
 	}
 
 	/**
