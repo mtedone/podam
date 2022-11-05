@@ -382,7 +382,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public <T> T getTypeValue(AttributeMetadata attributeMetadata,
-			Map<String, Type> genericTypesArgumentsMap,
+			ManufacturingContext manufacturingCtx,
 			Class<T> pojoType) {
 
 		if (null == attributeMetadata) {
@@ -405,7 +405,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 				try {
 					@SuppressWarnings("unchecked")
 					T tmp = (T) manufacturer.getType(this, attributeMetadata,
-							genericTypesArgumentsMap);
+							manufacturingCtx);
 					if (null != tmp) {
 						log(attributeMetadata);
 						return tmp;

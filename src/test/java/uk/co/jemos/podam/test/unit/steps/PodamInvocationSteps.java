@@ -10,13 +10,13 @@ import uk.co.jemos.podam.api.ClassAttributeApprover;
 import uk.co.jemos.podam.api.ClassInfo;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Created by tedonema on 27/05/2015.
@@ -78,11 +78,11 @@ public class PodamInvocationSteps {
     @Step("When I request a value for a type {3}")
     public Object whenISendAMessageToTheChannel(DataProviderStrategy strategy,
 			AttributeMetadata attributeMetadata,
-			Map<String, Type> genericTypesArgumentsMap,
+			ManufacturingContext manufacturingCtx,
 			Class<?> type) {
 
         Object payload = strategy.getTypeValue(attributeMetadata,
-                genericTypesArgumentsMap, type);
+                manufacturingCtx, type);
         Assert.assertNotNull("Payload must be valid", payload);
         return payload;
     }

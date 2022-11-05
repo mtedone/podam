@@ -1,10 +1,16 @@
 package uk.co.jemos.podam.common;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
@@ -106,10 +112,16 @@ public class ManufacturingContext {
 		typeArgsMap = new HashMap<String, Type>(typeArgsMap);
 
 		Type[] actualTypes = parameterizedPojoType.getActualTypeArguments();
-		TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
-				pojoType, actualTypes);
-		return TypeManufacturerUtil.fillTypeArgMap(typeArgsMap,
-				pojoType, genericTypeArgs);
+		fillTypeArgsMap(this, pojoType, actualTypes);
+		return fillTypeArgsMap(this, pojoType, genericTypeArgs);
+	}
+
+	/**
+	 * Clones and backups typeArgsMap
+	 */
+	public void cloneTypeArgsMap() {
+        backupTypeArgsMaps.push(this.typeArgsMap);
+        this.typeArgsMap = new HashMap<String, Type>(typeArgsMap);
 	}
 
 	/**
@@ -132,4 +144,97 @@ public class ManufacturingContext {
         this.typeArgsMap = backupTypeArgsMaps.pop();
         return oldTypeArgsMap;
 	}
+
+    /**
+     * Fills type agruments map
+     * <p>
+     * This method places required and provided types for object creation into a
+     * map, which will be used for type mapping.
+     * </p>
+     *
+     * @param manufacturingCtx
+     *            manufacturing context with a map to fill
+     * @param pojoClass
+     *            Typed class
+     * @param genericTypeArgs
+     *            Type arguments provided for a generics object by caller
+     * @return Array of unused provided generic type arguments
+     * @throws IllegalStateException
+     *             If number of typed parameters doesn't match number of
+     *             provided generic types
+     */
+    public static Type[] fillTypeArgsMap(final ManufacturingContext manufacturingCtx,
+                                  final Class<?> pojoClass, final Type[] genericTypeArgs) {
+
+        TypeVariable<?>[] typeArray = pojoClass.getTypeParameters();
+        List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(typeArray));
+        List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
+
+        Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
+        Iterator<Type> iterator2 = genericTypes.iterator();
+        while (iterator.hasNext()) {
+            Type genericType = (iterator2.hasNext() ? iterator2.next() : null);
+            /* Removing types, which are already in typeArgsMap */
+            if (manufacturingCtx.getTypeArgsMap().containsKey(iterator.next().getName())) {
+                iterator.remove();
+                /* Removing types, which are type variables */
+                if (genericType instanceof TypeVariable) {
+                    iterator2.remove();
+                }
+            }
+        }
+
+        if (typeParameters.size() > genericTypes.size()) {
+            String msg = pojoClass.getCanonicalName()
+                    + " is missing generic type arguments, expected "
+                    + Arrays.toString(typeArray) + ", provided "
+                    + Arrays.toString(genericTypeArgs);
+            throw new IllegalArgumentException(msg);
+        }
+
+        final Method[] suitableConstructors
+                = TypeManufacturerUtil.findSuitableConstructors(pojoClass, pojoClass);
+        for (Method constructor : suitableConstructors) {
+            TypeVariable<Method>[] ctorTypeParams = constructor.getTypeParameters();
+            if (ctorTypeParams.length == genericTypes.size()) {
+                for (int i = 0; i < ctorTypeParams.length; i++) {
+                    Type foundType = genericTypes.get(i);
+                    manufacturingCtx.getTypeArgsMap().put(ctorTypeParams[i].getName(), foundType);
+                }
+            }
+        }
+
+        for (int i = 0; i < typeParameters.size(); i++) {
+            Type foundType = genericTypes.remove(0);
+            manufacturingCtx.getTypeArgsMap().put(typeParameters.get(i).getName(), foundType);
+        }
+
+        Type[] genericTypeArgsExtra;
+        if (genericTypes.size() > 0) {
+            genericTypeArgsExtra = genericTypes.toArray(new Type[genericTypes.size()]);
+        } else {
+            genericTypeArgsExtra = PodamConstants.NO_TYPES;
+        }
+
+		/* Adding types, which were specified during inheritance */
+        Class<?> clazz = pojoClass;
+        while (clazz != null) {
+            Type superType = clazz.getGenericSuperclass();
+            clazz = clazz.getSuperclass();
+            if (superType instanceof ParameterizedType) {
+                ParameterizedType paramType = (ParameterizedType) superType;
+                Type[] actualParamTypes = paramType.getActualTypeArguments();
+                TypeVariable<?>[] paramTypes = clazz.getTypeParameters();
+                for (int i = 0; i < actualParamTypes.length
+                        && i < paramTypes.length; i++) {
+                    if (actualParamTypes[i] instanceof Class) {
+                        manufacturingCtx.getTypeArgsMap().put(paramTypes[i].getName(),
+                                actualParamTypes[i]);
+                    }
+                }
+            }
+        }
+
+        return genericTypeArgsExtra;
+    }
 }

@@ -4,13 +4,13 @@
 package uk.co.jemos.podam.api;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Map;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -64,12 +64,12 @@ public interface DataProviderStrategy {
      *
      * @param <T> type of returned object
      * @param attributeMetadata The AttributeMetadata information
-     * @param genericTypesArgumentsMap The generic attribute type argument types
+     * @param manufacturingCtx The pojo manufacturing context with generic attribute type argument types
      * @param pojoType The class of the requested type
      * @return The type value
      */
     <T> T getTypeValue(AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap, Class<T> pojoType);
+            ManufacturingContext manufacturingCtx, Class<T> pojoType);
 
     /**
      * Bind an interface/abstract class to a specific implementation. If the

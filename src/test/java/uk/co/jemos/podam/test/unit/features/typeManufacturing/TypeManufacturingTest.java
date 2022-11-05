@@ -7,13 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.test.dto.SimplePojoToTestSetters;
 import uk.co.jemos.podam.test.enums.ExternalRatePodamEnum;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
-
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by tedonema on 28/06/2015.
@@ -29,11 +26,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                 (SimplePojoToTestSetters.class, pojoInstance, attributeType);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+        ManufacturingContext manufacturingCtx = new ManufacturingContext();
 
         return podamInvocationSteps.whenISendAMessageToTheChannel(
                 dataProviderStrategy, attributeMetadata,
-                genericTypeArgumentsMap, attributeType);
+                manufacturingCtx, attributeType);
     }
 
     @Test
@@ -185,11 +182,11 @@ public class TypeManufacturingTest extends AbstractPodamSteps {
                 (ExternalRatePodamEnum.class, pojoInstance);
         podamValidationSteps.theObjectShouldNotBeNull(attributeMetadata);
 
-        Map<String, Type> genericTypeArgumentsMap = new HashMap<String, Type>();
+        ManufacturingContext manufacturingCtx = new ManufacturingContext();
 
         Object payload = podamInvocationSteps.whenISendAMessageToTheChannel(
                 dataProviderStrategy, attributeMetadata,
-                genericTypeArgumentsMap, ExternalRatePodamEnum.class.getSuperclass());
+                manufacturingCtx, ExternalRatePodamEnum.class.getSuperclass());
         podamValidationSteps.theObjectShouldNotBeNull(payload);
     }
 

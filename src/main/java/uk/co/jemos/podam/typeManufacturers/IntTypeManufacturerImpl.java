@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamIntValue;
 
@@ -26,7 +27,7 @@ public class IntTypeManufacturerImpl extends AbstractTypeManufacturer<Integer> {
     @Override
     public Integer getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Integer retValue;
 

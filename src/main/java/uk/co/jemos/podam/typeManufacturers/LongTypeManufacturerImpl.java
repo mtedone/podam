@@ -5,11 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 /**
  * Default long type manufacturer.
@@ -26,7 +29,7 @@ public class LongTypeManufacturerImpl extends AbstractTypeManufacturer<Long> {
     @Override
     public Long getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Long retValue;
 

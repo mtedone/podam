@@ -191,99 +191,6 @@ public abstract class TypeManufacturerUtil {
     }
 
     /**
-     * Fills type agruments map
-     * <p>
-     * This method places required and provided types for object creation into a
-     * map, which will be used for type mapping.
-     * </p>
-     *
-     * @param typeArgsMap
-     *            a map to fill
-     * @param pojoClass
-     *            Typed class
-     * @param genericTypeArgs
-     *            Type arguments provided for a generics object by caller
-     * @return Array of unused provided generic type arguments
-     * @throws IllegalStateException
-     *             If number of typed parameters doesn't match number of
-     *             provided generic types
-     */
-    public static Type[] fillTypeArgMap(final Map<String, Type> typeArgsMap,
-                                  final Class<?> pojoClass, final Type[] genericTypeArgs) {
-
-        TypeVariable<?>[] typeArray = pojoClass.getTypeParameters();
-        List<TypeVariable<?>> typeParameters = new ArrayList<TypeVariable<?>>(Arrays.asList(typeArray));
-        List<Type> genericTypes = new ArrayList<Type>(Arrays.asList(genericTypeArgs));
-
-        Iterator<TypeVariable<?>> iterator = typeParameters.iterator();
-        Iterator<Type> iterator2 = genericTypes.iterator();
-        while (iterator.hasNext()) {
-            Type genericType = (iterator2.hasNext() ? iterator2.next() : null);
-            /* Removing types, which are already in typeArgsMap */
-            if (typeArgsMap.containsKey(iterator.next().getName())) {
-                iterator.remove();
-                /* Removing types, which are type variables */
-                if (genericType instanceof TypeVariable) {
-                    iterator2.remove();
-                }
-            }
-        }
-
-        if (typeParameters.size() > genericTypes.size()) {
-            String msg = pojoClass.getCanonicalName()
-                    + " is missing generic type arguments, expected "
-                    + Arrays.toString(typeArray) + ", provided "
-                    + Arrays.toString(genericTypeArgs);
-            throw new IllegalArgumentException(msg);
-        }
-
-        final Method[] suitableConstructors
-                = TypeManufacturerUtil.findSuitableConstructors(pojoClass, pojoClass);
-        for (Method constructor : suitableConstructors) {
-            TypeVariable<Method>[] ctorTypeParams = constructor.getTypeParameters();
-            if (ctorTypeParams.length == genericTypes.size()) {
-                for (int i = 0; i < ctorTypeParams.length; i++) {
-                    Type foundType = genericTypes.get(i);
-                    typeArgsMap.put(ctorTypeParams[i].getName(), foundType);
-                }
-            }
-        }
-
-        for (int i = 0; i < typeParameters.size(); i++) {
-            Type foundType = genericTypes.remove(0);
-            typeArgsMap.put(typeParameters.get(i).getName(), foundType);
-        }
-
-        Type[] genericTypeArgsExtra;
-        if (genericTypes.size() > 0) {
-            genericTypeArgsExtra = genericTypes.toArray(new Type[genericTypes.size()]);
-        } else {
-            genericTypeArgsExtra = PodamConstants.NO_TYPES;
-        }
-
-		/* Adding types, which were specified during inheritance */
-        Class<?> clazz = pojoClass;
-        while (clazz != null) {
-            Type superType = clazz.getGenericSuperclass();
-            clazz = clazz.getSuperclass();
-            if (superType instanceof ParameterizedType) {
-                ParameterizedType paramType = (ParameterizedType) superType;
-                Type[] actualParamTypes = paramType.getActualTypeArguments();
-                TypeVariable<?>[] paramTypes = clazz.getTypeParameters();
-                for (int i = 0; i < actualParamTypes.length
-                        && i < paramTypes.length; i++) {
-                    if (actualParamTypes[i] instanceof Class) {
-                        typeArgsMap.put(paramTypes[i].getName(),
-                                actualParamTypes[i]);
-                    }
-                }
-            }
-        }
-
-        return genericTypeArgsExtra;
-    }
-
-    /**
      * Searches for annotation with information about collection/map size
      * and filling strategies
      *
@@ -373,15 +280,15 @@ public abstract class TypeManufacturerUtil {
      *            generic type of object
      * @param suppliedTypes
      *            an array of supplied types for generic type substitution
-     * @param typeArgsMap
-     *            a map relating the generic class arguments ("&lt;T, V&gt;" for
+     * @param manufacturingCtx
+     *            a context with a map relating the generic class arguments ("&lt;T, V&gt;" for
      *            example) with their actual types
      * @return An array of merged actual and supplied types with generic types
      *            resolved
      */
     public static Type[] mergeActualAndSuppliedGenericTypes(
             Class<?> attributeType, Type genericAttributeType, Type[] suppliedTypes,
-            Map<String, Type> typeArgsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         TypeVariable<?>[] actualTypes = attributeType.getTypeParameters();
 
@@ -407,11 +314,11 @@ public abstract class TypeManufacturerUtil {
 
             Type type = null;
             if (actualTypes[i] instanceof TypeVariable) {
-                type = typeArgsMap.get(((TypeVariable<?>)actualTypes[i]).getName());
+                type = manufacturingCtx.getTypeArgsMap().get(((TypeVariable<?>)actualTypes[i]).getName());
             } else if (actualTypes[i] instanceof WildcardType) {
                 AtomicReference<Type[]> methodGenericTypeArgs
                         = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-                type = TypeManufacturerUtil.resolveGenericParameter(actualTypes[i], typeArgsMap,
+                type = TypeManufacturerUtil.resolveGenericParameter(actualTypes[i], manufacturingCtx,
                         methodGenericTypeArgs);
             }
 
@@ -421,7 +328,7 @@ public abstract class TypeManufacturerUtil {
                 } else if (genericTypes[i] instanceof WildcardType) {
                     AtomicReference<Type[]> methodGenericTypeArgs
                             = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
-                    type = resolveGenericParameter(genericTypes[i], typeArgsMap,
+                    type = resolveGenericParameter(genericTypes[i], manufacturingCtx,
                             methodGenericTypeArgs);
                 } else if (genericTypes[i] instanceof ParameterizedType) {
                     type = genericTypes[i];
@@ -448,40 +355,40 @@ public abstract class TypeManufacturerUtil {
      *
      * @param paramType
      *            The generic parameter type
-     * @param typeArgsMap
-     *            A map of resolved types
+     * @param manufacturingCtx
+     *            A manufacturing context with a map of resolved types
      * @param methodGenericTypeArgs
      *            Return value posible generic types of the generic parameter
      *            type
      * @return value for class representing the generic parameter type
      */
     public static Class<?> resolveGenericParameter(Type paramType,
-                                             Map<String, Type> typeArgsMap,
+                                             ManufacturingContext manufacturingCtx,
                                              AtomicReference<Type[]> methodGenericTypeArgs) {
 
         Class<?> parameterType = null;
 
         //Safe copy
-        Map<String, Type> localMap = new HashMap<String, Type>(typeArgsMap);
+        manufacturingCtx.cloneTypeArgsMap();
 
         methodGenericTypeArgs.set(PodamConstants.NO_TYPES);
         if (paramType instanceof Class) {
             parameterType = (Class<?>) paramType;
         } else if (paramType instanceof TypeVariable<?>) {
             final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
-            final Type type = localMap.get(typeVariable.getName());
+            final Type type = manufacturingCtx.getTypeArgsMap().get(typeVariable.getName());
             if (type != null) {
-                parameterType = resolveGenericParameter(type, localMap,
+                parameterType = resolveGenericParameter(type, manufacturingCtx,
                         methodGenericTypeArgs);
             }
         } else if (paramType instanceof ParameterizedType) {
             ParameterizedType pType = (ParameterizedType) paramType;
             parameterType = (Class<?>) pType.getRawType();
             Type[] actualTypeArgs = pType.getActualTypeArguments();
-            if (!typeArgsMap.isEmpty()) {
+            if (!manufacturingCtx.getTypeArgsMap().isEmpty()) {
                 for (int i = 0; i < actualTypeArgs.length; i++) {
                     Class<?> tmp = resolveGenericParameter(actualTypeArgs[i],
-                        localMap, methodGenericTypeArgs);
+                        manufacturingCtx, methodGenericTypeArgs);
                     if (tmp != actualTypeArgs[i]) {
                         /* If actual type argument has its own arguments,
                          * we will loose them now, so we will leave type unresolved
@@ -505,7 +412,7 @@ public abstract class TypeManufacturerUtil {
             }
             if (ArrayUtils.isNotEmpty(bounds)) {
                 LOG.debug(msg + Arrays.toString(bounds));
-                parameterType = resolveGenericParameter(bounds[0], localMap,
+                parameterType = resolveGenericParameter(bounds[0], manufacturingCtx,
                         methodGenericTypeArgs);
             }
         }
@@ -515,6 +422,7 @@ public abstract class TypeManufacturerUtil {
                     paramType);
             parameterType = Object.class;
         }
+        manufacturingCtx.restoreTypeArgsMap();
         return parameterType;
     }
 

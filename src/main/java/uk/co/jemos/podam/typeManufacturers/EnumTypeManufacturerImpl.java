@@ -6,6 +6,7 @@ import java.util.Map;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 /**
  * Default Enum type manufacturer.
@@ -22,7 +23,7 @@ public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer<Enum<?>> 
     @Override
     public Enum<?> getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Class<?> realAttributeType = attributeMetadata.getAttributeType();
 

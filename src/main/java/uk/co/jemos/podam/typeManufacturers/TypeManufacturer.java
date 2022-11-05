@@ -5,6 +5,7 @@ import java.util.Map;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 /**
  * Interface for a type manufacturer
@@ -20,11 +21,11 @@ public interface TypeManufacturer<T> {
      *
      * @param strategy The DataProviderStrategy
      * @param attributeMetadata The AttributeMetadata
-     * @param genericTypesArgumentsMap map with generic types mapped to actual types
+     * @param manufacturingCtx pojo manufacturing context with types defintions
      *
      * @return A type value conforming to the annotations and the AttributeMetadata provided.
      */
     T getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap);
+            ManufacturingContext manufacturingCtx);
 }

@@ -3,6 +3,7 @@ package uk.co.jemos.podam.typeManufacturers;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamStringValue;
 
@@ -26,7 +27,7 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
     @Override
     public String getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         String retValue;
 

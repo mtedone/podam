@@ -4,14 +4,15 @@ import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.Holder;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
+
 
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -24,7 +25,7 @@ public class ArrayTypeManufacturerImpl extends AbstractTypeManufacturer<Cloneabl
     @Override
     public Cloneable getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Class<?> attrType = attributeMetadata.getAttributeType();
 
@@ -39,11 +40,11 @@ public class ArrayTypeManufacturerImpl extends AbstractTypeManufacturer<Cloneabl
                 if (genericComponentType instanceof TypeVariable) {
                     TypeVariable<?> componentTypeVariable
                             = (TypeVariable<?>) genericComponentType;
-                    final Type resolvedType = genericTypesArgumentsMap.get(
+                    final Type resolvedType = manufacturingCtx.getTypeArgsMap().get(
                             componentTypeVariable.getName());
                     componentType
                             = TypeManufacturerUtil.resolveGenericParameter(
-                                    resolvedType, genericTypesArgumentsMap,
+                                    resolvedType, manufacturingCtx,
                                     genericTypeArgs);
                 }
             }

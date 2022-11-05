@@ -2,6 +2,7 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class CollectionTypeManufacturerImpl extends AbstractTypeManufacturer<Col
     @Override
     public Collection<Object> getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Class<?> collectionType = attributeMetadata.getAttributeType();
         Collection<Object> retValue = null;

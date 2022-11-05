@@ -2,6 +2,7 @@ package uk.co.jemos.podam.typeManufacturers;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 
 import java.lang.reflect.Type;
@@ -20,19 +21,19 @@ public class TypeTypeManufacturerImpl extends AbstractTypeManufacturer<Object> {
     @Override
     public Object getType(DataProviderStrategy strategy,
             AttributeMetadata attributeMetadata,
-            Map<String, Type> genericTypesArgumentsMap) {
+            ManufacturingContext manufacturingCtx) {
 
         Type genericAttributeType = attributeMetadata.getAttributeGenericType();
         AtomicReference<Type[]> elementGenericTypeArgs
                 = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
         TypeManufacturerUtil.resolveGenericParameter(genericAttributeType,
-                genericTypesArgumentsMap, elementGenericTypeArgs);
+                manufacturingCtx, elementGenericTypeArgs);
 
         if (elementGenericTypeArgs.get().length > 0) {
 
             Type resolvedType = elementGenericTypeArgs.get()[0];
             return TypeManufacturerUtil.resolveGenericParameter(resolvedType,
-                    genericTypesArgumentsMap, elementGenericTypeArgs);
+                    manufacturingCtx, elementGenericTypeArgs);
         } else {
 
             return attributeMetadata.getAttributeType();

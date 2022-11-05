@@ -3,6 +3,7 @@ package uk.co.jemos.podam.test.unit.steps;
 import net.thucydides.core.annotations.Step;
 import uk.co.jemos.podam.api.*;
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.test.dto.annotations.PojoSpecific;
 import uk.co.jemos.podam.test.dto.RecursivePojoWithList;
 import uk.co.jemos.podam.test.strategies.CustomRandomDataProviderStrategy;
@@ -89,7 +90,7 @@ public class PodamFactorySteps {
             @Override
             public InputStream getType(DataProviderStrategy strategy,
                     AttributeMetadata attributeMetadata,
-                    Map<String, Type> genericTypesArgumentsMap) {
+                    ManufacturingContext manufacturingCtx) {
 
                 byte[] data = new byte[] { 0x0, 0x2, 0x4 };
                 return new ByteArrayInputStream(data);
