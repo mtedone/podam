@@ -148,6 +148,7 @@ public class Pdm45UnitTest {
 		ParameterizedType paremetrizedMap =
 				new PodamParameterizedType(Map.class, Integer.class, String.class);
 
+		@SuppressWarnings("unchecked")
 		GenericPojo<GenericPojo<String, Long>, Map<Integer, String>> pojo =
 				factory.manufacturePojo(GenericPojo.class, paremetrizedGenericPojo, paremetrizedMap);
 		assertThat("The pojo must be of the type", pojo, instanceOf(GenericPojo.class));

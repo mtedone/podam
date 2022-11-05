@@ -1010,15 +1010,16 @@ public class PodamFactoryImpl implements PodamFactory {
 
 			Object fieldValue = PodamUtils.getFieldValue(pojo, attributeName);
 			if (null != fieldValue) {
-				if (fieldValue instanceof Collection) {
-					defaultValue = (Collection<Object>)fieldValue;
-				} else {
+				if (!(fieldValue instanceof Collection)) {
 					fieldValue = PodamUtils.getFieldValueWithGetter(pojo, attributeName);
-					if (fieldValue instanceof Collection) {
-						defaultValue = (Collection<Object>)fieldValue;
-					} else if (null != fieldValue) {
-						LOG.warn("Obtained non-collection field default value {}", fieldValue.getClass());
-					}
+				}
+
+				if (fieldValue instanceof Collection) {
+					@SuppressWarnings("unchecked")
+					Collection<Object> tmp = (Collection<Object>)fieldValue;
+					defaultValue = tmp;
+				} else if (null != fieldValue) {
+					LOG.warn("Obtained non-collection field default value {}", fieldValue.getClass());
 				}
 			}
 		}

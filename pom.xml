@@ -223,7 +223,10 @@
 					</jdkToolchain>
                     <target>7</target>s
                     <source>7</source>
-                </configuration>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+              </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
