@@ -314,7 +314,7 @@ public abstract class TypeManufacturerUtil {
 
             Type type = null;
             if (actualTypes[i] instanceof TypeVariable) {
-                type = manufacturingCtx.getTypeArgsMap().get(((TypeVariable<?>)actualTypes[i]).getName());
+                type = manufacturingCtx.resolveType(((TypeVariable<?>)actualTypes[i]).getName());
             } else if (actualTypes[i] instanceof WildcardType) {
                 AtomicReference<Type[]> methodGenericTypeArgs
                         = new AtomicReference<Type[]>(PodamConstants.NO_TYPES);
@@ -376,7 +376,7 @@ public abstract class TypeManufacturerUtil {
             parameterType = (Class<?>) paramType;
         } else if (paramType instanceof TypeVariable<?>) {
             final TypeVariable<?> typeVariable = (TypeVariable<?>) paramType;
-            final Type type = manufacturingCtx.getTypeArgsMap().get(typeVariable.getName());
+            final Type type = manufacturingCtx.resolveType(typeVariable.getName());
             if (type != null) {
                 parameterType = resolveGenericParameter(type, manufacturingCtx,
                         methodGenericTypeArgs);
@@ -385,7 +385,7 @@ public abstract class TypeManufacturerUtil {
             ParameterizedType pType = (ParameterizedType) paramType;
             parameterType = (Class<?>) pType.getRawType();
             Type[] actualTypeArgs = pType.getActualTypeArguments();
-            if (!manufacturingCtx.getTypeArgsMap().isEmpty()) {
+            if (!manufacturingCtx.isTypeArgsEmpty()) {
                 for (int i = 0; i < actualTypeArgs.length; i++) {
                     Class<?> tmp = resolveGenericParameter(actualTypeArgs[i],
                         manufacturingCtx, methodGenericTypeArgs);

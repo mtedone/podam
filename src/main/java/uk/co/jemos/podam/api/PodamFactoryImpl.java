@@ -1597,7 +1597,7 @@ public class PodamFactoryImpl implements PodamFactory {
 				TypeVariable<?> componentTypeVariable
 						 = (TypeVariable<?>) genericComponentType;
 				final Type resolvedType
-						 = manufacturingCtx.getTypeArgsMap().get(componentTypeVariable.getName());
+						 = manufacturingCtx.resolveType(componentTypeVariable.getName());
 				componentType
 						 = TypeManufacturerUtil.resolveGenericParameter(resolvedType,
 						 		manufacturingCtx, genericTypeArgs);

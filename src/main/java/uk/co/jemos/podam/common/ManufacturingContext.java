@@ -66,22 +66,21 @@ public class ManufacturingContext {
 	}
 
 	/**
-	 * Getter for map generic type mappings
-	 * @return map relating the generic class arguments ("&lt;T, V&gt;" for
-	 *         example) with their actual types
+	 * Checks if current generit type mappings are empty
+	 * @return true, if type args map is empty
 	 */
-	public Map<String, Type> getTypeArgsMap() {
-		return typeArgsMap;
+	public boolean isTypeArgsEmpty() {
+		return typeArgsMap.isEmpty();
 	}
 
 	/**
-	 * Setter for map generic type mappings
-	 * @param typeArgsMap
-     *         relating the generic class arguments ("&lt;T, V&gt;" for
-	 *         example) with their actual types
+	 * Getter for map generic type mappings
+	 * @param typeName
+	 *         type generic placeholder
+	 * @return resolved actual type actual types
 	 */
-	public void setTypeArgsMap(Map<String, Type> typeArgsMap) {
-		this.typeArgsMap = typeArgsMap;
+	public Type resolveType(String typeName) {
+		return typeArgsMap.get(typeName);
 	}
 
 	/**
@@ -175,7 +174,7 @@ public class ManufacturingContext {
         while (iterator.hasNext()) {
             Type genericType = (iterator2.hasNext() ? iterator2.next() : null);
             /* Removing types, which are already in typeArgsMap */
-            if (manufacturingCtx.getTypeArgsMap().containsKey(iterator.next().getName())) {
+            if (manufacturingCtx.typeArgsMap.containsKey(iterator.next().getName())) {
                 iterator.remove();
                 /* Removing types, which are type variables */
                 if (genericType instanceof TypeVariable) {
@@ -199,14 +198,14 @@ public class ManufacturingContext {
             if (ctorTypeParams.length == genericTypes.size()) {
                 for (int i = 0; i < ctorTypeParams.length; i++) {
                     Type foundType = genericTypes.get(i);
-                    manufacturingCtx.getTypeArgsMap().put(ctorTypeParams[i].getName(), foundType);
+                    manufacturingCtx.putTypeArg(ctorTypeParams[i].getName(), foundType);
                 }
             }
         }
 
         for (int i = 0; i < typeParameters.size(); i++) {
             Type foundType = genericTypes.remove(0);
-            manufacturingCtx.getTypeArgsMap().put(typeParameters.get(i).getName(), foundType);
+            manufacturingCtx.putTypeArg(typeParameters.get(i).getName(), foundType);
         }
 
         Type[] genericTypeArgsExtra;
@@ -228,7 +227,7 @@ public class ManufacturingContext {
                 for (int i = 0; i < actualParamTypes.length
                         && i < paramTypes.length; i++) {
                     if (actualParamTypes[i] instanceof Class) {
-                        manufacturingCtx.getTypeArgsMap().put(paramTypes[i].getName(),
+                        manufacturingCtx.putTypeArg(paramTypes[i].getName(),
                                 actualParamTypes[i]);
                     }
                 }
@@ -237,4 +236,16 @@ public class ManufacturingContext {
 
         return genericTypeArgsExtra;
     }
+
+	/**
+	 * Setter for adding generic type mappings
+	 * @param typeName
+	 *            string generic type placeholder
+	 * @param type
+	 *            actual type
+	 */
+	private void putTypeArg(String typeName, Type type) {
+		typeArgsMap.put(typeName, type);
+	}
+
 }

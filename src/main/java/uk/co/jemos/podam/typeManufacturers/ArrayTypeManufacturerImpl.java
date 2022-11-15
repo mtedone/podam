@@ -40,7 +40,7 @@ public class ArrayTypeManufacturerImpl extends AbstractTypeManufacturer<Cloneabl
                 if (genericComponentType instanceof TypeVariable) {
                     TypeVariable<?> componentTypeVariable
                             = (TypeVariable<?>) genericComponentType;
-                    final Type resolvedType = manufacturingCtx.getTypeArgsMap().get(
+                    final Type resolvedType = manufacturingCtx.resolveType(
                             componentTypeVariable.getName());
                     componentType
                             = TypeManufacturerUtil.resolveGenericParameter(
