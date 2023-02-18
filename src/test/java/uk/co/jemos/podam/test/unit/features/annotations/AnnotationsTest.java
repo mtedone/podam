@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.EmailStrategy;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
@@ -17,6 +19,8 @@ import uk.co.jemos.podam.test.strategies.PostCodeStrategy;
 import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
+
+import jakarta.validation.constraints.Email;
 
 import java.lang.annotation.Annotation;
 import java.util.Calendar;
@@ -513,6 +517,17 @@ public class AnnotationsTest extends AbstractPodamSteps {
 
     }
 
+    @Test
+    @Title("Podam should assign exactly the values specified with the @Email annotation")
+    public void podamShouldAssignExactValuesDefinedInEmailAnnotation() throws Exception {
+
+        AttributeStrategy<?> strategy = new EmailStrategy();
+        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Email.class, strategy);
+        EmailStrategyPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmailStrategyPojo.class, podamFactory);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo);
+        podamValidationSteps.theObjectShouldNotBeNull(pojo.getEmail());
+        podamValidationSteps.theStringMatchesAPattern(pojo.getEmail(), "[^.]+\\.[^.]+@[^.]+\\.[^.]+");
+    }
 
     @Test
     @Title("Podam should handle POJOs with annotated field and setter")
