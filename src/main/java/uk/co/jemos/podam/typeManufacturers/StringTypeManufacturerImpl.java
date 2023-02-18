@@ -75,13 +75,7 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
 	public String getStringOfLength(int length,
 			AttributeMetadata attributeMetadata) {
 
-		StringBuilder buff = new StringBuilder();
-
-		while (buff.length() < length) {
-			buff.append(PodamUtils.getNiceCharacter());
-		}
-
-		return buff.toString();
+		return PodamUtils.getNiceString(length);
 	}
 
 }

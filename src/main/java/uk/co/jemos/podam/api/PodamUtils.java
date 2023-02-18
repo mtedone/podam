@@ -218,7 +218,23 @@ public abstract class PodamUtils {
 		int randomCharIdx = getIntegerInRange(0, NICE_ASCII_CHARACTERS.length - 1);
 		return NICE_ASCII_CHARACTERS[randomCharIdx];
 	}
-	
+
+	/**
+	 * Generates random string from set valid for identifiers in Java language
+	 *
+	 * @param length
+	 *            The length of the strings to generate
+	 * @return random string suitable for identifier
+	 */
+	public static String getNiceString(int length) {
+
+        StringBuilder sb = new StringBuilder(length);
+		while (sb.length() < length) {
+            sb.append(PodamUtils.getNiceCharacter());
+        }
+		return sb.toString();
+	}
+
 	/**
 	 * It returns a long/Long value between min and max value (included).
 	 * 
