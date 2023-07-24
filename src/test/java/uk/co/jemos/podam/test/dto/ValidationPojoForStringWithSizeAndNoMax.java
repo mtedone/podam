@@ -1,6 +1,6 @@
 package uk.co.jemos.podam.test.dto;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 /**
  * POJO to test Issue 110

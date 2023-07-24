@@ -26,6 +26,8 @@ import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
+import jakarta.validation.constraints.Email;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -194,6 +196,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> arrayManufacturer = new ArrayTypeManufacturerImpl();
 		typeManufacturers.put(Cloneable.class, arrayManufacturer);
+
+        addOrReplaceAttributeStrategy(Email.class, new EmailStrategy());
 	}
 
 	// ------------------->> Public methods

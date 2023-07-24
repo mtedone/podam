@@ -6,7 +6,7 @@ package uk.co.jemos.podam.test.strategies;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.common.AttributeStrategy;
