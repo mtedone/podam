@@ -34,8 +34,6 @@ public class StringTypeManufacturerImpl extends AbstractTypeManufacturer<String>
         PodamStringValue annotationStrategy = findElementOfType(
                 attributeMetadata.getAttributeAnnotations(), PodamStringValue.class);
 
-            retValue = getStringValue(attributeMetadata);
-
         if (null != annotationStrategy) {
 
             retValue = annotationStrategy.strValue();
