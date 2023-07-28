@@ -71,6 +71,13 @@
 
 	<contributors>
 		<contributor>
+			<name>Miguel Angelo Fernández Iglesias</name>
+			<email>82086544+mfernandezig@users.noreply.github.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
+		<contributor>
 			<name>Andrey Artyukhov</name>
 			<email>andrey.artyukhov@constant.obninsk.ru</email>
 			<roles>
