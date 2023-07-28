@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.BigInteger;

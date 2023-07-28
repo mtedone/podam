@@ -4,7 +4,7 @@
 package uk.co.jemos.podam.test.dto;
 
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * POJO to test bean validation API

@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.common.AttributeStrategy;
-import uk.co.jemos.podam.common.EmailStrategy;
 import uk.co.jemos.podam.test.dto.ConstructorWithSelfReferencesPojoAndDefaultConstructor;
 import uk.co.jemos.podam.test.dto.ExcludeAnnotationPojo;
 import uk.co.jemos.podam.test.dto.ImmutableNoHierarchicalAnnotatedPojo;
@@ -521,8 +519,7 @@ public class AnnotationsTest extends AbstractPodamSteps {
     @Title("Podam should assign exactly the values specified with the @Email annotation")
     public void podamShouldAssignExactValuesDefinedInEmailAnnotation() throws Exception {
 
-        AttributeStrategy<?> strategy = new EmailStrategy();
-        PodamFactory podamFactory = podamFactorySteps.givenAPodamFactoryWithCustomStrategy(Email.class, strategy);
+        PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
         EmailStrategyPojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(EmailStrategyPojo.class, podamFactory);
         podamValidationSteps.theObjectShouldNotBeNull(pojo);
         podamValidationSteps.theObjectShouldNotBeNull(pojo.getEmail());

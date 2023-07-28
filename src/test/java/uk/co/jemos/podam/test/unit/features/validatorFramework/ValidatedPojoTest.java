@@ -22,8 +22,8 @@ import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import javax.validation.Validator;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
