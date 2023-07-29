@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ClassInfo.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">ClassInfo.java</span></div><h1>ClassInfo.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClassInfo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">ClassInfo.java</span></div><h1>ClassInfo.java</h1><pre class="source lang-java linenums">/**
  *
  */
 package uk.co.jemos.podam.api;
@@ -89,11 +89,10 @@ public class ClassInfo implements Serializable {
 	public int hashCode() {
 <span class="fc" id="L90">		final int prime = 31;</span>
 <span class="fc" id="L91">		int result = 1;</span>
-<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		result = prime * result</span>
-<span class="fc" id="L93">				+ (classAttributes == null ? 0 : classAttributes.hashCode());</span>
-<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		result = prime * result</span>
-<span class="fc" id="L95">				+ (className == null ? 0 : className.hashCode());</span>
-<span class="fc" id="L96">		return result;</span>
+<span class="fc" id="L92">		result = prime * result + classAttributes.hashCode();</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">		result = prime * result</span>
+<span class="fc" id="L94">				+ (className == null ? 0 : className.hashCode());</span>
+<span class="fc" id="L95">		return result;</span>
 	}
 
 	/*
@@ -103,34 +102,27 @@ public class ClassInfo implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		if (this == obj) {</span>
-<span class="nc" id="L107">			return true;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		if (this == obj) {</span>
+<span class="nc" id="L106">			return true;</span>
 		}
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if (obj == null) {</span>
-<span class="nc" id="L110">			return false;</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (!(obj instanceof ClassInfo)) {</span>
+<span class="nc" id="L109">			return false;</span>
 		}
-<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (this.getClass() != obj.getClass()) {</span>
+<span class="fc" id="L111">		ClassInfo other = (ClassInfo) obj;</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (!classAttributes.equals(other.classAttributes)) {</span>
 <span class="nc" id="L113">			return false;</span>
 		}
-<span class="fc" id="L115">		ClassInfo other = (ClassInfo) obj;</span>
-<span class="pc bpc" id="L116" title="1 of 2 branches missed.">		if (classAttributes == null) {</span>
-<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (other.classAttributes != null) {</span>
-<span class="nc" id="L118">				return false;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">		if (className == null) {</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (other.className != null) {</span>
+<span class="nc" id="L117">				return false;</span>
 			}
-<span class="pc bpc" id="L120" title="1 of 2 branches missed.">		} else if (!classAttributes.equals(other.classAttributes)) {</span>
-<span class="nc" id="L121">			return false;</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		} else if (!className.equals(other.className)) {</span>
+<span class="nc" id="L120">			return false;</span>
 		}
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">		if (className == null) {</span>
-<span class="nc bnc" id="L124" title="All 2 branches missed.">			if (other.className != null) {</span>
-<span class="nc" id="L125">				return false;</span>
-			}
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">		} else if (!className.getName().equals(other.className.getName())) {</span>
-<span class="nc" id="L128">			return false;</span>
-		}
-<span class="fc" id="L130">		return true;</span>
+<span class="fc" id="L122">		return true;</span>
 	}
 
 
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

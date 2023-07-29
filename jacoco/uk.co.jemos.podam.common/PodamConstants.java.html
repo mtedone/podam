@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PodamConstants.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">PodamConstants.java</span></div><h1>PodamConstants.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PodamConstants.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">PodamConstants.java</span></div><h1>PodamConstants.java</h1><pre class="source lang-java linenums">/**
  * 
  */
 package uk.co.jemos.podam.common;
@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
  * @since 1.0.0
  * 
  */
-public final class PodamConstants {
+public interface PodamConstants {
 
 	/**
 	 * The default string length that Podam will assign to an annotated
@@ -28,14 +28,14 @@ public final class PodamConstants {
 	/** The default encoding for Strings. */
 	public static final String STR_DEFAULT_ENCODING = &quot;UTF-8&quot;;
 
-    /** The Spring integration header name which will drive the type manufacturing. */
-    public static final String HEADER_NAME = &quot;type&quot;;
-
     /** The Podam Spring rool configuration file name. */
     public static final String SPRING_ROOT_CONFIG_LOCATION = &quot;META-INF/spring/podam-config.xml&quot;;
 
     /** A String used for messages. */
     public static final String THE_ANNOTATION_VALUE_STR = &quot;The annotation value: &quot;;
+
+    /** An empty array of Classes. */
+<span class="fc" id="L38">    public static final Class[] NO_CLASSES = new Class[0];</span>
 
     /** An empty array of Types. */
 <span class="fc" id="L41">    public static final Type[] NO_TYPES = new Type[0];</span>
@@ -43,17 +43,5 @@ public final class PodamConstants {
     /** An empty object array. */
 <span class="fc" id="L44">    public static final Object[] NO_ARGS = new Object[0];</span>
 
-    /** The Enumeration qualifier for the Message Channel. */
-    public static final String ENUMERATION_QUALIFIER = &quot;Enumeration&quot;;
-
-    /** The Generic Type qualifier for the Message Channel. */
-    public static final String GENERIC_TYPE_QUALIFIER = &quot;GenericType&quot;;
-
-    /** Non-instantiable constructor */
-<span class="nc" id="L53">	private PodamConstants() {</span>
-<span class="nc" id="L54">		throw new AssertionError(&quot;Non instantiable&quot;);</span>
-	}
-
-
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,39 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractTypeManufacturer.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">AbstractTypeManufacturer.java</span></div><h1>AbstractTypeManufacturer.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractTypeManufacturer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">AbstractTypeManufacturer.java</span></div><h1>AbstractTypeManufacturer.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import java.util.Collection;
+
+import uk.co.jemos.podam.api.PodamUtils;
 
 /**
  * Parent of all type manufacturer.
  *
  * Created by tedonema on 28/06/2015.
  *
+ * @param &lt;T&gt; The type of the value to be manufactured
  * @since 6.0.0.RELEASE
  */
-<span class="fc" id="L10">public abstract class AbstractTypeManufacturer implements TypeManufacturer {</span>
+<span class="fc" id="L15">public abstract class AbstractTypeManufacturer&lt;T&gt; implements TypeManufacturer&lt;T&gt; {</span>
 
+	/**
+	 * @param &lt;R&gt; The type for which should be found
 
-    /**
-     * Checks that the given wrapper is valid.
-     * @param wrapper The wrapper to be checked
-     *
-     * @throws IllegalArgumentException If the wrapper or its content is invalid
-     */
-    protected void checkWrapperIsValid(TypeManufacturerParamsWrapper wrapper) {
+	 * @param collection collection with elements
+	 * @param type a type of which element should be found
+	 * @return element of desired type or null, if the collection doesn't
+	 * contain any object of that type.
+	 */
+	public &lt;R&gt; R findElementOfType(Collection&lt;?&gt; collection, Class&lt;R&gt; type) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">		for (Object element : collection) {</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">			if (type.isInstance(element)) {</span>
+<span class="fc" id="L28">				return type.cast(element);</span>
+			}
+<span class="fc" id="L30">		}</span>
+<span class="fc" id="L31">		return null;</span>
+	}
 
-<span class="fc" id="L21">        String errMsg = null;</span>
+    /** It returns a int/Integer value in an interval (0, bound).
+	 *
+	 * @param bound
+	 *            the upper bound (inclusive). Must be positive.
+	 * @return A random int value.
+	 */
+	public int getInteger(int bound) {
 
-<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (null == wrapper) {</span>
-<span class="nc" id="L24">            errMsg = &quot;The wrapper cannot be null&quot;;</span>
-<span class="nc" id="L25">            throw new IllegalArgumentException(errMsg);</span>
-        }
+<span class="fc" id="L42">		return PodamUtils.getIntegerInRange(0, bound);</span>
+	}
 
-<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if (null == wrapper.getAttributeMetadata()) {</span>
-<span class="nc" id="L29">            errMsg = &quot;The attribute metadata inside the wrapper cannot be null&quot;;</span>
-<span class="nc" id="L30">            throw new IllegalArgumentException(errMsg);</span>
-        }
+	/** It returns a double value in an interval (0, 1.0)
+	 * 
+	 * @return A random double value
+	 */
+	public double getDouble() {
 
-<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (null == wrapper.getAttributeMetadata().getAttributeAnnotations()) {</span>
-<span class="nc" id="L34">            errMsg = &quot;The annotations list within the attribute metadata cannot be null, although it can be empty&quot;;</span>
-<span class="nc" id="L35">            throw new IllegalArgumentException(errMsg);</span>
-        }
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L51">		return PodamUtils.getDoubleInRange(0.0, 1.0);</span>
+	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

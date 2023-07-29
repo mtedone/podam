@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractRandomDataProviderStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractRandomDataProviderStrategy.java</span></div><h1>AbstractRandomDataProviderStrategy.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractRandomDataProviderStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractRandomDataProviderStrategy.java</span></div><h1>AbstractRandomDataProviderStrategy.java</h1><pre class="source lang-java linenums">/**
  *
  */
 package uk.co.jemos.podam.api;
@@ -9,17 +9,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.*;
+import uk.co.jemos.podam.exceptions.PodamMockeryException;
+import uk.co.jemos.podam.typeManufacturers.ArrayTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.CollectionTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.MapTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeTypeManufacturerImpl;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
+
+import jakarta.validation.constraints.Email;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,64 +67,70 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	// -------------------&gt;&gt; Constants
 
 	/** Application logger */
-<span class="fc" id="L50">	private static final Logger LOG = LoggerFactory.getLogger(AbstractRandomDataProviderStrategy.class);</span>
-
-	/** A RANDOM generator */
-<span class="fc" id="L53">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
+<span class="fc" id="L70">	private static final Logger LOG = LoggerFactory.getLogger(AbstractRandomDataProviderStrategy.class);</span>
 
 	/**
 	 * How many times it is allowed to PODAM to create an instance of the same
 	 * class in a recursive hierarchy
 	 */
-	public static final int MAX_DEPTH = 1;
-
-	/** The max stack trace depth. */
-<span class="fc" id="L62">	private final AtomicInteger maxDepth = new AtomicInteger(MAX_DEPTH);</span>
+<span class="fc" id="L76">	private int maxDepth = 3;</span>
 
 	/** The number of collection elements. */
-<span class="fc" id="L65">	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();</span>
+<span class="fc" id="L79">	private final AtomicInteger nbrOfCollectionElements = new AtomicInteger();</span>
 
 	/** Flag to enable/disable the memoization setting. */
-<span class="fc" id="L68">	private final AtomicBoolean isMemoizationEnabled = new AtomicBoolean();</span>
+<span class="fc" id="L82">	private final AtomicBoolean isMemoizationEnabled = new AtomicBoolean();</span>
 
 	/**
 	 * A map to keep one object for each class. If memoization is enabled, the
 	 * factory will use this table to avoid creating objects of the same class
 	 * multiple times.
 	 */
-<span class="fc" id="L75">	private final Map&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt; memoizationTable = new HashMap&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt;();</span>
+<span class="fc" id="L89">	private final Map&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt; memoizationTable = new HashMap&lt;Class&lt;?&gt;, Map&lt;Type[], Object&gt;&gt;();</span>
+
+	/**
+	 * A mapping between types and their registered manufacturers
+	 */
+<span class="fc" id="L94">	private final ConcurrentHashMap&lt;Class&lt;?&gt;, TypeManufacturer&lt;?&gt;&gt; typeManufacturers</span>
+			= new ConcurrentHashMap&lt;Class&lt;?&gt;, TypeManufacturer&lt;?&gt;&gt;();
 
 	/**
 	 * A list of user-submitted specific implementations for interfaces and
 	 * abstract classes
 	 */
-<span class="fc" id="L81">	private final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; specificTypes = new ConcurrentHashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;();</span>
+<span class="fc" id="L101">	private final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; specificTypes = new ConcurrentHashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;();</span>
 
 	/**
 	 * A list of user-submitted factories to build interfaces and abstract classes
 	 */
-<span class="fc" id="L86">	private final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; factoryTypes = new ConcurrentHashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;();</span>
+<span class="fc" id="L106">	private final Map&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt; factoryTypes = new ConcurrentHashMap&lt;Class&lt;?&gt;, Class&lt;?&gt;&gt;();</span>
 
 	/**
 	 * Mapping between annotations and attribute strategies
 	 */
-<span class="fc" id="L91">	private final Map&lt;Class&lt;? extends Annotation&gt;, Class&lt;AttributeStrategy&lt;?&gt;&gt;&gt; attributeStrategies</span>
-			= new ConcurrentHashMap&lt;Class&lt;? extends Annotation&gt;, Class&lt;AttributeStrategy&lt;?&gt;&gt;&gt;();
+<span class="fc" id="L111">	private final Map&lt;Class&lt;? extends Annotation&gt;, AttributeStrategy&lt;?&gt;&gt; attributeStrategies</span>
+			= new ConcurrentHashMap&lt;Class&lt;? extends Annotation&gt;, AttributeStrategy&lt;?&gt;&gt;();
+
+	/**
+	 * Mapping between attributes and attribute strategies
+	 */
+<span class="fc" id="L117">	private final Map&lt;Class&lt;?&gt;, Map&lt;String,AttributeStrategy&lt;?&gt;&gt;&gt; attributeClassStrategies</span>
+			= new ConcurrentHashMap&lt;Class&lt;?&gt;, Map&lt;String,AttributeStrategy&lt;?&gt;&gt;&gt;();
 
 	/** The constructor comparator */
-<span class="fc" id="L95">	private AbstractConstructorComparator constructorHeavyComparator =</span>
+<span class="fc" id="L121">	private AbstractConstructorComparator constructorHeavyComparator =</span>
 			ConstructorHeavyFirstComparator.INSTANCE;
 
 	/** The constructor comparator */
-<span class="fc" id="L99">	private AbstractConstructorComparator constructorLightComparator =</span>
+<span class="fc" id="L125">	private AbstractConstructorComparator constructorLightComparator =</span>
 			ConstructorLightFirstComparator.INSTANCE;
 
 	/** The constructor comparator */
-<span class="fc" id="L103">	private AbstractMethodComparator methodHeavyComparator</span>
+<span class="fc" id="L129">	private AbstractMethodComparator methodHeavyComparator</span>
 			= MethodHeavyFirstComparator.INSTANCE;
 
 	/** The constructor comparator */
-<span class="fc" id="L107">	private AbstractMethodComparator methodLightComparator</span>
+<span class="fc" id="L133">	private AbstractMethodComparator methodLightComparator</span>
 			= MethodLightFirstComparator.INSTANCE;
 
 	// -------------------&gt;&gt; Instance / Static variables
@@ -115,262 +141,66 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 * Implementation of the Singleton pattern
 	 */
 	public AbstractRandomDataProviderStrategy() {
-<span class="fc" id="L118">		this(PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS);</span>
-<span class="fc" id="L119">	}</span>
+<span class="fc" id="L144">		this(PodamConstants.DEFAULT_NBR_COLLECTION_ELEMENTS);</span>
+<span class="fc" id="L145">	}</span>
 
-<span class="fc" id="L121">	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {</span>
-<span class="fc" id="L122">		this.nbrOfCollectionElements.set(nbrOfCollectionElements);</span>
-<span class="fc" id="L123">	}</span>
+<span class="fc" id="L147">	public AbstractRandomDataProviderStrategy(int nbrOfCollectionElements) {</span>
+<span class="fc" id="L148">		this.nbrOfCollectionElements.set(nbrOfCollectionElements);</span>
+
+<span class="fc" id="L150">		TypeManufacturer&lt;?&gt; byteManufacturer = new ByteTypeManufacturerImpl();</span>
+<span class="fc" id="L151">		typeManufacturers.put(byte.class, byteManufacturer);</span>
+<span class="fc" id="L152">		typeManufacturers.put(Byte.class, byteManufacturer);</span>
+
+<span class="fc" id="L154">		TypeManufacturer&lt;?&gt; booleanManufacturer = new BooleanTypeManufacturerImpl();</span>
+<span class="fc" id="L155">		typeManufacturers.put(boolean.class, booleanManufacturer);</span>
+<span class="fc" id="L156">		typeManufacturers.put(Boolean.class, booleanManufacturer);</span>
+
+<span class="fc" id="L158">		TypeManufacturer&lt;?&gt; charManufacturer = new CharTypeManufacturerImpl();</span>
+<span class="fc" id="L159">		typeManufacturers.put(char.class, charManufacturer);</span>
+<span class="fc" id="L160">		typeManufacturers.put(Character.class, charManufacturer);</span>
+
+<span class="fc" id="L162">		TypeManufacturer&lt;?&gt; shortManufacturer = new ShortTypeManufacturerImpl();</span>
+<span class="fc" id="L163">		typeManufacturers.put(short.class, shortManufacturer);</span>
+<span class="fc" id="L164">		typeManufacturers.put(Short.class, shortManufacturer);</span>
+
+<span class="fc" id="L166">		TypeManufacturer&lt;?&gt; intManufacturer = new IntTypeManufacturerImpl();</span>
+<span class="fc" id="L167">		typeManufacturers.put(int.class, intManufacturer);</span>
+<span class="fc" id="L168">		typeManufacturers.put(Integer.class, intManufacturer);</span>
+
+<span class="fc" id="L170">		TypeManufacturer&lt;?&gt; longManufacturer = new LongTypeManufacturerImpl();</span>
+<span class="fc" id="L171">		typeManufacturers.put(long.class, longManufacturer);</span>
+<span class="fc" id="L172">		typeManufacturers.put(Long.class, longManufacturer);</span>
+
+<span class="fc" id="L174">		TypeManufacturer&lt;?&gt; floatManufacturer = new FloatTypeManufacturerImpl();</span>
+<span class="fc" id="L175">		typeManufacturers.put(float.class, floatManufacturer);</span>
+<span class="fc" id="L176">		typeManufacturers.put(Float.class, floatManufacturer);</span>
+
+<span class="fc" id="L178">		TypeManufacturer&lt;?&gt; doubleManufacturer = new DoubleTypeManufacturerImpl();</span>
+<span class="fc" id="L179">		typeManufacturers.put(double.class, doubleManufacturer);</span>
+<span class="fc" id="L180">		typeManufacturers.put(Double.class, doubleManufacturer);</span>
+
+<span class="fc" id="L182">		TypeManufacturer&lt;?&gt; stringManufacturer = new StringTypeManufacturerImpl();</span>
+<span class="fc" id="L183">		typeManufacturers.put(CharSequence.class, stringManufacturer);</span>
+
+<span class="fc" id="L185">		TypeManufacturer&lt;?&gt; enumManufacturer = new EnumTypeManufacturerImpl();</span>
+<span class="fc" id="L186">		typeManufacturers.put(Enum.class, enumManufacturer);</span>
+
+<span class="fc" id="L188">		TypeManufacturer&lt;?&gt; typeManufacturer = new TypeTypeManufacturerImpl();</span>
+<span class="fc" id="L189">		typeManufacturers.put(Type.class, typeManufacturer);</span>
+
+<span class="fc" id="L191">		TypeManufacturer&lt;?&gt; collectionManufacturer = new CollectionTypeManufacturerImpl();</span>
+<span class="fc" id="L192">		typeManufacturers.put(Collection.class, collectionManufacturer);</span>
+
+<span class="fc" id="L194">		TypeManufacturer&lt;?&gt; mapManufacturer = new MapTypeManufacturerImpl();</span>
+<span class="fc" id="L195">		typeManufacturers.put(Map.class, mapManufacturer);</span>
+
+<span class="fc" id="L197">		TypeManufacturer&lt;?&gt; arrayManufacturer = new ArrayTypeManufacturerImpl();</span>
+<span class="fc" id="L198">		typeManufacturers.put(Cloneable.class, arrayManufacturer);</span>
+
+<span class="fc" id="L200">        addOrReplaceAttributeStrategy(Email.class, new EmailStrategy());</span>
+<span class="fc" id="L201">	}</span>
 
 	// -------------------&gt;&gt; Public methods
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Boolean getBoolean(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L134">		log(attributeMetadata);</span>
-<span class="fc" id="L135">		return Boolean.TRUE;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Byte getByte(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L145">		log(attributeMetadata);</span>
-		byte nextByte;
-		do {
-<span class="fc" id="L148">			nextByte = (byte) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">		} while (nextByte == 0);</span>
-<span class="fc" id="L150">		return nextByte;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Byte getByteInRange(byte minValue, byte maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L161">		log(attributeMetadata);</span>
-<span class="fc" id="L162">		return (byte) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Character getCharacter(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L172">		log(attributeMetadata);</span>
-<span class="fc" id="L173">		return PodamUtils.getNiceCharacter();</span>
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Character getCharacterInRange(char minValue, char maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L185">		log(attributeMetadata);</span>
-<span class="fc" id="L186">		return (char) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Double getDouble(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L196">		log(attributeMetadata);</span>
-		double retValue;
-		do {
-<span class="fc" id="L199">			retValue = RANDOM.nextDouble();</span>
-<span class="pc bpc" id="L200" title="1 of 2 branches missed.">		} while (retValue == 0.0);</span>
-<span class="fc" id="L201">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Double getDoubleInRange(double minValue, double maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L212">		log(attributeMetadata);</span>
-		// This can happen. It's a way to specify a precise value
-<span class="fc bfc" id="L214" title="All 2 branches covered.">		if (minValue == maxValue) {</span>
-<span class="fc" id="L215">			return minValue;</span>
-		}
-		double retValue;
-		do {
-<span class="fc" id="L219">			retValue = minValue + Math.random() * (maxValue - minValue + 1);</span>
-<span class="pc bpc" id="L220" title="1 of 2 branches missed.">		} while (retValue &gt; maxValue);</span>
-<span class="fc" id="L221">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Float getFloat(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L231">		log(attributeMetadata);</span>
-		float retValue;
-		do {
-<span class="fc" id="L234">			retValue = RANDOM.nextFloat();</span>
-<span class="pc bpc" id="L235" title="1 of 2 branches missed.">		} while (retValue == 0.0f);</span>
-<span class="fc" id="L236">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Float getFloatInRange(float minValue, float maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L247">		log(attributeMetadata);</span>
-		// This can happen. It's a way to specify a precise value
-<span class="fc bfc" id="L249" title="All 2 branches covered.">		if (minValue == maxValue) {</span>
-<span class="fc" id="L250">			return minValue;</span>
-		}
-		float retValue;
-		do {
-<span class="fc" id="L254">			retValue = (float) (minValue</span>
-<span class="fc" id="L255">					+ Math.random() * (maxValue - minValue + 1));</span>
-<span class="pc bpc" id="L256" title="1 of 2 branches missed.">		} while (retValue &gt; maxValue);</span>
-<span class="fc" id="L257">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Integer getInteger(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L267">		log(attributeMetadata);</span>
-		Integer retValue;
-		do {
-<span class="fc" id="L270">			retValue = RANDOM.nextInt();</span>
-<span class="pc bpc" id="L271" title="1 of 2 branches missed.">		} while (retValue.intValue() == 0);</span>
-<span class="fc" id="L272">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public int getIntegerInRange(int minValue, int maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L283">		log(attributeMetadata);</span>
-<span class="fc" id="L284">		return (int) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
-	}
-
-	/**
-	 * This implementation returns the current time in milliseconds.
-	 * &lt;p&gt;
-	 * This can be useful for Date-like constructors which accept a long as
-	 * argument. A complete random number would cause the instantiation of such
-	 * classes to fail on a non-deterministic basis, e.g. when the random long
-	 * would not be an acceptable value for, say, a YEAR field.
-	 * &lt;/p&gt;
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Long getLong(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L301">		log(attributeMetadata);</span>
-<span class="fc" id="L302">		return System.nanoTime();</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Long getLongInRange(long minValue, long maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L313">		log(attributeMetadata);</span>
-<span class="fc" id="L314">		return PodamUtils.getLongInRange(minValue, maxValue);</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Short getShort(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L324">		log(attributeMetadata);</span>
-		short retValue;
-		do {
-<span class="fc" id="L327">			retValue = (short) RANDOM.nextInt(Byte.MAX_VALUE);</span>
-<span class="fc bfc" id="L328" title="All 2 branches covered.">		} while (retValue == 0);</span>
-<span class="fc" id="L329">		return retValue;</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public Short getShortInRange(short minValue, short maxValue,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L340">		log(attributeMetadata);</span>
-<span class="fc" id="L341">		return (short) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public String getStringValue(AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L351">		log(attributeMetadata);</span>
-<span class="fc" id="L352">		return getStringOfLength(PodamConstants.STR_DEFAULT_LENGTH,</span>
-				attributeMetadata);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-
-	@Override
-	public String getStringOfLength(int length,
-			AttributeMetadata attributeMetadata) {
-
-<span class="fc" id="L364">		log(attributeMetadata);</span>
-<span class="fc" id="L365">		StringBuilder buff = new StringBuilder();</span>
-
-<span class="fc bfc" id="L367" title="All 2 branches covered.">		while (buff.length() &lt; length) {</span>
-<span class="fc" id="L368">			buff.append(getCharacter(attributeMetadata));</span>
-		}
-
-<span class="fc" id="L371">		return buff.toString();</span>
-
-	}
 
 	// -------------------&gt;&gt; Getters / Setters
 
@@ -379,7 +209,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public int getNumberOfCollectionElements(Class&lt;?&gt; type) {
-<span class="fc" id="L382">		return nbrOfCollectionElements.get();</span>
+<span class="fc" id="L212">		return nbrOfCollectionElements.get();</span>
 	}
 
 	/**
@@ -387,23 +217,33 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setDefaultNumberOfCollectionElements(int newNumberOfCollectionElements) {
-<span class="fc" id="L390">		nbrOfCollectionElements.set(newNumberOfCollectionElements);</span>
-<span class="fc" id="L391">	}</span>
+<span class="fc" id="L220">		nbrOfCollectionElements.set(newNumberOfCollectionElements);</span>
+<span class="fc" id="L221">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public int getMaxDepth(Class&lt;?&gt; type) {
-<span class="fc" id="L398">		return maxDepth.get();</span>
+<span class="fc" id="L228">		return maxDepth;</span>
 	}
+
+	/**
+	 * Max depth setter
+	 *
+	 * @param maxDepth
+	 *            defines new max depth
+	 */
+	public void setMaxDepth(int maxDepth) {
+<span class="nc" id="L238">		this.maxDepth = maxDepth;</span>
+<span class="nc" id="L239">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isMemoizationEnabled() {
-<span class="nc" id="L406">		return isMemoizationEnabled.get();</span>
+<span class="fc" id="L246">		return isMemoizationEnabled.get();</span>
 	}
 
 	/**
@@ -411,8 +251,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setMemoization(boolean isMemoizationEnabled) {
-<span class="fc" id="L414">		this.isMemoizationEnabled.set(isMemoizationEnabled);</span>
-<span class="fc" id="L415">	}</span>
+<span class="fc" id="L254">		this.isMemoizationEnabled.set(isMemoizationEnabled);</span>
+<span class="fc" id="L255">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -420,26 +260,26 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public synchronized Object getMemoizedObject(AttributeMetadata attributeMetadata) {
 
-<span class="fc bfc" id="L423" title="All 2 branches covered.">		if (isMemoizationEnabled.get()) {</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">		if (isMemoizationEnabled.get()) {</span>
 			/* No memoization for arrays, collections and maps */
-<span class="fc" id="L425">			Class&lt;?&gt; pojoClass = attributeMetadata.getPojoClass();</span>
-<span class="fc bfc" id="L426" title="All 2 branches covered.">			if (pojoClass == null ||</span>
-<span class="pc bpc" id="L427" title="1 of 2 branches missed.">					(!pojoClass.isArray() &amp;&amp;</span>
-<span class="pc bpc" id="L428" title="1 of 2 branches missed.">					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;</span>
-<span class="pc bpc" id="L429" title="1 of 2 branches missed.">					!Map.class.isAssignableFrom(pojoClass))) {</span>
+<span class="fc" id="L265">			Class&lt;?&gt; pojoClass = attributeMetadata.getPojoClass();</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">			if (pojoClass == null ||</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">					(!pojoClass.isArray() &amp;&amp;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">					!Collection.class.isAssignableFrom(pojoClass) &amp;&amp;</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">					!Map.class.isAssignableFrom(pojoClass))) {</span>
 
-<span class="fc" id="L431">				Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
-<span class="fc bfc" id="L432" title="All 2 branches covered.">				if (map != null) {</span>
-<span class="fc bfc" id="L433" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
-<span class="fc bfc" id="L434" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
-<span class="fc" id="L435">							LOG.trace(&quot;Found memoized {}&lt;{}&gt;&quot;, attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());</span>
-<span class="fc" id="L436">							return entry.getValue();</span>
+<span class="fc" id="L271">				Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">				if (map != null) {</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">					for (Entry&lt;Type[], Object&gt; entry : map.entrySet()) {</span>
+<span class="fc bfc" id="L274" title="All 2 branches covered.">						if (Arrays.equals(entry.getKey(), attributeMetadata.getAttrGenericArgs())) {</span>
+<span class="fc" id="L275">							LOG.trace(&quot;Found memoized {}&lt;{}&gt;&quot;, attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());</span>
+<span class="fc" id="L276">							return entry.getValue();</span>
 						}
-<span class="fc" id="L438">					}</span>
+<span class="fc" id="L278">					}</span>
 				}
 			}
 		}
-<span class="fc" id="L442">		return null;</span>
+<span class="fc" id="L282">		return null;</span>
 	}
 
 	/**
@@ -449,16 +289,16 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public synchronized void cacheMemoizedObject(AttributeMetadata attributeMetadata,
 			Object instance) {
 
-<span class="fc bfc" id="L452" title="All 2 branches covered.">		if (isMemoizationEnabled.get()) {</span>
-<span class="fc" id="L453">			Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
-<span class="fc bfc" id="L454" title="All 2 branches covered.">			if (map == null) {</span>
-<span class="fc" id="L455">				map = new HashMap&lt;Type[], Object&gt;();</span>
-<span class="fc" id="L456">				memoizationTable.put(attributeMetadata.getAttributeType(), map);</span>
+<span class="fc bfc" id="L292" title="All 2 branches covered.">		if (isMemoizationEnabled.get()) {</span>
+<span class="fc" id="L293">			Map&lt;Type[], Object&gt; map = memoizationTable.get(attributeMetadata.getAttributeType());</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">			if (map == null) {</span>
+<span class="fc" id="L295">				map = new HashMap&lt;Type[], Object&gt;();</span>
+<span class="fc" id="L296">				memoizationTable.put(attributeMetadata.getAttributeType(), map);</span>
 			}
-<span class="fc" id="L458">			LOG.trace(&quot;Saving memoized {}&lt;{}&gt;&quot;, attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());</span>
-<span class="fc" id="L459">			map.put(attributeMetadata.getAttrGenericArgs(), instance);</span>
+<span class="fc" id="L298">			LOG.trace(&quot;Saving memoized {}&lt;{}&gt;&quot;, attributeMetadata.getAttributeType(), attributeMetadata.getAttrGenericArgs());</span>
+<span class="fc" id="L299">			map.put(attributeMetadata.getAttrGenericArgs(), instance);</span>
 		}
-<span class="fc" id="L461">	}</span>
+<span class="fc" id="L301">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -466,9 +306,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public synchronized void clearMemoizationCache() {
 
-<span class="nc" id="L469">		memoizationTable.clear();</span>
+<span class="fc" id="L309">		memoizationTable.clear();</span>
 
-<span class="nc" id="L471">	}</span>
+<span class="fc" id="L311">	}</span>
 
 	/**
 	 * Rearranges POJO's constructors in order they will be tried to produce the
@@ -483,16 +323,16 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public void sort(Constructor&lt;?&gt;[] constructors, Order order) {
 		AbstractConstructorComparator constructorComparator;
-<span class="pc bfc" id="L486" title="All 2 branches covered.">		switch(order) {</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">		switch(order) {</span>
 		case HEAVY_FIRST:
-<span class="fc" id="L488">			constructorComparator = constructorHeavyComparator;</span>
-<span class="fc" id="L489">			break;</span>
+<span class="fc" id="L328">			constructorComparator = constructorHeavyComparator;</span>
+<span class="fc" id="L329">			break;</span>
 		default:
-<span class="fc" id="L491">			constructorComparator = constructorLightComparator;</span>
+<span class="fc" id="L331">			constructorComparator = constructorLightComparator;</span>
 			break;
 		}
-<span class="fc" id="L494">		Arrays.sort(constructors, constructorComparator);</span>
-<span class="fc" id="L495">	}</span>
+<span class="fc" id="L334">		Arrays.sort(constructors, constructorComparator);</span>
+<span class="fc" id="L335">	}</span>
 
 	/**
 	 * Rearranges POJO's methods in order they will be tried to produce the
@@ -507,16 +347,92 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public void sort(Method[] methods, Order order) {
 		AbstractMethodComparator methodComparator;
-<span class="fc bfc" id="L510" title="All 2 branches covered.">		switch(order) {</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">		switch(order) {</span>
 		case HEAVY_FIRST:
-<span class="fc" id="L512">			methodComparator = methodHeavyComparator;</span>
-<span class="fc" id="L513">			break;</span>
+<span class="fc" id="L352">			methodComparator = methodHeavyComparator;</span>
+<span class="fc" id="L353">			break;</span>
 		default:
-<span class="fc" id="L515">			methodComparator = methodLightComparator;</span>
+<span class="fc" id="L355">			methodComparator = methodLightComparator;</span>
 			break;
 		}
-<span class="fc" id="L518">		Arrays.sort(methods, methodComparator);</span>
-<span class="fc" id="L519">	}</span>
+<span class="fc" id="L358">		Arrays.sort(methods, methodComparator);</span>
+<span class="fc" id="L359">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; DataProviderStrategy addOrReplaceTypeManufacturer(
+			Class&lt;? extends T&gt; type, TypeManufacturer&lt;T&gt; typeManufacturer) {
+
+<span class="fc" id="L368">		typeManufacturers.put(type, typeManufacturer);</span>
+<span class="fc" id="L369">		return this;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; DataProviderStrategy removeTypeManufacturer(
+			Class&lt;T&gt; type) {
+
+<span class="fc" id="L379">		typeManufacturers.remove(type);</span>
+<span class="fc" id="L380">		return this;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public &lt;T&gt; T getTypeValue(AttributeMetadata attributeMetadata,
+			ManufacturingContext manufacturingCtx,
+			Class&lt;T&gt; pojoType) {
+
+<span class="pc bpc" id="L391" title="1 of 2 branches missed.">		if (null == attributeMetadata) {</span>
+<span class="nc" id="L392">			throw new IllegalArgumentException(</span>
+					&quot;The attribute metadata inside the wrapper cannot be null&quot;);
+		}
+
+<span class="pc bpc" id="L396" title="1 of 2 branches missed.">		if (null == attributeMetadata.getAttributeAnnotations()) {</span>
+<span class="nc" id="L397">			throw new IllegalArgumentException(</span>
+					&quot;The annotations list within the attribute metadata cannot be null, although it can be empty&quot;);
+		}
+
+<span class="fc" id="L401">		Deque&lt;Class&lt;?&gt;&gt; types = new ArrayDeque&lt;Class&lt;?&gt;&gt;();</span>
+<span class="fc" id="L402">		types.add(pojoType);</span>
+<span class="fc bfc" id="L403" title="All 2 branches covered.">		while (!types.isEmpty()) {</span>
+
+<span class="fc" id="L405">			Class&lt;?&gt; type = types.remove();</span>
+<span class="fc" id="L406">			TypeManufacturer&lt;?&gt; manufacturer = typeManufacturers.get(type);</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">			if (null != manufacturer) {</span>
+				try {
+					@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L410">					T tmp = (T) manufacturer.getType(this, attributeMetadata,</span>
+							manufacturingCtx);
+<span class="fc bfc" id="L412" title="All 2 branches covered.">					if (null != tmp) {</span>
+<span class="fc" id="L413">						log(attributeMetadata);</span>
+<span class="fc" id="L414">						return tmp;</span>
+					} else {
+<span class="fc" id="L416">						LOG.debug(&quot;{} cannot manufacture {}&quot;, manufacturer, pojoType);</span>
+					}
+<span class="fc" id="L418">				} catch (Exception e) {</span>
+<span class="fc" id="L419">					throw new PodamMockeryException(</span>
+							&quot;Unable to instantiate &quot; + pojoType, e);
+<span class="fc" id="L421">				}</span>
+			}
+
+<span class="fc bfc" id="L424" title="All 2 branches covered.">			for (Class&lt;?&gt; iface : type.getInterfaces()) {</span>
+<span class="fc" id="L425">				types.add(iface);</span>
+			}
+<span class="fc" id="L427">			type = type.getSuperclass();</span>
+<span class="fc bfc" id="L428" title="All 2 branches covered.">			if (null != type) {</span>
+<span class="fc" id="L429">				types.add(type);</span>
+			}
+<span class="fc" id="L431">		}</span>
+
+<span class="fc" id="L433">		LOG.debug(&quot;Failed to find suitable manufacturer for type {}&quot;, pojoType);</span>
+<span class="fc" id="L434">		return null;</span>
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -525,8 +441,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public &lt;T&gt; AbstractRandomDataProviderStrategy addOrReplaceFactory(
 			final Class&lt;T&gt; abstractClass, final Class&lt;?&gt; factoryClass) {
 
-<span class="fc" id="L528">		factoryTypes.put(abstractClass, factoryClass);</span>
-<span class="fc" id="L529">		return this;</span>
+<span class="fc" id="L444">		factoryTypes.put(abstractClass, factoryClass);</span>
+<span class="fc" id="L445">		return this;</span>
 	}
 
 	/**
@@ -536,8 +452,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public &lt;T&gt; AbstractRandomDataProviderStrategy removeFactory(
 			final Class&lt;T&gt; abstractClass) {
 
-<span class="nc" id="L539">		factoryTypes.remove(abstractClass);</span>
-<span class="nc" id="L540">		return this;</span>
+<span class="fc" id="L455">		factoryTypes.remove(abstractClass);</span>
+<span class="fc" id="L456">		return this;</span>
 	}
 
 	/**
@@ -546,7 +462,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public Class&lt;?&gt; getFactoryClass(Class&lt;?&gt; nonInstantiatableClass) {
 
-<span class="fc" id="L549">		return factoryTypes.get(nonInstantiatableClass);</span>
+<span class="fc" id="L465">		return factoryTypes.get(nonInstantiatableClass);</span>
 	}
 
 	/**
@@ -568,9 +484,9 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public &lt;T&gt; DataProviderStrategy addOrReplaceSpecific(
 			final Class&lt;T&gt; abstractClass, final Class&lt;? extends T&gt; specificClass) {
 
-<span class="fc" id="L571">		specificTypes.put(abstractClass, specificClass);</span>
+<span class="fc" id="L487">		specificTypes.put(abstractClass, specificClass);</span>
 
-<span class="fc" id="L573">		return this;</span>
+<span class="fc" id="L489">		return this;</span>
 	}
 
 	/**
@@ -580,8 +496,8 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public &lt;T&gt; DataProviderStrategy removeSpecific(
 			final Class&lt;T&gt; abstractClass) {
 
-<span class="nc" id="L583">		specificTypes.remove(abstractClass);</span>
-<span class="nc" id="L584">		return this;</span>
+<span class="fc" id="L499">		specificTypes.remove(abstractClass);</span>
+<span class="fc" id="L500">		return this;</span>
 	}
 
 	/**
@@ -591,12 +507,13 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public &lt;T&gt; Class&lt;? extends T&gt; getSpecificClass(
 			Class&lt;T&gt; nonInstantiatableClass) {
 
-<span class="fc" id="L594">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
-<span class="fc" id="L595">				.get(nonInstantiatableClass);</span>
-<span class="fc bfc" id="L596" title="All 2 branches covered.">		if (found == null) {</span>
-<span class="fc" id="L597">			found = nonInstantiatableClass;</span>
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L511">		Class&lt;? extends T&gt; found = (Class&lt;? extends T&gt;) specificTypes</span>
+<span class="fc" id="L512">				.get(nonInstantiatableClass);</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">		if (found == null) {</span>
+<span class="fc" id="L514">			found = nonInstantiatableClass;</span>
 		}
-<span class="fc" id="L599">		return found;</span>
+<span class="fc" id="L516">		return found;</span>
 
 	}
 
@@ -606,11 +523,11 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	@Override
 	public RandomDataProviderStrategy addOrReplaceAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass,
-			final Class&lt;AttributeStrategy&lt;?&gt;&gt; strategyClass) {
+			final AttributeStrategy&lt;?&gt; attributeStrategy) {
 
-<span class="fc" id="L611">		attributeStrategies.put(annotationClass, strategyClass);</span>
+<span class="fc" id="L528">		attributeStrategies.put(annotationClass, attributeStrategy);</span>
 
-<span class="fc" id="L613">		return this;</span>
+<span class="fc" id="L530">		return this;</span>
 	}
 
 	/**
@@ -624,19 +541,72 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	public RandomDataProviderStrategy removeAttributeStrategy(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
 
-<span class="nc" id="L627">		attributeStrategies.remove(annotationClass);</span>
+<span class="fc" id="L544">		attributeStrategies.remove(annotationClass);</span>
 
-<span class="nc" id="L629">		return this;</span>
+<span class="fc" id="L546">		return this;</span>
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Class&lt;AttributeStrategy&lt;?&gt;&gt; getStrategyForAnnotation(
+	public AttributeStrategy&lt;?&gt; getStrategyForAnnotation(
 			final Class&lt;? extends Annotation&gt; annotationClass) {
 
-<span class="fc" id="L639">		return attributeStrategies.get(annotationClass);</span>
+<span class="fc" id="L556">		return attributeStrategies.get(annotationClass);</span>
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RandomDataProviderStrategy addOrReplaceAttributeStrategy(
+			final Class&lt;?&gt; type, final String attributeName,
+			final AttributeStrategy&lt;?&gt; attributeStrategy) {
+
+<span class="fc" id="L568">		Map&lt;String,AttributeStrategy&lt;?&gt;&gt; classStrategies = attributeClassStrategies.get(type);</span>
+<span class="pc bpc" id="L569" title="1 of 2 branches missed.">		if (null == classStrategies) {</span>
+<span class="fc" id="L570">			classStrategies = new ConcurrentHashMap&lt;String,AttributeStrategy&lt;?&gt;&gt;();</span>
+<span class="fc" id="L571">			attributeClassStrategies.put(type, classStrategies);</span>
+		}
+<span class="fc" id="L573">		classStrategies.put(attributeName, attributeStrategy);</span>
+
+<span class="fc" id="L575">		return this;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public RandomDataProviderStrategy removeAttributeStrategy(
+			final Class&lt;?&gt; type, String attributeName) {
+
+<span class="fc" id="L585">		Map&lt;String,AttributeStrategy&lt;?&gt;&gt; classStrategies = attributeClassStrategies.get(type);</span>
+<span class="pc bpc" id="L586" title="1 of 2 branches missed.">		if (null != classStrategies) {</span>
+<span class="fc" id="L587">			classStrategies.remove(attributeName);</span>
+		}
+
+<span class="fc" id="L590">		return this;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AttributeStrategy&lt;?&gt; getStrategyForAttribute(
+			final ClassAttribute attribute) {
+
+<span class="fc" id="L600">		AttributeStrategy&lt;?&gt; attributeStrategy = null;</span>
+<span class="fc" id="L601">		Field field = attribute.getAttribute();</span>
+<span class="fc bfc" id="L602" title="All 2 branches covered.">		if (null != field) {</span>
+<span class="fc" id="L603">			Class&lt;?&gt; type = field.getDeclaringClass();</span>
+<span class="fc" id="L604">			Map&lt;String,AttributeStrategy&lt;?&gt;&gt; classStrategies = attributeClassStrategies.get(type);</span>
+<span class="fc bfc" id="L605" title="All 2 branches covered.">			if (null != classStrategies) {</span>
+<span class="fc" id="L606">				attributeStrategy = classStrategies.get(attribute.getName());</span>
+			}
+		}
+<span class="fc" id="L609">		return attributeStrategy;</span>
 
 	}
 
@@ -645,7 +615,7 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public AbstractConstructorComparator getConstructorLightComparator() {
-<span class="fc" id="L648">		return constructorLightComparator;</span>
+<span class="fc" id="L618">		return constructorLightComparator;</span>
 	}
 
 	/**
@@ -653,15 +623,15 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setConstructorLightComparator(AbstractConstructorComparator constructorLightComparator) {
-<span class="fc" id="L656">		this.constructorLightComparator = constructorLightComparator;</span>
-<span class="fc" id="L657">	}</span>
+<span class="fc" id="L626">		this.constructorLightComparator = constructorLightComparator;</span>
+<span class="fc" id="L627">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public AbstractConstructorComparator getConstructorHeavyComparator() {
-<span class="fc" id="L664">		return constructorHeavyComparator;</span>
+<span class="fc" id="L634">		return constructorHeavyComparator;</span>
 	}
 
 	/**
@@ -669,15 +639,15 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setConstructorHeavyComparator(AbstractConstructorComparator constructorHeavyComparator) {
-<span class="fc" id="L672">		this.constructorHeavyComparator = constructorHeavyComparator;</span>
-<span class="fc" id="L673">	}</span>
+<span class="fc" id="L642">		this.constructorHeavyComparator = constructorHeavyComparator;</span>
+<span class="fc" id="L643">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public AbstractMethodComparator getMethodLightComparator() {
-<span class="fc" id="L680">		return methodLightComparator;</span>
+<span class="fc" id="L650">		return methodLightComparator;</span>
 	}
 
 	/**
@@ -685,15 +655,15 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setMethodLightComparator(AbstractMethodComparator methodLightComparator) {
-<span class="fc" id="L688">		this.methodLightComparator = methodLightComparator;</span>
-<span class="fc" id="L689">	}</span>
+<span class="fc" id="L658">		this.methodLightComparator = methodLightComparator;</span>
+<span class="fc" id="L659">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public AbstractMethodComparator getMethodHeavyComparator() {
-<span class="fc" id="L696">		return methodHeavyComparator;</span>
+<span class="fc" id="L666">		return methodHeavyComparator;</span>
 	}
 
 	/**
@@ -701,20 +671,20 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 	 */
 	@Override
 	public void setMethodHeavyComparator(AbstractMethodComparator methodHeavyComparator) {
-<span class="fc" id="L704">		this.methodHeavyComparator = methodHeavyComparator;</span>
-<span class="fc" id="L705">	}</span>
+<span class="fc" id="L674">		this.methodHeavyComparator = methodHeavyComparator;</span>
+<span class="fc" id="L675">	}</span>
 
 	// -------------------&gt;&gt; Private methods
 
 	private void log(AttributeMetadata attributeMetadata) {
-<span class="fc" id="L710">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
-<span class="fc" id="L711">				attributeMetadata.getPojoClass().getName(),</span>
-<span class="fc bfc" id="L712" title="All 2 branches covered.">				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);</span>
-<span class="fc" id="L713">	}</span>
+<span class="fc" id="L680">		LOG.trace(&quot;Providing data for attribute {}.{}&quot;,</span>
+<span class="fc bfc" id="L681" title="All 2 branches covered.">				attributeMetadata.getPojoClass() != null ? attributeMetadata.getPojoClass().getName() : &quot;&quot;,</span>
+<span class="fc bfc" id="L682" title="All 2 branches covered.">				attributeMetadata.getAttributeName() != null ? attributeMetadata.getAttributeName() : &quot;&quot;);</span>
+<span class="fc" id="L683">	}</span>
 
 	// -------------------&gt;&gt; equals() / hashcode() / toString()
 
 	// -------------------&gt;&gt; Inner classes
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

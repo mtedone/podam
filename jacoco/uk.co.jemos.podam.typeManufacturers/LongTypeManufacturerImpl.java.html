@@ -1,79 +1,100 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LongTypeManufacturerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">LongTypeManufacturerImpl.java</span></div><h1>LongTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LongTypeManufacturerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">LongTypeManufacturerImpl.java</span></div><h1>LongTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamLongValue;
 
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
+
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 /**
- * Default int type manufacturer.
+ * Default long type manufacturer.
  *
  * Created by tedonema on 17/05/2015.
  *
  * @since 6.0.0.RELEASE
  */
-<span class="fc" id="L18">public class LongTypeManufacturerImpl extends AbstractTypeManufacturer {</span>
-
-    /** The application logger */
-<span class="fc" id="L21">    private static final Logger LOG = LoggerFactory.getLogger(LongTypeManufacturerImpl.class);</span>
+<span class="fc" id="L24">public class LongTypeManufacturerImpl extends AbstractTypeManufacturer&lt;Long&gt; {</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Long getType(TypeManufacturerParamsWrapper wrapper) {
+    public Long getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx) {
 
-<span class="fc" id="L29">        super.checkWrapperIsValid(wrapper);</span>
+        Long retValue;
 
-<span class="fc" id="L31">        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();</span>
+<span class="fc" id="L36">        PodamLongValue annotationStrategy = findElementOfType(</span>
+<span class="fc" id="L37">                attributeMetadata.getAttributeAnnotations(), PodamLongValue.class);</span>
 
-<span class="fc" id="L33">        Long retValue = null;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (null != annotationStrategy) {</span>
 
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {</span>
+<span class="fc" id="L41">            String numValueStr = annotationStrategy.numValue();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            if (StringUtils.isNotEmpty(numValueStr)) {</span>
+                try {
+<span class="fc" id="L44">                    retValue = Long.valueOf(numValueStr);</span>
+<span class="fc" id="L45">                } catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L46">                    throw new IllegalArgumentException(PodamConstants.THE_ANNOTATION_VALUE_STR</span>
+                            + numValueStr
+                            + &quot; could not be converted to a Long. An exception will be thrown.&quot;,
+                            nfe);
+<span class="fc" id="L50">                }</span>
+            } else {
 
-<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (PodamLongValue.class.isAssignableFrom(annotation.getClass())) {</span>
-<span class="fc" id="L38">                PodamLongValue longStrategy = (PodamLongValue) annotation;</span>
+<span class="fc" id="L53">                long minValue = annotationStrategy.minValue();</span>
+<span class="fc" id="L54">                long maxValue = annotationStrategy.maxValue();</span>
 
-<span class="fc" id="L40">                String numValueStr = longStrategy.numValue();</span>
-<span class="pc bpc" id="L41" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !numValueStr.isEmpty()) {</span>
-                    try {
-<span class="fc" id="L43">                        retValue = Long.valueOf(numValueStr);</span>
-<span class="fc" id="L44">                    } catch (NumberFormatException nfe) {</span>
-<span class="fc" id="L45">                        String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR</span>
-                                + numValueStr
-                                + &quot; could not be converted to a Long. An exception will be thrown.&quot;;
-<span class="fc" id="L48">                        LOG.error(errMsg);</span>
-<span class="fc" id="L49">                        throw new IllegalArgumentException(errMsg, nfe);</span>
-<span class="fc" id="L50">                    }</span>
-                } else {
-
-<span class="fc" id="L53">                    long minValue = longStrategy.minValue();</span>
-<span class="fc" id="L54">                    long maxValue = longStrategy.maxValue();</span>
-
-                    // Sanity check
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    if (minValue &gt; maxValue) {</span>
-<span class="nc" id="L58">                        maxValue = minValue;</span>
-                    }
-
-<span class="fc" id="L61">                    retValue = strategy.getLongInRange(minValue, maxValue,</span>
-<span class="fc" id="L62">                            wrapper.getAttributeMetadata());</span>
-
+                // Sanity check
+<span class="fc bfc" id="L57" title="All 2 branches covered.">                if (minValue &gt; maxValue) {</span>
+<span class="fc" id="L58">                   maxValue = minValue;</span>
                 }
 
-<span class="fc" id="L66">                break;</span>
-
+<span class="fc" id="L61">                retValue = getLongInRange(minValue, maxValue,</span>
+                        attributeMetadata);
             }
-
-<span class="fc" id="L70">        }</span>
-
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (retValue == null) {</span>
-<span class="fc" id="L73">            retValue = strategy.getLong(wrapper.getAttributeMetadata());</span>
+<span class="fc" id="L64">        } else {</span>
+<span class="fc" id="L65">            retValue = getLong(attributeMetadata);</span>
         }
 
-<span class="fc" id="L76">        return retValue;</span>
+<span class="fc" id="L68">        return retValue;</span>
     }
+
+    /** It returns a long/Long value.
+	 *
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A long/Long value
+	 * */
+	public Long getLong(AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L79">		return System.nanoTime();</span>
+	}
+
+	/**
+	 * It returns a long/Long value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A long/Long value between min and max value (included).
+	 */
+	public Long getLongInRange(long minValue, long maxValue,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L96">		return PodamUtils.getLongInRange(minValue, maxValue);</span>
+	}
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

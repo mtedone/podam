@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>EnumTypeManufacturerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">EnumTypeManufacturerImpl.java</span></div><h1>EnumTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnumTypeManufacturerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">EnumTypeManufacturerImpl.java</span></div><h1>EnumTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 
 /**
  * Default Enum type manufacturer.
@@ -10,35 +15,32 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
  *
  * @since 6.0.0.RELEASE
  */
-<span class="fc" id="L13">public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer {</span>
+<span class="fc" id="L18">public class EnumTypeManufacturerImpl extends AbstractTypeManufacturer&lt;Enum&lt;?&gt;&gt; {</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object getType(TypeManufacturerParamsWrapper wrapper) {
+    public Enum&lt;?&gt; getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx) {
 
-<span class="fc" id="L21">        super.checkWrapperIsValid(wrapper);</span>
+<span class="fc" id="L28">        Class&lt;?&gt; realAttributeType = attributeMetadata.getAttributeType();</span>
 
-<span class="fc" id="L23">        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();</span>
-
-<span class="fc" id="L25">        AttributeMetadata attributeMetadata = wrapper.getAttributeMetadata();</span>
-
-<span class="fc" id="L27">        Class&lt;?&gt; realAttributeType = attributeMetadata.getAttributeType();</span>
-
-<span class="fc" id="L29">        Object retValue = null;</span>
-
-        // Enum type
-<span class="fc" id="L32">        int enumConstantsLength = realAttributeType.getEnumConstants().length;</span>
-
-<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (enumConstantsLength &gt; 0) {</span>
-<span class="fc" id="L35">            int enumIndex = strategy.getIntegerInRange(0,</span>
-                    enumConstantsLength, attributeMetadata)
-                    % enumConstantsLength;
-<span class="fc" id="L38">            retValue = realAttributeType.getEnumConstants()[enumIndex];</span>
+<span class="fc" id="L30">        Object[] enumConstants = realAttributeType.getEnumConstants();</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (null == enumConstants) {</span>
+<span class="fc" id="L32">            enumConstants = Thread.State.class.getEnumConstants();</span>
         }
 
-<span class="fc" id="L41">        return retValue;</span>
+<span class="fc" id="L35">        Enum&lt;?&gt; retValue = null;</span>
+<span class="fc" id="L36">        final int enumConstantsLength = enumConstants.length;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (enumConstantsLength &gt; 0) {</span>
+<span class="fc" id="L38">            int enumIndex = PodamUtils.getIntegerInRange(0, enumConstantsLength)</span>
+                    % enumConstantsLength;
+<span class="fc" id="L40">            retValue = (Enum&lt;?&gt;) enumConstants[enumIndex];</span>
+        }
+
+<span class="fc" id="L43">        return retValue;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

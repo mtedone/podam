@@ -1,17 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>PodamUtils.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">PodamUtils.java</span></div><h1>PodamUtils.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PodamUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">PodamUtils.java</span></div><h1>PodamUtils.java</h1><pre class="source lang-java linenums">/**
  *
  */
 package uk.co.jemos.podam.api;
 
+import uk.co.jemos.podam.common.PodamConstants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.co.jemos.podam.common.PodamExclude;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * PODAM Utilities class.
@@ -21,17 +25,12 @@ import java.util.*;
  * @since 1.0.0
  *
  */
-public final class PodamUtils {
+<span class="nc" id="L28">public abstract class PodamUtils {</span>
 
 	// ----------------------&gt;&gt; Constants
 
-	private static final int SETTER_IDENTIFIER_LENGTH = 3;
-
-	private static final String GETTER_PREFIX = &quot;get&quot;;
-	private static final String GETTER_PREFIX2 = &quot;is&quot;;
-
 	/** An array of valid String characters */
-<span class="fc" id="L34">	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',</span>
+<span class="fc" id="L33">	public static final char[] NICE_ASCII_CHARACTERS = new char[] { 'a', 'b',</span>
 			'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
 			'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B',
 			'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
@@ -39,309 +38,7 @@ public final class PodamUtils {
 			'2', '3', '4', '5', '6', '7', '8', '9', '_' };
 
 	/** The application logger. */
-<span class="fc" id="L42">	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);</span>
-
-	/** Non instantiable constructor */
-<span class="nc" id="L45">	private PodamUtils() {</span>
-<span class="nc" id="L46">		throw new AssertionError();</span>
-	}
-
-	/**
-	 * It returns a {@link ClassInfo} object for the given class
-	 *
-	 * @param clazz
-	 *            The class to retrieve info from
-	 * @param attributeApprover
-	 *            a {@link ClassAttributeApprover} implementation,
-	 *             which attributes to skip and which to process.
-	 *             If one hasn't been provided, Podam will use the
-	 *             default one in the {@link DefaultClassInfoStrategy} class.
-	 * @return a {@link ClassInfo} object for the given class
-	 */
-	public static ClassInfo getClassInfo(Class&lt;?&gt; clazz,
-			ClassAttributeApprover attributeApprover) {
-
-<span class="fc" id="L64">		return getClassInfo(clazz,</span>
-				new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;(),
-<span class="fc" id="L66">				Collections.&lt;String&gt;emptySet(),</span>
-				attributeApprover);
-	}
-
-	/**
-	 * It returns a {@link ClassInfo} object for the given class
-	 *
-	 * @param clazz
-	 *            The class to retrieve info from
-	 * @param excludeFieldAnnotations
-	 *            the fields marked with any of these annotations will not be
-	 *            included in the class info
-	 * @param excludedFields
-	 *            the fields matching the given names will not be included in the class info
-	 * @param attributeApprover
-	 *            a {@link ClassAttributeApprover} implementation,
-	 *             which defines which attributes to skip and which to process
-	 * @return a {@link ClassInfo} object for the given class
-	 */
-	public static ClassInfo getClassInfo(Class&lt;?&gt; clazz,
-			Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeFieldAnnotations,
-			Set&lt;String&gt; excludedFields,
-			ClassAttributeApprover attributeApprover) {
-
-
-<span class="fc" id="L91">		return getClassInfo(clazz, excludeFieldAnnotations, excludedFields, attributeApprover, Collections.&lt;Method&gt;emptySet());</span>
-
-	}
-
-
-	public static ClassInfo getClassInfo(Class&lt;?&gt; clazz,
-										 Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeFieldAnnotations,
-										 Set&lt;String&gt; excludedFields,
-										 ClassAttributeApprover attributeApprover,
-										 Collection&lt;Method&gt; extraMethods) {
-
-<span class="fc bfc" id="L102" title="All 2 branches covered.">		if (null == attributeApprover) {</span>
-<span class="fc" id="L103">			attributeApprover = DefaultClassInfoStrategy.getInstance().getClassAttributeApprover(clazz);</span>
-		}
-
-<span class="fc" id="L106">		Set&lt;Field&gt; classFields = new HashSet&lt;Field&gt;();</span>
-<span class="fc" id="L107">		Set&lt;Method&gt; classGetters = new HashSet&lt;Method&gt;();</span>
-<span class="fc" id="L108">		Set&lt;Method&gt; classSetters = new HashSet&lt;Method&gt;();</span>
-<span class="fc" id="L109">		fillPojoSets(clazz, classFields, classGetters, classSetters, excludeFieldAnnotations, excludedFields);</span>
-
-<span class="fc" id="L111">		Map&lt;String, ClassAttribute&gt; map = new TreeMap&lt;String, ClassAttribute&gt;();</span>
-<span class="fc bfc" id="L112" title="All 2 branches covered.">		for (Field classField : classFields) {</span>
-<span class="fc" id="L113">			ClassAttribute attribute = new ClassAttribute(classField,</span>
-<span class="fc" id="L114">					Collections.&lt;Method&gt;emptySet(), Collections.&lt;Method&gt;emptySet());</span>
-<span class="fc" id="L115">			map.put(classField.getName(), attribute);</span>
-<span class="fc" id="L116">		}</span>
-
-<span class="fc bfc" id="L118" title="All 2 branches covered.">		for (Method classGetter : classGetters) {</span>
-<span class="fc" id="L119">			String attributeName = extractFieldNameFromGetterMethod(classGetter);</span>
-<span class="fc" id="L120">			ClassAttribute attribute = map.get(attributeName);</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">			if (attribute != null) {</span>
-<span class="fc" id="L122">				attribute.getRawGetters().add(classGetter);</span>
-			} else {
-<span class="fc" id="L124">				attribute = new ClassAttribute(null,</span>
-<span class="fc" id="L125">						Collections.singleton(classGetter),</span>
-<span class="fc" id="L126">						Collections.&lt;Method&gt;emptySet());</span>
-<span class="fc" id="L127">				map.put(attributeName, attribute);</span>
-			}
-<span class="fc" id="L129">		}</span>
-
-<span class="fc bfc" id="L131" title="All 2 branches covered.">		for (Method classSetter : classSetters) {</span>
-<span class="fc" id="L132">			String attributeName = extractFieldNameFromSetterMethod(classSetter);</span>
-<span class="fc" id="L133">			ClassAttribute attribute = map.get(attributeName);</span>
-<span class="fc bfc" id="L134" title="All 2 branches covered.">			if (attribute != null) {</span>
-<span class="fc" id="L135">				attribute.getRawSetters().add(classSetter);</span>
-			} else {
-<span class="fc" id="L137">				attribute = new ClassAttribute(null,</span>
-<span class="fc" id="L138">						Collections.&lt;Method&gt;emptySet(),</span>
-<span class="fc" id="L139">						Collections.singleton(classSetter));</span>
-<span class="fc" id="L140">				map.put(attributeName, attribute);</span>
-			}
-<span class="fc" id="L142">		}</span>
-
-		/* Approve all found attributes */
-<span class="fc" id="L145">		Collection&lt;ClassAttribute&gt; attributes = new ArrayList&lt;ClassAttribute&gt;(map.values());</span>
-<span class="fc" id="L146">		Iterator&lt;ClassAttribute&gt; iter = attributes.iterator();</span>
-<span class="fc bfc" id="L147" title="All 2 branches covered.">		main : while(iter.hasNext()) {</span>
-<span class="fc" id="L148">			ClassAttribute attribute = iter.next();</span>
-
-<span class="fc bfc" id="L150" title="All 2 branches covered.">			for (Method classGetter : attribute.getRawGetters()) {</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">				if (containsAnyAnnotation(classGetter, excludeFieldAnnotations)) {</span>
-<span class="fc" id="L152">					iter.remove();</span>
-<span class="fc" id="L153">					continue main;</span>
-				}
-<span class="fc" id="L155">			}</span>
-
-<span class="fc bfc" id="L157" title="All 2 branches covered.">			for (Method classSetter : attribute.getRawSetters()) {</span>
-<span class="pc bpc" id="L158" title="1 of 2 branches missed.">				if (containsAnyAnnotation(classSetter, excludeFieldAnnotations)) {</span>
-<span class="nc" id="L159">					iter.remove();</span>
-<span class="nc" id="L160">					continue main;</span>
-				}
-<span class="fc" id="L162">			}</span>
-
-<span class="fc" id="L164">			Field field = attribute.getAttribute();</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">			if (field != null &amp;&amp; (</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">					excludedFields.contains(field.getName())</span>
-<span class="fc bfc" id="L167" title="All 2 branches covered.">					|| containsAnyAnnotation(field, excludeFieldAnnotations))) {</span>
-<span class="fc" id="L168">				iter.remove();</span>
-<span class="fc" id="L169">				continue;</span>
-			}
-
-<span class="fc bfc" id="L172" title="All 2 branches covered.">			if (!attributeApprover.approve(attribute)) {</span>
-<span class="fc" id="L173">				iter.remove();</span>
-			}
-<span class="fc" id="L175">		}</span>
-
-<span class="fc" id="L177">		return new ClassInfo(clazz, attributes, extraMethods);</span>
-	}
-
-
-	/**
-	 * Checks if the given field has any one of the annotations
-	 *
-	 * @param field
-	 *            the field to check for
-	 * @param annotations
-	 *            the set of annotations to look for in the field
-	 * @return true if the field is marked with any of the given annotations
-	 */
-	public static boolean containsAnyAnnotation(Field field,
-			Set&lt;Class&lt;? extends Annotation&gt;&gt; annotations) {
-<span class="fc bfc" id="L192" title="All 2 branches covered.">		for (Class&lt;? extends Annotation&gt; annotation : annotations) {</span>
-<span class="fc bfc" id="L193" title="All 2 branches covered.">			if (field.getAnnotation(annotation) != null) {</span>
-<span class="fc" id="L194">				return true;</span>
-			}
-<span class="fc" id="L196">		}</span>
-<span class="fc" id="L197">		return false;</span>
-	}
-
-	/**
-	 * Checks if the given method has any one of the annotations
-	 *
-	 * @param method
-	 *            the method to check for
-	 * @param annotations
-	 *            the set of annotations to look for in the field
-	 * @return true if the field is marked with any of the given annotations
-	 */
-	private static boolean containsAnyAnnotation(Method method,
-			Set&lt;Class&lt;? extends Annotation&gt;&gt; annotations) {
-
-<span class="fc bfc" id="L212" title="All 2 branches covered.">		for (Class&lt;? extends Annotation&gt; annotation : annotations) {</span>
-<span class="fc bfc" id="L213" title="All 2 branches covered.">			if (method.getAnnotation(annotation) != null) {</span>
-<span class="fc" id="L214">				return true;</span>
-			}
-<span class="fc" id="L216">		}</span>
-<span class="fc" id="L217">		return false;</span>
-	}
-
-	/**
-	 * Given a class and a set of class declared fields it returns a Set of
-	 * setters, getters and fields defined for this class
-	 * &lt;p&gt;
-	 * Anything present: setter, getter or field will be recorded as three
-	 * independent sets available for future analysis
-	 * &lt;/p&gt;
-	 *
-	 * @param clazz
-	 *            The class to analyze for setters
-	 * @param classFields
-	 *            The {@link Set} which will be filled with class' fields
-	 * @param classGetters
-	 *            The {@link Set} which will be filled with class' getters
-	 * @param classSetters
-	 *            The {@link Set} which will be filled with class' setters
-	 * @param excludeAnnotations
-	 *            The {@link Set} containing annotations marking fields to be excluded
-	 * @param excludedFields
-	 *            The {@link Set} containing field names to be excluded
-	 */
-	private static void fillPojoSets(Class&lt;?&gt; clazz, Set&lt;Field&gt; classFields,
-			Set&lt;Method&gt; classGetters, Set&lt;Method&gt; classSetters,
-			Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeAnnotations,
-			Set&lt;String&gt; excludedFields) {
-
-<span class="pc bpc" id="L246" title="1 of 2 branches missed.">		if (excludeAnnotations == null) {</span>
-<span class="nc" id="L247">			excludeAnnotations = new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;();</span>
-		}
-<span class="fc" id="L249">		excludeAnnotations.add(PodamExclude.class);</span>
-
-<span class="fc" id="L251">		Class&lt;?&gt; workClass = clazz;</span>
-
-<span class="fc bfc" id="L253" title="All 2 branches covered.">		while (!Object.class.equals(workClass)) {</span>
-
-<span class="fc" id="L255">			Method[] declaredMethods = workClass.getDeclaredMethods();</span>
-
-<span class="fc bfc" id="L257" title="All 2 branches covered.">			for (Method method : declaredMethods) {</span>
-				/*
-				 * Bridge methods are automatically generated by compiler to
-				 * deal with type erasure and they are not type safe. That why
-				 * they should be ignored
-				 */
-<span class="fc bfc" id="L263" title="All 4 branches covered.">				if (!method.isBridge() &amp;&amp; !Modifier.isNative(method.getModifiers())) {</span>
-
-<span class="fc bfc" id="L265" title="All 2 branches covered.">					if (method.getName().startsWith(&quot;set&quot;)</span>
-<span class="fc bfc" id="L266" title="All 2 branches covered.">							&amp;&amp; method.getReturnType().equals(void.class)) {</span>
-<span class="fc" id="L267">						classSetters.add(method);</span>
-<span class="fc bfc" id="L268" title="All 4 branches covered.">					} else if ((method.getName().startsWith(GETTER_PREFIX) || method.getName().startsWith(GETTER_PREFIX2)) &amp;&amp;</span>
-<span class="pc bpc" id="L269" title="1 of 4 branches missed.">							method.getParameterTypes().length == 0 &amp;&amp; !method.getReturnType().equals(void.class)) {</span>
-<span class="fc" id="L270">						classGetters.add(method);</span>
-					}
-				}
-			}
-
-<span class="fc" id="L275">			Field[] declaredFields = workClass.getDeclaredFields();</span>
-<span class="fc bfc" id="L276" title="All 2 branches covered.">			for (Field field : declaredFields) {</span>
-<span class="fc" id="L277">				int modifiers = field.getModifiers();</span>
-<span class="fc bfc" id="L278" title="All 2 branches covered.">				if (!Modifier.isStatic(modifiers)) {</span>
-
-<span class="fc" id="L280">					classFields.add(field);</span>
-				}
-			}
-
-<span class="fc" id="L284">			workClass = workClass.getSuperclass();</span>
-<span class="fc" id="L285">		}</span>
-<span class="fc" id="L286">	}</span>
-
-	/**
-	 * Given a setter {@link Method}, it extracts the field name, according to
-	 * JavaBean standards
-	 * &lt;p&gt;
-	 * This method, given a setter method, it returns the corresponding
-	 * attribute name. For example: given setIntField the method would return
-	 * intField. The correctness of the return value depends on the adherence to
-	 * JavaBean standards.
-	 * &lt;/p&gt;
-	 *
-	 * @param method
-	 *            The setter method from which the field name is required
-	 * @return The field name corresponding to the setter
-	 */
-	public static String extractFieldNameFromSetterMethod(Method method) {
-<span class="fc" id="L303">		String candidateField = method.getName().substring(SETTER_IDENTIFIER_LENGTH);</span>
-<span class="fc bfc" id="L304" title="All 2 branches covered.">		if (!candidateField.isEmpty()) {</span>
-<span class="fc" id="L305">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
-<span class="fc" id="L306">					+ candidateField.substring(1);</span>
-		} else {
-<span class="fc" id="L308">			LOG.debug(&quot;Encountered method {}. This will be ignored.&quot;, method);</span>
-		}
-
-<span class="fc" id="L311">		return candidateField;</span>
-	}
-
-	/**
-	 * Given a getter {@link Method}, it extracts the field name, according to
-	 * JavaBean standards
-	 * &lt;p&gt;
-	 * This method, given a getter method, it returns the corresponding
-	 * attribute name. For example: given getIntField the method would return
-	 * intField; given isBoolField the method would return boolField. The
-	 * correctness of the return value depends on the adherence to JavaBean
-	 * standards.
-	 * &lt;/p&gt;
-	 *
-	 * @param method
-	 *            The setter method from which the field name is required
-	 * @return The field name corresponding to the setter
-	 */
-	public static String extractFieldNameFromGetterMethod(Method method) {
-<span class="fc" id="L330">		String candidateField = method.getName();</span>
-<span class="fc bfc" id="L331" title="All 2 branches covered.">		if (candidateField.startsWith(GETTER_PREFIX)) {</span>
-<span class="fc" id="L332">			candidateField = candidateField.substring(GETTER_PREFIX.length());</span>
-<span class="pc bpc" id="L333" title="1 of 2 branches missed.">		} else if (candidateField.startsWith(GETTER_PREFIX2)) {</span>
-<span class="fc" id="L334">			candidateField = candidateField.substring(GETTER_PREFIX2.length());</span>
-		}
-<span class="pc bpc" id="L336" title="1 of 2 branches missed.">		if (!candidateField.isEmpty()) {</span>
-<span class="fc" id="L337">			candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
-<span class="fc" id="L338">					+ candidateField.substring(1);</span>
-		} else {
-<span class="nc" id="L340">			LOG.debug(&quot;Encountered method {}. This will be ignored.&quot;, method);</span>
-		}
-
-<span class="fc" id="L343">		return candidateField;</span>
-	}
+<span class="fc" id="L41">	private static final Logger LOG = LoggerFactory.getLogger(PodamUtils.class);</span>
 
 	/**
 	 * It returns a {@link Field} matching the attribute name or null if a field
@@ -357,23 +54,18 @@ public final class PodamUtils {
 	 */
 	public static Field getField(Class&lt;?&gt; pojoClass, String attributeName) {
 
-<span class="fc" id="L360">		Field field = null;</span>
-
-<span class="fc" id="L362">		Class&lt;?&gt; clazz = pojoClass;</span>
-
-<span class="fc bfc" id="L364" title="All 2 branches covered.">		while (clazz != null) {</span>
+<span class="fc" id="L57">		Class&lt;?&gt; clazz = pojoClass;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		while (clazz != null) {</span>
 			try {
-<span class="fc" id="L366">				field = clazz.getDeclaredField(attributeName);</span>
-<span class="fc" id="L367">				break;</span>
-<span class="fc" id="L368">			} catch (NoSuchFieldException e) {</span>
-<span class="fc" id="L369">				clazz = clazz.getSuperclass();</span>
-<span class="fc" id="L370">			}</span>
+<span class="fc" id="L60">				return clazz.getDeclaredField(attributeName);</span>
+<span class="fc" id="L61">			} catch (NoSuchFieldException e) {</span>
+<span class="fc" id="L62">				clazz = clazz.getSuperclass();</span>
+<span class="fc" id="L63">			}</span>
 		}
-<span class="fc bfc" id="L372" title="All 2 branches covered.">		if (field == null) {</span>
-<span class="fc" id="L373">			LOG.warn(&quot;A field could not be found for attribute '{}[{}]'&quot;,</span>
-					pojoClass, attributeName);
-		}
-<span class="fc" id="L376">		return field;</span>
+
+<span class="fc" id="L66">		LOG.warn(&quot;A field could not be found for attribute '{}[{}]'&quot;,</span>
+				pojoClass, attributeName);
+<span class="fc" id="L68">		return null;</span>
 	}
 
 	/**
@@ -391,31 +83,93 @@ public final class PodamUtils {
 	 *         null if a field was not found.
 	 */
 	public static &lt;T&gt; T getFieldValue(Object pojo, String attributeName) {
-<span class="fc" id="L394">		T retValue = null;</span>
+<span class="fc" id="L86">		T retValue = null;</span>
 
 		try {
-<span class="fc" id="L397">			Field field = PodamUtils.getField(pojo.getClass(), attributeName);</span>
+<span class="fc" id="L89">			Field field = PodamUtils.getField(pojo.getClass(), attributeName);</span>
 
-<span class="fc bfc" id="L399" title="All 2 branches covered.">			if (field != null) {</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			if (field != null) {</span>
 
 				// It allows to invoke Field.get on private fields
-<span class="fc" id="L402">				field.setAccessible(true);</span>
+<span class="fc" id="L94">				field.setAccessible(true);</span>
 
 				@SuppressWarnings(&quot;unchecked&quot;)
-<span class="fc" id="L405">				T t = (T) field.get(pojo);</span>
-<span class="fc" id="L406">				retValue = t;</span>
-<span class="fc" id="L407">			} else {</span>
+<span class="fc" id="L97">				T t = (T) field.get(pojo);</span>
+<span class="fc" id="L98">				retValue = t;</span>
+<span class="fc" id="L99">			} else {</span>
 
-<span class="fc" id="L409">				LOG.info(&quot;The field {}[{}] didn't exist.&quot;, pojo.getClass(), attributeName);</span>
+<span class="fc" id="L101">				LOG.info(&quot;The field {}[{}] didn't exist.&quot;, pojo.getClass(), attributeName);</span>
 			}
 
-<span class="nc" id="L412">		} catch (Exception e) {</span>
+<span class="nc" id="L104">		} catch (Exception e) {</span>
 
-<span class="nc" id="L414">			LOG.warn(&quot;We couldn't get default value for {}[{}]&quot;,</span>
-<span class="nc" id="L415">					pojo.getClass(), attributeName, e);</span>
-<span class="fc" id="L416">		}</span>
+<span class="nc" id="L106">			LOG.warn(&quot;We couldn't get default value for {}[{}]&quot;,</span>
+<span class="nc" id="L107">					pojo.getClass(), attributeName, e);</span>
+<span class="fc" id="L108">		}</span>
 
-<span class="fc" id="L418">		return retValue;</span>
+<span class="fc" id="L110">		return retValue;</span>
+	}
+
+	/**
+	 * It returns an value from getter for a {@link Field} matching the attribute
+	 * name or null if a field was not found.
+	 *
+	 * @param &lt;T&gt;
+	 *            The type of field to be returned
+	 * @param pojo
+	 *            The class supposed to contain the field
+	 * @param attributeName
+	 *            The field name
+	 *
+	 * @return an instance of {@link Field} matching the attribute name or
+	 *         null if a field was not found.
+	 */
+	public static &lt;T&gt; T getFieldValueWithGetter(Object pojo, String attributeName) {
+<span class="fc" id="L128">		T retValue = null;</span>
+
+		try {
+<span class="pc" id="L131">			Method method = pojo.getClass().getMethod(&quot;get&quot; +</span>
+<span class="fc" id="L132">					+ Character.toUpperCase(attributeName.charAt(0))</span>
+<span class="fc" id="L133">					+ attributeName.substring(1), PodamConstants.NO_CLASSES);</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">			if (method != null) {</span>
+
+				// It allows to invoke Field.get on private fields
+<span class="nc" id="L138">				method.setAccessible(true);</span>
+
+				@SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L141">				T t = (T) method.invoke(pojo, PodamConstants.NO_ARGS);</span>
+<span class="nc" id="L142">				retValue = t;</span>
+<span class="nc" id="L143">			} else {</span>
+
+<span class="nc" id="L145">				LOG.info(&quot;The field {}[{}] didn't exist.&quot;, pojo.getClass(), attributeName);</span>
+			}
+
+<span class="fc" id="L148">		} catch (Exception e) {</span>
+
+<span class="fc" id="L150">			LOG.warn(&quot;We couldn't get default value for {}[{}]&quot;,</span>
+<span class="fc" id="L151">					pojo.getClass(), attributeName, e);</span>
+<span class="nc" id="L152">		}</span>
+
+<span class="fc" id="L154">		return retValue;</span>
+	}
+
+	/**
+	 * Searches among set of a class'es methods and selects the one defined in
+	 * the most specific descend of the hierarchy tree
+	 *
+	 * @param methods a set of methods to choose from
+	 * @return the selected method
+	 */
+	public static Method selectLatestMethod(Set&lt;Method&gt; methods) {
+		/* We want to find a method defined the latest */
+<span class="fc" id="L166">		Method selected = null;</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">		for (Method method : methods) {</span>
+<span class="pc bpc" id="L168" title="1 of 4 branches missed.">			if (selected == null || selected.getDeclaringClass().isAssignableFrom(method.getDeclaringClass())) {</span>
+<span class="fc" id="L169">				selected = method;</span>
+			}
+<span class="fc" id="L171">		}</span>
+<span class="fc" id="L172">		return selected;</span>
 	}
 
 	/**
@@ -424,26 +178,34 @@ public final class PodamUtils {
 	 *
 	 * @param attribute
 	 *            The class attribute
-	 * @param setter
-	 *            The class attribute's setter
+	 * @param methods
+	 *            List of setters and getter to check annotations
 	 * @return all annotations for the attribute
 	 */
 	public static List&lt;Annotation&gt; getAttributeAnnotations(final Field attribute,
-			final Method setter) {
+			final Method... methods) {
 
-<span class="fc" id="L434">		List&lt;Annotation&gt; retValue = new ArrayList&lt;Annotation&gt;();</span>
+<span class="fc" id="L188">		List&lt;Annotation&gt; retValue = new ArrayList&lt;Annotation&gt;();</span>
 
-<span class="fc bfc" id="L436" title="All 2 branches covered.">		Annotation[] annotations = (attribute != null ? attribute.getAnnotations() : null);</span>
-<span class="fc bfc" id="L437" title="All 2 branches covered.">		if (annotations != null) {</span>
-<span class="fc bfc" id="L438" title="All 2 branches covered.">			for (Annotation annotation : annotations) {</span>
-<span class="fc" id="L439">				retValue.add(annotation);</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		if (null != attribute) {</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">			for (Annotation annotation : attribute.getAnnotations()) {</span>
+<span class="fc" id="L192">				retValue.add(annotation);</span>
 			}
 		}
-<span class="fc bfc" id="L442" title="All 2 branches covered.">		for (Annotation annotation : setter.getParameterAnnotations()[0]) {</span>
-<span class="fc" id="L443">			retValue.add(annotation);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">		for (Method method : methods) {</span>
+<span class="fc" id="L196">			Annotation[][] paramAnnotations = method.getParameterAnnotations();</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">			if (paramAnnotations.length &gt; 0) {</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">				for (Annotation annotation : paramAnnotations[0]) {</span>
+<span class="fc" id="L199">					retValue.add(annotation);</span>
+				}
+			} else {
+<span class="fc bfc" id="L202" title="All 2 branches covered.">				for (Annotation annotation : method.getAnnotations()) {</span>
+<span class="fc" id="L203">					retValue.add(annotation);</span>
+				}
+			}
 		}
 
-<span class="fc" id="L446">		return retValue;</span>
+<span class="fc" id="L208">		return retValue;</span>
 	}
 
 	/**
@@ -453,13 +215,26 @@ public final class PodamUtils {
 	 */
 	public static Character getNiceCharacter() {
 
-		int randomCharIdx =
-<span class="fc" id="L457">				(int) (Math.random() * (NICE_ASCII_CHARACTERS.length - 1) + 0.5);</span>
-
-<span class="fc" id="L459">		return NICE_ASCII_CHARACTERS[randomCharIdx];</span>
-
+<span class="fc" id="L218">		int randomCharIdx = getIntegerInRange(0, NICE_ASCII_CHARACTERS.length - 1);</span>
+<span class="fc" id="L219">		return NICE_ASCII_CHARACTERS[randomCharIdx];</span>
 	}
-	
+
+	/**
+	 * Generates random string from set valid for identifiers in Java language
+	 *
+	 * @param length
+	 *            The length of the strings to generate
+	 * @return random string suitable for identifier
+	 */
+	public static String getNiceString(int length) {
+
+<span class="fc" id="L231">        StringBuilder sb = new StringBuilder(length);</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		while (sb.length() &lt; length) {</span>
+<span class="fc" id="L233">            sb.append(PodamUtils.getNiceCharacter());</span>
+        }
+<span class="fc" id="L235">		return sb.toString();</span>
+	}
+
 	/**
 	 * It returns a long/Long value between min and max value (included).
 	 * 
@@ -470,7 +245,44 @@ public final class PodamUtils {
 	 * @return A long/Long value between min and max value (included).
 	 */
 	public static long getLongInRange(long minValue, long maxValue) {
-<span class="fc" id="L473">		return (long) (minValue + Math.random() * (maxValue - minValue) + 0.5);</span>
+<span class="fc" id="L248">		return (long) (getDoubleInRange(minValue - 0.5, maxValue + 0.5 - (1 / Long.MAX_VALUE)) + 0.5);</span>
+	}
+
+	/**
+	 * It returns a random int/Integer value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @return An int/Integer value between min and max value (included).
+	 */
+	public static int getIntegerInRange(int minValue, int maxValue) {
+<span class="fc" id="L261">		return (int) getLongInRange(minValue, maxValue);</span>
+	}
+
+	/**
+	 * It returns a double/Double value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @return A double/Double value between min and max value (included)
+	 */
+	public static double getDoubleInRange(double minValue, double maxValue) {
+
+		// This can happen. It's a way to specify a precise value
+<span class="fc bfc" id="L276" title="All 2 branches covered.">		if (minValue == maxValue) {</span>
+<span class="fc" id="L277">			return minValue;</span>
+		}
+		double retValue;
+<span class="fc" id="L280">		double margin = (maxValue - minValue + 0.1);</span>
+<span class="fc" id="L281">		Random random = ThreadLocalRandom.current();</span>
+		do {
+<span class="fc" id="L283">			retValue = minValue + random.nextDouble() * margin;</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">		} while (retValue &gt; maxValue);</span>
+<span class="fc" id="L285">		return retValue;</span>
 	}
 
 	/**
@@ -482,23 +294,25 @@ public final class PodamUtils {
 	 */
 	public static Class&lt;?&gt; primitiveToBoxedType(Class&lt;?&gt; primitiveType) {
 
-<span class="fc bfc" id="L485" title="All 2 branches covered.">		if (int.class.equals(primitiveType)) {</span>
-<span class="fc" id="L486">			return Integer.class;</span>
-<span class="fc bfc" id="L487" title="All 2 branches covered.">		} else if (double.class.equals(primitiveType)) {</span>
-<span class="fc" id="L488">			return Double.class;</span>
-<span class="fc bfc" id="L489" title="All 2 branches covered.">		} else if (long.class.equals(primitiveType)) {</span>
-<span class="fc" id="L490">			return Long.class;</span>
-<span class="fc bfc" id="L491" title="All 2 branches covered.">		} else if (byte.class.equals(primitiveType)) {</span>
-<span class="fc" id="L492">			return Byte.class;</span>
-<span class="fc bfc" id="L493" title="All 2 branches covered.">		} else if (float.class.equals(primitiveType)) {</span>
-<span class="fc" id="L494">			return Float.class;</span>
-<span class="pc bpc" id="L495" title="1 of 2 branches missed.">		} else if (char.class.equals(primitiveType)) {</span>
-<span class="nc" id="L496">			return Character.class;</span>
-<span class="pc bpc" id="L497" title="1 of 2 branches missed.">		} else if (short.class.equals(primitiveType)) {</span>
-<span class="fc" id="L498">			return Short.class;</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">		if (int.class.equals(primitiveType)) {</span>
+<span class="fc" id="L298">			return Integer.class;</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">		} else if (double.class.equals(primitiveType)) {</span>
+<span class="fc" id="L300">			return Double.class;</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		} else if (long.class.equals(primitiveType)) {</span>
+<span class="fc" id="L302">			return Long.class;</span>
+<span class="fc bfc" id="L303" title="All 2 branches covered.">		} else if (byte.class.equals(primitiveType)) {</span>
+<span class="fc" id="L304">			return Byte.class;</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">		} else if (float.class.equals(primitiveType)) {</span>
+<span class="fc" id="L306">			return Float.class;</span>
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">		} else if (char.class.equals(primitiveType)) {</span>
+<span class="nc" id="L308">			return Character.class;</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">		} else if (short.class.equals(primitiveType)) {</span>
+<span class="fc" id="L310">			return Short.class;</span>
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">		} else if (boolean.class.equals(primitiveType)) {</span>
+<span class="fc" id="L312">			return Boolean.class;</span>
 		} else {
-<span class="nc" id="L500">			return primitiveType;</span>
+<span class="nc" id="L314">			return primitiveType;</span>
 		}
 	}
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

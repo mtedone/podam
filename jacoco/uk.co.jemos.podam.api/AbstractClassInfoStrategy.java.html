@@ -1,11 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AbstractClassInfoStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractClassInfoStrategy.java</span></div><h1>AbstractClassInfoStrategy.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractClassInfoStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AbstractClassInfoStrategy.java</span></div><h1>AbstractClassInfoStrategy.java</h1><pre class="source lang-java linenums">/**
  *
  */
 package uk.co.jemos.podam.api;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  * Default abstract implementation of a {@link ClassInfoStrategy}
@@ -19,23 +27,29 @@ import java.util.*;
  *
  */
 
-<span class="fc" id="L22">public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,</span>
+<span class="fc" id="L30">public abstract class AbstractClassInfoStrategy implements ClassInfoStrategy,</span>
 		ClassAttributeApprover {
 
 	// -------------------&gt;&gt; Constants
 
+<span class="fc" id="L35">	private final Pattern GETTER_PATTERN = getGetterPattern();</span>
+<span class="fc" id="L36">	private final Pattern SETTER_PATTERN = getSetterPattern();</span>
+
 	// -------------------&gt;&gt; Instance / Static variables
+
+	/** The application logger. */
+<span class="fc" id="L41">	private static final Logger LOG = LoggerFactory.getLogger(AbstractClassInfoStrategy.class);</span>
 
 	/**
 	 * Set of annotations, which mark fields to be skipped from populating.
 	 */
-<span class="fc" id="L32">	private final Set&lt;Class&lt;? extends Annotation&gt;&gt; excludedAnnotations =</span>
+<span class="fc" id="L46">	private final Set&lt;Class&lt;? extends Annotation&gt;&gt; excludedAnnotations =</span>
 			new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;();
 
 	/**
 	 * Set of fields, which mark fields to be skipped from populating.
 	 */
-<span class="fc" id="L38">	private Map&lt;Class&lt;?&gt;, Set&lt;String&gt;&gt; excludedFields</span>
+<span class="fc" id="L52">	private Map&lt;Class&lt;?&gt;, Set&lt;String&gt;&gt; excludedFields</span>
 			= new HashMap&lt;Class&lt;?&gt;, Set&lt;String&gt;&gt;();
 
 
@@ -43,8 +57,7 @@ import java.util.*;
 	 * Set of extra methods to execute.
 	 * @since 5.3.0
 	 **/
-<span class="fc" id="L46">	private final Map&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt; extraMethods = new HashMap&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt;();</span>
-
+<span class="fc" id="L60">	private final Map&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt; extraMethods = new HashMap&lt;Class&lt;?&gt;, List&lt;Method&gt;&gt;();</span>
 
 	// -------------------&gt;&gt; Constructors
 
@@ -62,8 +75,8 @@ import java.util.*;
 	 */
 	public AbstractClassInfoStrategy addExcludedAnnotation(
 			final Class&lt;? extends Annotation&gt; annotation) {
-<span class="fc" id="L65">		excludedAnnotations.add(annotation);</span>
-<span class="fc" id="L66">		return this;</span>
+<span class="fc" id="L78">		excludedAnnotations.add(annotation);</span>
+<span class="fc" id="L79">		return this;</span>
 	}
 
 	/**
@@ -80,17 +93,17 @@ import java.util.*;
 			Class&lt;?&gt; pojoClass, String methodName, Class&lt;?&gt; ... methodArgs)
 			throws NoSuchMethodException, SecurityException {
 
-<span class="fc" id="L83">		Method method = pojoClass.getMethod(methodName, methodArgs);</span>
+<span class="fc" id="L96">		Method method = pojoClass.getMethod(methodName, methodArgs);</span>
 
-<span class="fc" id="L85">		List&lt;Method&gt; methods = extraMethods.get(pojoClass);</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">		if (methods == null) {</span>
-<span class="fc" id="L87">			methods = new ArrayList&lt;Method&gt;();</span>
-<span class="fc" id="L88">			extraMethods.put(pojoClass, methods);</span>
+<span class="fc" id="L98">		List&lt;Method&gt; methods = extraMethods.get(pojoClass);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		if (methods == null) {</span>
+<span class="fc" id="L100">			methods = new ArrayList&lt;Method&gt;();</span>
+<span class="fc" id="L101">			extraMethods.put(pojoClass, methods);</span>
 		}
 
-<span class="fc" id="L91">		methods.add(method);</span>
+<span class="fc" id="L104">		methods.add(method);</span>
 
-<span class="fc" id="L93">		return this;</span>
+<span class="fc" id="L106">		return this;</span>
 	}
 
 	/**
@@ -102,8 +115,8 @@ import java.util.*;
 	 */
 	public AbstractClassInfoStrategy removeExcludedAnnotation(
 			final Class&lt;? extends Annotation&gt; annotation) {
-<span class="fc" id="L105">		excludedAnnotations.remove(annotation);</span>
-<span class="fc" id="L106">		return this;</span>
+<span class="fc" id="L118">		excludedAnnotations.remove(annotation);</span>
+<span class="fc" id="L119">		return this;</span>
 	}
 
 	/**
@@ -118,13 +131,13 @@ import java.util.*;
 	 */
 	public AbstractClassInfoStrategy addExcludedField(
 			final Class&lt;?&gt; pojoClass, final String fieldName) {
-<span class="fc" id="L121">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (fields == null) {</span>
-<span class="fc" id="L123">			fields = new HashSet&lt;String&gt;();</span>
-<span class="fc" id="L124">			excludedFields.put(pojoClass, fields);</span>
+<span class="fc" id="L134">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (fields == null) {</span>
+<span class="fc" id="L136">			fields = new HashSet&lt;String&gt;();</span>
+<span class="fc" id="L137">			excludedFields.put(pojoClass, fields);</span>
 		}
-<span class="fc" id="L126">		fields.add(fieldName);</span>
-<span class="fc" id="L127">		return this;</span>
+<span class="fc" id="L139">		fields.add(fieldName);</span>
+<span class="fc" id="L140">		return this;</span>
 	}
 
 	/**
@@ -138,11 +151,11 @@ import java.util.*;
 	 */
 	public AbstractClassInfoStrategy removeExcludedField(
 			final Class&lt;?&gt; pojoClass, final String fieldName) {
-<span class="fc" id="L141">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (fields != null) {</span>
-<span class="fc" id="L143">			fields.remove(fieldName);</span>
+<span class="fc" id="L154">		Set&lt;String&gt; fields = excludedFields.get(pojoClass);</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (fields != null) {</span>
+<span class="fc" id="L156">			fields.remove(fieldName);</span>
 		}
-<span class="fc" id="L145">		return this;</span>
+<span class="fc" id="L158">		return this;</span>
 	}
 
 
@@ -151,7 +164,16 @@ import java.util.*;
 	 */
 	@Override
 	public boolean approve(ClassAttribute attribute) {
-<span class="fc bfc" id="L154" title="All 2 branches covered.">		return (attribute.getAttribute() != null);</span>
+		/* skip setters having more than one parameter,
+		 * when there is more than one setter for a field */
+<span class="fc bfc" id="L169" title="All 2 branches covered.">		if (attribute.getRawSetters().size() &gt; 1) {</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">			for (Method setter : attribute.getRawSetters()) {</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">				if (setter.getParameterTypes().length &gt; 1) {</span>
+<span class="fc" id="L172">					return false;</span>
+				}
+<span class="fc" id="L174">			}</span>
+		}
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		return (attribute.getAttribute() != null);</span>
 	}
 
 	// -------------------&gt;&gt; Getters / Setters
@@ -160,7 +182,7 @@ import java.util.*;
 	 */
 	@Override
 	public Set&lt;Class&lt;? extends Annotation&gt;&gt; getExcludedAnnotations() {
-<span class="fc" id="L163">		return excludedAnnotations;</span>
+<span class="fc" id="L185">		return excludedAnnotations;</span>
 	}
 
 
@@ -169,7 +191,7 @@ import java.util.*;
 	 */
 	@Override
 	public Set&lt;String&gt; getExcludedFields(final Class&lt;?&gt; pojoClass) {
-<span class="nc" id="L172">		return excludedFields.get(pojoClass);</span>
+<span class="fc" id="L194">		return excludedFields.get(pojoClass);</span>
 	}
 
 	/**
@@ -177,34 +199,291 @@ import java.util.*;
 	 */
 	@Override
 	public ClassInfo getClassInfo(Class&lt;?&gt; pojoClass) {
-<span class="fc" id="L180">		Set&lt;String&gt; excludedAttributes = excludedFields.get(pojoClass);</span>
-<span class="fc bfc" id="L181" title="All 2 branches covered.">		if (null == excludedAttributes) {</span>
-<span class="fc" id="L182">			excludedAttributes = Collections.emptySet();</span>
+<span class="fc" id="L202">		Set&lt;String&gt; excludedAttributes = excludedFields.get(pojoClass);</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (null == excludedAttributes) {</span>
+<span class="fc" id="L204">			excludedAttributes = Collections.emptySet();</span>
 		}
-<span class="fc" id="L184">		List&lt;Method&gt; localExtraMethods = extraMethods.get(pojoClass);</span>
-<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (null == localExtraMethods) {</span>
-<span class="fc" id="L186">			localExtraMethods = Collections.emptyList();</span>
+<span class="fc" id="L206">		List&lt;Method&gt; localExtraMethods = extraMethods.get(pojoClass);</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		if (null == localExtraMethods) {</span>
+<span class="fc" id="L208">			localExtraMethods = Collections.emptyList();</span>
 		}
-<span class="fc" id="L188">		return PodamUtils.getClassInfo(pojoClass,</span>
+<span class="fc" id="L210">		return getClassInfo(pojoClass,</span>
 				excludedAnnotations, excludedAttributes, this, localExtraMethods);
 	}
 
 	@Override
 	public ClassAttributeApprover getClassAttributeApprover(Class&lt;?&gt; pojoClass) {
-<span class="fc" id="L194">		return this;</span>
+<span class="fc" id="L216">		return this;</span>
 	}
 
 	@Override
 	public Collection&lt;Method&gt; getExtraMethods(Class&lt;?&gt; pojoClass) {
-<span class="fc" id="L199">		return extraMethods.get(pojoClass);</span>
+<span class="fc" id="L221">		return extraMethods.get(pojoClass);</span>
 	}
 
+	/**
+	 * It returns a {@link ClassInfo} object for the given class
+	 *
+	 * @param clazz
+	 *            The class to retrieve info from
+	 * @param excludeFieldAnnotations
+	 *            the fields marked with any of these annotations will not be
+	 *            included in the class info
+	 * @param excludedFields
+	 *            the fields matching the given names will not be included in the class info
+	 * @param attributeApprover
+	 *            a {@link ClassAttributeApprover} implementation,
+	 *             which defines which attributes to skip and which to process
+	 * @param extraMethods
+	 *            extra methods to call after object initialization
+	 * @return a {@link ClassInfo} object for the given class
+	 */
+	public ClassInfo getClassInfo(Class&lt;?&gt; clazz,
+										 Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeFieldAnnotations,
+										 Set&lt;String&gt; excludedFields,
+										 ClassAttributeApprover attributeApprover,
+										 Collection&lt;Method&gt; extraMethods) {
+
+<span class="fc bfc" id="L247" title="All 2 branches covered.">		if (null == attributeApprover) {</span>
+<span class="fc" id="L248">			attributeApprover = DefaultClassInfoStrategy.getInstance().getClassAttributeApprover(clazz);</span>
+		}
+
+<span class="fc" id="L251">		Map&lt;String, ClassAttribute&gt; attributeMap = new TreeMap&lt;String, ClassAttribute&gt;();</span>
+<span class="fc" id="L252">		findPojoAttributes(clazz, attributeMap, excludeFieldAnnotations, excludedFields);</span>
+
+		/* Approve all found attributes */
+<span class="fc" id="L255">		Collection&lt;ClassAttribute&gt; attributes = new ArrayList&lt;ClassAttribute&gt;(attributeMap.values());</span>
+<span class="fc" id="L256">		Iterator&lt;ClassAttribute&gt; iter = attributes.iterator();</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		main : while(iter.hasNext()) {</span>
+<span class="fc" id="L258">			ClassAttribute attribute = iter.next();</span>
+
+<span class="fc" id="L260">			Field field = attribute.getAttribute();</span>
+<span class="fc bfc" id="L261" title="All 4 branches covered.">			if (excludedFields.contains(attribute.getName()) ||</span>
+<span class="fc bfc" id="L262" title="All 2 branches covered.">					(field != null &amp;&amp; containsAnyAnnotation(field, excludeFieldAnnotations))) {</span>
+<span class="fc" id="L263">				iter.remove();</span>
+<span class="fc" id="L264">				continue;</span>
+			}
+
+<span class="fc bfc" id="L267" title="All 2 branches covered.">			for (Method classGetter : attribute.getRawGetters()) {</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">				if (containsAnyAnnotation(classGetter, excludeFieldAnnotations)) {</span>
+<span class="fc" id="L269">					iter.remove();</span>
+<span class="fc" id="L270">					continue main;</span>
+				}
+<span class="fc" id="L272">			}</span>
+
+<span class="fc bfc" id="L274" title="All 2 branches covered.">			for (Method classSetter : attribute.getRawSetters()) {</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">				if (containsAnyAnnotation(classSetter, excludeFieldAnnotations)) {</span>
+<span class="nc" id="L276">					iter.remove();</span>
+<span class="nc" id="L277">					continue main;</span>
+				}
+<span class="fc" id="L279">			}</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">			if (!attributeApprover.approve(attribute)) {</span>
+<span class="fc" id="L282">				iter.remove();</span>
+			}
+<span class="fc" id="L284">		}</span>
+
+<span class="fc" id="L286">		return new ClassInfo(clazz, attributes, extraMethods);</span>
+	}
 
 	// -------------------&gt;&gt; Private methods
+
+	/**
+	 * Checks if the given method has any one of the annotations
+	 *
+	 * @param method
+	 *            the method to check for
+	 * @param annotations
+	 *            the set of annotations to look for in the field
+	 * @return true if the field is marked with any of the given annotations
+	 */
+	private boolean containsAnyAnnotation(Method method,
+			Set&lt;Class&lt;? extends Annotation&gt;&gt; annotations) {
+
+<span class="fc bfc" id="L303" title="All 2 branches covered.">		for (Class&lt;? extends Annotation&gt; annotation : annotations) {</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered.">			if (method.getAnnotation(annotation) != null) {</span>
+<span class="fc" id="L305">				return true;</span>
+			}
+<span class="fc" id="L307">		}</span>
+<span class="fc" id="L308">		return false;</span>
+	}
+
+	/**
+	 * Checks if the given field has any one of the annotations
+	 *
+	 * @param field
+	 *            the field to check for
+	 * @param annotations
+	 *            the set of annotations to look for in the field
+	 * @return true if the field is marked with any of the given annotations
+	 */
+	private boolean containsAnyAnnotation(Field field,
+			Set&lt;Class&lt;? extends Annotation&gt;&gt; annotations) {
+<span class="fc bfc" id="L322" title="All 2 branches covered.">		for (Class&lt;? extends Annotation&gt; annotation : annotations) {</span>
+<span class="fc bfc" id="L323" title="All 2 branches covered.">			if (field.getAnnotation(annotation) != null) {</span>
+<span class="fc" id="L324">				return true;</span>
+			}
+<span class="fc" id="L326">		}</span>
+<span class="fc" id="L327">		return false;</span>
+	}
+
+	/**
+	 * Given a class and a set of class declared fields it returns a map of
+	 * setters, getters and fields defined for this class
+	 *
+	 * @param clazz
+	 *            The class to analyze for setters
+	 * @param attributeMap
+	 *            The {@link Map} which will be filled with class' attributes
+	 * @param excludeAnnotations
+	 *            The {@link Set} containing annotations marking fields to be excluded
+	 * @param excludedFields
+	 *            The {@link Set} containing field names to be excluded
+	 */
+	protected void findPojoAttributes(Class&lt;?&gt; clazz,
+			Map&lt;String, ClassAttribute&gt; attributeMap,
+			Set&lt;Class&lt;? extends Annotation&gt;&gt; excludeAnnotations,
+			Set&lt;String&gt; excludedFields) {
+
+<span class="pc bpc" id="L348" title="1 of 2 branches missed.">		if (excludeAnnotations == null) {</span>
+<span class="nc" id="L349">			excludeAnnotations = new HashSet&lt;Class&lt;? extends Annotation&gt;&gt;();</span>
+		}
+<span class="fc" id="L351">		excludeAnnotations.add(PodamExclude.class);</span>
+
+<span class="fc" id="L353">		Class&lt;?&gt; workClass = clazz;</span>
+
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		while (!Object.class.equals(workClass)) {</span>
+
+<span class="fc" id="L357">			Method[] declaredMethods = workClass.getDeclaredMethods();</span>
+
+<span class="fc" id="L359">			Field[] declaredFields = workClass.getDeclaredFields();</span>
+<span class="fc bfc" id="L360" title="All 2 branches covered.">			for (Field field : declaredFields) {</span>
+<span class="fc" id="L361">				int modifiers = field.getModifiers();</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">				if (!Modifier.isStatic(modifiers)) {</span>
+
+<span class="fc" id="L364">					String attributeName = field.getName();</span>
+<span class="fc" id="L365">					ClassAttribute attribute = attributeMap.get(attributeName);</span>
+<span class="fc bfc" id="L366" title="All 2 branches covered.">					if (attribute != null) {</span>
+						/* In case we have hidden fields, we probably want the
+						 * latest one, but there could be corner cases */
+<span class="fc bfc" id="L369" title="All 2 branches covered.">						if (attribute.getAttribute() == null) {</span>
+<span class="fc" id="L370">							attribute.setAttribute(field);</span>
+						}
+					} else {
+<span class="fc" id="L373">						attribute = new ClassAttribute(field.getName(),</span>
+<span class="fc" id="L374">								field, Collections.&lt;Method&gt;emptySet(), Collections.&lt;Method&gt;emptySet());</span>
+<span class="fc" id="L375">						attributeMap.put(field.getName(), attribute);</span>
+					}
+				}
+			}
+
+<span class="fc bfc" id="L380" title="All 2 branches covered.">			for (Method method : declaredMethods) {</span>
+				/*
+				 * Bridge methods are automatically generated by compiler to
+				 * deal with type erasure and they are not type safe. That why
+				 * they should be ignored
+				 */
+<span class="fc bfc" id="L386" title="All 4 branches covered.">				if (!method.isBridge() &amp;&amp; !Modifier.isNative(method.getModifiers())) {</span>
+
+					Pattern pattern;
+<span class="fc bfc" id="L389" title="All 2 branches covered.">					if (method.getParameterTypes().length == 0</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">							&amp;&amp; !method.getReturnType().equals(void.class)) {</span>
+
+<span class="fc" id="L392">						pattern = GETTER_PATTERN;</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">					} else if (method.getParameterTypes().length &gt; 0</span>
+<span class="fc bfc" id="L394" title="All 2 branches covered.">							&amp;&amp; (method.getReturnType().equals(void.class)</span>
+<span class="fc bfc" id="L395" title="All 2 branches covered.">									|| method.getReturnType().isAssignableFrom(workClass))) {</span>
+
+<span class="fc" id="L397">						pattern = SETTER_PATTERN;</span>
+					} else {
+
+						continue;
+					}
+
+<span class="fc" id="L403">					String methodName = method.getName();</span>
+<span class="fc" id="L404">					String attributeName = extractFieldNameFromMethod(methodName,</span>
+							pattern);
+<span class="fc bfc" id="L406" title="All 2 branches covered.">					if (!attributeName.equals(methodName)) {</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">						if (!attributeName.isEmpty()) {</span>
+<span class="fc" id="L408">							ClassAttribute attribute = attributeMap.get(attributeName);</span>
+<span class="fc bfc" id="L409" title="All 2 branches covered.">							if (attribute == null) {</span>
+<span class="fc" id="L410">								attribute = new ClassAttribute(attributeName, null,</span>
+<span class="fc" id="L411">										Collections.&lt;Method&gt;emptySet(),</span>
+<span class="fc" id="L412">										Collections.&lt;Method&gt;emptySet());</span>
+<span class="fc" id="L413">								attributeMap.put(attributeName, attribute);</span>
+							}
+							Set&lt;Method&gt; accessors;
+<span class="fc bfc" id="L416" title="All 2 branches covered.">							if (pattern == GETTER_PATTERN) {</span>
+<span class="fc" id="L417">								accessors = attribute.getRawGetters();</span>
+							} else {
+<span class="fc" id="L419">								accessors = attribute.getRawSetters();</span>
+							}
+<span class="fc" id="L421">							accessors.add(method);</span>
+<span class="fc" id="L422">						} else {</span>
+<span class="fc" id="L423">							LOG.debug(&quot;Encountered accessor {}. This will be ignored.&quot;, method);</span>
+						}
+					}
+				}
+			}
+
+<span class="fc" id="L429">			workClass = workClass.getSuperclass();</span>
+<span class="fc" id="L430">		}</span>
+<span class="fc" id="L431">	}</span>
+
+	/**
+	 * Given a accessor's name, it extracts the field name, according to
+	 * JavaBean standards
+	 * &lt;p&gt;
+	 * This method, given a accessor method's name, it returns the corresponding
+	 * attribute name. For example: given setIntField the method would return
+	 * intField. given getIntField the method would return intField; given
+	 * isBoolField the method would return boolField.The correctness of the
+	 * return value depends on the adherence to
+	 * JavaBean standards.
+	 * &lt;/p&gt;
+	 *
+	 * @param methodName
+	 *            The accessor method from which the field name is required
+	 * @param pattern
+	 *            The pattern to strip from the method name
+	 * @return The field name corresponding to the setter
+	 */
+	protected String extractFieldNameFromMethod(String methodName, Pattern pattern) {
+<span class="fc" id="L452">		String candidateField = pattern.matcher(methodName).replaceFirst(&quot;&quot;);</span>
+<span class="fc bfc" id="L453" title="All 4 branches covered.">		if (!candidateField.isEmpty() &amp;&amp; !candidateField.equals(methodName)) {</span>
+<span class="fc" id="L454">			String candidateFieldEnding = candidateField.substring(1);</span>
+<span class="fc bfc" id="L455" title="All 2 branches covered.">			if ((candidateFieldEnding.isEmpty()</span>
+<span class="fc bfc" id="L456" title="All 2 branches covered.">				|| !candidateFieldEnding.toUpperCase().equals(candidateFieldEnding)</span>
+<span class="fc bfc" id="L457" title="All 2 branches covered.">				|| candidateFieldEnding.toLowerCase().equals(candidateFieldEnding.toUpperCase()))) {</span>
+<span class="fc" id="L458">				candidateField = Character.toLowerCase(candidateField.charAt(0))</span>
+						+ candidateFieldEnding;
+			}
+		}
+
+<span class="fc" id="L463">		return candidateField;</span>
+	}
+
+	/**
+	 * Defines a regular expression for a getter's name
+	 *
+	 * @return a compiled pattern for the getter's name
+	 */
+	protected Pattern getGetterPattern() {
+<span class="fc" id="L472">		return Pattern.compile(&quot;^(get|is)&quot;);</span>
+	}
+
+	/**
+	 * Defines a regular expression for a setters name
+	 *
+	 * @return a compiled pattern for the setter's name
+	 */
+	protected Pattern getSetterPattern() {
+<span class="fc" id="L481">		return Pattern.compile(&quot;^set&quot;);</span>
+	}
 
 	// -------------------&gt;&gt; equals() / hashcode() / toString()
 
 	// -------------------&gt;&gt; Inner classes
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

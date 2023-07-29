@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FloatTypeManufacturerImpl.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">FloatTypeManufacturerImpl.java</span></div><h1>FloatTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FloatTypeManufacturerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">FloatTypeManufacturerImpl.java</span></div><h1>FloatTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.ManufacturingContext;
 import uk.co.jemos.podam.common.PodamConstants;
 import uk.co.jemos.podam.common.PodamFloatValue;
 
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 /**
  * Default float type manufacturer.
@@ -15,65 +19,80 @@ import java.lang.annotation.Annotation;
  *
  * @since 6.0.0.RELEASE
  */
-<span class="fc" id="L18">public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer {</span>
-
-    /** The application logger */
-<span class="fc" id="L21">    private static final Logger LOG = LoggerFactory.getLogger(FloatTypeManufacturerImpl.class);</span>
+<span class="fc" id="L22">public class FloatTypeManufacturerImpl extends AbstractTypeManufacturer&lt;Float&gt; {</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Float getType(TypeManufacturerParamsWrapper wrapper) {
+    public Float getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx) {
 
-<span class="fc" id="L29">        super.checkWrapperIsValid(wrapper);</span>
+        Float retValue;
 
-<span class="fc" id="L31">        DataProviderStrategy strategy = wrapper.getDataProviderStrategy();</span>
+<span class="fc" id="L34">        PodamFloatValue annotationStrategy = findElementOfType(</span>
+<span class="fc" id="L35">                attributeMetadata.getAttributeAnnotations(), PodamFloatValue.class);</span>
 
-<span class="fc" id="L33">        Float retValue = null;</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (null != annotationStrategy) {</span>
 
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        for (Annotation annotation : wrapper.getAttributeMetadata().getAttributeAnnotations()) {</span>
+<span class="fc" id="L39">            String numValueStr = annotationStrategy.numValue();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (StringUtils.isNotEmpty(numValueStr)) {</span>
+                try {
+<span class="fc" id="L42">                    retValue = Float.valueOf(numValueStr);</span>
+<span class="fc" id="L43">                } catch (NumberFormatException nfe) {</span>
+<span class="fc" id="L44">                    throw new IllegalArgumentException(PodamConstants.THE_ANNOTATION_VALUE_STR</span>
+                            + numValueStr
+                            + &quot; could not be converted to a Float. An exception will be thrown.&quot;,
+                            nfe);
+<span class="fc" id="L48">                }</span>
+            } else {
 
-<span class="fc bfc" id="L37" title="All 2 branches covered.">            if (PodamFloatValue.class.isAssignableFrom(annotation.getClass())) {</span>
-<span class="fc" id="L38">                PodamFloatValue floatStrategy = (PodamFloatValue) annotation;</span>
+<span class="fc" id="L51">                float minValue = annotationStrategy.minValue();</span>
+<span class="fc" id="L52">                float maxValue = annotationStrategy.maxValue();</span>
 
-<span class="fc" id="L40">                String numValueStr = floatStrategy.numValue();</span>
-<span class="pc bpc" id="L41" title="1 of 4 branches missed.">                if (null != numValueStr &amp;&amp; !numValueStr.isEmpty()) {</span>
-                    try {
-<span class="fc" id="L43">                        retValue = Float.valueOf(numValueStr);</span>
-<span class="fc" id="L44">                    } catch (NumberFormatException nfe) {</span>
-<span class="fc" id="L45">                        String errMsg = PodamConstants.THE_ANNOTATION_VALUE_STR</span>
-                                + numValueStr
-                                + &quot; could not be converted to a Float. An exception will be thrown.&quot;;
-<span class="fc" id="L48">                        LOG.error(errMsg);</span>
-<span class="fc" id="L49">                        throw new IllegalArgumentException(errMsg, nfe);</span>
-<span class="fc" id="L50">                    }</span>
-                } else {
-
-<span class="fc" id="L53">                    float minValue = floatStrategy.minValue();</span>
-<span class="fc" id="L54">                    float maxValue = floatStrategy.maxValue();</span>
-
-                    // Sanity check
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                    if (minValue &gt; maxValue) {</span>
-<span class="nc" id="L58">                        maxValue = minValue;</span>
-                    }
-
-<span class="fc" id="L61">                    retValue = strategy.getFloatInRange(minValue, maxValue,</span>
-<span class="fc" id="L62">                            wrapper.getAttributeMetadata());</span>
-
+                // Sanity check
+<span class="fc bfc" id="L55" title="All 2 branches covered.">                if (minValue &gt; maxValue) {</span>
+<span class="fc" id="L56">                    maxValue = minValue;</span>
                 }
 
-<span class="fc" id="L66">                break;</span>
-
+<span class="fc" id="L59">                retValue = getFloatInRange(minValue, maxValue,</span>
+                        attributeMetadata);
             }
-
-<span class="fc" id="L70">        }</span>
-
-<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (retValue == null) {</span>
-<span class="fc" id="L73">            retValue = strategy.getFloat(wrapper.getAttributeMetadata());</span>
+<span class="fc" id="L62">        } else {</span>
+<span class="fc" id="L63">            retValue = getFloat(attributeMetadata);</span>
         }
 
-<span class="fc" id="L76">        return retValue;</span>
+<span class="fc" id="L66">        return retValue;</span>
     }
+
+	/** It returns a float/Float value.
+	 * 
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A float/Float value
+	 */
+	public Float getFloat(AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L77">		return (float)getDouble();</span>
+	}
+
+	/**
+	 * It returns a float/Float value between min and max value (included).
+	 * 
+	 * @param minValue
+	 *            The minimum value for the returned value
+	 * @param maxValue
+	 *            The maximum value for the returned value
+	 * @param attributeMetadata
+	 *            attribute metadata for instance to be fetched
+	 * @return A float/Float value between min and max value (included).
+	 */
+	public Float getFloatInRange(float minValue, float maxValue,
+			AttributeMetadata attributeMetadata) {
+
+<span class="fc" id="L94">		return (float)PodamUtils.getDoubleInRange(minValue, maxValue);</span>
+	}
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

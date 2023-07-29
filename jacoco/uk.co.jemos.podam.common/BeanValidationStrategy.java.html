@@ -1,22 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>BeanValidationStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">BeanValidationStrategy.java</span></div><h1>BeanValidationStrategy.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeanValidationStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">BeanValidationStrategy.java</span></div><h1>BeanValidationStrategy.java</h1><pre class="source lang-java linenums">/**
  * 
  */
 package uk.co.jemos.podam.common;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,13 +29,7 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 
 	// -------------------&gt;&gt; Instance / Static variables
 
-<span class="fc" id="L34">	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);</span>
-
-	/** A RANDOM generator */
-<span class="fc" id="L37">	private static final Random RANDOM = new Random(System.currentTimeMillis());</span>
-
-	/** bean validation annotations */
-	private List&lt;Annotation&gt; annotations;
+<span class="fc" id="L32">	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);</span>
 
 	/** expected return type of an attribute */
 	private Class&lt;?&gt; attributeType;
@@ -47,15 +39,12 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	/**
 	 * Constructor for the strategy
 	 *
-	 * @param annotations
-	 *        bean validation annotations
 	 * @param attributeType
 	 *        expected return type of an attribute
 	 */
-<span class="fc" id="L55">	public BeanValidationStrategy(List&lt;Annotation&gt; annotations, Class&lt;?&gt; attributeType) {</span>
-<span class="fc" id="L56">		this.annotations = annotations;</span>
-<span class="fc" id="L57">		this.attributeType = attributeType;</span>
-<span class="fc" id="L58">	}</span>
+<span class="fc" id="L45">	public BeanValidationStrategy(Class&lt;?&gt; attributeType) {</span>
+<span class="fc" id="L46">		this.attributeType = attributeType;</span>
+<span class="fc" id="L47">	}</span>
 
 	// -------------------&gt;&gt; Public methods
 
@@ -67,123 +56,173 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	 * 
 	 * {@inheritDoc}
 	 */
-	public Object getValue() throws PodamMockeryException {
+	public Object getValue(Class&lt;?&gt; attrType, List&lt;Annotation&gt; annotations) throws PodamMockeryException {
 
-<span class="fc bfc" id="L72" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, AssertTrue.class)) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, AssertTrue.class)) {</span>
 
-<span class="fc" id="L74">			return Boolean.TRUE;</span>
+<span class="fc" id="L63">			return Boolean.TRUE;</span>
 		}
 
-<span class="fc bfc" id="L77" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, AssertFalse.class)) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, AssertFalse.class)) {</span>
 
-<span class="fc" id="L79">			return Boolean.FALSE;</span>
+<span class="fc" id="L68">			return Boolean.FALSE;</span>
 		}
 
-<span class="fc bfc" id="L82" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, Past.class)) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, Past.class)) {</span>
 
-<span class="fc" id="L84">			int days = RANDOM.nextInt(365) + 1;</span>
-<span class="fc" id="L85">			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);</span>
-<span class="fc" id="L86">			return timestampToReturnType(timestamp);</span>
+<span class="fc" id="L73">			int days = PodamUtils.getIntegerInRange(1, 365);</span>
+<span class="fc" id="L74">			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);</span>
+<span class="fc" id="L75">			return timestampToReturnType(timestamp);</span>
 		}
 
-<span class="fc bfc" id="L89" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, Future.class)) {</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (null != findTypeFromList(annotations, Future.class)) {</span>
 
-<span class="fc" id="L91">			int days = RANDOM.nextInt(365) + 1;</span>
-<span class="fc" id="L92">			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);</span>
-<span class="fc" id="L93">			return timestampToReturnType(timestamp);</span>
+<span class="fc" id="L80">			int days = PodamUtils.getIntegerInRange(1, 365);</span>
+<span class="fc" id="L81">			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);</span>
+<span class="fc" id="L82">			return timestampToReturnType(timestamp);</span>
 		}
 
-<span class="fc" id="L96">		Annotation minAnno = null;</span>
-<span class="fc" id="L97">		Annotation maxAnno = null;</span>
+<span class="fc" id="L85">		Size size = findTypeFromList(annotations, Size.class);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		if (null != size) {</span>
 
-<span class="fc" id="L99">		minAnno = findTypeFromList(annotations, DecimalMin.class);</span>
-<span class="fc" id="L100">		maxAnno = findTypeFromList(annotations, DecimalMax.class);</span>
-<span class="fc bfc" id="L101" title="All 4 branches covered.">		if ((null != minAnno) || (null != maxAnno)) {</span>
+<span class="fc" id="L88">			int minValue = size.min();</span>
+<span class="fc" id="L89">			int maxValue = size.max();</span>
 
-			BigDecimal min;
-<span class="fc bfc" id="L104" title="All 2 branches covered.">			if (null != minAnno) {</span>
-<span class="fc" id="L105">				DecimalMin tmp = (DecimalMin) minAnno;</span>
-<span class="fc" id="L106">				min = new BigDecimal(tmp.value());</span>
-<span class="fc" id="L107">			} else {</span>
-<span class="fc" id="L108">				min = new BigDecimal(Double.MIN_VALUE);</span>
-			}
-			BigDecimal max;
-<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (null != maxAnno) {</span>
-<span class="fc" id="L112">				DecimalMax tmp = (DecimalMax) maxAnno;</span>
-<span class="fc" id="L113">				max = new BigDecimal(tmp.value());</span>
-<span class="fc" id="L114">			} else {</span>
-<span class="fc" id="L115">				max = new BigDecimal(Double.MAX_VALUE);</span>
-			}
-<span class="fc" id="L117">			return decimalToReturnType(getValueInRange(min, max));</span>
-		}
-
-<span class="fc" id="L120">		minAnno = findTypeFromList(annotations, Min.class);</span>
-<span class="fc" id="L121">		maxAnno = findTypeFromList(annotations, Max.class);</span>
-<span class="fc bfc" id="L122" title="All 4 branches covered.">		if ((null != minAnno) || (null != maxAnno)) {</span>
-
-			BigDecimal min;
-<span class="fc bfc" id="L125" title="All 2 branches covered.">			if (null != minAnno) {</span>
-<span class="fc" id="L126">				Min tmp = (Min) minAnno;</span>
-<span class="fc" id="L127">				min = new BigDecimal(tmp.value());</span>
-<span class="fc" id="L128">			} else {</span>
-<span class="fc" id="L129">				min = new BigDecimal(Double.MIN_VALUE);</span>
-			}
-			BigDecimal max;
-<span class="fc bfc" id="L132" title="All 2 branches covered.">			if (null != maxAnno) {</span>
-<span class="fc" id="L133">				Max tmp = (Max) maxAnno;</span>
-<span class="fc" id="L134">				max = new BigDecimal(tmp.value());</span>
-<span class="fc" id="L135">			} else {</span>
-<span class="fc" id="L136">				max = new BigDecimal(Double.MAX_VALUE);</span>
-			}
-			/* Integer part */
-<span class="fc" id="L139">			BigInteger intValue = getValueInRange(min, max).toBigInteger();</span>
-<span class="fc" id="L140">			BigDecimal value = new BigDecimal(intValue);</span>
-<span class="fc" id="L141">			return decimalToReturnType(value);</span>
-		}
-
-<span class="fc bfc" id="L144" title="All 2 branches covered.">		if (null != (minAnno = findTypeFromList(annotations, Digits.class))) {</span>
-
-<span class="fc" id="L146">			Digits digits = (Digits) minAnno;</span>
-<span class="fc" id="L147">			BigDecimal divisor = BigDecimal.TEN.pow(digits.fraction());</span>
-<span class="fc" id="L148">			BigDecimal max = BigDecimal.TEN.pow(digits.integer()).multiply(divisor);</span>
-<span class="fc" id="L149">			BigDecimal min = max.negate();</span>
-			/* Integer part */
-<span class="fc" id="L151">			BigInteger intValue = getValueInRange(min, max).toBigInteger();</span>
-<span class="fc" id="L152">			BigDecimal value = new BigDecimal(intValue).divide(divisor);</span>
-<span class="fc" id="L153">			return decimalToReturnType(value);</span>
-		}
-
-<span class="fc bfc" id="L156" title="All 2 branches covered.">		if (null != (minAnno = findTypeFromList(annotations, Size.class))) {</span>
-
-<span class="fc" id="L158">			Size size = (Size) minAnno;</span>
-
-<span class="fc" id="L160">			int minValue = size.min();</span>
-<span class="fc" id="L161">			int maxValue = size.max();</span>
-
-<span class="fc bfc" id="L163" title="All 2 branches covered.">			if (maxValue == Integer.MAX_VALUE) {</span>
-<span class="fc" id="L164">				maxValue = PodamConstants.STR_DEFAULT_LENGTH;</span>
+<span class="pc bpc" id="L91" title="1 of 4 branches missed.">			if (minValue &lt; 1 &amp;&amp; maxValue &gt; 0) {</span>
+<span class="fc" id="L92">				minValue = 1;</span>
 			}
 
-<span class="fc" id="L167">			long length = PodamUtils.getLongInRange(minValue, maxValue);</span>
-
-<span class="fc" id="L169">			StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L170" title="All 2 branches covered.">			while (sb.length() &lt; length) {</span>
-<span class="fc" id="L171">				sb.append(PodamUtils.getNiceCharacter());</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">			if (maxValue == Integer.MAX_VALUE) {</span>
+<span class="fc" id="L96">				maxValue = PodamConstants.STR_DEFAULT_LENGTH;</span>
 			}
-<span class="fc" id="L173">			return sb.toString();</span>
+
+<span class="fc" id="L99">			int length = PodamUtils.getIntegerInRange(minValue, maxValue);</span>
+<span class="fc" id="L100">			return PodamUtils.getNiceString(length);</span>
 
 		}
 
-<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (null != (minAnno = findTypeFromList(annotations, Pattern.class))) {</span>
+<span class="fc" id="L104">		Pattern pattern = findTypeFromList(annotations, Pattern.class);</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (null != pattern) {</span>
 
-<span class="fc" id="L179">			Pattern pattern = (Pattern) minAnno;</span>
-<span class="fc" id="L180">			LOG.warn(&quot;At the moment PODAM doesn't support @Pattern({}),&quot;</span>
-<span class="fc" id="L181">					+ &quot; returning null&quot;, pattern.regexp());</span>
-<span class="fc" id="L182">			return null;</span>
+<span class="fc" id="L107">			LOG.warn(&quot;At the moment PODAM doesn't support @Pattern({}),&quot;</span>
+<span class="fc" id="L108">					+ &quot; returning null&quot;, pattern.regexp());</span>
+<span class="fc" id="L109">			return null;</span>
 
 		}
 
-<span class="fc" id="L186">		return null;</span>
+<span class="fc" id="L113">		boolean isRound = false;</span>
+<span class="fc" id="L114">		boolean isFloat = false;</span>
+		BigDecimal min;
+		BigDecimal max;
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (Long.class.equals(attributeType)</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">				|| long.class.equals(attributeType)) {</span>
+
+<span class="fc" id="L120">			min = new BigDecimal(Long.MIN_VALUE);</span>
+<span class="fc" id="L121">			max = new BigDecimal(Long.MAX_VALUE);</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		} else if (Integer.class.equals(attributeType)</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">				|| int.class.equals(attributeType)) {</span>
+
+<span class="fc" id="L126">			min = new BigDecimal(Integer.MIN_VALUE);</span>
+<span class="fc" id="L127">			max = new BigDecimal(Integer.MAX_VALUE);</span>
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		} else if (Short.class.equals(attributeType)</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">				|| short.class.equals(attributeType)) {</span>
+
+<span class="fc" id="L132">			min = new BigDecimal(Short.MIN_VALUE);</span>
+<span class="fc" id="L133">			max = new BigDecimal(Short.MAX_VALUE);</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		} else if (Byte.class.equals(attributeType)</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">				|| byte.class.equals(attributeType)) {</span>
+
+<span class="fc" id="L138">			min = new BigDecimal(Byte.MIN_VALUE);</span>
+<span class="fc" id="L139">			max = new BigDecimal(Byte.MAX_VALUE);</span>
+		} else {
+
+<span class="fc" id="L142">			min = new BigDecimal(-Double.MAX_VALUE);</span>
+<span class="fc" id="L143">			max = new BigDecimal(Double.MAX_VALUE);</span>
+		}
+
+<span class="fc" id="L146">		DecimalMin decimalMin = findTypeFromList(annotations, DecimalMin.class);</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">		if (null != decimalMin) {</span>
+<span class="fc" id="L148">			isFloat = true;</span>
+<span class="fc" id="L149">			min = new BigDecimal(decimalMin.value());</span>
+		}
+
+<span class="fc" id="L152">		DecimalMax decimalMax = findTypeFromList(annotations, DecimalMax.class);</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (null != decimalMax) {</span>
+<span class="fc" id="L154">			isFloat = true;</span>
+<span class="fc" id="L155">			max = new BigDecimal(decimalMax.value());</span>
+		}
+
+<span class="fc" id="L158">		Min minAnno = findTypeFromList(annotations, Min.class);</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		if (null != minAnno) {</span>
+<span class="fc" id="L160">			isRound = true;</span>
+<span class="fc" id="L161">			min = new BigDecimal(minAnno.value()).max(min);</span>
+		}
+
+<span class="fc" id="L164">		Max maxAnno = findTypeFromList(annotations, Max.class);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		if (null != maxAnno) {</span>
+<span class="fc" id="L166">			isRound = true;</span>
+<span class="fc" id="L167">			max = new BigDecimal(maxAnno.value()).min(max);</span>
+		}
+
+<span class="fc" id="L170">		Positive positiveAnno = findTypeFromList(annotations, Positive.class);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (null != positiveAnno) {</span>
+<span class="fc" id="L172">			isFloat = true;</span>
+<span class="fc" id="L173">			max = new BigDecimal(Integer.MAX_VALUE);</span>
+<span class="fc" id="L174">			min = new BigDecimal(1);</span>
+		}
+
+<span class="fc" id="L177">		PositiveOrZero positiveOrZeroAnno = findTypeFromList(annotations, PositiveOrZero.class);</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">		if (null != positiveOrZeroAnno) {</span>
+<span class="fc" id="L179">			isFloat = true;</span>
+<span class="fc" id="L180">			max = new BigDecimal(Integer.MAX_VALUE);</span>
+<span class="fc" id="L181">			min = new BigDecimal(0);</span>
+		}
+
+<span class="fc" id="L184">		Negative negativeAnno = findTypeFromList(annotations, Negative.class);</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">		if (null != negativeAnno) {</span>
+<span class="fc" id="L186">			isFloat = true;</span>
+<span class="fc" id="L187">			max = new BigDecimal(-1);</span>
+<span class="fc" id="L188">			min = new BigDecimal(Integer.MIN_VALUE);</span>
+		}
+
+<span class="fc" id="L191">		NegativeOrZero negativeOrZeroAnno = findTypeFromList(annotations, NegativeOrZero.class);</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		if (null != negativeOrZeroAnno) {</span>
+<span class="fc" id="L193">			isFloat = true;</span>
+<span class="fc" id="L194">			max = new BigDecimal(0);</span>
+<span class="fc" id="L195">			min = new BigDecimal(Integer.MIN_VALUE);</span>
+		}
+
+<span class="fc" id="L198">		Digits digits = findTypeFromList(annotations, Digits.class);</span>
+<span class="fc" id="L199">		BigDecimal divisor = null;</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if (null != digits) {</span>
+<span class="fc" id="L201">			isRound = true;</span>
+<span class="fc" id="L202">			divisor = BigDecimal.TEN.pow(digits.fraction());</span>
+<span class="fc" id="L203">			BigDecimal limit = BigDecimal.TEN.pow(digits.integer());</span>
+<span class="fc" id="L204">			max = limit.min(max).multiply(divisor);</span>
+<span class="fc" id="L205">			min = limit.negate().max(min).multiply(divisor);</span>
+		}
+
+<span class="fc bfc" id="L208" title="All 4 branches covered.">		if (isRound || isFloat) {</span>
+<span class="fc" id="L209">			BigDecimal value = getValueInRange(min, max);</span>
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">			if (isRound) {</span>
+
+				/* Integer part */
+<span class="fc" id="L214">				BigInteger intValue = value.toBigInteger();</span>
+<span class="fc" id="L215">				value = new BigDecimal(intValue);</span>
+			}
+
+<span class="fc bfc" id="L218" title="All 2 branches covered.">			if (null != divisor) {</span>
+<span class="fc" id="L219">				value = value.divide(divisor);</span>
+			}
+
+<span class="fc" id="L222">			return decimalToReturnType(value);</span>
+		}
+
+<span class="fc" id="L225">		return null;</span>
 	}
 
 	// -------------------&gt;&gt; Private methods
@@ -200,15 +239,16 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	 * @return
 	 *        First element from the list of desired type
 	 */
-	@SuppressWarnings(&quot;unchecked&quot;)
-	private static &lt;T&gt; T findTypeFromList(List&lt;?&gt; list, Class&lt;T&gt; type) {
+	public static &lt;T&gt; T findTypeFromList(List&lt;?&gt; list, Class&lt;T&gt; type) {
 
-<span class="fc bfc" id="L206" title="All 2 branches covered.">		for (Object item : list) {</span>
-<span class="fc bfc" id="L207" title="All 2 branches covered.">			if (type.isAssignableFrom(item.getClass())) {</span>
-<span class="fc" id="L208">				return (T)item;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">		for (Object item : list) {</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">			if (type.isAssignableFrom(item.getClass())) {</span>
+				@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L247">				T found = (T)item;</span>
+<span class="fc" id="L248">				return found;</span>
 			}
-<span class="fc" id="L210">		}</span>
-<span class="fc" id="L211">		return null;</span>
+<span class="fc" id="L250">		}</span>
+<span class="fc" id="L251">		return null;</span>
 	}
 
 	/**
@@ -223,8 +263,8 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	 */
 	private BigDecimal getValueInRange(BigDecimal min, BigDecimal max) {
 
-<span class="fc" id="L226">		BigDecimal scale = new BigDecimal(RANDOM.nextDouble());</span>
-<span class="fc" id="L227">		return min.add(max.subtract(min).multiply(scale));</span>
+<span class="fc" id="L266">		BigDecimal scale = new BigDecimal(PodamUtils.getDoubleInRange(0.0, 1.0));</span>
+<span class="fc" id="L267">		return min.add(max.subtract(min).multiply(scale));</span>
 	}
 
 	/**
@@ -238,52 +278,52 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	 */
 	private Object decimalToReturnType(BigDecimal result) {
 
-<span class="fc bfc" id="L241" title="All 2 branches covered.">		if (String.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (String.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L243">			return result.toPlainString();</span>
+<span class="fc" id="L283">			return result.toPlainString();</span>
 
-<span class="fc bfc" id="L245" title="All 2 branches covered.">		} else if (Double.class.equals(attributeType)</span>
-<span class="fc bfc" id="L246" title="All 2 branches covered.">				|| double.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">		} else if (Double.class.equals(attributeType)</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">				|| double.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L248">			return result.doubleValue();</span>
+<span class="fc" id="L288">			return result.doubleValue();</span>
 
-<span class="fc bfc" id="L250" title="All 2 branches covered.">		} else if (Float.class.equals(attributeType)</span>
-<span class="fc bfc" id="L251" title="All 2 branches covered.">				|| float.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L290" title="All 2 branches covered.">		} else if (Float.class.equals(attributeType)</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">				|| float.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L253">			return result.floatValue();</span>
+<span class="fc" id="L293">			return result.floatValue();</span>
 
-<span class="fc bfc" id="L255" title="All 2 branches covered.">		} else if (Long.class.equals(attributeType)</span>
-<span class="fc bfc" id="L256" title="All 2 branches covered.">				|| long.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">		} else if (Long.class.equals(attributeType)</span>
+<span class="fc bfc" id="L296" title="All 2 branches covered.">				|| long.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L258">			return result.longValue();</span>
+<span class="fc" id="L298">			return result.longValue();</span>
 
-<span class="fc bfc" id="L260" title="All 2 branches covered.">		} else if (Integer.class.equals(attributeType)</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">				|| int.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L300" title="All 2 branches covered.">		} else if (Integer.class.equals(attributeType)</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">				|| int.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L263">			return result.intValue();</span>
+<span class="fc" id="L303">			return result.intValue();</span>
 
-<span class="fc bfc" id="L265" title="All 2 branches covered.">		} else if (Short.class.equals(attributeType)</span>
-<span class="fc bfc" id="L266" title="All 2 branches covered.">				|| short.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">		} else if (Short.class.equals(attributeType)</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">				|| short.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L268">			return result.shortValue();</span>
+<span class="fc" id="L308">			return result.shortValue();</span>
 
-<span class="fc bfc" id="L270" title="All 2 branches covered.">		} else if (Byte.class.equals(attributeType)</span>
-<span class="fc bfc" id="L271" title="All 2 branches covered.">				|| byte.class.equals(attributeType)) {</span>
+<span class="fc bfc" id="L310" title="All 2 branches covered.">		} else if (Byte.class.equals(attributeType)</span>
+<span class="fc bfc" id="L311" title="All 2 branches covered.">				|| byte.class.equals(attributeType)) {</span>
 
-<span class="fc" id="L273">			return result.byteValue();</span>
+<span class="fc" id="L313">			return result.byteValue();</span>
 
-<span class="fc bfc" id="L275" title="All 2 branches covered.">		} else if (attributeType.isAssignableFrom(BigDecimal.class)) {</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">		} else if (attributeType.isAssignableFrom(BigDecimal.class)) {</span>
 
-<span class="fc" id="L277">			return result;</span>
+<span class="fc" id="L317">			return result;</span>
 
-<span class="pc bpc" id="L279" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(BigInteger.class)) {</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(BigInteger.class)) {</span>
 
-<span class="fc" id="L281">			return result.toBigInteger();</span>
+<span class="fc" id="L321">			return result.toBigInteger();</span>
 
 		} else {
 
-<span class="nc" id="L285">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
-<span class="nc" id="L286">			return null;</span>
+<span class="nc" id="L325">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
+<span class="nc" id="L326">			return null;</span>
 
 		}
 	}
@@ -299,20 +339,20 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	 */
 	private Object timestampToReturnType(Long result) {
 
-<span class="fc bfc" id="L302" title="All 2 branches covered.">		if (attributeType.isAssignableFrom(Date.class)) {</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">		if (attributeType.isAssignableFrom(Date.class)) {</span>
 
-<span class="fc" id="L304">			return new Date(result);</span>
+<span class="fc" id="L344">			return new Date(result);</span>
 
-<span class="pc bpc" id="L306" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(Calendar.class)) {</span>
+<span class="pc bpc" id="L346" title="1 of 2 branches missed.">		} else if (attributeType.isAssignableFrom(Calendar.class)) {</span>
 
-<span class="fc" id="L308">			Calendar calendar = Calendar.getInstance();</span>
-<span class="fc" id="L309">			calendar.setTimeInMillis(result);</span>
-<span class="fc" id="L310">			return calendar;</span>
+<span class="fc" id="L348">			Calendar calendar = Calendar.getInstance();</span>
+<span class="fc" id="L349">			calendar.setTimeInMillis(result);</span>
+<span class="fc" id="L350">			return calendar;</span>
 
 		} else {
 
-<span class="nc" id="L314">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
-<span class="nc" id="L315">			return null;</span>
+<span class="nc" id="L354">			LOG.warn(&quot;Unsupported attribute type {}&quot;, attributeType);</span>
+<span class="nc" id="L355">			return null;</span>
 
 		}
 	}
@@ -322,4 +362,4 @@ public class BeanValidationStrategy implements AttributeStrategy&lt;Object&gt; {
 	// -------------------&gt;&gt; Inner classes
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

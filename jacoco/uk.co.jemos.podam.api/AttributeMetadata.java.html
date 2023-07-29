@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AttributeMetadata.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AttributeMetadata.java</span></div><h1>AttributeMetadata.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttributeMetadata.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">AttributeMetadata.java</span></div><h1>AttributeMetadata.java</h1><pre class="source lang-java linenums">/**
  * 
  */
 package uk.co.jemos.podam.api;
@@ -38,6 +38,9 @@ public class AttributeMetadata implements Serializable {
 	/** The attribute type */
 	private final Class&lt;?&gt; attributeType;
 
+	/** The attribute generic type */
+	private final Type attributeGenericType;
+
 	/** The attribute type generic arguments */
 	private final Type[] attrGenericArgs;
 
@@ -46,6 +49,9 @@ public class AttributeMetadata implements Serializable {
 
 	/** Type of class that owns the attribute */
 	private final Class&lt;?&gt; pojoClass;
+
+	/** POJO that owns the attribute */
+	private final Object pojoInstance;
 
 	// -------------------&gt;&gt; Constructors
 
@@ -56,61 +62,82 @@ public class AttributeMetadata implements Serializable {
 	 *            The attribute name
 	 * @param attributeType
 	 *            The attribute type
+	 * @param attributeGenericType
+	 *            The attribute generic type
 	 * @param attrGenericArgs
 	 *            The attribute type generic arguments
 	 * @param attributeAnnotations
 	 *            The attribute annotations
 	 * @param declaringClass
 	 *            The type of class that owns the attribute
+	 * @param declaringInstance
+	 *            If available, instance of the declaring class or null otherwise
 	 */
 	public AttributeMetadata(String attributeName, Class&lt;?&gt; attributeType,
-			Type[] attrGenericArgs, List&lt;Annotation&gt; attributeAnnotations,
-<span class="fc" id="L68">			Class&lt;?&gt; declaringClass) {</span>
-<span class="fc" id="L69">		this.attributeName = attributeName;</span>
-<span class="fc" id="L70">		this.attributeType = attributeType;</span>
-<span class="fc" id="L71">		this.attrGenericArgs = attrGenericArgs;</span>
-<span class="fc" id="L72">		this.attributeAnnotations = attributeAnnotations;</span>
-<span class="fc" id="L73">		this.pojoClass = declaringClass;</span>
-<span class="fc" id="L74">	}</span>
+			Type attributeGenericType, Type[] attrGenericArgs,
+			List&lt;Annotation&gt; attributeAnnotations, Class&lt;?&gt; declaringClass,
+<span class="fc" id="L79">			Object declaringInstance) {</span>
+<span class="fc" id="L80">		this.attributeName = attributeName;</span>
+<span class="fc" id="L81">		this.attributeType = attributeType;</span>
+<span class="fc" id="L82">		this.attributeGenericType = attributeGenericType;</span>
+<span class="fc" id="L83">		this.attrGenericArgs = attrGenericArgs;</span>
+<span class="fc" id="L84">		this.attributeAnnotations = attributeAnnotations;</span>
+<span class="fc" id="L85">		this.pojoClass = declaringClass;</span>
+<span class="fc" id="L86">		this.pojoInstance = declaringInstance;</span>
+<span class="fc" id="L87">	}</span>
 
 	/**
 	 * Constructor for method parameters metadata
 	 * 
 	 * @param attributeType
 	 *            The attribute type
+	 * @param attributeGenericType
+	 *            The attribute generic type
 	 * @param attrGenericArgs
 	 *            The attribute type generic arguments
 	 * @param declaringClass
 	 *            The type of class that owns the attribute
+	 * @param declaringInstance
+	 *            If available, instance of the declaring class or null otherwise
 	 */
-	public AttributeMetadata(Class&lt;?&gt; attributeType, Type[] attrGenericArgs,
-			Class&lt;?&gt; declaringClass) {
-<span class="fc" id="L88">		this(null, attributeType, attrGenericArgs,</span>
-<span class="fc" id="L89">				Collections.&lt;Annotation&gt;emptyList(), declaringClass);</span>
-<span class="fc" id="L90">	}</span>
+	public AttributeMetadata(Class&lt;?&gt; attributeType, Type attributeGenericType,
+			Type[] attrGenericArgs, Class&lt;?&gt; declaringClass,
+			Object declaringInstance) {
+<span class="fc" id="L106">		this(null, attributeType, attributeGenericType, attrGenericArgs,</span>
+<span class="fc" id="L107">				Collections.&lt;Annotation&gt;emptyList(), declaringClass,</span>
+				declaringInstance);
+<span class="fc" id="L109">	}</span>
 
 	// -------------------&gt;&gt; Public methods
 
 	// -------------------&gt;&gt; Getters / Setters
 
 	public String getAttributeName() {
-<span class="fc" id="L97">		return attributeName;</span>
+<span class="fc" id="L116">		return attributeName;</span>
 	}
 
 	public Class&lt;?&gt; getAttributeType() {
-<span class="fc" id="L101">		return attributeType;</span>
+<span class="fc" id="L120">		return attributeType;</span>
+	}
+
+	public Type getAttributeGenericType() {
+<span class="fc" id="L124">		return attributeGenericType;</span>
 	}
 
 	public Type[] getAttrGenericArgs() {
-<span class="fc" id="L105">		return attrGenericArgs;</span>
+<span class="fc" id="L128">		return attrGenericArgs;</span>
 	}
 
 	public List&lt;Annotation&gt; getAttributeAnnotations() {
-<span class="fc" id="L109">		return attributeAnnotations;</span>
+<span class="fc" id="L132">		return attributeAnnotations;</span>
 	}
 
 	public Class&lt;?&gt; getPojoClass() {
-<span class="fc" id="L113">		return pojoClass;</span>
+<span class="fc" id="L136">		return pojoClass;</span>
+	}
+
+	public Object getPojoInstance() {
+<span class="nc" id="L140">		return pojoInstance;</span>
 	}
 
 	// -------------------&gt;&gt; Private methods
@@ -122,20 +149,19 @@ public class AttributeMetadata implements Serializable {
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L125">		StringBuilder builder = new StringBuilder();</span>
-<span class="fc" id="L126">		builder.append(&quot;AttributeMetadata [attributeName=&quot;);</span>
-<span class="fc" id="L127">		builder.append(attributeName);</span>
-<span class="fc" id="L128">		builder.append(&quot;, attributeType=&quot;);</span>
-<span class="fc" id="L129">		builder.append(attributeType);</span>
-<span class="fc" id="L130">		builder.append(&quot;, pojoClass=&quot;);</span>
-<span class="fc" id="L131">		builder.append(pojoClass);</span>
-<span class="fc" id="L132">		builder.append(&quot;, attributeAnnotations=&quot;);</span>
-<span class="fc" id="L133">		builder.append(attributeAnnotations);</span>
-<span class="fc" id="L134">		builder.append(&quot;]&quot;);</span>
-<span class="fc" id="L135">		return builder.toString();</span>
+<span class="fc" id="L152">		StringBuilder builder = new StringBuilder();</span>
+<span class="fc" id="L153">		builder.append(&quot;AttributeMetadata [&quot;);</span>
+<span class="fc" id="L154">		builder.append(&quot;attributeName=&quot;).append(attributeName);</span>
+<span class="fc" id="L155">		builder.append(&quot;, attributeType=&quot;).append(attributeType);</span>
+<span class="fc" id="L156">		builder.append(&quot;, attributeGenericType=&quot;).append(attributeGenericType);</span>
+<span class="fc" id="L157">		builder.append(&quot;, pojoClass=&quot;).append(pojoClass);</span>
+<span class="nc" id="L158">		builder.append(&quot;, pojoInstance=&quot;).append(pojoInstance.hashCode());</span>
+<span class="nc" id="L159">		builder.append(&quot;, attributeAnnotations=&quot;).append(attributeAnnotations);</span>
+<span class="nc" id="L160">		builder.append(&quot;]&quot;);</span>
+<span class="nc" id="L161">		return builder.toString();</span>
 	}
 
 	// -------------------&gt;&gt; Inner classes
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

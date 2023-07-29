@@ -1,9 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ManufacturingContext.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">ManufacturingContext.java</span></div><h1>ManufacturingContext.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.common;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManufacturingContext.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.common</a> &gt; <span class="el_source">ManufacturingContext.java</span></div><h1>ManufacturingContext.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.common;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import uk.co.jemos.podam.api.DataProviderStrategy.Order;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturerUtil;
 
 /**
  * Object to hold manufacturing related data
@@ -11,21 +22,30 @@ import uk.co.jemos.podam.api.DataProviderStrategy.Order;
  * @author daivanov
  * 
  */
-<span class="fc" id="L14">public class ManufacturingContext {</span>
+<span class="fc" id="L25">public class ManufacturingContext {</span>
 
 	/** Constructors sorting order */
-<span class="fc" id="L17">	private Order constructorOrdering = Order.LIGHT_FIRST;</span>
+<span class="fc" id="L28">	private Order constructorOrdering = Order.LIGHT_FIRST;</span>
 
 	/** Map with production counts of objects per type, required
 	 * for loop detection */
-<span class="fc" id="L21">	private Map&lt;Class&lt;?&gt;, Integer&gt; pojos = new HashMap&lt;Class&lt;?&gt;, Integer&gt;();</span>
+<span class="fc" id="L32">	private Map&lt;Class&lt;?&gt;, Integer&gt; pojos = new HashMap&lt;Class&lt;?&gt;, Integer&gt;();</span>
+
+	/** Map relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *  example) with their actual types */
+<span class="fc" id="L36">	private Map&lt;String, Type&gt; typeArgsMap = new HashMap&lt;String, Type&gt;();</span>
+
+	/** Backup stack of maps relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *  example) with their actual types */
+	/** Constructors sorting order */
+<span class="fc" id="L41">	private Deque&lt;Map&lt;String, Type&gt;&gt; backupTypeArgsMaps = new ArrayDeque&lt;Map&lt;String, Type&gt;&gt;();</span>
 
 	/**
 	 * Getter for constructor ordering
 	 * @return constructor ordering
 	 */
 	public Order getConstructorOrdering() {
-<span class="fc" id="L28">		return constructorOrdering;</span>
+<span class="fc" id="L48">		return constructorOrdering;</span>
 	}
 
 	/**
@@ -34,16 +54,199 @@ import uk.co.jemos.podam.api.DataProviderStrategy.Order;
 	 *        constructor ordering
 	 */
 	public void setConstructorOrdering(Order constructorOrdering) {
-<span class="fc" id="L37">		this.constructorOrdering = constructorOrdering;</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L57">		this.constructorOrdering = constructorOrdering;</span>
+<span class="fc" id="L58">	}</span>
 
 	/**
 	 * Getter for map with production counts of objects per type
 	 * @return map with production counts of objects per type
 	 */
 	public Map&lt;Class&lt;?&gt;, Integer&gt; getPojos() {
-<span class="fc" id="L45">		return pojos;</span>
+<span class="fc" id="L65">		return pojos;</span>
 	}
 
+	/**
+	 * Checks if current generit type mappings are empty
+	 * @return true, if type args map is empty
+	 */
+	public boolean isTypeArgsEmpty() {
+<span class="fc" id="L73">		return typeArgsMap.isEmpty();</span>
+	}
+
+	/**
+	 * Getter for map generic type mappings
+	 * @param typeName
+	 *         type generic placeholder
+	 * @return resolved actual type actual types
+	 */
+	public Type resolveType(String typeName) {
+<span class="fc" id="L83">		return typeArgsMap.get(typeName);</span>
+	}
+
+	/**
+	 * Creates an empty typeArgsMap
+	 * @return newly created map
+	 */
+	public Map&lt;String, Type&gt; createEmptyTypeArgsMap() {
+<span class="fc" id="L91">        return new HashMap&lt;String, Type&gt;();</span>
+	}
+
+	/**
+	 * Clones and backups typeArgsMap and fills it with types for a new POJO
+	 * @param pojoType
+     *         class of a new POJO
+	 * @param parameterizedPojoType
+     *         parameterized type of a new POJO
+	 * @param genericTypeArgs
+	 *         The generic type arguments for the current generic class
+	 *         instance
+	 * @return
+	 *         The updated generic type arguments for the current generic class
+	 *         instance
+	 */
+	public Type[] cloneTypeArgsMap(Class&lt;?&gt; pojoType,
+			ParameterizedType parameterizedPojoType,
+			Type[] genericTypeArgs) {
+<span class="fc" id="L110">		backupTypeArgsMaps.push(typeArgsMap);</span>
+<span class="fc" id="L111">		typeArgsMap = new HashMap&lt;String, Type&gt;(typeArgsMap);</span>
+
+<span class="fc" id="L113">		Type[] actualTypes = parameterizedPojoType.getActualTypeArguments();</span>
+<span class="fc" id="L114">		fillTypeArgsMap(this, pojoType, actualTypes);</span>
+<span class="fc" id="L115">		return fillTypeArgsMap(this, pojoType, genericTypeArgs);</span>
+	}
+
+	/**
+	 * Clones and backups typeArgsMap
+	 */
+	public void cloneTypeArgsMap() {
+<span class="fc" id="L122">        backupTypeArgsMaps.push(this.typeArgsMap);</span>
+<span class="fc" id="L123">        this.typeArgsMap = new HashMap&lt;String, Type&gt;(typeArgsMap);</span>
+<span class="fc" id="L124">	}</span>
+
+	/**
+	 * Backups typeArgsMap and replace it with a new one
+	 * @param typeArgsMap
+	 *         relating the generic class arguments (&quot;&amp;lt;T, V&amp;gt;&quot; for
+	 *         example) with their actual types
+	 */
+	public void backupTypeArgsMap(Map&lt;String, Type&gt; typeArgsMap) {
+<span class="fc" id="L133">        backupTypeArgsMaps.push(this.typeArgsMap);</span>
+<span class="fc" id="L134">        this.typeArgsMap = typeArgsMap;</span>
+<span class="fc" id="L135">	}</span>
+
+	/**
+	 * Restores typeArgsMap from backup
+	 * @return previous map
+	 */
+	public Map&lt;String, Type&gt; restoreTypeArgsMap() {
+<span class="fc" id="L142">        final Map&lt;String, Type&gt; oldTypeArgsMap = this.typeArgsMap;</span>
+<span class="fc" id="L143">        this.typeArgsMap = backupTypeArgsMaps.pop();</span>
+<span class="fc" id="L144">        return oldTypeArgsMap;</span>
+	}
+
+    /**
+     * Fills type agruments map
+     * &lt;p&gt;
+     * This method places required and provided types for object creation into a
+     * map, which will be used for type mapping.
+     * &lt;/p&gt;
+     *
+     * @param manufacturingCtx
+     *            manufacturing context with a map to fill
+     * @param pojoClass
+     *            Typed class
+     * @param genericTypeArgs
+     *            Type arguments provided for a generics object by caller
+     * @return Array of unused provided generic type arguments
+     * @throws IllegalStateException
+     *             If number of typed parameters doesn't match number of
+     *             provided generic types
+     */
+    public static Type[] fillTypeArgsMap(final ManufacturingContext manufacturingCtx,
+                                  final Class&lt;?&gt; pojoClass, final Type[] genericTypeArgs) {
+
+<span class="fc" id="L168">        TypeVariable&lt;?&gt;[] typeArray = pojoClass.getTypeParameters();</span>
+<span class="fc" id="L169">        List&lt;TypeVariable&lt;?&gt;&gt; typeParameters = new ArrayList&lt;TypeVariable&lt;?&gt;&gt;(Arrays.asList(typeArray));</span>
+<span class="fc" id="L170">        List&lt;Type&gt; genericTypes = new ArrayList&lt;Type&gt;(Arrays.asList(genericTypeArgs));</span>
+
+<span class="fc" id="L172">        Iterator&lt;TypeVariable&lt;?&gt;&gt; iterator = typeParameters.iterator();</span>
+<span class="fc" id="L173">        Iterator&lt;Type&gt; iterator2 = genericTypes.iterator();</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">        while (iterator.hasNext()) {</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">            Type genericType = (iterator2.hasNext() ? iterator2.next() : null);</span>
+            /* Removing types, which are already in typeArgsMap */
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            if (manufacturingCtx.typeArgsMap.containsKey(iterator.next().getName())) {</span>
+<span class="fc" id="L178">                iterator.remove();</span>
+                /* Removing types, which are type variables */
+<span class="fc bfc" id="L180" title="All 2 branches covered.">                if (genericType instanceof TypeVariable) {</span>
+<span class="fc" id="L181">                    iterator2.remove();</span>
+                }
+            }
+<span class="fc" id="L184">        }</span>
+
+<span class="pc bpc" id="L186" title="1 of 2 branches missed.">        if (typeParameters.size() &gt; genericTypes.size()) {</span>
+<span class="nc" id="L187">            String msg = pojoClass.getCanonicalName()</span>
+                    + &quot; is missing generic type arguments, expected &quot;
+<span class="nc" id="L189">                    + Arrays.toString(typeArray) + &quot;, provided &quot;</span>
+<span class="nc" id="L190">                    + Arrays.toString(genericTypeArgs);</span>
+<span class="nc" id="L191">            throw new IllegalArgumentException(msg);</span>
+        }
+
+<span class="fc" id="L194">        final Method[] suitableConstructors</span>
+<span class="fc" id="L195">                = TypeManufacturerUtil.findSuitableConstructors(pojoClass, pojoClass);</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        for (Method constructor : suitableConstructors) {</span>
+<span class="fc" id="L197">            TypeVariable&lt;Method&gt;[] ctorTypeParams = constructor.getTypeParameters();</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (ctorTypeParams.length == genericTypes.size()) {</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">                for (int i = 0; i &lt; ctorTypeParams.length; i++) {</span>
+<span class="fc" id="L200">                    Type foundType = genericTypes.get(i);</span>
+<span class="fc" id="L201">                    manufacturingCtx.putTypeArg(ctorTypeParams[i].getName(), foundType);</span>
+                }
+            }
+        }
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">        for (int i = 0; i &lt; typeParameters.size(); i++) {</span>
+<span class="fc" id="L207">            Type foundType = genericTypes.remove(0);</span>
+<span class="fc" id="L208">            manufacturingCtx.putTypeArg(typeParameters.get(i).getName(), foundType);</span>
+        }
+
+        Type[] genericTypeArgsExtra;
+<span class="fc bfc" id="L212" title="All 2 branches covered.">        if (genericTypes.size() &gt; 0) {</span>
+<span class="fc" id="L213">            genericTypeArgsExtra = genericTypes.toArray(new Type[genericTypes.size()]);</span>
+        } else {
+<span class="fc" id="L215">            genericTypeArgsExtra = PodamConstants.NO_TYPES;</span>
+        }
+
+		/* Adding types, which were specified during inheritance */
+<span class="fc" id="L219">        Class&lt;?&gt; clazz = pojoClass;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        while (clazz != null) {</span>
+<span class="fc" id="L221">            Type superType = clazz.getGenericSuperclass();</span>
+<span class="fc" id="L222">            clazz = clazz.getSuperclass();</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">            if (superType instanceof ParameterizedType) {</span>
+<span class="fc" id="L224">                ParameterizedType paramType = (ParameterizedType) superType;</span>
+<span class="fc" id="L225">                Type[] actualParamTypes = paramType.getActualTypeArguments();</span>
+<span class="fc" id="L226">                TypeVariable&lt;?&gt;[] paramTypes = clazz.getTypeParameters();</span>
+<span class="fc" id="L227">                for (int i = 0; i &lt; actualParamTypes.length</span>
+<span class="pc bpc" id="L228" title="1 of 4 branches missed.">                        &amp;&amp; i &lt; paramTypes.length; i++) {</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">                    if (actualParamTypes[i] instanceof Class) {</span>
+<span class="fc" id="L230">                        manufacturingCtx.putTypeArg(paramTypes[i].getName(),</span>
+                                actualParamTypes[i]);
+                    }
+                }
+            }
+<span class="fc" id="L235">        }</span>
+
+<span class="fc" id="L237">        return genericTypeArgsExtra;</span>
+    }
+
+	/**
+	 * Setter for adding generic type mappings
+	 * @param typeName
+	 *            string generic type placeholder
+	 * @param type
+	 *            actual type
+	 */
+	private void putTypeArg(String typeName, Type type) {
+<span class="fc" id="L248">		typeArgsMap.put(typeName, type);</span>
+<span class="fc" id="L249">	}</span>
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,13 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DataProviderStrategy.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">DataProviderStrategy.java</span></div><h1>DataProviderStrategy.java</h1><pre class="source lang-java linenums">/**
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataProviderStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.api</a> &gt; <span class="el_source">DataProviderStrategy.java</span></div><h1>DataProviderStrategy.java</h1><pre class="source lang-java linenums">/**
  * 
  */
 package uk.co.jemos.podam.api;
 
 import uk.co.jemos.podam.common.AttributeStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
+import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 
 /**
  * This interface defines the contact for PODAM data providers.
@@ -28,7 +31,47 @@ import java.lang.reflect.Method;
  */
 public interface DataProviderStrategy {
 
-	/**
+    /**
+     * Registers @TypeManufacturer implementation, which will be used to
+     * instantiate objects of a specified type. Use this to alter factory
+     * behaviour.
+     *
+     * @param &lt;T&gt; type of objects to be produced by the manufacturer
+     * @param type
+     *            the specific class type the specified manufacturer
+     *            will instantiate.
+     * @param typeManufacturer
+     *            type manufacturer implementation to be registered
+     * @return itself
+     */
+    &lt;T&gt; DataProviderStrategy addOrReplaceTypeManufacturer(
+            Class&lt;? extends T&gt; type, TypeManufacturer&lt;T&gt; typeManufacturer);
+
+    /**
+     * Remove binding of a class type to a specific
+     * implementation of type manufacturer
+     *
+     * @param &lt;T&gt; type of objects to be produced by the manufacturer
+     * @param type
+     *            the specific class type to remove binding
+     * @return itself
+     */
+    &lt;T&gt; DataProviderStrategy removeTypeManufacturer(
+           Class&lt;T&gt; type);
+
+    /**
+     * Obtains a type value
+     *
+     * @param &lt;T&gt; type of returned object
+     * @param attributeMetadata The AttributeMetadata information
+     * @param manufacturingCtx The pojo manufacturing context with generic attribute type argument types
+     * @param pojoType The class of the requested type
+     * @return The type value
+     */
+    &lt;T&gt; T getTypeValue(AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx, Class&lt;T&gt; pojoType);
+
+    /**
      * Bind an interface/abstract class to a specific implementation. If the
      * strategy previously contained a binding for the interface/abstract class,
      * the old value will be replaced by the new value.
@@ -60,197 +103,16 @@ public interface DataProviderStrategy {
 	/**
 	 * Specifies how to sort constructors
 	 */
-<span class="pc" id="L63">	public enum Order {</span>
+<span class="fc" id="L106">	public enum Order {</span>
 		/**
 		 * Constructors with more parameters have precedence
 		 */
-<span class="fc" id="L67">		HEAVY_FIRST,</span>
+<span class="fc" id="L110">		HEAVY_FIRST,</span>
 		/**
 		 * Constructors with less parameters have precedence
 		 */
-<span class="fc" id="L71">		LIGHT_FIRST</span>
+<span class="fc" id="L114">		LIGHT_FIRST</span>
 	};
-
-	/** It returns a boolean/Boolean value.
-	 * 
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return a boolean/Boolean value
-	 */
-	Boolean getBoolean(AttributeMetadata attributeMetadata);
-
-	/** It returns a byte/Byte value.
-	 * 
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return a boolean/Boolean value
-	 */
-	Byte getByte(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a byte/Byte within min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A byte/Byte within min and max value (included).
-	 */
-	Byte getByteInRange(byte minValue, byte maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a char/Character value.
-	 * 
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return a char/Character value
-	 */
-	Character getCharacter(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a char/Character value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A char/Character value between min and max value (included).
-	 */
-	Character getCharacterInRange(char minValue, char maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a double/Double value
-	 *
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return a double/Double value
-	 */
-	Double getDouble(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a double/Double value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A double/Double value between min and max value (included)
-	 */
-	Double getDoubleInRange(double minValue, double maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a float/Float value.
-	 * 
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A float/Float value
-	 */
-	Float getFloat(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a float/Float value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A float/Float value between min and max value (included).
-	 */
-	Float getFloatInRange(float minValue, float maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns an int/Integer value.
-	 *
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A int/Integer value
-	 */
-	Integer getInteger(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns an int/Integer value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return An int/Integer value between min and max value (included).
-	 */
-	int getIntegerInRange(int minValue, int maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a long/Long value.
-	 *
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A long/Long value
-	 * */
-	Long getLong(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a long/Long value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A long/Long value between min and max value (included).
-	 */
-	Long getLongInRange(long minValue, long maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a short/Short value.
-	 *
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A short/Short value.
-	 */
-	Short getShort(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a short/Short value between min and max value (included).
-	 * 
-	 * @param minValue
-	 *            The minimum value for the returned value
-	 * @param maxValue
-	 *            The maximum value for the returned value
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A short/Short value between min and max value (included).
-	 */
-	Short getShortInRange(short minValue, short maxValue,
-			AttributeMetadata attributeMetadata);
-
-	/** It returns a string value
-	 * 
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A String of default length
-	 */
-	String getStringValue(AttributeMetadata attributeMetadata);
-
-	/**
-	 * It returns a String of {@code length} characters.
-	 * 
-	 * @param length
-	 *            The number of characters required in the returned String
-	 * @param attributeMetadata
-	 *            attribute metadata for instance to be fetched
-	 * @return A String of {@code length} characters
-	 */
-	String getStringOfLength(int length, AttributeMetadata attributeMetadata);
 
 	/**
 	 * Returns the number of default collection elements.
@@ -398,7 +260,49 @@ public interface DataProviderStrategy {
 	 *        Annotation class to inspect
 	 * @return attribute strategy associated with given annotation
 	 */
-	Class&lt;AttributeStrategy&lt;?&gt;&gt; getStrategyForAnnotation(Class&lt;? extends Annotation&gt; annotationClass);
+	AttributeStrategy&lt;?&gt; getStrategyForAnnotation(Class&lt;? extends Annotation&gt; annotationClass);
 
+	/**
+	 * Finds attribute strategies for attribute.
+	 * &lt;p&gt;
+	 * Searches for mapping between class attribute and attribute strategies,
+	 * which will be used then for populating fields or constructor parameters.
+	 * &lt;/p&gt;
+	 * 
+	 * @param attribute
+	 *        attribute to be manufactured
+	 * @return attribute strategy associated with given attribute
+	 */
+	AttributeStrategy&lt;?&gt; getStrategyForAttribute(ClassAttribute attribute);
+
+	/**
+	 * Registers @AttributeStrategy implementation, which will be used to
+	 * instantiate objects of a specified type. Use this to alter factory
+	 * behaviour.
+	 *
+	 * @param type
+	 *            the specific class type the specified manufacturer
+	 *            will instantiate.
+	 * @param attributeName
+	 *            attribute name to use attributeStrategy for
+	 * @param attributeStrategy
+	 *            attribute strategy to be registered
+	 * @return itself
+	 */
+	DataProviderStrategy addOrReplaceAttributeStrategy(
+			Class&lt;?&gt; type, String attributeName,  AttributeStrategy&lt;?&gt; attributeStrategy);
+
+	/**
+	 * Removes @AttributeStrategy implementation from for the specific attribute
+	 *
+	 * @param type
+	 *            the specific class type the specified manufacturer
+	 *            will instantiate.
+	 * @param attributeName
+	 *            attribute name to use attributeStrategy for
+	 * @return itself
+	 */
+	DataProviderStrategy removeAttributeStrategy(
+			Class&lt;?&gt; type, String attributeName);
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.4.201502262128</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
