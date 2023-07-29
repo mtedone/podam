@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 /**
  * POJO to test the attribute-level data strategy, through the use of
- * {@link AttributeStrategy} implementations.
+ * {@link uk.co.jemos.podam.common.AttributeStrategy} implementations.
  * 
  * @author daivanov
  * 

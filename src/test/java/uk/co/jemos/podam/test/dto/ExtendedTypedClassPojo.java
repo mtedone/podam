@@ -11,14 +11,14 @@ public class ExtendedTypedClassPojo<T> extends SimpleTypedClassPojo<Long> {
 	private T typedValue2;
 
 	/**
-	 * @return the typedValue
+	 * @return the typedValue2
 	 */
 	public T getTypedValue2() {
 		return typedValue2;
 	}
 
 	/**
-	 * @param typedValue
+	 * @param typedValue2
 	 *            the typedList to set
 	 */
 	public void setTypedValue2(T typedValue2) {
