@@ -1,0 +1,4 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"XML datatype unit test","When given an external factory, Podam should be able to create instances of XMLGregorianCalendar","SUCCESS","2023-07-29T17:16:45.115+03:00","0.0","0.11"
+"XML datatype unit test","When given an external factory, Podam should be able to create instances of the Duration class","SUCCESS","2023-07-29T17:16:44.869+03:00","0.0","0.14"
+"XML datatype unit test","When given an external factory, Podam should be able to fill POJOs with instance attributes containing XMLGregorianCalendar and Duration","SUCCESS","2023-07-29T17:16:45.007+03:00","0.0","0.11"

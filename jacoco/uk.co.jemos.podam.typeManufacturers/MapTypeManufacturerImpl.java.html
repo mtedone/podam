@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapTypeManufacturerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">MapTypeManufacturerImpl.java</span></div><h1>MapTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
+
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Default map type manufacturer.
+ *
+ * @since 7.0.0.RELEASE
+ */
+<span class="fc" id="L18">public class MapTypeManufacturerImpl extends AbstractTypeManufacturer&lt;Map&lt;Object,Object&gt;&gt; {</span>
+
+    @Override
+    public Map&lt;Object,Object&gt; getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx) {
+
+<span class="fc" id="L25">        Class&lt;?&gt; mapType = attributeMetadata.getAttributeType();</span>
+<span class="fc" id="L26">        Map&lt;Object, Object&gt; retValue = null;</span>
+
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (mapType.isAssignableFrom(HashMap.class)) {</span>
+            // Map
+<span class="fc" id="L30">            retValue = new HashMap&lt;Object, Object&gt;();</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        } else if (mapType.isAssignableFrom(TreeMap.class)) {</span>
+            // SortedMap
+<span class="fc" id="L33">            retValue = new TreeMap&lt;Object, Object&gt;();</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        } else if (mapType.isAssignableFrom(ConcurrentHashMap.class)) {</span>
+            // ConcurrentMap
+<span class="fc" id="L36">            retValue = new ConcurrentHashMap&lt;Object, Object&gt;();</span>
+        }
+
+<span class="fc" id="L39">        return retValue;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

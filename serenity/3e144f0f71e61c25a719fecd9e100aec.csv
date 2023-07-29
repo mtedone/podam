@@ -1,0 +1,7 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Validated pojo test","Podam should allow validation annotations customization","SUCCESS","2023-07-29T17:16:43.329+03:00","0.0","0.12"
+"Validated pojo test","Podam should be able to fulfill most of the javax Validation 2.0 framework","SUCCESS","2023-07-29T17:16:43.864+03:00","0.0","0.11"
+"Validated pojo test","Podam should be able to fulfill most of the javax Validation framework","SUCCESS","2023-07-29T17:16:43.559+03:00","0.0","0.18"
+"Validated pojo test","When the @Digits and @DecimalMin and @DecimalMax applied to the same field, Podam should use minimum requirements","SUCCESS","2023-07-29T17:16:42.974+03:00","0.0","0.36"
+"Validated pojo test","When the @Size annotation doesn't have a max length specified, Podam should assign a sensible value","SUCCESS","2023-07-29T17:16:43.444+03:00","0.0","0.12"
+"Validated pojo test","When the AnnotationStrategy and the TypeManufacturer are specified, the former has precedence","SUCCESS","2023-07-29T17:16:43.734+03:00","0.0","0.13"

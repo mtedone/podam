@@ -1,0 +1,8 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Memoization test","Even when memoization is true, if generics Pojos have different types, objects should not be equal","SUCCESS","2023-07-29T17:16:40.416+03:00","0.0","0.11"
+"Memoization test","Memoization should work correctly for collections and arrays","SUCCESS","2023-07-29T17:16:40.081+03:00","0.0","0.12"
+"Memoization test","Memoization should work for recursive Pojos","SUCCESS","2023-07-29T17:16:40.201+03:00","0.0","0.11"
+"Memoization test","Memoization should work with Generics","SUCCESS","2023-07-29T17:16:40.309+03:00","0.0","0.11"
+"Memoization test","When memoization cache is cleared then objects should not be equal","SUCCESS","2023-07-29T17:16:39.964+03:00","0.0","0.12"
+"Memoization test","When memoization is set to false Podam should return different instances for different invocations","SUCCESS","2023-07-29T17:16:39.739+03:00","0.0","0.12"
+"Memoization test","When memoization is set to true Podam should return the same instance for different invocations","SUCCESS","2023-07-29T17:16:39.854+03:00","0.0","0.11"

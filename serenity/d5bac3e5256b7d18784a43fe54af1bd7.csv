@@ -1,0 +1,7 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Class info test","In Presence of excluded attributes, the Class Info object should not contain those attributes","SUCCESS","2023-07-29T17:16:29.102+03:00","0.0","0.13"
+"Class info test","Podam should be able to find attributes with pattern [a-z][0-9]","SUCCESS","2023-07-29T17:16:28.973+03:00","0.0","0.13"
+"Class info test","Podam should be able to find non-standard attributes with a custom class info strategy","SUCCESS","2023-07-29T17:16:28.686+03:00","0.0","0.15"
+"Class info test","Podam should generate a ClassInfo which contains information for the setters contained in the POJO","SUCCESS","2023-07-29T17:16:29.232+03:00","0.0","0.14"
+"Class info test","Podam should return valid class info for POJOs with no attributes","SUCCESS","2023-07-29T17:16:28.549+03:00","0.0","0.13"
+"Class info test","The ClassInfo object created for a class should handle @PodamExcludeAnnotations","SUCCESS","2023-07-29T17:16:28.839+03:00","0.0","0.13"

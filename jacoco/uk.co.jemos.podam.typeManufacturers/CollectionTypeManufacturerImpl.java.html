@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollectionTypeManufacturerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">podam</a> &gt; <a href="index.source.html" class="el_package">uk.co.jemos.podam.typeManufacturers</a> &gt; <span class="el_source">CollectionTypeManufacturerImpl.java</span></div><h1>CollectionTypeManufacturerImpl.java</h1><pre class="source lang-java linenums">package uk.co.jemos.podam.typeManufacturers;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.common.ManufacturingContext;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+
+/**
+ * Default collection type manufacturer.
+ *
+ * @since 7.0.0.RELEASE
+ */
+<span class="fc" id="L19">public class CollectionTypeManufacturerImpl extends AbstractTypeManufacturer&lt;Collection&lt;Object&gt;&gt; {</span>
+
+    @Override
+    public Collection&lt;Object&gt; getType(DataProviderStrategy strategy,
+            AttributeMetadata attributeMetadata,
+            ManufacturingContext manufacturingCtx) {
+
+<span class="fc" id="L26">        Class&lt;?&gt; collectionType = attributeMetadata.getAttributeType();</span>
+<span class="fc" id="L27">        Collection&lt;Object&gt; retValue = null;</span>
+
+        // Default list and set are ArrayList and HashSet. If users
+        // wants a particular collection flavour they have to initialise
+        // the collection
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (collectionType.isAssignableFrom(ArrayList.class)) {</span>
+            // List
+<span class="fc" id="L34">            retValue = new ArrayList&lt;Object&gt;();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        } else if (collectionType.isAssignableFrom(HashSet.class)) {</span>
+            // Set
+<span class="fc" id="L37">            retValue = new HashSet&lt;Object&gt;();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        } else if (collectionType.isAssignableFrom(LinkedList.class)) {</span>
+            // Queue
+<span class="fc" id="L40">            retValue = new LinkedList&lt;Object&gt;();</span>
+        }
+<span class="fc" id="L42">        return retValue;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

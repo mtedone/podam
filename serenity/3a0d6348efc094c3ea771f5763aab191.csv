@@ -1,0 +1,2 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"Singletons test","Podam should handle Singletons with parameters in the static method","SUCCESS","2023-07-29T17:16:40.694+03:00","0.0","0.13"
