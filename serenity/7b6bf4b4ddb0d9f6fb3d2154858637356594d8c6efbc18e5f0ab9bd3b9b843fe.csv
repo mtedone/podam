@@ -1,5 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Inheritance test","Podam should handle basic inheritance scenarios","SUCCESS","2016-10-09T18:32:46.388+03:00","0.0","0.05"
-"Inheritance test","Podam should handle the manufacturing of POJOs which inherit from other classes","SUCCESS","2016-10-09T18:32:46.492+03:00","0.0","0.02"
-"Inheritance test","Podam should manufacture all POJOs in a tree hierarchy","SUCCESS","2016-10-09T18:32:46.446+03:00","0.0","0.04"
-"Inheritance test","Podam should manufacture attributes implementing Collection and Map interfaces","SUCCESS","2016-10-09T18:32:46.330+03:00","0.0","0.05"

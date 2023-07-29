@@ -1,5 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Read only complex types test","Podam should create an instance of an Abstract class with a factory method which returns a concrete type even if the concrete type has got read-only attributes. These will be empty.","SUCCESS","2016-10-09T18:32:51.516+03:00","0.0","0.02"
-"Read only complex types test","Podam should fill in POJOs which contain internal loops (e.g. objects that reference parents)","SUCCESS","2016-10-09T18:32:51.550+03:00","0.0","0.04"
-"Read only complex types test","Podam should fill in complex (e.g. with more than two generic types), read-only POJOs","SUCCESS","2016-10-09T18:32:51.537+03:00","0.0","0.01"
-"Read only complex types test","Podam should fill in read-only POJOs","SUCCESS","2016-10-09T18:32:51.601+03:00","0.0","0.04"

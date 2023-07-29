@@ -1,7 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Annotations test","Podam should throw an exception if the @PodamByteValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.284+01:00","0.0","0.02"
-"Annotations test","Podam should throw an exception if the @PodamDoubleValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.377+01:00","0.0","0.03"
-"Annotations test","Podam should throw an exception if the @PodamFloatValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.405+01:00","0.0","0.02"
-"Annotations test","Podam should throw an exception if the @PodamIntegerValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.112+01:00","0.0","0.03"
-"Annotations test","Podam should throw an exception if the @PodamLongValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.766+01:00","0.0","0.02"
-"Annotations test","Podam should throw an exception if the @PodamShortValue annotation contains invalid characters","ERROR","2015-06-07T20:50:57.700+01:00","0.0","0.02"

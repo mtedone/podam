@@ -1,3 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Factory-isolation","Running multiple factories should lead to different results ","SUCCESS","2015-05-25T19:38:09.366+01:00","0.0","0.07"
-"Factory-isolation","Running one factory should return a filled in POJO","SUCCESS","2015-05-25T19:38:09.202+01:00","0.0","0.16"

@@ -1,8 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Walk through example unit test","Podam should fill in the Address POJO correctly","SUCCESS","2016-10-09T18:32:53.397+03:00","0.0","0.01"
-"Walk through example unit test","Podam should fill in the Bank Account POJO correctly","SUCCESS","2016-10-09T18:32:53.384+03:00","0.0","0.01"
-"Walk through example unit test","Podam should fill in the Country POJO correctly","SUCCESS","2016-10-09T18:32:53.202+03:00","0.0","0.03"
-"Walk through example unit test","Podam should fill in the Order POJO correctly","SUCCESS","2016-10-09T18:32:53.342+03:00","0.0","0.02"
-"Walk through example unit test","Podam should fill the Article POJO correctly","SUCCESS","2016-10-09T18:32:53.364+03:00","0.0","0.02"
-"Walk through example unit test","Podam should fill the Client POJO correctly","SUCCESS","2016-10-09T18:32:53.237+03:00","0.0","0.1"
-"Walk through example unit test","Podam should fill the OrderItem POJO correctly","SUCCESS","2016-10-09T18:32:53.408+03:00","0.0","0.0"

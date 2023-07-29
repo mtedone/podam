@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testsuite errors="0" failures="0" name="Strategy-thread-safety" skipped="0" tests="1" time="0.06" timestamp="2015-05-145 04:31:32"><testcase name="Adding specific implementations for abstract types/interfaces should not lead to original data being lost"/></testsuite>

@@ -1,2 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Strategy-thread-safety","Adding specific implementations for abstract types/interfaces should not lead to original data being lost","SUCCESS","2015-05-25T16:31:32.033+01:00","0.0","0.06"

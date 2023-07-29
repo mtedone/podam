@@ -1,8 +1,0 @@
-<acceptance-test-run title="Test constructor heavy comparator" name="testConstructorHeavyComparator" steps="0" successful="0" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="0" timestamp="2015-06-20T21:17:19.096+01:00">
-  <user-story id="uk.co.jemos.podam.test.unit.features.dataProviderStrategy.RandomDataProviderStrategyImplInitialisationUnitTest" name="Random data provider strategy impl initialisation unit test" path="uk.co.jemos.podam.test.unit.features.dataProviderStrategy"/>
-  <tags>
-    <tag name="Data provider strategy" type="epics"/>
-    <tag name="Random data provider strategy impl initialisation unit test" type="stories"/>
-    <tag name="Random data provider strategy impl initialisation unit test" type="story"/>
-  </tags>
-</acceptance-test-run>

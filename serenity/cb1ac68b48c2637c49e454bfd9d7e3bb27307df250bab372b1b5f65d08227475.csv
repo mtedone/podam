@@ -1,8 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"Random data provider strategy impl initialisation unit test","Creating a Random Data Provider Strategy should create a Method heavy comparator","SUCCESS","2016-10-09T18:32:54.869+03:00","0.0","0.0"
-"Random data provider strategy impl initialisation unit test","Creating a Random Data Provider Strategy should create a Method light comparator","SUCCESS","2016-10-09T18:32:54.888+03:00","0.0","0.01"
-"Random data provider strategy impl initialisation unit test","Creating a Random Data Provider Strategy should create a constructor heavy comparator","SUCCESS","2016-10-09T18:32:54.864+03:00","0.0","0.0"
-"Random data provider strategy impl initialisation unit test","Creating a Random Data Provider Strategy should create a constructor light comparator","SUCCESS","2016-10-09T18:32:54.874+03:00","0.0","0.01"
-"Random data provider strategy impl initialisation unit test","Podam should correctly generate HashMaps with Long as key type","SUCCESS","2016-10-09T18:32:54.904+03:00","0.0","0.03"
-"Random data provider strategy impl initialisation unit test","Podam should create POJOs in accordance with custom data provider strategies","SUCCESS","2016-10-09T18:32:54.945+03:00","0.0","0.01"
-"Random data provider strategy impl initialisation unit test","The Random Data Provider Strategy should be initialised correctly and allow for changes in the number of collection elements","SUCCESS","2016-10-09T18:32:54.859+03:00","0.0","0.0"

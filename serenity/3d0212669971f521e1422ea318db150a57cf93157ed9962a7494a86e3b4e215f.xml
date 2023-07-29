@@ -1,26 +1,0 @@
-<acceptance-test-run title="Running multiple factories should lead to different results " name="Running multiple factories should lead to different results " steps="4" successful="4" failures="0" skipped="0" ignored="0" pending="0" result="SUCCESS" duration="70" timestamp="2015-05-25T19:38:09.366+01:00">
-  <user-story id="factory-isolation" name="Factory-isolation" path="stories/factory.isolation/factoryIsolation/factory-isolation.story"/>
-  <tags>
-    <tag name="It should be possible to run multiple Podam factory instances independently&#xa;As a user&#xa;I want to run independent instances of Podam&#xa;So that I can run multiple factories simultaneously" type="Factory_isolation&#xa;&#xa;Story"/>
-    <tag name="Factory isolation/Factory-isolation" type="story"/>
-    <tag name="Factory-isolation" type="story"/>
-  </tags>
-  <test-step result="SUCCESS" duration="16">
-    <description>Given I have an executor service with {2} threads and a callable which returns a String</description>
-  </test-step>
-  <test-group name="When I invoke the executor service for each thread" result="SUCCESS">
-    <test-step result="SUCCESS" duration="3">
-      <description>Submit jobs</description>
-    </test-step>
-  </test-group>
-  <test-group name="And I retrieve the results" result="SUCCESS">
-    <test-step result="SUCCESS" duration="14">
-      <description>Retrieve results</description>
-    </test-step>
-  </test-group>
-  <test-group name="Then I should receive {2} distinct results" result="SUCCESS">
-    <test-step result="SUCCESS" duration="1">
-      <description>Verify results: &lt;span class=&apos;step-parameter&apos;&gt;2&lt;/span&gt;</description>
-    </test-step>
-  </test-group>
-</acceptance-test-run>

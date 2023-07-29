@@ -1,8 +1,0 @@
-"Story","Title","Result","Date","Stability","Duration (s)"
-"External factory unit test","Podam cannot fill interface attributes if the external factory does not manufacture the right type","SUCCESS","2016-10-09T18:32:55.270+03:00","0.0","0.02"
-"External factory unit test","Podam should fill POJOs and interface attributes if a full constructor sets the interface attribute value","SUCCESS","2016-10-09T18:32:55.310+03:00","0.0","0.01"
-"External factory unit test","Podam should not be able to create instances of an Abstract class even if the POJO has a full constructor","SUCCESS","2016-10-09T18:32:55.217+03:00","0.0","0.02"
-"External factory unit test","Podam should not be able to create instances of an Abstract class if the external factory does not provide a concrete implementation","SUCCESS","2016-10-09T18:32:55.253+03:00","0.0","0.01"
-"External factory unit test","Podam should not create instances of an interface when given an external factory which does not manufacture the concrete type","SUCCESS","2016-10-09T18:32:55.291+03:00","0.0","0.01"
-"External factory unit test","Podam should not create instances of non-instantiable classes","SUCCESS","2016-10-09T18:32:55.234+03:00","0.0","0.01"
-"External factory unit test","The management of external factories should be correct and chaining should work","SUCCESS","2016-10-09T18:32:55.246+03:00","0.0","0.01"
