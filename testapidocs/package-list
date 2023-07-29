@@ -26,6 +26,7 @@ uk.co.jemos.podam.test.unit.features.externalFactory
 uk.co.jemos.podam.test.unit.features.factories
 uk.co.jemos.podam.test.unit.features.inheritance
 uk.co.jemos.podam.test.unit.features.memoization
+uk.co.jemos.podam.test.unit.features.randomness
 uk.co.jemos.podam.test.unit.features.singletons
 uk.co.jemos.podam.test.unit.features.typeManufacturing
 uk.co.jemos.podam.test.unit.features.validatorFramework
