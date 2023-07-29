@@ -10,7 +10,7 @@
 
 	<groupId>uk.co.jemos.podam</groupId>
 	<artifactId>podam</artifactId>
-	<version>8.0.0.RELEASE</version>
+	<version>8.0.1-SNAPSHOT</version>
 	<name>podam</name>
 
 	<properties>
@@ -211,7 +211,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
+				<version>1.6.13</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
@@ -483,7 +483,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version>
+			<version>3.13.0</version>
 		</dependency>
 
 		<!-- Testing dependencies -->
