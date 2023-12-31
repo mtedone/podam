@@ -13,6 +13,9 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * POJO to test bean validation API 2.0
  *
@@ -21,48 +24,16 @@ import jakarta.validation.constraints.PastOrPresent;
  */
 public class ValidatedTimePojo {
 
-	@Past
+	@Getter @Setter @Past
 	private Instant past;
 
-	@PastOrPresent
+	@Getter @Setter @PastOrPresent
 	private LocalDateTime pastOrPresent;
 
-	@Future
+	@Getter @Setter @Future
 	private OffsetDateTime future;
 
-	@FutureOrPresent
+	@Getter @Setter @FutureOrPresent
 	private ZonedDateTime futureOrPresent;
-
-	public Instant getPast() {
-		return past;
-	}
-
-	public void setPast(Instant past) {
-		this.past = past;
-	}
-
-	public LocalDateTime getPastOrPresent() {
-		return pastOrPresent;
-	}
-
-	public void setPastOrPresent(LocalDateTime pastOrPresent) {
-		this.pastOrPresent = pastOrPresent;
-	}
-
-	public OffsetDateTime getFuture() {
-		return future;
-	}
-
-	public void setFuture(OffsetDateTime future) {
-		this.future = future;
-	}
-
-	public ZonedDateTime getFutureOrPresent() {
-		return futureOrPresent;
-	}
-
-	public void setFutureOrPresent(ZonedDateTime futureOrPresent) {
-		this.futureOrPresent = futureOrPresent;
-	}
 
 }
