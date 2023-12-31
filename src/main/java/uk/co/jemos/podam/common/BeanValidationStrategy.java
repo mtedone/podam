@@ -10,8 +10,12 @@ import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
 import jakarta.validation.constraints.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Instant;
+import java.time.temporal.Temporal;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +34,8 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	// ------------------->> Instance / Static variables
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
+
+	private static final String METHOD_NAME_NOW = "now";
 
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
@@ -70,30 +76,30 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 		if (null != findTypeFromList(annotations, Past.class)) {
 
-			int days = PodamUtils.getIntegerInRange(1, 365);
-			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
+			long days = PodamUtils.getIntegerInRange(1, 365);
+			long offset = -TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(offset);
 		}
 
 		if (null != findTypeFromList(annotations, PastOrPresent.class)) {
 
-			int days = PodamUtils.getIntegerInRange(0, 365);
-			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
+			long days = PodamUtils.getIntegerInRange(0, 365);
+			long offset = -TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(-days);
 		}
 
 		if (null != findTypeFromList(annotations, Future.class)) {
 
-			int days = PodamUtils.getIntegerInRange(1, 365);
-			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
+			long days = PodamUtils.getIntegerInRange(1, 365);
+			long offset = TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(days);
 		}
 
 		if (null != findTypeFromList(annotations, FutureOrPresent.class)) {
 
-			int days = PodamUtils.getIntegerInRange(0, 365);
-			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(timestamp);
+			long days = PodamUtils.getIntegerInRange(0, 365);
+			long offset = TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(days);
 		}
 
 		Size size = findTypeFromList(annotations, Size.class);
@@ -344,23 +350,41 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 	/**
 	 * Converts intermediate long time stamp value to the actual attribute type,
-	 * {@link java.util.Date} or {@link java.util.Calendar}
+	 * {@link java.util.Date} or {@link java.util.Calendar} or java.time.* types
 	 *
-	 * @param result
-	 *        {@link Long} intermediate result to convert to the
-	 *        real attribute type 
+	 * @param offsetSecs
+	 *        {@link Long} time offset to add to the current time 
 	 * @return actual attribute type object
 	 */
-	private Object timestampToReturnType(Long result) {
+	private Object timestampToReturnType(Long offsetSecs) {
+
+        long timestamp;
+		if (Temporal.class.isAssignableFrom(attributeType)) {
+
+			try {
+				Method method = attributeType.getMethod(METHOD_NAME_NOW);
+				Temporal result = (Temporal)method.invoke(null);
+                return result.plus(offsetSecs, ChronoUnit.SECONDS);
+			} catch (Exception e) {
+
+				LOG.warn("We couldn't call method {} in {}",
+						METHOD_NAME_NOW, attributeType, e);
+				return null;
+			}
+
+        } else {
+
+			timestamp = System.currentTimeMillis() + offsetSecs * 1000;
+        }
 
 		if (attributeType.isAssignableFrom(Date.class)) {
 
-			return new Date(result);
+			return new Date(timestamp);
 
 		} else if (attributeType.isAssignableFrom(Calendar.class)) {
 
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTimeInMillis(result);
+			calendar.setTimeInMillis(timestamp);
 			return calendar;
 
 		} else {

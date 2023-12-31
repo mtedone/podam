@@ -3,7 +3,10 @@
  */
 package uk.co.jemos.podam.test.dto;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -19,46 +22,46 @@ import jakarta.validation.constraints.PastOrPresent;
 public class ValidatedTimePojo {
 
 	@Past
-	private Date past;
+	private Instant past;
 
 	@PastOrPresent
-	private Date pastOrPresent;
+	private LocalDateTime pastOrPresent;
 
 	@Future
-	private Date future;
+	private OffsetDateTime future;
 
 	@FutureOrPresent
-	private Date futureOrPresent;
+	private ZonedDateTime futureOrPresent;
 
-	public Date getPast() {
+	public Instant getPast() {
 		return past;
 	}
 
-	public void setPast(Date past) {
+	public void setPast(Instant past) {
 		this.past = past;
 	}
 
-	public Date getPastOrPresent() {
+	public LocalDateTime getPastOrPresent() {
 		return pastOrPresent;
 	}
 
-	public void setPastOrPresent(Date pastOrPresent) {
+	public void setPastOrPresent(LocalDateTime pastOrPresent) {
 		this.pastOrPresent = pastOrPresent;
 	}
 
-	public Date getFuture() {
+	public OffsetDateTime getFuture() {
 		return future;
 	}
 
-	public void setFuture(Date future) {
+	public void setFuture(OffsetDateTime future) {
 		this.future = future;
 	}
 
-	public Date getFutureOrPresent() {
+	public ZonedDateTime getFutureOrPresent() {
 		return futureOrPresent;
 	}
 
-	public void setFutureOrPresent(Date futureOrPresent) {
+	public void setFutureOrPresent(ZonedDateTime futureOrPresent) {
 		this.futureOrPresent = futureOrPresent;
 	}
 
