@@ -16,9 +16,9 @@ import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

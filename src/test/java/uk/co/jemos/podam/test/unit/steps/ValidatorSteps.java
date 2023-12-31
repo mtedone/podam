@@ -5,8 +5,8 @@ import static org.hamcrest.Matchers.*;
 
 import net.thucydides.core.annotations.Step;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import java.util.Set;
 
 /**
