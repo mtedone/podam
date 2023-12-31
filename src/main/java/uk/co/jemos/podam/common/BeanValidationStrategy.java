@@ -75,9 +75,23 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			return timestampToReturnType(timestamp);
 		}
 
+		if (null != findTypeFromList(annotations, PastOrPresent.class)) {
+
+			int days = PodamUtils.getIntegerInRange(0, 365);
+			long timestamp = System.currentTimeMillis() - TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(timestamp);
+		}
+
 		if (null != findTypeFromList(annotations, Future.class)) {
 
 			int days = PodamUtils.getIntegerInRange(1, 365);
+			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
+			return timestampToReturnType(timestamp);
+		}
+
+		if (null != findTypeFromList(annotations, FutureOrPresent.class)) {
+
+			int days = PodamUtils.getIntegerInRange(0, 365);
 			long timestamp = System.currentTimeMillis() + TimeUnit.DAYS.toSeconds(days);
 			return timestampToReturnType(timestamp);
 		}

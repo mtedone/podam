@@ -14,6 +14,7 @@ import uk.co.jemos.podam.test.dto.ValidatedPatternPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojo;
 import uk.co.jemos.podam.test.dto.ValidatedPojo2;
 import uk.co.jemos.podam.test.dto.ValidatedPojoMultipleConstraints;
+import uk.co.jemos.podam.test.dto.ValidatedTimePojo;
 import uk.co.jemos.podam.test.dto.ValidationPojoForStringWithSizeAndNoMax;
 import uk.co.jemos.podam.test.strategies.AnnotationStrategy;
 import uk.co.jemos.podam.test.strategies.PatternStrategy;
@@ -106,6 +107,23 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(-pojo.getIntNegative());
 		podamValidationSteps.theIntFieldShouldNotBeZero(-pojo.getIntNegative());
 		podamValidationSteps.theIntFieldShouldBeGreaterOrEqualToZero(-pojo.getIntNegativeOrZero());
+	}
+
+	@Test
+	@Title("Podam should be able to fulfill time constraints of the jakarta Validation 3.0 framework")
+	public void podamShouldFulfillTimeConstraintsOfTheJakartaValidation30Framework() throws Exception {
+
+		PodamFactory podamFactory = podamFactorySteps.givenAStandardPodamFactory();
+
+		ValidatedTimePojo pojo = podamInvocationSteps.whenIInvokeTheFactoryForClass(ValidatedTimePojo.class, podamFactory);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo);
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getFuture());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getFutureOrPresent());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getPast());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getPastOrPresent());
+
+		Validator validator = podamFactorySteps.givenAJavaxValidator();
+		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
 	}
 
 	@Test
