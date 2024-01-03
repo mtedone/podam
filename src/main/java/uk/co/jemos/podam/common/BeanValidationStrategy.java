@@ -5,6 +5,8 @@ package uk.co.jemos.podam.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.PodamUtils;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
 
@@ -13,12 +15,20 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalUnit;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,6 +41,26 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 	// ------------------->> Constants
 
+	/**
+     * The minimum second supported, '-253402300800'.
+     */
+    long MIN_SECOND = -253_402_300_800L;
+
+    /**
+     * The maximum second supported, '253402300799'.
+     */
+    long MAX_SECOND = 253_402_300_799L;
+
+    /**
+     * The minimum nanosecond supported, '.'.
+     */
+    long MIN_NANOSECOND = 0L;
+
+    /**
+     * The maximum nanosecond supported, '999999999'.
+     */
+    long MAX_NANOSECOND = 999_999_999L;
+    
 	// ------------------->> Instance / Static variables
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
@@ -72,34 +102,6 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 		if (null != findTypeFromList(annotations, AssertFalse.class)) {
 
 			return Boolean.FALSE;
-		}
-
-		if (null != findTypeFromList(annotations, Past.class)) {
-
-			long days = PodamUtils.getIntegerInRange(1, 365);
-			long offset = -TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(offset);
-		}
-
-		if (null != findTypeFromList(annotations, PastOrPresent.class)) {
-
-			long days = PodamUtils.getIntegerInRange(0, 365);
-			long offset = -TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(-days);
-		}
-
-		if (null != findTypeFromList(annotations, Future.class)) {
-
-			long days = PodamUtils.getIntegerInRange(1, 365);
-			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(days);
-		}
-
-		if (null != findTypeFromList(annotations, FutureOrPresent.class)) {
-
-			long days = PodamUtils.getIntegerInRange(0, 365);
-			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(days);
 		}
 
 		Size size = findTypeFromList(annotations, Size.class);
@@ -358,7 +360,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 */
 	private Object timestampToReturnType(Long offsetSecs) {
 
-        long timestamp;
+		long timestamp;
 		if (Temporal.class.isAssignableFrom(attributeType)) {
 
 			try {
@@ -376,7 +378,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			timestamp = System.currentTimeMillis() + offsetSecs * 1000;
         }
-
+		
 		if (attributeType.isAssignableFrom(Date.class)) {
 
 			return new Date(timestamp);
@@ -386,6 +388,43 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(timestamp);
 			return calendar;
+
+		} else if (attributeType.isAssignableFrom(Clock.class)) {
+
+	        Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+	        Integer index = PodamUtils.getIntegerInRange(0, zoneIds.size());
+
+	        int i = 0;
+	        ZoneId result = null;
+	        for (String zoneId : zoneIds) {
+	            if (index.equals(i++)) {
+	            	return Clock.system(ZoneId.of(zoneId));
+	            }
+	        }
+
+	        return Clock.system(ZoneId.systemDefault());
+
+		} else if (attributeType.isAssignableFrom(ZoneId.class)) {
+
+	        Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+	        Integer index = PodamUtils.getIntegerInRange(0, zoneIds.size());
+
+	        int i = 0;
+	        ZoneId result = null;
+	        for (String zoneId : zoneIds) {
+	            if (index.equals(i++)) {
+	            	return ZoneId.of(zoneId);
+	            }
+	        }
+
+	        return ZoneId.systemDefault();
+
+		} else if (attributeType.isAssignableFrom(ZoneOffset.class)) {
+
+	        int hours = PodamUtils.getIntegerInRange(-18, 18);
+	        int minutes = PodamUtils.getIntegerInRange(-59, 59);
+	        int seconds = PodamUtils.getIntegerInRange(-59, 59);
+	        return ZoneOffset.ofHoursMinutesSeconds(hours, minutes, seconds);
 
 		} else {
 

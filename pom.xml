@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>7</version>
+		<version>9</version>
 	</parent>
 
 	<groupId>uk.co.jemos.podam</groupId>
@@ -185,6 +185,13 @@
 				<role>Developer</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Liam KINCAID</name>
+			<email>liam.kincaid@free.fr</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+		</contributor>
 	</contributors>
 
 
@@ -226,10 +233,10 @@
 				<version>3.10.1</version>
 				<configuration>
 					<jdkToolchain>
-						<version>7</version>
+						<version>8</version>
 					</jdkToolchain>
-                    <target>7</target>s
-                    <source>7</source>
+                    <target>8</target>
+                    <source>8</source>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                     </compilerArgs>
