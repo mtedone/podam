@@ -7,6 +7,7 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.test.utils.TypesUtils;
 
 import java.lang.reflect.Array;
+import java.time.*;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -375,5 +376,191 @@ public class PodamValidationSteps {
     public void theMemoizationShouldBeEnabled(DataProviderStrategy strategy, boolean isMemoizationEnabled) {
 
         Assert.assertEquals("Payload must be valid", isMemoizationEnabled, strategy.isMemoizationEnabled());
+    }
+
+    @Step("Then {@java.time.Instant} should be in the futur")
+    public void theInstantShouldInTheFutur(Instant pojo) {
+        Assert.assertNotNull("The {@java.time.Instant} should not be null", pojo);
+        assertThat("The {@java.time.Instant} should be in the futur", pojo.isAfter(Instant.now()));
+    }
+
+    @Step("Then {@java.time.Instant} should be in the futur or present")
+    public void theInstantShouldInTheFuturOrPresent(Instant pojo) {
+        Assert.assertNotNull("The {@java.time.Instant} should not be null", pojo);
+        assertThat("The {@java.time.Instant} should be in the futur or present", pojo.isAfter(Instant.now()));
+    }
+
+    @Step("Then {@java.time.Instant} should be in the past or present")
+    public void theInstantShouldInThePastOrPresent(Instant pojo) {
+        Assert.assertNotNull("The {@java.time.Instant} should not be null", pojo);
+        assertThat("The {@java.time.Instant} should be in the past or present", pojo.isBefore(Instant.now()));
+    }
+
+    @Step("Then {@java.time.Instant} should be in the past")
+    public void theInstantShouldInThePast(Instant pojo) {
+        Assert.assertNotNull("The {@java.time.Instant} should not be null", pojo);
+        assertThat("The {@java.time.Instant} should be in the past", pojo.isBefore(Instant.now()));
+    }
+
+    @Step("Then {@java.time.LocalDateTime} should be in the futur")
+    public void theLocalDateTimeShouldInTheFutur(LocalDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDateTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalDateTime} should be in the futur", pojo.isAfter(LocalDateTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalDateTime} should be in the futur or present")
+    public void theLocalDateTimeShouldInTheFuturOrPresent(LocalDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDateTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalDateTime} should be in the futur or present", pojo.isAfter(LocalDateTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalDateTime} should be in the past or present")
+    public void theLocalDateTimeShouldInThePastOrPresent(LocalDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDateTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalDateTime} should be in the past or present", pojo.isBefore(LocalDateTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalDateTime} should be in the past")
+    public void theLocalDateTimeShouldInThePast(LocalDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDateTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalDateTime} should be in the past", pojo.isBefore(LocalDateTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalDate} should be in the futur")
+    public void theLocalDateShouldInTheFutur(LocalDate pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDate} should not be null", pojo);
+        assertThat("The {@java.time.LocalDate} should be in the futur", pojo.isAfter(LocalDate.now()));
+    }
+
+    @Step("Then {@java.time.LocalDate} should be in the futur or present")
+    public void theLocalDateShouldInTheFuturOrPresent(LocalDate pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDate} should not be null", pojo);
+        assertThat("The {@java.time.LocalDate} should be in the futur or present", pojo.isAfter(LocalDate.now()));
+    }
+
+    @Step("Then {@java.time.LocalDate} should be in the past or present")
+    public void theLocalDateShouldInThePastOrPresent(LocalDate pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDate} should not be null", pojo);
+        assertThat("The {@java.time.LocalDate} should be in the past or present", pojo.isBefore(LocalDate.now()));
+    }
+
+    @Step("Then {@java.time.LocalDate} should be in the past")
+    public void theLocalDateShouldInThePast(LocalDate pojo) {
+        Assert.assertNotNull("The {@java.time.LocalDate} should not be null", pojo);
+        assertThat("The {@java.time.LocalDate} should be in the past", pojo.isBefore(LocalDate.now()));
+    }
+
+    @Step("Then {@java.time.LocalTime} should be in the futur or present")
+    public void theLocalTimeShouldInTheFuturOrPresent(LocalTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalTime} should be in the futur or present", pojo.isAfter(LocalTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalTime} should be in the past or present")
+    public void theLocalTimeShouldInThePastOrPresent(LocalTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalTime} should be in the past or present", pojo.isBefore(LocalTime.now()));
+    }
+
+    @Step("Then {@java.time.LocalTime} should be in the past")
+    public void theLocalTimeShouldInThePast(LocalTime pojo) {
+        Assert.assertNotNull("The {@java.time.LocalTime} should not be null", pojo);
+        assertThat("The {@java.time.LocalTime} should be in the past", pojo.isBefore(LocalTime.now()));
+    }
+
+    @Step("Then {@java.time.OffsetDateTime} should be in the futur")
+    public void theOffsetDateTimeShouldInTheFutur(OffsetDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.OffsetDateTime} should not be null", pojo);
+        assertThat("The {@java.time.OffsetDateTime} should be in the futur", pojo.isAfter(OffsetDateTime.now()));
+    }
+
+    @Step("Then {@java.time.OffsetDateTime} should be in the futur or present")
+    public void theOffsetDateTimeShouldInTheFuturOrPresent(OffsetDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.OffsetDateTime} should not be null", pojo);
+        assertThat("The {@java.time.OffsetDateTime} should be in the futur or present", pojo.isAfter(OffsetDateTime.now()));
+    }
+
+    @Step("Then {@java.time.OffsetDateTime} should be in the past or present")
+    public void theOffsetDateTimeShouldInThePastOrPresent(OffsetDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.OffsetDateTime} should not be null", pojo);
+        assertThat("The {@java.time.OffsetDateTime} should be in the past or present", pojo.isBefore(OffsetDateTime.now()));
+    }
+
+    @Step("Then {@java.time.OffsetDateTime} should be in the past")
+    public void theOffsetDateTimeShouldInThePast(OffsetDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.OffsetDateTime} should not be null", pojo);
+        assertThat("The {@java.time.OffsetDateTime} should be in the past", pojo.isBefore(OffsetDateTime.now()));
+    }
+
+    @Step("Then {@java.time.YearMonth} should be in the futur")
+    public void theYearMonthShouldInTheFutur(YearMonth pojo) {
+        Assert.assertNotNull("The {@java.time.YearMonth} should not be null", pojo);
+        assertThat("The {@java.time.YearMonth} should be in the futur", pojo.isAfter(YearMonth.now()));
+    }
+
+    @Step("Then {@java.time.YearMonth} should be in the futur or present")
+    public void theYearMonthShouldInTheFuturOrPresent(YearMonth pojo) {
+        Assert.assertNotNull("The {@java.time.YearMonth} should not be null", pojo);
+        assertThat("The {@java.time.YearMonth} should be in the futur or present", pojo.isAfter(YearMonth.now()));
+    }
+
+    @Step("Then {@java.time.YearMonth} should be in the past or present")
+    public void theYearMonthShouldInThePastOrPresent(YearMonth pojo) {
+        Assert.assertNotNull("The {@java.time.YearMonth} should not be null", pojo);
+        assertThat("The {@java.time.YearMonth} should be in the past or present", pojo.isBefore(YearMonth.now()));
+    }
+
+    @Step("Then {@java.time.YearMonth} should be in the past")
+    public void theYearMonthShouldInThePast(YearMonth pojo) {
+        Assert.assertNotNull("The {@java.time.YearMonth} should not be null", pojo);
+        assertThat("The {@java.time.YearMonth} should be in the past", pojo.isBefore(YearMonth.now()));
+    }
+
+    @Step("Then {@java.time.Year} should be in the futur")
+    public void theYearShouldInTheFutur(Year pojo) {
+        Assert.assertNotNull("The {@java.time.Year} should not be null", pojo);
+        assertThat("The {@java.time.Year} should be in the futur", pojo.isAfter(Year.now()));
+    }
+
+    @Step("Then {@java.time.Year} should be in the futur or present")
+    public void theYearShouldInTheFuturOrPresent(Year pojo) {
+        Assert.assertNotNull("The {@java.time.Year} should not be null", pojo);
+        assertThat("The {@java.time.Year} should be in the futur or present", pojo.isAfter(Year.now()));
+    }
+
+    @Step("Then {@java.time.Year} should be in the past or present")
+    public void theYearShouldInThePastOrPresent(Year pojo) {
+        Assert.assertNotNull("The {@java.time.Year} should not be null", pojo);
+        assertThat("The {@java.time.Year} should be in the past or present", pojo.isBefore(Year.now()));
+    }
+
+    @Step("Then {@java.time.Year} should be in the past")
+    public void theYearShouldInThePast(Year pojo) {
+        Assert.assertNotNull("The {@java.time.Year} should not be null", pojo);
+        assertThat("The {@java.time.Year} should be in the past", pojo.isBefore(Year.now()));
+    }
+
+    @Step("Then {@java.time.ZonedDateTime} should be in the futur")
+    public void theZonedDateTimeShouldInTheFutur(ZonedDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.ZonedDateTime} should not be null", pojo);
+        assertThat("The {@java.time.ZonedDateTime} should be in the futur", pojo.isAfter(ZonedDateTime.now()));
+    }
+
+    @Step("Then {@java.time.ZonedDateTime} should be in the futur or present")
+    public void theZonedDateTimeShouldInTheFuturOrPresent(ZonedDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.ZonedDateTime} should not be null", pojo);
+        assertThat("The {@java.time.ZonedDateTime} should be in the futur or present", pojo.isAfter(ZonedDateTime.now()));
+    }
+
+    @Step("Then {@java.time.ZonedDateTime} should be in the past or present")
+    public void theZonedDateTimeShouldInThePastOrPresent(ZonedDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.ZonedDateTime} should not be null", pojo);
+        assertThat("The {@java.time.ZonedDateTime} should be in the past or present", pojo.isBefore(ZonedDateTime.now()));
+    }
+
+    @Step("Then {@java.time.ZonedDateTime} should be in the past")
+    public void theZonedDateTimeShouldInThePast(ZonedDateTime pojo) {
+        Assert.assertNotNull("The {@java.time.ZonedDateTime} should not be null", pojo);
+        assertThat("The {@java.time.ZonedDateTime} should be in the past", pojo.isBefore(ZonedDateTime.now()));
     }
 }

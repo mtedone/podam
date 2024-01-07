@@ -10,29 +10,17 @@ import org.slf4j.LoggerFactory;
 
 import uk.co.jemos.podam.common.*;
 import uk.co.jemos.podam.exceptions.PodamMockeryException;
-import uk.co.jemos.podam.typeManufacturers.ArrayTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.BooleanTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.ByteTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.CharTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.CollectionTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.DoubleTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.EnumTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.FloatTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.LongTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.MapTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.ShortTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.StringTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.TypeTypeManufacturerImpl;
-import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
+import uk.co.jemos.podam.typeManufacturers.*;
 
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.time.*;
+import java.time.temporal.Temporal;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collection;
@@ -196,8 +184,40 @@ public abstract class AbstractRandomDataProviderStrategy implements RandomDataPr
 
 		TypeManufacturer<?> arrayManufacturer = new ArrayTypeManufacturerImpl();
 		typeManufacturers.put(Cloneable.class, arrayManufacturer);
-
+		
+        /**
+         * Support of classes with annotation strategy:
+         * - {@link java.time.Duration}
+         * - {@link java.time.ZoneId}
+         * - {@link java.time.ZoneOffset}
+         */
+		addOrReplaceTypeManufacturer(Duration.class, new DurationTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(MonthDay.class, new MonthDayTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(Period.class, new PeriodTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(ZoneId.class, new ZoneIdTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(ZoneOffset.class, new ZoneOffsetTypeManufacturerImpl());
+        
+		/**
+         * Support of {@link java.time.Temporal} classes with annotation strategy:
+         * - {@link jakarta.validation.constraint.Future}
+         * - {@link jakarta.validation.constraint.FutureOfPresent}
+         * - {@link jakarta.validation.constraint.PastOfPresent}
+         * - {@link jakarta.validation.constraint.Past}
+         */
+		addOrReplaceTypeManufacturer(Clock.class, new ClockTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(Instant.class, new InstantTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(LocalDate.class, new LocalDateTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(LocalDateTime.class, new LocalDateTimeTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(LocalTime.class, new LocalTimeTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(OffsetDateTime.class, new OffsetDateTimeTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(OffsetTime.class, new OffsetTimeTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(Year.class, new YearTypeManufacturerImpl());
+		addOrReplaceTypeManufacturer(ZonedDateTime.class, new ZonedDateTimeTypeManufacturerImpl());
         addOrReplaceAttributeStrategy(Email.class, new EmailStrategy());
+        addOrReplaceAttributeStrategy(Future.class, new FutureStrategy());
+        addOrReplaceAttributeStrategy(FutureOrPresent.class, new FutureOrPresentStrategy());
+        addOrReplaceAttributeStrategy(PastOrPresent.class, new PastOrPresentStrategy());
+        addOrReplaceAttributeStrategy(Past.class, new PastStrategy());
 	}
 
 	// ------------------->> Public methods

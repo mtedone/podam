@@ -1,24 +1,21 @@
 package uk.co.jemos.podam.typeManufacturers;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import uk.co.jemos.podam.api.DataProviderStrategy;
-import uk.co.jemos.podam.api.ObjectStrategy;
-import uk.co.jemos.podam.api.PodamUtils;
-import uk.co.jemos.podam.common.*;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import uk.co.jemos.podam.api.DataProviderStrategy;
+import uk.co.jemos.podam.api.ObjectStrategy;
+import uk.co.jemos.podam.api.PodamUtils;
+import uk.co.jemos.podam.common.*;
 
 /**
  * Type Manufacturer utility class.
