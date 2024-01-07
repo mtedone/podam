@@ -1,7 +1,7 @@
 podam
 =====
 
-[![Travis build status](https://travis-ci.org/mtedone/podam.svg?branch=develop)](https://travis-ci.org/mtedone/podam)
+[![CircleCI](https://circleci.com/gh/mtedone/podam.svg?style=shield)](https://circleci.com/gh/mtedone/podam)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.jemos.podam/podam/badge.svg)](https://maven-badges.herokuapp.com/maven-central/uk.co.jemos.podam/podam)
 [![Test Coverage](https://codecov.io/github/mtedone/podam/coverage.svg?branch=develop)](https://codecov.io/gh/mtedone/podam)
 
