@@ -36,6 +36,8 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
 
 	private static final String METHOD_NAME_NOW = "now";
+	private static final String SIMPLE_NAME_LIST_CLASS = "List";
+	private static final String NAME_VALUE = "value";
 
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
@@ -278,6 +280,19 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				return found;
 			}
 		}
+
+		for (Class<?> innerType : type.getClasses()) {
+			if (SIMPLE_NAME_LIST_CLASS.equals(innerType.getSimpleName())) {
+				Object foundList = findTypeFromList(list, innerType);
+				if (null != foundList) {
+					T[] found = PodamUtils.getValueWithMethod(foundList, NAME_VALUE, PodamConstants.NO_CLASSES);
+					if (found.length > 0) {
+						return found[0];
+					}
+				}
+			}
+		}
+
 		return null;
 	}
 

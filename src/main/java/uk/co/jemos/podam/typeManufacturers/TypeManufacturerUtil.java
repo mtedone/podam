@@ -32,6 +32,9 @@ public abstract class TypeManufacturerUtil {
     /** The application logger */
     private static final Logger LOG = LoggerFactory.getLogger(TypeManufacturerUtil.class);
 
+    /** Constraints package name */
+    private static final String CONSTRAINTS_PACKAGE_NAME = NotNull.class.getPackage().getName();
+
     /**
      * It returns a {@link AttributeStrategy} if one was specified in
      * annotations, or {@code null} otherwise.
@@ -99,7 +102,8 @@ public abstract class TypeManufacturerUtil {
                 }
             }
 
-            if (annotation.annotationType().getAnnotation(Constraint.class) != null) {
+            if (annotation.annotationType().getAnnotation(Constraint.class) != null
+                    || annotationClass.getPackage().getName().startsWith(CONSTRAINTS_PACKAGE_NAME)) {
                 if (annotation instanceof NotNull ||
                         annotation instanceof NotBlank ||
                         annotation instanceof NotEmpty ||
@@ -107,7 +111,7 @@ public abstract class TypeManufacturerUtil {
                         annotation.annotationType().getName().equals("org.hibernate.validator.constraints.NotBlank")) {
 					/* We don't need to do anything for NotNull constraint */
                     localAnnotationsIter.remove();
-                } else if (!NotNull.class.getPackage().equals(annotationClass.getPackage())) {
+                } else if (!annotationClass.getPackage().getName().startsWith(CONSTRAINTS_PACKAGE_NAME)) {
                     constraintAnnotationsWithoutRegisteredStrategy.add(annotationClass);
                 }
             } else {

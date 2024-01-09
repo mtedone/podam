@@ -111,6 +111,49 @@ public abstract class PodamUtils {
 	}
 
 	/**
+	 * It returns an value from object by calling a method
+	 * or null if a field was not found.
+	 *
+	 * @param <T>
+	 *            The type of field to be returned
+	 * @param pojo
+	 *            The class supposed to contain the field
+	 * @param methodName
+	 *            The method name
+	 * @param methodParams
+	 *            The method parameters
+	 *
+	 * @return an value of returned by method.
+	 */
+	public static <T> T getValueWithMethod(Object pojo, String methodName, Class<?> ... methodParams) {
+		T retValue = null;
+
+		try {
+			Method method = pojo.getClass().getMethod(methodName, methodParams);
+
+			if (method != null) {
+
+				// It allows to invoke Field.get on private fields
+				method.setAccessible(true);
+
+				@SuppressWarnings("unchecked")
+				T t = (T) method.invoke(pojo, PodamConstants.NO_ARGS);
+				retValue = t;
+			} else {
+
+				LOG.info("The method {}:{} didn't exist.", pojo.getClass(), methodName);
+			}
+
+		} catch (Exception e) {
+
+			LOG.warn("We couldn't get default value for {}[{}]",
+					pojo.getClass(), methodName, e);
+		}
+
+		return retValue;
+	}
+
+	/**
 	 * It returns an value from getter for a {@link Field} matching the attribute
 	 * name or null if a field was not found.
 	 *
@@ -127,31 +170,10 @@ public abstract class PodamUtils {
 	public static <T> T getFieldValueWithGetter(Object pojo, String attributeName) {
 		T retValue = null;
 
-		try {
-			Method method = pojo.getClass().getMethod("get" +
+        return getValueWithMethod(pojo, "get" +
 					+ Character.toUpperCase(attributeName.charAt(0))
-					+ attributeName.substring(1), PodamConstants.NO_CLASSES);
-
-			if (method != null) {
-
-				// It allows to invoke Field.get on private fields
-				method.setAccessible(true);
-
-				@SuppressWarnings("unchecked")
-				T t = (T) method.invoke(pojo, PodamConstants.NO_ARGS);
-				retValue = t;
-			} else {
-
-				LOG.info("The field {}[{}] didn't exist.", pojo.getClass(), attributeName);
-			}
-
-		} catch (Exception e) {
-
-			LOG.warn("We couldn't get default value for {}[{}]",
-					pojo.getClass(), attributeName, e);
-		}
-
-		return retValue;
+					+ attributeName.substring(1),
+                    PodamConstants.NO_CLASSES);
 	}
 
 	/**
