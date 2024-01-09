@@ -4,8 +4,10 @@
 package uk.co.jemos.podam.test.dto;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import jakarta.validation.constraints.Future;
@@ -42,5 +44,11 @@ public class ValidatedTimePojo {
 
 	@Getter @Setter @Past.List(value = {@Past(message = "must be in the past")}) @NotNull(message = "must be not null")
 	private Instant instantWithPastList;
+
+	@Getter @Setter @Past
+	private YearMonth yearMonth;
+
+	@Getter @Setter @Future
+	private LocalDate localDate;
 
 }

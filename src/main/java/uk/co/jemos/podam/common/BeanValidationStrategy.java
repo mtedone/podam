@@ -13,6 +13,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.Temporal;
 import java.time.temporal.ChronoUnit;
@@ -38,6 +39,7 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	private static final String METHOD_NAME_NOW = "now";
 	private static final String SIMPLE_NAME_LIST_CLASS = "List";
 	private static final String NAME_VALUE = "value";
+	private static final ChronoUnit[] SUPPORTED_CHRONO_UNITS = { ChronoUnit.SECONDS, ChronoUnit.DAYS, ChronoUnit.YEARS };
 
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
@@ -90,21 +92,21 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			long days = PodamUtils.getIntegerInRange(0, 365);
 			long offset = -TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(-days);
+			return timestampToReturnType(offset);
 		}
 
 		if (null != findTypeFromList(annotations, Future.class)) {
 
 			long days = PodamUtils.getIntegerInRange(1, 365);
 			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(days);
+			return timestampToReturnType(offset);
 		}
 
 		if (null != findTypeFromList(annotations, FutureOrPresent.class)) {
 
 			long days = PodamUtils.getIntegerInRange(0, 365);
 			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(days);
+			return timestampToReturnType(offset);
 		}
 
 		Size size = findTypeFromList(annotations, Size.class);
@@ -389,7 +391,17 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			try {
 				Method method = attributeType.getMethod(METHOD_NAME_NOW);
 				Temporal result = (Temporal)method.invoke(null);
-                return result.plus(offsetSecs, ChronoUnit.SECONDS);
+				Duration duration = Duration.ofSeconds(offsetSecs);
+				for (ChronoUnit unit : SUPPORTED_CHRONO_UNITS) {
+					if (result.isSupported(unit)) {
+						Duration duration2 = duration.dividedBy(unit.getDuration().getSeconds());
+						return result.plus(duration2.getSeconds(), unit);
+					}
+				}
+				LOG.error("{} does not support any of units {}",
+						attributeType, SUPPORTED_CHRONO_UNITS);
+				return null;
+
 			} catch (Exception e) {
 
 				LOG.warn("We couldn't call method {} in {}",
