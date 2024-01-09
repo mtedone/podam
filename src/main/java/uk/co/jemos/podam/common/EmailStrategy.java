@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author daivanov
  */
-public class EmailStrategy implements AttributeStrategy<String> {
+public class EmailStrategy implements AttributeStrategy<CharSequence> {
 
     /**
      * Constructor for the strategy
@@ -29,7 +29,7 @@ public class EmailStrategy implements AttributeStrategy<String> {
      * 
      * {@inheritDoc}
      */
-    public String getValue(Class<?> attrType, List<Annotation> annotations) throws PodamMockeryException {
+    public CharSequence getValue(Class<?> attrType, List<Annotation> annotations) throws PodamMockeryException {
 
         StringBuilder sb = new StringBuilder();
         sb.append(PodamUtils.getNiceString(3)).append(".").append(PodamUtils.getNiceString(4));

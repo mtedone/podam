@@ -40,6 +40,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
 
+	/** EmailStrategy implementation */
+	private EmailStrategy emailStrategy = new EmailStrategy();
+
 	// ------------------->> Constructors
 
 	/**
@@ -118,6 +121,13 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			int length = PodamUtils.getIntegerInRange(minValue, maxValue);
 			return PodamUtils.getNiceString(length);
+
+		}
+
+		Email email = findTypeFromList(annotations, Email.class);
+		if (null != email) {
+
+			return emailStrategy.getValue(attrType, annotations);
 
 		}
 
