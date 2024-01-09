@@ -18,6 +18,7 @@ import uk.co.jemos.podam.test.unit.AbstractPodamSteps;
 import uk.co.jemos.podam.test.utils.PodamTestConstants;
 import uk.co.jemos.podam.test.utils.PodamTestUtils;
 
+import jakarta.persistence.Basic;
 import jakarta.validation.constraints.Email;
 
 import java.lang.annotation.Annotation;
@@ -27,8 +28,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.persistence.Basic;
 
 /**
  * Created by tedonema on 31/05/2015.
