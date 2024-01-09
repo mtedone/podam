@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.chrono.HijrahDate;
+import java.time.chrono.JapaneseDate;
+import java.time.chrono.MinguoDate;
+import java.time.chrono.ThaiBuddhistDate;
 
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -50,5 +54,17 @@ public class ValidatedTimePojo {
 
 	@Getter @Setter @Future
 	private LocalDate localDate;
+
+	@Getter @Setter @Past
+	private HijrahDate hijrahDate;
+
+	@Getter @Setter @Future
+	private JapaneseDate japaneseDate;
+
+	@Getter @Setter @Past
+	private MinguoDate minguoDate;
+
+	@Getter @Setter @Future
+	private ThaiBuddhistDate thaiBuddhistDate;
 
 }
