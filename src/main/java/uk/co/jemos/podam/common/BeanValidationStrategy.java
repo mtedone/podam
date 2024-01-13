@@ -14,9 +14,11 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.MonthDay;
 import java.time.Year;
-import java.time.temporal.Temporal;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -412,6 +414,11 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				return null;
 			}
 
+		} else if(MonthDay.class.isAssignableFrom(attributeType)) {
+
+			LocalDateTime localDateTime = LocalDateTime.now();
+			localDateTime = localDateTime.plus(Long.signum(offsetSecs), ChronoUnit.DAYS);
+			return MonthDay.from(localDateTime);
         } else {
 
 			timestamp = System.currentTimeMillis() + offsetSecs * 1000;

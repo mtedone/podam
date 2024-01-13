@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.MonthDay;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.YearMonth;
@@ -78,4 +79,7 @@ public class ValidatedTimePojo {
 
 	@Getter @Setter @Future
 	private Year year;
+
+	@Getter @Setter @Future
+	private MonthDay monthDay;
 }

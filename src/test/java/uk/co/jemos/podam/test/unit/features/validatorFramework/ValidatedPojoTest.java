@@ -132,6 +132,7 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getLocalTime());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getOffsetTime());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getYear());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getMonthDay());
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
 		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);
