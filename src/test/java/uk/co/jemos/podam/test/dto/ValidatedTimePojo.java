@@ -6,7 +6,9 @@ package uk.co.jemos.podam.test.dto;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.chrono.HijrahDate;
@@ -67,4 +69,9 @@ public class ValidatedTimePojo {
 	@Getter @Setter @Future
 	private ThaiBuddhistDate thaiBuddhistDate;
 
+	@Getter @Setter @PastOrPresent
+	private LocalTime localTime;
+
+	@Getter @Setter @FutureOrPresent
+	private OffsetTime offsetTime;
 }

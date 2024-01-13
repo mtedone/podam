@@ -129,6 +129,8 @@ public class ValidatedPojoTest extends AbstractPodamSteps {
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getJapaneseDate());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getMinguoDate());
 		podamValidationSteps.theObjectShouldNotBeNull(pojo.getThaiBuddhistDate());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getLocalTime());
+		podamValidationSteps.theObjectShouldNotBeNull(pojo.getOffsetTime());
 
 		Validator validator = podamFactorySteps.givenAJavaxValidator();
 		validatorSteps.thePojoShouldNotViolateAnyValidations(validator, pojo);

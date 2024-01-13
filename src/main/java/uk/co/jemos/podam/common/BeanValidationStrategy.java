@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.Instant;
 import java.time.temporal.Temporal;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -99,14 +98,14 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			long days = PodamUtils.getIntegerInRange(1, 365);
 			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(offset);
+			return timestampToReturnType(offset + 10);
 		}
 
 		if (null != findTypeFromList(annotations, FutureOrPresent.class)) {
 
 			long days = PodamUtils.getIntegerInRange(0, 365);
 			long offset = TimeUnit.DAYS.toSeconds(days);
-			return timestampToReturnType(offset);
+			return timestampToReturnType(offset + 10);
 		}
 
 		Size size = findTypeFromList(annotations, Size.class);
@@ -404,8 +403,8 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 			} catch (Exception e) {
 
-				LOG.warn("We couldn't call method {} in {}",
-						METHOD_NAME_NOW, attributeType, e);
+				LOG.warn("Failed to instantiate Temporal attribute {}",
+						attributeType, e);
 				return null;
 			}
 
