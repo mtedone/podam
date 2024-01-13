@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.YearMonth;
+import java.time.Year;
 import java.time.ZonedDateTime;
 import java.time.chrono.HijrahDate;
 import java.time.chrono.JapaneseDate;
@@ -74,4 +75,7 @@ public class ValidatedTimePojo {
 
 	@Getter @Setter @FutureOrPresent
 	private OffsetTime offsetTime;
+
+	@Getter @Setter @Future
+	private Year year;
 }

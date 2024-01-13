@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Duration;
+import java.time.Year;
 import java.time.temporal.Temporal;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -390,6 +391,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 			try {
 				Method method = attributeType.getMethod(METHOD_NAME_NOW);
 				Temporal result = (Temporal)method.invoke(null);
+				if (result instanceof Year) {
+					return result.plus(offsetSecs, ChronoUnit.YEARS);
+				}
 				Duration duration = Duration.ofSeconds(offsetSecs);
 				for (ChronoUnit unit : SUPPORTED_CHRONO_UNITS) {
 					if (result.isSupported(unit)) {
