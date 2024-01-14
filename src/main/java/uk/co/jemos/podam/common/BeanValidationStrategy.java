@@ -14,11 +14,11 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.MonthDay;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,10 +38,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(BeanValidationStrategy.class);
 
-	private static final String METHOD_NAME_NOW = "now";
+	private static final String METHOD_NAME_FROM = "from";
 	private static final String SIMPLE_NAME_LIST_CLASS = "List";
 	private static final String NAME_VALUE = "value";
-	private static final ChronoUnit[] SUPPORTED_CHRONO_UNITS = { ChronoUnit.SECONDS, ChronoUnit.DAYS, ChronoUnit.YEARS };
 
 	/** expected return type of an attribute */
 	private Class<?> attributeType;
@@ -387,25 +386,26 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 	 */
 	private Object timestampToReturnType(Long offsetSecs) {
 
-        long timestamp;
-		if (Temporal.class.isAssignableFrom(attributeType)) {
+		if (TemporalAccessor.class.isAssignableFrom(attributeType)) {
 
 			try {
-				Method method = attributeType.getMethod(METHOD_NAME_NOW);
-				Temporal result = (Temporal)method.invoke(null);
-				if (result instanceof Year) {
-					return result.plus(offsetSecs, ChronoUnit.YEARS);
+				OffsetDateTime temporal = OffsetDateTime.now();
+
+				if (Year.class.isAssignableFrom(attributeType)) {
+					temporal = temporal.plus(offsetSecs, ChronoUnit.YEARS);
+				} else if (MonthDay.class.isAssignableFrom(attributeType)) {
+					temporal = temporal.plus(Long.signum(offsetSecs), ChronoUnit.DAYS);
+				} else {
+					temporal = temporal.plus(offsetSecs, ChronoUnit.SECONDS);
 				}
-				Duration duration = Duration.ofSeconds(offsetSecs);
-				for (ChronoUnit unit : SUPPORTED_CHRONO_UNITS) {
-					if (result.isSupported(unit)) {
-						Duration duration2 = duration.dividedBy(unit.getDuration().getSeconds());
-						return result.plus(duration2.getSeconds(), unit);
-					}
+
+				Method method = attributeType.getMethod(METHOD_NAME_FROM, TemporalAccessor.class);
+				if (null != method) {
+					return method.invoke(null, temporal);
+				} else {
+					LOG.warn("Attribute {} has no {} method",
+							attributeType, METHOD_NAME_FROM);
 				}
-				LOG.error("{} does not support any of units {}",
-						attributeType, SUPPORTED_CHRONO_UNITS);
-				return null;
 
 			} catch (Exception e) {
 
@@ -414,15 +414,9 @@ public class BeanValidationStrategy implements AttributeStrategy<Object> {
 				return null;
 			}
 
-		} else if(MonthDay.class.isAssignableFrom(attributeType)) {
+		}
 
-			LocalDateTime localDateTime = LocalDateTime.now();
-			localDateTime = localDateTime.plus(Long.signum(offsetSecs), ChronoUnit.DAYS);
-			return MonthDay.from(localDateTime);
-        } else {
-
-			timestamp = System.currentTimeMillis() + offsetSecs * 1000;
-        }
+		long timestamp = System.currentTimeMillis() + offsetSecs * 1000;
 
 		if (attributeType.isAssignableFrom(Date.class)) {
 
