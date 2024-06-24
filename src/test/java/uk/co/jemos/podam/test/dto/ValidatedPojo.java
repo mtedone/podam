@@ -5,6 +5,7 @@ package uk.co.jemos.podam.test.dto;
 
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -107,6 +108,9 @@ public class ValidatedPojo {
 
 	@Future
 	private Calendar futureCalendar;
+
+	@Length(min = 7, max = 10)
+	private String strWithLength;
 
 	@Size(min = 7, max = 10)
 	private String sizedString;
@@ -317,6 +321,14 @@ public class ValidatedPojo {
 
 	public void setFutureCalendar(Calendar futureCalendar) {
 		this.futureCalendar = futureCalendar;
+	}
+
+	public String getStrWithLength() {
+		return strWithLength;
+	}
+
+	public void setStrWithLength(String strWithLength) {
+		this.strWithLength = strWithLength;
 	}
 
 	public String getSizedString() {
